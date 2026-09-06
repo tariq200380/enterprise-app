@@ -238,6 +238,132 @@ export default function CareersPage() {
           </div>
         </div>
       </section>
+
+      {/* Why Senior Engineers Thrive at Creed Tech Section */}
+      <section className="w-full bg-[#FAFBFC] border-t border-gray-200/80 py-16 sm:py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          {/* Section Heading */}
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#0F172A] tracking-tight leading-tight max-w-3xl mx-auto">
+            Why Senior Engineers Thrive at Creed Tech
+          </h2>
+
+          {/* Subtitle */}
+          <p className="mt-4 sm:mt-5 text-sm sm:text-base text-gray-500 max-w-2xl mx-auto leading-relaxed font-normal">
+            We built the engineering organization we always wished we had: intellectual rigor, sovereign autonomy, and genuine respect for deep technical craftsmanship.
+          </p>
+
+          {/* 6 Benefits Cards Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12 sm:mt-16 text-left">
+            {/* Card 1: Autonomous Senior Pods */}
+            <div className="bg-white rounded-2xl border border-gray-200/90 p-6 sm:p-7 shadow-xs hover:shadow-md hover:border-gray-300 transition-all duration-300 flex flex-col justify-between">
+              <div>
+                <div className="w-10 h-10 rounded-lg bg-amber-50/80 border border-amber-100/80 flex items-center justify-center text-lg mb-4">
+                  ⚡
+                </div>
+                <h3 className="text-base sm:text-[17px] font-bold text-[#0F172A] leading-snug">
+                  Autonomous Senior Pods
+                </h3>
+                <p className="text-xs sm:text-[13px] text-gray-500 mt-2.5 leading-relaxed font-normal">
+                  No non-technical layers assigning arbitrary tickets. You partner directly with client engineering leaders and make architectural choices with sovereign authority.
+                </p>
+              </div>
+              <div className="mt-6 pt-4 border-t border-gray-100 text-[11px] sm:text-xs font-semibold text-[#0052FF]">
+                Lead-Level Ownership &bull; Zero Micromanagement
+              </div>
+            </div>
+
+            {/* Card 2: Deep Asynchronous Focus */}
+            <div className="bg-white rounded-2xl border border-gray-200/90 p-6 sm:p-7 shadow-xs hover:shadow-md hover:border-gray-300 transition-all duration-300 flex flex-col justify-between">
+              <div>
+                <div className="w-10 h-10 rounded-lg bg-emerald-50/80 border border-emerald-100/80 flex items-center justify-center text-lg mb-4">
+                  🧘
+                </div>
+                <h3 className="text-base sm:text-[17px] font-bold text-[#0F172A] leading-snug">
+                  Deep Asynchronous Focus
+                </h3>
+                <p className="text-xs sm:text-[13px] text-gray-500 mt-2.5 leading-relaxed font-normal">
+                  We default to clear written RFCs, technical briefs, and asynchronous reviews. We protect 4+ continuous hours of daily deep maker time with zero meeting intrusions.
+                </p>
+              </div>
+              <div className="mt-6 pt-4 border-t border-gray-100 text-[11px] sm:text-xs font-semibold text-[#10B981]">
+                RFC-Driven &bull; Minimal Meeting Fatigue
+              </div>
+            </div>
+
+            {/* Card 3: Top-Tier Global Compensation */}
+            <div className="bg-white rounded-2xl border border-gray-200/90 p-6 sm:p-7 shadow-xs hover:shadow-md hover:border-gray-300 transition-all duration-300 flex flex-col justify-between">
+              <div>
+                <div className="w-10 h-10 rounded-lg bg-blue-50/80 border border-blue-100/80 flex items-center justify-center text-lg mb-4">
+                  💎
+                </div>
+                <h3 className="text-base sm:text-[17px] font-bold text-[#0F172A] leading-snug">
+                  Top-Tier Global Compensation
+                </h3>
+                <p className="text-xs sm:text-[13px] text-gray-500 mt-2.5 leading-relaxed font-normal">
+                  We calibrate compensation against top global technology hubs. We benchmark salaries transparently against US/European tier-1 levels regardless of where you live.
+                </p>
+              </div>
+              <div className="mt-6 pt-4 border-t border-gray-100 text-[11px] sm:text-xs font-semibold text-[#6366F1]">
+                Global Tier-1 Banding &bull; Regular Reviews
+              </div>
+            </div>
+
+            {/* Card 4: $5K Gear & Ergonomics Stipend */}
+            <div className="bg-white rounded-2xl border border-gray-200/90 p-6 sm:p-7 shadow-xs hover:shadow-md hover:border-gray-300 transition-all duration-300 flex flex-col justify-between">
+              <div>
+                <div className="w-10 h-10 rounded-lg bg-slate-100/80 border border-slate-200/80 flex items-center justify-center text-lg mb-4">
+                  💻
+                </div>
+                <h3 className="text-base sm:text-[17px] font-bold text-[#0F172A] leading-snug">
+                  $5K Gear &amp; Ergonomics Stipend
+                </h3>
+                <p className="text-xs sm:text-[13px] text-gray-500 mt-2.5 leading-relaxed font-normal">
+                  Choose your battle station: Apple MacBook Pro Max, custom Linux Threadripper workstation, Studio Display, and Herman Miller seating stipend refreshed biennially.
+                </p>
+              </div>
+              <div className="mt-6 pt-4 border-t border-gray-100 text-[11px] sm:text-xs font-semibold text-[#FF6B00]">
+                Top-Spec Hardware &bull; Ergonomic Support
+              </div>
+            </div>
+
+            {/* Card 5: Annual Learning & Research Fund */}
+            <div className="bg-white rounded-2xl border border-gray-200/90 p-6 sm:p-7 shadow-xs hover:shadow-md hover:border-gray-300 transition-all duration-300 flex flex-col justify-between">
+              <div>
+                <div className="w-10 h-10 rounded-lg bg-blue-50/80 border border-blue-100/80 flex items-center justify-center text-lg mb-4">
+                  🎓
+                </div>
+                <h3 className="text-base sm:text-[17px] font-bold text-[#0F172A] leading-snug">
+                  Annual Learning &amp; Research Fund
+                </h3>
+                <p className="text-xs sm:text-[13px] text-gray-500 mt-2.5 leading-relaxed font-normal">
+                  Continuous growth is an absolute requirement. Dedicated annual funds for international technical conferences (RustConf, KubeCon, NeurIPS), certifications, and book allowances.
+                </p>
+              </div>
+              <div className="mt-6 pt-4 border-t border-gray-100 text-[11px] sm:text-xs font-semibold text-[#0052FF]">
+                Conferences &bull; Open-Source Sponsorship
+              </div>
+            </div>
+
+            {/* Card 6: Comprehensive Health & Unlimited PTO */}
+            <div className="bg-white rounded-2xl border border-gray-200/90 p-6 sm:p-7 shadow-xs hover:shadow-md hover:border-gray-300 transition-all duration-300 flex flex-col justify-between">
+              <div>
+                <div className="w-10 h-10 rounded-lg bg-emerald-50/80 border border-emerald-100/80 flex items-center justify-center text-lg mb-4">
+                  🛡️
+                </div>
+                <h3 className="text-base sm:text-[17px] font-bold text-[#0F172A] leading-snug">
+                  Comprehensive Health &amp; Unlimited PTO
+                </h3>
+                <p className="text-xs sm:text-[13px] text-gray-500 mt-2.5 leading-relaxed font-normal">
+                  Full worldwide private health, dental, and vision insurance coverage. Flexible paid time off with mandatory 25+ days minimum annual rest to prevent burn-out.
+                </p>
+              </div>
+              <div className="mt-6 pt-4 border-t border-gray-100 text-[11px] sm:text-xs font-semibold text-[#E11D48]">
+                Worldwide Coverage &bull; Mandatory Rest Policy
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
