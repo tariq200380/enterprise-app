@@ -462,13 +462,16 @@ export default function SecurityPage() {
 
       {/* Vendor Security / Procurement Inquiries CTA */}
       <section className="w-full bg-[#0B1220] py-20 sm:py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden text-center border-t border-slate-800/40">
-        {/* Subtle Ambient Glow */}
+        {/* Ambient Orange Radial Glow */}
         <div 
-          className="absolute inset-0 pointer-events-none opacity-20"
+          className="absolute inset-0 pointer-events-none"
           style={{
-            background: "radial-gradient(ellipse 60% 50% at 50% 50%, rgba(0, 82, 255, 0.45), transparent 75%)"
+            background: "radial-gradient(ellipse 65% 55% at 50% 50%, rgba(255, 106, 0, 0.18) 0%, rgba(255, 106, 0, 0.05) 45%, transparent 75%)"
           }}
         />
+
+        {/* Centered Soft Orange Glow Orb */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] sm:w-[750px] h-[300px] sm:h-[420px] bg-[#FF6A00]/15 rounded-full blur-[110px] pointer-events-none" />
 
         <div className="max-w-4xl mx-auto relative z-10">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight mb-5">
