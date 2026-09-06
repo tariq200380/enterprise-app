@@ -64,75 +64,77 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile Drawer Navigation (Pure CSS via peer-checked) */}
-      <div className="hidden peer-checked:block md:hidden w-full bg-[#F4F6F8] border-t border-gray-200">
-        <div className="px-4 py-4 max-h-[80vh] overflow-y-auto">
-          <ul className="flex flex-col space-y-1.5 mb-4">
-            <li>
-              <Link
-                href="/"
-                className="flex items-center justify-between px-3.5 py-2.5 rounded-md text-sm font-medium text-gray-800 hover:bg-[#EAEFF6] hover:text-[#0052FF] transition-colors"
-              >
-                <span>Home</span>
-                <span className="text-xs">&rarr;</span>
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/services"
-                className="flex items-center justify-between px-3.5 py-2.5 rounded-md text-sm font-medium text-gray-800 hover:bg-[#EAEFF6] hover:text-[#0052FF] transition-colors"
-              >
-                <span>Services</span>
-                <span className="text-xs">&rarr;</span>
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/knowledge-center"
-                className="flex items-center justify-between px-3.5 py-2.5 rounded-md text-sm font-medium text-gray-800 hover:bg-[#EAEFF6] hover:text-[#0052FF] transition-colors"
-              >
-                <span>Knowledge Center</span>
-                <span className="text-xs">&rarr;</span>
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/portfolio"
-                className="flex items-center justify-between px-3.5 py-2.5 rounded-md text-sm font-medium text-gray-800 hover:bg-[#EAEFF6] hover:text-[#0052FF] transition-colors"
-              >
-                <span>Portfolio</span>
-                <span className="text-xs">&rarr;</span>
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/about"
-                className="flex items-center justify-between px-3.5 py-2.5 rounded-md text-sm font-medium text-gray-800 hover:bg-[#EAEFF6] hover:text-[#0052FF] transition-colors"
-              >
-                <span>About</span>
-                <span className="text-xs">&rarr;</span>
-              </Link>
-            </li>
-            <li>
+      {/* Mobile Drawer Navigation (Smooth pure CSS slide via Tailwind grid-rows transition) */}
+      <div className="grid grid-rows-[0fr] peer-checked:grid-rows-[1fr] opacity-0 peer-checked:opacity-100 transition-all duration-300 ease-in-out md:hidden w-full bg-[#F4F6F8] border-t border-transparent peer-checked:border-gray-200 overflow-hidden">
+        <div className="overflow-hidden min-h-0">
+          <div className="px-4 py-4 max-h-[80vh] overflow-y-auto">
+            <ul className="flex flex-col space-y-1.5 mb-4">
+              <li>
+                <Link
+                  href="/"
+                  className="flex items-center justify-between px-3.5 py-2.5 rounded-md text-sm font-medium text-gray-800 hover:bg-[#EAEFF6] hover:text-[#0052FF] transition-colors"
+                >
+                  <span>Home</span>
+                  <span className="text-xs">&rarr;</span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/services"
+                  className="flex items-center justify-between px-3.5 py-2.5 rounded-md text-sm font-medium text-gray-800 hover:bg-[#EAEFF6] hover:text-[#0052FF] transition-colors"
+                >
+                  <span>Services</span>
+                  <span className="text-xs">&rarr;</span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/knowledge-center"
+                  className="flex items-center justify-between px-3.5 py-2.5 rounded-md text-sm font-medium text-gray-800 hover:bg-[#EAEFF6] hover:text-[#0052FF] transition-colors"
+                >
+                  <span>Knowledge Center</span>
+                  <span className="text-xs">&rarr;</span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/portfolio"
+                  className="flex items-center justify-between px-3.5 py-2.5 rounded-md text-sm font-medium text-gray-800 hover:bg-[#EAEFF6] hover:text-[#0052FF] transition-colors"
+                >
+                  <span>Portfolio</span>
+                  <span className="text-xs">&rarr;</span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/about"
+                  className="flex items-center justify-between px-3.5 py-2.5 rounded-md text-sm font-medium text-gray-800 hover:bg-[#EAEFF6] hover:text-[#0052FF] transition-colors"
+                >
+                  <span>About</span>
+                  <span className="text-xs">&rarr;</span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/contact"
+                  className="flex items-center justify-between px-3.5 py-2.5 rounded-md text-sm font-medium text-gray-800 hover:bg-[#EAEFF6] hover:text-[#0052FF] transition-colors"
+                >
+                  <span>Contact</span>
+                  <span className="text-xs">&rarr;</span>
+                </Link>
+              </li>
+            </ul>
+
+            {/* Mobile Menu Action Button at the end */}
+            <div className="pt-3 border-t border-gray-200">
               <Link
                 href="/contact"
-                className="flex items-center justify-between px-3.5 py-2.5 rounded-md text-sm font-medium text-gray-800 hover:bg-[#EAEFF6] hover:text-[#0052FF] transition-colors"
+                className="w-full flex items-center justify-center gap-2 bg-[#0B45D8] hover:bg-[#093bb8] active:bg-[#072c91] text-white text-sm font-semibold py-2.5 px-4 rounded-lg shadow-sm transition-colors text-center"
               >
-                <span>Contact</span>
+                <span>Get Started</span>
                 <span className="text-xs">&rarr;</span>
               </Link>
-            </li>
-          </ul>
-
-          {/* Mobile Menu Action Button at the end */}
-          <div className="pt-3 border-t border-gray-200">
-            <Link
-              href="/contact"
-              className="w-full flex items-center justify-center gap-2 bg-[#0B45D8] hover:bg-[#093bb8] active:bg-[#072c91] text-white text-sm font-semibold py-2.5 px-4 rounded-lg shadow-sm transition-colors text-center"
-            >
-              <span>Get Started</span>
-              <span className="text-xs">&rarr;</span>
-            </Link>
+            </div>
           </div>
         </div>
       </div>
