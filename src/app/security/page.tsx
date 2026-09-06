@@ -459,6 +459,34 @@ export default function SecurityPage() {
           </div>
         </div>
       </section>
+
+      {/* Vendor Security / Procurement Inquiries CTA */}
+      <section className="w-full bg-[#0B1220] py-20 sm:py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden text-center border-t border-slate-800/40">
+        {/* Subtle Ambient Glow */}
+        <div 
+          className="absolute inset-0 pointer-events-none opacity-20"
+          style={{
+            background: "radial-gradient(ellipse 60% 50% at 50% 50%, rgba(0, 82, 255, 0.45), transparent 75%)"
+          }}
+        />
+
+        <div className="max-w-4xl mx-auto relative z-10">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight mb-5">
+            Have Custom Vendor Security or<br className="hidden sm:inline" /> Procurement Inquiries?
+          </h2>
+          <p className="text-slate-400 text-xs sm:text-sm max-w-2xl mx-auto leading-relaxed mb-8 font-normal">
+            Our security and compliance team can help prepare security architecture documentation, assist with vendor NDA coordination, and support customizing DPA frameworks for enterprise client requirements.
+          </p>
+          <div>
+            <Link
+              href="/contact"
+              className="inline-block px-7 py-3.5 bg-[#FF6A00] hover:bg-[#E55F00] text-white font-bold text-xs tracking-wider uppercase rounded transition-colors shadow-md"
+            >
+              CONTACT SECURITY &amp; COMPLIANCE TEAM
+            </Link>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
