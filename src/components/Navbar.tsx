@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Navbar() {
   return (
-    <header className="w-full bg-gray-50 border-b border-gray-200/80 sticky top-0 z-50">
+    <header className="w-full bg-gray-50 border-b border-gray-200/80">
       {/* Hidden Checkbox for Pure CSS Mobile Navigation (No useState, No JS) */}
       <input type="checkbox" id="mobile-menu-toggle" className="peer hidden" />
 

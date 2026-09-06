@@ -135,8 +135,10 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col bg-white text-gray-900 font-sans">
-        <TopBanner />
-        <Navbar />
+        <div className="sticky top-0 z-50">
+          <TopBanner />
+          <Navbar />
+        </div>
         <main className="flex-1">{children}</main>
         <NewsletterStrip />
         <Footer />
