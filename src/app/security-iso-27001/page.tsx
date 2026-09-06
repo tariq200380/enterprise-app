@@ -176,6 +176,134 @@ export default function SecurityIso27001Page() {
           </div>
         </div>
       </section>
+
+      {/* Annex A Implementation / 93 Controls */}
+      <section className="w-full py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-white border-t border-slate-100">
+        <div className="max-w-7xl mx-auto">
+          {/* Section Header */}
+          <div className="mb-8 sm:mb-10">
+            <span className="text-xs sm:text-[13px] font-bold text-[#0052FF] tracking-widest uppercase block mb-3">
+              ANNEX A IMPLEMENTATION
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0B1220] tracking-tight leading-tight mb-4">
+              93 Technical &amp; Operational Controls Across 4<br className="hidden sm:inline" /> Domains
+            </h2>
+            <p className="text-slate-500 text-xs sm:text-[13px] max-w-3xl leading-relaxed">
+              In accordance with the updated ISO/IEC 27001:2022 standard, our security operations are structured into four consolidated control themes:
+            </p>
+          </div>
+
+          {/* 4 Domain Cards (Stacked list) */}
+          <div className="space-y-4 sm:space-y-5">
+            {/* Domain 1: Organizational Controls */}
+            <div className="bg-white border border-slate-200/80 rounded-lg p-6 sm:p-7 shadow-[0_1px_3px_rgba(0,0,0,0.02)] hover:shadow-md transition-shadow">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <h3 className="text-[#0B1220] font-bold text-base sm:text-lg tracking-tight">
+                  1. Organizational Controls (37 Controls — Annex A.5)
+                </h3>
+                <span className="text-[#0052FF] font-semibold text-xs sm:text-[13px]">
+                  Policies, Threat Intelligence &amp; Supplier Relations
+                </span>
+              </div>
+              <p className="text-slate-600 text-xs sm:text-[13px] leading-relaxed mt-2.5 mb-4 font-normal">
+                Covers formal information security policies, asset management inventories, access governance, threat intelligence integration, third-party cloud supplier vetting, and business continuity readiness.
+              </p>
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="bg-slate-100 text-slate-600 text-[11px] font-mono font-medium px-2.5 py-1 rounded border border-slate-200/60">
+                  A.5.7 Threat Intel
+                </span>
+                <span className="bg-slate-100 text-slate-600 text-[11px] font-mono font-medium px-2.5 py-1 rounded border border-slate-200/60">
+                  A.5.19 Supplier Risk
+                </span>
+                <span className="bg-slate-100 text-slate-600 text-[11px] font-mono font-medium px-2.5 py-1 rounded border border-slate-200/60">
+                  A.5.24 Incident Response
+                </span>
+                <span className="bg-slate-100 text-slate-600 text-[11px] font-mono font-medium px-2.5 py-1 rounded border border-slate-200/60">
+                  A.5.30 ICT Readiness
+                </span>
+              </div>
+            </div>
+
+            {/* Domain 2: People Controls */}
+            <div className="bg-white border border-slate-200/80 rounded-lg p-6 sm:p-7 shadow-[0_1px_3px_rgba(0,0,0,0.02)] hover:shadow-md transition-shadow">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <h3 className="text-[#0B1220] font-bold text-base sm:text-lg tracking-tight">
+                  2. People Controls (8 Controls — Annex A.6)
+                </h3>
+                <span className="text-[#0052FF] font-semibold text-xs sm:text-[13px]">
+                  Personnel Screening &amp; Security Awareness
+                </span>
+              </div>
+              <p className="text-slate-600 text-xs sm:text-[13px] leading-relaxed mt-2.5 mb-4 font-normal">
+                Multi-tier background screening prior to onboarding, mandatory signed Non-Disclosure Agreements (NDAs), quarterly simulated phishing exercises, and disciplinary protocols for security policy non-compliance.
+              </p>
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="bg-slate-100 text-slate-600 text-[11px] font-mono font-medium px-2.5 py-1 rounded border border-slate-200/60">
+                  A.6.1 Background Verification
+                </span>
+                <span className="bg-slate-100 text-slate-600 text-[11px] font-mono font-medium px-2.5 py-1 rounded border border-slate-200/60">
+                  A.6.3 Security Awareness
+                </span>
+                <span className="bg-slate-100 text-slate-600 text-[11px] font-mono font-medium px-2.5 py-1 rounded border border-slate-200/60">
+                  A.6.5 Post-Employment Responsibilities
+                </span>
+              </div>
+            </div>
+
+            {/* Domain 3: Physical Controls */}
+            <div className="bg-white border border-slate-200/80 rounded-lg p-6 sm:p-7 shadow-[0_1px_3px_rgba(0,0,0,0.02)] hover:shadow-md transition-shadow">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <h3 className="text-[#0B1220] font-bold text-base sm:text-lg tracking-tight">
+                  3. Physical Controls (14 Controls — Annex A.7)
+                </h3>
+                <span className="text-[#0052FF] font-semibold text-xs sm:text-[13px]">
+                  Secure Zones &amp; Clean Desk Enforcement
+                </span>
+              </div>
+              <p className="text-slate-600 text-xs sm:text-[13px] leading-relaxed mt-2.5 mb-4 font-normal">
+                Physical access perimeters, biometric authorization, clean desk and clean screen policies, continuous video surveillance retention, and secure equipment disposal standards.
+              </p>
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="bg-slate-100 text-slate-600 text-[11px] font-mono font-medium px-2.5 py-1 rounded border border-slate-200/60">
+                  A.7.2 Physical Entry
+                </span>
+                <span className="bg-slate-100 text-slate-600 text-[11px] font-mono font-medium px-2.5 py-1 rounded border border-slate-200/60">
+                  A.7.7 Clear Desk/Screen
+                </span>
+                <span className="bg-slate-100 text-slate-600 text-[11px] font-mono font-medium px-2.5 py-1 rounded border border-slate-200/60">
+                  A.7.14 Secure Disposal
+                </span>
+              </div>
+            </div>
+
+            {/* Domain 4: Technological Controls */}
+            <div className="bg-white border border-slate-200/80 rounded-lg p-6 sm:p-7 shadow-[0_1px_3px_rgba(0,0,0,0.02)] hover:shadow-md transition-shadow">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <h3 className="text-[#0B1220] font-bold text-base sm:text-lg tracking-tight">
+                  4. Technological Controls (34 Controls — Annex A.8)
+                </h3>
+                <span className="text-[#0052FF] font-semibold text-xs sm:text-[13px]">
+                  Secure SDLC, Encryption &amp; Vulnerability Management
+                </span>
+              </div>
+              <p className="text-slate-600 text-xs sm:text-[13px] leading-relaxed mt-2.5 mb-4 font-normal">
+                Endpoint encryption, network segregation, automated source code SAST/DAST testing, secure development lifecycle (SSDLC), continuous logging, and automated vulnerability management. All security testing is performed exclusively on authorized systems within agreed client scope.
+              </p>
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="bg-slate-100 text-slate-600 text-[11px] font-mono font-medium px-2.5 py-1 rounded border border-slate-200/60">
+                  A.8.8 Vulnerability Management
+                </span>
+                <span className="bg-slate-100 text-slate-600 text-[11px] font-mono font-medium px-2.5 py-1 rounded border border-slate-200/60">
+                  A.8.25 Secure SDLC
+                </span>
+                <span className="bg-slate-100 text-slate-600 text-[11px] font-mono font-medium px-2.5 py-1 rounded border border-slate-200/60">
+                  A.8.28 Secure Coding
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
