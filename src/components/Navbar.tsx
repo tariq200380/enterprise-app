@@ -72,55 +72,55 @@ export default function Navbar() {
               <li>
                 <Link
                   href="/"
-                  className="group flex items-center justify-between px-4 py-3 rounded-lg text-sm font-medium text-gray-800 bg-white/80 border-l-4 border-transparent hover:border-[#FF6B00] hover:bg-[#FF6B00] hover:text-white hover:shadow-md hover:shadow-orange-500/20 hover:translate-x-1.5 active:scale-[0.99] transition-all duration-300 ease-in-out cursor-pointer"
+                  className="mobile-nav-link group flex items-center justify-between px-4 py-3 rounded-lg text-sm font-medium text-gray-800 bg-white/80 border-l-4 border-transparent hover:border-[#FF6B00] hover:bg-[#FF6B00] hover:text-white hover:shadow-md hover:shadow-orange-500/20 hover:translate-x-1.5 active:scale-[0.99] transition-all duration-300 ease-in-out cursor-pointer"
                 >
                   <span className="transition-colors duration-300 ease-in-out group-hover:text-white">Home</span>
-                  <span className="text-sm font-bold text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all duration-300 ease-in-out">&rarr;</span>
+                  <span className="nav-arrow text-sm font-bold text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all duration-300 ease-in-out">&rarr;</span>
                 </Link>
               </li>
               <li>
                 <Link
                   href="/services"
-                  className="group flex items-center justify-between px-4 py-3 rounded-lg text-sm font-medium text-gray-800 bg-white/80 border-l-4 border-transparent hover:border-[#FF6B00] hover:bg-[#FF6B00] hover:text-white hover:shadow-md hover:shadow-orange-500/20 hover:translate-x-1.5 active:scale-[0.99] transition-all duration-300 ease-in-out cursor-pointer"
+                  className="mobile-nav-link group flex items-center justify-between px-4 py-3 rounded-lg text-sm font-medium text-gray-800 bg-white/80 border-l-4 border-transparent hover:border-[#FF6B00] hover:bg-[#FF6B00] hover:text-white hover:shadow-md hover:shadow-orange-500/20 hover:translate-x-1.5 active:scale-[0.99] transition-all duration-300 ease-in-out cursor-pointer"
                 >
                   <span className="transition-colors duration-300 ease-in-out group-hover:text-white">Services</span>
-                  <span className="text-sm font-bold text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all duration-300 ease-in-out">&rarr;</span>
+                  <span className="nav-arrow text-sm font-bold text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all duration-300 ease-in-out">&rarr;</span>
                 </Link>
               </li>
               <li>
                 <Link
                   href="/knowledge-center"
-                  className="group flex items-center justify-between px-4 py-3 rounded-lg text-sm font-medium text-gray-800 bg-white/80 border-l-4 border-transparent hover:border-[#FF6B00] hover:bg-[#FF6B00] hover:text-white hover:shadow-md hover:shadow-orange-500/20 hover:translate-x-1.5 active:scale-[0.99] transition-all duration-300 ease-in-out cursor-pointer"
+                  className="mobile-nav-link group flex items-center justify-between px-4 py-3 rounded-lg text-sm font-medium text-gray-800 bg-white/80 border-l-4 border-transparent hover:border-[#FF6B00] hover:bg-[#FF6B00] hover:text-white hover:shadow-md hover:shadow-orange-500/20 hover:translate-x-1.5 active:scale-[0.99] transition-all duration-300 ease-in-out cursor-pointer"
                 >
                   <span className="transition-colors duration-300 ease-in-out group-hover:text-white">Knowledge Center</span>
-                  <span className="text-sm font-bold text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all duration-300 ease-in-out">&rarr;</span>
+                  <span className="nav-arrow text-sm font-bold text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all duration-300 ease-in-out">&rarr;</span>
                 </Link>
               </li>
               <li>
                 <Link
                   href="/portfolio"
-                  className="group flex items-center justify-between px-4 py-3 rounded-lg text-sm font-medium text-gray-800 bg-white/80 border-l-4 border-transparent hover:border-[#FF6B00] hover:bg-[#FF6B00] hover:text-white hover:shadow-md hover:shadow-orange-500/20 hover:translate-x-1.5 active:scale-[0.99] transition-all duration-300 ease-in-out cursor-pointer"
+                  className="mobile-nav-link group flex items-center justify-between px-4 py-3 rounded-lg text-sm font-medium text-gray-800 bg-white/80 border-l-4 border-transparent hover:border-[#FF6B00] hover:bg-[#FF6B00] hover:text-white hover:shadow-md hover:shadow-orange-500/20 hover:translate-x-1.5 active:scale-[0.99] transition-all duration-300 ease-in-out cursor-pointer"
                 >
                   <span className="transition-colors duration-300 ease-in-out group-hover:text-white">Portfolio</span>
-                  <span className="text-sm font-bold text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all duration-300 ease-in-out">&rarr;</span>
+                  <span className="nav-arrow text-sm font-bold text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all duration-300 ease-in-out">&rarr;</span>
                 </Link>
               </li>
               <li>
                 <Link
                   href="/about"
-                  className="group flex items-center justify-between px-4 py-3 rounded-lg text-sm font-medium text-gray-800 bg-white/80 border-l-4 border-transparent hover:border-[#FF6B00] hover:bg-[#FF6B00] hover:text-white hover:shadow-md hover:shadow-orange-500/20 hover:translate-x-1.5 active:scale-[0.99] transition-all duration-300 ease-in-out cursor-pointer"
+                  className="mobile-nav-link group flex items-center justify-between px-4 py-3 rounded-lg text-sm font-medium text-gray-800 bg-white/80 border-l-4 border-transparent hover:border-[#FF6B00] hover:bg-[#FF6B00] hover:text-white hover:shadow-md hover:shadow-orange-500/20 hover:translate-x-1.5 active:scale-[0.99] transition-all duration-300 ease-in-out cursor-pointer"
                 >
                   <span className="transition-colors duration-300 ease-in-out group-hover:text-white">About</span>
-                  <span className="text-sm font-bold text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all duration-300 ease-in-out">&rarr;</span>
+                  <span className="nav-arrow text-sm font-bold text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all duration-300 ease-in-out">&rarr;</span>
                 </Link>
               </li>
               <li>
                 <Link
                   href="/contact"
-                  className="group flex items-center justify-between px-4 py-3 rounded-lg text-sm font-medium text-gray-800 bg-white/80 border-l-4 border-transparent hover:border-[#FF6B00] hover:bg-[#FF6B00] hover:text-white hover:shadow-md hover:shadow-orange-500/20 hover:translate-x-1.5 active:scale-[0.99] transition-all duration-300 ease-in-out cursor-pointer"
+                  className="mobile-nav-link group flex items-center justify-between px-4 py-3 rounded-lg text-sm font-medium text-gray-800 bg-white/80 border-l-4 border-transparent hover:border-[#FF6B00] hover:bg-[#FF6B00] hover:text-white hover:shadow-md hover:shadow-orange-500/20 hover:translate-x-1.5 active:scale-[0.99] transition-all duration-300 ease-in-out cursor-pointer"
                 >
                   <span className="transition-colors duration-300 ease-in-out group-hover:text-white">Contact</span>
-                  <span className="text-sm font-bold text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all duration-300 ease-in-out">&rarr;</span>
+                  <span className="nav-arrow text-sm font-bold text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all duration-300 ease-in-out">&rarr;</span>
                 </Link>
               </li>
             </ul>
