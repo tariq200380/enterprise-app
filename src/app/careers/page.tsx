@@ -100,6 +100,117 @@ export default function CareersPage() {
           </Link>
         </div>
       </section>
+
+      {/* 4-Stage Respectful Hiring Process Section */}
+      <section className="w-full bg-white border-t border-gray-200/80 py-16 sm:py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          {/* Top Tag */}
+          <span className="text-xs font-bold text-[#0052FF] tracking-widest uppercase block mb-3">
+            TRANSPARENT &amp; COMPENSATED
+          </span>
+
+          {/* Section Heading */}
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#0F172A] tracking-tight leading-tight max-w-3xl mx-auto">
+            Our 4-Stage Respectful Hiring Process
+          </h2>
+
+          {/* Subtitle */}
+          <p className="mt-4 text-sm sm:text-base text-gray-500 max-w-2xl mx-auto leading-relaxed font-normal">
+            We value your craftsmanship and your time. No whiteboard trick riddles, no 8-round fatigue loops. Total turnaround time is strictly under 7 business days.
+          </p>
+
+          {/* 4 Stages Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12 sm:mt-16 text-left">
+            {/* Stage 01 */}
+            <div className="bg-white rounded-2xl border border-gray-200/90 p-6 sm:p-7 shadow-xs hover:shadow-md hover:border-gray-300 transition-all duration-300 flex flex-col justify-between">
+              <div>
+                <span className="text-3xl sm:text-4xl font-extrabold text-[#0052FF] block tracking-tight">
+                  01
+                </span>
+                <span className="text-[11px] font-bold text-[#0052FF] uppercase tracking-wider mt-3 block">
+                  STAGE 1 &bull; 30 MINUTES
+                </span>
+                <h3 className="text-base sm:text-[17px] font-bold text-[#0F172A] mt-2 leading-snug">
+                  Architectural &amp; Values Alignment Call
+                </h3>
+                <p className="text-xs sm:text-[13px] text-gray-500 mt-3 leading-relaxed font-normal">
+                  An informal, high-level conversation with a Principal Systems Architect. We discuss your technical philosophy, past distributed systems work, and your ideal pod setup.
+                </p>
+              </div>
+              <div className="mt-6 pt-4 border-t border-gray-100 flex items-center gap-1.5 text-xs font-semibold text-[#10B981]">
+                <span>&check;</span>
+                <span>Feedback in &lt; 24 Hours</span>
+              </div>
+            </div>
+
+            {/* Stage 02 */}
+            <div className="bg-white rounded-2xl border border-gray-200/90 p-6 sm:p-7 shadow-xs hover:shadow-md hover:border-gray-300 transition-all duration-300 flex flex-col justify-between">
+              <div>
+                <span className="text-3xl sm:text-4xl font-extrabold text-[#FF6B00] block tracking-tight">
+                  02
+                </span>
+                <span className="text-[11px] font-bold text-[#FF6B00] uppercase tracking-wider mt-3 block">
+                  STAGE 2 &bull; COMPENSATED
+                </span>
+                <h3 className="text-base sm:text-[17px] font-bold text-[#0F172A] mt-2 leading-snug">
+                  Paid Practical Code &amp; System Challenge
+                </h3>
+                <p className="text-xs sm:text-[13px] text-gray-500 mt-3 leading-relaxed font-normal">
+                  A realistic take-home architecture or coding task mirroring real-world client challenges. We respect your effort and compensate your time regardless of outcome.
+                </p>
+              </div>
+              <div className="mt-6 pt-4 border-t border-gray-100 flex items-center gap-1.5 text-xs font-semibold text-[#D97706]">
+                <span>💰</span>
+                <span>Paid Stipend Provided</span>
+              </div>
+            </div>
+
+            {/* Stage 03 */}
+            <div className="bg-white rounded-2xl border border-gray-200/90 p-6 sm:p-7 shadow-xs hover:shadow-md hover:border-gray-300 transition-all duration-300 flex flex-col justify-between">
+              <div>
+                <span className="text-3xl sm:text-4xl font-extrabold text-[#6366F1] block tracking-tight">
+                  03
+                </span>
+                <span className="text-[11px] font-bold text-[#6366F1] uppercase tracking-wider mt-3 block">
+                  STAGE 3 &bull; 45 MINUTES
+                </span>
+                <h3 className="text-base sm:text-[17px] font-bold text-[#0F172A] mt-2 leading-snug">
+                  Interactive Design &amp; Solution Teardown
+                </h3>
+                <p className="text-xs sm:text-[13px] text-gray-500 mt-3 leading-relaxed font-normal">
+                  A collaborative review session with our Technical Founders to walk through trade-offs, edge-case tuning, scalability bottlenecks, and distributed consensus decisions.
+                </p>
+              </div>
+              <div className="mt-6 pt-4 border-t border-gray-100 flex items-center gap-1.5 text-xs font-semibold text-[#0052FF]">
+                <span>🤝</span>
+                <span>Peer-to-Peer Dialogue</span>
+              </div>
+            </div>
+
+            {/* Stage 04 */}
+            <div className="bg-white rounded-2xl border border-gray-200/90 p-6 sm:p-7 shadow-xs hover:shadow-md hover:border-gray-300 transition-all duration-300 flex flex-col justify-between">
+              <div>
+                <span className="text-3xl sm:text-4xl font-extrabold text-[#10B981] block tracking-tight">
+                  04
+                </span>
+                <span className="text-[11px] font-bold text-[#10B981] uppercase tracking-wider mt-3 block">
+                  STAGE 4 &bull; &lt; 48 HOURS
+                </span>
+                <h3 className="text-base sm:text-[17px] font-bold text-[#0F172A] mt-2 leading-snug">
+                  Formal Offer &amp; Custom Hardware Kit
+                </h3>
+                <p className="text-xs sm:text-[13px] text-gray-500 mt-3 leading-relaxed font-normal">
+                  We present a transparent global compensation offer, equity parameters, and dispatch your $5k custom hardware &amp; ergonomics package prior to your day-one onboarding.
+                </p>
+              </div>
+              <div className="mt-6 pt-4 border-t border-gray-100 flex items-center gap-1.5 text-xs font-semibold text-[#10B981]">
+                <span>🎉</span>
+                <span>Zero Bureaucracy Offer</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
