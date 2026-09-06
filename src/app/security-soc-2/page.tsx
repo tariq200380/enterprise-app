@@ -164,6 +164,136 @@ export default function SecuritySoc2Page() {
           </div>
         </div>
       </section>
+
+      {/* Section: AICPA Common Criteria (CC1-CC9) Implementation */}
+      <section className="w-full py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-white border-t border-slate-100">
+        <div className="max-w-7xl mx-auto">
+          {/* Section Header */}
+          <div className="mb-8 sm:mb-10 text-left">
+            <span className="text-xs sm:text-[13px] font-bold text-[#0052FF] tracking-widest uppercase block mb-3">
+              TRUST CRITERIA BREAKDOWN
+            </span>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#0B1220] tracking-tight leading-tight mb-4">
+              AICPA Common Criteria (CC1-CC9)<br className="hidden sm:inline" /> Implementation
+            </h2>
+            <p className="text-slate-500 text-xs sm:text-[13px] max-w-3xl leading-relaxed font-normal">
+              How Creed Tech implements security safeguards across the 9 core control categories:
+            </p>
+          </div>
+
+          {/* 6 Cards Grid (3 Columns, 2 Rows) */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Card 1: CC1 & CC2 */}
+            <div className="bg-white border border-slate-200/80 rounded-lg p-5 sm:p-6 shadow-[0_1px_3px_rgba(0,0,0,0.02)] hover:border-[#0052FF]/40 hover:shadow-md transition-all flex flex-col justify-start">
+              <span className="text-[#0052FF] font-bold text-[10px] sm:text-[11px] uppercase tracking-wider block mb-2">
+                CC1 &amp; CC2
+              </span>
+              <h3 className="text-[#0B1220] font-bold text-xs sm:text-[13px] mb-2 tracking-tight">
+                Control Environment &amp; Comm
+              </h3>
+              <p className="text-slate-600 text-[11px] sm:text-xs leading-relaxed font-normal">
+                Executive governance, mandatory background checks, code of conduct enforcement, and transparent communication of security responsibilities.
+              </p>
+            </div>
+
+            {/* Card 2: CC3 & CC4 */}
+            <div className="bg-white border border-slate-200/80 rounded-lg p-5 sm:p-6 shadow-[0_1px_3px_rgba(0,0,0,0.02)] hover:border-[#0052FF]/40 hover:shadow-md transition-all flex flex-col justify-start">
+              <span className="text-[#0052FF] font-bold text-[10px] sm:text-[11px] uppercase tracking-wider block mb-2">
+                CC3 &amp; CC4
+              </span>
+              <h3 className="text-[#0B1220] font-bold text-xs sm:text-[13px] mb-2 tracking-tight">
+                Risk Assessment &amp; Monitoring
+              </h3>
+              <p className="text-slate-600 text-[11px] sm:text-xs leading-relaxed font-normal">
+                Continuous automated vulnerability telemetry, weekly threat modeling, and real-time SIEM alerts evaluated against documented risk appetite.
+              </p>
+            </div>
+
+            {/* Card 3: CC5 & CC6 */}
+            <div className="bg-white border border-slate-200/80 rounded-lg p-5 sm:p-6 shadow-[0_1px_3px_rgba(0,0,0,0.02)] hover:border-[#0052FF]/40 hover:shadow-md transition-all flex flex-col justify-start">
+              <span className="text-[#0052FF] font-bold text-[10px] sm:text-[11px] uppercase tracking-wider block mb-2">
+                CC5 &amp; CC6
+              </span>
+              <h3 className="text-[#0B1220] font-bold text-xs sm:text-[13px] mb-2 tracking-tight">
+                Logical &amp; Physical Access
+              </h3>
+              <p className="text-slate-600 text-[11px] sm:text-xs leading-relaxed font-normal">
+                Zero standing administrative privileges, mandatory WebAuthn 2FA, session recording, and automated access deprovisioning within 1 hour of role change.
+              </p>
+            </div>
+
+            {/* Card 4: CC7 */}
+            <div className="bg-white border border-slate-200/80 rounded-lg p-5 sm:p-6 shadow-[0_1px_3px_rgba(0,0,0,0.02)] hover:border-[#0052FF]/40 hover:shadow-md transition-all flex flex-col justify-start">
+              <span className="text-[#0052FF] font-bold text-[10px] sm:text-[11px] uppercase tracking-wider block mb-2">
+                CC7
+              </span>
+              <h3 className="text-[#0B1220] font-bold text-xs sm:text-[13px] mb-2 tracking-tight">
+                System Operations &amp; Incident Mgmt
+              </h3>
+              <p className="text-slate-600 text-[11px] sm:text-xs leading-relaxed font-normal">
+                Immutable audit logging, anti-malware telemetry, file integrity monitoring (FIM), and structured incident detection and escalation for critical events.
+              </p>
+            </div>
+
+            {/* Card 5: CC8 */}
+            <div className="bg-white border border-slate-200/80 rounded-lg p-5 sm:p-6 shadow-[0_1px_3px_rgba(0,0,0,0.02)] hover:border-[#0052FF]/40 hover:shadow-md transition-all flex flex-col justify-start">
+              <span className="text-[#0052FF] font-bold text-[10px] sm:text-[11px] uppercase tracking-wider block mb-2">
+                CC8
+              </span>
+              <h3 className="text-[#0B1220] font-bold text-xs sm:text-[13px] mb-2 tracking-tight">
+                Change Management
+              </h3>
+              <p className="text-slate-600 text-[11px] sm:text-xs leading-relaxed font-normal">
+                Mandatory peer review on all PRs, automated SAST/DAST unit testing, separation of dev/staging/prod environments, and single-click rollbacks.
+              </p>
+            </div>
+
+            {/* Card 6: CC9 */}
+            <div className="bg-white border border-slate-200/80 rounded-lg p-5 sm:p-6 shadow-[0_1px_3px_rgba(0,0,0,0.02)] hover:border-[#0052FF]/40 hover:shadow-md transition-all flex flex-col justify-start">
+              <span className="text-[#0052FF] font-bold text-[10px] sm:text-[11px] uppercase tracking-wider block mb-2">
+                CC9
+              </span>
+              <h3 className="text-[#0B1220] font-bold text-xs sm:text-[13px] mb-2 tracking-tight">
+                Vendor &amp; Supplier Risk
+              </h3>
+              <p className="text-slate-600 text-[11px] sm:text-xs leading-relaxed font-normal">
+                Mandatory annual SOC 2 review of all cloud providers (AWS, GCP, Cloudflare) and strict contractual security minimums.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Section: Dark CTA Section (Undergoing Enterprise Vendor Risk Assessment?) */}
+      <section className="w-full bg-[#0B1220] py-20 sm:py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden text-center border-t border-slate-800/40">
+        {/* Ambient Orange Radial Glow */}
+        <div 
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: "radial-gradient(ellipse 65% 55% at 50% 50%, rgba(255, 106, 0, 0.18) 0%, rgba(255, 106, 0, 0.05) 45%, transparent 75%)"
+          }}
+        />
+
+        {/* Centered Soft Orange Glow Orb */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] sm:w-[750px] h-[300px] sm:h-[420px] bg-[#FF6A00]/15 rounded-full blur-[110px] pointer-events-none" />
+
+        <div className="max-w-4xl mx-auto relative z-10">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight mb-4">
+            Undergoing Enterprise Vendor Risk<br className="hidden sm:inline" /> Assessment?
+          </h2>
+          <p className="text-slate-400 text-xs sm:text-sm max-w-2xl mx-auto leading-relaxed mb-8 font-normal">
+            We can help prepare SIG Core questionnaires, CAIQ-aligned security documentation, and detailed SOC 2 control mapping frameworks tailored to client requirements, under standard mutual NDA.
+          </p>
+          <div>
+            <Link
+              href="/contact"
+              className="inline-block px-7 py-3.5 bg-[#FF6A00] hover:bg-[#E55F00] text-white font-bold text-xs tracking-wider uppercase rounded transition-colors shadow-md"
+            >
+              REQUEST SOC 2 SECURITY MAPPING
+            </Link>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
