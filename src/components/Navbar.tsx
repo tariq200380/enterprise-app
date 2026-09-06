@@ -72,55 +72,55 @@ export default function Navbar() {
               <li>
                 <Link
                   href="/"
-                  className="flex items-center justify-between px-3.5 py-2.5 rounded-md text-sm font-medium text-gray-800 hover:bg-[#EAEFF6] hover:text-[#0052FF] transition-colors"
+                  className="group flex items-center justify-between px-3.5 py-2.5 rounded-lg text-sm font-medium text-gray-800 hover:bg-[#EAEFF6] hover:text-[#0052FF] hover:translate-x-1.5 transition-all duration-200 ease-out"
                 >
                   <span>Home</span>
-                  <span className="text-xs">&rarr;</span>
+                  <span className="text-xs text-gray-400 group-hover:text-[#0052FF] group-hover:translate-x-1 transition-all duration-200">&rarr;</span>
                 </Link>
               </li>
               <li>
                 <Link
                   href="/services"
-                  className="flex items-center justify-between px-3.5 py-2.5 rounded-md text-sm font-medium text-gray-800 hover:bg-[#EAEFF6] hover:text-[#0052FF] transition-colors"
+                  className="group flex items-center justify-between px-3.5 py-2.5 rounded-lg text-sm font-medium text-gray-800 hover:bg-[#EAEFF6] hover:text-[#0052FF] hover:translate-x-1.5 transition-all duration-200 ease-out"
                 >
                   <span>Services</span>
-                  <span className="text-xs">&rarr;</span>
+                  <span className="text-xs text-gray-400 group-hover:text-[#0052FF] group-hover:translate-x-1 transition-all duration-200">&rarr;</span>
                 </Link>
               </li>
               <li>
                 <Link
                   href="/knowledge-center"
-                  className="flex items-center justify-between px-3.5 py-2.5 rounded-md text-sm font-medium text-gray-800 hover:bg-[#EAEFF6] hover:text-[#0052FF] transition-colors"
+                  className="group flex items-center justify-between px-3.5 py-2.5 rounded-lg text-sm font-medium text-gray-800 hover:bg-[#EAEFF6] hover:text-[#0052FF] hover:translate-x-1.5 transition-all duration-200 ease-out"
                 >
                   <span>Knowledge Center</span>
-                  <span className="text-xs">&rarr;</span>
+                  <span className="text-xs text-gray-400 group-hover:text-[#0052FF] group-hover:translate-x-1 transition-all duration-200">&rarr;</span>
                 </Link>
               </li>
               <li>
                 <Link
                   href="/portfolio"
-                  className="flex items-center justify-between px-3.5 py-2.5 rounded-md text-sm font-medium text-gray-800 hover:bg-[#EAEFF6] hover:text-[#0052FF] transition-colors"
+                  className="group flex items-center justify-between px-3.5 py-2.5 rounded-lg text-sm font-medium text-gray-800 hover:bg-[#EAEFF6] hover:text-[#0052FF] hover:translate-x-1.5 transition-all duration-200 ease-out"
                 >
                   <span>Portfolio</span>
-                  <span className="text-xs">&rarr;</span>
+                  <span className="text-xs text-gray-400 group-hover:text-[#0052FF] group-hover:translate-x-1 transition-all duration-200">&rarr;</span>
                 </Link>
               </li>
               <li>
                 <Link
                   href="/about"
-                  className="flex items-center justify-between px-3.5 py-2.5 rounded-md text-sm font-medium text-gray-800 hover:bg-[#EAEFF6] hover:text-[#0052FF] transition-colors"
+                  className="group flex items-center justify-between px-3.5 py-2.5 rounded-lg text-sm font-medium text-gray-800 hover:bg-[#EAEFF6] hover:text-[#0052FF] hover:translate-x-1.5 transition-all duration-200 ease-out"
                 >
                   <span>About</span>
-                  <span className="text-xs">&rarr;</span>
+                  <span className="text-xs text-gray-400 group-hover:text-[#0052FF] group-hover:translate-x-1 transition-all duration-200">&rarr;</span>
                 </Link>
               </li>
               <li>
                 <Link
                   href="/contact"
-                  className="flex items-center justify-between px-3.5 py-2.5 rounded-md text-sm font-medium text-gray-800 hover:bg-[#EAEFF6] hover:text-[#0052FF] transition-colors"
+                  className="group flex items-center justify-between px-3.5 py-2.5 rounded-lg text-sm font-medium text-gray-800 hover:bg-[#EAEFF6] hover:text-[#0052FF] hover:translate-x-1.5 transition-all duration-200 ease-out"
                 >
                   <span>Contact</span>
-                  <span className="text-xs">&rarr;</span>
+                  <span className="text-xs text-gray-400 group-hover:text-[#0052FF] group-hover:translate-x-1 transition-all duration-200">&rarr;</span>
                 </Link>
               </li>
             </ul>
@@ -129,10 +129,10 @@ export default function Navbar() {
             <div className="pt-3 border-t border-gray-200">
               <Link
                 href="/contact"
-                className="w-full flex items-center justify-center gap-2 bg-[#0B45D8] hover:bg-[#093bb8] active:bg-[#072c91] text-white text-sm font-semibold py-2.5 px-4 rounded-lg shadow-sm transition-colors text-center"
+                className="group w-full flex items-center justify-center gap-2 bg-[#0B45D8] hover:bg-[#093bb8] hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] text-white text-sm font-semibold py-2.5 px-4 rounded-lg shadow-sm transition-all duration-200 text-center"
               >
                 <span>Get Started</span>
-                <span className="text-xs">&rarr;</span>
+                <span className="text-xs group-hover:translate-x-1 transition-transform duration-200">&rarr;</span>
               </Link>
             </div>
           </div>
