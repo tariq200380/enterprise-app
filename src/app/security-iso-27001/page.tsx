@@ -103,6 +103,79 @@ export default function SecurityIso27001Page() {
           </div>
         </div>
       </section>
+
+      {/* 4-Tier ISMS Governance Structure */}
+      <section className="w-full py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-white border-t border-slate-100">
+        <div className="max-w-7xl mx-auto">
+          {/* Section Header */}
+          <div className="mb-10 sm:mb-12">
+            <span className="text-xs sm:text-[13px] font-bold text-[#0052FF] tracking-widest uppercase block mb-3">
+              POLICY HIERARCHY
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0B1220] tracking-tight leading-tight mb-4">
+              4-Tier ISMS Governance Structure
+            </h2>
+            <p className="text-slate-500 text-xs sm:text-[13px] max-w-3xl leading-relaxed">
+              Creed Tech implements an institutional 4-tier documentation and enforcement hierarchy ensuring structured security controls across all internal and client-facing systems:
+            </p>
+          </div>
+
+          {/* 4 Cards Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Card 1: Tier 1 */}
+            <div className="bg-white border border-slate-200/80 rounded-lg p-6 sm:p-7 shadow-[0_1px_3px_rgba(0,0,0,0.02)] hover:shadow-md transition-shadow flex flex-col justify-start">
+              <span className="text-[#0052FF] font-bold text-xs sm:text-[11px] tracking-wider uppercase block mb-3">
+                TIER 1
+              </span>
+              <h3 className="text-[#0B1220] font-bold text-base sm:text-[17px] tracking-tight mb-3">
+                Security Policy
+              </h3>
+              <p className="text-slate-600 text-xs sm:text-[13px] leading-relaxed font-normal">
+                Executive-approved mandates defining organizational security goals, data ownership, legal requirements, and executive accountability.
+              </p>
+            </div>
+
+            {/* Card 2: Tier 2 */}
+            <div className="bg-white border border-slate-200/80 rounded-lg p-6 sm:p-7 shadow-[0_1px_3px_rgba(0,0,0,0.02)] hover:shadow-md transition-shadow flex flex-col justify-start">
+              <span className="text-[#0052FF] font-bold text-xs sm:text-[11px] tracking-wider uppercase block mb-3">
+                TIER 2
+              </span>
+              <h3 className="text-[#0B1220] font-bold text-base sm:text-[17px] tracking-tight mb-3">
+                Technical Standards
+              </h3>
+              <p className="text-slate-600 text-xs sm:text-[13px] leading-relaxed font-normal">
+                Mandatory engineering rules: AES-256 encryption, TLS 1.3 protocol standards, WebAuthn 2FA, and strict zero-trust IAM profiles.
+              </p>
+            </div>
+
+            {/* Card 3: Tier 3 */}
+            <div className="bg-white border border-slate-200/80 rounded-lg p-6 sm:p-7 shadow-[0_1px_3px_rgba(0,0,0,0.02)] hover:shadow-md transition-shadow flex flex-col justify-start">
+              <span className="text-[#0052FF] font-bold text-xs sm:text-[11px] tracking-wider uppercase block mb-3">
+                TIER 3
+              </span>
+              <h3 className="text-[#0B1220] font-bold text-base sm:text-[17px] tracking-tight mb-3">
+                Operating Procedures
+              </h3>
+              <p className="text-slate-600 text-xs sm:text-[13px] leading-relaxed font-normal">
+                Step-by-step SOPs for change management, secret rotation, PR code reviews, sandbox isolation, and continuous CI/CD deployments.
+              </p>
+            </div>
+
+            {/* Card 4: Tier 4 */}
+            <div className="bg-white border border-slate-200/80 rounded-lg p-6 sm:p-7 shadow-[0_1px_3px_rgba(0,0,0,0.02)] hover:shadow-md transition-shadow flex flex-col justify-start">
+              <span className="text-[#0052FF] font-bold text-xs sm:text-[11px] tracking-wider uppercase block mb-3">
+                TIER 4
+              </span>
+              <h3 className="text-[#0B1220] font-bold text-base sm:text-[17px] tracking-tight mb-3">
+                Evidence &amp; Audits
+              </h3>
+              <p className="text-slate-600 text-xs sm:text-[13px] leading-relaxed font-normal">
+                Immutable audit logs, SIEM telemetry, authorized security assessment records, and employee security training documentation.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
