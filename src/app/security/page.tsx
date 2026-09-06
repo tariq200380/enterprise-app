@@ -121,7 +121,7 @@ export default function SecurityPage() {
                     FRAMEWORK ALIGNED
                   </span>
                   <Link
-                    href="#contact"
+                    href="/security-iso-27001"
                     className="text-[#0052FF] hover:text-[#0043D1] text-xs font-semibold inline-flex items-center gap-1 transition-colors"
                   >
                     <span>View Architecture</span>
@@ -146,7 +146,7 @@ export default function SecurityPage() {
                   Standards Aligned
                 </span>
                 <Link
-                  href="#contact"
+                  href="/security-iso-27001"
                   className="text-slate-800 text-xs font-semibold hover:text-[#0052FF] transition-colors"
                 >
                   Explore Full Breakdown
