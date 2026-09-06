@@ -135,6 +135,121 @@ export default function TermsPage() {
               You may not reproduce, distribute, modify, create derivative works from, publicly display, or commercially exploit any content from the Website without prior written consent from Creed Tech.
             </p>
           </div>
+
+          {/* 6. Third-Party Links & Syndicated News Attribution */}
+          <div className="space-y-4">
+            <h2 className="text-xl sm:text-2xl font-bold text-[#0B1220] tracking-tight">
+              <span className="text-[#0052FF] mr-2">6.</span>
+              Third-Party Links &amp; Syndicated News Attribution
+            </h2>
+            <p className="text-slate-600 text-xs sm:text-[13px] sm:text-sm leading-relaxed font-normal">
+              The Website and Knowledge Center may contain links to external third-party websites, syndicated news provider articles (e.g., Google, Apple, NVIDIA, OpenAI, Microsoft), or professional profiles (e.g., GitHub, LinkedIn, X).
+            </p>
+            <p className="text-slate-600 text-xs sm:text-[13px] sm:text-sm leading-relaxed font-normal">
+              Such links and syndicated headlines are provided solely for convenience and journalistic attribution. Creed Tech does not endorse, control, or assume liability for the content, privacy practices, or accuracy of third-party external websites.
+            </p>
+          </div>
+
+          {/* 7. Acceptable Use & Prohibited Conduct */}
+          <div className="space-y-4">
+            <h2 className="text-xl sm:text-2xl font-bold text-[#0B1220] tracking-tight">
+              <span className="text-[#0052FF] mr-2">7.</span>
+              Acceptable Use &amp; Prohibited Conduct
+            </h2>
+            <p className="text-slate-600 text-xs sm:text-[13px] sm:text-sm leading-relaxed font-normal">
+              When using the Website, you agree not to:
+            </p>
+            <ul className="space-y-3 list-disc list-outside pl-5 text-slate-600 text-xs sm:text-[13px] sm:text-sm leading-relaxed">
+              <li>
+                Attempt to probe, scan, or breach the security or authentication of any server, network, or data endpoint.
+              </li>
+              <li>
+                Submit automated, fraudulent, or malicious payloads, scripts, spam, or file uploads designed to compromise platform integrity.
+              </li>
+              <li>
+                Scrape, harvest, or extract data from the Website using automated bots or spiders in a manner that degrades system performance.
+              </li>
+              <li>
+                Use the Website in any manner that violates applicable local, national, or international laws or regulations.
+              </li>
+            </ul>
+          </div>
+
+          {/* 8. Disclaimer of Warranties */}
+          <div className="space-y-4">
+            <h2 className="text-xl sm:text-2xl font-bold text-[#0B1220] tracking-tight">
+              <span className="text-[#0052FF] mr-2">8.</span>
+              Disclaimer of Warranties
+            </h2>
+            <p className="text-slate-600 text-xs sm:text-[13px] sm:text-sm leading-relaxed font-normal">
+              The Website and all materials, information, and content provided on it are provided on an &ldquo;AS IS&rdquo; and &ldquo;AS AVAILABLE&rdquo; basis without warranties of any kind, whether express or implied, including but not limited to implied warranties of merchantability, fitness for a particular purpose, non-infringement, or uninterrupted availability. Creed Tech does not warrant that the Website will operate error-free or that defects will be corrected immediately.
+            </p>
+          </div>
+
+          {/* 9. Limitation of Liability */}
+          <div className="space-y-4">
+            <h2 className="text-xl sm:text-2xl font-bold text-[#0B1220] tracking-tight">
+              <span className="text-[#0052FF] mr-2">9.</span>
+              Limitation of Liability
+            </h2>
+            <p className="text-slate-600 text-xs sm:text-[13px] sm:text-sm leading-relaxed font-normal">
+              To the maximum extent permitted by applicable law, in no event shall Creed Tech, its directors, employees, or affiliates be liable for any indirect, incidental, special, consequential, or punitive damages, including loss of profits, data, goodwill, or business interruption, arising out of or in connection with your access to, use of, or inability to use the Website or its content.
+            </p>
+          </div>
+
+          {/* 10. Modifications to Terms */}
+          <div className="space-y-4">
+            <h2 className="text-xl sm:text-2xl font-bold text-[#0B1220] tracking-tight">
+              <span className="text-[#0052FF] mr-2">10.</span>
+              Modifications to Terms
+            </h2>
+            <p className="text-slate-600 text-xs sm:text-[13px] sm:text-sm leading-relaxed font-normal">
+              Creed Tech reserves the right to revise, update, or modify these Terms at any time without prior individual notice. Any modifications will become effective immediately upon posting to the Website with an updated &ldquo;Last Updated&rdquo; date. Your continued use of the Website after revised Terms have been posted constitutes your acceptance of the updated Terms.
+            </p>
+          </div>
+
+          {/* 11. Contact & Inquiries */}
+          <div className="space-y-4">
+            <h2 className="text-xl sm:text-2xl font-bold text-[#0B1220] tracking-tight">
+              <span className="text-[#0052FF] mr-2">11.</span>
+              Contact &amp; Inquiries
+            </h2>
+            <p className="text-slate-600 text-xs sm:text-[13px] sm:text-sm leading-relaxed font-normal">
+              If you have questions, concerns, or legal inquiries regarding these Terms &amp; Conditions, please contact our legal and solutions architecture team:
+            </p>
+            <div className="bg-[#F8FAFC] border border-slate-200/80 rounded-lg p-6 space-y-1 text-slate-600 text-xs sm:text-[13px]">
+              <p className="text-slate-900 font-bold text-xs sm:text-[13px] mb-2">
+                Creed Tech Legal &amp; Governance
+              </p>
+              <p>
+                Email:{" "}
+                <a
+                  href="mailto:contact@creed-tech.com"
+                  className="text-[#0052FF] font-semibold underline hover:text-[#0043D1] transition-colors"
+                >
+                  contact@creed-tech.com
+                </a>
+              </p>
+              <p>
+                Web Inquiries:{" "}
+                <Link
+                  href="/contact"
+                  className="text-[#0052FF] font-semibold underline hover:text-[#0043D1] transition-colors"
+                >
+                  creed-tech.com/contact
+                </Link>
+              </p>
+              <p>
+                Security Center:{" "}
+                <Link
+                  href="/security"
+                  className="text-[#0052FF] font-semibold underline hover:text-[#0043D1] transition-colors"
+                >
+                  creed-tech.com/security
+                </Link>
+              </p>
+            </div>
+          </div>
         </div>
       </section>
     </div>
