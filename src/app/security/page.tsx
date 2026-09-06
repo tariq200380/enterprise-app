@@ -279,6 +279,79 @@ export default function SecurityPage() {
           </div>
         </div>
       </section>
+
+      {/* Defense in Depth / 4-Layer Enterprise Security Architecture */}
+      <section className="w-full py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-white border-t border-slate-100">
+        <div className="max-w-7xl mx-auto">
+          {/* Section Header */}
+          <div className="mb-10 sm:mb-12">
+            <span className="text-xs sm:text-[13px] font-bold text-[#0052FF] tracking-widest uppercase block mb-3">
+              DEFENSE IN DEPTH
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0B1220] tracking-tight leading-tight mb-4">
+              4-Layer Enterprise Security Architecture
+            </h2>
+            <p className="text-slate-500 text-xs sm:text-[13px] max-w-3xl leading-relaxed">
+              We employ layered technical and operational safeguards to protect client systems against advanced threat vectors:
+            </p>
+          </div>
+
+          {/* 4 Cards Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Layer 01 */}
+            <div className="bg-white border border-slate-200/80 rounded-lg p-6 sm:p-7 shadow-[0_1px_3px_rgba(0,0,0,0.04)] hover:shadow-md transition-shadow flex flex-col justify-start">
+              <span className="text-[#0052FF] font-bold text-xs sm:text-sm tracking-wide block mb-3">
+                01
+              </span>
+              <h3 className="text-[#0B1220] font-bold text-base sm:text-[17px] tracking-tight mb-3">
+                Zero-Trust Identity &amp; Access<br />(IAM)
+              </h3>
+              <p className="text-slate-600 text-xs sm:text-[13px] leading-relaxed font-normal">
+                Mandatory hardware WebAuthn 2FA, biometric facility checkpoints, zero standing administrative privileges (ZSP), and session recording.
+              </p>
+            </div>
+
+            {/* Layer 02 */}
+            <div className="bg-white border border-slate-200/80 rounded-lg p-6 sm:p-7 shadow-[0_1px_3px_rgba(0,0,0,0.04)] hover:shadow-md transition-shadow flex flex-col justify-start">
+              <span className="text-[#0052FF] font-bold text-xs sm:text-sm tracking-wide block mb-3">
+                02
+              </span>
+              <h3 className="text-[#0B1220] font-bold text-base sm:text-[17px] tracking-tight mb-3">
+                Cryptographic Protection
+              </h3>
+              <p className="text-slate-600 text-xs sm:text-[13px] leading-relaxed font-normal">
+                AES-256 GCM encryption at rest with envelope key management, TLS 1.3 in transit with strict HSTS, and secure key custody via cloud-managed KMS services.
+              </p>
+            </div>
+
+            {/* Layer 03 */}
+            <div className="bg-white border border-slate-200/80 rounded-lg p-6 sm:p-7 shadow-[0_1px_3px_rgba(0,0,0,0.04)] hover:shadow-md transition-shadow flex flex-col justify-start">
+              <span className="text-[#0052FF] font-bold text-xs sm:text-sm tracking-wide block mb-3">
+                03
+              </span>
+              <h3 className="text-[#0B1220] font-bold text-base sm:text-[17px] tracking-tight mb-3">
+                Secure Development Lifecycle<br />(SSDLC)
+              </h3>
+              <p className="text-slate-600 text-xs sm:text-[13px] leading-relaxed font-normal">
+                CI/CD SAST/DAST vulnerability scanning, structured peer code review, version-controlled source management, and authorized penetration testing within agreed client scope.
+              </p>
+            </div>
+
+            {/* Layer 04 */}
+            <div className="bg-white border border-slate-200/80 rounded-lg p-6 sm:p-7 shadow-[0_1px_3px_rgba(0,0,0,0.04)] hover:shadow-md transition-shadow flex flex-col justify-start">
+              <span className="text-[#0052FF] font-bold text-xs sm:text-sm tracking-wide block mb-3">
+                04
+              </span>
+              <h3 className="text-[#0B1220] font-bold text-base sm:text-[17px] tracking-tight mb-3">
+                24/7 Threat Telemetry &amp; SIEM
+              </h3>
+              <p className="text-slate-600 text-xs sm:text-[13px] leading-relaxed font-normal">
+                Real-time behavioral threat detection, immutable audit logs with atomic clock synchronization, and automated failover disaster recovery.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
