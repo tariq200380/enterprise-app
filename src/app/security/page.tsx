@@ -352,6 +352,113 @@ export default function SecurityPage() {
           </div>
         </div>
       </section>
+
+      {/* Supplier Governance / Audited Enterprise Sub-Processors */}
+      <section className="w-full py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-white border-t border-slate-100">
+        <div className="max-w-7xl mx-auto">
+          {/* Section Header */}
+          <div className="mb-8 sm:mb-10">
+            <span className="text-xs sm:text-[13px] font-bold text-[#0052FF] tracking-widest uppercase block mb-3">
+              SUPPLIER GOVERNANCE
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0B1220] tracking-tight leading-tight mb-4">
+              Audited Enterprise Sub-Processors
+            </h2>
+            <p className="text-slate-500 text-xs sm:text-[13px] max-w-3xl leading-relaxed">
+              Following ISO 27001 (A.5.19) and GDPR (Article 28) supplier governance guidelines, all infrastructure sub-processors undergo rigorous security evaluation:
+            </p>
+          </div>
+
+          {/* Table Container */}
+          <div className="border border-slate-200/90 rounded-lg overflow-hidden bg-white shadow-[0_1px_3px_rgba(0,0,0,0.02)]">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse min-w-[760px]">
+                <thead>
+                  <tr className="border-b border-slate-200 bg-[#F8FAFC]">
+                    <th className="py-4 px-6 text-[#0B1220] font-bold text-xs sm:text-[13px]">
+                      Sub-Processor
+                    </th>
+                    <th className="py-4 px-6 text-[#0B1220] font-bold text-xs sm:text-[13px]">
+                      Role / Processing Activity
+                    </th>
+                    <th className="py-4 px-6 text-[#0B1220] font-bold text-xs sm:text-[13px]">
+                      Data Location
+                    </th>
+                    <th className="py-4 px-6 text-[#0B1220] font-bold text-xs sm:text-[13px]">
+                      Audited Certifications
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  {/* Row 1: AWS */}
+                  <tr className="hover:bg-slate-50/50 transition-colors">
+                    <td className="py-4 px-6 font-bold text-[#0B1220] text-xs sm:text-[13px] whitespace-nowrap">
+                      Amazon Web Services (AWS)
+                    </td>
+                    <td className="py-4 px-6 text-slate-600 text-xs sm:text-[13px]">
+                      Primary Cloud Infrastructure &amp; KMS
+                    </td>
+                    <td className="py-4 px-6 text-slate-500 text-xs sm:text-[13px]">
+                      Frankfurt / Ireland / US-East
+                    </td>
+                    <td className="py-4 px-6 text-[#0052FF] font-semibold text-xs sm:text-[13px] whitespace-nowrap">
+                      ISO 27001, SOC 2, PCI-DSS, FedRAMP
+                    </td>
+                  </tr>
+
+                  {/* Row 2: GCP */}
+                  <tr className="hover:bg-slate-50/50 transition-colors">
+                    <td className="py-4 px-6 font-bold text-[#0B1220] text-xs sm:text-[13px] whitespace-nowrap">
+                      Google Cloud Platform (GCP)
+                    </td>
+                    <td className="py-4 px-6 text-slate-600 text-xs sm:text-[13px]">
+                      AI &amp; Data Pipeline Processing
+                    </td>
+                    <td className="py-4 px-6 text-slate-500 text-xs sm:text-[13px]">
+                      Belgium / Frankfurt / Iowa
+                    </td>
+                    <td className="py-4 px-6 text-[#0052FF] font-semibold text-xs sm:text-[13px] whitespace-nowrap">
+                      ISO 27001, SOC 2, HIPAA, GDPR
+                    </td>
+                  </tr>
+
+                  {/* Row 3: Cloudflare */}
+                  <tr className="hover:bg-slate-50/50 transition-colors">
+                    <td className="py-4 px-6 font-bold text-[#0B1220] text-xs sm:text-[13px] whitespace-nowrap">
+                      Cloudflare Enterprise
+                    </td>
+                    <td className="py-4 px-6 text-slate-600 text-xs sm:text-[13px]">
+                      Edge WAF, DDoS Mitigation &amp; DNS
+                    </td>
+                    <td className="py-4 px-6 text-slate-500 text-xs sm:text-[13px]">
+                      Global Edge Network (300+ Cities)
+                    </td>
+                    <td className="py-4 px-6 text-[#0052FF] font-semibold text-xs sm:text-[13px] whitespace-nowrap">
+                      SOC 2 Type II, ISO 27001, PCI-DSS
+                    </td>
+                  </tr>
+
+                  {/* Row 4: GitHub */}
+                  <tr className="hover:bg-slate-50/50 transition-colors">
+                    <td className="py-4 px-6 font-bold text-[#0B1220] text-xs sm:text-[13px] whitespace-nowrap">
+                      GitHub Enterprise
+                    </td>
+                    <td className="py-4 px-6 text-slate-600 text-xs sm:text-[13px]">
+                      Encrypted Source Code Management
+                    </td>
+                    <td className="py-4 px-6 text-slate-500 text-xs sm:text-[13px]">
+                      US / Multi-Region Secure Cloud
+                    </td>
+                    <td className="py-4 px-6 text-[#0052FF] font-semibold text-xs sm:text-[13px] whitespace-nowrap">
+                      SOC 2 Type II, ISO 27001
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
