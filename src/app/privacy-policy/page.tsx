@@ -45,7 +45,7 @@ export default function PrivacyPolicyPage() {
       </section>
 
       {/* Policy Content Card */}
-      <section className="w-full py-12 sm:py-16 px-4 sm:px-6 lg:px-8">
+      <section className="w-full pt-8 pb-4 sm:pt-10 sm:pb-6 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto bg-white border border-slate-200/80 rounded-xl p-6 sm:p-10 md:p-12 shadow-sm space-y-10">
           {/* 1. Overview & Privacy Commitment */}
           <div className="space-y-4">

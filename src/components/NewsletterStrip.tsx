@@ -1,6 +1,6 @@
 export default function NewsletterStrip() {
   return (
-    <section className="w-full bg-[#F4F6F8] py-16 sm:py-20">
+    <section className="w-full bg-[#F4F6F8] pt-4 pb-14 sm:pt-6 sm:pb-16">
       <div className="max-w-[1440px] w-[calc(100%-32px)] sm:w-[calc(100%-64px)] mx-auto">
         
         {/* Main Card */}
