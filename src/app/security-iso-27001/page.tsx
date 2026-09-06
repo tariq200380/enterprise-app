@@ -304,6 +304,142 @@ export default function SecurityIso27001Page() {
           </div>
         </div>
       </section>
+
+      {/* Incident Response Playbook / Incident Severity Classification & Response Framework */}
+      <section className="w-full py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-white border-t border-slate-100">
+        <div className="max-w-7xl mx-auto">
+          {/* Section Header */}
+          <div className="mb-8 sm:mb-10">
+            <span className="text-xs sm:text-[13px] font-bold text-[#0052FF] tracking-widest uppercase block mb-3">
+              INCIDENT RESPONSE PLAYBOOK
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0B1220] tracking-tight leading-tight mb-4">
+              Incident Severity Classification &amp; Response<br className="hidden sm:inline" /> Framework
+            </h2>
+            <p className="text-slate-500 text-xs sm:text-[13px] max-w-3xl leading-relaxed">
+              In accordance with ISO 27001 Annex A.5.24-28, all security telemetry is routed through a structured incident triage and escalation process:
+            </p>
+          </div>
+
+          {/* Table Container */}
+          <div className="border border-slate-200/90 rounded-lg overflow-hidden bg-white shadow-[0_1px_3px_rgba(0,0,0,0.02)]">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse min-w-[760px]">
+                <thead>
+                  <tr className="border-b border-slate-200 bg-[#F8FAFC]">
+                    <th className="py-4 px-6 text-[#0B1220] font-bold text-xs sm:text-[13px]">
+                      Severity Level
+                    </th>
+                    <th className="py-4 px-6 text-[#0B1220] font-bold text-xs sm:text-[13px]">
+                      Definition / Scenario
+                    </th>
+                    <th className="py-4 px-6 text-[#0B1220] font-bold text-xs sm:text-[13px]">
+                      Response Priority
+                    </th>
+                    <th className="py-4 px-6 text-[#0B1220] font-bold text-xs sm:text-[13px]">
+                      Client Notification
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  {/* SEV-1 */}
+                  <tr className="hover:bg-slate-50/50 transition-colors">
+                    <td className="py-4 px-6 font-bold text-[#EF4444] text-xs sm:text-[13px] whitespace-nowrap">
+                      SEV-1 (Critical)
+                    </td>
+                    <td className="py-4 px-6 text-slate-600 text-xs sm:text-[13px]">
+                      Active data breach, ransomware, or full service outage
+                    </td>
+                    <td className="py-4 px-6 text-slate-700 font-semibold text-xs sm:text-[13px]">
+                      Immediate Escalation
+                    </td>
+                    <td className="py-4 px-6 text-slate-700 text-xs sm:text-[13px]">
+                      Expedited &mdash; Direct Security Team Lead
+                    </td>
+                  </tr>
+
+                  {/* SEV-2 */}
+                  <tr className="hover:bg-slate-50/50 transition-colors">
+                    <td className="py-4 px-6 font-bold text-[#FF6A00] text-xs sm:text-[13px] whitespace-nowrap">
+                      SEV-2 (High)
+                    </td>
+                    <td className="py-4 px-6 text-slate-600 text-xs sm:text-[13px]">
+                      Potential unauthorized access or isolated core component failure
+                    </td>
+                    <td className="py-4 px-6 text-slate-700 font-semibold text-xs sm:text-[13px]">
+                      High Priority Response
+                    </td>
+                    <td className="py-4 px-6 text-slate-700 text-xs sm:text-[13px]">
+                      Same-Day Notification
+                    </td>
+                  </tr>
+
+                  {/* SEV-3 */}
+                  <tr className="hover:bg-slate-50/50 transition-colors">
+                    <td className="py-4 px-6 font-bold text-[#EAB308] text-xs sm:text-[13px] whitespace-nowrap">
+                      SEV-3 (Medium)
+                    </td>
+                    <td className="py-4 px-6 text-slate-600 text-xs sm:text-[13px]">
+                      Non-critical vulnerability identified in non-production sandbox
+                    </td>
+                    <td className="py-4 px-6 text-slate-700 font-semibold text-xs sm:text-[13px]">
+                      Scheduled Assessment
+                    </td>
+                    <td className="py-4 px-6 text-slate-700 text-xs sm:text-[13px]">
+                      24 Hours / Weekly Report
+                    </td>
+                  </tr>
+
+                  {/* SEV-4 */}
+                  <tr className="hover:bg-slate-50/50 transition-colors">
+                    <td className="py-4 px-6 font-bold text-[#0052FF] text-xs sm:text-[13px] whitespace-nowrap">
+                      SEV-4 (Low)
+                    </td>
+                    <td className="py-4 px-6 text-slate-600 text-xs sm:text-[13px]">
+                      Informational security advisory or minor dependency patch
+                    </td>
+                    <td className="py-4 px-6 text-slate-700 font-semibold text-xs sm:text-[13px]">
+                      Planned Remediation
+                    </td>
+                    <td className="py-4 px-6 text-slate-700 text-xs sm:text-[13px]">
+                      Monthly Sprint Release
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ISO 27001 Documentation CTA */}
+      <section className="w-full bg-[#0B1220] py-20 sm:py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden text-center border-t border-slate-800/40">
+        {/* Subtle Ambient Glow */}
+        <div
+          className="absolute inset-0 pointer-events-none opacity-20"
+          style={{
+            background:
+              "radial-gradient(ellipse 60% 50% at 50% 50%, rgba(0, 82, 255, 0.45), transparent 75%)",
+          }}
+        />
+
+        <div className="max-w-4xl mx-auto relative z-10">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight mb-5">
+            Need Our ISO 27001 Security Alignment<br className="hidden sm:inline" /> Documentation?
+          </h2>
+          <p className="text-slate-400 text-xs sm:text-sm max-w-2xl mx-auto leading-relaxed mb-8 font-normal">
+            We can help prepare SIG questionnaires, CAIQ-aligned security documentation, and Statement of Applicability (SoA) frameworks tailored to client requirements, under standard mutual NDA.
+          </p>
+          <div>
+            <Link
+              href="/contact"
+              className="inline-block px-7 py-3.5 bg-[#FF6A00] hover:bg-[#E55F00] text-white font-bold text-xs tracking-wider uppercase rounded transition-colors shadow-md"
+            >
+              REQUEST ISO 27001 SECURITY ARCHITECTURE
+            </Link>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
