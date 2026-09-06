@@ -1,0 +1,133 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: "Segoe UI", "Segoe UI Variable", -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@keyframes newsSlide {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  10% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  90% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  99% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.animate-news-ticker {
+  display: inline-flex;
+  will-change: transform, opacity;
+  animation: newsSlide 5s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+@keyframes infinitePartnerScroll {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
+}
+
+.partner-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: infinitePartnerScroll 25s linear infinite;
+  will-change: transform;
+}
+
+.partner-marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* Continuous Vertical Reviews Marquee: Left Col DOWN, Right Col UP */
+@keyframes scrollDownContinuous {
+  0% { transform: translate3d(0, -50%, 0); }
+  100% { transform: translate3d(0, 0%, 0); }
+}
+
+@keyframes scrollUpContinuous {
+  0% { transform: translate3d(0, 0%, 0); }
+  100% { transform: translate3d(0, -50%, 0); }
+}
+
+.reviews-col-down {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: scrollDownContinuous 22s linear infinite;
+  will-change: transform;
+}
+
+.reviews-col-up {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: scrollUpContinuous 22s linear infinite;
+  will-change: transform;
+}
+
+.reviews-col-down:hover,
+.reviews-col-up:hover {
+  animation-play-state: paused;
+}
+
+/* How We Deliver: Pure CSS interactive tabs without useState */
+#phase-1:checked ~ * .phase-tab-1,
+#phase-2:checked ~ * .phase-tab-2,
+#phase-3:checked ~ * .phase-tab-3,
+#phase-4:checked ~ * .phase-tab-4 {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+#phase-1:checked ~ * .phase-dot-1,
+#phase-2:checked ~ * .phase-dot-2,
+#phase-3:checked ~ * .phase-dot-3,
+#phase-4:checked ~ * .phase-dot-4 {
+  background-color: #FF6B00;
+  border-color: #FFA04D;
+  transform: scale(1.1);
+  box-shadow: 0 0 10px rgba(255, 107, 0, 0.8), 0 0 20px rgba(255, 107, 0, 0.4);
+}
+
+#phase-1:checked ~ * .phase-pane-1,
+#phase-2:checked ~ * .phase-pane-2,
+#phase-3:checked ~ * .phase-pane-3,
+#phase-4:checked ~ * .phase-pane-4 {
+  display: grid !important;
+}
+
+

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 230" width="100%" height="100%" fill="none">
+  <!-- Top Orange Accent Bars -->
+  <rect x="52" y="32" width="235" height="15" rx="3" fill="#FF5805" />
+  <rect x="302" y="32" width="42" height="15" rx="3" fill="#FF5805" />
+  <rect x="368" y="32" width="45" height="15" rx="3" fill="#FF5805" />
+
+  <!-- CREED Letters in Vibrant Blue -->
+  <g fill="#032ED5">
+    <!-- C -->
+    <path d="M 112 70 C 72 70 52 93 52 133 C 52 173 72 196 112 196 C 132 196 148 189 154 182 L 140 156 C 134 161 125 166 112 166 C 92 166 84 152 84 133 C 84 114 92 100 112 100 C 125 100 134 105 140 110 L 154 84 C 148 77 132 70 112 70 Z" />
+
+    <!-- R -->
+    <path d="M 166 72 L 214 72 C 236 72 248 83 248 103 C 248 118 238 128 226 132 L 253 194 L 222 194 L 198 138 L 196 138 L 196 194 L 166 194 L 166 72 Z M 196 98 L 196 116 L 212 116 C 218 116 224 113 224 107 C 224 101 218 98 212 98 L 196 98 Z" />
+
+    <!-- E (first) -->
+    <path d="M 262 72 L 328 72 L 328 99 L 292 99 L 292 119 L 324 119 L 324 145 L 292 145 L 292 167 L 328 167 L 328 194 L 262 194 Z" />
+
+    <!-- E (second) -->
+    <path d="M 342 72 L 408 72 L 408 99 L 372 99 L 372 119 L 404 119 L 404 145 L 372 145 L 372 167 L 408 167 L 408 194 L 342 194 Z" />
+
+    <!-- D -->
+    <path d="M 422 72 L 464 72 C 494 72 508 89 508 133 C 508 177 494 194 464 194 L 422 194 Z M 452 99 L 452 167 L 464 167 C 476 167 482 157 482 133 C 482 109 476 99 464 99 Z" transform="scale(0.87) translate(40, 15)" />
+  </g>
+
+  <!-- Bottom Orange Subtitle: - T E C H - -->
+  <g fill="#FF5805">
+    <rect x="52" y="210" width="38" height="10" rx="2" />
+    <text x="250" y="220" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="25" letter-spacing="14" text-anchor="middle">TECH</text>
+    <rect x="410" y="210" width="38" height="10" rx="2" />
+  </g>
+</svg>
