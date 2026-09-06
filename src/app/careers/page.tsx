@@ -685,9 +685,19 @@ export default function CareersPage() {
         </div>
       </section>
 
-      {/* Direct Founder Hotline Section (Dark Navy) */}
-      <section className="w-full bg-[#071120] py-20 sm:py-28 text-center text-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Direct Founder Hotline Section (Dark Navy with Soft Blue Glow) */}
+      <section className="w-full bg-[#071120] py-20 sm:py-28 text-center text-white relative overflow-hidden">
+        {/* Soft Blue Ambient Glow Lights */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[380px] bg-[#0052FF]/20 rounded-full blur-[110px] pointer-events-none" />
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[420px] h-[240px] bg-blue-500/25 rounded-full blur-3xl pointer-events-none" />
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: "radial-gradient(circle at 50% 45%, rgba(0, 82, 255, 0.22) 0%, rgba(0, 82, 255, 0.06) 45%, rgba(7, 17, 32, 0) 75%)",
+          }}
+        />
+
+        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Top Badge */}
           <span className="text-[11px] sm:text-xs font-bold text-[#3B82F6] tracking-widest uppercase block mb-3">
             DIRECT FOUNDER HOTLINE
