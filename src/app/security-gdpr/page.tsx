@@ -216,6 +216,138 @@ export default function SecurityGdprPage() {
           </div>
         </div>
       </section>
+
+      {/* Individual Privacy Rights: The 8 Data Subject Rights We Architect for Clients */}
+      <section className="w-full py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-white border-t border-slate-100">
+        <div className="max-w-7xl mx-auto">
+          {/* Section Header */}
+          <div className="mb-8 sm:mb-10 text-left">
+            <span className="text-xs sm:text-[13px] font-bold text-[#0052FF] tracking-widest uppercase block mb-3">
+              INDIVIDUAL PRIVACY RIGHTS
+            </span>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#0B1220] tracking-tight leading-tight mb-4">
+              The 8 Data Subject Rights We Architect for<br className="hidden sm:inline" /> Clients
+            </h2>
+            <p className="text-slate-500 text-xs sm:text-[13px] max-w-3xl leading-relaxed font-normal">
+              Our software architectures are engineered with modular privacy controls supporting all 8 statutory user privacy workflows:
+            </p>
+          </div>
+
+          {/* 8 Data Subject Rights Grid (3 columns) */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Card 1: Article 15 */}
+            <div className="bg-white border border-[#BFDBFE]/80 rounded-lg p-5 sm:p-6 shadow-[0_1px_3px_rgba(0,0,0,0.02)] hover:shadow-md transition-shadow flex flex-col justify-start">
+              <h3 className="text-[#0052FF] font-bold text-xs sm:text-[13px] mb-2 tracking-tight">
+                Article 15: Right of Access (DSAR)
+              </h3>
+              <p className="text-slate-600 text-xs sm:text-[12px] leading-relaxed font-normal">
+                Self-service user portal allowing end-users to generate and download an encrypted archive of all personal records, activity logs, and account history in structured format.
+              </p>
+            </div>
+
+            {/* Card 2: Article 16 */}
+            <div className="bg-white border border-[#BFDBFE]/80 rounded-lg p-5 sm:p-6 shadow-[0_1px_3px_rgba(0,0,0,0.02)] hover:shadow-md transition-shadow flex flex-col justify-start">
+              <h3 className="text-[#0052FF] font-bold text-xs sm:text-[13px] mb-2 tracking-tight">
+                Article 16: Right to Rectification
+              </h3>
+              <p className="text-slate-600 text-xs sm:text-[12px] leading-relaxed font-normal">
+                Direct profile settings interfaces and APIs enabling individuals to correct, update, or complete inaccurate or incomplete personal records instantly.
+              </p>
+            </div>
+
+            {/* Card 3: Article 17 */}
+            <div className="bg-white border border-[#BFDBFE]/80 rounded-lg p-5 sm:p-6 shadow-[0_1px_3px_rgba(0,0,0,0.02)] hover:shadow-md transition-shadow flex flex-col justify-start">
+              <h3 className="text-[#0052FF] font-bold text-xs sm:text-[13px] mb-2 tracking-tight">
+                Article 17: Right to Erasure (&quot;Right to be Forgotten&quot;)
+              </h3>
+              <p className="text-slate-600 text-xs sm:text-[12px] leading-relaxed font-normal">
+                Cascading cryptographic data deletion pipeline that purges user records across primary relational databases, NoSQL stores, caching layers, and backup replicas.
+              </p>
+            </div>
+
+            {/* Card 4: Article 18 */}
+            <div className="bg-white border border-[#BFDBFE]/80 rounded-lg p-5 sm:p-6 shadow-[0_1px_3px_rgba(0,0,0,0.02)] hover:shadow-md transition-shadow flex flex-col justify-start">
+              <h3 className="text-[#0052FF] font-bold text-xs sm:text-[13px] mb-2 tracking-tight">
+                Article 18: Right to Restriction of Processing
+              </h3>
+              <p className="text-slate-600 text-xs sm:text-[12px] leading-relaxed font-normal">
+                System-level processing lock that suspends data transformation and third-party sync while retaining records safely during legal or factual dispute resolutions.
+              </p>
+            </div>
+
+            {/* Card 5: Article 19 */}
+            <div className="bg-white border border-[#BFDBFE]/80 rounded-lg p-5 sm:p-6 shadow-[0_1px_3px_rgba(0,0,0,0.02)] hover:shadow-md transition-shadow flex flex-col justify-start">
+              <h3 className="text-[#0052FF] font-bold text-xs sm:text-[13px] mb-2 tracking-tight">
+                Article 19: Notification of Rectification / Erasure
+              </h3>
+              <p className="text-slate-600 text-xs sm:text-[12px] leading-relaxed font-normal">
+                Automated webhook notifications communicating any data correction, erasure, or restriction to all downstream sub-processors and external integrations.
+              </p>
+            </div>
+
+            {/* Card 6: Article 20 */}
+            <div className="bg-white border border-[#BFDBFE]/80 rounded-lg p-5 sm:p-6 shadow-[0_1px_3px_rgba(0,0,0,0.02)] hover:shadow-md transition-shadow flex flex-col justify-start">
+              <h3 className="text-[#0052FF] font-bold text-xs sm:text-[13px] mb-2 tracking-tight">
+                Article 20: Right to Data Portability
+              </h3>
+              <p className="text-slate-600 text-xs sm:text-[12px] leading-relaxed font-normal">
+                Standardized machine-readable JSON and CSV export endpoints enabling users to transfer personal data seamlessly to competing third-party services.
+              </p>
+            </div>
+
+            {/* Card 7: Article 21 */}
+            <div className="bg-white border border-[#BFDBFE]/80 rounded-lg p-5 sm:p-6 shadow-[0_1px_3px_rgba(0,0,0,0.02)] hover:shadow-md transition-shadow flex flex-col justify-start">
+              <h3 className="text-[#0052FF] font-bold text-xs sm:text-[13px] mb-2 tracking-tight">
+                Article 21: Right to Object &amp; Opt-Out
+              </h3>
+              <p className="text-slate-600 text-xs sm:text-[12px] leading-relaxed font-normal">
+                Granular consent management UI giving users instant toggle controls to opt out of marketing analytics, tracking cookies, and profiling algorithms.
+              </p>
+            </div>
+
+            {/* Card 8: Article 22 */}
+            <div className="bg-white border border-[#BFDBFE]/80 rounded-lg p-5 sm:p-6 shadow-[0_1px_3px_rgba(0,0,0,0.02)] hover:shadow-md transition-shadow flex flex-col justify-start">
+              <h3 className="text-[#0052FF] font-bold text-xs sm:text-[13px] mb-2 tracking-tight">
+                Article 22: Automated Decision-Making &amp; Profiling
+              </h3>
+              <p className="text-slate-600 text-xs sm:text-[12px] leading-relaxed font-normal">
+                Algorithmic transparency controls supporting human review, rationale disclosure, and contestation mechanisms for automated decisions.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Dark CTA Section with Soft Orange Glow */}
+      <section className="w-full bg-[#0B1220] py-20 sm:py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden text-center border-t border-slate-800/40">
+        {/* Ambient Orange Radial Glow */}
+        <div 
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: "radial-gradient(ellipse 65% 55% at 50% 50%, rgba(255, 106, 0, 0.18) 0%, rgba(255, 106, 0, 0.05) 45%, transparent 75%)"
+          }}
+        />
+
+        {/* Centered Soft Orange Glow Orb */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] sm:w-[750px] h-[300px] sm:h-[420px] bg-[#FF6A00]/15 rounded-full blur-[110px] pointer-events-none" />
+
+        <div className="max-w-4xl mx-auto relative z-10">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight mb-4">
+            Need a Signed DPA &amp; Data Protection<br className="hidden sm:inline" /> Impact Assessment (DPIA)?
+          </h2>
+          <p className="text-slate-400 text-xs sm:text-sm max-w-2xl mx-auto leading-relaxed mb-8 font-normal">
+            Our privacy and compliance team can help prepare Standard Contractual Clauses (SCC) frameworks and support developing customized DPA documentation tailored to client data processing requirements.
+          </p>
+          <div>
+            <Link
+              href="/contact"
+              className="inline-block px-7 py-3.5 bg-[#FF6A00] hover:bg-[#E55F00] text-white font-bold text-xs tracking-wider uppercase rounded transition-colors shadow-md"
+            >
+              CONTACT DATA PRIVACY TEAM
+            </Link>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
