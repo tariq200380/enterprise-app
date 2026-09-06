@@ -598,6 +598,122 @@ export default function CareersPage() {
           </div>
         </div>
       </section>
+
+      {/* Frequently Asked Questions Section */}
+      <section className="w-full bg-[#FAFBFC] border-t border-gray-200/80 py-16 sm:py-24">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          {/* Top Badge */}
+          <span className="text-xs font-bold text-[#0052FF] tracking-widest uppercase block mb-3">
+            CANDIDATE QUESTIONS
+          </span>
+
+          {/* Section Heading */}
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#0F172A] tracking-tight leading-tight max-w-2xl mx-auto">
+            Frequently Asked Questions
+          </h2>
+
+          {/* Subtitle */}
+          <p className="mt-4 text-sm sm:text-base text-gray-500 max-w-2xl mx-auto leading-relaxed font-normal">
+            Direct answers regarding our hiring process, equipment, working hours, and contracts.
+          </p>
+
+          {/* FAQ Accordion List using pure Tailwind CSS and native details/summary */}
+          <div className="mt-10 sm:mt-12 flex flex-col gap-3.5 max-w-4xl mx-auto text-left">
+            {/* Question 1 (Open by default matching screenshot) */}
+            <details
+              open
+              className="group bg-white rounded-xl border border-gray-200/90 p-5 sm:p-6 shadow-xs transition-all duration-200"
+            >
+              <summary className="flex items-center justify-between cursor-pointer list-none select-none font-bold text-sm sm:text-[15px] text-[#0F172A] hover:text-[#0052FF] transition-colors">
+                <span>How does Creed Tech handle remote work and time zones?</span>
+                <span className="text-base text-gray-400 group-open:hidden">+</span>
+                <span className="text-base text-gray-400 hidden group-open:inline">&minus;</span>
+              </summary>
+              <p className="mt-3.5 text-xs sm:text-[13px] text-gray-500 leading-relaxed font-normal border-t border-gray-100 pt-3.5">
+                We are 100% remote-first and asynchronous. We have team members across Germany, Spain, USA, and global time zones. Rather than demanding rigid 9-to-5 schedules, we require a minimum 3-hour daily overlap with your pod and rely on high-fidelity written documentation (RFCs and PR walkthroughs).
+              </p>
+            </details>
+
+            {/* Question 2 */}
+            <details className="group bg-white rounded-xl border border-gray-200/90 p-5 sm:p-6 shadow-xs transition-all duration-200">
+              <summary className="flex items-center justify-between cursor-pointer list-none select-none font-bold text-sm sm:text-[15px] text-[#0F172A] hover:text-[#0052FF] transition-colors">
+                <span>Is the take-home technical challenge really paid?</span>
+                <span className="text-base text-gray-400 group-open:hidden">+</span>
+                <span className="text-base text-gray-400 hidden group-open:inline">&minus;</span>
+              </summary>
+              <p className="mt-3.5 text-xs sm:text-[13px] text-gray-500 leading-relaxed font-normal border-t border-gray-100 pt-3.5">
+                Yes, unconditionally. We respect the time and effort required to craft architectural solutions. Candidates who complete our practical take-home challenge receive an honorarium stipend regardless of whether we move forward with an offer.
+              </p>
+            </details>
+
+            {/* Question 3 */}
+            <details className="group bg-white rounded-xl border border-gray-200/90 p-5 sm:p-6 shadow-xs transition-all duration-200">
+              <summary className="flex items-center justify-between cursor-pointer list-none select-none font-bold text-sm sm:text-[15px] text-[#0F172A] hover:text-[#0052FF] transition-colors">
+                <span>What contract and employment types do you offer?</span>
+                <span className="text-base text-gray-400 group-open:hidden">+</span>
+                <span className="text-base text-gray-400 hidden group-open:inline">&minus;</span>
+              </summary>
+              <p className="mt-3.5 text-xs sm:text-[13px] text-gray-500 leading-relaxed font-normal border-t border-gray-100 pt-3.5">
+                We accommodate both full-time permanent contracts through global Employer of Record (EOR) entities in 80+ countries and B2B contractor arrangements with flexible invoicing, depending on your tax and location preferences.
+              </p>
+            </details>
+
+            {/* Question 4 */}
+            <details className="group bg-white rounded-xl border border-gray-200/90 p-5 sm:p-6 shadow-xs transition-all duration-200">
+              <summary className="flex items-center justify-between cursor-pointer list-none select-none font-bold text-sm sm:text-[15px] text-[#0F172A] hover:text-[#0052FF] transition-colors">
+                <span>What hardware and software stack do you support?</span>
+                <span className="text-base text-gray-400 group-open:hidden">+</span>
+                <span className="text-base text-gray-400 hidden group-open:inline">&minus;</span>
+              </summary>
+              <p className="mt-3.5 text-xs sm:text-[13px] text-gray-500 leading-relaxed font-normal border-t border-gray-100 pt-3.5">
+                Engineers receive a $5,000 hardware stipend to configure their choice of Apple Silicon (M3/M4 Max) or custom Linux workstations with high-refresh 4K displays and ergonomic seating. You also receive full access to commercial AI tooling (Copilot, Claude Enterprise) and sovereign cloud dev environments.
+              </p>
+            </details>
+
+            {/* Question 5 */}
+            <details className="group bg-white rounded-xl border border-gray-200/90 p-5 sm:p-6 shadow-xs transition-all duration-200">
+              <summary className="flex items-center justify-between cursor-pointer list-none select-none font-bold text-sm sm:text-[15px] text-[#0F172A] hover:text-[#0052FF] transition-colors">
+                <span>What happens after I submit a Vacancy Alert registration?</span>
+                <span className="text-base text-gray-400 group-open:hidden">+</span>
+                <span className="text-base text-gray-400 hidden group-open:inline">&minus;</span>
+              </summary>
+              <p className="mt-3.5 text-xs sm:text-[13px] text-gray-500 leading-relaxed font-normal border-t border-gray-100 pt-3.5">
+                Your profile is privately indexed in our Principal Talent Registry. When our partners spin up a dedicated engineering pod in your domain, our technical founders reach out to you directly before any role is published publicly.
+              </p>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      {/* Direct Founder Hotline Section (Dark Navy) */}
+      <section className="w-full bg-[#071120] py-20 sm:py-28 text-center text-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Top Badge */}
+          <span className="text-[11px] sm:text-xs font-bold text-[#3B82F6] tracking-widest uppercase block mb-3">
+            DIRECT FOUNDER HOTLINE
+          </span>
+
+          {/* Heading */}
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-tight max-w-2xl mx-auto">
+            Have a specialized systems architecture proposal?
+          </h2>
+
+          {/* Subtitle */}
+          <p className="mt-4 sm:mt-5 text-sm sm:text-base text-gray-400 max-w-xl mx-auto leading-relaxed font-normal">
+            If you are an exceptional engineer, cryptographer, or distributed systems architect, you can bypass standard recruiting and email our Founders directly.
+          </p>
+
+          {/* CTA Button */}
+          <div className="mt-8 sm:mt-10">
+            <a
+              href="mailto:careers@creed-tech.com"
+              className="inline-flex items-center justify-center px-6 py-3.5 rounded-lg bg-[#0052FF] hover:bg-[#0043D6] text-white text-xs sm:text-sm font-semibold shadow-md shadow-blue-500/30 hover:shadow-lg hover:shadow-blue-500/40 active:scale-[0.99] transition-all duration-200 cursor-pointer"
+            >
+              Email Technical Profile &bull; careers@creed-tech.com &rarr;
+            </a>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
