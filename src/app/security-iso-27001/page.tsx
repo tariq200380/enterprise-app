@@ -54,46 +54,48 @@ export default function SecurityIso27001Page() {
               ALL SECURITY STANDARDS
             </Link>
           </div>
+        </div>
 
-          {/* 4-Metric Overview Box */}
-          <div className="w-full bg-white border border-slate-200/80 rounded-lg p-6 sm:p-7 shadow-[0_1px_3px_rgba(0,0,0,0.02)] mt-12 text-left">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+        {/* 4-Metric Overview Box (Wider row width, compact typography & subtle vertical dividers) */}
+        <div className="max-w-5xl xl:max-w-6xl mx-auto mt-12 px-2">
+          <div className="w-full bg-white border border-slate-200/90 rounded-md py-4 sm:py-4.5 px-6 sm:px-8 shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-0 sm:divide-x divide-slate-200/80 text-left">
               {/* Metric 1 */}
-              <div>
-                <span className="text-slate-400 text-[11px] font-bold tracking-wider uppercase block">
+              <div className="sm:pr-6">
+                <span className="text-slate-400 text-[10px] sm:text-[11px] font-bold tracking-wider uppercase block">
                   STANDARD
                 </span>
-                <span className="text-[#0B1220] font-bold text-sm sm:text-base block mt-1.5">
+                <span className="text-[#0B1220] font-bold text-xs sm:text-[13px] block mt-1">
                   ISO/IEC 27001:2022
                 </span>
               </div>
 
               {/* Metric 2 */}
-              <div>
-                <span className="text-slate-400 text-[11px] font-bold tracking-wider uppercase block">
+              <div className="sm:px-6">
+                <span className="text-slate-400 text-[10px] sm:text-[11px] font-bold tracking-wider uppercase block">
                   GOVERNING BODY
                 </span>
-                <span className="text-[#0B1220] font-bold text-sm sm:text-base block mt-1.5">
+                <span className="text-[#0B1220] font-bold text-xs sm:text-[13px] block mt-1">
                   ISO (Geneva, Switzerland)
                 </span>
               </div>
 
               {/* Metric 3 */}
-              <div>
-                <span className="text-slate-400 text-[11px] font-bold tracking-wider uppercase block">
+              <div className="sm:px-6">
+                <span className="text-slate-400 text-[10px] sm:text-[11px] font-bold tracking-wider uppercase block">
                   CONTROL FRAMEWORK
                 </span>
-                <span className="text-[#0B1220] font-bold text-sm sm:text-base block mt-1.5">
+                <span className="text-[#0B1220] font-bold text-xs sm:text-[13px] block mt-1">
                   Annex A (93 Controls)
                 </span>
               </div>
 
               {/* Metric 4 */}
-              <div>
-                <span className="text-slate-400 text-[11px] font-bold tracking-wider uppercase block">
+              <div className="sm:pl-6">
+                <span className="text-slate-400 text-[10px] sm:text-[11px] font-bold tracking-wider uppercase block">
                   SECURITY STATUS
                 </span>
-                <span className="text-[#16A34A] font-bold text-sm sm:text-base block mt-1.5">
+                <span className="text-[#16A34A] font-bold text-xs sm:text-[13px] block mt-1">
                   Operational ISMS Alignment
                 </span>
               </div>
