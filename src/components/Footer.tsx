@@ -267,7 +267,7 @@ export default function Footer() {
               GDPR
             </Link>
             <Link
-              href="/security#frameworks"
+              href="/security-soc-2"
               className="w-full sm:w-28 h-8 flex items-center justify-center text-center text-xs font-medium rounded-[4px] bg-[#242424] text-[#F4F6F8]/90 border border-[#383838] transition-colors duration-150 hover:border-[#FF6B00] hover:text-[#FF6B00] hover:bg-[#FF6B00]/10 cursor-pointer select-none"
             >
               SOC 2
