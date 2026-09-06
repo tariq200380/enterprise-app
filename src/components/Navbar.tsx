@@ -46,7 +46,7 @@ export default function Navbar() {
         <div className="flex items-center gap-2 sm:gap-3">
           <Link
             href="/contact"
-            className="bg-[#0B45D8] hover:bg-[#093bb8] text-white text-xs sm:text-sm font-semibold px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-md transition-colors shadow-sm"
+            className="hidden md:inline-flex bg-[#0B45D8] hover:bg-[#093bb8] text-white text-xs sm:text-sm font-semibold px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-md transition-colors shadow-sm"
           >
             Get Started
           </Link>
@@ -54,7 +54,7 @@ export default function Navbar() {
           {/* Mobile Hamburger Toggle Button */}
           <label
             htmlFor="mobile-menu-toggle"
-            className="md:hidden flex items-center justify-center w-9 h-9 rounded-md text-gray-700 hover:text-[#0B45D8] hover:bg-gray-100 cursor-pointer transition-colors p-1"
+            className="md:hidden flex items-center justify-center w-9 h-9 rounded-md text-gray-700 hover:text-[#0B45D8] hover:bg-gray-100 active:bg-blue-50 active:text-[#0B45D8] cursor-pointer transition-colors p-1"
             aria-label="Toggle mobile menu"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -123,6 +123,17 @@ export default function Navbar() {
               </Link>
             </li>
           </ul>
+
+          {/* Mobile Menu Action Button at the end */}
+          <div className="pt-3 border-t border-gray-200">
+            <Link
+              href="/contact"
+              className="w-full flex items-center justify-center gap-2 bg-[#0B45D8] hover:bg-[#093bb8] active:bg-[#072c91] text-white text-sm font-semibold py-2.5 px-4 rounded-lg shadow-sm transition-colors text-center"
+            >
+              <span>Get Started</span>
+              <span className="text-xs">&rarr;</span>
+            </Link>
+          </div>
         </div>
       </div>
     </header>
