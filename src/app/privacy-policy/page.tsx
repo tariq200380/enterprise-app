@@ -157,6 +157,120 @@ export default function PrivacyPolicyPage() {
               </li>
             </ul>
           </div>
+
+          {/* 5. Data Storage, Retention & Protection */}
+          <div className="space-y-4">
+            <h2 className="text-xl sm:text-2xl font-bold text-[#0B1220] tracking-tight">
+              <span className="text-[#0052FF] mr-2">5.</span>
+              Data Storage, Retention &amp; Protection
+            </h2>
+            <p className="text-slate-600 text-xs sm:text-[13px] sm:text-sm leading-relaxed font-normal">
+              We implement multi-layered technical controls to protect your data against unauthorized access, disclosure, alteration, or destruction. Form submissions are stored within protected, access-controlled backend database records and private storage structures that are strictly inaccessible to public HTTP traffic.
+            </p>
+            <p className="text-slate-600 text-xs sm:text-[13px] sm:text-sm leading-relaxed font-normal">
+              We retain inquiry and recruitment data only as long as necessary to fulfill the operational business purposes for which it was submitted, or as required by applicable legal and regulatory obligations.
+            </p>
+          </div>
+
+          {/* 6. Statutory Data Rights & GDPR Compliance */}
+          <div className="bg-[#EFF6FF] border border-[#BFDBFE]/80 rounded-lg p-6 sm:p-7 space-y-3">
+            <h3 className="text-base sm:text-lg font-bold text-[#0B1220] tracking-tight">
+              <span className="text-[#0052FF] mr-2">6.</span>
+              Statutory Data Rights &amp; GDPR Compliance
+            </h3>
+            <p className="text-slate-600 text-xs sm:text-[13px] leading-relaxed font-normal">
+              Depending on your jurisdiction (including the European Economic Area under EU GDPR Regulation 2016/679), you may hold statutory rights regarding your personal data, including the right to access, rectify, port, or request erasure of your data, or to restrict or object to certain processing.
+            </p>
+            <p className="text-slate-600 text-xs sm:text-[13px] leading-relaxed font-normal">
+              For an in-depth breakdown of our European data residency architecture, Data Protection Officer (DPO) contact, and Article 28 Data Processing Agreements, please review our dedicated{" "}
+              <Link
+                href="/security"
+                className="text-[#0052FF] font-semibold underline hover:text-[#0043D1] transition-colors"
+              >
+                European Privacy &amp; GDPR Compliance Center
+              </Link>
+              .
+            </p>
+          </div>
+
+          {/* 7. Third-Party Disclosure & External Links */}
+          <div className="space-y-4">
+            <h2 className="text-xl sm:text-2xl font-bold text-[#0B1220] tracking-tight">
+              <span className="text-[#0052FF] mr-2">7.</span>
+              Third-Party Disclosure &amp; External Links
+            </h2>
+            <p className="text-slate-600 text-xs sm:text-[13px] sm:text-sm leading-relaxed font-normal">
+              Creed Tech does not sell, rent, or trade your personal or business inquiry information to third-party advertisers or commercial data brokers. We may share information only with authorized infrastructure providers (such as secure hosting facilities) acting on our direct instructions under strict confidentiality commitments, or when required by valid legal process.
+            </p>
+            <p className="text-slate-600 text-xs sm:text-[13px] sm:text-sm leading-relaxed font-normal">
+              Our Website may include links to external websites and syndicated news sources. We encourage you to review the privacy policies of any third-party websites you visit.
+            </p>
+          </div>
+
+          {/* 8. Protection of Minors */}
+          <div className="space-y-4">
+            <h2 className="text-xl sm:text-2xl font-bold text-[#0B1220] tracking-tight">
+              <span className="text-[#0052FF] mr-2">8.</span>
+              Protection of Minors
+            </h2>
+            <p className="text-slate-600 text-xs sm:text-[13px] sm:text-sm leading-relaxed font-normal">
+              The Website and its engineering services are intended strictly for enterprise professionals, businesses, and adult job applicants. We do not knowingly collect personal data from individuals under 16 years of age.
+            </p>
+          </div>
+
+          {/* 9. Updates to This Policy */}
+          <div className="space-y-4">
+            <h2 className="text-xl sm:text-2xl font-bold text-[#0B1220] tracking-tight">
+              <span className="text-[#0052FF] mr-2">9.</span>
+              Updates to This Policy
+            </h2>
+            <p className="text-slate-600 text-xs sm:text-[13px] sm:text-sm leading-relaxed font-normal">
+              We may update this Privacy Policy periodically to reflect enhancements in our data practices, platform features, or legal requirements. Updates will be published on this page with a revised &ldquo;Last Updated&rdquo; timestamp.
+            </p>
+          </div>
+
+          {/* 10. Data Privacy Contacts */}
+          <div className="space-y-4">
+            <h2 className="text-xl sm:text-2xl font-bold text-[#0B1220] tracking-tight">
+              <span className="text-[#0052FF] mr-2">10.</span>
+              Data Privacy Contacts
+            </h2>
+            <p className="text-slate-600 text-xs sm:text-[13px] sm:text-sm leading-relaxed font-normal">
+              To exercise your statutory data rights, request information regarding your records, or submit data privacy inquiries:
+            </p>
+            <div className="bg-[#F8FAFC] border border-slate-200/80 rounded-lg p-6 space-y-1 text-slate-600 text-xs sm:text-[13px]">
+              <p className="text-slate-900 font-bold text-xs sm:text-[13px] mb-2">
+                Creed Tech Data Governance &amp; Privacy Office
+              </p>
+              <p>
+                Privacy Inquiries:{" "}
+                <a
+                  href="mailto:privacy@creed-tech.com"
+                  className="text-[#0052FF] font-semibold underline hover:text-[#0043D1] transition-colors"
+                >
+                  privacy@creed-tech.com
+                </a>
+              </p>
+              <p>
+                General Contact:{" "}
+                <a
+                  href="mailto:contact@creed-tech.com"
+                  className="text-[#0052FF] font-semibold underline hover:text-[#0043D1] transition-colors"
+                >
+                  contact@creed-tech.com
+                </a>
+              </p>
+              <p>
+                Security Center:{" "}
+                <Link
+                  href="/security"
+                  className="text-[#0052FF] font-semibold underline hover:text-[#0043D1] transition-colors"
+                >
+                  creed-tech.com/security
+                </Link>
+              </p>
+            </div>
+          </div>
         </div>
       </section>
     </div>
