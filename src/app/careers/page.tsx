@@ -209,6 +209,33 @@ export default function CareersPage() {
               </div>
             </div>
           </div>
+
+          {/* The Creed Tech Hiring Guarantee Banner Card */}
+          <div className="mt-10 sm:mt-12 rounded-xl bg-[#F4F8FF] border border-[#D3E4FE] p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-left">
+            <div className="flex items-center gap-3.5 sm:gap-4">
+              {/* Shield Icon */}
+              <div className="shrink-0 text-[#6B9AD6]">
+                <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="#93C5FD" fillOpacity="0.3" />
+                </svg>
+              </div>
+              <div>
+                <h4 className="text-sm sm:text-base font-bold text-[#1E3A8A]">
+                  The Creed Tech Hiring Guarantee
+                </h4>
+                <p className="text-xs sm:text-[13px] text-gray-600 mt-0.5 font-normal">
+                  Every candidate receives personalized feedback from a Principal Architect within 24 hours of every interview stage.
+                </p>
+              </div>
+            </div>
+            <Link
+              href="#roles"
+              className="text-xs sm:text-sm font-semibold text-[#0052FF] hover:text-blue-700 hover:underline transition-colors shrink-0 sm:ml-4 inline-flex items-center gap-1 whitespace-nowrap"
+            >
+              <span>View Upcoming Roles</span>
+              <span>&rarr;</span>
+            </Link>
+          </div>
         </div>
       </section>
     </div>
