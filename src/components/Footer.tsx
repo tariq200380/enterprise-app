@@ -255,25 +255,25 @@ export default function Footer() {
           {/* Right: 4 Security Badges */}
           <div className="order-1 sm:order-2 grid grid-cols-2 sm:flex sm:flex-row sm:items-center justify-center gap-3 w-full sm:w-auto mb-5 sm:mb-0">
             <Link
-              href="/security"
+              href="/security-iso-27001"
               className="w-full sm:w-28 h-8 flex items-center justify-center text-center text-xs font-medium rounded-[4px] bg-[#242424] text-[#F4F6F8]/90 border border-[#383838] transition-colors duration-150 hover:border-[#FF6B00] hover:text-[#FF6B00] hover:bg-[#FF6B00]/10 cursor-pointer select-none"
             >
               ISO 27001
             </Link>
             <Link
-              href="/security"
+              href="/security-gdpr"
               className="w-full sm:w-28 h-8 flex items-center justify-center text-center text-xs font-medium rounded-[4px] bg-[#242424] text-[#F4F6F8]/90 border border-[#383838] transition-colors duration-150 hover:border-[#FF6B00] hover:text-[#FF6B00] hover:bg-[#FF6B00]/10 cursor-pointer select-none"
             >
               GDPR
             </Link>
             <Link
-              href="/security"
+              href="/security#frameworks"
               className="w-full sm:w-28 h-8 flex items-center justify-center text-center text-xs font-medium rounded-[4px] bg-[#242424] text-[#F4F6F8]/90 border border-[#383838] transition-colors duration-150 hover:border-[#FF6B00] hover:text-[#FF6B00] hover:bg-[#FF6B00]/10 cursor-pointer select-none"
             >
               SOC 2
             </Link>
             <Link
-              href="/security"
+              href="/security#frameworks"
               className="w-full sm:w-28 h-8 flex items-center justify-center text-center text-xs font-medium rounded-[4px] bg-[#242424] text-[#F4F6F8]/90 border border-[#383838] transition-colors duration-150 hover:border-[#FF6B00] hover:text-[#FF6B00] hover:bg-[#FF6B00]/10 cursor-pointer select-none"
             >
               PCI-DSS

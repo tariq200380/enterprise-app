@@ -32,7 +32,7 @@ export default function SecurityPage() {
           {/* Action Buttons */}
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Link
-              href="#contact"
+              href="/contact"
               className="px-6 py-3.5 bg-[#0052FF] hover:bg-[#0043D1] text-white font-bold text-xs tracking-wider rounded uppercase transition-colors shadow-sm"
             >
               Request Security Architecture Overview
@@ -203,7 +203,7 @@ export default function SecurityPage() {
                     TRUST SERVICES READY
                   </span>
                   <Link
-                    href="#contact"
+                    href="/contact"
                     className="text-[#0052FF] hover:text-[#0043D1] text-xs font-semibold inline-flex items-center gap-1 transition-colors"
                   >
                     <span>View Architecture</span>
@@ -228,7 +228,7 @@ export default function SecurityPage() {
                   Framework Aligned
                 </span>
                 <Link
-                  href="#contact"
+                  href="/contact"
                   className="text-slate-800 text-xs font-semibold hover:text-[#0052FF] transition-colors"
                 >
                   Explore Full Breakdown
@@ -244,7 +244,7 @@ export default function SecurityPage() {
                     SCOPE REDUCED
                   </span>
                   <Link
-                    href="#contact"
+                    href="/contact"
                     className="text-[#0052FF] hover:text-[#0043D1] text-xs font-semibold inline-flex items-center gap-1 transition-colors"
                   >
                     <span>View Architecture</span>
@@ -269,7 +269,7 @@ export default function SecurityPage() {
                   Scope Optimized
                 </span>
                 <Link
-                  href="#contact"
+                  href="/contact"
                   className="text-slate-800 text-xs font-semibold hover:text-[#0052FF] transition-colors"
                 >
                   Explore Full Breakdown
