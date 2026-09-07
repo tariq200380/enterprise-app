@@ -144,7 +144,7 @@ export default function ServicesInteractiveExplorer() {
   const [activeSvcId, setActiveSvcId] = useState<ServiceId>("software-development");
   const [activeSubTab, setActiveSubTab] = useState<SubTabId>("overview");
 
-  // Sync with URL Hash on Mount and Hash changes
+  // Sync with URL Hash on Mount and PopState
   useEffect(() => {
     function parseHash(hashString: string): ServiceId {
       const clean = hashString.replace(/^#/, "").trim().toLowerCase();
@@ -189,6 +189,7 @@ export default function ServicesInteractiveExplorer() {
   }, []);
 
   const handleSelectSvc = (id: ServiceId) => {
+    if (id === activeSvcId) return;
     setActiveSvcId(id);
     setActiveSubTab("overview");
 
@@ -290,9 +291,12 @@ export default function ServicesInteractiveExplorer() {
             </button>
 
             {/* Mobile Active Service Card Display */}
-            <div className="relative bg-white border-2 border-[#0052FF] rounded-xl p-4 flex flex-col items-center justify-center text-center gap-2.5 shadow-[0_10px_24px_-4px_rgba(0,82,255,0.22)] h-[160px] animate-svc-fade">
+            <div
+              key={`m-${activeSvcId}`}
+              className="relative bg-white border-2 border-[#0052FF] rounded-xl p-4 flex flex-col items-center justify-center text-center gap-2.5 shadow-[0_10px_24px_-4px_rgba(0,82,255,0.22)] h-[160px] animate-header-enter"
+            >
               <div className="absolute top-0 left-[18%] right-[18%] h-[3.5px] rounded-b-[4px] bg-[#FF6B00]" />
-              <div className="w-[46px] h-[46px] rounded-xl bg-[#0052FF] text-white flex items-center justify-center">
+              <div className="w-[46px] h-[46px] rounded-xl bg-[#0052FF] text-white flex items-center justify-center shadow-sm">
                 <ServiceSelectorIcon id={activeSvcId} />
               </div>
               <div className="flex flex-col items-center">
@@ -334,25 +338,25 @@ export default function ServicesInteractiveExplorer() {
                   role="tab"
                   aria-selected={isActive}
                   tabIndex={isActive ? 0 : -1}
-                  className={`group relative bg-white rounded-xl py-3 px-2 flex flex-col items-center text-center gap-1.5 cursor-pointer outline-none transition-all duration-200 ${
+                  className={`group relative bg-white rounded-xl py-3 px-2 flex flex-col items-center text-center gap-1.5 cursor-pointer outline-none transition-all duration-300 ease-out active:scale-95 ${
                     isActive
-                      ? "border-2 border-[#0052FF] shadow-[0_10px_24px_-4px_rgba(0,82,255,0.22)] -translate-y-1"
-                      : "border border-[#D8E2ED] shadow-[0_2px_8px_rgba(15,23,42,0.04)] hover:-translate-y-[3px] hover:border-[#0052FF] hover:shadow-[0_10px_24px_-4px_rgba(15,23,42,0.1)]"
+                      ? "border-2 border-[#0052FF] shadow-[0_12px_28px_-4px_rgba(0,82,255,0.25)] -translate-y-1.5"
+                      : "border border-[#D8E2ED] shadow-[0_2px_8px_rgba(15,23,42,0.04)] hover:-translate-y-1 hover:border-[#0052FF] hover:shadow-[0_10px_24px_-4px_rgba(15,23,42,0.1)]"
                   }`}
                 >
                   {/* Top Bar Accent */}
                   <div
-                    className={`absolute top-0 left-[18%] right-[18%] h-[3.5px] rounded-b-[4px] transition-colors duration-200 ${
-                      isActive ? "bg-[#FF6B00]" : "bg-transparent"
+                    className={`absolute top-0 left-[18%] right-[18%] h-[3.5px] rounded-b-[4px] transition-all duration-300 ${
+                      isActive ? "bg-[#FF6B00] opacity-100 scale-x-100" : "bg-transparent opacity-0 scale-x-50"
                     }`}
                   />
 
                   {/* Icon Box */}
                   <div
-                    className={`w-[38px] h-[38px] rounded-[10px] flex items-center justify-center transition-all duration-200 ${
+                    className={`w-[38px] h-[38px] rounded-[10px] flex items-center justify-center transition-all duration-300 ease-out ${
                       isActive
-                        ? "bg-[#0052FF] border border-[#0052FF] text-white"
-                        : "bg-[#FFF3EB] border border-[#FFE4D3] text-[#FF6B00] group-hover:border-[#FFB787]"
+                        ? "bg-[#0052FF] border border-[#0052FF] text-white shadow-sm scale-105"
+                        : "bg-[#FFF3EB] border border-[#FFE4D3] text-[#FF6B00] group-hover:border-[#FFB787] group-hover:scale-105"
                     }`}
                   >
                     <ServiceSelectorIcon id={id} />
@@ -364,7 +368,7 @@ export default function ServicesInteractiveExplorer() {
                       {item.num}
                     </span>
                     <span
-                      className={`text-[13px] leading-tight transition-colors ${
+                      className={`text-[13px] leading-tight transition-colors duration-200 ${
                         isActive ? "font-bold text-[#0052FF]" : "font-semibold text-[#0F172A] group-hover:text-[#0052FF]"
                       }`}
                     >
@@ -384,7 +388,7 @@ export default function ServicesInteractiveExplorer() {
             <div className="relative flex flex-col gap-6 lg:sticky lg:top-[90px]">
               {/* Navigation Card */}
               <div className="bg-white border border-[#D8E2ED] rounded-2xl p-6 shadow-[0_4px_16px_rgba(15,23,42,0.04)]">
-                <div key={`sb-head-${activeSvcId}`} className="pb-4 mb-4 border-b border-[#E2E8F0] animate-svc-fade">
+                <div key={`sb-head-${activeSvcId}`} className="pb-4 mb-4 border-b border-[#E2E8F0] animate-header-enter">
                   <span className="text-[12px] font-bold text-[#FF6B00] tracking-[0.04em] block mb-1 leading-none">
                     {svc.num}
                   </span>
@@ -409,7 +413,10 @@ export default function ServicesInteractiveExplorer() {
                     </svg>
                   </button>
 
-                  <div className="bg-[#EFF6FF] border border-[#BFDBFE] rounded-lg px-3.5 py-2.5 flex items-center justify-center gap-2.5 text-[#0052FF] font-bold text-[16px] animate-svc-fade">
+                  <div
+                    key={`m-tab-${activeSubTab}`}
+                    className="bg-[#EFF6FF] border border-[#BFDBFE] rounded-lg px-3.5 py-2.5 flex items-center justify-center gap-2.5 text-[#0052FF] font-bold text-[16px] animate-header-enter"
+                  >
                     <span className="w-[7px] h-[7px] rounded-full bg-[#FF6B00] shadow-[0_0_0_3px_rgba(255,107,0,0.2)]" />
                     <span>{ORDERED_SUBTABS[activeSubTabIndex].label}</span>
                   </div>
@@ -440,9 +447,9 @@ export default function ServicesInteractiveExplorer() {
                         onClick={() => handleSelectSubTab(subTab.id)}
                         role="tab"
                         aria-selected={isTabActive}
-                        className={`w-full flex items-center gap-2.5 px-3.5 py-2.5 rounded-lg border transition-all duration-200 text-left text-[16px] leading-none cursor-pointer ${
+                        className={`w-full flex items-center gap-2.5 px-3.5 py-2.5 rounded-lg border transition-all duration-200 text-left text-[16px] leading-none cursor-pointer active:scale-[0.98] ${
                           isTabActive
-                            ? "bg-[#EFF6FF] border-[#BFDBFE] text-[#0052FF] font-bold"
+                            ? "bg-[#EFF6FF] border-[#BFDBFE] text-[#0052FF] font-bold shadow-xs"
                             : "bg-transparent border-transparent text-[#334155] font-semibold hover:bg-[#F1F5F9] hover:text-[#0F172A]"
                         }`}
                       >
@@ -463,7 +470,7 @@ export default function ServicesInteractiveExplorer() {
               {/* Sticky Start Project Card (Hidden on mobile < lg) */}
               <div
                 key={`sb-cta-${activeSvcId}`}
-                className="hidden lg:block bg-white border border-[#D8E2ED] rounded-[14px] p-6 shadow-[0_2px_10px_rgba(15,23,42,0.03)] animate-svc-fade"
+                className="hidden lg:block bg-white border border-[#D8E2ED] rounded-[14px] p-6 shadow-[0_2px_10px_rgba(15,23,42,0.03)] animate-header-enter"
               >
                 <h4 className="text-[18px] font-bold text-[#0F172A] mb-2 leading-snug">
                   {svc.cta.heading}
@@ -482,14 +489,16 @@ export default function ServicesInteractiveExplorer() {
             </div>
           </aside>
 
-          {/* Right Column: Dynamic Content Pane with Pure CSS Keyframe Animation */}
+          {/* Right Column: Dynamic Content Pane */}
           <main className="w-full">
             <div
-              key={`${activeSvcId}-${activeSubTab}`}
-              className="bg-white border border-[#D8E2ED] rounded-2xl p-6 sm:p-8 shadow-[0_4px_20px_-2px_rgba(15,23,42,0.05)] min-h-[400px] animate-svc-fade"
+              className="bg-white border border-[#D8E2ED] rounded-2xl p-6 sm:p-8 shadow-[0_4px_20px_-2px_rgba(15,23,42,0.05)] min-h-[400px] transition-all duration-300"
             >
               {/* Header Badge + Title + Subtitle + Description + Divider */}
-              <div className="pb-6 mb-6 border-b border-[#E2E8F0]">
+              <div
+                key={`header-${activeSvcId}-${activeSubTab}`}
+                className="pb-6 mb-6 border-b border-[#E2E8F0] animate-header-enter"
+              >
                 <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#FFF3EB] border border-[#FFD8BE] rounded-md text-[#FF6B00] text-[12px] font-bold tracking-[0.04em] leading-none mb-3">
                   <span>SERVICE {svc.num} / 08</span>
                 </div>
@@ -511,8 +520,9 @@ export default function ServicesInteractiveExplorer() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                   {svc.overview.map((item, idx) => (
                     <div
-                      key={idx}
-                      className="bg-[#F8FAFC] border border-[#E2E8F0] hover:border-[#CBD5E1] rounded-[14px] p-7 h-full flex flex-col shadow-[0_2px_8px_rgba(15,23,42,0.02)] hover:-translate-y-[3px] hover:shadow-[0_8px_20px_-2px_rgba(15,23,42,0.08)] transition-all"
+                      key={`${activeSvcId}-ov-${idx}`}
+                      style={{ animationDelay: `${idx * 45}ms` }}
+                      className="bg-[#F8FAFC] border border-[#E2E8F0] hover:border-[#CBD5E1] rounded-[14px] p-7 h-full flex flex-col shadow-[0_2px_8px_rgba(15,23,42,0.02)] hover:-translate-y-1.5 hover:shadow-[0_12px_24px_-4px_rgba(15,23,42,0.1)] transition-all duration-300 ease-out animate-card-enter cursor-default"
                     >
                       <div className="flex items-center justify-between mb-4">
                         <span className="text-[11px] font-extrabold text-[#0052FF] bg-[#EFF6FF] border border-[#DBEAFE] px-2.5 py-1 rounded uppercase tracking-[0.04em]">
@@ -536,8 +546,9 @@ export default function ServicesInteractiveExplorer() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
                   {svc.servicesList.map((item, idx) => (
                     <div
-                      key={idx}
-                      className="bg-[#F8FAFC] border border-[#E2E8F0] hover:border-[#CBD5E1] rounded-[14px] p-7 h-full flex flex-col shadow-[0_2px_8px_rgba(15,23,42,0.02)] hover:-translate-y-[3px] hover:shadow-[0_8px_20px_-2px_rgba(15,23,42,0.08)] transition-all"
+                      key={`${activeSvcId}-svc-${idx}`}
+                      style={{ animationDelay: `${idx * 40}ms` }}
+                      className="bg-[#F8FAFC] border border-[#E2E8F0] hover:border-[#CBD5E1] rounded-[14px] p-7 h-full flex flex-col shadow-[0_2px_8px_rgba(15,23,42,0.02)] hover:-translate-y-1.5 hover:shadow-[0_12px_24px_-4px_rgba(15,23,42,0.1)] transition-all duration-300 ease-out animate-card-enter cursor-default"
                     >
                       <div className="flex items-start gap-4 mb-3">
                         <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#EFF6FF] border border-[#BFDBFE] text-[#0052FF] shrink-0">
@@ -570,8 +581,9 @@ export default function ServicesInteractiveExplorer() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
                   {svc.benefitCards.map((item, idx) => (
                     <div
-                      key={idx}
-                      className="bg-[#F8FAFC] border border-[#E2E8F0] hover:border-[#CBD5E1] rounded-[14px] p-7 h-full flex flex-col shadow-[0_2px_8px_rgba(15,23,42,0.02)] hover:-translate-y-[3px] hover:shadow-[0_8px_20px_-2px_rgba(15,23,42,0.08)] transition-all"
+                      key={`${activeSvcId}-ben-${idx}`}
+                      style={{ animationDelay: `${idx * 40}ms` }}
+                      className="bg-[#F8FAFC] border border-[#E2E8F0] hover:border-[#CBD5E1] rounded-[14px] p-7 h-full flex flex-col shadow-[0_2px_8px_rgba(15,23,42,0.02)] hover:-translate-y-1.5 hover:shadow-[0_12px_24px_-4px_rgba(15,23,42,0.1)] transition-all duration-300 ease-out animate-card-enter cursor-default"
                     >
                       <div className="flex items-start gap-4 mb-3">
                         <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#EFF6FF] border border-[#BFDBFE] text-[#0052FF] shrink-0">
@@ -604,8 +616,9 @@ export default function ServicesInteractiveExplorer() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
                   {svc.process.map((st, idx) => (
                     <div
-                      key={idx}
-                      className="bg-[#F8FAFC] border border-[#E2E8F0] border-t-[3.5px] border-t-[#0052FF] hover:border-t-[#FF6B00] hover:border-[#CBD5E1] rounded-[14px] p-7 h-full flex flex-col shadow-[0_2px_8px_rgba(15,23,42,0.02)] hover:-translate-y-[3px] hover:shadow-[0_8px_20px_-2px_rgba(15,23,42,0.08)] transition-all"
+                      key={`${activeSvcId}-proc-${idx}`}
+                      style={{ animationDelay: `${idx * 40}ms` }}
+                      className="bg-[#F8FAFC] border border-[#E2E8F0] border-t-[3.5px] border-t-[#0052FF] hover:border-t-[#FF6B00] hover:border-[#CBD5E1] rounded-[14px] p-7 h-full flex flex-col shadow-[0_2px_8px_rgba(15,23,42,0.02)] hover:-translate-y-1.5 hover:shadow-[0_12px_24px_-4px_rgba(15,23,42,0.1)] transition-all duration-300 ease-out animate-card-enter cursor-default"
                     >
                       <div className="flex items-center gap-3 mb-3">
                         <span className="text-[11px] font-extrabold text-[#0052FF] bg-[#EFF6FF] border border-[#DBEAFE] px-2 py-0.5 rounded">
@@ -628,8 +641,9 @@ export default function ServicesInteractiveExplorer() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
                   {svc.resultCards.map((item, idx) => (
                     <div
-                      key={idx}
-                      className="bg-[#F0F7FF] border border-[#CFE2FE] border-t-[3.5px] border-t-[#FF6B00] hover:border-[#0052FF] rounded-[14px] p-7 h-full flex flex-col shadow-[0_4px_14px_rgba(0,82,255,0.05)] hover:-translate-y-[3px] hover:shadow-[0_10px_24px_-2px_rgba(0,82,255,0.12)] transition-all"
+                      key={`${activeSvcId}-res-${idx}`}
+                      style={{ animationDelay: `${idx * 40}ms` }}
+                      className="bg-[#F0F7FF] border border-[#CFE2FE] border-t-[3.5px] border-t-[#FF6B00] hover:border-[#0052FF] rounded-[14px] p-7 h-full flex flex-col shadow-[0_4px_14px_rgba(0,82,255,0.05)] hover:-translate-y-1.5 hover:shadow-[0_12px_24px_-2px_rgba(0,82,255,0.15)] transition-all duration-300 ease-out animate-card-enter cursor-default"
                     >
                       <div className="flex items-start gap-3.5 mb-3">
                         <span className="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-[#DBEAFE] border border-[#BFDBFE] text-[#0052FF] shrink-0">
@@ -663,10 +677,12 @@ export default function ServicesInteractiveExplorer() {
 
         {/* TECH STACK SECTION: TECH ECOSYSTEM */}
         <div
-          key={`tech-${activeSvcId}`}
-          className="bg-white border border-[#D8E2ED] rounded-2xl p-7 sm:p-8 shadow-[0_4px_16px_rgba(15,23,42,0.03)] animate-svc-fade"
+          className="bg-white border border-[#D8E2ED] rounded-2xl p-7 sm:p-8 shadow-[0_4px_16px_rgba(15,23,42,0.03)] transition-all duration-300"
         >
-          <div className="text-center max-w-[850px] mx-auto mb-8">
+          <div
+            key={`tech-hdr-${activeSvcId}`}
+            className="text-center max-w-[850px] mx-auto mb-8 animate-header-enter"
+          >
             <h3 className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-[-0.02em] mb-1.5 leading-tight">
               Tech <span className="text-[#0052FF]">Ecosystem</span>
             </h3>
@@ -678,7 +694,7 @@ export default function ServicesInteractiveExplorer() {
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4 sm:gap-5">
-            {svc.techStack.map((techName) => {
+            {svc.techStack.map((techName, idx) => {
               const iconSvg =
                 TECH_ICONS[techName.toUpperCase()] ||
                 TECH_ICONS[techName] ||
@@ -686,8 +702,9 @@ export default function ServicesInteractiveExplorer() {
 
               return (
                 <div
-                  key={techName}
-                  className="bg-white border border-[#E2E8F0] hover:border-[#0052FF] rounded-xl p-4 sm:p-5 flex flex-col items-center justify-center text-center h-full min-h-[104px] shadow-[0_2px_6px_rgba(15,23,42,0.02)] hover:-translate-y-[3px] hover:shadow-[0_8px_18px_-2px_rgba(0,82,255,0.12)] transition-all cursor-default"
+                  key={`${activeSvcId}-${techName}`}
+                  style={{ animationDelay: `${idx * 35}ms` }}
+                  className="bg-white border border-[#E2E8F0] hover:border-[#0052FF] rounded-xl p-4 sm:p-5 flex flex-col items-center justify-center text-center h-full min-h-[104px] shadow-[0_2px_6px_rgba(15,23,42,0.02)] hover:-translate-y-1.5 hover:shadow-[0_10px_22px_-2px_rgba(0,82,255,0.15)] transition-all duration-300 ease-out animate-card-enter cursor-default"
                 >
                   <div className="w-10 h-10 flex items-center justify-center mb-3 [&>svg]:w-9 [&>svg]:h-9 [&>svg]:object-contain">
                     {iconSvg ? (

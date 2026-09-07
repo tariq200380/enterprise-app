@@ -158,20 +158,39 @@ body {
   transform: translateX(4px) !important;
 }
 
-/* Services Interactive Explorer: Smooth Entrance Animation on Service/Tab Switch */
-@keyframes svcFadeSlide {
+/* Services Interactive Explorer: Smooth Entrance & Staggered Animations */
+@keyframes svcCardEnter {
   0% {
-    opacity: 0.15;
-    transform: translateY(8px);
+    opacity: 0;
+    transform: translate3d(0, 14px, 0) scale(0.98);
+  }
+  60% {
+    opacity: 0.9;
   }
   100% {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0) scale(1);
   }
 }
 
-.animate-svc-fade {
-  animation: svcFadeSlide 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+@keyframes svcHeaderEnter {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -6px, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.animate-card-enter {
+  animation: svcCardEnter 0.38s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: transform, opacity;
+}
+
+.animate-header-enter {
+  animation: svcHeaderEnter 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
   will-change: transform, opacity;
 }
 
