@@ -158,4 +158,22 @@ body {
   transform: translateX(4px) !important;
 }
 
+/* Services Interactive Explorer: Smooth Entrance Animation on Service/Tab Switch */
+@keyframes svcFadeSlide {
+  0% {
+    opacity: 0.15;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-svc-fade {
+  animation: svcFadeSlide 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: transform, opacity;
+}
+
+
 

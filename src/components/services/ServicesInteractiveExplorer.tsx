@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   ORDERED_SVCS,
@@ -142,13 +142,9 @@ function ServiceSelectorIcon({ id }: { id: ServiceId }) {
 
 export default function ServicesInteractiveExplorer() {
   const [activeSvcId, setActiveSvcId] = useState<ServiceId>("software-development");
-  const [displayedSvcId, setDisplayedSvcId] = useState<ServiceId>("software-development");
   const [activeSubTab, setActiveSubTab] = useState<SubTabId>("overview");
-  const [displayedSubTab, setDisplayedSubTab] = useState<SubTabId>("overview");
-  const [isSwitching, setIsSwitching] = useState(false);
-  const switchTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Sync with URL Hash on Mount and PopState
+  // Sync with URL Hash on Mount and Hash changes
   useEffect(() => {
     function parseHash(hashString: string): ServiceId {
       const clean = hashString.replace(/^#/, "").trim().toLowerCase();
@@ -174,13 +170,13 @@ export default function ServicesInteractiveExplorer() {
     const initial = parseHash(window.location.hash);
     if (initial) {
       setActiveSvcId(initial);
-      setDisplayedSvcId(initial);
     }
 
     const handleHashChange = () => {
       const updated = parseHash(window.location.hash);
-      if (updated && updated !== activeSvcId) {
-        handleSelectSvc(updated);
+      if (updated) {
+        setActiveSvcId(updated);
+        setActiveSubTab("overview");
       }
     };
 
@@ -189,16 +185,10 @@ export default function ServicesInteractiveExplorer() {
     return () => {
       window.removeEventListener("hashchange", handleHashChange);
       window.removeEventListener("popstate", handleHashChange);
-      if (switchTimerRef.current) {
-        clearTimeout(switchTimerRef.current);
-      }
     };
-  }, [activeSvcId]);
+  }, []);
 
   const handleSelectSvc = (id: ServiceId) => {
-    if (id === activeSvcId && id === displayedSvcId) return;
-
-    // 1. Instantly update active highlight on the selector card
     setActiveSvcId(id);
     setActiveSubTab("overview");
 
@@ -207,46 +197,10 @@ export default function ServicesInteractiveExplorer() {
         window.history.replaceState(null, "", `#${id}`);
       }
     } catch {}
-
-    // 2. Smoothly fade out both main content and tech stack
-    if (switchTimerRef.current) {
-      clearTimeout(switchTimerRef.current);
-    }
-    setIsSwitching(true);
-
-    // 3. Swap the displayed content after fade out duration (140ms)
-    switchTimerRef.current = setTimeout(() => {
-      setDisplayedSvcId(id);
-      setDisplayedSubTab("overview");
-
-      // 4. Smoothly fade in and slide up
-      requestAnimationFrame(() => {
-        setIsSwitching(false);
-      });
-    }, 140);
   };
 
   const handleSelectSubTab = (tab: SubTabId) => {
-    if (tab === activeSubTab && tab === displayedSubTab) return;
-
-    // 1. Instantly highlight subtab button
     setActiveSubTab(tab);
-
-    // 2. Smoothly fade out content
-    if (switchTimerRef.current) {
-      clearTimeout(switchTimerRef.current);
-    }
-    setIsSwitching(true);
-
-    // 3. Swap subtab content after fade out
-    switchTimerRef.current = setTimeout(() => {
-      setDisplayedSubTab(tab);
-
-      // 4. Fade in
-      requestAnimationFrame(() => {
-        setIsSwitching(false);
-      });
-    }, 140);
   };
 
   const handleNavigateService = (dir: "prev" | "next") => {
@@ -265,7 +219,7 @@ export default function ServicesInteractiveExplorer() {
     }
   };
 
-  const svc = SVCS[displayedSvcId];
+  const svc = SVCS[activeSvcId];
   const activeSvcIndex = ORDERED_SVCS.indexOf(activeSvcId);
   const activeSubTabIndex = ORDERED_SUBTABS.findIndex((t) => t.id === activeSubTab);
 
@@ -274,19 +228,19 @@ export default function ServicesInteractiveExplorer() {
   let paneSubtitle = svc.tagline || "";
   let paneDesc = svc.intro || "";
 
-  if (displayedSubTab === "services" && svc.subHeadings.services) {
+  if (activeSubTab === "services" && svc.subHeadings.services) {
     paneTitle = svc.subHeadings.services;
     paneSubtitle = "";
     paneDesc = svc.subHeadings.servicesDesc || "";
-  } else if (displayedSubTab === "benefits" && svc.subHeadings.benefits) {
+  } else if (activeSubTab === "benefits" && svc.subHeadings.benefits) {
     paneTitle = svc.subHeadings.benefits;
     paneSubtitle = "";
     paneDesc = svc.subHeadings.benefitsDesc || "";
-  } else if (displayedSubTab === "process" && svc.subHeadings.process) {
+  } else if (activeSubTab === "process" && svc.subHeadings.process) {
     paneTitle = svc.subHeadings.process;
     paneSubtitle = "";
     paneDesc = svc.subHeadings.processDesc || "";
-  } else if (displayedSubTab === "proven" && svc.subHeadings.results) {
+  } else if (activeSubTab === "proven" && svc.subHeadings.results) {
     paneTitle = svc.subHeadings.results;
     paneSubtitle = "";
     paneDesc = svc.subHeadings.resultsDesc || "";
@@ -327,7 +281,7 @@ export default function ServicesInteractiveExplorer() {
               aria-label="Previous service"
               disabled={activeSvcIndex === 0}
               className={`w-10 h-10 rounded-full bg-white border border-[#CBD5E1] text-[#0052FF] flex items-center justify-center shadow-[0_4px_14px_rgba(15,23,42,0.15)] transition-all ${
-                activeSvcIndex === 0 ? "invisible pointer-events-none" : "hover:scale-105 active:scale-95"
+                activeSvcIndex === 0 ? "invisible pointer-events-none" : "hover:scale-105 active:scale-95 cursor-pointer"
               }`}
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
@@ -336,17 +290,17 @@ export default function ServicesInteractiveExplorer() {
             </button>
 
             {/* Mobile Active Service Card Display */}
-            <div className="relative bg-white border-2 border-[#0052FF] rounded-xl p-4 flex flex-col items-center justify-center text-center gap-2.5 shadow-[0_10px_24px_-4px_rgba(0,82,255,0.22)] h-[160px] transition-all duration-200">
+            <div className="relative bg-white border-2 border-[#0052FF] rounded-xl p-4 flex flex-col items-center justify-center text-center gap-2.5 shadow-[0_10px_24px_-4px_rgba(0,82,255,0.22)] h-[160px] animate-svc-fade">
               <div className="absolute top-0 left-[18%] right-[18%] h-[3.5px] rounded-b-[4px] bg-[#FF6B00]" />
               <div className="w-[46px] h-[46px] rounded-xl bg-[#0052FF] text-white flex items-center justify-center">
                 <ServiceSelectorIcon id={activeSvcId} />
               </div>
               <div className="flex flex-col items-center">
                 <span className="text-[12px] font-bold text-[#FF6B00] tracking-[0.04em] leading-none mb-1">
-                  {SVCS[activeSvcId].num}
+                  {svc.num}
                 </span>
                 <span className="text-[16px] font-bold text-[#0052FF] leading-snug">
-                  {SVCS[activeSvcId].name}
+                  {svc.name}
                 </span>
               </div>
             </div>
@@ -358,7 +312,7 @@ export default function ServicesInteractiveExplorer() {
               aria-label="Next service"
               disabled={activeSvcIndex === ORDERED_SVCS.length - 1}
               className={`w-10 h-10 rounded-full bg-white border border-[#CBD5E1] text-[#0052FF] flex items-center justify-center shadow-[0_4px_14px_rgba(15,23,42,0.15)] transition-all ${
-                activeSvcIndex === ORDERED_SVCS.length - 1 ? "invisible pointer-events-none" : "hover:scale-105 active:scale-95"
+                activeSvcIndex === ORDERED_SVCS.length - 1 ? "invisible pointer-events-none" : "hover:scale-105 active:scale-95 cursor-pointer"
               }`}
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
@@ -430,11 +384,7 @@ export default function ServicesInteractiveExplorer() {
             <div className="relative flex flex-col gap-6 lg:sticky lg:top-[90px]">
               {/* Navigation Card */}
               <div className="bg-white border border-[#D8E2ED] rounded-2xl p-6 shadow-[0_4px_16px_rgba(15,23,42,0.04)]">
-                <div
-                  className={`pb-4 mb-4 border-b border-[#E2E8F0] transition-opacity duration-200 ${
-                    isSwitching ? "opacity-30" : "opacity-100"
-                  }`}
-                >
+                <div key={`sb-head-${activeSvcId}`} className="pb-4 mb-4 border-b border-[#E2E8F0] animate-svc-fade">
                   <span className="text-[12px] font-bold text-[#FF6B00] tracking-[0.04em] block mb-1 leading-none">
                     {svc.num}
                   </span>
@@ -451,7 +401,7 @@ export default function ServicesInteractiveExplorer() {
                     aria-label="Previous section"
                     disabled={activeSubTabIndex === 0}
                     className={`w-[34px] h-[34px] rounded-full bg-white border border-[#CBD5E1] text-[#0052FF] flex items-center justify-center shadow-[0_2px_8px_rgba(0,82,255,0.15)] transition-all ${
-                      activeSubTabIndex === 0 ? "invisible pointer-events-none" : "hover:scale-105 active:scale-95"
+                      activeSubTabIndex === 0 ? "invisible pointer-events-none" : "hover:scale-105 active:scale-95 cursor-pointer"
                     }`}
                   >
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
@@ -459,7 +409,7 @@ export default function ServicesInteractiveExplorer() {
                     </svg>
                   </button>
 
-                  <div className="bg-[#EFF6FF] border border-[#BFDBFE] rounded-lg px-3.5 py-2.5 flex items-center justify-center gap-2.5 text-[#0052FF] font-bold text-[16px]">
+                  <div className="bg-[#EFF6FF] border border-[#BFDBFE] rounded-lg px-3.5 py-2.5 flex items-center justify-center gap-2.5 text-[#0052FF] font-bold text-[16px] animate-svc-fade">
                     <span className="w-[7px] h-[7px] rounded-full bg-[#FF6B00] shadow-[0_0_0_3px_rgba(255,107,0,0.2)]" />
                     <span>{ORDERED_SUBTABS[activeSubTabIndex].label}</span>
                   </div>
@@ -470,7 +420,7 @@ export default function ServicesInteractiveExplorer() {
                     aria-label="Next section"
                     disabled={activeSubTabIndex === ORDERED_SUBTABS.length - 1}
                     className={`w-[34px] h-[34px] rounded-full bg-white border border-[#CBD5E1] text-[#0052FF] flex items-center justify-center shadow-[0_2px_8px_rgba(0,82,255,0.15)] transition-all ${
-                      activeSubTabIndex === ORDERED_SUBTABS.length - 1 ? "invisible pointer-events-none" : "hover:scale-105 active:scale-95"
+                      activeSubTabIndex === ORDERED_SUBTABS.length - 1 ? "invisible pointer-events-none" : "hover:scale-105 active:scale-95 cursor-pointer"
                     }`}
                   >
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
@@ -490,7 +440,7 @@ export default function ServicesInteractiveExplorer() {
                         onClick={() => handleSelectSubTab(subTab.id)}
                         role="tab"
                         aria-selected={isTabActive}
-                        className={`w-full flex items-center gap-2.5 px-3.5 py-2.5 rounded-lg border transition-all duration-200 text-left text-[16px] leading-none ${
+                        className={`w-full flex items-center gap-2.5 px-3.5 py-2.5 rounded-lg border transition-all duration-200 text-left text-[16px] leading-none cursor-pointer ${
                           isTabActive
                             ? "bg-[#EFF6FF] border-[#BFDBFE] text-[#0052FF] font-bold"
                             : "bg-transparent border-transparent text-[#334155] font-semibold hover:bg-[#F1F5F9] hover:text-[#0F172A]"
@@ -512,9 +462,8 @@ export default function ServicesInteractiveExplorer() {
 
               {/* Sticky Start Project Card (Hidden on mobile < lg) */}
               <div
-                className={`hidden lg:block bg-white border border-[#D8E2ED] rounded-[14px] p-6 shadow-[0_2px_10px_rgba(15,23,42,0.03)] transition-all duration-300 ease-out ${
-                  isSwitching ? "opacity-40 translate-y-1" : "opacity-100 translate-y-0"
-                }`}
+                key={`sb-cta-${activeSvcId}`}
+                className="hidden lg:block bg-white border border-[#D8E2ED] rounded-[14px] p-6 shadow-[0_2px_10px_rgba(15,23,42,0.03)] animate-svc-fade"
               >
                 <h4 className="text-[18px] font-bold text-[#0F172A] mb-2 leading-snug">
                   {svc.cta.heading}
@@ -533,12 +482,11 @@ export default function ServicesInteractiveExplorer() {
             </div>
           </aside>
 
-          {/* Right Column: Dynamic Content Pane with Silky Smooth Transition */}
+          {/* Right Column: Dynamic Content Pane with Pure CSS Keyframe Animation */}
           <main className="w-full">
             <div
-              className={`bg-white border border-[#D8E2ED] rounded-2xl p-6 sm:p-8 shadow-[0_4px_20px_-2px_rgba(15,23,42,0.05)] min-h-[400px] transition-all duration-300 ease-out will-change-[opacity,transform] ${
-                isSwitching ? "opacity-0 translate-y-3 pointer-events-none" : "opacity-100 translate-y-0 pointer-events-auto"
-              }`}
+              key={`${activeSvcId}-${activeSubTab}`}
+              className="bg-white border border-[#D8E2ED] rounded-2xl p-6 sm:p-8 shadow-[0_4px_20px_-2px_rgba(15,23,42,0.05)] min-h-[400px] animate-svc-fade"
             >
               {/* Header Badge + Title + Subtitle + Description + Divider */}
               <div className="pb-6 mb-6 border-b border-[#E2E8F0]">
@@ -559,7 +507,7 @@ export default function ServicesInteractiveExplorer() {
               </div>
 
               {/* TAB 1: OVERVIEW (4 Cards: 2-Column Grid) */}
-              {displayedSubTab === "overview" && (
+              {activeSubTab === "overview" && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                   {svc.overview.map((item, idx) => (
                     <div
@@ -584,7 +532,7 @@ export default function ServicesInteractiveExplorer() {
               )}
 
               {/* TAB 2: SERVICES (6 Cards: 3-Column Grid) */}
-              {displayedSubTab === "services" && (
+              {activeSubTab === "services" && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
                   {svc.servicesList.map((item, idx) => (
                     <div
@@ -618,7 +566,7 @@ export default function ServicesInteractiveExplorer() {
               )}
 
               {/* TAB 3: BENEFITS (6 Cards: 3-Column Grid) */}
-              {displayedSubTab === "benefits" && (
+              {activeSubTab === "benefits" && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
                   {svc.benefitCards.map((item, idx) => (
                     <div
@@ -652,7 +600,7 @@ export default function ServicesInteractiveExplorer() {
               )}
 
               {/* TAB 4: PROCESS (6 Step Cards: 3-Column Grid) */}
-              {displayedSubTab === "process" && (
+              {activeSubTab === "process" && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
                   {svc.process.map((st, idx) => (
                     <div
@@ -676,7 +624,7 @@ export default function ServicesInteractiveExplorer() {
               )}
 
               {/* TAB 5: RESULTS (6 Cards: 3-Column Grid, Premium Light-Blue Style) */}
-              {displayedSubTab === "proven" && (
+              {activeSubTab === "proven" && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
                   {svc.resultCards.map((item, idx) => (
                     <div
@@ -713,11 +661,10 @@ export default function ServicesInteractiveExplorer() {
           </main>
         </div>
 
-        {/* TECH STACK SECTION: TECH ECOSYSTEM with Synchronized Smooth Transition */}
+        {/* TECH STACK SECTION: TECH ECOSYSTEM */}
         <div
-          className={`bg-white border border-[#D8E2ED] rounded-2xl p-7 sm:p-8 shadow-[0_4px_16px_rgba(15,23,42,0.03)] transition-all duration-300 ease-out will-change-[opacity,transform] ${
-            isSwitching ? "opacity-0 translate-y-3 pointer-events-none" : "opacity-100 translate-y-0 pointer-events-auto"
-          }`}
+          key={`tech-${activeSvcId}`}
+          className="bg-white border border-[#D8E2ED] rounded-2xl p-7 sm:p-8 shadow-[0_4px_16px_rgba(15,23,42,0.03)] animate-svc-fade"
         >
           <div className="text-center max-w-[850px] mx-auto mb-8">
             <h3 className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-[-0.02em] mb-1.5 leading-tight">
