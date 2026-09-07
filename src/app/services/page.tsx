@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import ProjectDeliveryProcess from "@/components/services/ProjectDeliveryProcess";
-import WhatWeProvide from "@/components/home/WhatWeProvide";
+import ServicesInteractiveExplorer from "@/components/services/ServicesInteractiveExplorer";
 import HowWeDeliver from "@/components/home/HowWeDeliver";
 import ContactCta from "@/components/home/ContactCta";
 
@@ -65,7 +65,9 @@ export default function ServicesPage() {
       {/* 2. Project Delivery Process */}
       <ProjectDeliveryProcess />
 
-      <WhatWeProvide />
+      {/* 3. Services Interactive Selector & Detail Section */}
+      <ServicesInteractiveExplorer />
+
       <HowWeDeliver />
       <ContactCta />
     </>
