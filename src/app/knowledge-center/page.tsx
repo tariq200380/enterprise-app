@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import KnowledgeHero from "@/components/knowledge-center/KnowledgeHero";
+import LatestTechNews from "@/components/knowledge-center/LatestTechNews";
 
 export const metadata: Metadata = {
   title: "Enterprise Knowledge Center & Tech Intelligence | Creed Tech",
@@ -11,6 +12,7 @@ export default function KnowledgeCenterPage() {
   return (
     <>
       <KnowledgeHero />
+      <LatestTechNews />
     </>
   );
 }
