@@ -4,7 +4,8 @@ import ProjectDeliveryProcess from "@/components/services/ProjectDeliveryProcess
 import ServicesInteractiveExplorer from "@/components/services/ServicesInteractiveExplorer";
 import SolutionAreas from "@/components/services/SolutionAreas";
 import DeliveryCommitment from "@/components/services/DeliveryCommitment";
-import ContactCta from "@/components/home/ContactCta";
+import IndustriesWeSupport from "@/components/services/IndustriesWeSupport";
+import ServicesVisionCta from "@/components/services/ServicesVisionCta";
 
 export const metadata: Metadata = {
   title: "Enterprise Services & Engineering Solutions | Creed Tech",
@@ -75,7 +76,11 @@ export default function ServicesPage() {
       {/* 5. Our Delivery Commitment */}
       <DeliveryCommitment />
 
-      <ContactCta />
+      {/* 6. Industries We Support */}
+      <IndustriesWeSupport />
+
+      {/* 7. Final CTA: Vision to Life */}
+      <ServicesVisionCta />
     </>
   );
 }
