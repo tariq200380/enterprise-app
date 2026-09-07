@@ -3,6 +3,7 @@ import KnowledgeHero from "@/components/knowledge-center/KnowledgeHero";
 import LatestTechNews from "@/components/knowledge-center/LatestTechNews";
 import BrandTechWires from "@/components/knowledge-center/BrandTechWires";
 import RegionalTechEcosystem from "@/components/knowledge-center/RegionalTechEcosystem";
+import KnowledgeOverviewGrid from "@/components/knowledge-center/KnowledgeOverviewGrid";
 
 export const metadata: Metadata = {
   title: "Enterprise Knowledge Center & Tech Intelligence | Creed Tech",
@@ -17,6 +18,7 @@ export default function KnowledgeCenterPage() {
       <LatestTechNews />
       <BrandTechWires />
       <RegionalTechEcosystem />
+      <KnowledgeOverviewGrid />
     </>
   );
 }
