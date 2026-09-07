@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import ProjectDeliveryProcess from "@/components/services/ProjectDeliveryProcess";
 import WhatWeProvide from "@/components/home/WhatWeProvide";
 import HowWeDeliver from "@/components/home/HowWeDeliver";
 import ContactCta from "@/components/home/ContactCta";
@@ -51,7 +52,7 @@ export default function ServicesPage() {
                 Start Your Project
               </Link>
               <Link
-                href="#what-we-provide"
+                href="#delivery-process"
                 className="inline-flex items-center justify-center bg-white hover:bg-gray-50 border-2 border-[#0052FF] text-[#0052FF] hover:text-[#0043D6] font-bold text-xs sm:text-sm h-10 sm:h-11 px-3 sm:px-5 rounded-md shadow-sm transition-all duration-200 text-center whitespace-nowrap"
               >
                 Explore Services &darr;
@@ -60,6 +61,10 @@ export default function ServicesPage() {
           </div>
         </div>
       </section>
+
+      {/* 2. Project Delivery Process */}
+      <ProjectDeliveryProcess />
+
       <WhatWeProvide />
       <HowWeDeliver />
       <ContactCta />
