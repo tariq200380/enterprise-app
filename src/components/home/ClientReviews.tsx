@@ -50,23 +50,8 @@ export default function ClientReviews() {
             </div>
 
             <div className="pt-4 space-y-4">
-              <div className="flex flex-col sm:flex-row items-center gap-3.5 w-full sm:w-auto">
-                <button
-                  type="button"
-                  id="open-consult-btn"
-                  className="inline-flex items-center justify-center bg-[#FF6B00] hover:bg-[#E05D00] text-white font-semibold text-sm h-10 px-6 rounded transition-colors text-center w-full sm:w-[220px] cursor-pointer shadow-xs"
-                >
-                  Schedule Consultation
-                </button>
-                <button
-                  type="button"
-                  id="open-review-btn"
-                  className="inline-flex items-center justify-center gap-2 bg-[#111827] hover:bg-black text-white font-semibold text-[13.5px] h-10 px-5 rounded border border-gray-700 transition-colors text-center w-full sm:w-[220px] cursor-pointer shadow-xs"
-                >
-                  <span className="text-[#FFAA00]">★</span>
-                  <span>Write a Client Review</span>
-                </button>
-              </div>
+              {/* Simple Testimonial Buttons & Modal Logic */}
+              <TestimonialLogic />
 
               <div>
                 <Link
@@ -85,7 +70,6 @@ export default function ClientReviews() {
 
           {/* RIGHT COLUMN: Dual-Direction Vertical Scrolling Marquee */}
           <div className="lg:col-span-7 relative h-[480px] sm:h-[520px] overflow-hidden rounded-2xl p-2 select-none">
-            {/* Top & Bottom Gradient Edge Fade Masks */}
             <div className="absolute top-0 left-0 right-0 h-16 bg-gradient-to-b from-[#E2E8F0] via-[#E2E8F0]/80 to-transparent z-20 pointer-events-none" />
             <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-[#E2E8F0] via-[#E2E8F0]/80 to-transparent z-20 pointer-events-none" />
 
@@ -155,7 +139,7 @@ export default function ClientReviews() {
                     </div>
                   </div>
 
-                  {/* Card 1 Duplicate for smooth infinite CSS loop */}
+                  {/* Duplicate 1 */}
                   <div className="mb-4">
                     <div className="bg-white rounded-2xl border border-blue-100/70 p-5 shadow-xs hover:shadow-md transition-all duration-300 text-left bg-gradient-to-b from-white to-[#F7FAFE]">
                       <div className="flex items-center justify-between gap-2 mb-2.5">
@@ -185,7 +169,7 @@ export default function ClientReviews() {
                     </div>
                   </div>
 
-                  {/* Card 2 Duplicate for smooth infinite CSS loop */}
+                  {/* Duplicate 2 */}
                   <div className="mb-4">
                     <div className="bg-white rounded-2xl border border-blue-100/70 p-5 shadow-xs hover:shadow-md transition-all duration-300 text-left bg-gradient-to-b from-white to-[#F7FAFE]">
                       <div className="flex items-center justify-between gap-2 mb-2.5">
@@ -282,7 +266,7 @@ export default function ClientReviews() {
                     </div>
                   </div>
 
-                  {/* Card 3 Duplicate for smooth infinite CSS loop */}
+                  {/* Duplicate 3 */}
                   <div className="mb-4">
                     <div className="bg-white rounded-2xl border border-blue-100/70 p-5 shadow-xs hover:shadow-md transition-all duration-300 text-left bg-gradient-to-b from-white to-[#F7FAFE]">
                       <div className="flex items-center justify-between gap-2 mb-2.5">
@@ -312,7 +296,7 @@ export default function ClientReviews() {
                     </div>
                   </div>
 
-                  {/* Card 4 Duplicate for smooth infinite CSS loop */}
+                  {/* Duplicate 4 */}
                   <div className="mb-4">
                     <div className="bg-white rounded-2xl border border-blue-100/70 p-5 shadow-xs hover:shadow-md transition-all duration-300 text-left bg-gradient-to-b from-white to-[#F7FAFE]">
                       <div className="flex items-center justify-between gap-2 mb-2.5">
@@ -350,10 +334,6 @@ export default function ClientReviews() {
 
         </div>
       </div>
-
-      {/* Logic & Modal Forms Module */}
-      <TestimonialLogic />
-
     </section>
   );
 }
