@@ -38,6 +38,12 @@ export default function NewsletterLogic() {
       setStatus("success");
       setMessage("Thank you for subscribing! Quarterly enterprise insights will be delivered to your inbox.");
       form.reset();
+
+      // Automatically disappear after 4 seconds and return to form
+      setTimeout(() => {
+        setStatus("idle");
+        setMessage("");
+      }, 4000);
     } catch (err: any) {
       setStatus("error");
       setMessage(err.message || "Failed to subscribe. Please try again.");
@@ -64,9 +70,10 @@ export default function NewsletterLogic() {
             setStatus("idle");
             setMessage("");
           }}
-          className="text-xs text-emerald-800 hover:text-emerald-950 font-semibold underline shrink-0 cursor-pointer pt-0.5"
+          className="text-sm text-emerald-700 hover:text-emerald-950 font-bold shrink-0 cursor-pointer px-1 leading-none"
+          title="Dismiss"
         >
-          Add another
+          ✕
         </button>
       </div>
     );
