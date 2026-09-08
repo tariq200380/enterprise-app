@@ -148,7 +148,7 @@ export default function ClientReviews() {
   const [conEmail, setConEmail] = useState("");
   const [conCompany, setConCompany] = useState("");
   const [conPhone, setConPhone] = useState("");
-  const [conService, setConService] = useState("Dedicated Engineering Pods");
+  const [conService, setConService] = useState("Software Development");
   const [conDetails, setConDetails] = useState("");
   const [conNda, setConNda] = useState(true);
   const [conSubmitting, setConSubmitting] = useState(false);
@@ -171,7 +171,7 @@ export default function ClientReviews() {
     setConEmail("");
     setConCompany("");
     setConPhone("");
-    setConService("Dedicated Engineering Pods");
+    setConService("Software Development");
     setConDetails("");
     setConNda(true);
     setConSubmitted(false);
@@ -689,18 +689,21 @@ export default function ClientReviews() {
 
                   <div>
                     <label className="block text-xs font-semibold text-slate-700 mb-1">
-                      Primary Engineering Discipline
+                      Required Service Domain *
                     </label>
                     <select
                       value={conService}
                       onChange={(e) => setConService(e.target.value)}
                       className="w-full px-3 py-2 border border-slate-300 rounded text-sm text-slate-800 bg-white focus:outline-hidden focus:ring-1 focus:ring-[#FF6B00] focus:border-[#FF6B00]"
                     >
-                      <option value="Dedicated Engineering Pods">Dedicated Engineering Pods</option>
-                      <option value="Enterprise Cloud & DevOps Architecture">Enterprise Cloud &amp; DevOps Architecture</option>
-                      <option value="AI / ML Engineering & Intelligent Automation">AI / ML Engineering &amp; Intelligent Automation</option>
-                      <option value="Full-Stack Web & Mobile Platform">Full-Stack Web &amp; Mobile Platform</option>
-                      <option value="Zero-Downtime Database Migration">Zero-Downtime Database Migration</option>
+                      <option value="Software Development">Software Development</option>
+                      <option value="UI/UX Design">UI/UX Design</option>
+                      <option value="Mobile Applications">Mobile Applications</option>
+                      <option value="Cloud Infrastructure">Cloud Infrastructure</option>
+                      <option value="Database Management">Database Management</option>
+                      <option value="Cybersecurity & QA">Cybersecurity &amp; QA</option>
+                      <option value="Artificial Intelligence (AI)">Artificial Intelligence (AI)</option>
+                      <option value="Digital Marketing & Branding">Digital Marketing &amp; Branding</option>
                     </select>
                   </div>
 
