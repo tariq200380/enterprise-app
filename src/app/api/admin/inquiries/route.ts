@@ -10,6 +10,48 @@ export async function GET() {
   }
 }
 
+export async function POST(req: Request) {
+  try {
+    const body = await req.json();
+    const {
+      client_name,
+      service,
+      company,
+      phone,
+      email,
+      project_details,
+      need_nda,
+    } = body;
+
+    const timeStr = new Date().toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
+    const createdAt = `Today, ${timeStr}`;
+
+    const res = await query(
+      `INSERT INTO contact_inquiries (client_name, service, company, phone, email, project_details, need_nda, status, created_at)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`,
+      [
+        client_name || "Enterprise Client",
+        service || "Enterprise Architecture & Engineering",
+        company || "Confidential Enterprise",
+        phone || "",
+        email || "",
+        project_details || "General consultation requested via website.",
+        need_nda !== undefined ? need_nda : true,
+        "PENDING",
+        createdAt,
+      ]
+    );
+
+    return NextResponse.json({ success: true, inquiry: res.rows[0] });
+  } catch (error: any) {
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  }
+}
+
 export async function PATCH(req: Request) {
   try {
     const body = await req.json();
