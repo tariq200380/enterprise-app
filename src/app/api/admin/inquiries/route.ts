@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { query } from "@/lib/db";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     const res = await query("SELECT * FROM contact_inquiries ORDER BY id DESC");
@@ -41,7 +43,7 @@ export async function POST(req: Request) {
         email || "",
         project_details || "General consultation requested via website.",
         need_nda !== undefined ? need_nda : true,
-        "PENDING",
+        "NEW",
         createdAt,
       ]
     );

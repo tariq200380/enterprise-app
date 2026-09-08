@@ -93,7 +93,7 @@ export default function AdminPage() {
         portfolioRes,
         systemRes,
       ] = await Promise.all([
-        fetch("/api/admin/inquiries").then((r) => r.json()).catch(() => ({ inquiries: [] })),
+        fetch("/api/admin/inquiries", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ inquiries: [] })),
         fetch("/api/admin/candidates").then((r) => r.json()).catch(() => ({ candidates: [] })),
         fetch("/api/admin/jobs").then((r) => r.json()).catch(() => ({ jobs: [] })),
         fetch("/api/admin/articles").then((r) => r.json()).catch(() => ({ articles: [] })),
@@ -128,6 +128,9 @@ export default function AdminPage() {
 
   // Actions: Inquiries
   const handleUpdateInquiryStatus = async (id: number, status: string) => {
+    setInquiries((prev) =>
+      prev.map((inq) => (inq.id === id ? { ...inq, status } : inq))
+    );
     try {
       const res = await fetch("/api/admin/inquiries", {
         method: "PATCH",
@@ -140,11 +143,13 @@ export default function AdminPage() {
       }
     } catch {
       showToast("Failed to update inquiry", "error");
+      fetchAllData();
     }
   };
 
   const handleDeleteInquiry = async (id: number) => {
     if (!confirm(`Delete contact inquiry #${id}?`)) return;
+    setInquiries((prev) => prev.filter((inq) => inq.id !== id));
     try {
       const res = await fetch(`/api/admin/inquiries?id=${id}`, { method: "DELETE" });
       if (res.ok) {
@@ -153,6 +158,7 @@ export default function AdminPage() {
       }
     } catch {
       showToast("Failed to delete inquiry", "error");
+      fetchAllData();
     }
   };
 

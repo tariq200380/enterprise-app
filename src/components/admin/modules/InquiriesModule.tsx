@@ -11,6 +11,8 @@ interface InquiriesModuleProps {
   onDeleteInquiry: (id: number) => void;
 }
 
+type InquiryFilter = "ALL" | "NEW" | "IN_REVIEW" | "COMPLETED" | "ARCHIVED";
+
 export default function InquiriesModule({
   inquiries,
   searchQuery,
@@ -18,7 +20,13 @@ export default function InquiriesModule({
   onUpdateStatus,
   onDeleteInquiry,
 }: InquiriesModuleProps) {
-  const [filter, setFilter] = useState<"ALL" | "NEW" | "IN_REVIEW" | "COMPLETED">("ALL");
+  const [filter, setFilter] = useState<InquiryFilter>("ALL");
+
+  const getCount = (st: InquiryFilter) => {
+    if (st === "ALL") return inquiries.length;
+    if (st === "NEW") return inquiries.filter((i) => i.status === "NEW" || i.status === "PENDING").length;
+    return inquiries.filter((i) => i.status === st).length;
+  };
 
   const filtered = inquiries.filter((inq) => {
     const matchesSearch =
@@ -26,7 +34,12 @@ export default function InquiriesModule({
       inq.company?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       inq.service?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       inq.email?.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesFilter = filter === "ALL" ? true : inq.status === filter;
+    const matchesFilter =
+      filter === "ALL"
+        ? true
+        : filter === "NEW"
+        ? inq.status === "NEW" || inq.status === "PENDING"
+        : inq.status === filter;
     return matchesSearch && matchesFilter;
   });
 
@@ -39,16 +52,25 @@ export default function InquiriesModule({
             Live client messages and scoping requests from the public contact forms.
           </p>
         </div>
-        <div className="flex gap-1.5">
-          {(["ALL", "NEW", "IN_REVIEW", "COMPLETED"] as const).map((st) => (
+        <div className="flex gap-1.5 flex-wrap">
+          {(["ALL", "NEW", "IN_REVIEW", "COMPLETED", "ARCHIVED"] as const).map((st) => (
             <button
               key={st}
               onClick={() => setFilter(st)}
-              className={`px-3 py-1 text-xs font-bold rounded cursor-pointer ${
-                filter === st ? "bg-[#0052FF] text-white" : "bg-white border border-gray-300 text-gray-700"
+              className={`px-3 py-1 text-xs font-bold rounded cursor-pointer inline-flex items-center gap-1.5 transition-colors ${
+                filter === st
+                  ? "bg-[#0052FF] text-white shadow-sm"
+                  : "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
               }`}
             >
-              {st}
+              <span>{st}</span>
+              <span
+                className={`text-[10px] px-1.5 py-0.2 rounded-full font-semibold ${
+                  filter === st ? "bg-white/20 text-white" : "bg-gray-100 text-gray-600"
+                }`}
+              >
+                {getCount(st)}
+              </span>
             </button>
           ))}
         </div>
@@ -85,7 +107,7 @@ export default function InquiriesModule({
                 </td>
                 <td className="p-3.5">
                   <select
-                    value={inq.status}
+                    value={inq.status === "PENDING" ? "NEW" : inq.status}
                     onChange={(e) => onUpdateStatus(inq.id, e.target.value)}
                     className="bg-white border border-gray-300 rounded px-2 py-1 font-semibold text-xs outline-none focus:border-[#0052FF] cursor-pointer"
                   >
