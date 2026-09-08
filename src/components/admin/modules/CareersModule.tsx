@@ -25,6 +25,15 @@ export default function CareersModule({
   onDeleteJob,
 }: CareersModuleProps) {
   const [subTab, setSubTab] = useState<"candidates" | "jobs">("candidates");
+  const [selectedCandidate, setSelectedCandidate] = useState<Candidate | null>(null);
+
+  const getValidUrl = (url?: string) => {
+    if (!url || !url.trim()) return null;
+    const clean = url.trim();
+    if (clean.startsWith("http://") || clean.startsWith("https://")) return clean;
+    if (clean.includes(".") && !clean.includes(" ")) return `https://${clean}`;
+    return null;
+  };
 
   const filteredCandidates = candidates.filter(
     (c) =>
@@ -86,48 +95,75 @@ export default function CareersModule({
                 <th className="p-3.5">Candidate</th>
                 <th className="p-3.5">Specialty</th>
                 <th className="p-3.5">Email</th>
+                <th className="p-3.5">Applied Date</th>
                 <th className="p-3.5">Status</th>
                 <th className="p-3.5 text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[#F1F5F9]">
-              {filteredCandidates.map((c) => (
-                <tr key={c.id} className="hover:bg-[#F8FAFC]">
-                  <td className="p-3.5 font-bold text-[#0F172A]">{c.candidate_name}</td>
-                  <td className="p-3.5 font-semibold text-[#0052FF]">{c.domain_specialty}</td>
-                  <td className="p-3.5 text-[#64748B]">{c.email}</td>
-                  <td className="p-3.5">
-                    <select
-                      value={c.status}
-                      onChange={(e) => onUpdateCandidateStatus(c.id, e.target.value)}
-                      className="bg-white border border-gray-300 rounded px-2 py-1 font-semibold text-xs cursor-pointer"
-                    >
-                      <option value="NEW">NEW</option>
-                      <option value="INTERVIEW">INTERVIEW</option>
-                      <option value="OFFER">OFFER</option>
-                      <option value="REJECTED">REJECTED</option>
-                    </select>
-                  </td>
-                  <td className="p-3.5 text-right">
-                    <div className="flex justify-end gap-2">
-                      <a
-                        href={c.portfolio_github}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="px-2.5 py-1 bg-gray-100 hover:bg-gray-200 rounded font-semibold text-gray-700"
-                      >
-                        Portfolio ↗
-                      </a>
-                      <button
-                        onClick={() => onDeleteCandidate(c.id)}
-                        className="px-2.5 py-1 bg-red-50 hover:bg-red-100 text-red-600 rounded font-semibold cursor-pointer"
-                      >
-                        Delete
-                      </button>
-                    </div>
+              {filteredCandidates.length === 0 ? (
+                <tr>
+                  <td colSpan={6} className="p-8 text-center text-gray-400">
+                    No candidates found.
                   </td>
                 </tr>
-              ))}
+              ) : (
+                filteredCandidates.map((c) => {
+                  const validUrl = getValidUrl(c.portfolio_github);
+                  return (
+                    <tr key={c.id} className="hover:bg-[#F8FAFC]">
+                      <td className="p-3.5 font-bold text-[#0F172A]">{c.candidate_name}</td>
+                      <td className="p-3.5 font-semibold text-[#0052FF]">{c.domain_specialty}</td>
+                      <td className="p-3.5 text-[#64748B]">{c.email}</td>
+                      <td className="p-3.5 text-gray-500 font-mono text-[11px]">{c.created_at || "Recent"}</td>
+                      <td className="p-3.5">
+                        <select
+                          value={c.status}
+                          onChange={(e) => onUpdateCandidateStatus(c.id, e.target.value)}
+                          className="bg-white border border-gray-300 rounded px-2 py-1 font-semibold text-xs cursor-pointer"
+                        >
+                          <option value="NEW">NEW</option>
+                          <option value="PENDING">PENDING</option>
+                          <option value="SHORTLISTED">SHORTLISTED</option>
+                          <option value="INTERVIEW">INTERVIEW</option>
+                          <option value="OFFER">OFFER</option>
+                          <option value="REJECTED">REJECTED</option>
+                        </select>
+                      </td>
+                      <td className="p-3.5 text-right">
+                        <div className="flex justify-end gap-1.5 items-center">
+                          {validUrl ? (
+                            <a
+                              href={validUrl}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="px-2.5 py-1 bg-blue-50 hover:bg-blue-100 text-[#0052FF] rounded font-semibold text-xs transition-colors"
+                              title={`Open: ${validUrl}`}
+                            >
+                              Portfolio ↗
+                            </a>
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={() => setSelectedCandidate(c)}
+                              className="px-2.5 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded font-semibold text-xs cursor-pointer transition-colors"
+                              title={c.portfolio_github ? `Coordinates: ${c.portfolio_github}` : "No link"}
+                            >
+                              Details ℹ️
+                            </button>
+                          )}
+                          <button
+                            onClick={() => onDeleteCandidate(c.id)}
+                            className="px-2.5 py-1 bg-red-50 hover:bg-red-100 text-red-600 rounded font-semibold cursor-pointer text-xs transition-colors"
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })
+              )}
             </tbody>
           </table>
         </div>
@@ -173,6 +209,72 @@ export default function CareersModule({
               </div>
             </div>
           ))}
+        </div>
+      )}
+
+      {/* Candidate Profile / Details Modal */}
+      {selectedCandidate && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white w-full max-w-md rounded-2xl shadow-2xl border border-gray-200 p-6 relative text-left">
+            <button
+              type="button"
+              onClick={() => setSelectedCandidate(null)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-700 text-lg font-bold w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 cursor-pointer"
+            >
+              ✕
+            </button>
+
+            <span className="text-[11px] font-bold text-[#0052FF] uppercase tracking-wider block mb-1">
+              Candidate Profile
+            </span>
+            <h3 className="text-lg font-bold text-[#0F172A]">{selectedCandidate.candidate_name}</h3>
+            <p className="text-xs font-semibold text-[#0052FF] mt-0.5">{selectedCandidate.domain_specialty}</p>
+
+            <div className="mt-4 space-y-3 text-xs bg-gray-50 p-4 rounded-xl border border-gray-200">
+              <div>
+                <span className="text-gray-500 block font-medium">Email Address:</span>
+                <span className="text-gray-900 font-semibold">{selectedCandidate.email}</span>
+              </div>
+              <div>
+                <span className="text-gray-500 block font-medium">Portfolio / Coordinates Provided:</span>
+                <span className="text-gray-900 font-mono bg-white px-2 py-1 rounded border border-gray-200 block mt-1 break-all">
+                  {selectedCandidate.portfolio_github || "No coordinates specified"}
+                </span>
+              </div>
+              <div>
+                <span className="text-gray-500 block font-medium">Date Registered:</span>
+                <span className="text-gray-900">{selectedCandidate.created_at || "Recent"}</span>
+              </div>
+              <div>
+                <span className="text-gray-500 block font-medium mb-1">Application Status:</span>
+                <select
+                  value={selectedCandidate.status}
+                  onChange={(e) => {
+                    onUpdateCandidateStatus(selectedCandidate.id, e.target.value);
+                    setSelectedCandidate({ ...selectedCandidate, status: e.target.value });
+                  }}
+                  className="bg-white border border-gray-300 rounded px-2.5 py-1 font-semibold text-xs w-full cursor-pointer"
+                >
+                  <option value="NEW">NEW</option>
+                  <option value="PENDING">PENDING</option>
+                  <option value="SHORTLISTED">SHORTLISTED</option>
+                  <option value="INTERVIEW">INTERVIEW</option>
+                  <option value="OFFER">OFFER</option>
+                  <option value="REJECTED">REJECTED</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="mt-5 flex justify-end">
+              <button
+                type="button"
+                onClick={() => setSelectedCandidate(null)}
+                className="px-4 py-2 bg-gray-900 hover:bg-black text-white text-xs font-semibold rounded-lg cursor-pointer"
+              >
+                Close
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

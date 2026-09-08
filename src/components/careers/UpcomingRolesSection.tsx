@@ -69,20 +69,76 @@ const DEPARTMENTS = [
   "Solutions & Growth",
 ];
 
-export default function UpcomingRolesSection() {
+export interface DbJob {
+  id: number;
+  title: string;
+  department: string;
+  location: string;
+  status: string;
+  description: string;
+  tags: string[] | string;
+}
+
+interface UpcomingRolesSectionProps {
+  initialDbJobs?: DbJob[];
+}
+
+export default function UpcomingRolesSection({ initialDbJobs = [] }: UpcomingRolesSectionProps) {
   const [selectedDept, setSelectedDept] = useState("All Departments");
   const [modalRole, setModalRole] = useState<string | null>(null);
   const [submitStatus, setSubmitStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [statusMessage, setStatusMessage] = useState("");
 
-  const filteredRoles = ROLES.filter((role) => {
+  const mappedDbRoles: Role[] = initialDbJobs.map((dj) => {
+    let parsedTags: string[] = [];
+    if (Array.isArray(dj.tags)) {
+      parsedTags = dj.tags;
+    } else if (typeof dj.tags === "string") {
+      try {
+        parsedTags = JSON.parse(dj.tags);
+      } catch {
+        parsedTags = [dj.tags];
+      }
+    }
+
+    let dept = dj.department || "Engineering";
+    const lower = dept.toLowerCase();
+    if (lower.includes("ai") || lower.includes("ml")) {
+      dept = "AI & Machine Learning";
+    } else if (lower.includes("design") || lower.includes("ui")) {
+      dept = "UI/UX & Design";
+    } else if (lower.includes("cloud") || lower.includes("sre")) {
+      dept = "Cloud & SRE";
+    } else if (lower.includes("solution") || lower.includes("growth")) {
+      dept = "Solutions & Growth";
+    } else {
+      dept = "Engineering";
+    }
+
+    return {
+      id: `db-${dj.id}`,
+      title: dj.title,
+      department: dept,
+      categoryBadge: dj.department?.toUpperCase() || "ENGINEERING",
+      location: dj.location || "REMOTE (GLOBAL)",
+      statusBadge: dj.status === "ACTIVE" ? "ACTIVE POD OPENING" : dj.status || "ACTIVE",
+      description: dj.description,
+      tags: parsedTags.length > 0 ? parsedTags : ["Enterprise", "Engineering"],
+    };
+  });
+
+  const allRoles = mappedDbRoles.length > 0 ? [...mappedDbRoles, ...ROLES] : ROLES;
+
+  const filteredRoles = allRoles.filter((role) => {
     if (selectedDept === "All Departments") return true;
     if (selectedDept === "Engineering") {
       return (
+        role.department === "Engineering" ||
         role.department === "Cloud & SRE" ||
         role.department === "AI & Machine Learning" ||
         role.categoryBadge.includes("CLOUD") ||
-        role.categoryBadge.includes("AI")
+        role.categoryBadge.includes("AI") ||
+        role.categoryBadge.includes("ENGINEERING")
       );
     }
     return role.department.toLowerCase() === selectedDept.toLowerCase();

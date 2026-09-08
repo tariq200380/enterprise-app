@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import UpcomingRolesSection from "@/components/careers/UpcomingRolesSection";
+import UpcomingRolesSection, { DbJob } from "@/components/careers/UpcomingRolesSection";
+import { query } from "@/lib/db";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Careers & Engineering Pods",
@@ -8,7 +11,16 @@ export const metadata: Metadata = {
     "Build digital infrastructure that endures. We are an autonomous collective of principal systems architects, AI engineers, and design artisans.",
 };
 
-export default function CareersPage() {
+export default async function CareersPage() {
+  let dbJobs: DbJob[] = [];
+  try {
+    const res = await query(
+      "SELECT id, title, department, location, status, description, tags FROM job_openings WHERE status NOT IN ('CLOSED', 'PAUSED') ORDER BY id DESC"
+    );
+    dbJobs = res.rows;
+  } catch (err) {
+    console.error("Failed to load active jobs:", err);
+  }
   return (
     <div className="w-full bg-[#FAFBFC] border-b border-gray-100">
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-20 sm:pt-20 sm:pb-24 text-center">
@@ -367,7 +379,7 @@ export default function CareersPage() {
       </section>
 
       {/* Explore Active Pod Openings & Upcoming Roles Section */}
-      <UpcomingRolesSection />
+      <UpcomingRolesSection initialDbJobs={dbJobs} />
 
       {/* Frequently Asked Questions Section */}
       <section className="w-full bg-[#FAFBFC] border-t border-gray-200/80 py-16 sm:py-24">
