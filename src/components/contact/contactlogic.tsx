@@ -1,9 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import ContactDesign from "./ContactDesign";
 
-export default function ContactLogic() {
+export function useContactLogic() {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -52,7 +51,7 @@ export default function ContactLogic() {
       setStatus("success");
       form.reset();
 
-      // Automatically dismiss success message after 4 seconds
+      // Automatically dismiss success banner after 4 seconds
       setTimeout(() => {
         setStatus("idle");
       }, 4000);
@@ -67,12 +66,12 @@ export default function ContactLogic() {
     setErrorMessage("");
   };
 
-  return (
-    <ContactDesign
-      status={status}
-      errorMessage={errorMessage}
-      onSubmit={handleSubmit}
-      onDismiss={handleDismiss}
-    />
-  );
+  return {
+    status,
+    errorMessage,
+    handleSubmit,
+    handleDismiss,
+  };
 }
+
+export default useContactLogic;

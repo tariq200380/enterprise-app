@@ -1,18 +1,10 @@
+"use client";
+
 import React from "react";
+import { useContactLogic } from "./contactlogic";
 
-interface ContactDesignProps {
-  status: "idle" | "loading" | "success" | "error";
-  errorMessage: string;
-  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
-  onDismiss: () => void;
-}
-
-export default function ContactDesign({
-  status,
-  errorMessage,
-  onSubmit,
-  onDismiss,
-}: ContactDesignProps) {
+export default function ContactDesign() {
+  const { status, errorMessage, handleSubmit, handleDismiss } = useContactLogic();
   return (
     <div className="w-full">
       {/* Success Notification Banner */}
@@ -33,7 +25,7 @@ export default function ContactDesign({
           </div>
           <button
             type="button"
-            onClick={onDismiss}
+            onClick={handleDismiss}
             className="text-emerald-700 hover:text-emerald-950 font-bold shrink-0 cursor-pointer p-1 leading-none text-base"
             title="Dismiss"
           >
@@ -43,7 +35,7 @@ export default function ContactDesign({
       )}
 
       {/* Main Scoping Form */}
-      <form onSubmit={onSubmit} className="flex flex-col gap-6">
+      <form id="contact-form" onSubmit={handleSubmit} className="flex flex-col gap-6">
         {/* 1. Select the service you need */}
         <div>
           <label className="block text-[11.5px] font-bold text-[#111827] uppercase tracking-wider mb-2.5">

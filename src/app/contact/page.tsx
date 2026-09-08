@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import ContactLogic from "@/components/contact/contactlogic";
+import ContactDesign from "@/components/contact/ContactDesign";
 import DirectCallCard from "@/components/contact/DirectCallCard";
 
 export const metadata: Metadata = {
@@ -90,7 +90,7 @@ export default function ContactPage() {
                 </p>
               </div>
 
-              <ContactLogic />
+              <ContactDesign />
             </div>
 
             {/* RIGHT COLUMN: DIRECT CONTACTS & GLOBAL HUBS */}
