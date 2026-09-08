@@ -1,9 +1,13 @@
 import { NextResponse } from "next/server";
 import { query } from "@/lib/db";
 
-export async function GET() {
+export async function GET(req: Request) {
   try {
-    const res = await query("SELECT * FROM testimonials ORDER BY id DESC");
+    const { searchParams } = new URL(req.url);
+    const verifiedOnly = searchParams.get("verified") === "true";
+    const res = verifiedOnly
+      ? await query("SELECT * FROM testimonials WHERE verified = true ORDER BY id DESC")
+      : await query("SELECT * FROM testimonials ORDER BY id DESC");
     return NextResponse.json({ success: true, testimonials: res.rows });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
@@ -19,12 +23,12 @@ export async function POST(req: Request) {
        VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`,
       [
         client_name || "Enterprise Leader",
-        role || "VP of Engineering",
-        company || "Global Enterprise Corp",
-        avatar || "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=200&auto=format&fit=crop",
+        role || "Enterprise Client",
+        company || "Enterprise Organization",
+        avatar || "",
         rating || 5,
         quote || "Creed Tech delivered world-class architecture on time and at enterprise scale.",
-        verified !== undefined ? verified : true,
+        verified !== undefined ? Boolean(verified) : false,
       ]
     );
     return NextResponse.json({ success: true, testimonial: res.rows[0] });

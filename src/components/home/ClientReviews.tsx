@@ -1,12 +1,131 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
+
+interface ReviewItem {
+  id: number;
+  client_name: string;
+  role: string;
+  company: string;
+  avatar?: string;
+  rating: number;
+  quote: string;
+  verified?: boolean;
+}
+
+const BASELINE_REVIEWS: ReviewItem[] = [
+  {
+    id: -1,
+    client_name: "Marina R.",
+    role: "Enterprise Cloud",
+    company: "Italy",
+    rating: 5,
+    quote: "I'm using Creed Tech for our enterprise cloud architecture. It allowed us to deploy multi-region failover seamlessly with zero downtime.",
+    avatar: "",
+  },
+  {
+    id: -2,
+    client_name: "Elena Rostova",
+    role: "AI Automation",
+    company: "Germany",
+    rating: 5,
+    quote: "Exceptional full-stack capabilities and attention to detail. They built our AI-driven document intelligence pipeline directly with our ERP.",
+    avatar: "",
+  },
+  {
+    id: -3,
+    client_name: "David L.",
+    role: "Database Arch",
+    company: "United States",
+    rating: 5,
+    quote: "We had a complex legacy database problem and the engineering support was world-class. Solved our bottleneck within days.",
+    avatar: "",
+  },
+  {
+    id: -4,
+    client_name: "Sarah Jenkins",
+    role: "Enterprise Squads",
+    company: "United Kingdom",
+    rating: 5,
+    quote: "It's been 4 years now that we rely on Creed Tech for dedicated staff augmentation and infrastructure. Top quality code.",
+    avatar: "",
+  },
+];
+
+function ReviewCard({ review }: { review: ReviewItem }) {
+  const getInitials = (name: string) => {
+    const parts = (name || "Client").trim().split(/\s+/).filter(Boolean);
+    if (parts.length >= 2) return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+    return (parts[0]?.substring(0, 2) || "CT").toUpperCase();
+  };
+
+  return (
+    <div className="bg-white rounded-2xl border border-blue-100/70 p-5 shadow-xs hover:shadow-md transition-all duration-300 text-left bg-gradient-to-b from-white to-[#F7FAFE]">
+      <div className="flex items-center justify-between gap-2 mb-2.5">
+        <div className="flex items-center gap-1 text-[#FFAA00] text-xs sm:text-sm">
+          {Array.from({ length: review.rating || 5 }).map((_, i) => (
+            <span key={i}>★</span>
+          ))}
+        </div>
+        <span className="text-[10px] font-semibold text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-100 shrink-0">
+          Verified Client
+        </span>
+      </div>
+      <p className="text-xs sm:text-[13px] text-gray-700 leading-relaxed font-normal mb-3.5">
+        &ldquo;{review.quote}&rdquo;
+      </p>
+      <div className="flex items-center gap-3 pt-3 border-t border-gray-100">
+        {review.avatar ? (
+          <img
+            src={review.avatar}
+            alt={review.client_name}
+            className="w-9 h-9 rounded-full object-cover border border-blue-200 shrink-0"
+            onError={(e) => {
+              e.currentTarget.style.display = "none";
+              const next = e.currentTarget.nextElementSibling as HTMLElement;
+              if (next) next.style.display = "flex";
+            }}
+          />
+        ) : null}
+        <div
+          className={`w-9 h-9 shrink-0 border border-blue-200 flex items-center justify-center bg-gray-900 text-white font-medium text-xs rounded-full ${
+            review.avatar ? "hidden" : "flex"
+          }`}
+        >
+          {getInitials(review.client_name)}
+        </div>
+        <div className="min-w-0">
+          <h4 className="text-xs sm:text-sm font-medium text-gray-900 leading-tight truncate">
+            {review.client_name}
+          </h4>
+          <p className="text-[11px] text-gray-500 font-normal truncate">
+            {review.company} &bull; {review.role}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function ClientReviews() {
   // Modal states
   const [isReviewOpen, setIsReviewOpen] = useState(false);
   const [isConsultOpen, setIsConsultOpen] = useState(false);
+
+  // Dynamic verified live reviews from database
+  const [liveReviews, setLiveReviews] = useState<ReviewItem[]>([]);
+
+  useEffect(() => {
+    fetch("/api/admin/testimonials?verified=true")
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.success && Array.isArray(d.testimonials)) {
+          setLiveReviews(d.testimonials);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   // Review form state
   const [revName, setRevName] = useState("");
@@ -14,6 +133,7 @@ export default function ClientReviews() {
   const [revLocation, setRevLocation] = useState("");
   const [revRating, setRevRating] = useState("5");
   const [revQuote, setRevQuote] = useState("");
+  const [revAvatar, setRevAvatar] = useState("");
   const [revSubmitting, setRevSubmitting] = useState(false);
   const [revSubmitted, setRevSubmitted] = useState(false);
   const [revError, setRevError] = useState("");
@@ -36,6 +156,7 @@ export default function ClientReviews() {
     setRevLocation("");
     setRevRating("5");
     setRevQuote("");
+    setRevAvatar("");
     setRevSubmitted(false);
     setRevError("");
   };
@@ -72,10 +193,10 @@ export default function ClientReviews() {
           client_name: revName.trim(),
           role: role,
           company: company,
-          avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=200&auto=format&fit=crop",
+          avatar: revAvatar || "",
           rating: parseInt(revRating, 10) || 5,
           quote: revQuote.trim(),
-          verified: true,
+          verified: false, // Default to false so Admin must approve before publishing
         }),
       });
 
@@ -125,6 +246,15 @@ export default function ClientReviews() {
       setConSubmitting(false);
     }
   };
+
+  // Merge live verified reviews with curated baseline reviews
+  const allReviews = [...liveReviews, ...BASELINE_REVIEWS];
+  const col1 = allReviews.filter((_, idx) => idx % 2 === 0);
+  const col2 = allReviews.filter((_, idx) => idx % 2 !== 0);
+
+  // Duplicate items to ensure smooth, gapless infinite vertical scrolling
+  const col1Items = [...col1, ...col1];
+  const col2Items = [...col2, ...col2];
 
   return (
     <section
@@ -218,144 +348,22 @@ export default function ClientReviews() {
               {/* LEFT MARQUEE COLUMN: Moves DOWN Continuously */}
               <div className="relative overflow-hidden h-full">
                 <div className="reviews-col-down">
-                  {/* Card 1 */}
-                  <div className="bg-white rounded-2xl border border-blue-100/70 p-5 shadow-xs hover:shadow-md transition-all duration-300 text-left bg-gradient-to-b from-white to-[#F7FAFE]">
-                    <div className="flex items-center gap-1 text-[#FFAA00] text-xs sm:text-sm mb-2.5">★★★★★</div>
-                    <p className="text-xs sm:text-[13px] text-gray-700 leading-relaxed font-normal mb-3.5">
-                      &ldquo;I&apos;m using Creed Tech for our enterprise cloud architecture. It allowed us to deploy multi-region failover seamlessly with zero downtime.&rdquo;
-                    </p>
-                    <div className="flex items-center gap-3 pt-3 border-t border-gray-100">
-                      <div className="w-9 h-9 shrink-0 border border-blue-200 flex items-center justify-center bg-gray-900 text-white font-medium text-xs">
-                        MR
-                      </div>
-                      <div>
-                        <h4 className="text-xs sm:text-sm font-medium text-gray-900 leading-tight">Marina R.</h4>
-                        <p className="text-[11px] text-gray-500 font-normal">Italy &bull; Enterprise Cloud</p>
-                      </div>
+                  {col1Items.map((rev, index) => (
+                    <div key={`col1-${rev.id}-${index}`} className="mb-4">
+                      <ReviewCard review={rev} />
                     </div>
-                  </div>
-
-                  {/* Card 2 */}
-                  <div className="bg-white rounded-2xl border border-blue-100/70 p-5 shadow-xs hover:shadow-md transition-all duration-300 text-left bg-gradient-to-b from-white to-[#F7FAFE]">
-                    <div className="flex items-center gap-1 text-[#FFAA00] text-xs sm:text-sm mb-2.5">★★★★★</div>
-                    <p className="text-xs sm:text-[13px] text-gray-700 leading-relaxed font-normal mb-3.5">
-                      &ldquo;Exceptional full-stack capabilities and attention to detail. They built our AI-driven document intelligence pipeline directly with our ERP.&rdquo;
-                    </p>
-                    <div className="flex items-center gap-3 pt-3 border-t border-gray-100">
-                      <div className="w-9 h-9 shrink-0 border border-blue-200 flex items-center justify-center bg-gray-900 text-white font-medium text-xs">
-                        ER
-                      </div>
-                      <div>
-                        <h4 className="text-xs sm:text-sm font-medium text-gray-900 leading-tight">Elena Rostova</h4>
-                        <p className="text-[11px] text-gray-500 font-normal">Germany &bull; AI Automation</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Seamless Clones */}
-                  <div className="bg-white rounded-2xl border border-blue-100/70 p-5 shadow-xs hover:shadow-md transition-all duration-300 text-left bg-gradient-to-b from-white to-[#F7FAFE]">
-                    <div className="flex items-center gap-1 text-[#FFAA00] text-xs sm:text-sm mb-2.5">★★★★★</div>
-                    <p className="text-xs sm:text-[13px] text-gray-700 leading-relaxed font-normal mb-3.5">
-                      &ldquo;I&apos;m using Creed Tech for our enterprise cloud architecture. It allowed us to deploy multi-region failover seamlessly with zero downtime.&rdquo;
-                    </p>
-                    <div className="flex items-center gap-3 pt-3 border-t border-gray-100">
-                      <div className="w-9 h-9 shrink-0 border border-blue-200 flex items-center justify-center bg-gray-900 text-white font-medium text-xs">
-                        MR
-                      </div>
-                      <div>
-                        <h4 className="text-xs sm:text-sm font-medium text-gray-900 leading-tight">Marina R.</h4>
-                        <p className="text-[11px] text-gray-500 font-normal">Italy &bull; Enterprise Cloud</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="bg-white rounded-2xl border border-blue-100/70 p-5 shadow-xs hover:shadow-md transition-all duration-300 text-left bg-gradient-to-b from-white to-[#F7FAFE]">
-                    <div className="flex items-center gap-1 text-[#FFAA00] text-xs sm:text-sm mb-2.5">★★★★★</div>
-                    <p className="text-xs sm:text-[13px] text-gray-700 leading-relaxed font-normal mb-3.5">
-                      &ldquo;Exceptional full-stack capabilities and attention to detail. They built our AI-driven document intelligence pipeline directly with our ERP.&rdquo;
-                    </p>
-                    <div className="flex items-center gap-3 pt-3 border-t border-gray-100">
-                      <div className="w-9 h-9 shrink-0 border border-blue-200 flex items-center justify-center bg-gray-900 text-white font-medium text-xs">
-                        ER
-                      </div>
-                      <div>
-                        <h4 className="text-xs sm:text-sm font-medium text-gray-900 leading-tight">Elena Rostova</h4>
-                        <p className="text-[11px] text-gray-500 font-normal">Germany &bull; AI Automation</p>
-                      </div>
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </div>
 
-              {/* RIGHT MARQUEE COLUMN: Moves UP Continuously (hidden on mobile to prevent card merging/collision) */}
+              {/* RIGHT MARQUEE COLUMN: Moves UP Continuously */}
               <div className="hidden sm:block relative overflow-hidden h-full">
                 <div className="reviews-col-up">
-                  {/* Card 3 */}
-                  <div className="bg-white rounded-2xl border border-blue-100/70 p-5 shadow-xs hover:shadow-md transition-all duration-300 text-left bg-gradient-to-b from-white to-[#F7FAFE]">
-                    <div className="flex items-center gap-1 text-[#FFAA00] text-xs sm:text-sm mb-2.5">★★★★★</div>
-                    <p className="text-xs sm:text-[13px] text-gray-700 leading-relaxed font-normal mb-3.5">
-                      &ldquo;We had a complex legacy database problem and the engineering support was world-class. Solved our bottleneck within days.&rdquo;
-                    </p>
-                    <div className="flex items-center gap-3 pt-3 border-t border-gray-100">
-                      <div className="w-9 h-9 shrink-0 border border-blue-200 flex items-center justify-center bg-gray-900 text-white font-medium text-xs">
-                        DL
-                      </div>
-                      <div>
-                        <h4 className="text-xs sm:text-sm font-medium text-gray-900 leading-tight">David L.</h4>
-                        <p className="text-[11px] text-gray-500 font-normal">United States &bull; Database Arch</p>
-                      </div>
+                  {col2Items.map((rev, index) => (
+                    <div key={`col2-${rev.id}-${index}`} className="mb-4">
+                      <ReviewCard review={rev} />
                     </div>
-                  </div>
-
-                  {/* Card 4 */}
-                  <div className="bg-white rounded-2xl border border-blue-100/70 p-5 shadow-xs hover:shadow-md transition-all duration-300 text-left bg-gradient-to-b from-white to-[#F7FAFE]">
-                    <div className="flex items-center gap-1 text-[#FFAA00] text-xs sm:text-sm mb-2.5">★★★★★</div>
-                    <p className="text-xs sm:text-[13px] text-gray-700 leading-relaxed font-normal mb-3.5">
-                      &ldquo;It&apos;s been 4 years now that we rely on Creed Tech for dedicated staff augmentation and infrastructure. Top quality code.&rdquo;
-                    </p>
-                    <div className="flex items-center gap-3 pt-3 border-t border-gray-100">
-                      <div className="w-9 h-9 shrink-0 border border-blue-200 flex items-center justify-center bg-gray-900 text-white font-medium text-xs">
-                        SJ
-                      </div>
-                      <div>
-                        <h4 className="text-xs sm:text-sm font-medium text-gray-900 leading-tight">Sarah Jenkins</h4>
-                        <p className="text-[11px] text-gray-500 font-normal">United Kingdom &bull; Enterprise Squads</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Seamless Clones */}
-                  <div className="bg-white rounded-2xl border border-blue-100/70 p-5 shadow-xs hover:shadow-md transition-all duration-300 text-left bg-gradient-to-b from-white to-[#F7FAFE]">
-                    <div className="flex items-center gap-1 text-[#FFAA00] text-xs sm:text-sm mb-2.5">★★★★★</div>
-                    <p className="text-xs sm:text-[13px] text-gray-700 leading-relaxed font-normal mb-3.5">
-                      &ldquo;We had a complex legacy database problem and the engineering support was world-class. Solved our bottleneck within days.&rdquo;
-                    </p>
-                    <div className="flex items-center gap-3 pt-3 border-t border-gray-100">
-                      <div className="w-9 h-9 shrink-0 border border-blue-200 flex items-center justify-center bg-gray-900 text-white font-medium text-xs">
-                        DL
-                      </div>
-                      <div>
-                        <h4 className="text-xs sm:text-sm font-medium text-gray-900 leading-tight">David L.</h4>
-                        <p className="text-[11px] text-gray-500 font-normal">United States &bull; Database Arch</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="bg-white rounded-2xl border border-blue-100/70 p-5 shadow-xs hover:shadow-md transition-all duration-300 text-left bg-gradient-to-b from-white to-[#F7FAFE]">
-                    <div className="flex items-center gap-1 text-[#FFAA00] text-xs sm:text-sm mb-2.5">★★★★★</div>
-                    <p className="text-xs sm:text-[13px] text-gray-700 leading-relaxed font-normal mb-3.5">
-                      &ldquo;It&apos;s been 4 years now that we rely on Creed Tech for dedicated staff augmentation and infrastructure. Top quality code.&rdquo;
-                    </p>
-                    <div className="flex items-center gap-3 pt-3 border-t border-gray-100">
-                      <div className="w-9 h-9 shrink-0 border border-blue-200 flex items-center justify-center bg-gray-900 text-white font-medium text-xs">
-                        SJ
-                      </div>
-                      <div>
-                        <h4 className="text-xs sm:text-sm font-medium text-gray-900 leading-tight">Sarah Jenkins</h4>
-                        <p className="text-[11px] text-gray-500 font-normal">United Kingdom &bull; Enterprise Squads</p>
-                      </div>
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </div>
 
@@ -390,7 +398,7 @@ export default function ClientReviews() {
                     Share Your Enterprise Experience
                   </h2>
                   <p className="text-xs sm:text-sm text-slate-500">
-                    Your verified review helps global organizations evaluate Creed Tech engineering standards.
+                    Your verified review helps global organizations evaluate Creed Tech engineering standards. Reviews are moderated by our admin team before publication.
                   </p>
                 </div>
 
@@ -401,6 +409,65 @@ export default function ClientReviews() {
                 )}
 
                 <form onSubmit={handleReviewSubmit} className="flex flex-col gap-4">
+                  {/* Photo / Avatar Uploader */}
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+                      Client Photo / Profile Avatar (Optional)
+                    </label>
+                    <div className="flex items-center gap-3 p-2.5 bg-slate-50 border border-slate-200 rounded-lg">
+                      {revAvatar ? (
+                        <img
+                          src={revAvatar}
+                          alt="Preview"
+                          className="w-12 h-12 rounded-full object-cover border border-slate-300 shrink-0"
+                        />
+                      ) : (
+                        <div className="w-12 h-12 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center text-xs font-bold shrink-0 border border-dashed border-slate-300">
+                          📷
+                        </div>
+                      )}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2">
+                          <label className="px-3 py-1.5 bg-white hover:bg-slate-100 border border-slate-300 text-slate-700 text-xs font-semibold rounded cursor-pointer transition-colors inline-block">
+                            <span>{revAvatar ? "Change Photo" : "Upload Photo"}</span>
+                            <input
+                              type="file"
+                              accept="image/*"
+                              className="hidden"
+                              onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                if (file) {
+                                  if (file.size > 2 * 1024 * 1024) {
+                                    setRevError("Image size should be less than 2MB.");
+                                    return;
+                                  }
+                                  const reader = new FileReader();
+                                  reader.onload = (evt) => {
+                                    setRevAvatar(evt.target?.result as string);
+                                    setRevError("");
+                                  };
+                                  reader.readAsDataURL(file);
+                                }
+                              }}
+                            />
+                          </label>
+                          {revAvatar && (
+                            <button
+                              type="button"
+                              onClick={() => setRevAvatar("")}
+                              className="px-2.5 py-1.5 text-xs text-red-600 hover:text-red-800 hover:bg-red-50 rounded font-medium cursor-pointer transition-colors"
+                            >
+                              Remove
+                            </button>
+                          )}
+                        </div>
+                        <p className="text-[11px] text-slate-400 mt-1 truncate">
+                          JPG, PNG, WebP up to 2MB. Appears alongside your review once verified.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                       <label className="block text-xs font-semibold text-slate-700 mb-1">
@@ -503,7 +570,7 @@ export default function ClientReviews() {
                   Review Submitted Successfully!
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-500 max-w-sm mx-auto leading-relaxed mb-6">
-                  Thank you for your valuable endorsement. Your review has been securely saved to our database and will appear in our verified customer highlights.
+                  Thank you for your valuable endorsement. Your review has been submitted for verification and will appear in our verified customer highlights once confirmed by our administration.
                 </p>
                 <button
                   type="button"
@@ -707,4 +774,3 @@ export default function ClientReviews() {
     </section>
   );
 }
-
