@@ -99,6 +99,20 @@ export default function AddTestimonialModal({ isOpen, onClose, onTestimonialCrea
             </div>
           </div>
           <div>
+            <label className="block font-semibold mb-1">Rating Score *</label>
+            <select
+              value={rating}
+              onChange={(e) => setRating(parseInt(e.target.value, 10))}
+              className="w-full px-3 py-2 border border-gray-300 rounded outline-none text-[#FF6B00] font-bold bg-white"
+            >
+              <option value="5">★★★★★ (5.0 Excellent - Highly Recommended)</option>
+              <option value="4">★★★★☆ (4.0 Very Good - Great Experience)</option>
+              <option value="3">★★★☆☆ (3.0 Good - Met Expectations)</option>
+              <option value="2">★★☆☆☆ (2.0 Fair - Needs Improvement)</option>
+              <option value="1">★☆☆☆☆ (1.0 Poor - Unsatisfactory)</option>
+            </select>
+          </div>
+          <div>
             <label className="block font-semibold mb-1">Endorsement Quote *</label>
             <textarea
               rows={3}

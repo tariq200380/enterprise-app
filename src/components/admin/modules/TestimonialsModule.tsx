@@ -108,9 +108,14 @@ export default function TestimonialsModule({
               </div>
 
               {/* Star Rating */}
-              <div className="flex items-center gap-1 mb-2">
-                {Array.from({ length: t.rating || 5 }).map((_, i) => (
-                  <span key={i} className="text-amber-400 text-xs">★</span>
+              <div className="flex items-center gap-0.5 mb-2">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <span
+                    key={i}
+                    className={i < (t.rating || 5) ? "text-amber-400 text-xs" : "text-slate-200 text-xs"}
+                  >
+                    ★
+                  </span>
                 ))}
               </div>
 

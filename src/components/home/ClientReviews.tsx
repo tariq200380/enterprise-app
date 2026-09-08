@@ -63,9 +63,14 @@ function ReviewCard({ review }: { review: ReviewItem }) {
   return (
     <div className="bg-white rounded-2xl border border-blue-100/70 p-5 shadow-xs hover:shadow-md transition-all duration-300 text-left bg-gradient-to-b from-white to-[#F7FAFE]">
       <div className="flex items-center justify-between gap-2 mb-2.5">
-        <div className="flex items-center gap-1 text-[#FFAA00] text-xs sm:text-sm">
-          {Array.from({ length: review.rating || 5 }).map((_, i) => (
-            <span key={i}>★</span>
+        <div className="flex items-center gap-0.5 text-xs sm:text-sm">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <span
+              key={i}
+              className={i < (review.rating || 5) ? "text-[#FFAA00]" : "text-slate-300"}
+            >
+              ★
+            </span>
           ))}
         </div>
         <span className="text-[10px] font-semibold text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-100 shrink-0">
@@ -519,9 +524,11 @@ export default function ClientReviews() {
                         onChange={(e) => setRevRating(e.target.value)}
                         className="w-full px-3 py-2 border border-slate-300 rounded text-sm font-semibold text-[#E67E22] bg-white focus:outline-hidden focus:ring-1 focus:ring-[#FF6B00] focus:border-[#FF6B00]"
                       >
-                        <option value="5">★★★★★ (5.0 Excellent)</option>
-                        <option value="4">★★★★☆ (4.0 Very Good)</option>
-                        <option value="3">★★★☆☆ (3.0 Good)</option>
+                        <option value="5">★★★★★ (5.0 Excellent - Highly Recommended)</option>
+                        <option value="4">★★★★☆ (4.0 Very Good - Great Experience)</option>
+                        <option value="3">★★★☆☆ (3.0 Good - Met Expectations)</option>
+                        <option value="2">★★☆☆☆ (2.0 Fair - Needs Improvement)</option>
+                        <option value="1">★☆☆☆☆ (1.0 Poor - Unsatisfactory)</option>
                       </select>
                     </div>
                   </div>
