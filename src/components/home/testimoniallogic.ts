@@ -71,6 +71,12 @@ export const RATING_OPTIONS = [
   { value: "1", label: "★☆☆☆☆ (1.0 Poor - Unsatisfactory)" },
 ] as const;
 
+export const getInitials = (name: string) => {
+  const parts = (name || "Client").trim().split(/\s+/).filter(Boolean);
+  if (parts.length >= 2) return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+  return (parts[0]?.substring(0, 2) || "CT").toUpperCase();
+};
+
 export function useTestimonialLogic() {
   // Modal visibility states
   const [isReviewOpen, setIsReviewOpen] = useState(false);
@@ -106,7 +112,7 @@ export function useTestimonialLogic() {
   const [conEmail, setConEmail] = useState("");
   const [conCompany, setConCompany] = useState("");
   const [conPhone, setConPhone] = useState("");
-  const [conService, setConService] = useState<string>("Software Development");
+  const [conService, setConService] = useState("Software Development");
   const [conDetails, setConDetails] = useState("");
   const [conNda, setConNda] = useState(true);
   const [conSubmitting, setConSubmitting] = useState(false);
@@ -175,7 +181,7 @@ export function useTestimonialLogic() {
           avatar: revAvatar || "",
           rating: parseInt(revRating, 10) || 5,
           quote: revQuote.trim(),
-          verified: false, // Default to false so Admin must approve before publishing
+          verified: false,
         }),
       });
 
@@ -236,17 +242,12 @@ export function useTestimonialLogic() {
   const col2Items = [...col2, ...col2];
 
   return {
-    // Modal states
     isReviewOpen,
     setIsReviewOpen,
     isConsultOpen,
     setIsConsultOpen,
-
-    // Marquee data
     col1Items,
     col2Items,
-
-    // Review form
     revName,
     setRevName,
     revRole,
@@ -265,8 +266,6 @@ export function useTestimonialLogic() {
     resetReviewForm,
     handleAvatarFileChange,
     handleReviewSubmit,
-
-    // Consultation form
     conName,
     setConName,
     conEmail,
