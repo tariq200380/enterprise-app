@@ -1,16 +1,5 @@
 import React from "react";
 
-const SERVICES = [
-  "Software Development",
-  "UI/UX Design",
-  "Mobile Application",
-  "Cloud Infrastructure",
-  "Database Management",
-  "Web Development",
-  "AI & Automation",
-  "Digital Growth",
-];
-
 interface ContactDesignProps {
   status: "idle" | "loading" | "success" | "error";
   errorMessage: string;
@@ -61,20 +50,102 @@ export default function ContactDesign({
             1. Select the service you need
           </label>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-            {SERVICES.map((srv, index) => (
-              <label key={srv} className="cursor-pointer">
-                <input
-                  type="radio"
-                  name="service"
-                  value={srv}
-                  defaultChecked={index === 0}
-                  className="peer sr-only"
-                />
-                <span className="block p-2.5 text-xs text-center rounded border transition-colors truncate peer-checked:bg-[#0052FF] peer-checked:text-white peer-checked:border-[#0052FF] peer-checked:font-bold bg-[#F9FAFB] text-[#374151] border-[#E5E7EB] font-medium hover:bg-gray-100 peer-checked:hover:bg-[#0052FF]">
-                  {srv}
-                </span>
-              </label>
-            ))}
+            <label className="cursor-pointer">
+              <input
+                type="radio"
+                name="service"
+                value="Software Development"
+                defaultChecked
+                className="peer sr-only"
+              />
+              <span className="block p-2.5 text-xs text-center rounded border transition-colors truncate peer-checked:bg-[#0052FF] peer-checked:text-white peer-checked:border-[#0052FF] peer-checked:font-bold bg-[#F9FAFB] text-[#374151] border-[#E5E7EB] font-medium hover:bg-gray-100 peer-checked:hover:bg-[#0052FF]">
+                Software Development
+              </span>
+            </label>
+
+            <label className="cursor-pointer">
+              <input
+                type="radio"
+                name="service"
+                value="UI/UX Design"
+                className="peer sr-only"
+              />
+              <span className="block p-2.5 text-xs text-center rounded border transition-colors truncate peer-checked:bg-[#0052FF] peer-checked:text-white peer-checked:border-[#0052FF] peer-checked:font-bold bg-[#F9FAFB] text-[#374151] border-[#E5E7EB] font-medium hover:bg-gray-100 peer-checked:hover:bg-[#0052FF]">
+                UI/UX Design
+              </span>
+            </label>
+
+            <label className="cursor-pointer">
+              <input
+                type="radio"
+                name="service"
+                value="Mobile Application"
+                className="peer sr-only"
+              />
+              <span className="block p-2.5 text-xs text-center rounded border transition-colors truncate peer-checked:bg-[#0052FF] peer-checked:text-white peer-checked:border-[#0052FF] peer-checked:font-bold bg-[#F9FAFB] text-[#374151] border-[#E5E7EB] font-medium hover:bg-gray-100 peer-checked:hover:bg-[#0052FF]">
+                Mobile Application
+              </span>
+            </label>
+
+            <label className="cursor-pointer">
+              <input
+                type="radio"
+                name="service"
+                value="Cloud Infrastructure"
+                className="peer sr-only"
+              />
+              <span className="block p-2.5 text-xs text-center rounded border transition-colors truncate peer-checked:bg-[#0052FF] peer-checked:text-white peer-checked:border-[#0052FF] peer-checked:font-bold bg-[#F9FAFB] text-[#374151] border-[#E5E7EB] font-medium hover:bg-gray-100 peer-checked:hover:bg-[#0052FF]">
+                Cloud Infrastructure
+              </span>
+            </label>
+
+            <label className="cursor-pointer">
+              <input
+                type="radio"
+                name="service"
+                value="Database Management"
+                className="peer sr-only"
+              />
+              <span className="block p-2.5 text-xs text-center rounded border transition-colors truncate peer-checked:bg-[#0052FF] peer-checked:text-white peer-checked:border-[#0052FF] peer-checked:font-bold bg-[#F9FAFB] text-[#374151] border-[#E5E7EB] font-medium hover:bg-gray-100 peer-checked:hover:bg-[#0052FF]">
+                Database Management
+              </span>
+            </label>
+
+            <label className="cursor-pointer">
+              <input
+                type="radio"
+                name="service"
+                value="Web Development"
+                className="peer sr-only"
+              />
+              <span className="block p-2.5 text-xs text-center rounded border transition-colors truncate peer-checked:bg-[#0052FF] peer-checked:text-white peer-checked:border-[#0052FF] peer-checked:font-bold bg-[#F9FAFB] text-[#374151] border-[#E5E7EB] font-medium hover:bg-gray-100 peer-checked:hover:bg-[#0052FF]">
+                Web Development
+              </span>
+            </label>
+
+            <label className="cursor-pointer">
+              <input
+                type="radio"
+                name="service"
+                value="AI & Automation"
+                className="peer sr-only"
+              />
+              <span className="block p-2.5 text-xs text-center rounded border transition-colors truncate peer-checked:bg-[#0052FF] peer-checked:text-white peer-checked:border-[#0052FF] peer-checked:font-bold bg-[#F9FAFB] text-[#374151] border-[#E5E7EB] font-medium hover:bg-gray-100 peer-checked:hover:bg-[#0052FF]">
+                AI &amp; Automation
+              </span>
+            </label>
+
+            <label className="cursor-pointer">
+              <input
+                type="radio"
+                name="service"
+                value="Digital Growth"
+                className="peer sr-only"
+              />
+              <span className="block p-2.5 text-xs text-center rounded border transition-colors truncate peer-checked:bg-[#0052FF] peer-checked:text-white peer-checked:border-[#0052FF] peer-checked:font-bold bg-[#F9FAFB] text-[#374151] border-[#E5E7EB] font-medium hover:bg-gray-100 peer-checked:hover:bg-[#0052FF]">
+                Digital Growth
+              </span>
+            </label>
           </div>
         </div>
 
