@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import ContactForm from "@/components/contact/ContactForm";
+import ContactLogic from "@/components/contact/contactlogic";
 
 export const metadata: Metadata = {
   title: "Contact Solutions Architecture & Engineering | Creed Tech",
@@ -89,7 +89,7 @@ export default function ContactPage() {
                 </p>
               </div>
 
-              <ContactForm />
+              <ContactLogic />
             </div>
 
             {/* RIGHT COLUMN: DIRECT CONTACTS & GLOBAL HUBS */}
