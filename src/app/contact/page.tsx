@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import ContactLogic from "@/components/contact/contactlogic";
+import DirectCallCard from "@/components/contact/DirectCallCard";
 
 export const metadata: Metadata = {
   title: "Contact Solutions Architecture & Engineering | Creed Tech",
@@ -96,23 +97,7 @@ export default function ContactPage() {
             <div className="lg:col-span-5 flex flex-col gap-6 text-left">
 
               {/* Direct Booking Card */}
-              <div className="bg-gradient-to-br from-[#030712] to-[#111827] text-white p-7 rounded-2xl border border-[#1F2937] shadow-lg">
-                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-white/10 text-[#FB923C] text-[10.5px] font-bold uppercase tracking-wider rounded-sm mb-3">
-                  <span>⚡ INSTANT DISCOVERY</span>
-                </div>
-                <h3 className="text-xl font-bold text-white mb-2">
-                  Need a Direct Architectural Call?
-                </h3>
-                <p className="text-xs sm:text-sm text-gray-300 leading-relaxed font-normal mb-5">
-                  Skip the form and schedule a 30-minute discovery call directly with one of our Principal Systems Architects.
-                </p>
-                <a
-                  href="mailto:contact@creed-tech.com?subject=Schedule%20Discovery%20Call"
-                  className="w-full h-11 inline-flex items-center justify-center bg-[#FF6B00] hover:bg-[#E05E00] text-white font-bold text-xs uppercase tracking-wider rounded transition-colors"
-                >
-                  Schedule Discovery Call
-                </a>
-              </div>
+              <DirectCallCard />
 
               {/* Direct Communication Channels */}
               <div className="bg-white border border-[#E5E7EB] rounded-2xl p-7 shadow-sm flex flex-col gap-5">
