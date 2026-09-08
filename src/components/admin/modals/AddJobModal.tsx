@@ -82,29 +82,54 @@ export default function AddJobModal({ isOpen, onClose, onJobCreated, showToast }
               <label className="block font-semibold mb-1">Department</label>
               <input
                 type="text"
+                list="dept-options"
                 value={department}
+                placeholder="Select or enter department"
                 onChange={(e) => setDepartment(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded outline-none"
               />
+              <datalist id="dept-options">
+                <option value="Engineering" />
+                <option value="AI & Machine Learning" />
+                <option value="UI/UX & Design" />
+                <option value="Cloud & SRE" />
+                <option value="Solutions & Growth" />
+              </datalist>
             </div>
             <div>
               <label className="block font-semibold mb-1">Location</label>
               <input
                 type="text"
                 value={location}
+                placeholder="e.g. Remote / Global"
                 onChange={(e) => setLocation(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded outline-none"
               />
             </div>
           </div>
-          <div>
-            <label className="block font-semibold mb-1">Required Skills / Tags (comma separated)</label>
-            <input
-              type="text"
-              value={tags}
-              onChange={(e) => setTags(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded outline-none"
-            />
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="block font-semibold mb-1">Opening Status</label>
+              <select
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded outline-none bg-white cursor-pointer"
+              >
+                <option value="ACTIVE">ACTIVE (Open)</option>
+                <option value="URGENT">URGENT (Priority)</option>
+                <option value="PAUSED">PAUSED</option>
+              </select>
+            </div>
+            <div>
+              <label className="block font-semibold mb-1">Skills / Tags (comma separated)</label>
+              <input
+                type="text"
+                value={tags}
+                placeholder="e.g. Rust, Docker, Kubernetes"
+                onChange={(e) => setTags(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded outline-none"
+              />
+            </div>
           </div>
           <div>
             <label className="block font-semibold mb-1">Job Description</label>
