@@ -4,11 +4,13 @@ import { useState } from "react";
 
 export default function DirectCallCard() {
   const [isOpen, setIsOpen] = useState(false);
+  const [preferredSlot, setPreferredSlot] = useState("Today (Within 2-4 Hours)");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
 
   const closeModal = () => {
     setIsOpen(false);
+    setPreferredSlot("Today (Within 2-4 Hours)");
     setStatus("idle");
     setErrorMessage("");
   };
@@ -21,8 +23,15 @@ export default function DirectCallCard() {
     const fullName = (formData.get("fullName") as string)?.trim();
     const workEmail = (formData.get("workEmail") as string)?.trim();
     const phone = (formData.get("phone") as string)?.trim();
-    const preferredSlot = (formData.get("preferredSlot") as string)?.trim();
+    const slotSelection = (formData.get("preferredSlot") as string)?.trim();
+    const customDate = (formData.get("customDate") as string)?.trim();
+    const customTime = (formData.get("customTime") as string)?.trim();
     const details = (formData.get("details") as string)?.trim();
+
+    let slotDetails = slotSelection || "As soon as possible";
+    if (slotSelection === "Custom Time Window" && customDate) {
+      slotDetails = `Custom Scheduled: ${customDate} at ${customTime || "Flexible"}`;
+    }
 
     if (!fullName || !workEmail) {
       setStatus("error");
@@ -43,7 +52,7 @@ export default function DirectCallCard() {
           phone: phone || "",
           company: "Direct Discovery Call",
           service: "Direct Architectural Discovery Call",
-          project_details: `Preferred Slot: ${preferredSlot || "As soon as possible"}\nTopic: ${details || "General 30-min architectural scoping."}`,
+          project_details: `Preferred Slot: ${slotDetails}\nTopic: ${details || "General 30-min architectural scoping."}`,
           need_nda: true,
         }),
       });
@@ -163,16 +172,65 @@ export default function DirectCallCard() {
                       </label>
                       <select
                         name="preferredSlot"
+                        value={preferredSlot}
+                        onChange={(e) => setPreferredSlot(e.target.value)}
                         disabled={status === "loading"}
                         className="w-full px-3 py-2 bg-[#F9FAFB] border border-[#E5E7EB] rounded text-xs sm:text-sm text-gray-900 outline-none focus:border-[#0052FF] transition-colors font-medium cursor-pointer"
                       >
                         <option value="Today (Within 2-4 Hours)">⚡ Today (Within 2-4 Hours)</option>
                         <option value="Tomorrow Morning (9:00 AM CET / UTC+1)">Tomorrow Morning (9:00 AM CET)</option>
                         <option value="Tomorrow Afternoon (2:00 PM EST / UTC-5)">Tomorrow Afternoon (2:00 PM EST)</option>
-                        <option value="Custom Time Window">Custom Time Window (Coordinator will confirm)</option>
+                        <option value="Custom Time Window">Custom Time Window (Select Date &amp; Time)</option>
                       </select>
                     </div>
                   </div>
+
+                  {/* Custom Date & Time Picker */}
+                  {preferredSlot === "Custom Time Window" && (
+                    <div className="p-3.5 bg-blue-50/70 border border-blue-200 rounded-lg flex flex-col gap-2.5 animate-in fade-in duration-200">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[11px] font-bold text-[#0052FF] uppercase tracking-wider flex items-center gap-1.5">
+                          <span>📅</span>
+                          <span>Select Your Preferred Date &amp; Time</span>
+                        </span>
+                        <span className="text-[10px] text-gray-500 font-mono">
+                          Direct Calendar Invite
+                        </span>
+                      </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                          <label className="block text-[11px] font-semibold text-gray-700 mb-1">
+                            Choose Date *
+                          </label>
+                          <input
+                            type="date"
+                            name="customDate"
+                            required
+                            min={new Date().toISOString().split("T")[0]}
+                            defaultValue={new Date(Date.now() + 86400000).toISOString().split("T")[0]}
+                            disabled={status === "loading"}
+                            className="w-full px-3 py-2 bg-white border border-[#E5E7EB] rounded text-xs text-gray-900 outline-none focus:border-[#0052FF] transition-colors cursor-pointer"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-[11px] font-semibold text-gray-700 mb-1">
+                            Choose Time Slot *
+                          </label>
+                          <input
+                            type="time"
+                            name="customTime"
+                            defaultValue="14:00"
+                            required
+                            disabled={status === "loading"}
+                            className="w-full px-3 py-2 bg-white border border-[#E5E7EB] rounded text-xs text-gray-900 outline-none focus:border-[#0052FF] transition-colors cursor-pointer"
+                          />
+                        </div>
+                      </div>
+                      <p className="text-[10.5px] text-gray-500 font-normal leading-normal">
+                        Select a date from tomorrow onward and your convenient time. A calendar meeting link will be sent to your email.
+                      </p>
+                    </div>
+                  )}
 
                   <div>
                     <label className="block text-xs font-semibold text-gray-700 mb-1">
