@@ -130,6 +130,218 @@ body {
   display: grid !important;
 }
 
+/* BrandTechWires: Pure CSS interactive tabs & animations without useState */
+@keyframes wireCardEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#brand-tab-google:checked ~ * .brand-btn-google,
+#brand-tab-apple:checked ~ * .brand-btn-apple,
+#brand-tab-nvidia:checked ~ * .brand-btn-nvidia,
+#brand-tab-anthropic:checked ~ * .brand-btn-anthropic,
+#brand-tab-openai:checked ~ * .brand-btn-openai,
+#brand-tab-meta:checked ~ * .brand-btn-meta,
+#brand-tab-microsoft:checked ~ * .brand-btn-microsoft,
+#brand-tab-intel:checked ~ * .brand-btn-intel {
+  background-color: #0052FF !important;
+  color: #ffffff !important;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+}
+
+#brand-tab-google:checked ~ * .brand-pane-google,
+#brand-tab-apple:checked ~ * .brand-pane-apple,
+#brand-tab-nvidia:checked ~ * .brand-pane-nvidia,
+#brand-tab-anthropic:checked ~ * .brand-pane-anthropic,
+#brand-tab-openai:checked ~ * .brand-pane-openai,
+#brand-tab-meta:checked ~ * .brand-pane-meta,
+#brand-tab-microsoft:checked ~ * .brand-pane-microsoft,
+#brand-tab-intel:checked ~ * .brand-pane-intel {
+  display: grid !important;
+  animation: wireCardEnter 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* RegionalTechEcosystem: Pure CSS interactive tabs without useState */
+#regional-tab-dawn:checked ~ * .regional-btn-dawn,
+#regional-tab-brecorder:checked ~ * .regional-btn-brecorder,
+#regional-tab-propakistani:checked ~ * .regional-btn-propakistani,
+#regional-tab-tribune:checked ~ * .regional-btn-tribune {
+  background-color: #059669 !important;
+  color: #ffffff !important;
+  border-color: #059669 !important;
+  box-shadow: 0 4px 6px -1px rgba(5, 150, 105, 0.3) !important;
+}
+
+#regional-tab-dawn:checked ~ * .regional-pane-dawn,
+#regional-tab-brecorder:checked ~ * .regional-pane-brecorder,
+#regional-tab-propakistani:checked ~ * .regional-pane-propakistani,
+#regional-tab-tribune:checked ~ * .regional-pane-tribune {
+  display: grid !important;
+  animation: wireCardEnter 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* LatestTechNews: Pure CSS interactive selection without useState */
+#news-tab-0:checked ~ * .news-pane-0,
+#news-tab-1:checked ~ * .news-pane-1,
+#news-tab-2:checked ~ * .news-pane-2,
+#news-tab-3:checked ~ * .news-pane-3,
+#news-tab-4:checked ~ * .news-pane-4,
+#news-tab-5:checked ~ * .news-pane-5,
+#news-tab-6:checked ~ * .news-pane-6 {
+  display: flex !important;
+  animation: wireCardEnter 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+#news-tab-1:checked ~ * .news-item-1,
+#news-tab-2:checked ~ * .news-item-2,
+#news-tab-3:checked ~ * .news-item-3,
+#news-tab-4:checked ~ * .news-item-4,
+#news-tab-5:checked ~ * .news-item-5,
+#news-tab-6:checked ~ * .news-item-6 {
+  border-color: #0052FF !important;
+  box-shadow: 0 0 0 1px rgba(0, 82, 255, 0.2) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* KnowledgeOverviewGrid: Pure CSS interactive topic filter without useState */
+#filter-all:checked ~ * .btn-filter-all,
+#filter-seo:checked ~ * .btn-filter-seo,
+#filter-hosting:checked ~ * .btn-filter-hosting,
+#filter-social:checked ~ * .btn-filter-social,
+#filter-ai:checked ~ * .btn-filter-ai,
+#filter-devops:checked ~ * .btn-filter-devops {
+  background-color: #0052FF !important;
+  color: #ffffff !important;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+}
+
+#filter-all:checked ~ * .card-topic-all {
+  display: block !important;
+  animation: wireCardEnter 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+#filter-seo:checked ~ * .card-topic-seo {
+  display: block !important;
+  animation: wireCardEnter 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+#filter-hosting:checked ~ * .card-topic-hosting {
+  display: block !important;
+  animation: wireCardEnter 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+#filter-social:checked ~ * .card-topic-social {
+  display: block !important;
+  animation: wireCardEnter 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+#filter-ai:checked ~ * .card-topic-ai {
+  display: block !important;
+  animation: wireCardEnter 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+#filter-devops:checked ~ * .card-topic-devops {
+  display: block !important;
+  animation: wireCardEnter 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Testimonial3DDeck: Pure CSS 3D Card Stack without useState */
+.testi-card {
+  transition: transform 0.65s cubic-bezier(0.2, 0.9, 0.3, 1), opacity 0.55s ease, box-shadow 0.55s ease;
+}
+
+/* Front Card (Active) */
+#testi-0:checked ~ * .testi-card-0,
+#testi-1:checked ~ * .testi-card-1,
+#testi-2:checked ~ * .testi-card-2,
+#testi-3:checked ~ * .testi-card-3,
+#testi-4:checked ~ * .testi-card-4 {
+  transform: translate3d(0, 0, 0) scale(1) rotate(0deg) !important;
+  opacity: 1 !important;
+  z-index: 10 !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+  pointer-events: auto !important;
+}
+
+/* 2nd Card */
+#testi-0:checked ~ * .testi-card-1,
+#testi-1:checked ~ * .testi-card-2,
+#testi-2:checked ~ * .testi-card-3,
+#testi-3:checked ~ * .testi-card-4,
+#testi-4:checked ~ * .testi-card-0 {
+  transform: translate3d(0, 18px, -40px) scale(0.96) rotate(-2deg) !important;
+  opacity: 0.9 !important;
+  z-index: 8 !important;
+  box-shadow: 0 16px 32px -8px rgba(0, 0, 0, 0.08) !important;
+  pointer-events: none !important;
+}
+
+/* 3rd Card */
+#testi-0:checked ~ * .testi-card-2,
+#testi-1:checked ~ * .testi-card-3,
+#testi-2:checked ~ * .testi-card-4,
+#testi-3:checked ~ * .testi-card-0,
+#testi-4:checked ~ * .testi-card-1 {
+  transform: translate3d(0, 36px, -80px) scale(0.92) rotate(2deg) !important;
+  opacity: 0.68 !important;
+  z-index: 6 !important;
+  box-shadow: 0 10px 20px -6px rgba(0, 0, 0, 0.04) !important;
+  pointer-events: none !important;
+}
+
+/* 4th & 5th Hidden Cards */
+#testi-0:checked ~ * .testi-card-3,
+#testi-0:checked ~ * .testi-card-4,
+#testi-1:checked ~ * .testi-card-4,
+#testi-1:checked ~ * .testi-card-0,
+#testi-2:checked ~ * .testi-card-0,
+#testi-2:checked ~ * .testi-card-1,
+#testi-3:checked ~ * .testi-card-1,
+#testi-3:checked ~ * .testi-card-2,
+#testi-4:checked ~ * .testi-card-2,
+#testi-4:checked ~ * .testi-card-3 {
+  transform: translate3d(0, 48px, -120px) scale(0.88) rotate(0deg) !important;
+  opacity: 0 !important;
+  z-index: 2 !important;
+  box-shadow: none !important;
+  pointer-events: none !important;
+}
+
+/* Active Dots */
+#testi-0:checked ~ * .testi-dot-0,
+#testi-1:checked ~ * .testi-dot-1,
+#testi-2:checked ~ * .testi-dot-2,
+#testi-3:checked ~ * .testi-dot-3,
+#testi-4:checked ~ * .testi-dot-4 {
+  width: 24px !important;
+  background-color: #0F172A !important;
+}
+
+/* Dynamic Prev / Next Arrow Triggers */
+#testi-0:checked ~ * .testi-prev-0,
+#testi-1:checked ~ * .testi-prev-1,
+#testi-2:checked ~ * .testi-prev-2,
+#testi-3:checked ~ * .testi-prev-3,
+#testi-4:checked ~ * .testi-prev-4,
+#testi-0:checked ~ * .testi-next-0,
+#testi-1:checked ~ * .testi-next-1,
+#testi-2:checked ~ * .testi-next-2,
+#testi-3:checked ~ * .testi-next-3,
+#testi-4:checked ~ * .testi-next-4,
+#testi-0:checked ~ * .testi-click-0,
+#testi-1:checked ~ * .testi-click-1,
+#testi-2:checked ~ * .testi-click-2,
+#testi-3:checked ~ * .testi-click-3,
+#testi-4:checked ~ * .testi-click-4 {
+  display: flex !important;
+}
+
 /* Mobile Navigation Links: Smooth Hover and Active animations */
 .mobile-nav-link {
   transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1) !important;

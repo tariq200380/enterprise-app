@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import TopBanner from "@/components/TopBanner";
-import Navbar from "@/components/Navbar";
-import NewsletterStrip from "@/components/NewsletterStrip";
-import Footer from "@/components/Footer";
+import AppLayoutWrapper from "@/components/AppLayoutWrapper";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://creed-tech.com"),
@@ -135,13 +132,7 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col bg-white text-gray-900 font-sans">
-        <div className="sticky top-0 z-50">
-          <TopBanner />
-          <Navbar />
-        </div>
-        <main className="flex-1">{children}</main>
-        <NewsletterStrip />
-        <Footer />
+        <AppLayoutWrapper>{children}</AppLayoutWrapper>
       </body>
     </html>
   );

@@ -1,0 +1,122 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model article_reviews {
+  id            Int       @id @default(autoincrement())
+  reviewer_name String
+  organization  String?
+  article_title String
+  rating        Int?      @default(5)
+  details       String
+  status        String?   @default("PENDING")
+  submitted_at  DateTime? @default(now()) @db.Timestamp(6)
+}
+
+model articles {
+  id               Int       @id @default(autoincrement())
+  title            String    @db.VarChar(500)
+  category         String    @db.VarChar(255)
+  author           String    @db.VarChar(255)
+  read_time        String    @db.VarChar(100)
+  cover_photo_url  String?
+  video_embed_url  String?
+  audio_stream_url String?
+  editor_note      String?
+  content          String?
+  pros             Json?     @default("[]")
+  cons             Json?     @default("[]")
+  specs            Json?     @default("[]")
+  views            Int?      @default(0)
+  status           String?   @default("PUBLISHED") @db.VarChar(50)
+  created_at       DateTime? @default(now()) @db.Timestamp(6)
+}
+
+model candidates {
+  id               Int    @id @default(autoincrement())
+  candidate_name   String @db.VarChar(255)
+  domain_specialty String @db.VarChar(255)
+  email            String @db.VarChar(255)
+  portfolio_github String @db.VarChar(255)
+  created_at       String @db.VarChar(100)
+  status           String @db.VarChar(50)
+}
+
+model contact_inquiries {
+  id              Int      @id @default(autoincrement())
+  client_name     String   @db.VarChar(255)
+  service         String   @db.VarChar(255)
+  company         String   @db.VarChar(255)
+  phone           String?  @db.VarChar(100)
+  email           String?  @db.VarChar(255)
+  project_details String?
+  need_nda        Boolean? @default(true)
+  status          String?  @default("PENDING") @db.VarChar(50)
+  created_at      String?  @default("Today, 06:45 AM") @db.VarChar(100)
+}
+
+model job_openings {
+  id          Int       @id @default(autoincrement())
+  title       String
+  department  String
+  location    String
+  status      String?   @default("ACTIVE")
+  description String
+  tags        Json?     @default("[]")
+  created_at  DateTime? @default(now()) @db.Timestamp(6)
+}
+
+model portfolio_projects {
+  id         Int       @id @default(autoincrement())
+  title      String
+  category   String
+  client     String
+  summary    String
+  stack      Json?     @default("[]")
+  live_url   String?
+  github_url String?
+  image_url  String?
+  created_at DateTime? @default(now()) @db.Timestamp(6)
+}
+
+model subscribers {
+  id         Int       @id @default(autoincrement())
+  email      String    @unique
+  source     String?   @default("Global Website")
+  status     String?   @default("ACTIVE")
+  created_at DateTime? @default(now()) @db.Timestamp(6)
+}
+
+model testimonials {
+  id          Int       @id @default(autoincrement())
+  client_name String
+  role        String
+  company     String
+  avatar      String?
+  rating      Int?      @default(5)
+  quote       String
+  verified    Boolean?  @default(true)
+  created_at  DateTime? @default(now()) @db.Timestamp(6)
+}
+
+model videos {
+  id            Int       @id @default(autoincrement())
+  title         String
+  category      String
+  duration      String
+  embed_url     String
+  thumbnail_url String?
+  views         Int?      @default(0)
+  created_at    DateTime? @default(now()) @db.Timestamp(6)
+}
+
+model website_settings {
+  key        String    @id @db.VarChar(100)
+  value      Json
+  updated_at DateTime? @default(now()) @db.Timestamp(6)
+}

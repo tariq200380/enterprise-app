@@ -1,6 +1,3 @@
-"use client";
-
-import React, { useState } from "react";
 import Image from "next/image";
 
 interface NewsStory {
@@ -107,15 +104,22 @@ const newsStories: NewsStory[] = [
 ];
 
 export default function LatestTechNews() {
-  const [activeIdx, setActiveIdx] = useState(0);
-  const currentStory = newsStories[activeIdx];
-
-  // Right list contains stories except currently featured (or all 6 companion stories)
-  // Matching prototype: items 1..6 are listed on the right
   const companionStories = newsStories.slice(1, 7);
 
   return (
     <section className="w-full py-12 sm:py-14 bg-[#F8FAFC] border-b border-[#E2E8F0]">
+      {/* Hidden Radio Buttons for Pure CSS Tabs (Zero useState, Zero JS) */}
+      {newsStories.map((_, i) => (
+        <input
+          key={i}
+          type="radio"
+          name="news-story-tab"
+          id={`news-tab-${i}`}
+          defaultChecked={i === 0}
+          className="hidden"
+        />
+      ))}
+
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="flex items-center justify-between flex-wrap gap-4 mb-8 pb-4 border-b-2 border-[#E2E8F0]">
@@ -134,69 +138,71 @@ export default function LatestTechNews() {
 
         {/* 2-Column Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-[7.5fr_4.5fr] gap-6 lg:gap-8 items-start">
-          {/* Left Main Breaking Card (Interactive Display) */}
-          <div className="bg-white border border-[#E2E8F0] rounded-2xl overflow-hidden shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05)] flex flex-col w-full">
-            {/* Visual Container with True 16:9 Landscape Proportion */}
-            <div className="relative w-full aspect-[16/9] bg-[#0B1120] overflow-hidden">
-              <Image
-                src={currentStory.img}
-                alt={currentStory.title}
-                fill
-                sizes="(max-width: 1024px) 100vw, 65vw"
-                className="object-cover object-center transition-all duration-300"
-                priority
-              />
-              <span className="absolute top-4 left-4 bg-[#0052FF] text-white text-[10.5px] font-bold px-2.5 py-1 rounded-[2px] uppercase tracking-[0.05em] shadow-sm z-10">
-                {currentStory.tag}
-              </span>
-            </div>
+          {/* Left Main Breaking Cards (Controlled by Pure CSS) */}
+          <div className="w-full">
+            {newsStories.map((story, i) => (
+              <div
+                key={story.title}
+                className={`news-pane-${i} hidden bg-white border border-[#E2E8F0] rounded-2xl overflow-hidden shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05)] flex-col w-full`}
+              >
+                {/* Visual Container with True 16:9 Landscape Proportion */}
+                <div className="relative w-full aspect-[16/9] bg-[#0B1120] overflow-hidden">
+                  <Image
+                    src={story.img}
+                    alt={story.title}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 65vw"
+                    className="object-cover object-center transition-all duration-300"
+                    priority={i === 0}
+                  />
+                  <span className="absolute top-4 left-4 bg-[#0052FF] text-white text-[10.5px] font-bold px-2.5 py-1 rounded-[2px] uppercase tracking-[0.05em] shadow-sm z-10">
+                    {story.tag}
+                  </span>
+                </div>
 
-            {/* Content Area */}
-            <div className="p-6 sm:p-7 flex flex-col flex-1">
-              <div className="flex items-center gap-2 text-xs text-[#64748B] mb-2 flex-wrap font-medium">
-                <span>{currentStory.date}</span>
-                <span>•</span>
-                <span>{currentStory.source}</span>
+                {/* Content Area */}
+                <div className="p-6 sm:p-7 flex flex-col flex-1">
+                  <div className="flex items-center gap-2 text-xs text-[#64748B] mb-2 flex-wrap font-medium">
+                    <span>{story.date}</span>
+                    <span>•</span>
+                    <span>{story.source}</span>
+                  </div>
+
+                  <h3 className="text-xl sm:text-2xl font-extrabold text-[#0F172A] leading-[1.35] mb-2.5">
+                    {story.title}
+                  </h3>
+
+                  <p className="text-[14.5px] sm:text-[15px] text-[#475569] leading-relaxed mb-5">
+                    {story.desc}
+                  </p>
+
+                  <div className="mt-auto flex items-center justify-between flex-wrap gap-2.5 pt-2 border-t border-[#F1F5F9]">
+                    <a
+                      href={story.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[13px] font-bold text-[#0052FF] hover:text-[#0043D6] hover:underline inline-flex items-center gap-1 transition-colors"
+                    >
+                      <span>Read Full Wire &rarr;</span>
+                    </a>
+                    <span className="text-[11px] text-[#94A3B8] font-mono tracking-wider">
+                      VERIFIED BY LABS
+                    </span>
+                  </div>
+                </div>
               </div>
-
-              <h3 className="text-xl sm:text-2xl font-extrabold text-[#0F172A] leading-[1.35] mb-2.5">
-                {currentStory.title}
-              </h3>
-
-              <p className="text-[14.5px] sm:text-[15px] text-[#475569] leading-relaxed mb-5">
-                {currentStory.desc}
-              </p>
-
-              <div className="mt-auto flex items-center justify-between flex-wrap gap-2.5 pt-2 border-t border-[#F1F5F9]">
-                <a
-                  href={currentStory.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[13px] font-bold text-[#0052FF] hover:text-[#0043D6] hover:underline inline-flex items-center gap-1 transition-colors"
-                >
-                  Read Full Wire &rarr;
-                </a>
-                <span className="text-[11px] text-[#94A3B8] font-mono tracking-wider">
-                  VERIFIED BY LABS
-                </span>
-              </div>
-            </div>
+            ))}
           </div>
 
-          {/* Right 6 Stacked Stories (Clickable to switch main featured story) */}
+          {/* Right 6 Stacked Stories (Pure CSS labels to switch main featured story) */}
           <div className="flex flex-col gap-3 w-full">
             {companionStories.map((story, i) => {
               const actualIdx = i + 1;
-              const isSelected = activeIdx === actualIdx;
               return (
-                <div
+                <label
                   key={story.title}
-                  onClick={() => setActiveIdx(actualIdx)}
-                  className={`bg-white border rounded-[10px] p-3 cursor-pointer transition-all duration-200 shadow-[0_1px_3px_rgba(0,0,0,0.04)] w-full box-border ${
-                    isSelected
-                      ? "border-[#0052FF] ring-1 ring-[#0052FF]/20 -translate-y-[1px]"
-                      : "border-[#E2E8F0] hover:border-[#0052FF] hover:-translate-y-[1px]"
-                  }`}
+                  htmlFor={`news-tab-${actualIdx}`}
+                  className={`news-item-${actualIdx} bg-white border border-[#E2E8F0] hover:border-[#0052FF] hover:-translate-y-[1px] rounded-[10px] p-3 cursor-pointer transition-all duration-200 shadow-[0_1px_3px_rgba(0,0,0,0.04)] w-full box-border block select-none`}
                 >
                   <div className="flex items-center gap-3">
                     <div className="w-[60px] h-[60px] rounded-[6px] overflow-hidden bg-[#0B1120] shrink-0 relative">
@@ -223,7 +229,7 @@ export default function LatestTechNews() {
                       </span>
                     </div>
                   </div>
-                </div>
+                </label>
               );
             })}
           </div>

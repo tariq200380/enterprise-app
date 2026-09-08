@@ -1,6 +1,3 @@
-"use client";
-
-import React, { useState } from "react";
 import Image from "next/image";
 
 interface BrandWireItem {
@@ -136,12 +133,20 @@ const brandWires: BrandWireItem[] = [
 ];
 
 export default function BrandTechWires() {
-  const [selectedId, setSelectedId] = useState("google");
-  const selectedWire =
-    brandWires.find((item) => item.id === selectedId) || brandWires[0];
-
   return (
     <section className="w-full py-12 sm:py-14 bg-white border-b border-[#E2E8F0]">
+      {/* Hidden Radio Buttons for Pure CSS Tabs (Zero useState, Zero JS) */}
+      {brandWires.map((brand, idx) => (
+        <input
+          key={brand.id}
+          type="radio"
+          name="brand-wire-tab"
+          id={`brand-tab-${brand.id}`}
+          defaultChecked={idx === 0}
+          className="hidden"
+        />
+      ))}
+
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Centered Header */}
         <div className="text-center max-w-[48rem] mx-auto mb-8">
@@ -158,77 +163,76 @@ export default function BrandTechWires() {
 
         {/* 8 Verified Provider Tabs */}
         <div className="flex items-center justify-center flex-wrap gap-2 mb-8">
-          {brandWires.map((brand) => {
-            const isActive = brand.id === selectedId;
-            return (
-              <button
-                key={brand.id}
-                type="button"
-                onClick={() => setSelectedId(brand.id)}
-                className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-md text-xs font-bold transition-all duration-200 cursor-pointer ${
-                  isActive
-                    ? "bg-[#0052FF] text-white shadow-sm"
-                    : "bg-[#F1F5F9] text-[#475569] hover:bg-[#E2E8F0] hover:text-[#0F172A]"
-                }`}
-              >
-                <span>{brand.icon}</span>
-                <span>{brand.name}</span>
-              </button>
-            );
-          })}
+          {brandWires.map((brand) => (
+            <label
+              key={brand.id}
+              htmlFor={`brand-tab-${brand.id}`}
+              className={`brand-btn-${brand.id} inline-flex items-center gap-1.5 px-4 py-2 rounded-md text-xs font-bold transition-all duration-200 cursor-pointer select-none bg-[#F1F5F9] text-[#475569] hover:bg-[#E2E8F0] hover:text-[#0F172A]`}
+            >
+              <span>{brand.icon}</span>
+              <span>{brand.name}</span>
+            </label>
+          ))}
         </div>
 
-        {/* Showcase Card */}
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-6 lg:gap-8 items-center bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-6 sm:p-7 shadow-[0_2px_8px_rgba(15,23,42,0.03)]">
-          {/* Visual Container */}
-          <div className="relative w-full aspect-[16/9] min-h-[240px] sm:min-h-[280px] rounded-xl overflow-hidden bg-[#0B1120]">
-            <Image
-              src={selectedWire.img}
-              alt={selectedWire.title}
-              fill
-              sizes="(max-width: 1024px) 100vw, 45vw"
-              className="object-cover object-center transition-all duration-300"
-              priority
-            />
-            {/* Top right floating badge */}
-            <div className="absolute top-3 right-3 z-10">
-              <span className="inline-flex items-center gap-1.5 bg-white/95 backdrop-blur-md text-[#0F172A] text-[11px] font-extrabold px-3 py-1 rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.25)]">
-                {selectedWire.brandBadge}
-              </span>
+        {/* Showcase Cards (Controlled by Pure CSS) */}
+        <div>
+          {brandWires.map((wire) => (
+            <div
+              key={wire.id}
+              className={`brand-pane-${wire.id} hidden grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-6 lg:gap-8 items-center bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-6 sm:p-7 shadow-[0_2px_8px_rgba(15,23,42,0.03)]`}
+            >
+              {/* Visual Container */}
+              <div className="relative w-full aspect-[16/9] min-h-[240px] sm:min-h-[280px] rounded-xl overflow-hidden bg-[#0B1120]">
+                <Image
+                  src={wire.img}
+                  alt={wire.title}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 45vw"
+                  className="object-cover object-center transition-all duration-300"
+                  priority={wire.id === "google"}
+                />
+                {/* Top right floating badge */}
+                <div className="absolute top-3 right-3 z-10">
+                  <span className="inline-flex items-center gap-1.5 bg-white/95 backdrop-blur-md text-[#0F172A] text-[11px] font-extrabold px-3 py-1 rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.25)]">
+                    {wire.brandBadge}
+                  </span>
+                </div>
+              </div>
+
+              {/* Details */}
+              <div className="flex flex-col justify-center">
+                <div className="flex items-center gap-2 mb-2.5 flex-wrap">
+                  <span className="bg-[#DBEAFE] text-[#1E40AF] text-[10px] font-extrabold px-2 py-0.5 rounded-[3px] uppercase">
+                    {wire.cat}
+                  </span>
+                  <span className="text-xs text-[#64748B]">
+                    {wire.date}
+                  </span>
+                </div>
+
+                <h3 className="text-xl sm:text-2xl font-extrabold text-[#0F172A] leading-[1.35] mb-2.5">
+                  {wire.title}
+                </h3>
+
+                <p className="text-[14.5px] sm:text-[15px] text-[#475569] leading-relaxed mb-4">
+                  {wire.summary}
+                </p>
+
+                <div>
+                  <a
+                    href={wire.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-[12.5px] font-bold text-[#0052FF] hover:text-[#0043D6] hover:underline transition-colors"
+                  >
+                    <span>Read Original on {wire.source}</span>
+                    <span>&rarr;</span>
+                  </a>
+                </div>
+              </div>
             </div>
-          </div>
-
-          {/* Details */}
-          <div className="flex flex-col justify-center">
-            <div className="flex items-center gap-2 mb-2.5 flex-wrap">
-              <span className="bg-[#DBEAFE] text-[#1E40AF] text-[10px] font-extrabold px-2 py-0.5 rounded-[3px] uppercase">
-                {selectedWire.cat}
-              </span>
-              <span className="text-xs text-[#64748B]">
-                {selectedWire.date}
-              </span>
-            </div>
-
-            <h3 className="text-xl sm:text-2xl font-extrabold text-[#0F172A] leading-[1.35] mb-2.5">
-              {selectedWire.title}
-            </h3>
-
-            <p className="text-[14.5px] sm:text-[15px] text-[#475569] leading-relaxed mb-4">
-              {selectedWire.summary}
-            </p>
-
-            <div>
-              <a
-                href={selectedWire.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-[12.5px] font-bold text-[#0052FF] hover:text-[#0043D6] hover:underline transition-colors"
-              >
-                <span>Read Original on {selectedWire.source}</span>
-                <span>&rarr;</span>
-              </a>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </section>

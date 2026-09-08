@@ -1,6 +1,3 @@
-"use client";
-
-import React, { useState } from "react";
 import Link from "next/link";
 
 interface TopicCard {
@@ -107,18 +104,39 @@ const trendingCards = [
   },
 ];
 
+const topicFilters = [
+  { label: "ALL", id: "all" },
+  { label: "SEO", id: "seo" },
+  { label: "Hosting", id: "hosting" },
+  { label: "Social", id: "social" },
+  { label: "AI & Cloud", id: "ai" },
+  { label: "DevOps", id: "devops" },
+];
+
+const getTopicKey = (topic: string) => {
+  if (topic === "SEO") return "seo";
+  if (topic === "Hosting") return "hosting";
+  if (topic === "Social") return "social";
+  if (topic === "AI & Cloud") return "ai";
+  if (topic === "DevOps") return "devops";
+  return "all";
+};
+
 export default function KnowledgeOverviewGrid() {
-  const [activeTopic, setActiveTopic] = useState("ALL");
-
-  const filteredTopics =
-    activeTopic === "ALL"
-      ? topicCards
-      : topicCards.filter((c) => c.topic === activeTopic);
-
-  const topicFilters = ["ALL", "SEO", "Hosting", "Social", "AI & Cloud", "DevOps"];
-
   return (
     <section className="w-full py-12 sm:py-16 bg-[#FAFAFC] border-b border-[#E2E8F0]">
+      {/* Hidden Radio Buttons for Pure CSS Filter Tabs (Zero useState, Zero JS) */}
+      {topicFilters.map((tab, idx) => (
+        <input
+          key={tab.id}
+          type="radio"
+          name="topic-filter"
+          id={`filter-${tab.id}`}
+          defaultChecked={idx === 0}
+          className="hidden"
+        />
+      ))}
+
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* 2-Column Overview Studio Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_320px] gap-8 items-start">
@@ -193,33 +211,25 @@ export default function KnowledgeOverviewGrid() {
 
                 {/* Filter Pills */}
                 <div className="flex items-center flex-wrap gap-1.5">
-                  {topicFilters.map((tab) => {
-                    const isActive = activeTopic === tab;
-                    return (
-                      <button
-                        key={tab}
-                        type="button"
-                        onClick={() => setActiveTopic(tab)}
-                        className={`px-3.5 py-1.5 text-xs rounded font-bold transition-all duration-150 cursor-pointer ${
-                          isActive
-                            ? "bg-[#0052FF] text-white shadow-sm"
-                            : "bg-[#F1F5F9] text-[#475569] hover:bg-[#E2E8F0] hover:text-[#0F172A]"
-                        }`}
-                      >
-                        {tab}
-                      </button>
-                    );
-                  })}
+                  {topicFilters.map((tab) => (
+                    <label
+                      key={tab.id}
+                      htmlFor={`filter-${tab.id}`}
+                      className={`btn-filter-${tab.id} px-3.5 py-1.5 text-xs rounded font-bold transition-all duration-150 cursor-pointer select-none bg-[#F1F5F9] text-[#475569] hover:bg-[#E2E8F0] hover:text-[#0F172A]`}
+                    >
+                      {tab.label}
+                    </label>
+                  ))}
                 </div>
               </div>
 
-              {/* Filtered Grid */}
+              {/* Filtered Grid (Controlled by Pure CSS) */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                {filteredTopics.map((card, idx) => (
+                {topicCards.map((card, idx) => (
                   <Link
                     key={`${card.title}-${idx}`}
                     href={card.link}
-                    className="bg-white rounded-xl border border-[#E5E7EB] overflow-hidden shadow-[0_1px_3px_rgba(0,0,0,0.04)] hover:-translate-y-1 hover:shadow-md transition-all duration-200 block"
+                    className={`hidden card-topic-all card-topic-${getTopicKey(card.topic)} bg-white rounded-xl border border-[#E5E7EB] overflow-hidden shadow-[0_1px_3px_rgba(0,0,0,0.04)] hover:-translate-y-1 hover:shadow-md transition-all duration-200`}
                   >
                     <div
                       className="w-full h-36 flex items-center justify-center p-3 text-center"
