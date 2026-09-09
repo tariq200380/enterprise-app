@@ -71,6 +71,15 @@ export interface ArticleReview {
   details: string;
   submitted_at: string;
   status: "PENDING" | "APPROVED" | "REJECTED";
+  avatar?: string;
+  review_title?: string;
+  article_id?: number;
+  helpful?: number;
+  date?: string;
+  name?: string;
+  role?: string;
+  comment?: string;
+  title?: string;
 }
 
 export interface VideoItem {
@@ -121,6 +130,8 @@ export interface ArticleItem {
   specs?: any;
   buy_buttons?: any;
   sub_articles?: any;
+  status?: "DRAFT" | "PUBLISHED" | string;
+  source_news?: string;
   created_at?: string;
 }
 

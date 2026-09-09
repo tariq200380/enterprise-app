@@ -1,34 +1,108 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Inquiry } from "@/types/admin";
+import InquiryDetailsModal from "../modals/InquiryDetailsModal";
 
 interface InquiriesModuleProps {
-  inquiries: Inquiry[];
-  searchQuery: string;
-  onSelectInquiry: (inq: Inquiry) => void;
-  onUpdateStatus: (id: number, status: string) => void;
-  onDeleteInquiry: (id: number) => void;
+  searchQuery?: string;
+  showToast?: (msg: string, type?: "success" | "error") => void;
+  // Optional controlled props
+  inquiries?: Inquiry[];
+  onSelectInquiry?: (inq: Inquiry) => void;
+  onUpdateStatus?: (id: number, status: string) => void;
+  onDeleteInquiry?: (id: number) => void;
+  onRefresh?: () => void;
 }
 
 type InquiryFilter = "ALL" | "NEW" | "IN_REVIEW" | "COMPLETED" | "ARCHIVED";
 
 export default function InquiriesModule({
-  inquiries,
-  searchQuery,
-  onSelectInquiry,
-  onUpdateStatus,
-  onDeleteInquiry,
+  searchQuery = "",
+  showToast = () => {},
+  inquiries: propInquiries,
+  onSelectInquiry: propOnSelect,
+  onUpdateStatus: propOnUpdateStatus,
+  onDeleteInquiry: propOnDeleteInquiry,
+  onRefresh,
 }: InquiriesModuleProps) {
+  const [internalInquiries, setInternalInquiries] = useState<Inquiry[]>([]);
   const [filter, setFilter] = useState<InquiryFilter>("ALL");
+  const [selectedInquiry, setSelectedInquiry] = useState<Inquiry | null>(null);
 
-  const getCount = (st: InquiryFilter) => {
-    if (st === "ALL") return inquiries.length;
-    if (st === "NEW") return inquiries.filter((i) => i.status === "NEW" || i.status === "PENDING").length;
-    return inquiries.filter((i) => i.status === st).length;
+  const fetchInquiries = useCallback(async () => {
+    try {
+      const res = await fetch("/api/admin/inquiries", { cache: "no-store" });
+      const data = await res.json();
+      if (data.success && data.inquiries) {
+        setInternalInquiries(data.inquiries);
+      }
+    } catch {
+      showToast("Failed to fetch inquiries", "error");
+    }
+  }, [showToast]);
+
+  useEffect(() => {
+    if (propInquiries) {
+      setInternalInquiries(propInquiries);
+    } else {
+      fetchInquiries();
+    }
+  }, [propInquiries, fetchInquiries]);
+
+  const activeInquiries = propInquiries || internalInquiries;
+
+  const handleUpdateStatus = async (id: number, status: string) => {
+    if (propOnUpdateStatus) {
+      propOnUpdateStatus(id, status);
+      return;
+    }
+    try {
+      const res = await fetch("/api/admin/inquiries", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, status }),
+      });
+      if (res.ok) {
+        showToast(`Inquiry #${id} updated to ${status}`);
+        if (onRefresh) onRefresh();
+        else fetchInquiries();
+      }
+    } catch {
+      showToast("Failed to update inquiry", "error");
+    }
   };
 
-  const filtered = inquiries.filter((inq) => {
+  const handleDelete = async (id: number) => {
+    if (propOnDeleteInquiry) {
+      propOnDeleteInquiry(id);
+      return;
+    }
+    if (!confirm(`Delete inquiry #${id}?`)) return;
+    try {
+      const res = await fetch(`/api/admin/inquiries?id=${id}`, { method: "DELETE" });
+      if (res.ok) {
+        showToast("Inquiry deleted");
+        if (onRefresh) onRefresh();
+        else fetchInquiries();
+      }
+    } catch {
+      showToast("Failed to delete inquiry", "error");
+    }
+  };
+
+  const handleSelect = (inq: Inquiry) => {
+    if (propOnSelect) propOnSelect(inq);
+    setSelectedInquiry(inq);
+  };
+
+  const getCount = (st: InquiryFilter) => {
+    if (st === "ALL") return activeInquiries.length;
+    if (st === "NEW") return activeInquiries.filter((i) => i.status === "NEW" || i.status === "PENDING").length;
+    return activeInquiries.filter((i) => i.status === st).length;
+  };
+
+  const filtered = activeInquiries.filter((inq) => {
     const matchesSearch =
       inq.client_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       inq.company?.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -56,6 +130,7 @@ export default function InquiriesModule({
           {(["ALL", "NEW", "IN_REVIEW", "COMPLETED", "ARCHIVED"] as const).map((st) => (
             <button
               key={st}
+              type="button"
               onClick={() => setFilter(st)}
               className={`px-3 py-1 text-xs font-bold rounded cursor-pointer inline-flex items-center gap-1.5 transition-colors ${
                 filter === st
@@ -108,11 +183,12 @@ export default function InquiriesModule({
                 <td className="p-3.5">
                   <select
                     value={inq.status === "PENDING" ? "NEW" : inq.status}
-                    onChange={(e) => onUpdateStatus(inq.id, e.target.value)}
+                    onChange={(e) => handleUpdateStatus(inq.id, e.target.value)}
                     className="bg-white border border-gray-300 rounded px-2 py-1 font-semibold text-xs outline-none focus:border-[#0052FF] cursor-pointer"
                   >
                     <option value="NEW">NEW</option>
                     <option value="IN_REVIEW">IN_REVIEW</option>
+                    <option value="RESPONDED">RESPONDED</option>
                     <option value="COMPLETED">COMPLETED</option>
                     <option value="ARCHIVED">ARCHIVED</option>
                   </select>
@@ -120,13 +196,15 @@ export default function InquiriesModule({
                 <td className="p-3.5 text-right">
                   <div className="flex justify-end gap-2">
                     <button
-                      onClick={() => onSelectInquiry(inq)}
+                      type="button"
+                      onClick={() => handleSelect(inq)}
                       className="px-2.5 py-1 bg-[#0052FF] text-white rounded font-bold hover:bg-[#0042D0] cursor-pointer"
                     >
-                      Details
+                      Details &amp; Reply
                     </button>
                     <button
-                      onClick={() => onDeleteInquiry(inq.id)}
+                      type="button"
+                      onClick={() => handleDelete(inq.id)}
                       className="px-2.5 py-1 bg-red-50 text-red-600 border border-red-200 rounded font-bold hover:bg-red-100 cursor-pointer"
                     >
                       Delete
@@ -145,6 +223,17 @@ export default function InquiriesModule({
           </tbody>
         </table>
       </div>
+
+      {/* Embedded Modal */}
+      <InquiryDetailsModal
+        inquiry={selectedInquiry}
+        onClose={() => setSelectedInquiry(null)}
+        onInquiryUpdated={() => {
+          if (onRefresh) onRefresh();
+          else fetchInquiries();
+        }}
+        showToast={showToast}
+      />
     </div>
   );
 }

@@ -3,19 +3,18 @@
 import React, { useState, useEffect } from "react";
 import { WebsiteSettingsData, DEFAULT_WEBSITE_SETTINGS } from "../settings/types";
 import GlobalSettingsSection from "../settings/GlobalSettingsSection";
-import {
-  HeaderFooterSection,
-} from "../settings/PageContentSections";
+import HeaderFooterSection from "../settings/HeaderFooterSection";
 import HomeSettingsSection from "../settings/HomeSettingsSection";
 import AboutSettingsSection from "../settings/AboutSettingsSection";
 import ContactSettingsSection from "../settings/ContactSettingsSection";
 import PortfolioSettingsSection from "../settings/PortfolioSettingsSection";
+import ServicesSettingsSection from "../settings/ServicesSettingsSection";
 
 interface WebsiteSettingsModuleProps {
   showToast?: (msg: string, type: "success" | "error") => void;
 }
 
-type SubTabType = "global" | "home" | "about" | "contact" | "portfolio" | "header_footer";
+type SubTabType = "global" | "home" | "services" | "about" | "contact" | "portfolio" | "header_footer";
 
 export default function WebsiteSettingsModule({ showToast }: WebsiteSettingsModuleProps) {
   const [subTab, setSubTab] = useState<SubTabType>("global");
@@ -91,8 +90,32 @@ export default function WebsiteSettingsModule({ showToast }: WebsiteSettingsModu
             contactHeroTitle: s.contactHeroTitle || s.contact_hero_title || prev.contactHeroTitle,
             contactHeroDesc: s.contactHeroDesc || s.contact_hero_desc || prev.contactHeroDesc,
             headerLogoUrl: s.headerLogoUrl || s.header_logo_url || prev.headerLogoUrl,
+            headerLogoWidth:
+              typeof s.headerLogoWidth === "number"
+                ? s.headerLogoWidth
+                : typeof s.header_logo_width === "number"
+                ? s.header_logo_width
+                : prev.headerLogoWidth,
+            headerLogoHeight:
+              typeof s.headerLogoHeight === "number"
+                ? s.headerLogoHeight
+                : typeof s.header_logo_height === "number"
+                ? s.header_logo_height
+                : prev.headerLogoHeight,
+            headerNavLinks:
+              Array.isArray(s.headerNavLinks) && s.headerNavLinks.length > 0
+                ? s.headerNavLinks
+                : Array.isArray(s.header_nav_links) && s.header_nav_links.length > 0
+                ? s.header_nav_links
+                : prev.headerNavLinks,
             headerCtaText: s.headerCtaText || s.header_cta_text || prev.headerCtaText,
             headerCtaUrl: s.headerCtaUrl || s.header_cta_url || prev.headerCtaUrl,
+            headerShowCta:
+              s.headerShowCta !== undefined
+                ? Boolean(s.headerShowCta)
+                : s.header_show_cta !== undefined
+                ? Boolean(s.header_show_cta)
+                : prev.headerShowCta,
             footerP1: s.footerP1 || s.footer_p1 || prev.footerP1,
             portfolioShowcase: s.portfolioShowcase || s.portfolio_showcase || prev.portfolioShowcase,
             portfolioProjects:
@@ -123,6 +146,13 @@ export default function WebsiteSettingsModule({ showToast }: WebsiteSettingsModu
                 ? (s.aboutSettings || s.about_settings).leadership
                 : prev.aboutSettings.leadership,
             } : prev.aboutSettings,
+            servicesExplorer: s.servicesExplorer || s.services_explorer ? {
+              sectionHeadline: (s.servicesExplorer || s.services_explorer).sectionHeadline ?? prev.servicesExplorer.sectionHeadline,
+              sectionDescription: (s.servicesExplorer || s.services_explorer).sectionDescription ?? prev.servicesExplorer.sectionDescription,
+              services: Array.isArray((s.servicesExplorer || s.services_explorer).services) && (s.servicesExplorer || s.services_explorer).services.length > 0
+                ? (s.servicesExplorer || s.services_explorer).services
+                : prev.servicesExplorer.services,
+            } : prev.servicesExplorer,
           }));
         }
       })
@@ -243,6 +273,17 @@ export default function WebsiteSettingsModule({ showToast }: WebsiteSettingsModu
         </button>
         <button
           type="button"
+          onClick={() => setSubTab("services")}
+          className={`px-4 py-2 text-xs font-bold rounded-md flex items-center gap-1.5 transition-colors cursor-pointer ${
+            subTab === "services"
+              ? "bg-[#0052FF] text-white shadow-sm"
+              : "bg-[#F1F5F9] text-[#475569] border border-[#CBD5E1] hover:bg-[#E2E8F0]"
+          }`}
+        >
+          <span>⚙️</span> <span>Services Page</span>
+        </button>
+        <button
+          type="button"
           onClick={() => setSubTab("about")}
           className={`px-4 py-2 text-xs font-bold rounded-md flex items-center gap-1.5 transition-colors cursor-pointer ${
             subTab === "about"
@@ -294,6 +335,9 @@ export default function WebsiteSettingsModule({ showToast }: WebsiteSettingsModu
         )}
         {subTab === "home" && (
           <HomeSettingsSection settings={settings} onChange={updateSetting} />
+        )}
+        {subTab === "services" && (
+          <ServicesSettingsSection settings={settings} onChange={updateSetting} />
         )}
         {subTab === "about" && (
           <AboutSettingsSection settings={settings} onChange={updateSetting} />

@@ -4,7 +4,7 @@ import { query } from "@/lib/db";
 export async function GET() {
   try {
     const res = await query("SELECT * FROM portfolio_projects ORDER BY id DESC");
-    return NextResponse.json({ success: true, projects: res.rows });
+    return NextResponse.json({ success: true, projects: res.rows, portfolio: res.rows });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }

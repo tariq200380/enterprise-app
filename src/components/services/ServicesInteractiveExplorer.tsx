@@ -1,154 +1,59 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import Link from "next/link";
+import React, { useState, useEffect, useMemo } from "react";
+import { ServicesExplorerSettingsData, ServiceTechItem } from "@/components/admin/settings/types";
 import {
   ORDERED_SVCS,
   ORDERED_SUBTABS,
   SVCS,
-  TECH_ICONS,
-  type ServiceId,
   type SubTabId,
 } from "./servicesData";
+import ServiceSelectorBar from "./explorer/ServiceSelectorBar";
+import ServiceSidebar from "./explorer/ServiceSidebar";
+import ServiceContentPane from "./explorer/ServiceContentPane";
+import ServiceTechEcosystem from "./explorer/ServiceTechEcosystem";
 
-// Vector icons for the 8 top service selector cards
-function ServiceSelectorIcon({ id }: { id: ServiceId }) {
-  switch (id) {
-    case "software-development":
-      return (
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="w-5 h-5"
-        >
-          <polyline points="16 18 22 12 16 6" />
-          <polyline points="8 6 2 12 8 18" />
-        </svg>
-      );
-    case "ui-ux-design":
-      return (
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="w-5 h-5"
-        >
-          <path d="M12 19l7-7 3 3-7 7-3-3z" />
-          <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" />
-          <path d="M2 2l7.586 7.586" />
-          <circle cx="11" cy="11" r="2" />
-        </svg>
-      );
-    case "mobile-application":
-      return (
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="w-5 h-5"
-        >
-          <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
-          <line x1="12" y1="18" x2="12.01" y2="18" />
-        </svg>
-      );
-    case "cloud-infrastructure":
-      return (
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="w-5 h-5"
-        >
-          <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z" />
-        </svg>
-      );
-    case "database-management":
-      return (
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="w-5 h-5"
-        >
-          <ellipse cx="12" cy="5" rx="9" ry="3" />
-          <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
-          <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
-        </svg>
-      );
-    case "web-development":
-      return (
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="w-5 h-5"
-        >
-          <circle cx="12" cy="12" r="10" />
-          <line x1="2" y1="12" x2="22" y2="12" />
-          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-        </svg>
-      );
-    case "ai-automation":
-      return (
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="w-5 h-5"
-        >
-          <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
-          <circle cx="12" cy="12" r="4" />
-        </svg>
-      );
-    case "digital-growth":
-      return (
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="w-5 h-5"
-        >
-          <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
-          <polyline points="17 6 23 6 23 12" />
-        </svg>
-      );
-  }
+interface Props {
+  data?: ServicesExplorerSettingsData;
 }
 
-export default function ServicesInteractiveExplorer() {
-  const [activeSvcId, setActiveSvcId] = useState<ServiceId>("software-development");
+export default function ServicesInteractiveExplorer({ data }: Props) {
+  // Compute available services (dynamic admin settings or fallback to static data)
+  const availableServices = useMemo(() => {
+    if (data?.services && data.services.length > 0) {
+      return data.services;
+    }
+    return ORDERED_SVCS.map((id) => ({
+      id,
+      num: SVCS[id].num,
+      name: SVCS[id].name,
+      tagline: SVCS[id].tagline,
+      intro: SVCS[id].intro,
+      ctaHeading: SVCS[id].cta.heading,
+      ctaDesc: SVCS[id].cta.desc,
+      ctaBtnText: SVCS[id].cta.btn,
+      ctaBtnUrl: "/contact",
+      overviewCards: SVCS[id].overview,
+      servicesList: SVCS[id].servicesList,
+      benefitCards: SVCS[id].benefitCards,
+      process: SVCS[id].process,
+      resultCards: SVCS[id].resultCards,
+      subHeadings: SVCS[id].subHeadings,
+      techEcosystemTitle: "Tech Ecosystem",
+      techEcosystemSubtitle: `Technologies and platforms used for ${SVCS[id].name} solutions.`,
+      techStack: SVCS[id].techStack.join(", "),
+    }));
+  }, [data?.services]);
+
+  const initialServiceId = availableServices[0]?.id || "software-development";
+  const [activeSvcId, setActiveSvcId] = useState<string>(initialServiceId);
   const [activeSubTab, setActiveSubTab] = useState<SubTabId>("overview");
 
   // Sync with URL Hash on Mount and PopState
   useEffect(() => {
-    function parseHash(hashString: string): ServiceId {
+    function parseHash(hashString: string): string {
       const clean = hashString.replace(/^#/, "").trim().toLowerCase();
-      const aliases: Record<string, ServiceId> = {
+      const aliases: Record<string, string> = {
         software: "software-development",
         "ui-ux": "ui-ux-design",
         mobile: "mobile-application",
@@ -161,10 +66,9 @@ export default function ServicesInteractiveExplorer() {
       };
 
       if (aliases[clean]) return aliases[clean];
-      if ((ORDERED_SVCS as readonly string[]).includes(clean)) {
-        return clean as ServiceId;
-      }
-      return "software-development";
+      const match = availableServices.find((s) => s.id.toLowerCase() === clean);
+      if (match) return match.id;
+      return availableServices[0]?.id || "software-development";
     }
 
     const initial = parseHash(window.location.hash);
@@ -186,9 +90,9 @@ export default function ServicesInteractiveExplorer() {
       window.removeEventListener("hashchange", handleHashChange);
       window.removeEventListener("popstate", handleHashChange);
     };
-  }, []);
+  }, [availableServices]);
 
-  const handleSelectSvc = (id: ServiceId) => {
+  const handleSelectSvc = (id: string) => {
     if (id === activeSvcId) return;
     setActiveSvcId(id);
     setActiveSubTab("overview");
@@ -204,11 +108,15 @@ export default function ServicesInteractiveExplorer() {
     setActiveSubTab(tab);
   };
 
+  const activeSvcIndex = Math.max(
+    0,
+    availableServices.findIndex((s) => s.id === activeSvcId)
+  );
+
   const handleNavigateService = (dir: "prev" | "next") => {
-    const curIdx = ORDERED_SVCS.indexOf(activeSvcId);
-    const nextIdx = dir === "next" ? curIdx + 1 : curIdx - 1;
-    if (nextIdx >= 0 && nextIdx < ORDERED_SVCS.length) {
-      handleSelectSvc(ORDERED_SVCS[nextIdx]);
+    const nextIdx = dir === "next" ? activeSvcIndex + 1 : activeSvcIndex - 1;
+    if (nextIdx >= 0 && nextIdx < availableServices.length) {
+      handleSelectSvc(availableServices[nextIdx].id);
     }
   };
 
@@ -220,32 +128,130 @@ export default function ServicesInteractiveExplorer() {
     }
   };
 
-  const svc = SVCS[activeSvcId];
-  const activeSvcIndex = ORDERED_SVCS.indexOf(activeSvcId);
-  const activeSubTabIndex = ORDERED_SUBTABS.findIndex((t) => t.id === activeSubTab);
+  const sectionHeadline = data?.sectionHeadline || "Enterprise Engineering & Digital Solutions";
+  const sectionDescription =
+    data?.sectionDescription ||
+    "Select any service below to explore dedicated capabilities, technical benefits, delivery methodology, results, and Tech Ecosystem.";
+
+  // Memoize resolved active service data
+  const svc = useMemo(() => {
+    const dynamicSvcItem = data?.services?.find((s) => s.id === activeSvcId);
+    const staticSvc = SVCS[activeSvcId as keyof typeof SVCS] || {
+      id: activeSvcId,
+      num: "01",
+      name: "Enterprise Service",
+      tagline: "High-Performance Technical Architecture",
+      intro: "End-to-end enterprise software development and consulting services.",
+      subHeadings: {
+        services: "Comprehensive Service Offerings",
+        servicesDesc: "",
+        benefits: "Tangible Business Value & Benefits",
+        benefitsDesc: "",
+        process: "Execution Methodology & Roadmap",
+        processDesc: "",
+        results: "Documented Impact & Performance Metrics",
+        resultsDesc: "",
+      },
+      cta: {
+        heading: "Ready to Transform Your Infrastructure?",
+        desc: "Connect with our engineering specialists to schedule a discovery call.",
+        btn: "Schedule Consultation",
+        link: "/contact",
+      },
+      overview: [],
+      servicesList: [],
+      benefitCards: [],
+      process: [],
+      resultCards: [],
+      techStack: ["TypeScript", "React", "Next.js", "Node.js", "PostgreSQL", "Docker", "AWS"],
+    };
+
+    const techItems: ServiceTechItem[] =
+      dynamicSvcItem?.techItems && dynamicSvcItem.techItems.length > 0
+        ? dynamicSvcItem.techItems
+        : dynamicSvcItem?.techStack
+        ? dynamicSvcItem.techStack
+            .split(",")
+            .map((s) => ({ name: s.trim() }))
+            .filter((i) => Boolean(i.name))
+        : staticSvc.techStack.map((name) => ({ name }));
+
+    return {
+      ...staticSvc,
+      num: dynamicSvcItem?.num || staticSvc.num,
+      name: dynamicSvcItem?.name || staticSvc.name,
+      tagline: dynamicSvcItem?.tagline || staticSvc.tagline,
+      intro: dynamicSvcItem?.intro || staticSvc.intro,
+      cta: {
+        heading: dynamicSvcItem?.ctaHeading || staticSvc.cta.heading,
+        desc: dynamicSvcItem?.ctaDesc || staticSvc.cta.desc,
+        btn: dynamicSvcItem?.ctaBtnText || staticSvc.cta.btn,
+        link: dynamicSvcItem?.ctaBtnUrl || "/contact",
+      },
+      overview:
+        dynamicSvcItem?.overviewCards && dynamicSvcItem.overviewCards.length > 0
+          ? dynamicSvcItem.overviewCards
+          : staticSvc.overview,
+      servicesList:
+        dynamicSvcItem?.servicesList && dynamicSvcItem.servicesList.length > 0
+          ? dynamicSvcItem.servicesList
+          : staticSvc.servicesList || [],
+      benefitCards:
+        dynamicSvcItem?.benefitCards && dynamicSvcItem.benefitCards.length > 0
+          ? dynamicSvcItem.benefitCards
+          : staticSvc.benefitCards || [],
+      process:
+        dynamicSvcItem?.process && dynamicSvcItem.process.length > 0
+          ? dynamicSvcItem.process
+          : staticSvc.process || [],
+      resultCards:
+        dynamicSvcItem?.resultCards && dynamicSvcItem.resultCards.length > 0
+          ? dynamicSvcItem.resultCards
+          : staticSvc.resultCards || [],
+      subHeadings: {
+        services: dynamicSvcItem?.subHeadings?.services || staticSvc.subHeadings?.services || "Comprehensive Service Offerings",
+        servicesDesc: dynamicSvcItem?.subHeadings?.servicesDesc || staticSvc.subHeadings?.servicesDesc || "",
+        benefits: dynamicSvcItem?.subHeadings?.benefits || staticSvc.subHeadings?.benefits || "Tangible Business Value & Benefits",
+        benefitsDesc: dynamicSvcItem?.subHeadings?.benefitsDesc || staticSvc.subHeadings?.benefitsDesc || "",
+        process: dynamicSvcItem?.subHeadings?.process || staticSvc.subHeadings?.process || "Execution Methodology & Roadmap",
+        processDesc: dynamicSvcItem?.subHeadings?.processDesc || staticSvc.subHeadings?.processDesc || "",
+        results: dynamicSvcItem?.subHeadings?.results || staticSvc.subHeadings?.results || "Documented Impact & Performance Metrics",
+        resultsDesc: dynamicSvcItem?.subHeadings?.resultsDesc || staticSvc.subHeadings?.resultsDesc || "",
+      },
+      techItems,
+      techEcosystemTitle: dynamicSvcItem?.techEcosystemTitle || "Tech Ecosystem",
+      techEcosystemSubtitle:
+        dynamicSvcItem?.techEcosystemSubtitle ||
+        `Technologies and platforms used for ${dynamicSvcItem?.name || staticSvc.name} solutions.`,
+    };
+  }, [data?.services, activeSvcId]);
 
   // Dynamic header text based on selected subtab
-  let paneTitle = svc.name;
-  let paneSubtitle = svc.tagline || "";
-  let paneDesc = svc.intro || "";
+  const { paneTitle, paneSubtitle, paneDesc } = useMemo(() => {
+    let title = svc.name;
+    let subtitle = svc.tagline || "";
+    let desc = svc.intro || "";
 
-  if (activeSubTab === "services" && svc.subHeadings.services) {
-    paneTitle = svc.subHeadings.services;
-    paneSubtitle = "";
-    paneDesc = svc.subHeadings.servicesDesc || "";
-  } else if (activeSubTab === "benefits" && svc.subHeadings.benefits) {
-    paneTitle = svc.subHeadings.benefits;
-    paneSubtitle = "";
-    paneDesc = svc.subHeadings.benefitsDesc || "";
-  } else if (activeSubTab === "process" && svc.subHeadings.process) {
-    paneTitle = svc.subHeadings.process;
-    paneSubtitle = "";
-    paneDesc = svc.subHeadings.processDesc || "";
-  } else if (activeSubTab === "proven" && svc.subHeadings.results) {
-    paneTitle = svc.subHeadings.results;
-    paneSubtitle = "";
-    paneDesc = svc.subHeadings.resultsDesc || "";
-  }
+    if (activeSubTab === "services" && svc.subHeadings.services) {
+      title = svc.subHeadings.services;
+      subtitle = "";
+      desc = svc.subHeadings.servicesDesc || "";
+    } else if (activeSubTab === "benefits" && svc.subHeadings.benefits) {
+      title = svc.subHeadings.benefits;
+      subtitle = "";
+      desc = svc.subHeadings.benefitsDesc || "";
+    } else if (activeSubTab === "process" && svc.subHeadings.process) {
+      title = svc.subHeadings.process;
+      subtitle = "";
+      desc = svc.subHeadings.processDesc || "";
+    } else if (activeSubTab === "proven" && svc.subHeadings.results) {
+      title = svc.subHeadings.results;
+      subtitle = "";
+      desc = svc.subHeadings.resultsDesc || "";
+    }
+
+    return { paneTitle: title, paneSubtitle: subtitle, paneDesc: desc };
+  }, [svc, activeSubTab]);
 
   return (
     <section id="what-we-provide" className="relative w-full py-12 lg:py-16 bg-white overflow-hidden">
@@ -263,469 +269,59 @@ export default function ServicesInteractiveExplorer() {
         {/* Section Header */}
         <div className="text-center max-w-[52rem] mx-auto mb-8">
           <h2 className="text-3xl sm:text-4xl lg:text-[2.35rem] font-extrabold text-[#0F172A] tracking-[-0.02em] mb-2 leading-tight">
-            Enterprise Engineering &amp;{" "}
-            <span className="text-[#0052FF]">Digital Solutions</span>
+            {sectionHeadline}
           </h2>
           <p className="text-[15px] sm:text-[16px] text-[#475569] leading-relaxed font-normal m-0">
-            Select any service below to explore dedicated capabilities, technical benefits, delivery methodology, results, and Tech Ecosystem.
+            {sectionDescription}
           </p>
         </div>
 
-        {/* 8 HORIZONTAL SERVICE SELECTOR */}
-        <div className="relative w-full mb-8">
-          {/* Mobile 1-Item Carousel Layout (< md) */}
-          <div className="grid grid-cols-[44px_minmax(0,1fr)_44px] gap-2 items-center md:hidden w-full">
-            {/* Mobile Left Arrow */}
-            <button
-              type="button"
-              onClick={() => handleNavigateService("prev")}
-              aria-label="Previous service"
-              disabled={activeSvcIndex === 0}
-              className={`w-10 h-10 rounded-full bg-white border border-[#CBD5E1] text-[#0052FF] flex items-center justify-center shadow-[0_4px_14px_rgba(15,23,42,0.15)] transition-all ${
-                activeSvcIndex === 0 ? "invisible pointer-events-none" : "hover:scale-105 active:scale-95 cursor-pointer"
-              }`}
-            >
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
-                <polyline points="15 18 9 12 15 6" />
-              </svg>
-            </button>
+        {/* 1. HORIZONTAL SERVICE SELECTOR */}
+        <ServiceSelectorBar
+          availableServices={availableServices}
+          activeSvcId={activeSvcId}
+          activeSvcIndex={activeSvcIndex}
+          activeSvcNum={svc.num}
+          activeSvcName={svc.name}
+          onSelectService={handleSelectSvc}
+          onNavigateService={handleNavigateService}
+        />
 
-            {/* Mobile Active Service Card Display */}
-            <div
-              key={`m-${activeSvcId}`}
-              className="relative bg-white border-2 border-[#0052FF] rounded-xl p-4 flex flex-col items-center justify-center text-center gap-2.5 shadow-[0_10px_24px_-4px_rgba(0,82,255,0.22)] h-[160px] animate-header-enter"
-            >
-              <div className="absolute top-0 left-[18%] right-[18%] h-[3.5px] rounded-b-[4px] bg-[#FF6B00]" />
-              <div className="w-[46px] h-[46px] rounded-xl bg-[#0052FF] text-white flex items-center justify-center shadow-sm">
-                <ServiceSelectorIcon id={activeSvcId} />
-              </div>
-              <div className="flex flex-col items-center">
-                <span className="text-[12px] font-bold text-[#FF6B00] tracking-[0.04em] leading-none mb-1">
-                  {svc.num}
-                </span>
-                <span className="text-[16px] font-bold text-[#0052FF] leading-snug">
-                  {svc.name}
-                </span>
-              </div>
-            </div>
+        {/* 2. TWO-COLUMN STICKY LAYOUT (SIDEBAR + MAIN CONTENT PANE) */}
+        <div className="grid grid-cols-1 md:grid-cols-[250px_1fr] lg:grid-cols-[270px_1fr] gap-6 mb-8 items-start">
+          <ServiceSidebar
+            activeSvcId={activeSvcId}
+            num={svc.num}
+            name={svc.name}
+            activeSubTab={activeSubTab}
+            onSelectSubTab={handleSelectSubTab}
+            onNavigateSubTab={handleNavigateSubTab}
+            cta={svc.cta}
+          />
 
-            {/* Mobile Right Arrow */}
-            <button
-              type="button"
-              onClick={() => handleNavigateService("next")}
-              aria-label="Next service"
-              disabled={activeSvcIndex === ORDERED_SVCS.length - 1}
-              className={`w-10 h-10 rounded-full bg-white border border-[#CBD5E1] text-[#0052FF] flex items-center justify-center shadow-[0_4px_14px_rgba(15,23,42,0.15)] transition-all ${
-                activeSvcIndex === ORDERED_SVCS.length - 1 ? "invisible pointer-events-none" : "hover:scale-105 active:scale-95 cursor-pointer"
-              }`}
-            >
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
-                <polyline points="9 18 15 12 9 6" />
-              </svg>
-            </button>
-          </div>
-
-          {/* Desktop & Tablet 8-Column Grid (>= md) */}
-          <div className="hidden md:grid grid-cols-4 lg:grid-cols-8 gap-3 w-full" role="tablist" aria-label="Services">
-            {ORDERED_SVCS.map((id) => {
-              const item = SVCS[id];
-              const isActive = id === activeSvcId;
-              return (
-                <button
-                  key={id}
-                  type="button"
-                  onClick={() => handleSelectSvc(id)}
-                  role="tab"
-                  aria-selected={isActive}
-                  tabIndex={isActive ? 0 : -1}
-                  className={`group relative bg-white rounded-xl py-3 px-2 flex flex-col items-center text-center gap-1.5 cursor-pointer outline-none transition-all duration-300 ease-out active:scale-95 ${
-                    isActive
-                      ? "border-2 border-[#0052FF] shadow-[0_12px_28px_-4px_rgba(0,82,255,0.25)] -translate-y-1.5"
-                      : "border border-[#D8E2ED] shadow-[0_2px_8px_rgba(15,23,42,0.04)] hover:-translate-y-1 hover:border-[#0052FF] hover:shadow-[0_10px_24px_-4px_rgba(15,23,42,0.1)]"
-                  }`}
-                >
-                  {/* Top Bar Accent */}
-                  <div
-                    className={`absolute top-0 left-[18%] right-[18%] h-[3.5px] rounded-b-[4px] transition-all duration-300 ${
-                      isActive ? "bg-[#FF6B00] opacity-100 scale-x-100" : "bg-transparent opacity-0 scale-x-50"
-                    }`}
-                  />
-
-                  {/* Icon Box */}
-                  <div
-                    className={`w-[38px] h-[38px] rounded-[10px] flex items-center justify-center transition-all duration-300 ease-out ${
-                      isActive
-                        ? "bg-[#0052FF] border border-[#0052FF] text-white shadow-sm scale-105"
-                        : "bg-[#FFF3EB] border border-[#FFE4D3] text-[#FF6B00] group-hover:border-[#FFB787] group-hover:scale-105"
-                    }`}
-                  >
-                    <ServiceSelectorIcon id={id} />
-                  </div>
-
-                  {/* Step & Title */}
-                  <div className="flex flex-col items-center">
-                    <span className="text-[12px] font-bold text-[#FF6B00] tracking-[0.04em] leading-none mb-0.5">
-                      {item.num}
-                    </span>
-                    <span
-                      className={`text-[13px] leading-tight transition-colors duration-200 ${
-                        isActive ? "font-bold text-[#0052FF]" : "font-semibold text-[#0F172A] group-hover:text-[#0052FF]"
-                      }`}
-                    >
-                      {item.name}
-                    </span>
-                  </div>
-                </button>
-              );
-            })}
-          </div>
+          <ServiceContentPane
+            activeSvcId={activeSvcId}
+            activeSubTab={activeSubTab}
+            num={svc.num}
+            totalServices={availableServices.length}
+            paneTitle={paneTitle}
+            paneSubtitle={paneSubtitle}
+            paneDesc={paneDesc}
+            overview={svc.overview}
+            servicesList={svc.servicesList}
+            benefitCards={svc.benefitCards}
+            process={svc.process}
+            resultCards={svc.resultCards}
+          />
         </div>
 
-        {/* SERVICE DETAIL SECTION: TWO-COLUMN STICKY LAYOUT */}
-        <div className="grid grid-cols-1 lg:grid-cols-[270px_1fr] gap-6 mb-8 items-start">
-          {/* Left Column: Sticky Sub-Navigation */}
-          <aside className="w-full">
-            <div className="relative flex flex-col gap-6 lg:sticky lg:top-[90px]">
-              {/* Navigation Card */}
-              <div className="bg-white border border-[#D8E2ED] rounded-2xl p-6 shadow-[0_4px_16px_rgba(15,23,42,0.04)]">
-                <div key={`sb-head-${activeSvcId}`} className="pb-4 mb-4 border-b border-[#E2E8F0] animate-header-enter">
-                  <span className="text-[12px] font-bold text-[#FF6B00] tracking-[0.04em] block mb-1 leading-none">
-                    {svc.num}
-                  </span>
-                  <h3 className="text-[20px] font-bold text-[#0F172A] leading-tight m-0">
-                    {svc.name}
-                  </h3>
-                </div>
-
-                {/* Mobile Carousel for Subtabs (< md) */}
-                <div className="grid grid-cols-[38px_minmax(0,1fr)_38px] gap-2 items-center md:hidden w-full">
-                  <button
-                    type="button"
-                    onClick={() => handleNavigateSubTab("prev")}
-                    aria-label="Previous section"
-                    disabled={activeSubTabIndex === 0}
-                    className={`w-[34px] h-[34px] rounded-full bg-white border border-[#CBD5E1] text-[#0052FF] flex items-center justify-center shadow-[0_2px_8px_rgba(0,82,255,0.15)] transition-all ${
-                      activeSubTabIndex === 0 ? "invisible pointer-events-none" : "hover:scale-105 active:scale-95 cursor-pointer"
-                    }`}
-                  >
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
-                      <polyline points="15 18 9 12 15 6" />
-                    </svg>
-                  </button>
-
-                  <div
-                    key={`m-tab-${activeSubTab}`}
-                    className="bg-[#EFF6FF] border border-[#BFDBFE] rounded-lg px-3.5 py-2.5 flex items-center justify-center gap-2.5 text-[#0052FF] font-bold text-[16px] animate-header-enter"
-                  >
-                    <span className="w-[7px] h-[7px] rounded-full bg-[#FF6B00] shadow-[0_0_0_3px_rgba(255,107,0,0.2)]" />
-                    <span>{ORDERED_SUBTABS[activeSubTabIndex].label}</span>
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={() => handleNavigateSubTab("next")}
-                    aria-label="Next section"
-                    disabled={activeSubTabIndex === ORDERED_SUBTABS.length - 1}
-                    className={`w-[34px] h-[34px] rounded-full bg-white border border-[#CBD5E1] text-[#0052FF] flex items-center justify-center shadow-[0_2px_8px_rgba(0,82,255,0.15)] transition-all ${
-                      activeSubTabIndex === ORDERED_SUBTABS.length - 1 ? "invisible pointer-events-none" : "hover:scale-105 active:scale-95 cursor-pointer"
-                    }`}
-                  >
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
-                      <polyline points="9 18 15 12 9 6" />
-                    </svg>
-                  </button>
-                </div>
-
-                {/* Desktop Subsection Buttons Menu (>= md) */}
-                <div className="hidden md:flex flex-col gap-2 w-full" role="tablist" aria-label="Service Sections">
-                  {ORDERED_SUBTABS.map((subTab) => {
-                    const isTabActive = subTab.id === activeSubTab;
-                    return (
-                      <button
-                        key={subTab.id}
-                        type="button"
-                        onClick={() => handleSelectSubTab(subTab.id)}
-                        role="tab"
-                        aria-selected={isTabActive}
-                        className={`w-full flex items-center gap-2.5 px-3.5 py-2.5 rounded-lg border transition-all duration-200 text-left text-[16px] leading-none cursor-pointer active:scale-[0.98] ${
-                          isTabActive
-                            ? "bg-[#EFF6FF] border-[#BFDBFE] text-[#0052FF] font-bold shadow-xs"
-                            : "bg-transparent border-transparent text-[#334155] font-semibold hover:bg-[#F1F5F9] hover:text-[#0F172A]"
-                        }`}
-                      >
-                        <span
-                          className={`w-[7px] h-[7px] rounded-full shrink-0 transition-all duration-200 ${
-                            isTabActive
-                              ? "bg-[#FF6B00] shadow-[0_0_0_3px_rgba(255,107,0,0.2)]"
-                              : "bg-[#CBD5E1]"
-                          }`}
-                        />
-                        <span>{subTab.label}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Sticky Start Project Card (Hidden on mobile < lg) */}
-              <div
-                key={`sb-cta-${activeSvcId}`}
-                className="hidden lg:block bg-white border border-[#D8E2ED] rounded-[14px] p-6 shadow-[0_2px_10px_rgba(15,23,42,0.03)] animate-header-enter"
-              >
-                <h4 className="text-[18px] font-bold text-[#0F172A] mb-2 leading-snug">
-                  {svc.cta.heading}
-                </h4>
-                <p className="text-[15px] text-[#475569] mb-4 leading-relaxed font-normal">
-                  {svc.cta.desc}
-                </p>
-                <Link
-                  href="/contact"
-                  className="w-full h-12 px-5 bg-[#0052FF] hover:bg-[#0043D6] text-white font-semibold text-[16px] rounded-lg inline-flex items-center justify-center gap-1.5 shadow-[0_2px_6px_rgba(0,82,255,0.2)] hover:-translate-y-[2px] transition-all"
-                >
-                  <span>{svc.cta.btn}</span>
-                  <span className="text-[#FF6B00] font-extrabold ml-1.5">&rarr;</span>
-                </Link>
-              </div>
-            </div>
-          </aside>
-
-          {/* Right Column: Dynamic Content Pane */}
-          <main className="w-full">
-            <div
-              className="bg-white border border-[#D8E2ED] rounded-2xl p-6 sm:p-8 shadow-[0_4px_20px_-2px_rgba(15,23,42,0.05)] min-h-[400px] transition-all duration-300"
-            >
-              {/* Header Badge + Title + Subtitle + Description + Divider */}
-              <div
-                key={`header-${activeSvcId}-${activeSubTab}`}
-                className="pb-6 mb-6 border-b border-[#E2E8F0] animate-header-enter"
-              >
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#FFF3EB] border border-[#FFD8BE] rounded-md text-[#FF6B00] text-[12px] font-bold tracking-[0.04em] leading-none mb-3">
-                  <span>SERVICE {svc.num} / 08</span>
-                </div>
-                <h3 className="text-3xl sm:text-[34px] lg:text-[38px] font-bold text-[#0F172A] tracking-[-0.025em] mb-2 leading-tight">
-                  {paneTitle}
-                </h3>
-                {paneSubtitle && (
-                  <p className="text-[18px] font-semibold text-[#0052FF] mb-3 leading-snug">
-                    {paneSubtitle}
-                  </p>
-                )}
-                <p className="text-[17px] text-[#475569] leading-relaxed max-w-[850px] m-0">
-                  {paneDesc}
-                </p>
-              </div>
-
-              {/* TAB 1: OVERVIEW (4 Cards: 2-Column Grid) */}
-              {activeSubTab === "overview" && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-                  {svc.overview.map((item, idx) => (
-                    <div
-                      key={`${activeSvcId}-ov-${idx}`}
-                      style={{ animationDelay: `${idx * 45}ms` }}
-                      className="bg-[#F8FAFC] border border-[#E2E8F0] hover:border-[#CBD5E1] rounded-[14px] p-7 h-full flex flex-col shadow-[0_2px_8px_rgba(15,23,42,0.02)] hover:-translate-y-1.5 hover:shadow-[0_12px_24px_-4px_rgba(15,23,42,0.1)] transition-all duration-300 ease-out animate-card-enter cursor-default"
-                    >
-                      <div className="flex items-center justify-between mb-4">
-                        <span className="text-[11px] font-extrabold text-[#0052FF] bg-[#EFF6FF] border border-[#DBEAFE] px-2.5 py-1 rounded uppercase tracking-[0.04em]">
-                          {item.badge}
-                        </span>
-                        <span className="w-2 h-2 rounded-full bg-[#FF6B00] inline-block" />
-                      </div>
-                      <h4 className="text-[18px] font-semibold text-[#0F172A] mb-3 leading-snug">
-                        {item.title}
-                      </h4>
-                      <p className="text-[15px] text-[#475569] leading-relaxed m-0 font-normal">
-                        {item.desc}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {/* TAB 2: SERVICES (6 Cards: 3-Column Grid) */}
-              {activeSubTab === "services" && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-                  {svc.servicesList.map((item, idx) => (
-                    <div
-                      key={`${activeSvcId}-svc-${idx}`}
-                      style={{ animationDelay: `${idx * 40}ms` }}
-                      className="bg-[#F8FAFC] border border-[#E2E8F0] hover:border-[#CBD5E1] rounded-[14px] p-7 h-full flex flex-col shadow-[0_2px_8px_rgba(15,23,42,0.02)] hover:-translate-y-1.5 hover:shadow-[0_12px_24px_-4px_rgba(15,23,42,0.1)] transition-all duration-300 ease-out animate-card-enter cursor-default"
-                    >
-                      <div className="flex items-start gap-4 mb-3">
-                        <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#EFF6FF] border border-[#BFDBFE] text-[#0052FF] shrink-0">
-                          <svg
-                            className="w-3.5 h-3.5"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="3"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          >
-                            <polyline points="20 6 9 17 4 12" />
-                          </svg>
-                        </span>
-                        <h4 className="text-[18px] font-semibold text-[#0F172A] leading-snug m-0">
-                          {item.title}
-                        </h4>
-                      </div>
-                      <p className="text-[15px] text-[#475569] leading-relaxed pl-10 m-0 font-normal">
-                        {item.desc}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {/* TAB 3: BENEFITS (6 Cards: 3-Column Grid) */}
-              {activeSubTab === "benefits" && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-                  {svc.benefitCards.map((item, idx) => (
-                    <div
-                      key={`${activeSvcId}-ben-${idx}`}
-                      style={{ animationDelay: `${idx * 40}ms` }}
-                      className="bg-[#F8FAFC] border border-[#E2E8F0] hover:border-[#CBD5E1] rounded-[14px] p-7 h-full flex flex-col shadow-[0_2px_8px_rgba(15,23,42,0.02)] hover:-translate-y-1.5 hover:shadow-[0_12px_24px_-4px_rgba(15,23,42,0.1)] transition-all duration-300 ease-out animate-card-enter cursor-default"
-                    >
-                      <div className="flex items-start gap-4 mb-3">
-                        <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#EFF6FF] border border-[#BFDBFE] text-[#0052FF] shrink-0">
-                          <svg
-                            className="w-3.5 h-3.5"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="3"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          >
-                            <polyline points="20 6 9 17 4 12" />
-                          </svg>
-                        </span>
-                        <h4 className="text-[18px] font-semibold text-[#0F172A] leading-snug m-0">
-                          {item.title}
-                        </h4>
-                      </div>
-                      <p className="text-[15px] text-[#475569] leading-relaxed pl-10 m-0 font-normal">
-                        {item.desc}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {/* TAB 4: PROCESS (6 Step Cards: 3-Column Grid) */}
-              {activeSubTab === "process" && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-                  {svc.process.map((st, idx) => (
-                    <div
-                      key={`${activeSvcId}-proc-${idx}`}
-                      style={{ animationDelay: `${idx * 40}ms` }}
-                      className="bg-[#F8FAFC] border border-[#E2E8F0] border-t-[3.5px] border-t-[#0052FF] hover:border-t-[#FF6B00] hover:border-[#CBD5E1] rounded-[14px] p-7 h-full flex flex-col shadow-[0_2px_8px_rgba(15,23,42,0.02)] hover:-translate-y-1.5 hover:shadow-[0_12px_24px_-4px_rgba(15,23,42,0.1)] transition-all duration-300 ease-out animate-card-enter cursor-default"
-                    >
-                      <div className="flex items-center gap-3 mb-3">
-                        <span className="text-[11px] font-extrabold text-[#0052FF] bg-[#EFF6FF] border border-[#DBEAFE] px-2 py-0.5 rounded">
-                          STEP {st.step}
-                        </span>
-                        <h4 className="text-[17px] font-bold text-[#0F172A] leading-snug m-0">
-                          {st.title}
-                        </h4>
-                      </div>
-                      <p className="text-[15px] text-[#475569] leading-relaxed mt-2 m-0 font-normal">
-                        {st.desc}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {/* TAB 5: RESULTS (6 Cards: 3-Column Grid, Premium Light-Blue Style) */}
-              {activeSubTab === "proven" && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-                  {svc.resultCards.map((item, idx) => (
-                    <div
-                      key={`${activeSvcId}-res-${idx}`}
-                      style={{ animationDelay: `${idx * 40}ms` }}
-                      className="bg-[#F0F7FF] border border-[#CFE2FE] border-t-[3.5px] border-t-[#FF6B00] hover:border-[#0052FF] rounded-[14px] p-7 h-full flex flex-col shadow-[0_4px_14px_rgba(0,82,255,0.05)] hover:-translate-y-1.5 hover:shadow-[0_12px_24px_-2px_rgba(0,82,255,0.15)] transition-all duration-300 ease-out animate-card-enter cursor-default"
-                    >
-                      <div className="flex items-start gap-3.5 mb-3">
-                        <span className="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-[#DBEAFE] border border-[#BFDBFE] text-[#0052FF] shrink-0">
-                          <svg
-                            className="w-4 h-4"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          >
-                            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
-                            <polyline points="17 6 23 6 23 12" />
-                          </svg>
-                        </span>
-                        <h4 className="text-[18px] font-semibold text-[#0F172A] leading-snug m-0">
-                          {item.title}
-                        </h4>
-                      </div>
-                      <p className="text-[15px] text-[#334155] leading-relaxed pl-11 m-0 font-normal">
-                        {item.desc}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </main>
-        </div>
-
-        {/* TECH STACK SECTION: TECH ECOSYSTEM */}
-        <div
-          className="bg-white border border-[#D8E2ED] rounded-2xl p-7 sm:p-8 shadow-[0_4px_16px_rgba(15,23,42,0.03)] transition-all duration-300"
-        >
-          <div
-            key={`tech-hdr-${activeSvcId}`}
-            className="text-center max-w-[850px] mx-auto mb-8 animate-header-enter"
-          >
-            <h3 className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-[-0.02em] mb-1.5 leading-tight">
-              Tech <span className="text-[#0052FF]">Ecosystem</span>
-            </h3>
-            <p className="text-[14.5px] text-[#475569] m-0 font-normal">
-              Technologies and platforms used for{" "}
-              <strong className="text-[#0F172A] font-bold">{svc.name}</strong>{" "}
-              solutions.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4 sm:gap-5">
-            {svc.techStack.map((techName, idx) => {
-              const iconSvg =
-                TECH_ICONS[techName.toUpperCase()] ||
-                TECH_ICONS[techName] ||
-                null;
-
-              return (
-                <div
-                  key={`${activeSvcId}-${techName}`}
-                  style={{ animationDelay: `${idx * 35}ms` }}
-                  className="bg-white border border-[#E2E8F0] hover:border-[#0052FF] rounded-xl p-4 sm:p-5 flex flex-col items-center justify-center text-center h-full min-h-[104px] shadow-[0_2px_6px_rgba(15,23,42,0.02)] hover:-translate-y-1.5 hover:shadow-[0_10px_22px_-2px_rgba(0,82,255,0.15)] transition-all duration-300 ease-out animate-card-enter cursor-default"
-                >
-                  <div className="w-10 h-10 flex items-center justify-center mb-3 [&>svg]:w-9 [&>svg]:h-9 [&>svg]:object-contain">
-                    {iconSvg ? (
-                      <div
-                        className="w-9 h-9 flex items-center justify-center"
-                        dangerouslySetInnerHTML={{ __html: iconSvg }}
-                      />
-                    ) : (
-                      <div className="w-9 h-9 bg-slate-100 rounded-lg flex items-center justify-center text-[11px] font-bold text-slate-700">
-                        {techName.substring(0, 3)}
-                      </div>
-                    )}
-                  </div>
-                  <span className="text-[13px] font-semibold text-[#1E293B] leading-tight text-center break-words">
-                    {techName}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
-        </div>
+        {/* 3. BOTTOM TECH ECOSYSTEM BLOCK */}
+        <ServiceTechEcosystem
+          activeSvcId={activeSvcId}
+          title={svc.techEcosystemTitle}
+          subtitle={svc.techEcosystemSubtitle}
+          techItems={svc.techItems}
+        />
       </div>
     </section>
   );

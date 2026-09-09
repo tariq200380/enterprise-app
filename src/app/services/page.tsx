@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { query } from "@/lib/db";
+import { DEFAULT_WEBSITE_SETTINGS } from "@/components/admin/settings/types";
 import ProjectDeliveryProcess from "@/components/services/ProjectDeliveryProcess";
 import ServicesInteractiveExplorer from "@/components/services/ServicesInteractiveExplorer";
 import SolutionAreas from "@/components/services/SolutionAreas";
@@ -7,13 +9,46 @@ import DeliveryCommitment from "@/components/services/DeliveryCommitment";
 import IndustriesWeSupport from "@/components/services/IndustriesWeSupport";
 import ServicesVisionCta from "@/components/services/ServicesVisionCta";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Enterprise Services & Engineering Solutions | Creed Tech",
   description:
     "End-to-end cloud infrastructure, bespoke software engineering, AI automation, and cybersecurity engineered for unprecedented enterprise scale.",
 };
 
-export default function ServicesPage() {
+async function getServicesData() {
+  let explorer = DEFAULT_WEBSITE_SETTINGS.servicesExplorer;
+
+  try {
+    const res = await query("SELECT value FROM website_settings WHERE key = 'global_config'");
+    if (res.rows.length > 0 && res.rows[0].value) {
+      const val =
+        typeof res.rows[0].value === "string"
+          ? JSON.parse(res.rows[0].value)
+          : res.rows[0].value;
+
+      if (val.servicesExplorer) {
+        explorer = {
+          sectionHeadline: val.servicesExplorer.sectionHeadline || explorer.sectionHeadline,
+          sectionDescription: val.servicesExplorer.sectionDescription || explorer.sectionDescription,
+          services:
+            Array.isArray(val.servicesExplorer.services) && val.servicesExplorer.services.length > 0
+              ? val.servicesExplorer.services
+              : explorer.services,
+        };
+      }
+    }
+  } catch (err) {
+    console.error("Failed to load services settings:", err);
+  }
+
+  return { explorer };
+}
+
+export default async function ServicesPage() {
+  const { explorer } = await getServicesData();
+
   return (
     <>
       {/* Services Hero Banner */}
@@ -68,7 +103,7 @@ export default function ServicesPage() {
       <ProjectDeliveryProcess />
 
       {/* 3. Services Interactive Selector & Detail Section */}
-      <ServicesInteractiveExplorer />
+      <ServicesInteractiveExplorer data={explorer} />
 
       {/* 4. Solution Areas */}
       <SolutionAreas />

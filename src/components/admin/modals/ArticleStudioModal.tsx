@@ -7,7 +7,8 @@ interface ArticleStudioModalProps {
   isOpen: boolean;
   onClose: () => void;
   editingArticle: ArticleItem | null;
-  onArticleSaved: (article: ArticleItem) => void;
+  onArticleSaved: (article?: ArticleItem) => void;
+  onDeleteArticle?: (id: number) => void;
   showToast: (msg: string) => void;
 }
 
@@ -16,17 +17,21 @@ export default function ArticleStudioModal({
   onClose,
   editingArticle,
   onArticleSaved,
+  onDeleteArticle,
   showToast,
 }: ArticleStudioModalProps) {
   // Form State
-  const [articleTitle, setArticleTitle] = useState("The Best Laptops We've Tested for Enterprise AI & Cloud (2026)");
+  const [articleTitle, setArticleTitle] = useState("");
   const [articleCategory, setArticleCategory] = useState("HARDWARE & AI WORKSTATIONS");
-  const [articleAuthor, setArticleAuthor] = useState("Dr. Sarah Jenkins (Chief Systems Architect)");
-  const [articleReadTime, setArticleReadTime] = useState("15 min read");
-  const [articleCover, setArticleCover] = useState("https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?q=80&w=1000&auto=format&fit=crop");
-  const [articleVideo, setArticleVideo] = useState("https://www.youtube.com/embed/dQw4w9WgXcQ");
-  const [articleAudio, setArticleAudio] = useState("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3");
-  const [articleNote, setArticleNote] = useState("August 2026: Our hardware team has vetted 22 workstations for running local 70B LLMs, multi-container Docker clusters, and heavy multi-threaded compilation builds in Creed Tech Labs.");
+  const [articleAuthor, setArticleAuthor] = useState("Editorial Desk");
+  const [articleReadTime, setArticleReadTime] = useState("5 min read");
+  const [articleCover, setArticleCover] = useState("");
+  const [articleVideo, setArticleVideo] = useState("");
+  const [articleAudio, setArticleAudio] = useState("");
+  const [articleNote, setArticleNote] = useState("");
+  const [articleStatus, setArticleStatus] = useState<"DRAFT" | "PUBLISHED">("DRAFT");
+  const [sourceNews, setSourceNews] = useState<string>("");
+  const [showPreviewModal, setShowPreviewModal] = useState<boolean>(false);
 
   const [pros, setPros] = useState<string[]>([
     "Field-leading battery endurance (21+ hours continuous development)",
@@ -59,14 +64,16 @@ export default function ArticleStudioModal({
   // Sync editing article when opened
   useEffect(() => {
     if (editingArticle) {
-      setArticleTitle(editingArticle.title);
-      setArticleCategory(editingArticle.category);
-      setArticleAuthor(editingArticle.author);
-      setArticleReadTime(editingArticle.read_time);
+      setArticleTitle(editingArticle.title || "");
+      setArticleCategory(editingArticle.category || "HARDWARE & AI WORKSTATIONS");
+      setArticleAuthor(editingArticle.author || "Editorial Staff");
+      setArticleReadTime(editingArticle.read_time || "5 min read");
       setArticleCover(editingArticle.cover_photo_url || "");
       setArticleVideo(editingArticle.video_embed_url || "");
       setArticleAudio(editingArticle.audio_stream_url || "");
       setArticleNote(editingArticle.editor_note || "");
+      setArticleStatus(editingArticle.status === "PUBLISHED" ? "PUBLISHED" : "DRAFT");
+      setSourceNews(editingArticle.source_news || "");
       try {
         setPros(typeof editingArticle.pros === "string" ? JSON.parse(editingArticle.pros) : editingArticle.pros || []);
         setCons(typeof editingArticle.cons === "string" ? JSON.parse(editingArticle.cons) : editingArticle.cons || []);
@@ -77,6 +84,32 @@ export default function ArticleStudioModal({
       }
       if (editorRef.current) {
         editorRef.current.innerHTML = editingArticle.content || "<p>Detailed article blueprint content...</p>";
+      }
+    } else {
+      setArticleTitle("");
+      setArticleCategory("HARDWARE & AI WORKSTATIONS");
+      setArticleAuthor("Dr. Sarah Jenkins (Chief Systems Architect)");
+      setArticleReadTime("5 min read");
+      setArticleCover("");
+      setArticleVideo("");
+      setArticleAudio("");
+      setArticleNote("");
+      setArticleStatus("DRAFT");
+      setSourceNews("");
+      setPros([
+        "Field-leading battery endurance (21+ hours continuous development)",
+        "Vivid 2.8K OLED 120Hz display with 100% DCI-P3 color gamut",
+      ]);
+      setCons([
+        "Soldered RAM and non-expandable secondary storage bay",
+      ]);
+      setSpecs([
+        { key: "Architecture", value: "ARMv9 / 3nm Lithography Node" },
+      ]);
+      setBuyButtons([]);
+      setSubArticles([]);
+      if (editorRef.current) {
+        editorRef.current.innerHTML = "<p>Draft editorial analysis and technical specifications...</p>";
       }
     }
   }, [editingArticle]);
@@ -308,30 +341,31 @@ export default function ArticleStudioModal({
     setSubArticles(subArticles.map((s) => (s.id === id ? { ...s, [field]: val } : s)));
   };
 
-  // Submit Handler
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  // Save Handler with status ("DRAFT" | "PUBLISHED")
+  const handleSaveWithStatus = async (targetStatus: "DRAFT" | "PUBLISHED") => {
     setSaving(true);
     const contentHtml = editorRef.current?.innerHTML || "";
     const payload = {
-      title: articleTitle,
-      category: articleCategory,
-      author: articleAuthor,
-      read_time: articleReadTime,
-      cover_photo_url: articleCover,
-      video_embed_url: articleVideo,
-      audio_stream_url: articleAudio,
-      editor_note: articleNote,
+      title: articleTitle.trim() || "Untitled Article",
+      category: articleCategory.trim() || "GENERAL",
+      author: articleAuthor.trim() || "Editorial Staff",
+      read_time: articleReadTime.trim() || "5 min read",
+      cover_photo_url: articleCover.trim(),
+      video_embed_url: articleVideo.trim(),
+      audio_stream_url: articleAudio.trim(),
+      editor_note: articleNote.trim(),
       content: contentHtml,
       pros,
       cons,
       specs,
       buy_buttons: buyButtons,
       sub_articles: subArticles,
+      status: targetStatus,
+      source_news: sourceNews,
     };
 
     try {
-      if (editingArticle) {
+      if (editingArticle?.id) {
         const res = await fetch(`/api/admin/articles/${editingArticle.id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -341,11 +375,18 @@ export default function ArticleStudioModal({
         if (data.success) {
           onArticleSaved(data.article);
           setSuccess(true);
-          showToast(`✓ Article "${articleTitle}" updated successfully!`);
+          setArticleStatus(targetStatus);
+          showToast(
+            targetStatus === "PUBLISHED"
+              ? `✓ Article "${payload.title}" published to Knowledge Center!`
+              : `✓ Draft "${payload.title}" saved successfully!`
+          );
           setTimeout(() => {
             setSuccess(false);
             onClose();
-          }, 1200);
+          }, 900);
+        } else {
+          throw new Error(data.error || "Failed to update article");
         }
       } else {
         const res = await fetch("/api/admin/articles", {
@@ -357,17 +398,47 @@ export default function ArticleStudioModal({
         if (data.success) {
           onArticleSaved(data.article);
           setSuccess(true);
-          showToast(`✓ New article "${articleTitle}" published to PostgreSQL!`);
+          setArticleStatus(targetStatus);
+          showToast(
+            targetStatus === "PUBLISHED"
+              ? `✓ Article published to Knowledge Center!`
+              : `✓ Draft saved to News Editorial Drafts!`
+          );
           setTimeout(() => {
             setSuccess(false);
             onClose();
-          }, 1200);
+          }, 900);
+        } else {
+          throw new Error(data.error || "Failed to create article");
         }
       }
-    } catch {
-      showToast("Error saving article to database");
+    } catch (err: any) {
+      showToast(err.message || "Error saving article to database");
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handleDeleteDraft = async () => {
+    if (!editingArticle?.id) return;
+    if (!confirm(`Permanently delete article "${articleTitle || editingArticle.id}"?`)) return;
+    try {
+      if (onDeleteArticle) {
+        onDeleteArticle(editingArticle.id);
+        onClose();
+      } else {
+        const res = await fetch(`/api/admin/articles/${editingArticle.id}`, { method: "DELETE" });
+        const data = await res.json();
+        if (data.success) {
+          onArticleSaved();
+          showToast(`✓ Article #${editingArticle.id} deleted successfully`);
+          onClose();
+        } else {
+          throw new Error(data.error || "Failed to delete");
+        }
+      }
+    } catch (err: any) {
+      showToast(err.message || "Failed to delete article");
     }
   };
 
@@ -377,16 +448,27 @@ export default function ArticleStudioModal({
         {/* Modal Header */}
         <div className="p-6 border-b border-gray-200 flex items-start justify-between sticky top-0 bg-white z-20">
           <div>
-            <div className="inline-flex items-center gap-2 mb-1">
+            <div className="inline-flex items-center gap-2 mb-1 flex-wrap">
               <span className="px-2.5 py-0.5 bg-[#0052FF] text-white text-[10.5px] font-bold uppercase rounded-sm">
                 ALL-IN-ONE STUDIO
               </span>
+              <span
+                className={`px-2.5 py-0.5 text-[10.5px] font-bold uppercase rounded-sm flex items-center gap-1 ${
+                  articleStatus === "PUBLISHED"
+                    ? "bg-emerald-600 text-white"
+                    : "bg-amber-400 text-amber-950"
+                }`}
+              >
+                {articleStatus === "PUBLISHED" ? "🚀 PUBLISHED" : "📝 DRAFT"}
+              </span>
               <h3 className="text-lg font-bold text-[#030712]">
-                {editingArticle ? `Edit Blueprint Article #${editingArticle.id}` : "Publish Unified Article with Media, Videos, Pros/Cons & Buttons"}
+                {editingArticle
+                  ? `Edit Blueprint Article #${editingArticle.id}`
+                  : "Create Knowledge Article Draft"}
               </h3>
             </div>
             <p className="text-xs text-gray-500 font-normal">
-              Enter all article components in this single unified form. One click publishes the full page with working video, audio, pros/cons, and shopping buttons.
+              Review wire source, edit editorial analysis, customize benchmark specs, and decide whether to publish or keep as draft.
             </p>
           </div>
           <button
@@ -398,10 +480,40 @@ export default function ArticleStudioModal({
         </div>
 
         {/* Modal Body Form */}
-        <form onSubmit={handleSubmit} className="p-6 flex flex-col gap-6">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSaveWithStatus(articleStatus);
+          }}
+          className="p-6 flex flex-col gap-6"
+        >
           {success && (
             <div className="p-3 bg-green-50 border border-green-200 text-green-800 text-xs font-bold rounded">
-              ✓ Article successfully published and stored in PostgreSQL!
+              ✓ Article successfully saved and stored in PostgreSQL!
+            </div>
+          )}
+
+          {/* Source News Reference Card (Matching Screenshot 2) */}
+          {sourceNews && (
+            <div className="p-4 bg-amber-50/90 border border-amber-200 rounded-lg shadow-sm flex flex-col gap-2">
+              <div className="flex items-center justify-between flex-wrap gap-2">
+                <span className="text-[10.5px] font-extrabold uppercase tracking-wider text-amber-900 bg-amber-200/80 px-2 py-0.5 rounded flex items-center gap-1">
+                  <span>📰</span> Source News Reference
+                </span>
+                <span className="text-[11px] font-semibold text-amber-800">
+                  Status: <span className="uppercase font-bold">{articleStatus}</span>
+                </span>
+              </div>
+              <div className="text-xs font-bold text-gray-900 leading-snug">
+                ORIGINAL WIRE: {sourceNews}
+              </div>
+              <div className="text-[11px] text-gray-600 flex items-center gap-3">
+                <span>Category: <strong className="text-gray-800">{articleCategory}</strong></span>
+                <span>•</span>
+                <span>Author: <strong className="text-gray-800">{articleAuthor}</strong></span>
+                <span>•</span>
+                <span>Read Time: <strong className="text-gray-800">{articleReadTime}</strong></span>
+              </div>
             </div>
           )}
 
@@ -926,31 +1038,212 @@ export default function ArticleStudioModal({
             </button>
           </div>
 
-          {/* Bottom Actions */}
+          {/* Bottom Actions (Matching User Specs & Screenshot 2) */}
           <div className="flex items-center justify-between flex-wrap gap-3 pt-4 border-t border-gray-200">
-            <div className="text-xs font-semibold text-amber-700 bg-amber-50 px-3 py-1.5 rounded border border-amber-200">
-              💡 Single Save publishes all added articles &amp; their individual review sections to the Knowledge Center.
+            <div className="flex items-center gap-2">
+              {editingArticle && (
+                <button
+                  type="button"
+                  onClick={handleDeleteDraft}
+                  className="px-3.5 py-2 text-xs font-bold text-red-600 hover:text-red-700 bg-red-50 hover:bg-red-100 border border-red-200 rounded-md transition-colors cursor-pointer flex items-center gap-1.5"
+                >
+                  <span>🗑️</span>
+                  <span>Delete {articleStatus === "DRAFT" ? "Draft" : "Article"}</span>
+                </button>
+              )}
+              <button
+                type="button"
+                onClick={() => setShowPreviewModal(true)}
+                className="px-3.5 py-2 text-xs font-bold text-[#0052FF] hover:bg-blue-50 border border-blue-200 rounded-md transition-colors cursor-pointer flex items-center gap-1.5"
+              >
+                <span>👁️</span>
+                <span>Preview Article ↗</span>
+              </button>
             </div>
-            <div className="flex items-center gap-3">
+
+            <div className="flex items-center gap-2.5">
               <button
                 type="button"
                 onClick={onClose}
-                className="px-4 py-2 text-xs font-semibold text-gray-600 hover:text-gray-900 bg-gray-100 rounded cursor-pointer"
+                className="px-4 py-2 text-xs font-semibold text-gray-600 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer transition-colors"
               >
                 Cancel
               </button>
-              <button
-                type="submit"
-                disabled={saving}
-                className="px-6 py-2.5 text-xs font-extrabold text-white bg-[#0052FF] hover:bg-[#0042D0] rounded-md transition-all shadow-md hover:shadow-lg cursor-pointer flex items-center gap-2 disabled:opacity-50"
-              >
-                <span>🚀</span>
-                <span>{saving ? "Publishing to PostgreSQL..." : "Save & Publish Complete Page to Knowledge Center"}</span>
-              </button>
+              {articleStatus === "PUBLISHED" ? (
+                <>
+                  <button
+                    type="button"
+                    disabled={saving}
+                    onClick={() => handleSaveWithStatus("DRAFT")}
+                    className="px-4 py-2 text-xs font-bold text-amber-900 bg-amber-100 hover:bg-amber-200 border border-amber-300 rounded transition-all cursor-pointer flex items-center gap-1.5 disabled:opacity-50"
+                  >
+                    <span>↩️</span>
+                    <span>{saving ? "Saving..." : "Unpublish to Draft"}</span>
+                  </button>
+                  <button
+                    type="button"
+                    disabled={saving}
+                    onClick={() => handleSaveWithStatus("PUBLISHED")}
+                    className="px-5 py-2 text-xs font-extrabold text-white bg-[#0052FF] hover:bg-[#0042D0] rounded transition-all shadow hover:shadow-md cursor-pointer flex items-center gap-1.5 disabled:opacity-50"
+                  >
+                    <span>🚀</span>
+                    <span>{saving ? "Saving..." : "Update Published Article"}</span>
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    type="button"
+                    disabled={saving}
+                    onClick={() => handleSaveWithStatus("DRAFT")}
+                    className="px-4 py-2 text-xs font-bold text-amber-900 bg-amber-100 hover:bg-amber-200 border border-amber-300 rounded transition-all cursor-pointer flex items-center gap-1.5 disabled:opacity-50"
+                  >
+                    <span>💾</span>
+                    <span>{saving ? "Saving..." : "Save Draft"}</span>
+                  </button>
+                  <button
+                    type="button"
+                    disabled={saving}
+                    onClick={() => handleSaveWithStatus("PUBLISHED")}
+                    className="px-5 py-2 text-xs font-extrabold text-white bg-[#0052FF] hover:bg-[#0042D0] rounded transition-all shadow hover:shadow-md cursor-pointer flex items-center gap-1.5 disabled:opacity-50"
+                  >
+                    <span>🚀</span>
+                    <span>{saving ? "Publishing..." : "Publish to Knowledge Center"}</span>
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </form>
       </div>
+
+      {/* Live Preview Modal */}
+      {showPreviewModal && (
+        <div className="fixed inset-0 z-60 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
+          <div className="bg-[#0B1120] text-slate-100 rounded-xl border border-slate-700 max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative flex flex-col">
+            <div className="p-4 border-b border-slate-800 flex items-center justify-between sticky top-0 bg-[#0B1120] z-20">
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-bold text-slate-400">ARTICLE PREVIEW</span>
+                <span
+                  className={`px-2 py-0.5 text-[10px] font-bold rounded uppercase ${
+                    articleStatus === "PUBLISHED"
+                      ? "bg-emerald-600 text-white"
+                      : "bg-amber-400 text-amber-950"
+                  }`}
+                >
+                  {articleStatus}
+                </span>
+              </div>
+              <button
+                onClick={() => setShowPreviewModal(false)}
+                className="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold rounded cursor-pointer"
+              >
+                ✕ Close Preview
+              </button>
+            </div>
+
+            <div className="p-6 md:p-8 flex flex-col gap-6">
+              {articleCover && (
+                <div className="w-full h-64 md:h-80 rounded-lg overflow-hidden relative">
+                  <img
+                    src={articleCover}
+                    alt={articleTitle}
+                    className="w-full h-full object-cover"
+                  />
+                  <span className="absolute top-4 left-4 px-3 py-1 bg-[#0052FF] text-white text-xs font-bold rounded shadow">
+                    {articleCategory}
+                  </span>
+                </div>
+              )}
+
+              <div>
+                <div className="text-xs text-slate-400 mb-2">
+                  By {articleAuthor} • {articleReadTime}
+                </div>
+                <h1 className="text-2xl md:text-3xl font-extrabold text-white leading-tight">
+                  {articleTitle || "Untitled Article"}
+                </h1>
+              </div>
+
+              {articleNote && (
+                <div className="p-4 bg-slate-800/80 border-l-4 border-[#0052FF] rounded text-xs text-slate-300 leading-relaxed italic">
+                  &ldquo;{articleNote}&rdquo;
+                </div>
+              )}
+
+              {articleVideo && (
+                <div className="aspect-video w-full rounded-lg overflow-hidden border border-slate-700">
+                  <iframe
+                    src={articleVideo}
+                    className="w-full h-full"
+                    allowFullScreen
+                    title="Video Embed"
+                  />
+                </div>
+              )}
+
+              {articleAudio && (
+                <div className="p-4 bg-slate-800 rounded-lg border border-slate-700">
+                  <div className="text-xs font-bold text-slate-300 mb-2">🎧 Audio Intelligence Briefing</div>
+                  <audio controls src={articleAudio} className="w-full" />
+                </div>
+              )}
+
+              <div
+                className="prose prose-invert max-w-none text-slate-300 text-sm leading-relaxed"
+                dangerouslySetInnerHTML={{
+                  __html: editorRef.current?.innerHTML || "<p>No content provided.</p>",
+                }}
+              />
+
+              {(pros.length > 0 || cons.length > 0) && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-slate-800">
+                  <div className="p-4 bg-emerald-950/40 border border-emerald-800/50 rounded-lg">
+                    <h4 className="text-xs font-bold text-emerald-400 uppercase mb-3">✓ Advantages</h4>
+                    <ul className="space-y-2 text-xs text-slate-200">
+                      {pros.map((p, i) => (
+                        <li key={i} className="flex items-start gap-2">
+                          <span className="text-emerald-400 font-bold">•</span>
+                          <span>{p}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="p-4 bg-rose-950/40 border border-rose-800/50 rounded-lg">
+                    <h4 className="text-xs font-bold text-rose-400 uppercase mb-3">✕ Trade-offs</h4>
+                    <ul className="space-y-2 text-xs text-slate-200">
+                      {cons.map((c, i) => (
+                        <li key={i} className="flex items-start gap-2">
+                          <span className="text-rose-400 font-bold">•</span>
+                          <span>{c}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              )}
+
+              {specs.length > 0 && (
+                <div className="pt-4 border-t border-slate-800">
+                  <h4 className="text-xs font-bold text-slate-300 uppercase mb-3">⚙ Technical Specifications</h4>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-xs text-left text-slate-300">
+                      <tbody>
+                        {specs.map((s, i) => (
+                          <tr key={i} className="border-b border-slate-800/60">
+                            <td className="py-2 pr-4 font-semibold text-slate-400 w-1/3">{s.key}</td>
+                            <td className="py-2 text-slate-200">{s.value}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

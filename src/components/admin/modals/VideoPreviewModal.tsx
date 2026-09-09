@@ -24,14 +24,32 @@ export default function VideoPreviewModal({ video, onClose }: VideoPreviewModalP
           STREAM PREVIEW
         </span>
         <h3 className="text-base font-bold text-white mb-3">{video.title}</h3>
-        <div className="w-full aspect-video bg-black rounded overflow-hidden mb-4">
-          <iframe
-            src={video.embed_url.replace("watch?v=", "embed/")}
-            title={video.title}
-            className="w-full h-full border-0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
+        <div className="w-full aspect-video bg-black rounded overflow-hidden mb-4 flex items-center justify-center">
+          {video.embed_url.startsWith("/uploads/") ||
+          video.embed_url.startsWith("blob:") ||
+          video.embed_url.startsWith("data:") ||
+          /\.(mp4|webm|ogg|mov|mkv)(\?.*)?$/i.test(video.embed_url) ? (
+            <video
+              src={video.embed_url}
+              controls
+              autoPlay
+              className="w-full h-full object-contain"
+            />
+          ) : (
+            <iframe
+              src={
+                video.embed_url.includes("youtube.com/watch?v=")
+                  ? video.embed_url.replace("watch?v=", "embed/")
+                  : video.embed_url.includes("youtu.be/")
+                  ? video.embed_url.replace("youtu.be/", "www.youtube.com/embed/")
+                  : video.embed_url
+              }
+              title={video.title}
+              className="w-full h-full border-0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          )}
         </div>
         <div className="flex justify-between items-center text-xs text-gray-400">
           <span>Category: {video.category} • Duration: {video.duration}</span>

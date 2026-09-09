@@ -26,6 +26,12 @@ export async function GET() {
       counts[tbl] = parseInt(res.rows[0].count, 10);
     }
 
+    const pendingReviewsRes = await query("SELECT COUNT(*) FROM article_reviews WHERE status = 'PENDING'");
+    counts["pending_reviews"] = parseInt(pendingReviewsRes.rows[0]?.count || "0", 10);
+
+    const newInquiriesRes = await query("SELECT COUNT(*) FROM contact_inquiries WHERE status = 'NEW'");
+    counts["new_inquiries"] = parseInt(newInquiriesRes.rows[0]?.count || "0", 10);
+
     const mem = process.memoryUsage();
 
     return NextResponse.json({

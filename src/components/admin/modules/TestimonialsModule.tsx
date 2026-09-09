@@ -1,21 +1,96 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Testimonial } from "@/types/admin";
+import AddTestimonialModal from "../modals/AddTestimonialModal";
 
 interface TestimonialsModuleProps {
-  testimonials: Testimonial[];
-  onOpenAddModal: () => void;
-  onToggleVerified: (id: number, current: boolean) => void;
-  onDeleteTestimonial: (id: number) => void;
+  testimonials?: Testimonial[];
+  onOpenAddModal?: () => void;
+  onToggleVerified?: (id: number, current: boolean) => void;
+  onDeleteTestimonial?: (id: number) => void;
+  showToast?: (msg: string, type?: "success" | "error") => void;
+  onRefresh?: () => void;
 }
 
 export default function TestimonialsModule({
-  testimonials,
+  testimonials: propTestimonials,
   onOpenAddModal,
   onToggleVerified,
   onDeleteTestimonial,
+  showToast,
+  onRefresh,
 }: TestimonialsModuleProps) {
+  const [testimonials, setTestimonials] = useState<Testimonial[]>(propTestimonials || []);
+  const [showAddModal, setShowAddModal] = useState(false);
+
+  const fetchTestimonials = async () => {
+    try {
+      const res = await fetch("/api/admin/testimonials");
+      const data = await res.json();
+      if (data.testimonials) setTestimonials(data.testimonials);
+    } catch (err) {
+      console.error("Failed to load testimonials:", err);
+    }
+  };
+
+  useEffect(() => {
+    if (propTestimonials) {
+      setTestimonials(propTestimonials);
+    } else {
+      fetchTestimonials();
+    }
+  }, [propTestimonials]);
+
+  const handleToggleVerifiedAction = async (id: number, currentVal: boolean) => {
+    try {
+      const res = await fetch("/api/admin/testimonials", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, verified: !currentVal }),
+      });
+      if (res.ok) {
+        setTestimonials((prev) =>
+          prev.map((t) => (t.id === id ? { ...t, verified: !currentVal } : t))
+        );
+        showToast?.("Verification toggled");
+        onToggleVerified?.(id, currentVal);
+        fetchTestimonials();
+        onRefresh?.();
+      } else {
+        showToast?.("Failed to update testimonial", "error");
+      }
+    } catch {
+      showToast?.("Failed to update testimonial", "error");
+    }
+  };
+
+  const handleDeleteAction = async (id: number) => {
+    if (!confirm(`Delete testimonial #${id}?`)) return;
+    try {
+      const res = await fetch(`/api/admin/testimonials?id=${id}`, { method: "DELETE" });
+      if (res.ok) {
+        setTestimonials((prev) => prev.filter((t) => t.id !== id));
+        showToast?.("Testimonial deleted");
+        onDeleteTestimonial?.(id);
+        fetchTestimonials();
+        onRefresh?.();
+      } else {
+        showToast?.("Failed to delete testimonial", "error");
+      }
+    } catch {
+      showToast?.("Failed to delete testimonial", "error");
+    }
+  };
+
+  const handleCreated = (newTestimonial: Testimonial) => {
+    setTestimonials((prev) => [newTestimonial, ...prev]);
+    setShowAddModal(false);
+    fetchTestimonials();
+    onRefresh?.();
+    showToast?.("✓ Client testimonial published!");
+  };
+
   const getInitials = (name: string) => {
     const parts = (name || "Client").trim().split(/\s+/).filter(Boolean);
     if (parts.length >= 2) return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
@@ -48,7 +123,10 @@ export default function TestimonialsModule({
             <span className="text-amber-600 font-bold">{pendingCount} Pending</span>
           </div>
           <button
-            onClick={onOpenAddModal}
+            onClick={() => {
+              if (onOpenAddModal) onOpenAddModal();
+              else setShowAddModal(true);
+            }}
             className="px-5 py-2 bg-[#0052FF] hover:bg-[#0042D0] text-white text-xs font-bold rounded shadow-xs flex items-center gap-1.5 cursor-pointer transition-colors"
           >
             <span>+</span> <span>Add Testimonial</span>
@@ -129,7 +207,7 @@ export default function TestimonialsModule({
             <div className="flex items-center justify-between pt-3 mt-4 border-t border-gray-100 text-xs">
               {!t.verified ? (
                 <button
-                  onClick={() => onToggleVerified(t.id, t.verified)}
+                  onClick={() => handleToggleVerifiedAction(t.id, t.verified)}
                   className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px] rounded shadow-xs cursor-pointer flex items-center gap-1.5 transition-colors"
                 >
                   <span>✓</span>
@@ -137,7 +215,7 @@ export default function TestimonialsModule({
                 </button>
               ) : (
                 <button
-                  onClick={() => onToggleVerified(t.id, t.verified)}
+                  onClick={() => handleToggleVerifiedAction(t.id, t.verified)}
                   className="px-2.5 py-1 text-slate-500 hover:text-slate-800 hover:bg-slate-100 font-medium text-[11px] rounded border border-slate-200 cursor-pointer transition-colors"
                 >
                   Unpublish
@@ -145,7 +223,7 @@ export default function TestimonialsModule({
               )}
 
               <button
-                onClick={() => onDeleteTestimonial(t.id)}
+                onClick={() => handleDeleteAction(t.id)}
                 className="text-red-600 hover:text-red-700 hover:underline font-semibold cursor-pointer text-xs"
               >
                 Delete
@@ -154,6 +232,14 @@ export default function TestimonialsModule({
           </div>
         ))}
       </div>
+
+      {/* Embedded Add Testimonial Modal */}
+      <AddTestimonialModal
+        isOpen={showAddModal}
+        onClose={() => setShowAddModal(false)}
+        onTestimonialCreated={handleCreated}
+        showToast={showToast || (() => {})}
+      />
     </div>
   );
 }

@@ -1,31 +1,148 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Candidate, JobOpening } from "@/types/admin";
+import AddJobModal from "../modals/AddJobModal";
 
 interface CareersModuleProps {
-  candidates: Candidate[];
-  jobs: JobOpening[];
-  searchQuery: string;
-  onOpenNewJobModal: () => void;
-  onUpdateCandidateStatus: (id: number, status: string) => void;
-  onDeleteCandidate: (id: number) => void;
-  onUpdateJobStatus: (id: number, status: string) => void;
-  onDeleteJob: (id: number) => void;
+  candidates?: Candidate[];
+  jobs?: JobOpening[];
+  searchQuery?: string;
+  onOpenNewJobModal?: () => void;
+  onUpdateCandidateStatus?: (id: number, status: string) => void;
+  onDeleteCandidate?: (id: number) => void;
+  onUpdateJobStatus?: (id: number, status: string) => void;
+  onDeleteJob?: (id: number) => void;
+  showToast?: (msg: string, type?: "success" | "error") => void;
+  onRefresh?: () => void;
 }
 
 export default function CareersModule({
-  candidates,
-  jobs,
-  searchQuery,
+  candidates: propCandidates,
+  jobs: propJobs,
+  searchQuery = "",
   onOpenNewJobModal,
   onUpdateCandidateStatus,
   onDeleteCandidate,
   onUpdateJobStatus,
   onDeleteJob,
+  showToast,
+  onRefresh,
 }: CareersModuleProps) {
+  const [candidates, setCandidates] = useState<Candidate[]>(propCandidates || []);
+  const [jobs, setJobs] = useState<JobOpening[]>(propJobs || []);
   const [subTab, setSubTab] = useState<"candidates" | "jobs">("candidates");
   const [selectedCandidate, setSelectedCandidate] = useState<Candidate | null>(null);
+  const [showAddJobModal, setShowAddJobModal] = useState(false);
+
+  const fetchCareersData = async () => {
+    try {
+      const [candRes, jobsRes] = await Promise.all([
+        fetch("/api/admin/candidates"),
+        fetch("/api/admin/jobs"),
+      ]);
+      const candData = await candRes.json();
+      const jobsData = await jobsRes.json();
+      if (candData.candidates) setCandidates(candData.candidates);
+      if (jobsData.jobs) setJobs(jobsData.jobs);
+    } catch (err) {
+      console.error("Failed to load careers data:", err);
+    }
+  };
+
+  useEffect(() => {
+    if (propCandidates) setCandidates(propCandidates);
+    if (propJobs) setJobs(propJobs);
+    if (!propCandidates && !propJobs) {
+      fetchCareersData();
+    }
+  }, [propCandidates, propJobs]);
+
+  const handleCandidateStatus = async (id: number, status: string) => {
+    setCandidates((prev) => prev.map((c) => (c.id === id ? { ...c, status } : c)));
+    try {
+      const res = await fetch("/api/admin/candidates", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, status }),
+      });
+      if (res.ok) {
+        showToast?.(`Candidate marked as ${status}`);
+        onUpdateCandidateStatus?.(id, status);
+        fetchCareersData();
+        onRefresh?.();
+      } else {
+        showToast?.("Failed to update candidate", "error");
+      }
+    } catch {
+      showToast?.("Failed to update candidate", "error");
+    }
+  };
+
+  const handleDeleteCandidateAction = async (id: number) => {
+    if (!confirm(`Delete candidate record #${id}?`)) return;
+    try {
+      const res = await fetch(`/api/admin/candidates?id=${id}`, { method: "DELETE" });
+      if (res.ok) {
+        setCandidates((prev) => prev.filter((c) => c.id !== id));
+        showToast?.("Candidate deleted");
+        onDeleteCandidate?.(id);
+        fetchCareersData();
+        onRefresh?.();
+      } else {
+        showToast?.("Failed to delete candidate", "error");
+      }
+    } catch {
+      showToast?.("Failed to delete candidate", "error");
+    }
+  };
+
+  const handleJobStatus = async (id: number, status: string) => {
+    setJobs((prev) => prev.map((j) => (j.id === id ? { ...j, status } : j)));
+    try {
+      const res = await fetch("/api/admin/jobs", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, status }),
+      });
+      if (res.ok) {
+        showToast?.(`Job status: ${status}`);
+        onUpdateJobStatus?.(id, status);
+        fetchCareersData();
+        onRefresh?.();
+      } else {
+        showToast?.("Failed to update job", "error");
+      }
+    } catch {
+      showToast?.("Failed to update job", "error");
+    }
+  };
+
+  const handleDeleteJobAction = async (id: number) => {
+    if (!confirm(`Delete job opening #${id}?`)) return;
+    try {
+      const res = await fetch(`/api/admin/jobs?id=${id}`, { method: "DELETE" });
+      if (res.ok) {
+        setJobs((prev) => prev.filter((j) => j.id !== id));
+        showToast?.("Job opening deleted");
+        onDeleteJob?.(id);
+        fetchCareersData();
+        onRefresh?.();
+      } else {
+        showToast?.("Failed to delete job", "error");
+      }
+    } catch {
+      showToast?.("Failed to delete job", "error");
+    }
+  };
+
+  const handleJobCreated = (newJob: JobOpening) => {
+    setJobs((prev) => [newJob, ...prev]);
+    setShowAddJobModal(false);
+    fetchCareersData();
+    onRefresh?.();
+    showToast?.("✓ Career role published to Talent Portal!");
+  };
 
   const getValidUrl = (url?: string) => {
     if (!url || !url.trim()) return null;
@@ -59,7 +176,10 @@ export default function CareersModule({
         </div>
         <div className="flex gap-2">
           <button
-            onClick={onOpenNewJobModal}
+            onClick={() => {
+              if (onOpenNewJobModal) onOpenNewJobModal();
+              else setShowAddJobModal(true);
+            }}
             className="px-4 py-2 bg-[#0052FF] hover:bg-[#0042D0] text-white text-xs font-bold rounded shadow cursor-pointer"
           >
             + Post Job Opening
@@ -119,7 +239,7 @@ export default function CareersModule({
                       <td className="p-3.5">
                         <select
                           value={c.status}
-                          onChange={(e) => onUpdateCandidateStatus(c.id, e.target.value)}
+                          onChange={(e) => handleCandidateStatus(c.id, e.target.value)}
                           className="bg-white border border-gray-300 rounded px-2 py-1 font-semibold text-xs cursor-pointer"
                         >
                           <option value="NEW">NEW</option>
@@ -153,7 +273,7 @@ export default function CareersModule({
                             </button>
                           )}
                           <button
-                            onClick={() => onDeleteCandidate(c.id)}
+                            onClick={() => handleDeleteCandidateAction(c.id)}
                             className="px-2.5 py-1 bg-red-50 hover:bg-red-100 text-red-600 rounded font-semibold cursor-pointer text-xs transition-colors"
                           >
                             Delete
@@ -180,7 +300,7 @@ export default function CareersModule({
                   </span>
                   <select
                     value={j.status}
-                    onChange={(e) => onUpdateJobStatus(j.id, e.target.value)}
+                    onChange={(e) => handleJobStatus(j.id, e.target.value)}
                     className="text-xs font-bold border border-gray-300 rounded px-2 py-0.5 bg-white cursor-pointer"
                   >
                     <option value="ACTIVE">ACTIVE</option>
@@ -201,7 +321,7 @@ export default function CareersModule({
               </div>
               <div className="mt-4 pt-3 border-t border-gray-100 flex justify-end">
                 <button
-                  onClick={() => onDeleteJob(j.id)}
+                  onClick={() => handleDeleteJobAction(j.id)}
                   className="px-3 py-1 bg-red-50 text-red-600 hover:bg-red-100 text-xs font-bold rounded cursor-pointer"
                 >
                   🗑️ Delete Role
@@ -250,7 +370,7 @@ export default function CareersModule({
                 <select
                   value={selectedCandidate.status}
                   onChange={(e) => {
-                    onUpdateCandidateStatus(selectedCandidate.id, e.target.value);
+                    handleCandidateStatus(selectedCandidate.id, e.target.value);
                     setSelectedCandidate({ ...selectedCandidate, status: e.target.value });
                   }}
                   className="bg-white border border-gray-300 rounded px-2.5 py-1 font-semibold text-xs w-full cursor-pointer"
@@ -277,6 +397,14 @@ export default function CareersModule({
           </div>
         </div>
       )}
+
+      {/* Embedded Add Job Modal */}
+      <AddJobModal
+        isOpen={showAddJobModal}
+        onClose={() => setShowAddJobModal(false)}
+        onJobCreated={handleJobCreated}
+        showToast={showToast || (() => {})}
+      />
     </div>
   );
 }

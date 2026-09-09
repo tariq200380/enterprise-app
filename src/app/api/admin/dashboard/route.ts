@@ -5,7 +5,7 @@ export async function GET() {
   try {
     const inquiriesRes = await query("SELECT * FROM contact_inquiries ORDER BY id ASC LIMIT 10");
     const candidatesRes = await query("SELECT * FROM candidates ORDER BY id ASC LIMIT 10");
-    const articlesCountRes = await query("SELECT COUNT(*) FROM articles");
+    const articlesCountRes = await query("SELECT COUNT(*) FROM articles WHERE status = 'PUBLISHED' OR status IS NULL");
 
     return NextResponse.json({
       success: true,

@@ -12,6 +12,14 @@ export interface SocialLinkItem {
   url: string;
 }
 
+export interface HeaderNavLinkItem {
+  id: string;
+  label: string;
+  url: string;
+  openInNewTab?: boolean;
+  enabled?: boolean;
+}
+
 export interface PartnerLogoItem {
   id: string;
   name: string;
@@ -148,6 +156,58 @@ export interface AboutSettingsData {
   leadership: AboutLeadershipMemberItem[];
 }
 
+export interface ServiceExplorerCardItem {
+  id?: string;
+  badge?: string;
+  step?: string;
+  title: string;
+  desc: string;
+}
+
+export interface ServiceSubHeadings {
+  services?: string;
+  servicesDesc?: string;
+  benefits?: string;
+  benefitsDesc?: string;
+  process?: string;
+  processDesc?: string;
+  results?: string;
+  resultsDesc?: string;
+}
+
+export interface ServiceTechItem {
+  name: string;
+  iconUrl?: string;
+}
+
+export interface ServiceExplorerItem {
+  id: string;
+  num: string;
+  name: string;
+  tagline: string;
+  intro: string;
+  ctaHeading: string;
+  ctaDesc: string;
+  ctaBtnText: string;
+  ctaBtnUrl?: string;
+  overviewCards: ServiceExplorerCardItem[];
+  servicesList?: ServiceExplorerCardItem[];
+  benefitCards?: ServiceExplorerCardItem[];
+  process?: ServiceExplorerCardItem[];
+  resultCards?: ServiceExplorerCardItem[];
+  subHeadings?: ServiceSubHeadings;
+  techEcosystemTitle: string;
+  techEcosystemSubtitle: string;
+  techStack: string;
+  techItems?: ServiceTechItem[];
+}
+
+export interface ServicesExplorerSettingsData {
+  sectionHeadline: string;
+  sectionDescription: string;
+  services: ServiceExplorerItem[];
+}
+
 export interface WebsiteSettingsData {
   // Global & Branding
   siteName: string;
@@ -193,8 +253,12 @@ export interface WebsiteSettingsData {
 
   // Header & Footer Additional
   headerLogoUrl: string;
+  headerLogoWidth: number;
+  headerLogoHeight: number;
+  headerNavLinks: HeaderNavLinkItem[];
   headerCtaText: string;
   headerCtaUrl: string;
+  headerShowCta: boolean;
   footerP1: string;
 
   // Portfolio Page
@@ -206,7 +270,19 @@ export interface WebsiteSettingsData {
 
   // About Page Advanced
   aboutSettings: AboutSettingsData;
+
+  // Services Page Explorer Section
+  servicesExplorer: ServicesExplorerSettingsData;
 }
+
+export const DEFAULT_HEADER_NAV_LINKS: HeaderNavLinkItem[] = [
+  { id: "nav-1", label: "Home", url: "/", enabled: true },
+  { id: "nav-2", label: "Services", url: "/services", enabled: true },
+  { id: "nav-3", label: "Knowledge Center", url: "/knowledge-center", enabled: true },
+  { id: "nav-4", label: "Portfolio", url: "/portfolio", enabled: true },
+  { id: "nav-5", label: "About", url: "/about", enabled: true },
+  { id: "nav-6", label: "Contact", url: "/contact", enabled: true },
+];
 
 export const DEFAULT_WEBSITE_SETTINGS: WebsiteSettingsData = {
   siteName: "Creed Tech",
@@ -365,9 +441,13 @@ export const DEFAULT_WEBSITE_SETTINGS: WebsiteSettingsData = {
   contactHeroTitle: "Initiate High-Impact Collaboration",
   contactHeroDesc: "Connect with our technical architects and mission-critical deployment leads worldwide.",
 
-  headerLogoUrl: "",
-  headerCtaText: "Schedule Consultation",
+  headerLogoUrl: "/images/logo.webp",
+  headerLogoWidth: 130,
+  headerLogoHeight: 36,
+  headerNavLinks: DEFAULT_HEADER_NAV_LINKS,
+  headerCtaText: "Get Started",
   headerCtaUrl: "/contact",
+  headerShowCta: true,
   footerP1: "Pioneering high-assurance cognitive cloud infrastructure for enterprises.",
 
   portfolioShowcase: {
@@ -688,6 +768,326 @@ export const DEFAULT_WEBSITE_SETTINGS: WebsiteSettingsData = {
           "Engineering maturity is not just about writing code; it is about delivering business outcomes with absolute predictability.",
         ctaText: "Connect with Sarah →",
         ctaUrl: "/contact",
+      },
+    ],
+  },
+
+  servicesExplorer: {
+    sectionHeadline: "Enterprise Engineering & Digital Solutions",
+    sectionDescription:
+      "Select any service below to explore dedicated capabilities, technical benefits, delivery methodology, results, and Tech Ecosystem.",
+    services: [
+      {
+        id: "software-development",
+        num: "01",
+        name: "Software Development",
+        tagline: "Reliable Software Built Around Your Business",
+        intro:
+          "We design and develop secure scalable software solutions tailored to real business requirements. Our approach combines thoughtful architecture clean development practices and long-term maintainability to create software that remains dependable as your operations evolve.",
+        ctaHeading: "Have a Software Project in Mind?",
+        ctaDesc:
+          "Share your requirements with our team and explore a practical development approach for your business.",
+        ctaBtnText: "Start Your Project",
+        ctaBtnUrl: "/contact",
+        overviewCards: [
+          {
+            badge: "CUSTOM",
+            title: "Business-Focused Solutions",
+            desc: "Software designed around your workflows operational needs and long-term objectives.",
+          },
+          {
+            badge: "SECURE",
+            title: "Secure by Design",
+            desc: "Authentication data protection access control and secure coding practices built into every development stage.",
+          },
+          {
+            badge: "SCALABLE",
+            title: "Growth-Ready Architecture",
+            desc: "Flexible systems structured to support new features users integrations and changing business demands.",
+          },
+          {
+            badge: "MAINTAINABLE",
+            title: "Clean and Sustainable Code",
+            desc: "Well-structured documented code that remains easier to test improve and support over time.",
+          },
+        ],
+        techEcosystemTitle: "Tech Ecosystem",
+        techEcosystemSubtitle:
+          "Technologies and platforms used for Software Development solutions.",
+        techStack: "JAVA, C#, PYTHON, C++, TYPESCRIPT, .NET, SPRING BOOT, GIT",
+      },
+      {
+        id: "ui-ux-design",
+        num: "02",
+        name: "UI/UX Design",
+        tagline: "Clear and User-Centered Digital Experiences",
+        intro:
+          "We create clean, intuitive, and conversion-focused user interfaces and user experiences grounded in real human behavior. From interactive design systems to high-fidelity prototypes, every screen is crafted for frictionless engagement and visual clarity.",
+        ctaHeading: "Need an Intuitive Product Design?",
+        ctaDesc:
+          "Let our product design team create prototypes, wireframes, and design systems that users love.",
+        ctaBtnText: "Start Your Project",
+        ctaBtnUrl: "/contact",
+        overviewCards: [
+          {
+            badge: "INTUITIVE",
+            title: "Frictionless UX Workflows",
+            desc: "User journeys mapped to eliminate cognitive friction and enhance task completion rates.",
+          },
+          {
+            badge: "SYSTEMS",
+            title: "Scalable Design Systems",
+            desc: "Modular design tokens and atomic components engineered for consistency across web and mobile.",
+          },
+          {
+            badge: "RESEARCH",
+            title: "Evidence-Based Prototyping",
+            desc: "Interactive prototypes validated against user testing, task analysis, and accessibility standards.",
+          },
+          {
+            badge: "ACCESSIBILITY",
+            title: "WCAG 2.1 AA Compliance",
+            desc: "Inclusive color palettes, readable typography, and keyboard navigation baked into all layouts.",
+          },
+        ],
+        techEcosystemTitle: "Tech Ecosystem",
+        techEcosystemSubtitle:
+          "Technologies and platforms used for UI/UX Design solutions.",
+        techStack: "FIGMA, FIGJAM, ADOBE ILLUSTRATOR, ADOBE PHOTOSHOP, FRAMER, MAZE, MIRO, ZEPLIN",
+      },
+      {
+        id: "mobile-application",
+        num: "03",
+        name: "Mobile Application",
+        tagline: "Reliable Mobile Experiences for Modern Users",
+        intro:
+          "We build fluid, performant native and cross-platform mobile apps for iOS and Android. Engineered for smooth frame rates, offline-first reliability, and seamless API integrations.",
+        ctaHeading: "Ready to Build Your Mobile App?",
+        ctaDesc:
+          "Consult with our mobile engineers to build iOS and Android applications with top-tier performance.",
+        ctaBtnText: "Start Your Project",
+        ctaBtnUrl: "/contact",
+        overviewCards: [
+          {
+            badge: "CROSS-PLATFORM",
+            title: "Single Codebase Efficiency",
+            desc: "Accelerate time-to-market with React Native and Flutter without compromising native speed.",
+          },
+          {
+            badge: "OFFLINE",
+            title: "Offline-First Synchronization",
+            desc: "Local data persistence and background sync ensuring continuous app usability anywhere.",
+          },
+          {
+            badge: "SECURITY",
+            title: "Hardware Keystore & Biometrics",
+            desc: "Biometric authentication and encrypted local storage protecting sensitive client credentials.",
+          },
+          {
+            badge: "PERFORMANCE",
+            title: "60 FPS Fluid Interface",
+            desc: "Optimized memory footprint, smooth animations, and rapid cold-start launch times.",
+          },
+        ],
+        techEcosystemTitle: "Tech Ecosystem",
+        techEcosystemSubtitle:
+          "Technologies and platforms used for Mobile Application solutions.",
+        techStack: "SWIFT, SWIFTUI, KOTLIN, JETPACK COMPOSE, DART, FLUTTER, REACT NATIVE",
+      },
+      {
+        id: "cloud-infrastructure",
+        num: "04",
+        name: "Cloud Infrastructure",
+        tagline: "Secure and Scalable Cloud Foundations",
+        intro:
+          "We architect robust, secure, and auto-scaling cloud architectures on AWS, Azure, and Google Cloud. Utilizing Infrastructure as Code (IaC), zero-trust security, and continuous deployment pipelines.",
+        ctaHeading: "Scaling Cloud Infrastructure?",
+        ctaDesc:
+          "Architect high-availability Kubernetes clusters and automated CI/CD deployment pipelines.",
+        ctaBtnText: "Start Your Project",
+        ctaBtnUrl: "/contact",
+        overviewCards: [
+          {
+            badge: "AUTOMATION",
+            title: "Infrastructure as Code",
+            desc: "Terraform and automated declarative configuration for reproducible multi-region deployments.",
+          },
+          {
+            badge: "CONTAINERS",
+            title: "Kubernetes Orchestration",
+            desc: "High-density microservices orchestration with automated zero-downtime rolling updates.",
+          },
+          {
+            badge: "OBSERVABILITY",
+            title: "Full-Stack Telemetry",
+            desc: "Prometheus metrics, Grafana dashboards, and centralized log alerting for 99.99% uptime.",
+          },
+          {
+            badge: "SECURITY",
+            title: "Zero-Trust Cloud Network",
+            desc: "VPC peering, least-privilege IAM policies, and encrypted data-at-rest across all buckets.",
+          },
+        ],
+        techEcosystemTitle: "Tech Ecosystem",
+        techEcosystemSubtitle:
+          "Technologies and platforms used for Cloud Infrastructure solutions.",
+        techStack: "AMAZON WEB SERVICES, MICROSOFT AZURE, GOOGLE CLOUD, DOCKER, KUBERNETES, TERRAFORM, GITHUB ACTIONS, PROMETHEUS",
+      },
+      {
+        id: "database-management",
+        num: "05",
+        name: "Database Management",
+        tagline: "Reliable Data Systems for Business Applications",
+        intro:
+          "We design high-throughput relational and NoSQL database clusters optimized for sub-millisecond query execution, automated replication, failover, and bulletproof backups.",
+        ctaHeading: "Optimizing Your Data Architecture?",
+        ctaDesc:
+          "Scale your PostgreSQL, MySQL, and distributed cache clusters for heavy enterprise concurrency.",
+        ctaBtnText: "Start Your Project",
+        ctaBtnUrl: "/contact",
+        overviewCards: [
+          {
+            badge: "PERFORMANCE",
+            title: "Query & Index Optimization",
+            desc: "Execution plan analysis, index tuning, and connection pooling for maximum read/write speeds.",
+          },
+          {
+            badge: "REPLICATION",
+            title: "High-Availability Clustering",
+            desc: "Active-passive read replicas and automated failover guarantees continuous data availability.",
+          },
+          {
+            badge: "CACHING",
+            title: "In-Memory Redis Layer",
+            desc: "Sub-millisecond data retrieval and session caching reducing primary database load by up to 80%.",
+          },
+          {
+            badge: "BACKUPS",
+            title: "Automated Point-in-Time Recovery",
+            desc: "Encrypted snapshot backups and continuous WAL archiving ensuring zero data loss SLAs.",
+          },
+        ],
+        techEcosystemTitle: "Tech Ecosystem",
+        techEcosystemSubtitle:
+          "Technologies and platforms used for Database Management solutions.",
+        techStack: "POSTGRESQL, MYSQL, MICROSOFT SQL SERVER, ORACLE DATABASE, MONGODB, REDIS, MARIADB, SQLITE",
+      },
+      {
+        id: "web-development",
+        num: "06",
+        name: "Web Development",
+        tagline: "Modern Websites Built for Real Business Needs",
+        intro:
+          "We engineer high-performance web platforms using modern Next.js, React, and serverless architectures. Built for rapid Core Web Vitals, enterprise SEO, and intuitive content administration.",
+        ctaHeading: "Need a High-Performance Web Platform?",
+        ctaDesc:
+          "Launch full-stack web applications engineered for speed, SEO, and seamless user conversions.",
+        ctaBtnText: "Start Your Project",
+        ctaBtnUrl: "/contact",
+        overviewCards: [
+          {
+            badge: "SPEED",
+            title: "Instant Server Rendering",
+            desc: "Next.js server-side rendering and static edge optimization delivering sub-second page loads.",
+          },
+          {
+            badge: "RESPONSIVE",
+            title: "Adaptive Mobile-First UI",
+            desc: "Pixel-perfect interfaces optimized across ultra-wide desktops, tablets, and smartphones.",
+          },
+          {
+            badge: "SEO",
+            title: "Technical SEO Foundation",
+            desc: "Automated schema markup, metadata tags, and semantic HTML for superior search engine rankings.",
+          },
+          {
+            badge: "SCALABLE",
+            title: "Modular Component System",
+            desc: "Clean component hierarchy and typed APIs that empower rapid feature iterations over time.",
+          },
+        ],
+        techEcosystemTitle: "Tech Ecosystem",
+        techEcosystemSubtitle:
+          "Technologies and platforms used for Web Development solutions.",
+        techStack: "HTML5, CSS3, JAVASCRIPT, TYPESCRIPT, REACT, NEXT.JS, NODE.JS, WORDPRESS",
+      },
+      {
+        id: "ai-automation",
+        num: "07",
+        name: "AI & Automation",
+        tagline: "Practical Intelligence for Everyday Business Workflows",
+        intro:
+          "We integrate state-of-the-art Large Language Models (LLMs), autonomous agents, and workflow automations directly into existing ERP and CRM systems to streamline operational bottlenecks.",
+        ctaHeading: "Ready to Automate with AI?",
+        ctaDesc:
+          "Deploy custom AI agents, document intelligence, and automated workflow pipelines in your operations.",
+        ctaBtnText: "Start Your Project",
+        ctaBtnUrl: "/contact",
+        overviewCards: [
+          {
+            badge: "AGENTS",
+            title: "Autonomous Agent Workflows",
+            desc: "Multi-step AI agents that process complex data, summarize documents, and trigger API tasks.",
+          },
+          {
+            badge: "RAG",
+            title: "Enterprise Knowledge Retrieval",
+            desc: "Vector search and Retrieval-Augmented Generation ground AI responses strictly in company data.",
+          },
+          {
+            badge: "AUTOMATION",
+            title: "No-Code & Low-Code Pipelines",
+            desc: "Connect n8n, Power Automate, and custom webhooks to eliminate repetitive manual entry.",
+          },
+          {
+            badge: "PRIVACY",
+            title: "Private & Compliant Models",
+            desc: "Enterprise data isolation and sovereign API integrations with strict confidentiality guards.",
+          },
+        ],
+        techEcosystemTitle: "Tech Ecosystem",
+        techEcosystemSubtitle:
+          "Technologies and platforms used for AI & Automation solutions.",
+        techStack: "OPENAI, GOOGLE GEMINI, ANTHROPIC CLAUDE, LANGCHAIN, HUGGING FACE, N8N, MICROSOFT POWER AUTOMATE, PYTHON",
+      },
+      {
+        id: "digital-growth",
+        num: "08",
+        name: "Digital Growth",
+        tagline: "Connected Strategies for Sustainable Online Growth",
+        intro:
+          "We combine data-driven conversion rate optimization, technical search engine optimization, and multi-channel paid acquisition to sustainably scale qualified inbound customer leads.",
+        ctaHeading: "Ready to Accelerate Growth?",
+        ctaDesc:
+          "Formulate a data-driven growth strategy combining technical SEO, analytics, and targeted acquisition.",
+        ctaBtnText: "Start Your Project",
+        ctaBtnUrl: "/contact",
+        overviewCards: [
+          {
+            badge: "ANALYTICS",
+            title: "Conversion Funnel Tracking",
+            desc: "Google Analytics 4 and event-level telemetry identifying friction points in buyer journeys.",
+          },
+          {
+            badge: "ACQUISITION",
+            title: "Precision Paid Campaigns",
+            desc: "Google Ads and Meta Ads campaigns managed with algorithmic bidding for optimal CAC and ROAS.",
+          },
+          {
+            badge: "VISIBILITY",
+            title: "High-Intent Organic Rankings",
+            desc: "Comprehensive keyword architecture and backlink analysis driving continuous qualified inbound traffic.",
+          },
+          {
+            badge: "OPTIMIZATION",
+            title: "Heatmap & Behavioral Insights",
+            desc: "Hotjar heatmaps and user recordings informing data-backed iterative UX enhancements.",
+          },
+        ],
+        techEcosystemTitle: "Tech Ecosystem",
+        techEcosystemSubtitle:
+          "Technologies and platforms used for Digital Growth solutions.",
+        techStack: "GOOGLE ANALYTICS 4, GOOGLE SEARCH CONSOLE, GOOGLE ADS, META ADS, SEMRUSH, AHREFS, HUBSPOT, HOTJAR",
       },
     ],
   },

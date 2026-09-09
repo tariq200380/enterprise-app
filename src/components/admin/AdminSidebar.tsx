@@ -38,7 +38,13 @@ export default function AdminSidebar({
     { id: "videos", label: "Video Library", icon: "🎥", count: videosCount, badgeColor: "bg-orange-950 text-[#FF6B00]" },
     { id: "news_wire", label: "Tech Wire News", icon: "📰" },
     { id: "reviews", label: "Client Testimonials", icon: "⭐", count: testimonialsCount, badgeColor: "bg-amber-950 text-amber-300" },
-    { id: "article_reviews", label: "Article Moderation", icon: "✍️", count: reviewsPendingCount > 0 ? `${reviewsPendingCount} Pending` : undefined, badgeColor: "bg-[#10B981] text-white" },
+    {
+      id: "article_reviews",
+      label: "Article Reviews Moderation",
+      icon: "✍️",
+      count: reviewsPendingCount > 0 ? `${reviewsPendingCount} Pending` : "All Clear",
+      badgeColor: reviewsPendingCount > 0 ? "bg-[#EF4444] text-white" : "bg-[#10B981] text-white"
+    },
     { id: "applicants", label: "Talent Pool / Careers", icon: "💼", count: candidatesCount, badgeColor: "bg-indigo-950 text-indigo-300" },
     { id: "subscribers", label: "Newsletter Leads", icon: "📧", count: subscribersCount, badgeColor: "bg-emerald-950 text-emerald-300" },
     { id: "portfolio", label: "Portfolio Projects", icon: "💼", count: portfolioCount, badgeColor: "bg-purple-950 text-purple-300" },

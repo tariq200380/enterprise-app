@@ -1,21 +1,74 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { PortfolioItem } from "@/types/admin";
+import AddPortfolioModal from "../modals/AddPortfolioModal";
 
 interface PortfolioModuleProps {
-  portfolioProjects: PortfolioItem[];
-  searchQuery: string;
-  onOpenAddModal: () => void;
-  onDeletePortfolio: (id: number) => void;
+  portfolioProjects?: PortfolioItem[];
+  searchQuery?: string;
+  onOpenAddModal?: () => void;
+  onDeletePortfolio?: (id: number) => void;
+  showToast?: (msg: string, type?: "success" | "error") => void;
+  onRefresh?: () => void;
 }
 
 export default function PortfolioModule({
-  portfolioProjects,
-  searchQuery,
+  portfolioProjects: propProjects,
+  searchQuery = "",
   onOpenAddModal,
   onDeletePortfolio,
+  showToast,
+  onRefresh,
 }: PortfolioModuleProps) {
+  const [portfolioProjects, setPortfolioProjects] = useState<PortfolioItem[]>(propProjects || []);
+  const [showAddModal, setShowAddModal] = useState(false);
+
+  const fetchPortfolio = async () => {
+    try {
+      const res = await fetch("/api/admin/portfolio");
+      const data = await res.json();
+      const list = data.projects || data.portfolio || [];
+      setPortfolioProjects(list);
+    } catch (err) {
+      console.error("Failed to load portfolio:", err);
+    }
+  };
+
+  useEffect(() => {
+    if (propProjects) {
+      setPortfolioProjects(propProjects);
+    } else {
+      fetchPortfolio();
+    }
+  }, [propProjects]);
+
+  const handleDelete = async (id: number) => {
+    if (!confirm(`Delete project #${id}?`)) return;
+    try {
+      const res = await fetch(`/api/admin/portfolio?id=${id}`, { method: "DELETE" });
+      if (res.ok) {
+        setPortfolioProjects((prev) => prev.filter((p) => p.id !== id));
+        showToast?.("Project deleted successfully");
+        onDeletePortfolio?.(id);
+        fetchPortfolio();
+        onRefresh?.();
+      } else {
+        showToast?.("Failed to delete project", "error");
+      }
+    } catch {
+      showToast?.("Failed to delete project", "error");
+    }
+  };
+
+  const handleCreated = (newProject: PortfolioItem) => {
+    setPortfolioProjects((prev) => [newProject, ...prev]);
+    setShowAddModal(false);
+    fetchPortfolio();
+    onRefresh?.();
+    showToast?.("✓ Portfolio project published!");
+  };
+
   const filtered = portfolioProjects.filter(
     (p) =>
       p.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -33,7 +86,10 @@ export default function PortfolioModule({
           </p>
         </div>
         <button
-          onClick={onOpenAddModal}
+          onClick={() => {
+            if (onOpenAddModal) onOpenAddModal();
+            else setShowAddModal(true);
+          }}
           className="px-5 py-2 bg-[#0052FF] hover:bg-[#0042D0] text-white text-xs font-bold rounded shadow cursor-pointer"
         >
           + Add Portfolio Project
@@ -76,7 +132,7 @@ export default function PortfolioModule({
                   )}
                 </div>
                 <button
-                  onClick={() => onDeletePortfolio(p.id)}
+                  onClick={() => handleDelete(p.id)}
                   className="px-2.5 py-1 text-xs text-red-600 hover:bg-red-50 rounded font-semibold cursor-pointer"
                 >
                   Delete
@@ -85,7 +141,35 @@ export default function PortfolioModule({
             </div>
           </div>
         ))}
+
+        {filtered.length === 0 && (
+          <div className="col-span-1 md:col-span-2 p-12 text-center bg-white rounded-xl border border-dashed border-gray-300">
+            <p className="text-sm font-semibold text-gray-600 mb-1">
+              No portfolio projects found.
+            </p>
+            <p className="text-xs text-gray-400 mb-4">
+              Publish a new case study or proof of work using the button below.
+            </p>
+            <button
+              onClick={() => {
+                if (onOpenAddModal) onOpenAddModal();
+                else setShowAddModal(true);
+              }}
+              className="px-4 py-2 bg-[#0052FF] hover:bg-[#0042D0] text-white text-xs font-bold rounded cursor-pointer transition-colors"
+            >
+              + Add Portfolio Project
+            </button>
+          </div>
+        )}
       </div>
+
+      {/* Embedded Add Portfolio Modal */}
+      <AddPortfolioModal
+        isOpen={showAddModal}
+        onClose={() => setShowAddModal(false)}
+        onPortfolioCreated={handleCreated}
+        showToast={showToast || (() => {})}
+      />
     </div>
   );
 }

@@ -128,6 +128,7 @@ export default async function RootLayout({
   let copyrightText = undefined;
   let announcementSettings = undefined;
   let generalInfo = undefined;
+  let headerSettings = undefined;
   try {
     const res = await query("SELECT value FROM website_settings WHERE key = 'global_config'");
     if (res.rows.length > 0) {
@@ -153,6 +154,15 @@ export default async function RootLayout({
         contactPhone: typeof val?.contactPhone === "string" ? val.contactPhone : undefined,
         officeAddress: typeof val?.officeAddress === "string" ? val.officeAddress : undefined,
       };
+      headerSettings = {
+        logoUrl: typeof val?.headerLogoUrl === "string" && val.headerLogoUrl ? val.headerLogoUrl : "/images/logo.webp",
+        logoWidth: typeof val?.headerLogoWidth === "number" ? val.headerLogoWidth : 130,
+        logoHeight: typeof val?.headerLogoHeight === "number" ? val.headerLogoHeight : 36,
+        navLinks: Array.isArray(val?.headerNavLinks) && val.headerNavLinks.length > 0 ? val.headerNavLinks : undefined,
+        ctaText: typeof val?.headerCtaText === "string" ? val.headerCtaText : "Get Started",
+        ctaUrl: typeof val?.headerCtaUrl === "string" ? val.headerCtaUrl : "/contact",
+        showCta: val?.headerShowCta !== undefined ? Boolean(val.headerShowCta) : true,
+      };
     }
   } catch {
     // Fallback to default
@@ -172,6 +182,7 @@ export default async function RootLayout({
           copyrightText={copyrightText}
           announcementSettings={announcementSettings}
           generalInfo={generalInfo}
+          headerSettings={headerSettings}
         >
           {children}
         </AppLayoutWrapper>

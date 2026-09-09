@@ -1,19 +1,71 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { TelemetryData } from "@/types/admin";
 
 interface SystemSecurityModuleProps {
-  telemetry: TelemetryData | null;
-  onFlushCache: () => void;
-  onExportBackup: () => void;
+  telemetry?: TelemetryData | null;
+  onFlushCache?: () => void;
+  onExportBackup?: () => void;
+  showToast?: (msg: string, type?: "success" | "error") => void;
 }
 
 export default function SystemSecurityModule({
-  telemetry,
+  telemetry: propTelemetry,
   onFlushCache,
   onExportBackup,
+  showToast,
 }: SystemSecurityModuleProps) {
+  const [telemetry, setTelemetry] = useState<TelemetryData | null>(propTelemetry || null);
+
+  const fetchTelemetry = async () => {
+    try {
+      const res = await fetch("/api/admin/system");
+      const data = await res.json();
+      if (data.telemetry) setTelemetry(data.telemetry);
+    } catch (err) {
+      console.error("Failed to load telemetry:", err);
+    }
+  };
+
+  useEffect(() => {
+    if (propTelemetry) {
+      setTelemetry(propTelemetry);
+    } else {
+      fetchTelemetry();
+    }
+  }, [propTelemetry]);
+
+  const handleFlush = async () => {
+    if (onFlushCache) {
+      onFlushCache();
+      return;
+    }
+    try {
+      const res = await fetch("/api/admin/system", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "flush_cache" }),
+      });
+      if (res.ok) {
+        showToast?.("Cache flushed successfully");
+        fetchTelemetry();
+      } else {
+        showToast?.("Failed to flush cache", "error");
+      }
+    } catch {
+      showToast?.("Failed to flush cache", "error");
+    }
+  };
+
+  const handleBackup = () => {
+    if (onExportBackup) {
+      onExportBackup();
+      return;
+    }
+    window.open("/api/admin/system?action=backup", "_blank");
+  };
+
   return (
     <div>
       <div className="flex items-center justify-between flex-wrap gap-4 mb-6">
@@ -25,13 +77,13 @@ export default function SystemSecurityModule({
         </div>
         <div className="flex gap-2">
           <button
-            onClick={onFlushCache}
+            onClick={handleFlush}
             className="px-4 py-2 bg-white border border-gray-300 text-gray-700 text-xs font-bold rounded hover:bg-gray-50 shadow-sm cursor-pointer"
           >
             🧹 Flush Server Cache
           </button>
           <button
-            onClick={onExportBackup}
+            onClick={handleBackup}
             className="px-4 py-2 bg-[#0052FF] hover:bg-[#0042D0] text-white text-xs font-bold rounded shadow flex items-center gap-1.5 cursor-pointer"
           >
             <span>💾</span> <span>Export Full DB Backup (JSON)</span>

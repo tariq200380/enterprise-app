@@ -1,32 +1,32 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Inquiry, Candidate, ArticleItem, VideoItem, SubscriberItem, PortfolioItem } from "@/types/admin";
 
 interface DashboardModuleProps {
-  inquiries: Inquiry[];
-  candidates: Candidate[];
-  articles: ArticleItem[];
-  videos: VideoItem[];
-  subscribers: SubscriberItem[];
-  portfolioProjects: PortfolioItem[];
+  inquiries?: Inquiry[];
+  candidates?: Candidate[];
+  articles?: ArticleItem[];
+  videos?: VideoItem[];
+  subscribers?: SubscriberItem[];
+  portfolioProjects?: PortfolioItem[];
   setActiveTab: (tab: string) => void;
-  onSelectInquiry: (inq: Inquiry) => void;
-  onDeleteInquiry: (id: number) => void;
-  onOpenNewArticle: () => void;
-  onOpenNewJob: () => void;
-  onOpenNewVideo: () => void;
-  onOpenNewTestimonial: () => void;
-  onOpenNewPortfolio: () => void;
+  onSelectInquiry?: (inq: Inquiry) => void;
+  onDeleteInquiry?: (id: number) => void;
+  onOpenNewArticle?: () => void;
+  onOpenNewJob?: () => void;
+  onOpenNewVideo?: () => void;
+  onOpenNewTestimonial?: () => void;
+  onOpenNewPortfolio?: () => void;
 }
 
 export default function DashboardModule({
-  inquiries,
-  candidates,
-  articles,
-  videos,
-  subscribers,
-  portfolioProjects,
+  inquiries: propInquiries,
+  candidates: propCandidates,
+  articles: propArticles,
+  videos: propVideos,
+  subscribers: propSubscribers,
+  portfolioProjects: propPortfolio,
   setActiveTab,
   onSelectInquiry,
   onDeleteInquiry,
@@ -36,6 +36,64 @@ export default function DashboardModule({
   onOpenNewTestimonial,
   onOpenNewPortfolio,
 }: DashboardModuleProps) {
+  const [inquiries, setInquiries] = useState<Inquiry[]>(propInquiries || []);
+  const [candidates, setCandidates] = useState<Candidate[]>(propCandidates || []);
+  const [articles, setArticles] = useState<ArticleItem[]>(propArticles || []);
+  const [videos, setVideos] = useState<VideoItem[]>(propVideos || []);
+  const [subscribers, setSubscribers] = useState<SubscriberItem[]>(propSubscribers || []);
+  const [portfolioProjects, setPortfolioProjects] = useState<PortfolioItem[]>(propPortfolio || []);
+
+  useEffect(() => {
+    if (propInquiries) setInquiries(propInquiries);
+    if (propCandidates) setCandidates(propCandidates);
+    if (propArticles) setArticles(propArticles);
+    if (propVideos) setVideos(propVideos);
+    if (propSubscribers) setSubscribers(propSubscribers);
+    if (propPortfolio) setPortfolioProjects(propPortfolio);
+
+    if (!propInquiries && !propCandidates) {
+      Promise.all([
+        fetch("/api/admin/inquiries").then((r) => r.json()).catch(() => ({})),
+        fetch("/api/admin/candidates").then((r) => r.json()).catch(() => ({})),
+        fetch("/api/admin/articles").then((r) => r.json()).catch(() => ({})),
+        fetch("/api/admin/videos").then((r) => r.json()).catch(() => ({})),
+        fetch("/api/admin/subscribers").then((r) => r.json()).catch(() => ({})),
+        fetch("/api/admin/portfolio").then((r) => r.json()).catch(() => ({})),
+      ]).then(([inqD, canD, artD, vidD, subD, portD]) => {
+        if (inqD?.inquiries) setInquiries(inqD.inquiries);
+        if (canD?.candidates) setCandidates(canD.candidates);
+        if (artD?.articles) setArticles(artD.articles);
+        if (vidD?.videos) setVideos(vidD.videos);
+        if (subD?.subscribers) setSubscribers(subD.subscribers);
+        if (portD?.portfolio || portD?.projects) setPortfolioProjects(portD.portfolio || portD.projects);
+      });
+    }
+  }, [propInquiries, propCandidates, propArticles, propVideos, propSubscribers, propPortfolio]);
+
+  const handleDeleteInquiryAction = async (id: number) => {
+    if (onDeleteInquiry) {
+      onDeleteInquiry(id);
+      return;
+    }
+    if (!confirm(`Delete inquiry #${id}?`)) return;
+    try {
+      const res = await fetch(`/api/admin/inquiries?id=${id}`, { method: "DELETE" });
+      if (res.ok) {
+        setInquiries((prev) => prev.filter((i) => i.id !== id));
+      }
+    } catch (err) {
+      console.error("Failed to delete inquiry:", err);
+    }
+  };
+
+  const handleSelectInquiryAction = (inq: Inquiry) => {
+    if (onSelectInquiry) {
+      onSelectInquiry(inq);
+    } else {
+      setActiveTab("inquiries");
+    }
+  };
+
   return (
     <div>
       <div className="flex items-center justify-between flex-wrap gap-4 mb-6">
@@ -47,7 +105,10 @@ export default function DashboardModule({
         </div>
         <div className="flex gap-2">
           <button
-            onClick={onOpenNewArticle}
+            onClick={() => {
+              if (onOpenNewArticle) onOpenNewArticle();
+              else setActiveTab("articles");
+            }}
             className="px-4 py-2 bg-[#0052FF] hover:bg-[#0042D0] text-white text-xs font-bold rounded shadow cursor-pointer transition-colors"
           >
             + Create Blueprint Article
@@ -114,13 +175,13 @@ export default function DashboardModule({
                 </div>
                 <div className="flex items-center gap-2">
                   <button
-                    onClick={() => onSelectInquiry(inq)}
+                    onClick={() => handleSelectInquiryAction(inq)}
                     className="px-2.5 py-1 bg-[#0052FF] text-white font-semibold rounded hover:bg-[#0042D0] cursor-pointer"
                   >
                     Details
                   </button>
                   <button
-                    onClick={() => onDeleteInquiry(inq.id)}
+                    onClick={() => handleDeleteInquiryAction(inq.id)}
                     className="px-2 py-1 text-red-600 hover:bg-red-50 rounded cursor-pointer"
                   >
                     ✕
@@ -179,25 +240,37 @@ export default function DashboardModule({
         <span className="text-xs font-bold text-[#0F172A]">Quick Administrative Actions:</span>
         <div className="flex gap-2 flex-wrap">
           <button
-            onClick={onOpenNewJob}
+            onClick={() => {
+              if (onOpenNewJob) onOpenNewJob();
+              else setActiveTab("applicants");
+            }}
             className="px-3 py-1.5 bg-[#F1F5F9] hover:bg-[#E2E8F0] text-xs font-bold rounded border border-[#CBD5E1] cursor-pointer"
           >
             + Post Job Opening
           </button>
           <button
-            onClick={onOpenNewVideo}
+            onClick={() => {
+              if (onOpenNewVideo) onOpenNewVideo();
+              else setActiveTab("videos");
+            }}
             className="px-3 py-1.5 bg-[#F1F5F9] hover:bg-[#E2E8F0] text-xs font-bold rounded border border-[#CBD5E1] cursor-pointer"
           >
             + Add Video Embed
           </button>
           <button
-            onClick={onOpenNewTestimonial}
+            onClick={() => {
+              if (onOpenNewTestimonial) onOpenNewTestimonial();
+              else setActiveTab("reviews");
+            }}
             className="px-3 py-1.5 bg-[#F1F5F9] hover:bg-[#E2E8F0] text-xs font-bold rounded border border-[#CBD5E1] cursor-pointer"
           >
             + Add Testimonial
           </button>
           <button
-            onClick={onOpenNewPortfolio}
+            onClick={() => {
+              if (onOpenNewPortfolio) onOpenNewPortfolio();
+              else setActiveTab("portfolio");
+            }}
             className="px-3 py-1.5 bg-[#F1F5F9] hover:bg-[#E2E8F0] text-xs font-bold rounded border border-[#CBD5E1] cursor-pointer"
           >
             + Add Portfolio Project
