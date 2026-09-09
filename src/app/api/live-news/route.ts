@@ -41,6 +41,8 @@ function normalizeImagePath(img: string | undefined): string {
   return `/${img}`;
 }
 
+let lastSyncTime = 0;
+
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
@@ -62,10 +64,25 @@ export async function GET(request: NextRequest) {
       } catch {}
     }
 
-    // Trigger background sync if requested
-    if (forceSync && fs.existsSync("/home/tariq/Desktop/procreedtech/public_html/cron/import_news.php")) {
+    // Check if cache is stale (older than 30 minutes or missing)
+    let isStale = false;
+    if (fs.existsSync(localCachePath)) {
+      try {
+        const stats = fs.statSync(localCachePath);
+        if (Date.now() - stats.mtimeMs > 30 * 60 * 1000) {
+          isStale = true;
+        }
+      } catch {}
+    } else {
+      isStale = true;
+    }
+
+    // Trigger background sync if requested OR if cache is stale (debounced every 10 mins)
+    const canSync = forceSync || (isStale && Date.now() - lastSyncTime > 10 * 60 * 1000);
+    if (canSync && fs.existsSync("/home/tariq/Desktop/procreedtech/public_html/cron/import_news.php")) {
+      lastSyncTime = Date.now();
       exec(
-        `php /home/tariq/Desktop/procreedtech/public_html/cron/import_news.php && cp -ru ${externalUploadsDir}/* ${localUploadsDir}/ && cp ${externalCachePath} ${localCachePath}`,
+        `php /home/tariq/Desktop/procreedtech/public_html/cron/import_news.php && cp -ru ${externalUploadsDir}/* ${localUploadsDir}/ 2>/dev/null || true && cp ${externalCachePath} ${localCachePath} 2>/dev/null || true`,
         (err) => {
           if (err) console.error("Live news background sync error:", err.message);
         }

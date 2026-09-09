@@ -1,3 +1,6 @@
+"use client";
+
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 
 interface BrandWireItem {
@@ -130,10 +133,37 @@ const brandWires: BrandWireItem[] = [
 ];
 
 export default function BrandTechWires() {
+  const [wires, setWires] = useState<BrandWireItem[]>(brandWires);
+
+  useEffect(() => {
+    fetch(`/api/live-news?t=${Date.now()}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.brand_wires && typeof data.brand_wires === "object") {
+          setWires((prev) =>
+            prev.map((item) => {
+              const live = data.brand_wires[item.id];
+              if (!live) return item;
+              return {
+                ...item,
+                title: live.title || item.title,
+                summary: live.desc || live.summary || item.summary,
+                date: live.date || item.date,
+                link: live.link || item.link,
+                img: live.img || item.img,
+                cat: live.tag || live.category || item.cat,
+              };
+            })
+          );
+        }
+      })
+      .catch(() => {});
+  }, []);
+
   return (
     <section className="w-full py-12 sm:py-14 bg-white border-b border-[#E2E8F0]">
       {/* Hidden Radio Buttons for Pure CSS Tabs (Zero useState, Zero JS) */}
-      {brandWires.map((brand, i) => (
+      {wires.map((brand, i) => (
         <input
           key={brand.id}
           type="radio"
@@ -160,7 +190,7 @@ export default function BrandTechWires() {
 
         {/* 8 Verified Provider Tabs */}
         <div className="flex items-center justify-center flex-wrap gap-2 mb-8">
-          {brandWires.map((brand) => (
+          {wires.map((brand) => (
             <label
               key={brand.id}
               htmlFor={`brand-tab-${brand.id}`}
@@ -174,7 +204,7 @@ export default function BrandTechWires() {
 
         {/* Showcase Cards (Controlled by Pure CSS) */}
         <div>
-          {brandWires.map((wire) => (
+          {wires.map((wire) => (
             <div
               key={wire.id}
               className={`brand-pane-${wire.id} hidden grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-6 lg:gap-8 items-center bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-6 sm:p-7 shadow-[0_2px_8px_rgba(15,23,42,0.03)]`}
