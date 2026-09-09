@@ -25,9 +25,11 @@ export default function DynamicArticleReader({
   const currentArticle =
     ARTICLES_STORE.find((a) => a.id === articleId) || ARTICLES_STORE[0];
 
-  // Local state for reviews
-  const [reviewsMap, setReviewsMap] = useState<Record<number, PeerReview[]>>(POST_REVIEWS_STORE);
-  const currentReviews = reviewsMap[currentArticle.id] || POST_REVIEWS_STORE[1];
+  // Live reviews from PostgreSQL
+  const [dbReviews, setDbReviews] = useState<PeerReview[]>([]);
+  const [isLoadingReviews, setIsLoadingReviews] = useState(false);
+  const [isSubmittingReview, setIsSubmittingReview] = useState(false);
+  const [reviewSuccessMsg, setReviewSuccessMsg] = useState<string | null>(null);
 
   // Search filter in left sidebar
   const [searchQuery, setSearchQuery] = useState("");
@@ -73,6 +75,58 @@ export default function DynamicArticleReader({
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
     }
+  }, [currentArticle.id]);
+
+  // Fetch live reviews for this article from PostgreSQL
+  useEffect(() => {
+    let isMounted = true;
+    setIsLoadingReviews(true);
+
+    fetch(`/api/reviews?article_id=${currentArticle.id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (!isMounted) return;
+        if (data.success && Array.isArray(data.reviews) && data.reviews.length > 0) {
+          const mapped: PeerReview[] = data.reviews.map((r: any) => ({
+            article_id: r.article_id,
+            name: r.reviewer_name || r.name || "Anonymous",
+            role: r.organization || r.role || "Verified Architect",
+            avatar:
+              r.avatar ||
+              "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=180&auto=format&fit=crop&q=80",
+            rating: Number(r.rating) || 5,
+            date: r.submitted_at
+              ? new Date(r.submitted_at).toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                })
+              : "Recently",
+            title: r.review_title || r.title || "Peer Review",
+            comment: r.details || r.comment || "",
+            helpful: Number(r.helpful) || 1,
+          }));
+          setDbReviews(mapped);
+        } else {
+          const fallback =
+            POST_REVIEWS_STORE[currentArticle.id] || POST_REVIEWS_STORE[1] || [];
+          setDbReviews(fallback);
+        }
+      })
+      .catch(() => {
+        if (isMounted) {
+          setDbReviews(
+            POST_REVIEWS_STORE[currentArticle.id] || POST_REVIEWS_STORE[1] || []
+          );
+        }
+      })
+      .finally(() => {
+        if (isMounted) setIsLoadingReviews(false);
+      });
+
+    return () => {
+      isMounted = false;
+    };
   }, [currentArticle.id]);
 
   const togglePlayAudio = () => {
@@ -126,37 +180,70 @@ export default function DynamicArticleReader({
     }
   };
 
-  const handleAddReviewSubmit = (e: React.FormEvent) => {
+  const handleAddReviewSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!revName.trim() || !revTitle.trim() || !revComment.trim()) return;
 
-    const newReview: PeerReview = {
-      article_id: currentArticle.id,
-      name: revName.trim(),
-      role: revRole.trim() || "Enterprise Architect",
-      avatar:
-        "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=180&auto=format&fit=crop&q=80",
-      rating: revRating,
-      date: "Just Now",
-      title: revTitle.trim(),
-      comment: revComment.trim(),
-      helpful: 1,
-    };
+    setIsSubmittingReview(true);
+    try {
+      const res = await fetch("/api/reviews", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          article_id: currentArticle.id,
+          article_title: currentArticle.title,
+          reviewer_name: revName.trim(),
+          organization: revRole.trim() || "Enterprise Architect",
+          rating: revRating,
+          review_title: revTitle.trim(),
+          details: revComment.trim(),
+          avatar:
+            "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=180&auto=format&fit=crop&q=80",
+        }),
+      });
 
-    setReviewsMap((prev) => {
-      const existing = prev[currentArticle.id] || [];
-      return {
-        ...prev,
-        [currentArticle.id]: [newReview, ...existing],
-      };
-    });
+      const data = await res.json();
+      if (data.success && data.review) {
+        const newReview: PeerReview = {
+          article_id: currentArticle.id,
+          name: data.review.reviewer_name || revName.trim(),
+          role: data.review.organization || revRole.trim() || "Enterprise Architect",
+          avatar:
+            data.review.avatar ||
+            "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=180&auto=format&fit=crop&q=80",
+          rating: Number(data.review.rating) || revRating,
+          date: "Just Now",
+          title: data.review.review_title || revTitle.trim(),
+          comment: data.review.details || revComment.trim(),
+          helpful: 1,
+        };
 
-    setRevName("");
-    setRevRole("");
-    setRevTitle("");
-    setRevComment("");
-    setIsReviewModalOpen(false);
+        setDbReviews((prev) => [newReview, ...prev]);
+        setReviewSuccessMsg(
+          "✓ Thank you! Your review has been submitted and published."
+        );
+        setTimeout(() => setReviewSuccessMsg(null), 6000);
+        setRevName("");
+        setRevRole("");
+        setRevTitle("");
+        setRevComment("");
+        setIsReviewModalOpen(false);
+      } else {
+        alert(data.error || "Failed to submit review.");
+      }
+    } catch (err: any) {
+      alert("Error submitting review: " + (err.message || "Network error"));
+    } finally {
+      setIsSubmittingReview(false);
+    }
   };
+
+  const avgRating =
+    dbReviews.length > 0
+      ? (
+          dbReviews.reduce((acc, r) => acc + (r.rating || 5), 0) / dbReviews.length
+        ).toFixed(1)
+      : "5.0";
 
   // Filtered sidebar articles
   const filteredArticles = ARTICLES_STORE.filter((art) => {
@@ -564,7 +651,7 @@ export default function DynamicArticleReader({
                   </span>
                   <span className="text-xs text-[#64748B]">•</span>
                   <span className="text-xs text-[#059669] font-bold">
-                    ★★★★★ 5.0 / 5.0 (Peer Rated)
+                    ★★★★★ {avgRating} / 5.0 ({dbReviews.length} Peer {dbReviews.length === 1 ? "Review" : "Reviews"})
                   </span>
                 </div>
                 <h3 className="text-xl font-extrabold text-[#0F172A] m-0">
@@ -582,78 +669,105 @@ export default function DynamicArticleReader({
               </button>
             </div>
 
+            {/* Success notification banner when review is posted */}
+            {reviewSuccessMsg && (
+              <div className="mb-4 p-3.5 bg-[#ECFDF5] border border-[#10B981] text-[#065F46] rounded-xl text-xs font-semibold flex items-center justify-between shadow-xs">
+                <div className="flex items-center gap-2">
+                  <span className="text-base">✓</span>
+                  <span>{reviewSuccessMsg}</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setReviewSuccessMsg(null)}
+                  className="text-[#065F46] hover:text-[#047857] font-bold ml-2 cursor-pointer"
+                >
+                  ✕
+                </button>
+              </div>
+            )}
+
             {/* Reviews List */}
-            <div className="space-y-4">
-              {currentReviews.map((rev, rIdx) => {
-                const isHelpfulMarked = helpfulClicked[rIdx];
-                return (
-                  <div
-                    key={rIdx}
-                    className="bg-white border border-[#E2E8F0] rounded-xl p-5 shadow-xs"
-                  >
-                    <div className="flex items-start justify-between flex-wrap gap-2.5 mb-2.5">
-                      <div className="flex items-center gap-3">
-                        <img
-                          src={
-                            rev.avatar ||
-                            "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=180&auto=format&fit=crop&q=80"
-                          }
-                          alt={rev.name}
-                          className="w-10 h-10 rounded-full object-cover border-2 border-[#E2E8F0]"
-                        />
-                        <div>
-                          <div className="flex items-center gap-1.5">
-                            <h4 className="text-[13.5px] font-extrabold text-[#0F172A] m-0">
-                              {rev.name}
-                            </h4>
-                            <span className="bg-[#DCFCE7] text-[#15803D] text-[9.5px] font-bold px-1.5 py-0.2 rounded">
-                              ✓ VERIFIED ARCHITECT
+            {isLoadingReviews ? (
+              <div className="text-center py-8 text-xs text-[#64748B]">
+                Loading verified reviews...
+              </div>
+            ) : dbReviews.length === 0 ? (
+              <div className="text-center py-8 bg-white border border-[#E2E8F0] rounded-xl p-6 text-[#64748B] text-xs">
+                No reviews yet for this post. Be the first to add your architectural review!
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {dbReviews.map((rev, rIdx) => {
+                  const isHelpfulMarked = helpfulClicked[rIdx];
+                  return (
+                    <div
+                      key={rIdx}
+                      className="bg-white border border-[#E2E8F0] rounded-xl p-5 shadow-xs"
+                    >
+                      <div className="flex items-start justify-between flex-wrap gap-2.5 mb-2.5">
+                        <div className="flex items-center gap-3">
+                          <img
+                            src={
+                              rev.avatar ||
+                              "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=180&auto=format&fit=crop&q=80"
+                            }
+                            alt={rev.name}
+                            className="w-10 h-10 rounded-full object-cover border-2 border-[#E2E8F0]"
+                          />
+                          <div>
+                            <div className="flex items-center gap-1.5">
+                              <h4 className="text-[13.5px] font-extrabold text-[#0F172A] m-0">
+                                {rev.name}
+                              </h4>
+                              <span className="bg-[#DCFCE7] text-[#15803D] text-[9.5px] font-bold px-1.5 py-0.2 rounded">
+                                ✓ VERIFIED ARCHITECT
+                              </span>
+                            </div>
+                            <span className="text-[11.5px] text-[#64748B] font-medium block">
+                              {rev.role}
                             </span>
                           </div>
-                          <span className="text-[11.5px] text-[#64748B] font-medium block">
-                            {rev.role}
+                        </div>
+
+                        <div className="text-right">
+                          <div className="text-[#F59E0B] text-xs tracking-wider">
+                            {"★".repeat(Math.max(1, Math.min(5, rev.rating || 5)))}
+                          </div>
+                          <span className="text-[10.5px] text-[#94A3B8]">
+                            {rev.date}
                           </span>
                         </div>
                       </div>
 
-                      <div className="text-right">
-                        <div className="text-[#F59E0B] text-xs tracking-wider">
-                          {"★".repeat(rev.rating)}
-                        </div>
-                        <span className="text-[10.5px] text-[#94A3B8]">
-                          {rev.date}
+                      <h5 className="text-[13.5px] font-bold text-[#0F172A] leading-snug mb-1.5">
+                        {rev.title}
+                      </h5>
+                      <p className="text-[13px] text-[#475569] leading-relaxed mb-3">
+                        {rev.comment}
+                      </p>
+
+                      <div className="flex items-center justify-between pt-2 border-t border-[#F8FAFC] text-[11px] text-[#94A3B8]">
+                        <span>
+                          💡 Helpful: {(rev.helpful || 1) + (isHelpfulMarked ? 1 : 0)} engineers found this constructive
                         </span>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setHelpfulClicked((prev) => ({
+                              ...prev,
+                              [rIdx]: !prev[rIdx],
+                            }))
+                          }
+                          className="text-[#64748B] hover:text-[#0052FF] font-semibold cursor-pointer transition-colors"
+                        >
+                          {isHelpfulMarked ? "✓ Thank you" : "Helpful?"}
+                        </button>
                       </div>
                     </div>
-
-                    <h5 className="text-[13.5px] font-bold text-[#0F172A] leading-snug mb-1.5">
-                      {rev.title}
-                    </h5>
-                    <p className="text-[13px] text-[#475569] leading-relaxed mb-3">
-                      {rev.comment}
-                    </p>
-
-                    <div className="flex items-center justify-between pt-2 border-t border-[#F8FAFC] text-[11px] text-[#94A3B8]">
-                      <span>
-                        💡 Helpful: {rev.helpful + (isHelpfulMarked ? 1 : 0)} engineers found this constructive
-                      </span>
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setHelpfulClicked((prev) => ({
-                            ...prev,
-                            [rIdx]: !prev[rIdx],
-                          }))
-                        }
-                        className="text-[#64748B] hover:text-[#0052FF] font-semibold cursor-pointer transition-colors"
-                      >
-                        {isHelpfulMarked ? "✓ Thank you" : "Helpful?"}
-                      </button>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+                  );
+                })}
+              </div>
+            )}
           </section>
         </main>
 
@@ -952,9 +1066,10 @@ export default function DynamicArticleReader({
 
               <button
                 type="submit"
-                className="w-full py-2.5 bg-[#0052FF] hover:bg-[#0043D6] text-white font-bold text-xs rounded-lg shadow-sm cursor-pointer transition-colors"
+                disabled={isSubmittingReview}
+                className="w-full py-2.5 bg-[#0052FF] hover:bg-[#0043D6] disabled:opacity-50 text-white font-bold text-xs rounded-lg shadow-sm cursor-pointer transition-colors"
               >
-                Post Verified Review &rarr;
+                {isSubmittingReview ? "Submitting Review..." : "Post Verified Review →"}
               </button>
             </form>
           </div>
