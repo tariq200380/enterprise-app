@@ -135,14 +135,35 @@ export async function GET(request: NextRequest) {
       };
     });
 
+    const rawBrandWires = parsed.brand_wires || {};
+    const brandWiresClean: Record<string, any> = {};
+    for (const [k, v] of Object.entries(rawBrandWires)) {
+      const item: any = v;
+      brandWiresClean[k] = {
+        ...item,
+        img: normalizeImagePath(item.img || item.image),
+      };
+    }
+
+    const rawRegionalWires = parsed.regional_wires || {};
+    const regionalWiresClean: Record<string, any> = {};
+    for (const [k, v] of Object.entries(rawRegionalWires)) {
+      const item: any = v;
+      regionalWiresClean[k] = {
+        ...item,
+        image: normalizeImagePath(item.image || item.img),
+        img: normalizeImagePath(item.img || item.image),
+      };
+    }
+
     return NextResponse.json(
       {
         status: "success",
         timestamp: parsed.timestamp || new Date().toISOString(),
         count: breakingNews.length,
         breaking_news: breakingNews,
-        brand_wires: parsed.brand_wires || {},
-        regional_wires: parsed.regional_wires || {},
+        brand_wires: brandWiresClean,
+        regional_wires: regionalWiresClean,
         regional_items: parsed.regional_items || [],
       },
       {

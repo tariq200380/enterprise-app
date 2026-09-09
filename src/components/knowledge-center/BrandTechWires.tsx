@@ -132,6 +132,16 @@ const brandWires: BrandWireItem[] = [
   },
 ];
 
+function safeImageUrl(url: string | undefined, fallback: string): string {
+  if (!url || typeof url !== "string") return fallback;
+  const trimmed = url.trim();
+  if (!trimmed) return fallback;
+  if (trimmed.startsWith("http://") || trimmed.startsWith("https://") || trimmed.startsWith("/")) {
+    return trimmed;
+  }
+  return `/${trimmed}`;
+}
+
 export default function BrandTechWires() {
   const [wires, setWires] = useState<BrandWireItem[]>(brandWires);
 
@@ -150,7 +160,7 @@ export default function BrandTechWires() {
                 summary: live.desc || live.summary || item.summary,
                 date: live.date || item.date,
                 link: live.link || item.link,
-                img: live.img || item.img,
+                img: safeImageUrl(live.img, item.img),
                 cat: live.tag || live.category || item.cat,
               };
             })
@@ -212,7 +222,7 @@ export default function BrandTechWires() {
               {/* Visual Container */}
               <div className="relative w-full aspect-[16/9] min-h-[240px] sm:min-h-[280px] rounded-xl overflow-hidden bg-[#0B1120]">
                 <Image
-                  src={wire.img}
+                  src={safeImageUrl(wire.img, "/uploads/live_news/apple_iphone16_hero.jpg")}
                   alt={wire.title}
                   fill
                   sizes="(max-width: 1024px) 100vw, 45vw"
