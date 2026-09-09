@@ -25,24 +25,52 @@ export async function POST(req: Request) {
       need_nda,
     } = body;
 
-    const timeStr = new Date().toLocaleTimeString("en-US", {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true,
-    });
-    const createdAt = `Today, ${timeStr}`;
+    const trimmedName = typeof client_name === "string" ? client_name.trim() : "";
+    const trimmedEmail = typeof email === "string" ? email.trim() : "";
+    const trimmedDetails = typeof project_details === "string" ? project_details.trim() : "";
+
+    if (!trimmedName) {
+      return NextResponse.json(
+        { success: false, error: "Full name is required." },
+        { status: 400 }
+      );
+    }
+
+    if (!trimmedEmail) {
+      return NextResponse.json(
+        { success: false, error: "Work email is required." },
+        { status: 400 }
+      );
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(trimmedEmail)) {
+      return NextResponse.json(
+        { success: false, error: "Please enter a valid work email address." },
+        { status: 400 }
+      );
+    }
+
+    const trimmedService = typeof service === "string" ? service.trim() : "Enterprise Architecture & Engineering";
+    const trimmedCompany = typeof company === "string" ? company.trim() : "Confidential Enterprise";
+    const trimmedPhone = typeof phone === "string" ? phone.trim() : "";
+
+    const now = new Date();
+    const dateFormatted = now.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+    const timeFormatted = now.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true });
+    const createdAt = `${dateFormatted}, ${timeFormatted}`;
 
     const res = await query(
       `INSERT INTO contact_inquiries (client_name, service, company, phone, email, project_details, need_nda, status, created_at)
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`,
       [
-        client_name || "Enterprise Client",
-        service || "Enterprise Architecture & Engineering",
-        company || "Confidential Enterprise",
-        phone || "",
-        email || "",
-        project_details || "General consultation requested via website.",
-        need_nda !== undefined ? need_nda : true,
+        trimmedName.slice(0, 255),
+        trimmedService.slice(0, 255) || "Enterprise Architecture & Engineering",
+        trimmedCompany.slice(0, 255) || "Confidential Enterprise",
+        trimmedPhone.slice(0, 100),
+        trimmedEmail.slice(0, 255),
+        trimmedDetails.slice(0, 5000) || "General consultation requested via website.",
+        need_nda !== undefined ? Boolean(need_nda) : true,
         "NEW",
         createdAt,
       ]
@@ -50,7 +78,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ success: true, inquiry: res.rows[0] });
   } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: error.message || "Failed to process inquiry" }, { status: 500 });
   }
 }
 

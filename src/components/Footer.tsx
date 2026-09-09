@@ -1,6 +1,81 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
-export default function Footer() {
+interface SocialLink {
+  id: string;
+  platform: string;
+  url: string;
+}
+
+const DEFAULT_LINKS: SocialLink[] = [
+  { id: "1", platform: "Facebook", url: "https://facebook.com/creedtechnology" },
+  { id: "2", platform: "Instagram", url: "https://instagram.com/creed.technologiess" },
+  { id: "3", platform: "LinkedIn", url: "https://linkedin.com/company/creedtech" },
+  { id: "4", platform: "Pinterest", url: "https://pinterest.com/creedtech" },
+  { id: "6", platform: "GitHub", url: "https://github.com/creed-tech" },
+  { id: "5", platform: "X (Twitter)", url: "https://x.com/CreedtechHq" },
+];
+
+export interface GeneralSiteInfo {
+  siteName?: string;
+  siteTagline?: string;
+  contactEmail?: string;
+  contactPhone?: string;
+  officeAddress?: string;
+}
+
+export default function Footer({
+  initialSocialLinks,
+  initialCopyrightText,
+  initialGeneralInfo,
+}: {
+  initialSocialLinks?: SocialLink[];
+  initialCopyrightText?: string;
+  initialGeneralInfo?: GeneralSiteInfo;
+}) {
+  const [socialLinks, setSocialLinks] = useState<SocialLink[]>(
+    initialSocialLinks && initialSocialLinks.length > 0 ? initialSocialLinks : DEFAULT_LINKS
+  );
+  const [copyright, setCopyright] = useState<string>(
+    initialCopyrightText || "© 2026 Creed Tech. All rights reserved."
+  );
+  const [generalInfo, setGeneralInfo] = useState<GeneralSiteInfo>({
+    siteName: initialGeneralInfo?.siteName || "Creed Tech",
+    siteTagline: initialGeneralInfo?.siteTagline || "",
+    contactEmail: initialGeneralInfo?.contactEmail || "info@creed-tech.com",
+    contactPhone: initialGeneralInfo?.contactPhone || "+92 309 8307115",
+    officeAddress:
+      initialGeneralInfo?.officeAddress || "Office # 02, Main Shopping Center Sheikhupura.",
+  });
+
+  useEffect(() => {
+    fetch("/api/admin/website-settings")
+      .then((res) => res.json())
+      .then((data) => {
+        const s = data.settings || data;
+        if (s) {
+          if (Array.isArray(s.socialLinks) && s.socialLinks.length > 0) {
+            const valid = s.socialLinks.filter((l: SocialLink) => l.url && l.url.trim() !== "");
+            if (valid.length > 0) {
+              setSocialLinks(valid);
+            }
+          }
+          if (s.copyrightText) {
+            setCopyright(s.copyrightText);
+          }
+          setGeneralInfo((prev) => ({
+            siteName: s.siteName || s.site_name || prev.siteName,
+            siteTagline: s.siteTagline || s.site_tagline || prev.siteTagline,
+            contactEmail: s.contactEmail || s.contact_email || prev.contactEmail,
+            contactPhone: s.contactPhone || s.contact_phone || prev.contactPhone,
+            officeAddress: s.officeAddress || s.office_address || prev.officeAddress,
+          }));
+        }
+      })
+      .catch(() => {});
+  }, []);
   return (
     <footer className="bg-[#1A1A1A] text-[#F4F6F8] pt-16 pb-8 mt-auto w-full">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -135,24 +210,23 @@ export default function Footer() {
                   Get In Touch
                 </p>
                 <div className="text-sm leading-6 text-[#F4F6F8]/80 flex flex-col space-y-3.5 font-normal">
-                  <div className="h-auto leading-snug">
-                    Office # 02, Main Shopping<br />
-                    Center Sheikhupura.
+                  <div className="h-auto leading-snug whitespace-pre-line">
+                    {generalInfo.officeAddress}
                   </div>
                   <div className="h-6 flex items-center">
                     <a
-                      href="mailto:info@creed-tech.com"
+                      href={`mailto:${generalInfo.contactEmail}`}
                       className="hover:text-white transition-colors"
                     >
-                      info@creed-tech.com
+                      {generalInfo.contactEmail}
                     </a>
                   </div>
                   <div className="h-6 flex items-center">
                     <a
-                      href="tel:+923098307115"
+                      href={`tel:${generalInfo.contactPhone?.replace(/\s+/g, "")}`}
                       className="hover:text-white transition-colors"
                     >
-                      +92 309 8307115
+                      {generalInfo.contactPhone}
                     </a>
                   </div>
                 </div>
@@ -167,58 +241,28 @@ export default function Footer() {
                 </div>
 
                 {/* Social Icons Grid directly under PSEB */}
-                <div className="grid grid-cols-2 gap-x-3 gap-y-3 max-w-[180px] text-sm leading-6 text-[#F4F6F8]/80 font-normal">
-                  <a
-                    href="https://facebook.com/creedtechnology"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="h-6 flex items-center hover:text-[#FF6B00] transition-colors duration-200"
-                  >
-                    Facebook
-                  </a>
-                  <a
-                    href="https://instagram.com/creed.technologiess"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="h-6 flex items-center hover:text-[#FF6B00] transition-colors duration-200"
-                  >
-                    Instagram
-                  </a>
-                  <a
-                    href="https://linkedin.com/company/creedtech"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="h-6 flex items-center hover:text-[#FF6B00] transition-colors duration-200"
-                  >
-                    LinkedIn
-                  </a>
-                  <a
-                    href="https://pinterest.com/creedtech"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="h-6 flex items-center hover:text-[#FF6B00] transition-colors duration-200"
-                  >
-                    Pinterest
-                  </a>
-                  <a
-                    href="https://x.com/Creedtech3"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="h-6 flex items-center hover:text-[#FF6B00] transition-colors duration-200"
-                    aria-label="X"
-                  >
-                    <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
-                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                    </svg>
-                  </a>
-                  <a
-                    href="https://github.com/creed-tech"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="h-6 flex items-center hover:text-[#FF6B00] transition-colors duration-200"
-                  >
-                    GitHub
-                  </a>
+                <div className="grid grid-cols-2 gap-x-3 gap-y-3 max-w-[200px] text-sm leading-6 text-[#F4F6F8]/80 font-normal">
+                  {socialLinks.map((item) => {
+                    const isX = item.platform.toLowerCase().includes("twitter") || item.platform.toLowerCase() === "x" || item.platform.toLowerCase().includes("x (twitter)");
+                    return (
+                      <a
+                        key={item.id}
+                        href={item.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="h-6 flex items-center hover:text-[#FF6B00] transition-colors duration-200 truncate"
+                        title={item.platform}
+                      >
+                        {isX ? (
+                          <svg className="w-3.5 h-3.5 fill-current shrink-0" viewBox="0 0 24 24" aria-label="X">
+                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                          </svg>
+                        ) : (
+                          item.platform
+                        )}
+                      </a>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -234,10 +278,7 @@ export default function Footer() {
           <div className="order-2 sm:order-1 text-xs text-[#F4F6F8]/60 w-full sm:w-auto flex flex-col sm:flex-row items-center justify-center sm:justify-start text-center sm:text-left pt-0 sm:pt-0">
             <div className="w-full sm:w-auto text-center sm:text-left">
               <span className="block sm:inline">
-                © 2026 Creed Tech. All rights reserved. • Designed &amp; Developed
-              </span>
-              <span className="block sm:inline font-medium text-white my-3 sm:my-0 sm:ml-1">
-                by CREED TECH
+                {copyright}
               </span>
             </div>
             <span className="hidden sm:inline text-gray-600 sm:mx-3">|</span>

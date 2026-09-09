@@ -1,6 +1,13 @@
-import Image from "next/image";
+import React from "react";
+import { PartnerLogoItem, DEFAULT_WEBSITE_SETTINGS } from "@/components/admin/settings/types";
 
-export default function PartnersRibbon() {
+interface Props {
+  logos?: PartnerLogoItem[];
+}
+
+export default function PartnersRibbon({ logos }: Props) {
+  const activeLogos = logos && logos.length > 0 ? logos : DEFAULT_WEBSITE_SETTINGS.partnerLogos;
+
   return (
     <section className="w-full py-6 border-t border-b border-[#D6E4FF] bg-[#F4F8FF] overflow-hidden relative select-none">
       <div className="relative w-full overflow-hidden flex items-center">
@@ -10,81 +17,26 @@ export default function PartnersRibbon() {
 
         {/* Infinite 4-Set Continuous Marquee Track */}
         <div className="partner-marquee-track items-center gap-14 sm:gap-20 px-6">
-          {/* Set 1 */}
-          <div className="flex items-center gap-14 sm:gap-20 shrink-0">
-            <a href="https://clutch.co" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
-              <Image src="/images/partners/clutch.webp" alt="Clutch" width={105} height={28} className="h-7 w-auto object-contain" style={{ width: "auto" }} />
-            </a>
-            <a href="https://www.google.com" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
-              <Image src="/images/partners/google.webp" alt="Google" width={110} height={36} className="h-9 w-auto object-contain" style={{ width: "auto" }} />
-            </a>
-            <a href="https://themanifest.com" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
-              <Image src="/images/partners/the-manifest.webp" alt="The Manifest" width={130} height={44} className="h-11 w-auto object-contain" style={{ width: "auto" }} />
-            </a>
-            <a href="https://www.shopify.com" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
-              <Image src="/images/partners/shopify.webp" alt="Shopify" width={120} height={36} className="h-9 w-auto object-contain" style={{ width: "auto" }} />
-            </a>
-            <a href="https://www.trustpilot.com" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
-              <Image src="/images/partners/trustpilot.webp" alt="Trustpilot" width={130} height={36} className="h-9 w-auto object-contain" style={{ width: "auto" }} />
-            </a>
-          </div>
-
-          {/* Set 2 */}
-          <div className="flex items-center gap-14 sm:gap-20 shrink-0">
-            <a href="https://clutch.co" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
-              <Image src="/images/partners/clutch.webp" alt="Clutch" width={105} height={28} className="h-7 w-auto object-contain" style={{ width: "auto" }} />
-            </a>
-            <a href="https://www.google.com" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
-              <Image src="/images/partners/google.webp" alt="Google" width={110} height={36} className="h-9 w-auto object-contain" style={{ width: "auto" }} />
-            </a>
-            <a href="https://themanifest.com" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
-              <Image src="/images/partners/the-manifest.webp" alt="The Manifest" width={130} height={44} className="h-11 w-auto object-contain" style={{ width: "auto" }} />
-            </a>
-            <a href="https://www.shopify.com" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
-              <Image src="/images/partners/shopify.webp" alt="Shopify" width={120} height={36} className="h-9 w-auto object-contain" style={{ width: "auto" }} />
-            </a>
-            <a href="https://www.trustpilot.com" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
-              <Image src="/images/partners/trustpilot.webp" alt="Trustpilot" width={130} height={36} className="h-9 w-auto object-contain" style={{ width: "auto" }} />
-            </a>
-          </div>
-
-          {/* Set 3 */}
-          <div className="flex items-center gap-14 sm:gap-20 shrink-0">
-            <a href="https://clutch.co" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
-              <Image src="/images/partners/clutch.webp" alt="Clutch" width={105} height={28} className="h-7 w-auto object-contain" style={{ width: "auto" }} />
-            </a>
-            <a href="https://www.google.com" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
-              <Image src="/images/partners/google.webp" alt="Google" width={110} height={36} className="h-9 w-auto object-contain" style={{ width: "auto" }} />
-            </a>
-            <a href="https://themanifest.com" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
-              <Image src="/images/partners/the-manifest.webp" alt="The Manifest" width={130} height={44} className="h-11 w-auto object-contain" style={{ width: "auto" }} />
-            </a>
-            <a href="https://www.shopify.com" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
-              <Image src="/images/partners/shopify.webp" alt="Shopify" width={120} height={36} className="h-9 w-auto object-contain" style={{ width: "auto" }} />
-            </a>
-            <a href="https://www.trustpilot.com" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
-              <Image src="/images/partners/trustpilot.webp" alt="Trustpilot" width={130} height={36} className="h-9 w-auto object-contain" style={{ width: "auto" }} />
-            </a>
-          </div>
-
-          {/* Set 4 */}
-          <div className="flex items-center gap-14 sm:gap-20 shrink-0">
-            <a href="https://clutch.co" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
-              <Image src="/images/partners/clutch.webp" alt="Clutch" width={105} height={28} className="h-7 w-auto object-contain" style={{ width: "auto" }} />
-            </a>
-            <a href="https://www.google.com" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
-              <Image src="/images/partners/google.webp" alt="Google" width={110} height={36} className="h-9 w-auto object-contain" style={{ width: "auto" }} />
-            </a>
-            <a href="https://themanifest.com" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
-              <Image src="/images/partners/the-manifest.webp" alt="The Manifest" width={130} height={44} className="h-11 w-auto object-contain" style={{ width: "auto" }} />
-            </a>
-            <a href="https://www.shopify.com" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
-              <Image src="/images/partners/shopify.webp" alt="Shopify" width={120} height={36} className="h-9 w-auto object-contain" style={{ width: "auto" }} />
-            </a>
-            <a href="https://www.trustpilot.com" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
-              <Image src="/images/partners/trustpilot.webp" alt="Trustpilot" width={130} height={36} className="h-9 w-auto object-contain" style={{ width: "auto" }} />
-            </a>
-          </div>
+          {[1, 2, 3, 4].map((setIndex) => (
+            <div key={setIndex} className="flex items-center gap-14 sm:gap-20 shrink-0">
+              {activeLogos.map((partner) => (
+                <a
+                  key={`${setIndex}-${partner.id}`}
+                  href={partner.websiteUrl || "#"}
+                  target={partner.websiteUrl?.startsWith("http") ? "_blank" : undefined}
+                  rel={partner.websiteUrl?.startsWith("http") ? "noopener noreferrer" : undefined}
+                  className="opacity-80 hover:opacity-100 transition-opacity flex items-center justify-center"
+                >
+                  <img
+                    src={partner.logoUrl}
+                    alt={partner.name}
+                    className="h-7 sm:h-9 max-h-10 w-auto object-contain"
+                    loading="lazy"
+                  />
+                </a>
+              ))}
+            </div>
+          ))}
         </div>
       </div>
     </section>

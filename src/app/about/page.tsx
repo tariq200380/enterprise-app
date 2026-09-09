@@ -1,12 +1,52 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { query } from "@/lib/db";
+import { DEFAULT_WEBSITE_SETTINGS, AboutSettingsData } from "@/components/admin/settings/types";
+import AboutEngineeringHubsSection from "@/components/about/AboutEngineeringHubsSection";
+import AboutLeadershipSection from "@/components/about/AboutLeadershipSection";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "About Creed Tech | Engineering Principles & Leadership",
   description: "Learn about Creed Tech's engineering principles, distributed architecture hubs, and commitment to sovereign enterprise software.",
 };
 
-export default function AboutPage() {
+async function getAboutData(): Promise<AboutSettingsData> {
+  let about = DEFAULT_WEBSITE_SETTINGS.aboutSettings;
+
+  try {
+    const res = await query("SELECT value FROM website_settings WHERE key = 'global_config'");
+    if (res.rows.length > 0 && res.rows[0].value) {
+      const val =
+        typeof res.rows[0].value === "string"
+          ? JSON.parse(res.rows[0].value)
+          : res.rows[0].value;
+
+      if (val.aboutSettings) {
+        about = {
+          ...about,
+          ...val.aboutSettings,
+          hubs:
+            Array.isArray(val.aboutSettings.hubs) && val.aboutSettings.hubs.length > 0
+              ? val.aboutSettings.hubs
+              : about.hubs,
+          leadership:
+            Array.isArray(val.aboutSettings.leadership) && val.aboutSettings.leadership.length > 0
+              ? val.aboutSettings.leadership
+              : about.leadership,
+        };
+      }
+    }
+  } catch (err) {
+    console.error("Failed to load about settings:", err);
+  }
+
+  return about;
+}
+
+export default async function AboutPage() {
+  const aboutData = await getAboutData();
   return (
     <div className="w-full bg-white text-[#111827] font-sans text-left overflow-x-hidden">
       {/* ========================================================= */}
@@ -480,310 +520,22 @@ export default function AboutPage() {
       {/* ========================================================= */}
       {/* 6. GLOBAL ENGINEERING HUBS                                */}
       {/* ========================================================= */}
-      <section className="w-full py-16 sm:py-24 border-b border-[#E5E7EB] text-center bg-white">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8">
-          {/* Header */}
-          <div className="max-w-3xl mx-auto mb-12 sm:mb-16">
-            <span className="text-[11.5px] font-bold text-[#0052FF] uppercase tracking-wider block mb-1.5">
-              GLOBAL REACH &amp; CONTINUOUS COVERAGE
-            </span>
-            <h2 className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-[#030712] tracking-tight leading-tight mb-3">
-              Three Specialized Global Engineering Centers
-            </h2>
-            <p className="text-sm sm:text-base text-[#4B5563] leading-relaxed font-normal">
-              Operating across multiple time zones to deliver seamless 24/7 technical continuity and deep regional domain expertise.
-            </p>
-          </div>
-
-          {/* 3 Hub Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 text-left">
-            {/* Hub 1: Frankfurt */}
-            <div className="bg-[#FAFAFC] rounded-2xl border border-[#E5E7EB] overflow-hidden shadow-sm flex flex-col justify-between">
-              <div>
-                <div className="w-full h-44 relative overflow-hidden bg-gray-900">
-                  <img
-                    src="https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=600&auto=format&fit=crop&q=80"
-                    alt="Frankfurt"
-                    width={380}
-                    height={200}
-                    loading="lazy"
-                    decoding="async"
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent pointer-events-none" />
-                  <div className="absolute bottom-3 left-4 text-white">
-                    <span className="text-lg font-bold block leading-tight">Frankfurt</span>
-                    <span className="text-xs text-gray-300 font-medium">Germany</span>
-                  </div>
-                </div>
-                <div className="p-5 pb-3 flex flex-col gap-1.5">
-                  <span className="text-[11px] font-bold text-[#0052FF] uppercase tracking-wider">
-                    Core Specialization:
-                  </span>
-                  <p className="text-[13px] text-gray-900 font-bold leading-snug">
-                    European Cloud Infrastructure &amp; Cyber Defense
-                  </p>
-                  <p className="text-[11.5px] text-gray-500 pt-1.5 mt-1 border-t border-[#F3F4F6]">
-                    📍 Taunusanlage 8, Financial Centre, Frankfurt
-                  </p>
-                </div>
-              </div>
-              <div className="px-5 pb-5">
-                <span className="text-[11.5px] font-bold text-[#059669] flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 bg-[#10B981] rounded-full inline-block" />
-                  Active Regional Engineering Pod
-                </span>
-              </div>
-            </div>
-
-            {/* Hub 2: Madrid */}
-            <div className="bg-[#FAFAFC] rounded-2xl border border-[#E5E7EB] overflow-hidden shadow-sm flex flex-col justify-between">
-              <div>
-                <div className="w-full h-44 relative overflow-hidden bg-gray-900">
-                  <img
-                    src="https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=600&auto=format&fit=crop&q=80"
-                    alt="Madrid"
-                    width={380}
-                    height={200}
-                    loading="lazy"
-                    decoding="async"
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent pointer-events-none" />
-                  <div className="absolute bottom-3 left-4 text-white">
-                    <span className="text-lg font-bold block leading-tight">Madrid</span>
-                    <span className="text-xs text-gray-300 font-medium">Spain</span>
-                  </div>
-                </div>
-                <div className="p-5 pb-3 flex flex-col gap-1.5">
-                  <span className="text-[11px] font-bold text-[#0052FF] uppercase tracking-wider">
-                    Core Specialization:
-                  </span>
-                  <p className="text-[13px] text-gray-900 font-bold leading-snug">
-                    Mobile Engineering &amp; Digital Innovation Lab
-                  </p>
-                  <p className="text-[11.5px] text-gray-500 pt-1.5 mt-1 border-t border-[#F3F4F6]">
-                    📍 Paseo de la Castellana 95, Madrid
-                  </p>
-                </div>
-              </div>
-              <div className="px-5 pb-5">
-                <span className="text-[11.5px] font-bold text-[#059669] flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 bg-[#10B981] rounded-full inline-block" />
-                  Active Regional Engineering Pod
-                </span>
-              </div>
-            </div>
-
-            {/* Hub 3: San Francisco */}
-            <div className="bg-[#FAFAFC] rounded-2xl border border-[#E5E7EB] overflow-hidden shadow-sm flex flex-col justify-between">
-              <div>
-                <div className="w-full h-44 relative overflow-hidden bg-gray-900">
-                  <img
-                    src="https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=600&auto=format&fit=crop&q=80"
-                    alt="San Francisco"
-                    width={380}
-                    height={200}
-                    loading="lazy"
-                    decoding="async"
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent pointer-events-none" />
-                  <div className="absolute bottom-3 left-4 text-white">
-                    <span className="text-lg font-bold block leading-tight">San Francisco</span>
-                    <span className="text-xs text-gray-300 font-medium">United States</span>
-                  </div>
-                </div>
-                <div className="p-5 pb-3 flex flex-col gap-1.5">
-                  <span className="text-[11px] font-bold text-[#0052FF] uppercase tracking-wider">
-                    Core Specialization:
-                  </span>
-                  <p className="text-[13px] text-gray-900 font-bold leading-snug">
-                    AI Research, Neural Systems &amp; Cloud Labs
-                  </p>
-                  <p className="text-[11.5px] text-gray-500 pt-1.5 mt-1 border-t border-[#F3F4F6]">
-                    📍 500 Howard Street, SoMa Tech District, San Francisco
-                  </p>
-                </div>
-              </div>
-              <div className="px-5 pb-5">
-                <span className="text-[11.5px] font-bold text-[#059669] flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 bg-[#10B981] rounded-full inline-block" />
-                  Active Regional Engineering Pod
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <AboutEngineeringHubsSection
+        badgeTag={aboutData.hubsBadgeTag}
+        headline={aboutData.hubsHeadline}
+        description={aboutData.hubsDescription}
+        hubs={aboutData.hubs}
+      />
 
       {/* ========================================================= */}
       {/* 7. EXECUTIVE LEADERSHIP & TECHNICAL CUSTODIANS            */}
       {/* ========================================================= */}
-      <section className="w-full py-16 sm:py-24 border-b border-[#E5E7EB] text-center bg-[#FAFAFC]">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8">
-          {/* Header */}
-          <div className="max-w-3xl mx-auto mb-12 sm:mb-16">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#FFF7ED] border border-[#FFEDD5] text-[#FF6B00] text-[11.5px] font-bold uppercase tracking-wider rounded-sm mb-3">
-              <span className="w-1.5 h-1.5 bg-[#FF6B00] rounded-full inline-block" />
-              THE PEOPLE BEHIND THE CODE
-            </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-[#030712] tracking-tight leading-tight mb-3">
-              Executive Leadership &amp; Technical Custodians
-            </h2>
-            <p className="text-sm sm:text-base text-[#4B5563] leading-relaxed font-normal">
-              Meet the founders and principal architects who guide our engineering vision and mentor our senior pods across 3 global centers.
-            </p>
-          </div>
-
-          {/* 4 Leaders (2x2 Grid) */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 text-left">
-            {/* Leader 1 */}
-            <div className="bg-white rounded-2xl border border-[#E5E7EB] p-6 sm:p-7 shadow-sm hover:shadow-md transition-all flex flex-col sm:flex-row gap-5 sm:gap-6">
-              <div className="w-full sm:w-44 h-48 sm:h-54 rounded-xl overflow-hidden shrink-0 relative bg-gray-900">
-                <img
-                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&auto=format&fit=crop&q=80"
-                  alt="Alexander Wright"
-                  width={200}
-                  height={200}
-                  loading="lazy"
-                  decoding="async"
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent pointer-events-none" />
-                <div className="absolute bottom-2 left-2 right-2 text-white text-[10px] font-mono font-semibold">
-                  Senior Systems Architect
-                </div>
-              </div>
-              <div className="flex-1 flex flex-col justify-between gap-2 min-w-0">
-                <div>
-                  <h3 className="text-xl font-bold text-[#030712] leading-tight">Alexander Wright</h3>
-                  <span className="text-xs font-bold text-[#0052FF] block mt-0.5">Founder &amp; Chief Executive Officer</span>
-                  <p className="text-[12.5px] text-[#4B5563] leading-relaxed my-2 font-normal">
-                    Founded Creed Tech in 2023 with the conviction that next-generation enterprise software should be built with mathematical precision, neural scalability, and uncompromising craftsmanship.
-                  </p>
-                  <blockquote className="my-0 px-2.5 py-2 bg-[#F9FAFB] rounded-md border border-[#F3F4F6] text-[11.5px] text-[#374151] italic leading-relaxed">
-                    &ldquo;We don&apos;t build software to sell and walk away. We build digital infrastructure that companies run their entire future on.&rdquo;
-                  </blockquote>
-                </div>
-                <div className="pt-2 border-t border-[#F3F4F6]">
-                  <Link href="/contact" className="text-xs font-bold text-[#0052FF] hover:underline">
-                    Connect with Alexander &rarr;
-                  </Link>
-                </div>
-              </div>
-            </div>
-
-            {/* Leader 2 */}
-            <div className="bg-white rounded-2xl border border-[#E5E7EB] p-6 sm:p-7 shadow-sm hover:shadow-md transition-all flex flex-col sm:flex-row gap-5 sm:gap-6">
-              <div className="w-full sm:w-44 h-48 sm:h-54 rounded-xl overflow-hidden shrink-0 relative bg-gray-900">
-                <img
-                  src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=500&auto=format&fit=crop&q=80"
-                  alt="Dr. Elena Rostova"
-                  width={200}
-                  height={200}
-                  loading="lazy"
-                  decoding="async"
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent pointer-events-none" />
-                <div className="absolute bottom-2 left-2 right-2 text-white text-[10px] font-mono font-semibold">
-                  Ph.D. Neural Computing
-                </div>
-              </div>
-              <div className="flex-1 flex flex-col justify-between gap-2 min-w-0">
-                <div>
-                  <h3 className="text-xl font-bold text-[#030712] leading-tight">Dr. Elena Rostova</h3>
-                  <span className="text-xs font-bold text-[#0052FF] block mt-0.5">Chief Technology Officer</span>
-                  <p className="text-[12.5px] text-[#4B5563] leading-relaxed my-2 font-normal">
-                    Directs our research in private enterprise LLMs and distributed vector streaming. Champion of vendor-neutral open cloud architecture.
-                  </p>
-                  <blockquote className="my-0 px-2.5 py-2 bg-[#F9FAFB] rounded-md border border-[#F3F4F6] text-[11.5px] text-[#374151] italic leading-relaxed">
-                    &ldquo;The best engineering is invisible—it performs flawlessly under maximum load without ever asking for praise.&rdquo;
-                  </blockquote>
-                </div>
-                <div className="pt-2 border-t border-[#F3F4F6]">
-                  <Link href="/contact" className="text-xs font-bold text-[#0052FF] hover:underline">
-                    Connect with Elena &rarr;
-                  </Link>
-                </div>
-              </div>
-            </div>
-
-            {/* Leader 3 */}
-            <div className="bg-white rounded-2xl border border-[#E5E7EB] p-6 sm:p-7 shadow-sm hover:shadow-md transition-all flex flex-col sm:flex-row gap-5 sm:gap-6">
-              <div className="w-full sm:w-44 h-48 sm:h-54 rounded-xl overflow-hidden shrink-0 relative bg-gray-900">
-                <img
-                  src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=500&auto=format&fit=crop&q=80"
-                  alt="Marcus Vance"
-                  width={200}
-                  height={200}
-                  loading="lazy"
-                  decoding="async"
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent pointer-events-none" />
-                <div className="absolute bottom-2 left-2 right-2 text-white text-[10px] font-mono font-semibold">
-                  Ex-Defense Cryptographer
-                </div>
-              </div>
-              <div className="flex-1 flex flex-col justify-between gap-2 min-w-0">
-                <div>
-                  <h3 className="text-xl font-bold text-[#030712] leading-tight">Marcus Vance</h3>
-                  <span className="text-xs font-bold text-[#0052FF] block mt-0.5">Head of Global Security &amp; Governance</span>
-                  <p className="text-[12.5px] text-[#4B5563] leading-relaxed my-2 font-normal">
-                    Oversees zero-trust architectures, sovereign data privacy, and SOC 2 Type II governance across all client engagements.
-                  </p>
-                  <blockquote className="my-0 px-2.5 py-2 bg-[#F9FAFB] rounded-md border border-[#F3F4F6] text-[11.5px] text-[#374151] italic leading-relaxed">
-                    &ldquo;In high-stakes systems, trust is not a promise. It is mathematically verified cryptography.&rdquo;
-                  </blockquote>
-                </div>
-                <div className="pt-2 border-t border-[#F3F4F6]">
-                  <Link href="/contact" className="text-xs font-bold text-[#0052FF] hover:underline">
-                    Connect with Marcus &rarr;
-                  </Link>
-                </div>
-              </div>
-            </div>
-
-            {/* Leader 4 */}
-            <div className="bg-white rounded-2xl border border-[#E5E7EB] p-6 sm:p-7 shadow-sm hover:shadow-md transition-all flex flex-col sm:flex-row gap-5 sm:gap-6">
-              <div className="w-full sm:w-44 h-48 sm:h-54 rounded-xl overflow-hidden shrink-0 relative bg-gray-900">
-                <img
-                  src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=500&auto=format&fit=crop&q=80"
-                  alt="Sarah Jenkins"
-                  width={200}
-                  height={200}
-                  loading="lazy"
-                  decoding="async"
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent pointer-events-none" />
-                <div className="absolute bottom-2 left-2 right-2 text-white text-[10px] font-mono font-semibold">
-                  14+ Yrs Agile Delivery
-                </div>
-              </div>
-              <div className="flex-1 flex flex-col justify-between gap-2 min-w-0">
-                <div>
-                  <h3 className="text-xl font-bold text-[#030712] leading-tight">Sarah Jenkins</h3>
-                  <span className="text-xs font-bold text-[#0052FF] block mt-0.5">VP of Global Client Engineering</span>
-                  <p className="text-[12.5px] text-[#4B5563] leading-relaxed my-2 font-normal">
-                    Directs our dedicated senior engineering pods across 3 global centers, guaranteeing milestone velocity, zero-defect releases, and continuous client alignment.
-                  </p>
-                  <blockquote className="my-0 px-2.5 py-2 bg-[#F9FAFB] rounded-md border border-[#F3F4F6] text-[11.5px] text-[#374151] italic leading-relaxed">
-                    &ldquo;Engineering maturity is not just about writing code; it is about delivering business outcomes with absolute predictability.&rdquo;
-                  </blockquote>
-                </div>
-                <div className="pt-2 border-t border-[#F3F4F6]">
-                  <Link href="/contact" className="text-xs font-bold text-[#0052FF] hover:underline">
-                    Connect with Sarah &rarr;
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <AboutLeadershipSection
+        badgeTag={aboutData.leadershipBadgeTag}
+        headline={aboutData.leadershipHeadline}
+        description={aboutData.leadershipDescription}
+        leadership={aboutData.leadership}
+      />
 
       {/* ========================================================= */}
       {/* 8. DATA DRIVEN: 4 METRICS + 2 CTAs                        */}

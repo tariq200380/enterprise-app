@@ -4,12 +4,36 @@ import React from "react";
 import { useContactLogic } from "./contactlogic";
 
 export default function ContactDesign() {
-  const { status, errorMessage, handleSubmit, handleDismiss } = useContactLogic();
+  const {
+    status,
+    errorMessage,
+    fieldErrors,
+    selectedService,
+    setSelectedService,
+    handleSubmit,
+    handleDismiss,
+  } = useContactLogic();
+
+  const services = [
+    "Software Development",
+    "UI/UX Design",
+    "Mobile Application",
+    "Cloud Infrastructure",
+    "Database Management",
+    "Web Development",
+    "AI & Automation",
+    "Digital Growth",
+  ];
+
   return (
     <div className="w-full">
       {/* Success Notification Banner */}
       {status === "success" && (
-        <div className="p-6 mb-6 bg-emerald-50 border border-emerald-200 rounded-xl flex items-start justify-between gap-4 text-left animate-in fade-in duration-300">
+        <div
+          role="alert"
+          aria-live="polite"
+          className="p-6 mb-6 bg-emerald-50 border border-emerald-200 rounded-xl flex items-start justify-between gap-4 text-left animate-in fade-in duration-300"
+        >
           <div className="flex items-start gap-3">
             <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center shrink-0 mt-0.5">
               <span className="text-emerald-600 font-bold text-lg leading-none">✓</span>
@@ -35,109 +59,38 @@ export default function ContactDesign() {
       )}
 
       {/* Main Scoping Form */}
-      <form id="contact-form" onSubmit={handleSubmit} className="flex flex-col gap-6">
+      <form id="contact-form" onSubmit={handleSubmit} noValidate className="flex flex-col gap-6">
         {/* 1. Select the service you need */}
         <div>
           <label className="block text-[11.5px] font-bold text-[#111827] uppercase tracking-wider mb-2.5">
             1. Select the service you need
           </label>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-            <label className="cursor-pointer">
-              <input
-                type="radio"
-                name="service"
-                value="Software Development"
-                defaultChecked
-                className="peer sr-only"
-              />
-              <span className="block p-2.5 text-xs text-center rounded border transition-colors truncate peer-checked:bg-[#0052FF] peer-checked:text-white peer-checked:border-[#0052FF] peer-checked:font-bold bg-[#F9FAFB] text-[#374151] border-[#E5E7EB] font-medium hover:bg-gray-100 peer-checked:hover:bg-[#0052FF]">
-                Software Development
-              </span>
-            </label>
-
-            <label className="cursor-pointer">
-              <input
-                type="radio"
-                name="service"
-                value="UI/UX Design"
-                className="peer sr-only"
-              />
-              <span className="block p-2.5 text-xs text-center rounded border transition-colors truncate peer-checked:bg-[#0052FF] peer-checked:text-white peer-checked:border-[#0052FF] peer-checked:font-bold bg-[#F9FAFB] text-[#374151] border-[#E5E7EB] font-medium hover:bg-gray-100 peer-checked:hover:bg-[#0052FF]">
-                UI/UX Design
-              </span>
-            </label>
-
-            <label className="cursor-pointer">
-              <input
-                type="radio"
-                name="service"
-                value="Mobile Application"
-                className="peer sr-only"
-              />
-              <span className="block p-2.5 text-xs text-center rounded border transition-colors truncate peer-checked:bg-[#0052FF] peer-checked:text-white peer-checked:border-[#0052FF] peer-checked:font-bold bg-[#F9FAFB] text-[#374151] border-[#E5E7EB] font-medium hover:bg-gray-100 peer-checked:hover:bg-[#0052FF]">
-                Mobile Application
-              </span>
-            </label>
-
-            <label className="cursor-pointer">
-              <input
-                type="radio"
-                name="service"
-                value="Cloud Infrastructure"
-                className="peer sr-only"
-              />
-              <span className="block p-2.5 text-xs text-center rounded border transition-colors truncate peer-checked:bg-[#0052FF] peer-checked:text-white peer-checked:border-[#0052FF] peer-checked:font-bold bg-[#F9FAFB] text-[#374151] border-[#E5E7EB] font-medium hover:bg-gray-100 peer-checked:hover:bg-[#0052FF]">
-                Cloud Infrastructure
-              </span>
-            </label>
-
-            <label className="cursor-pointer">
-              <input
-                type="radio"
-                name="service"
-                value="Database Management"
-                className="peer sr-only"
-              />
-              <span className="block p-2.5 text-xs text-center rounded border transition-colors truncate peer-checked:bg-[#0052FF] peer-checked:text-white peer-checked:border-[#0052FF] peer-checked:font-bold bg-[#F9FAFB] text-[#374151] border-[#E5E7EB] font-medium hover:bg-gray-100 peer-checked:hover:bg-[#0052FF]">
-                Database Management
-              </span>
-            </label>
-
-            <label className="cursor-pointer">
-              <input
-                type="radio"
-                name="service"
-                value="Web Development"
-                className="peer sr-only"
-              />
-              <span className="block p-2.5 text-xs text-center rounded border transition-colors truncate peer-checked:bg-[#0052FF] peer-checked:text-white peer-checked:border-[#0052FF] peer-checked:font-bold bg-[#F9FAFB] text-[#374151] border-[#E5E7EB] font-medium hover:bg-gray-100 peer-checked:hover:bg-[#0052FF]">
-                Web Development
-              </span>
-            </label>
-
-            <label className="cursor-pointer">
-              <input
-                type="radio"
-                name="service"
-                value="AI & Automation"
-                className="peer sr-only"
-              />
-              <span className="block p-2.5 text-xs text-center rounded border transition-colors truncate peer-checked:bg-[#0052FF] peer-checked:text-white peer-checked:border-[#0052FF] peer-checked:font-bold bg-[#F9FAFB] text-[#374151] border-[#E5E7EB] font-medium hover:bg-gray-100 peer-checked:hover:bg-[#0052FF]">
-                AI &amp; Automation
-              </span>
-            </label>
-
-            <label className="cursor-pointer">
-              <input
-                type="radio"
-                name="service"
-                value="Digital Growth"
-                className="peer sr-only"
-              />
-              <span className="block p-2.5 text-xs text-center rounded border transition-colors truncate peer-checked:bg-[#0052FF] peer-checked:text-white peer-checked:border-[#0052FF] peer-checked:font-bold bg-[#F9FAFB] text-[#374151] border-[#E5E7EB] font-medium hover:bg-gray-100 peer-checked:hover:bg-[#0052FF]">
-                Digital Growth
-              </span>
-            </label>
+            {services.map((svc) => {
+              const isSelected = selectedService === svc;
+              return (
+                <label key={svc} className="cursor-pointer select-none">
+                  <input
+                    type="radio"
+                    name="service"
+                    value={svc}
+                    checked={isSelected}
+                    onChange={() => setSelectedService(svc)}
+                    disabled={status === "loading"}
+                    className="peer sr-only"
+                  />
+                  <span
+                    className={`block p-2.5 text-xs text-center rounded border transition-colors truncate font-medium hover:bg-gray-100 ${
+                      isSelected
+                        ? "bg-[#0052FF] text-white border-[#0052FF] font-bold hover:bg-[#0052FF]"
+                        : "bg-[#F9FAFB] text-[#374151] border-[#E5E7EB]"
+                    }`}
+                  >
+                    {svc}
+                  </span>
+                </label>
+              );
+            })}
           </div>
         </div>
 
@@ -148,28 +101,56 @@ export default function ContactDesign() {
           </label>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <input
-              type="text"
-              name="fullName"
-              required
-              disabled={status === "loading"}
-              placeholder="Your Full Name *"
-              className="w-full px-3.5 py-3 bg-[#F9FAFB] border border-[#E5E7EB] text-sm text-[#111827] outline-none rounded focus:border-[#0052FF] transition-colors disabled:opacity-50"
-            />
-            <input
-              type="email"
-              name="workEmail"
-              required
-              disabled={status === "loading"}
-              placeholder="Corporate Work Email *"
-              className="w-full px-3.5 py-3 bg-[#F9FAFB] border border-[#E5E7EB] text-sm text-[#111827] outline-none rounded focus:border-[#0052FF] transition-colors disabled:opacity-50"
-            />
+            <div>
+              <input
+                type="text"
+                name="fullName"
+                required
+                autoComplete="name"
+                disabled={status === "loading"}
+                placeholder="Your Full Name *"
+                aria-invalid={!!fieldErrors?.fullName}
+                className={`w-full px-3.5 py-3 bg-[#F9FAFB] border text-sm text-[#111827] outline-none rounded transition-colors disabled:opacity-50 ${
+                  fieldErrors?.fullName
+                    ? "border-red-400 focus:border-red-500 bg-red-50/20"
+                    : "border-[#E5E7EB] focus:border-[#0052FF]"
+                }`}
+              />
+              {fieldErrors?.fullName && (
+                <span className="text-[11px] text-red-600 mt-1 block">
+                  {fieldErrors.fullName}
+                </span>
+              )}
+            </div>
+
+            <div>
+              <input
+                type="email"
+                name="workEmail"
+                required
+                autoComplete="email"
+                disabled={status === "loading"}
+                placeholder="Corporate Work Email *"
+                aria-invalid={!!fieldErrors?.workEmail}
+                className={`w-full px-3.5 py-3 bg-[#F9FAFB] border text-sm text-[#111827] outline-none rounded transition-colors disabled:opacity-50 ${
+                  fieldErrors?.workEmail
+                    ? "border-red-400 focus:border-red-500 bg-red-50/20"
+                    : "border-[#E5E7EB] focus:border-[#0052FF]"
+                }`}
+              />
+              {fieldErrors?.workEmail && (
+                <span className="text-[11px] text-red-600 mt-1 block">
+                  {fieldErrors.workEmail}
+                </span>
+              )}
+            </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <input
               type="text"
               name="company"
+              autoComplete="organization"
               disabled={status === "loading"}
               placeholder="Company / Organization Name"
               className="w-full px-3.5 py-3 bg-[#F9FAFB] border border-[#E5E7EB] text-sm text-[#111827] outline-none rounded focus:border-[#0052FF] transition-colors disabled:opacity-50"
@@ -177,6 +158,7 @@ export default function ContactDesign() {
             <input
               type="tel"
               name="phone"
+              autoComplete="tel"
               disabled={status === "loading"}
               placeholder="Phone / WhatsApp Number"
               className="w-full px-3.5 py-3 bg-[#F9FAFB] border border-[#E5E7EB] text-sm text-[#111827] outline-none rounded focus:border-[#0052FF] transition-colors disabled:opacity-50"
@@ -190,8 +172,18 @@ export default function ContactDesign() {
               required
               disabled={status === "loading"}
               placeholder="Tell us about your project goals, technical requirements, or current architecture challenges... *"
-              className="w-full px-3.5 py-3 bg-[#F9FAFB] border border-[#E5E7EB] text-sm text-[#111827] outline-none rounded focus:border-[#0052FF] transition-colors resize-none disabled:opacity-50"
+              aria-invalid={!!fieldErrors?.projectDetails}
+              className={`w-full px-3.5 py-3 bg-[#F9FAFB] border text-sm text-[#111827] outline-none rounded transition-colors resize-none disabled:opacity-50 ${
+                fieldErrors?.projectDetails
+                  ? "border-red-400 focus:border-red-500 bg-red-50/20"
+                  : "border-[#E5E7EB] focus:border-[#0052FF]"
+              }`}
             />
+            {fieldErrors?.projectDetails && (
+              <span className="text-[11px] text-red-600 mt-1 block">
+                {fieldErrors.projectDetails}
+              </span>
+            )}
           </div>
         </div>
 
@@ -212,8 +204,11 @@ export default function ContactDesign() {
         </div>
 
         {/* Error message banner */}
-        {status === "error" && (
-          <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-xs font-medium rounded-lg text-left">
+        {status === "error" && errorMessage && (
+          <div
+            role="alert"
+            className="p-3 bg-red-50 border border-red-200 text-red-700 text-xs font-medium rounded-lg text-left"
+          >
             {errorMessage}
           </div>
         )}

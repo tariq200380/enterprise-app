@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import AppLayoutWrapper from "@/components/AppLayoutWrapper";
+import { query } from "@/lib/db";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://creed-tech.com"),
@@ -118,11 +119,45 @@ const jsonLd = {
   ],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  let socialLinks = undefined;
+  let copyrightText = undefined;
+  let announcementSettings = undefined;
+  let generalInfo = undefined;
+  try {
+    const res = await query("SELECT value FROM website_settings WHERE key = 'global_config'");
+    if (res.rows.length > 0) {
+      const val = res.rows[0].value;
+      if (Array.isArray(val?.socialLinks)) {
+        socialLinks = val.socialLinks;
+      }
+      if (typeof val?.copyrightText === "string") {
+        copyrightText = val.copyrightText;
+      }
+      announcementSettings = {
+        showAnnouncement: val?.showAnnouncement !== undefined ? Boolean(val.showAnnouncement) : undefined,
+        announcementBadge: typeof val?.announcementBadge === "string" ? val.announcementBadge : undefined,
+        announcementText: typeof val?.announcementText === "string" ? val.announcementText : undefined,
+        announcementLinkText: typeof val?.announcementLinkText === "string" ? val.announcementLinkText : undefined,
+        announcementLinkUrl: typeof val?.announcementLinkUrl === "string" ? val.announcementLinkUrl : undefined,
+        announcements: Array.isArray(val?.announcements) ? val.announcements : undefined,
+      };
+      generalInfo = {
+        siteName: typeof val?.siteName === "string" ? val.siteName : undefined,
+        siteTagline: typeof val?.siteTagline === "string" ? val.siteTagline : undefined,
+        contactEmail: typeof val?.contactEmail === "string" ? val.contactEmail : undefined,
+        contactPhone: typeof val?.contactPhone === "string" ? val.contactPhone : undefined,
+        officeAddress: typeof val?.officeAddress === "string" ? val.officeAddress : undefined,
+      };
+    }
+  } catch {
+    // Fallback to default
+  }
+
   return (
     <html lang="en" className="h-full antialiased">
       <head>
@@ -132,7 +167,14 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col bg-white text-gray-900 font-sans">
-        <AppLayoutWrapper>{children}</AppLayoutWrapper>
+        <AppLayoutWrapper
+          socialLinks={socialLinks}
+          copyrightText={copyrightText}
+          announcementSettings={announcementSettings}
+          generalInfo={generalInfo}
+        >
+          {children}
+        </AppLayoutWrapper>
       </body>
     </html>
   );

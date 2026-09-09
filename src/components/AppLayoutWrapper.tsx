@@ -2,15 +2,23 @@
 
 import React from "react";
 import { usePathname } from "next/navigation";
-import TopBanner from "@/components/TopBanner";
+import TopBanner, { AnnouncementSettings } from "@/components/TopBanner";
 import Navbar from "@/components/Navbar";
 import NewsletterStrip from "@/components/NewsletterStrip";
-import Footer from "@/components/Footer";
+import Footer, { GeneralSiteInfo } from "@/components/Footer";
 
 export default function AppLayoutWrapper({
   children,
+  socialLinks,
+  copyrightText,
+  announcementSettings,
+  generalInfo,
 }: {
   children: React.ReactNode;
+  socialLinks?: Array<{ id: string; platform: string; url: string }>;
+  copyrightText?: string;
+  announcementSettings?: AnnouncementSettings;
+  generalInfo?: GeneralSiteInfo;
 }) {
   const pathname = usePathname();
   const isAdmin = pathname?.startsWith("/admin");
@@ -22,12 +30,16 @@ export default function AppLayoutWrapper({
   return (
     <>
       <div className="sticky top-0 z-50">
-        <TopBanner />
+        <TopBanner initialSettings={announcementSettings} />
         <Navbar />
       </div>
       <main className="flex-1">{children}</main>
       <NewsletterStrip />
-      <Footer />
+      <Footer
+        initialSocialLinks={socialLinks}
+        initialCopyrightText={copyrightText}
+        initialGeneralInfo={generalInfo}
+      />
     </>
   );
 }
