@@ -3,134 +3,9 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 
-interface BrandWireItem {
-  id: string;
-  name: string;
-  icon: string;
-  brandBadge: string;
-  cat: string;
-  date: string;
-  title: string;
-  summary: string;
-  source: string;
-  link: string;
-  img: string;
-}
-
-const brandWires: BrandWireItem[] = [
-  {
-    id: "apple",
-    name: "Apple",
-    icon: "🍎",
-    brandBadge: "🍎 APPLE",
-    cat: "HARDWARE & APPLE INTELLIGENCE",
-    date: "Apple Newsroom (Live Wire)",
-    title: "Apple introduces iPhone 16 and iPhone 16 Plus",
-    summary:
-      "Apple today announced iPhone 16 and iPhone 16 Plus, built from the ground up for Apple Intelligence with the new A18 chip, Camera Control, and 48MP Fusion camera.",
-    source: "Apple Newsroom",
-    link: "https://www.apple.com/newsroom/2024/09/apple-introduces-iphone-16-and-iphone-16-plus/",
-    img: "/uploads/live_news/apple_iphone16_hero.jpg",
-  },
-  {
-    id: "google",
-    name: "Google",
-    icon: "🌐",
-    brandBadge: "🌐 GOOGLE",
-    cat: "GOOGLE AI & GEMINI",
-    date: "Google The Keyword (Live Wire)",
-    title: "Introducing Gemini: Google’s Most Capable Multimodal AI Model",
-    summary:
-      "Gemini is Google's most capable and general model, built from the ground up to be multimodal across text, code, audio, image, and video.",
-    source: "Google The Keyword",
-    link: "https://blog.google/technology/ai/google-gemini-ai/",
-    img: "/uploads/live_news/google_gemini_hero.jpg",
-  },
-  {
-    id: "nvidia",
-    name: "NVIDIA",
-    icon: "⚡",
-    brandBadge: "⚡ NVIDIA",
-    cat: "ACCELERATED COMPUTING & BLACKWELL",
-    date: "NVIDIA Official Newsroom (Live Wire)",
-    title: "NVIDIA Blackwell Platform Arrives to Power a New Era of Computing",
-    summary:
-      "Powering a new era of computing, NVIDIA announced the Blackwell platform, enabling organizations everywhere to build and run real-time generative AI at 25x less cost and energy.",
-    source: "NVIDIA Official Newsroom",
-    link: "https://nvidianews.nvidia.com/news/nvidia-blackwell-platform-arrives-to-power-a-new-era-of-computing",
-    img: "/uploads/live_news/nvidia_blackwell_hero.jpg",
-  },
-  {
-    id: "anthropic",
-    name: "Anthropic",
-    icon: "🧠",
-    brandBadge: "🧠 ANTHROPIC",
-    cat: "FRONTIER AI & CLAUDE",
-    date: "Anthropic Research (Live Wire)",
-    title: "Introducing Claude 3.5 Sonnet: Industry-Leading Frontier Intelligence",
-    summary:
-      "Claude 3.5 Sonnet raises the industry standard for intelligence, operating at twice the speed of Claude 3 Opus with state-of-the-art reasoning and coding benchmarks.",
-    source: "Anthropic Research",
-    link: "https://www.anthropic.com/news/claude-3-5-sonnet",
-    img: "/uploads/live_news/anthropic_claude35_hero.png",
-  },
-  {
-    id: "openai",
-    name: "OpenAI",
-    icon: "🤖",
-    brandBadge: "🤖 OPENAI",
-    cat: "AI REASONING & GPT-4O",
-    date: "OpenAI Newsroom (Live Wire)",
-    title: "Hello GPT-4o: OpenAI's Flagship Multimodal Model",
-    summary:
-      "GPT-4o ('omni') integrates text, vision, and audio reasoning natively into a single neural network, enabling natural human-computer interaction in real time.",
-    source: "OpenAI Newsroom",
-    link: "https://openai.com/index/hello-gpt-4o/",
-    img: "/uploads/live_news/openai_gpt4o_official.png",
-  },
-  {
-    id: "meta",
-    name: "Meta",
-    icon: "♾️",
-    brandBadge: "♾️ META",
-    cat: "OPEN SOURCE AI & LLAMA",
-    date: "Meta Newsroom (Live Wire)",
-    title: "Open Source AI Is the Path Forward: Announcing Llama 3.1",
-    summary:
-      "Mark Zuckerberg outlines why open source AI is essential for global technological advancement, releasing Llama 3.1 405B for open enterprise research and development.",
-    source: "Meta Newsroom",
-    link: "https://about.fb.com/news/2024/07/open-source-ai-is-the-path-forward/",
-    img: "/uploads/live_news/meta_opensource_headline.png",
-  },
-  {
-    id: "microsoft",
-    name: "Microsoft",
-    icon: "🪟",
-    brandBadge: "🪟 MICROSOFT",
-    cat: "ENTERPRISE CLOUD & COPILOT",
-    date: "Microsoft Official Blog (Live Wire)",
-    title: "Introducing Copilot+ PCs: High-Performance Windows AI Hardware",
-    summary:
-      "Microsoft announces Copilot+ PCs with breakthrough 40+ TOPS silicon, system-wide AI acceleration, and all-day battery life for modern enterprise engineering.",
-    source: "Microsoft Official Blog",
-    link: "https://blogs.microsoft.com/blog/2024/05/20/introducing-copilot-pcs/",
-    img: "/uploads/live_news/microsoft_copilot_hero.jpg",
-  },
-  {
-    id: "intel",
-    name: "Intel",
-    icon: "🔷",
-    brandBadge: "🔷 INTEL",
-    cat: "NEXT-GEN SILICON & ROBOTICS",
-    date: "Intel Newsroom (Live Wire)",
-    title: "Six in 10 Leaders Bet Big on Enterprise Robotics and AI Silicon",
-    summary:
-      "Senior business and IT leaders, robotics engineers, and enterprise architects expect their organizations to operate automated AI systems within the next three years.",
-    source: "Intel Newsroom",
-    link: "https://newsroom.intel.com/artificial-intelligence/6-in-10-leaders-bet-big-on-robots-only-4-in-10-are-ready",
-    img: "/uploads/live_news/intel_omintelcomp9107_95f0081c1ff8.webp",
-  },
-];
+import { BrandWireItem, brandWires } from "./knowledgeCenterData";
+export type { BrandWireItem };
+export { brandWires };
 
 function safeImageUrl(url: string | undefined, fallback: string): string {
   if (!url || typeof url !== "string") return fallback;
@@ -142,8 +17,8 @@ function safeImageUrl(url: string | undefined, fallback: string): string {
   return `/${trimmed}`;
 }
 
-export default function BrandTechWires() {
-  const [wires, setWires] = useState<BrandWireItem[]>(brandWires);
+export default function BrandTechWires({ initialWires }: { initialWires?: BrandWireItem[] } = {}) {
+  const [wires, setWires] = useState<BrandWireItem[]>(initialWires && initialWires.length > 0 ? initialWires : brandWires);
 
   useEffect(() => {
     fetch(`/api/live-news?t=${Date.now()}`)
