@@ -11,6 +11,9 @@ function safeImageUrl(url: string | undefined, fallback: string): string {
   if (!url || typeof url !== "string") return fallback;
   const trimmed = url.trim();
   if (!trimmed) return fallback;
+  if (trimmed.endsWith(".mp4") || trimmed.endsWith(".webm") || trimmed.includes(".mp4?") || trimmed.includes(".webm?")) {
+    return fallback;
+  }
   if (trimmed.startsWith("http://") || trimmed.startsWith("https://") || trimmed.startsWith("/")) {
     return trimmed;
   }
@@ -19,6 +22,7 @@ function safeImageUrl(url: string | undefined, fallback: string): string {
 
 export default function BrandTechWires({ initialWires }: { initialWires?: BrandWireItem[] } = {}) {
   const [wires, setWires] = useState<BrandWireItem[]>(initialWires && initialWires.length > 0 ? initialWires : brandWires);
+  const [activeBrandId, setActiveBrandId] = useState<string>("apple");
 
   useEffect(() => {
     fetch(`/api/live-news?t=${Date.now()}`)
@@ -47,18 +51,6 @@ export default function BrandTechWires({ initialWires }: { initialWires?: BrandW
 
   return (
     <section className="w-full py-12 sm:py-14 bg-white border-b border-[#E2E8F0]">
-      {/* Hidden Radio Buttons for Pure CSS Tabs (Zero useState, Zero JS) */}
-      {wires.map((brand, i) => (
-        <input
-          key={brand.id}
-          type="radio"
-          name="brand-tab"
-          id={`brand-tab-${brand.id}`}
-          defaultChecked={i === 0}
-          className="hidden"
-        />
-      ))}
-
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Centered Header */}
         <div className="text-center max-w-[48rem] mx-auto mb-8">
@@ -75,78 +67,96 @@ export default function BrandTechWires({ initialWires }: { initialWires?: BrandW
 
         {/* 8 Verified Provider Tabs */}
         <div className="flex items-center justify-center flex-wrap gap-2 mb-8">
-          {wires.map((brand) => (
-            <label
-              key={brand.id}
-              htmlFor={`brand-tab-${brand.id}`}
-              className={`brand-btn-${brand.id} inline-flex items-center gap-1.5 px-4 py-2 rounded-md text-xs font-bold transition-all duration-200 cursor-pointer select-none bg-[#F1F5F9] text-[#475569] hover:bg-[#E2E8F0] hover:text-[#0F172A]`}
-            >
-              <span>{brand.icon}</span>
-              <span>{brand.name}</span>
-            </label>
-          ))}
+          {wires.map((brand) => {
+            const isSelected = activeBrandId === brand.id;
+            return (
+              <button
+                key={brand.id}
+                type="button"
+                onClick={() => setActiveBrandId(brand.id)}
+                className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-md text-xs font-bold transition-all duration-200 cursor-pointer select-none ${
+                  isSelected
+                    ? "bg-[#0052FF] text-white shadow-sm ring-2 ring-[#0052FF]/20 scale-105"
+                    : "bg-[#F1F5F9] text-[#475569] hover:bg-[#E2E8F0] hover:text-[#0F172A]"
+                }`}
+              >
+                <span>{brand.icon}</span>
+                <span>{brand.name}</span>
+              </button>
+            );
+          })}
         </div>
 
-        {/* Showcase Cards (Controlled by Pure CSS) */}
+        {/* Showcase Cards */}
         <div>
-          {wires.map((wire) => (
-            <div
-              key={wire.id}
-              className={`brand-pane-${wire.id} hidden grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-6 lg:gap-8 items-center bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-6 sm:p-7 shadow-[0_2px_8px_rgba(15,23,42,0.03)]`}
-            >
-              {/* Visual Container */}
-              <div className="relative w-full aspect-[16/9] min-h-[240px] sm:min-h-[280px] rounded-xl overflow-hidden bg-[#0B1120]">
-                <Image
-                  src={safeImageUrl(wire.img, "/uploads/live_news/apple_iphone16_hero.jpg")}
-                  alt={wire.title}
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 45vw"
-                  className="object-cover object-center transition-all duration-300"
-                  priority={wire.id === "google"}
-                />
-                {/* Top right floating badge */}
-                <div className="absolute top-3 right-3 z-10">
-                  <span className="inline-flex items-center gap-1.5 bg-white/95 backdrop-blur-md text-[#0F172A] text-[11px] font-extrabold px-3 py-1 rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.25)]">
-                    {wire.brandBadge}
-                  </span>
+          {wires.map((wire) => {
+            const isSelected = activeBrandId === wire.id;
+            return (
+              <div
+                key={wire.id}
+                className={`${
+                  isSelected ? "grid" : "hidden"
+                } grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-6 lg:gap-8 items-center bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-6 sm:p-7 shadow-[0_2px_8px_rgba(15,23,42,0.03)]`}
+              >
+                {/* Visual Container */}
+                <div className="relative w-full aspect-[16/9] min-h-[240px] sm:min-h-[280px] rounded-xl overflow-hidden bg-[#0B1120]">
+                  <Image
+                    src={safeImageUrl(wire.img, "/uploads/live_news/apple_iphone16_hero.jpg")}
+                    alt={wire.title}
+                    fill
+                    unoptimized
+                    sizes="(max-width: 1024px) 100vw, 45vw"
+                    className="object-cover object-center transition-all duration-300"
+                    priority={wire.id === "apple" || wire.id === "google"}
+                    onError={(e) => {
+                      const target = e.currentTarget as HTMLImageElement;
+                      target.src = "/uploads/live_news/apple_iphone16_hero.jpg";
+                    }}
+                  />
+                  {/* Top right floating badge */}
+                  <div className="absolute top-3 right-3 z-10">
+                    <span className="inline-flex items-center gap-1.5 bg-white/95 backdrop-blur-md text-[#0F172A] text-[11px] font-extrabold px-3 py-1 rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.25)]">
+                      {wire.brandBadge}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Details */}
+                <div className="flex flex-col justify-center">
+                  <div className="flex items-center gap-2 mb-2.5 flex-wrap">
+                    <span className="bg-[#DBEAFE] text-[#1E40AF] text-[10px] font-extrabold px-2 py-0.5 rounded-[3px] uppercase">
+                      {wire.cat}
+                    </span>
+                    <span className="text-xs text-[#64748B]">
+                      {wire.date}
+                    </span>
+                  </div>
+
+                  <h3 className="text-xl sm:text-2xl font-extrabold text-[#0F172A] leading-[1.35] mb-2.5">
+                    {wire.title}
+                  </h3>
+
+                  <p className="text-[14.5px] sm:text-[15px] text-[#475569] leading-relaxed mb-4">
+                    {wire.summary}
+                  </p>
+
+                  <div className="flex items-center justify-between flex-wrap gap-3 pt-4 border-t border-[#E2E8F0]">
+                    <a
+                      href={wire.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-xs font-bold text-[#0052FF] hover:text-[#0043D6] hover:underline"
+                    >
+                      <span>Read Full Wire ({wire.name} Official) &rarr;</span>
+                    </a>
+                    <span className="text-[11px] text-[#94A3B8] font-mono">
+                      VERIFIED OFFICIAL LINK
+                    </span>
+                  </div>
                 </div>
               </div>
-
-              {/* Details */}
-              <div className="flex flex-col justify-center">
-                <div className="flex items-center gap-2 mb-2.5 flex-wrap">
-                  <span className="bg-[#DBEAFE] text-[#1E40AF] text-[10px] font-extrabold px-2 py-0.5 rounded-[3px] uppercase">
-                    {wire.cat}
-                  </span>
-                  <span className="text-xs text-[#64748B]">
-                    {wire.date}
-                  </span>
-                </div>
-
-                <h3 className="text-xl sm:text-2xl font-extrabold text-[#0F172A] leading-[1.35] mb-2.5">
-                  {wire.title}
-                </h3>
-
-                <p className="text-[14.5px] sm:text-[15px] text-[#475569] leading-relaxed mb-4">
-                  {wire.summary}
-                </p>
-
-                <div className="flex items-center justify-between flex-wrap gap-3 pt-4 border-t border-[#E2E8F0]">
-                  <a
-                    href={wire.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-xs font-bold text-[#0052FF] hover:text-[#0043D6] hover:underline"
-                  >
-                    <span>Read Full Wire ({wire.name} Official) &rarr;</span>
-                  </a>
-                  <span className="text-[11px] text-[#94A3B8] font-mono">
-                    VERIFIED WIRE
-                  </span>
-                </div>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

@@ -3,7 +3,6 @@ import fs from "fs";
 import path from "path";
 
 const LOCAL_CACHE_PATH = path.join(process.cwd(), "public", "data", "live_news_cache.json");
-const EXTERNAL_CACHE_PATH = "/home/tariq/Desktop/procreedtech/public_html/data/live_news_cache.json";
 const UPLOADS_DIR = path.join(process.cwd(), "public", "uploads", "live_news");
 
 function readCache() {
@@ -24,11 +23,6 @@ function writeCache(data: any) {
   data.timestamp = new Date().toISOString();
   const jsonStr = JSON.stringify(data, null, 2);
   fs.writeFileSync(LOCAL_CACHE_PATH, jsonStr, "utf-8");
-  try {
-    if (fs.existsSync(path.dirname(EXTERNAL_CACHE_PATH))) {
-      fs.writeFileSync(EXTERNAL_CACHE_PATH, jsonStr, "utf-8");
-    }
-  } catch {}
 }
 
 function getGalleryImages() {

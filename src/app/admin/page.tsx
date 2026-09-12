@@ -18,6 +18,7 @@ import SubscribersModule from "@/components/admin/modules/SubscribersModule";
 import PortfolioModule from "@/components/admin/modules/PortfolioModule";
 import WebsiteSettingsModule from "@/components/admin/modules/WebsiteSettingsModule";
 import SystemSecurityModule from "@/components/admin/modules/SystemSecurityModule";
+import AdminLogin from "@/components/admin/AdminLogin";
 
 import { TelemetryData } from "@/types/admin";
 
@@ -26,6 +27,37 @@ export default function AdminPage() {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
   const [telemetry, setTelemetry] = useState<TelemetryData | null>(null);
+
+  // Authentication state
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [userEmail, setUserEmail] = useState<string>("admin@creed-tech.com");
+  const [authChecked, setAuthChecked] = useState<boolean>(false);
+
+  useEffect(() => {
+    const storedAuth = localStorage.getItem("creed_admin_authenticated");
+    const storedEmail = localStorage.getItem("creed_admin_user_email");
+    if (storedAuth === "true") {
+      setIsAuthenticated(true);
+      if (storedEmail) setUserEmail(storedEmail);
+    } else {
+      setIsAuthenticated(false);
+    }
+    setAuthChecked(true);
+  }, []);
+
+  const handleLogin = (email: string) => {
+    localStorage.setItem("creed_admin_authenticated", "true");
+    localStorage.setItem("creed_admin_user_email", email);
+    setIsAuthenticated(true);
+    setUserEmail(email);
+    showToast("Signed in successfully as Admin!", "success");
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("creed_admin_authenticated");
+    setIsAuthenticated(false);
+    showToast("Signed out of Admin Panel.", "success");
+  };
 
   const showToast = useCallback((message: string, type: "success" | "error" = "success") => {
     setToast({ message, type });
@@ -49,6 +81,18 @@ export default function AdminPage() {
   }, [fetchTelemetry]);
 
   const counts = telemetry?.counts || {};
+
+  if (!authChecked) {
+    return (
+      <div className="h-screen bg-[#070C18] flex items-center justify-center">
+        <div className="w-6 h-6 border-2 border-[#0052FF] border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return <AdminLogin onLogin={handleLogin} />;
+  }
 
   return (
     <div className="flex h-screen bg-[#F8FAFC] text-[#0F172A] font-sans antialiased overflow-hidden">
@@ -86,6 +130,8 @@ export default function AdminPage() {
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
           telemetry={telemetry}
+          onLogout={handleLogout}
+          userEmail={userEmail}
         />
 
         {/* Dynamic Module Content */}

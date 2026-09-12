@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
-import { exec } from "child_process";
+import { syncAllNewsFeeds } from "@/lib/newsSync";
 
 export interface LiveNewsItem {
   id: string;
@@ -35,10 +35,53 @@ const PROVIDER_METADATA: Record<string, { color: string; label: string }> = {
 };
 
 function normalizeImagePath(img: string | undefined): string {
-  if (!img) return "/uploads/live_news/apple_-unveils-iphone-duo_eafc7d9c1ea0.jpg";
+  if (!img) return "/uploads/live_news/apple_iphone16_hero.jpg";
   if (img.startsWith("http://") || img.startsWith("https://")) return img;
   if (img.startsWith("/")) return img;
   return `/${img}`;
+}
+
+function formatDynamicRelativeTime(timestamp?: string, rawDateStr?: string, defaultSource = "Live Wire"): string {
+  let sourceSuffix = defaultSource;
+  if (rawDateStr && rawDateStr.includes("•")) {
+    const extracted = rawDateStr.split("•").slice(1).join("•").trim();
+    if (extracted && !extracted.toLowerCase().includes("live rss feed")) sourceSuffix = extracted;
+  } else if (rawDateStr && !rawDateStr.toLowerCase().includes("ago") && !rawDateStr.toLowerCase().includes("live rss feed")) {
+    sourceSuffix = rawDateStr.trim();
+  }
+
+  const dateToParse = timestamp || (rawDateStr && !rawDateStr.toLowerCase().includes("ago") ? rawDateStr : null);
+  if (!dateToParse) {
+    return rawDateStr || (sourceSuffix ? `${defaultSource} • ${sourceSuffix}` : defaultSource);
+  }
+
+  let ts = Date.parse(dateToParse);
+  if (isNaN(ts)) {
+    ts = Date.parse(dateToParse.replace(" ", "T") + "Z");
+  }
+
+  if (isNaN(ts) || ts <= 0) {
+    return rawDateStr || (sourceSuffix ? `${defaultSource} • ${sourceSuffix}` : defaultSource);
+  }
+
+  const diffMs = Date.now() - ts;
+  if (diffMs < 0) {
+    return sourceSuffix ? `Just now • ${sourceSuffix}` : "Just now";
+  }
+
+  const diffSec = Math.floor(diffMs / 1000);
+  const diffMin = Math.floor(diffSec / 60);
+  const diffHour = Math.floor(diffMin / 60);
+  const diffDay = Math.floor(diffHour / 24);
+
+  let timeAgo = "";
+  if (diffMin < 1) timeAgo = "Just now";
+  else if (diffMin < 60) timeAgo = `${diffMin} min${diffMin > 1 ? "s" : ""} ago`;
+  else if (diffHour < 24) timeAgo = `${diffHour} hour${diffHour > 1 ? "s" : ""} ago`;
+  else if (diffDay === 1) timeAgo = "1 day ago";
+  else timeAgo = "Latest Official Dispatch";
+
+  return sourceSuffix ? `${timeAgo} • ${sourceSuffix}` : timeAgo;
 }
 
 let lastSyncTime = 0;
@@ -49,44 +92,24 @@ export async function GET(request: NextRequest) {
     const forceSync = searchParams.get("sync") === "true" || searchParams.get("refresh") === "true";
 
     const localCachePath = path.join(process.cwd(), "public", "data", "live_news_cache.json");
-    const externalCachePath = "/home/tariq/Desktop/procreedtech/public_html/data/live_news_cache.json";
-    const externalUploadsDir = "/home/tariq/Desktop/procreedtech/public_html/uploads/live_news";
-    const localUploadsDir = path.join(process.cwd(), "public", "uploads", "live_news");
 
-    // If external cache is newer, sync to public
-    if (fs.existsSync(externalCachePath)) {
+    const backupPath = path.join(process.cwd(), "public", "data", "live_news_cache.backup.json");
+
+    // If cache does not exist, restore from gold master backup immediately
+    if (!fs.existsSync(localCachePath) && fs.existsSync(backupPath)) {
       try {
-        const extStats = fs.statSync(externalCachePath);
-        const locStats = fs.existsSync(localCachePath) ? fs.statSync(localCachePath) : null;
-        if (!locStats || extStats.mtimeMs > locStats.mtimeMs) {
-          fs.copyFileSync(externalCachePath, localCachePath);
-        }
+        fs.copyFileSync(backupPath, localCachePath);
       } catch {}
     }
 
-    // Check if cache is stale (older than 30 minutes or missing)
-    let isStale = false;
-    if (fs.existsSync(localCachePath)) {
-      try {
-        const stats = fs.statSync(localCachePath);
-        if (Date.now() - stats.mtimeMs > 30 * 60 * 1000) {
-          isStale = true;
-        }
-      } catch {}
-    } else {
-      isStale = true;
-    }
-
-    // Trigger background sync if requested OR if cache is stale (debounced every 10 mins)
-    const canSync = forceSync || (isStale && Date.now() - lastSyncTime > 10 * 60 * 1000);
-    if (canSync && fs.existsSync("/home/tariq/Desktop/procreedtech/public_html/cron/import_news.php")) {
+    // Only trigger live network sync on explicit admin/manual request (forceSync)
+    if (forceSync && Date.now() - lastSyncTime > 10 * 1000) {
       lastSyncTime = Date.now();
-      exec(
-        `php /home/tariq/Desktop/procreedtech/public_html/cron/import_news.php && cp -ru ${externalUploadsDir}/* ${localUploadsDir}/ 2>/dev/null || true && cp ${externalCachePath} ${localCachePath} 2>/dev/null || true`,
-        (err) => {
-          if (err) console.error("Live news background sync error:", err.message);
-        }
-      );
+      try {
+        await syncAllNewsFeeds();
+      } catch (err: any) {
+        console.error("Live news sync error:", err.message);
+      }
     }
 
     if (!fs.existsSync(localCachePath)) {
@@ -118,20 +141,22 @@ export async function GET(request: NextRequest) {
         label: pKey.toUpperCase(),
       };
 
+      const pubTime = item.provider_published_at || parsed.timestamp;
+
       return {
         id: item.external_id || `${pKey}-${idx}`,
         provider: pKey,
         tag: item.tag || meta.label,
         providerLabel: meta.label,
         providerColor: meta.color,
-        date: item.date || "Live RSS Feed",
+        date: formatDynamicRelativeTime(pubTime, item.date, item.source || meta.label),
         source: item.source || "Official Tech Newsroom",
         title: item.title || "",
         desc: item.desc || "",
         link: item.link || "#",
         img: normalizeImagePath(item.img),
         source_image_url: item.source_image_url || "",
-        timestamp: item.provider_published_at || parsed.timestamp || new Date().toISOString(),
+        timestamp: pubTime || new Date().toISOString(),
       };
     });
 
@@ -139,8 +164,10 @@ export async function GET(request: NextRequest) {
     const brandWiresClean: Record<string, any> = {};
     for (const [k, v] of Object.entries(rawBrandWires)) {
       const item: any = v;
+      const pubTime = item.provider_published_at || item.timestamp;
       brandWiresClean[k] = {
         ...item,
+        date: formatDynamicRelativeTime(pubTime, item.date, item.source || item.captionTag || "Official Wire"),
         img: normalizeImagePath(item.img || item.image),
       };
     }
@@ -149,8 +176,10 @@ export async function GET(request: NextRequest) {
     const regionalWiresClean: Record<string, any> = {};
     for (const [k, v] of Object.entries(rawRegionalWires)) {
       const item: any = v;
+      const pubTime = item.provider_published_at || item.timestamp;
       regionalWiresClean[k] = {
         ...item,
+        date: formatDynamicRelativeTime(pubTime, item.date, item.sourceName || item.brandBadge || "Regional Wire"),
         image: normalizeImagePath(item.image || item.img),
         img: normalizeImagePath(item.img || item.image),
       };

@@ -20,6 +20,75 @@ export const metadata: Metadata = {
     "Curated technical research, engineering blueprints, system architecture patterns, and enterprise technology analysis from Creed Tech.",
 };
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
+function formatDynamicRelativeTime(timestamp?: string, rawDateStr?: string, defaultSource = "Live Wire"): string {
+  let sourceSuffix = defaultSource;
+  if (rawDateStr && rawDateStr.includes("•")) {
+    const extracted = rawDateStr.split("•").slice(1).join("•").trim();
+    if (extracted && !extracted.toLowerCase().includes("live rss feed")) sourceSuffix = extracted;
+  } else if (rawDateStr && !rawDateStr.toLowerCase().includes("ago") && !rawDateStr.toLowerCase().includes("live rss feed")) {
+    sourceSuffix = rawDateStr.trim();
+  }
+
+  const dateToParse = timestamp || (rawDateStr && !rawDateStr.toLowerCase().includes("ago") ? rawDateStr : null);
+  if (!dateToParse) {
+    return rawDateStr || (sourceSuffix ? `${defaultSource} • ${sourceSuffix}` : defaultSource);
+  }
+
+  let ts = Date.parse(dateToParse);
+  if (isNaN(ts)) {
+    ts = Date.parse(dateToParse.replace(" ", "T") + "Z");
+  }
+
+  if (isNaN(ts) || ts <= 0) {
+    return rawDateStr || (sourceSuffix ? `${defaultSource} • ${sourceSuffix}` : defaultSource);
+  }
+
+  const diffMs = Date.now() - ts;
+  if (diffMs < 0) {
+    return sourceSuffix ? `Just now • ${sourceSuffix}` : "Just now";
+  }
+
+  const diffSec = Math.floor(diffMs / 1000);
+  const diffMin = Math.floor(diffSec / 60);
+  const diffHour = Math.floor(diffMin / 60);
+  const diffDay = Math.floor(diffHour / 24);
+
+  let timeAgo = "";
+  if (diffMin < 1) timeAgo = "Just now";
+  else if (diffMin < 60) timeAgo = `${diffMin} min${diffMin > 1 ? "s" : ""} ago`;
+  else if (diffHour < 24) timeAgo = `${diffHour} hour${diffHour > 1 ? "s" : ""} ago`;
+  else if (diffDay === 1) timeAgo = "1 day ago";
+  else timeAgo = "Latest Official Dispatch";
+
+  return sourceSuffix ? `${timeAgo} • ${sourceSuffix}` : timeAgo;
+}
+
+const PROVIDER_COLORS: Record<string, string> = {
+  google: "#0052FF",
+  microsoft: "#00A4EF",
+  nvidia: "#059669",
+  anthropic: "#D97706",
+  openai: "#7C3AED",
+  meta: "#0081FB",
+  apple: "#0284C7",
+  intel: "#0071C5",
+  dawn: "#059669",
+  brecorder: "#0284C7",
+  propakistani: "#D97706",
+  tribune: "#DC2626",
+};
+
+function normalizeImagePath(img: string | undefined, fallback = "/uploads/live_news/apple_iphone16_hero.jpg"): string {
+  if (!img) return fallback;
+  const trimmed = img.trim();
+  if (!trimmed) return fallback;
+  if (trimmed.startsWith("http://") || trimmed.startsWith("https://") || trimmed.startsWith("/")) return trimmed;
+  return `/${trimmed}`;
+}
+
 function getInitialNewsData() {
   try {
     const cachePath = path.join(process.cwd(), "public", "data", "live_news_cache.json");
@@ -31,13 +100,14 @@ function getInitialNewsData() {
         const live = parsed.brand_wires?.[item.id];
         if (!live) return item;
         const rawImg = live.img || item.img;
+        const pubTime = live.provider_published_at || live.timestamp;
         return {
           ...item,
           title: live.title || item.title,
           summary: live.desc || live.summary || item.summary,
-          date: live.date || item.date,
+          date: formatDynamicRelativeTime(pubTime, live.date, item.source || item.brandBadge),
           link: live.link || item.link,
-          img: rawImg?.startsWith("/") ? rawImg : `/${rawImg}`,
+          img: normalizeImagePath(rawImg, item.img),
           cat: live.tag || live.category || item.cat,
         };
       });
@@ -46,25 +116,22 @@ function getInitialNewsData() {
         Array.isArray(parsed.breaking_news) && parsed.breaking_news.length > 0
           ? parsed.breaking_news.map((item: any, idx: number) => {
               const rawImg = item.img || "";
+              const pKey = (item.provider || "google").toLowerCase();
+              const pubTime = item.provider_published_at || parsed.timestamp;
               return {
                 id: item.external_id || `${item.provider || "news"}-${idx}`,
-                provider: item.provider || "google",
+                provider: pKey,
                 tag: item.tag || "TECH NEWS",
                 providerLabel: item.brand_badge || (item.provider ? item.provider.toUpperCase() : "TECH"),
-                providerColor:
-                  item.provider === "apple"
-                    ? "#0284C7"
-                    : item.provider === "intel"
-                    ? "#0071C5"
-                    : "#475569",
-                date: item.date || "Live RSS Feed",
+                providerColor: PROVIDER_COLORS[pKey] || "#475569",
+                date: formatDynamicRelativeTime(pubTime, item.date, item.source || item.provider?.toUpperCase()),
                 source: item.source || "Tech Newsroom",
                 title: item.title || "",
                 desc: item.desc || item.summary || "",
                 link: item.link || "#",
-                img: rawImg.startsWith("/") ? rawImg : `/${rawImg}`,
+                img: normalizeImagePath(rawImg),
                 source_image_url: item.source_image_url,
-                timestamp: item.provider_published_at || parsed.timestamp,
+                timestamp: pubTime || parsed.timestamp,
               };
             })
           : INITIAL_STORIES;

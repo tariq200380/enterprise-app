@@ -351,27 +351,27 @@ export const POST_REVIEWS_STORE: Record<number, PeerReview[]> = {
 export const SIDEBAR_BRAND_WIRES = [
   {
     icon: "🌐",
-    title: "Enter Google Play's sw...",
+    title: "Google DeepMind Gemini 1.5...",
     category: "GOOGLE AI & DEVICES",
   },
   {
     icon: "🧠",
-    title: "How Claude is accelera...",
+    title: "Anthropic Claude 3.5 Sonnet...",
     category: "FRONTIER AI & SCIENCE",
   },
   {
     icon: "🤖",
-    title: "Introducing AI Futures",
-    category: "OPENAI FOUNDATION",
+    title: "OpenAI o1 Reasoning Model...",
+    category: "OPENAI REASONING",
   },
   {
     icon: "⚡",
-    title: "Blackwell Ultra GPU Cl...",
+    title: "NVIDIA Blackwell B200 GPU...",
     category: "NVIDIA DATA CENTER",
   },
   {
     icon: "🪟",
-    title: "Azure Sovereign Cloud...",
+    title: "Azure Sovereign Copilot...",
     category: "MICROSOFT ENTERPRISE",
   },
 ];

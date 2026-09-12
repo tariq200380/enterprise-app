@@ -29,7 +29,7 @@ export default function NewsRegionalTab({
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
       {entries.map(([rKey, wire]) => {
-        const imgSrc = wire.image || wire.img || "/uploads/live_news/dawn_duo.webp";
+        const imgSrc = wire.image || wire.img || "/uploads/live_news/apple_iphone16_hero.jpg";
 
         return (
           <div
@@ -44,7 +44,7 @@ export default function NewsRegionalTab({
                   alt={wire.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   onError={(e) => {
-                    (e.currentTarget as HTMLImageElement).src = "/uploads/live_news/dawn_duo.webp";
+                    (e.currentTarget as HTMLImageElement).src = "/uploads/live_news/apple_iphone16_hero.jpg";
                   }}
                 />
                 <span className="absolute top-2.5 left-2.5 bg-[#059669] text-white text-[10px] font-extrabold px-2.5 py-0.5 rounded uppercase shadow-sm">

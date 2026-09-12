@@ -80,13 +80,14 @@ export default function NewsletterLogic() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-2 w-full">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-2 w-full" suppressHydrationWarning>
       <div className="flex flex-col sm:flex-row items-center gap-3 w-full">
         <input
           name="email"
           type="email"
           placeholder="Enter your work email"
           required
+          suppressHydrationWarning
           disabled={status === "loading"}
           onChange={() => {
             if (status === "error") setStatus("idle");

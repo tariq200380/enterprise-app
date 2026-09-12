@@ -24,27 +24,13 @@ const INITIAL_REGIONAL_WIRES: RegionalWireItem[] = [
     icon: "🇵🇰",
     brandBadge: "🇵🇰 DAWN TECH",
     category: "PAKISTAN TECH & SCIENCE",
-    date: "September 10, 2026 (Live Wire)",
-    title: "Apple debuts passport-shaped foldable phone, called Duo",
+    date: "Dawn Sci-Tech (Live Wire)",
+    title: "China, Iran among countries that have used AI to aid spying, Anthropic says",
     summary:
-      "Apple unveiled a passport-shaped foldable phone called the Duo, marking the tech giant's first foray into foldable smartphones alongside next-generation AI silicon.",
+      "Foreign state-linked intelligence operatives have increasingly attempted to leverage frontier AI systems for automated vulnerability discovery, social engineering, and cyber espionage, according to an Anthropic threat report.",
     sourceName: "Dawn Sci-Tech",
-    sourceUrl: "https://www.dawn.com/news/2028667/apple-debuts-passport-shaped-foldable-phone-called-duo",
-    image: "/uploads/live_news/dawn_duo.webp",
-  },
-  {
-    id: "propakistani",
-    name: "ProPakistani",
-    icon: "📱",
-    brandBadge: "🇵🇰 PROPAKISTANI",
-    category: "PAKISTAN DIGITAL ECOSYSTEM",
-    date: "September 10, 2026 (Live Wire)",
-    title: "iPhone Duo Launches as Apple’s First-Ever Foldable Smartphone",
-    summary:
-      "Apple officially announced the iPhone Duo, its first foldable smartphone, featuring an innovative dual-hinge design and next-generation A19 Pro chip.",
-    sourceName: "ProPakistani",
-    sourceUrl: "https://propakistani.pk/2026/09/10/iphone-duo-launches-as-apples-first-ever-foldable-smartphone/",
-    image: "/uploads/live_news/propakistani_duo.jpg",
+    sourceUrl: "https://www.dawn.com/news/2029097/china-iran-among-countries-that-have-used-ai-to-aid-spying-anthropic-says",
+    image: "/uploads/live_news/dawn_awncomnews2029097_ef4437b0cf3b.webp",
   },
   {
     id: "brecorder",
@@ -52,13 +38,27 @@ const INITIAL_REGIONAL_WIRES: RegionalWireItem[] = [
     icon: "📈",
     brandBadge: "🇵🇰 B-RECORDER",
     category: "PAKISTAN FINTECH & BUSINESS",
-    date: "September 10, 2026 (Live Wire)",
-    title: "Apple joins foldable phone race with $1,999 passport-shaped iPhone Duo",
+    date: "Business Recorder (Live Wire)",
+    title: "86pc of respondents experienced at least one cyber incident within the last year: survey",
     summary:
-      "Apple has joined the competitive foldable smartphone landscape, launching the passport-proportioned iPhone Duo starting at $1,999 with on-device generative intelligence.",
+      "A nationwide enterprise technology audit reveals escalating cyber incidents across financial institutions and corporate networks, prompting urgent adoption of zero-trust architecture and automated endpoint security.",
     sourceName: "Business Recorder",
-    sourceUrl: "https://www.brecorder.com/news/40438680/apple-joins-foldable-phone-race-with-1999-passport-shaped-iphone-duo",
-    image: "/uploads/live_news/brecorder_duo.webp",
+    sourceUrl: "https://www.brecorder.com/news/40438940/86pc-of-respondents-experienced-at-least-one-cyber-incident-within-the-last-year-survey",
+    image: "/uploads/live_news/brecorder_ercomnews40439068_e96651b0e57f.webp",
+  },
+  {
+    id: "propakistani",
+    name: "ProPakistani",
+    icon: "📱",
+    brandBadge: "🇵🇰 PROPAKISTANI",
+    category: "PAKISTAN DIGITAL ECOSYSTEM",
+    date: "ProPakistani (Live Wire)",
+    title: "Someone Just Put 2 GTA Games on Play Store for Free",
+    summary:
+      "Unauthorized ports of classic open-world franchise titles briefly surfaced on the Google Play Store before security teams took swift enforcement action to safeguard user data.",
+    sourceName: "ProPakistani",
+    sourceUrl: "https://propakistani.pk/2026/09/11/someone-just-put-2-gta-games-on-play-store-for-free/",
+    image: "/uploads/live_news/propakistani_istanipkp1079932_03f857ed74e7.png",
   },
   {
     id: "tribune",
@@ -66,18 +66,19 @@ const INITIAL_REGIONAL_WIRES: RegionalWireItem[] = [
     icon: "🚀",
     brandBadge: "🇵🇰 TRIBUNE",
     category: "PAKISTAN AEROSPACE & TECH",
-    date: "September 10, 2026 (Live Wire)",
-    title: "Google to invest $15 billion in AI infrastructure and clean power",
+    date: "The Express Tribune (Live Wire)",
+    title: "China, Iran among countries that have used AI to aid spying, Anthropic says",
     summary:
-      "Google plans to invest $15 billion into expanding European artificial intelligence data centers, securing direct long-term clean power to fuel sovereign enterprise AI computing.",
+      "Cyber defense analysts highlight growing risks as threat actors explore AI-driven code analysis and automated reconnaissance, stressing the need for international standards on dual-use AI capabilities.",
     sourceName: "The Express Tribune",
-    sourceUrl: "https://tribune.com.pk/story/2628394/google-to-invest-15-billion-in-ai-infrastructure-and-buy-nuclear-power-in-finland",
-    image: "/uploads/live_news/tribune_google_ai.jpg",
+    sourceUrl: "https://tribune.com.pk/story/2628737/china-iran-among-countries-that-have-used-ai-to-aid-spying-anthropic-says",
+    image: "/uploads/live_news/tribune_necompkp2628789_a1bc05815081.jpg",
   },
 ];
 
 export default function RegionalTechEcosystem() {
   const [wires, setWires] = useState<RegionalWireItem[]>(INITIAL_REGIONAL_WIRES);
+  const [activeWireId, setActiveWireId] = useState<string>("dawn");
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const fetchRegionalWires = async (forceSync = false) => {
@@ -89,7 +90,7 @@ export default function RegionalTechEcosystem() {
       if (!res.ok) return;
       const data = await res.json();
       if (data.regional_wires && typeof data.regional_wires === "object") {
-        const order = ["dawn", "propakistani", "brecorder", "tribune"];
+        const order = ["dawn", "brecorder", "propakistani", "tribune"];
         const updated: RegionalWireItem[] = [];
         for (const key of order) {
           const item = data.regional_wires[key];
@@ -105,7 +106,12 @@ export default function RegionalTechEcosystem() {
               summary: item.summary,
               sourceName: item.sourceName || item.name,
               sourceUrl: item.sourceUrl,
-              image: item.image?.startsWith("/") ? item.image : `/${item.image}`,
+              image: (() => {
+                const img = (item.image || item.img || "").trim();
+                if (!img) return "/uploads/live_news/dawn_it_exports_headline.png";
+                if (img.startsWith("http://") || img.startsWith("https://") || img.startsWith("/")) return img;
+                return `/${img}`;
+              })(),
             });
           }
         }
@@ -113,7 +119,9 @@ export default function RegionalTechEcosystem() {
           setWires(updated);
         }
       }
-    } catch {} finally {
+    } catch {
+      // Keep existing wires
+    } finally {
       setIsRefreshing(false);
     }
   };
@@ -124,126 +132,96 @@ export default function RegionalTechEcosystem() {
     return () => clearInterval(interval);
   }, []);
 
+  const activeWire = wires.find((w) => w.id === activeWireId) || wires[0];
+
   return (
-    <section className="w-full py-12 sm:py-14 bg-[#F8FAFC] border-b border-[#E2E8F0]">
-      {/* Hidden Radio Buttons for Pure CSS Tabs (Zero useState, Zero JS) */}
-      {wires.map((tab, idx) => (
-        <input
-          key={tab.id}
-          type="radio"
-          name="regional-wire-tab"
-          id={`regional-tab-${tab.id}`}
-          defaultChecked={idx === 0}
-          className="hidden"
-        />
-      ))}
-
+    <section className="w-full py-12 sm:py-16 bg-[#F8FAFC] border-b border-[#E2E8F0]">
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header with Live Wire Badge and Refresh button */}
-        <div className="flex items-center justify-between flex-wrap gap-4 mb-8 pb-4 border-b-2 border-[#E2E8F0]">
-          <div className="flex items-center gap-3 flex-wrap">
-            <span className="bg-[#059669] text-white text-[10px] font-extrabold px-2.5 py-1 rounded-[2px] tracking-[0.08em] uppercase flex items-center gap-1.5 shadow-xs">
-              <span className="w-2 h-2 rounded-full bg-white animate-ping"></span>
-              LIVE REGIONAL WIRES
+        <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-10">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#ECFDF5] border border-[#A7F3D0] mb-3">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse"></span>
+            <span className="text-[10.5px] font-bold text-[#065F46] uppercase tracking-wider">
+              REGIONAL INTELLIGENCE WIRE
             </span>
-            <h2 className="text-xl sm:text-2xl lg:text-[1.65rem] font-extrabold text-[#0F172A] m-0 tracking-[-0.02em]">
-              Pakistan Regional Tech Ecosystem
-            </h2>
           </div>
-
-          <div className="flex items-center gap-3">
-            <span className="inline-flex items-center gap-2 text-[11.5px] text-[#475569] font-mono font-semibold bg-white px-3 py-1.5 rounded-md border border-[#CBD5E1] shadow-2xs">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#059669] animate-pulse"></span>
-              <span>LIVE WIRE • Verified Live</span>
-            </span>
-            <button
-              type="button"
-              onClick={() => fetchRegionalWires(true)}
-              disabled={isRefreshing}
-              title="Refresh Regional Feeds"
-              className="inline-flex items-center gap-1.5 text-[11.5px] font-bold text-[#059669] bg-[#ECFDF5] hover:bg-[#D1FAE5] active:scale-95 px-3.5 py-1.5 rounded-md border border-[#A7F3D0] transition-all cursor-pointer disabled:opacity-50 shadow-2xs"
-            >
-              <span className={`text-xs ${isRefreshing ? "animate-spin" : ""}`}>🔄</span>
-              <span>{isRefreshing ? "Refreshing..." : "Refresh Regional"}</span>
-            </button>
-          </div>
+          <h2 className="text-2xl sm:text-3xl lg:text-[2.2rem] font-bold text-[#0F172A] tracking-[-0.02em] m-0">
+            Pakistan Regional Tech Ecosystem
+          </h2>
+          <p className="text-xs sm:text-sm text-[#475569] mt-2 max-w-xl">
+            Live technological transformation, fintech advancements, and venture capital flows across Pakistan's digital economy.
+          </p>
         </div>
 
-        {/* 4 Provider Tabs */}
-        <div className="flex items-center justify-center flex-wrap gap-2 mb-8">
-          {wires.map((tab) => (
-            <label
-              key={tab.id}
-              htmlFor={`regional-tab-${tab.id}`}
-              className={`regional-btn-${tab.id} inline-flex items-center gap-1.5 px-4 py-2 rounded-md text-xs font-bold transition-all duration-200 cursor-pointer select-none bg-white border border-[#E2E8F0] text-[#475569] hover:border-[#059669] hover:text-[#059669]`}
-            >
-              <span>{tab.icon}</span>
-              <span>{tab.name}</span>
-            </label>
-          ))}
+        {/* Regional Provider Selector */}
+        <div className="flex items-center justify-center flex-wrap gap-2.5 mb-8">
+          {wires.map((wire) => {
+            const isSelected = wire.id === activeWireId;
+            return (
+              <button
+                key={wire.id}
+                type="button"
+                onClick={() => setActiveWireId(wire.id)}
+                className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-all duration-200 cursor-pointer select-none ${
+                  isSelected
+                    ? "bg-[#059669] text-white shadow-sm ring-2 ring-[#059669]/30 scale-105"
+                    : "bg-white text-[#475569] border border-[#E2E8F0] hover:border-[#CBD5E1] hover:text-[#0F172A]"
+                }`}
+              >
+                <span>{wire.icon}</span>
+                <span>{wire.name}</span>
+              </button>
+            );
+          })}
         </div>
 
-        {/* Showcase Panes (Controlled by Pure CSS) */}
-        <div>
-          {wires.map((wire) => (
-            <div
-              key={wire.id}
-              className={`regional-pane-${wire.id} hidden grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-6 lg:gap-8 items-center bg-white border border-[#E2E8F0] rounded-2xl p-6 sm:p-7 shadow-[0_2px_8px_rgba(15,23,42,0.03)]`}
-            >
-              {/* Visual Container with True 16:9 Landscape Proportion */}
-              <div className="relative w-full aspect-[16/9] min-h-[240px] sm:min-h-[280px] rounded-xl overflow-hidden bg-[#0B1120]">
-                <Image
-                  src={wire.image}
-                  alt={wire.title}
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 45vw"
-                  className="object-cover object-center transition-all duration-300"
-                  priority={wire.id === "dawn"}
-                />
-                {/* Top right floating badge */}
-                <div className="absolute top-3 right-3 z-10">
-                  <span className="inline-flex items-center gap-1.5 bg-white/95 backdrop-blur-md text-[#065F46] text-[11px] font-extrabold px-3 py-1 rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.25)]">
-                    {wire.brandBadge}
-                  </span>
+        {/* Active Regional Card */}
+        {activeWire && (
+          <div className="bg-white border border-[#E2E8F0] rounded-2xl overflow-hidden shadow-xs grid grid-cols-1 lg:grid-cols-12 gap-6 p-6 sm:p-8 items-center">
+            <div className="lg:col-span-5 aspect-[16/10] bg-[#0B1120] rounded-xl overflow-hidden relative">
+              <img
+                src={activeWire.image}
+                alt={activeWire.title}
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).src = "/uploads/live_news/apple_iphone16_hero.jpg";
+                }}
+              />
+              <span className="absolute top-3 left-3 bg-[#059669] text-white text-[10px] font-bold px-2.5 py-1 rounded shadow-sm uppercase">
+                {activeWire.brandBadge}
+              </span>
+            </div>
+
+            <div className="lg:col-span-7 flex flex-col justify-between h-full">
+              <div>
+                <div className="flex items-center gap-2 text-xs text-[#64748B] mb-2 font-mono">
+                  <span className="font-bold text-[#059669]">● {activeWire.date}</span>
+                  <span>•</span>
+                  <span>{activeWire.sourceName}</span>
                 </div>
+                <h3 className="text-xl sm:text-2xl font-bold text-[#0F172A] leading-tight mb-3">
+                  {activeWire.title}
+                </h3>
+                <p className="text-sm text-[#475569] leading-relaxed mb-6">
+                  {activeWire.summary}
+                </p>
               </div>
 
-              {/* Details */}
-              <div className="flex flex-col justify-center">
-                <div className="flex items-center gap-2 mb-2.5 flex-wrap">
-                  <span className="bg-[#D1FAE5] text-[#065F46] text-[10px] font-extrabold px-2 py-0.5 rounded-[3px] uppercase">
-                    {wire.category}
-                  </span>
-                  <span className="text-xs text-[#64748B]">
-                    {wire.date}
-                  </span>
-                </div>
-
-                <h3 className="text-xl sm:text-2xl font-extrabold text-[#0F172A] leading-[1.35] mb-2.5">
-                  {wire.title}
-                </h3>
-
-                <p className="text-[14.5px] sm:text-[15px] text-[#475569] leading-relaxed mb-4">
-                  {wire.summary}
-                </p>
-
-                <div className="flex items-center justify-between flex-wrap gap-3 pt-4 border-t border-[#E2E8F0]">
-                  <a
-                    href={wire.sourceUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-xs font-bold text-[#059669] hover:text-[#047857] hover:underline"
-                  >
-                    <span>Read Full Wire ({wire.sourceName}) &rarr;</span>
-                  </a>
-                  <span className="text-[11px] text-[#94A3B8] font-mono">
-                    VERIFIED REGIONAL DISPATCH
-                  </span>
-                </div>
+              <div className="flex items-center justify-between pt-4 border-t border-[#F1F5F9]">
+                <a
+                  href={activeWire.sourceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs font-bold text-[#059669] hover:underline inline-flex items-center gap-1.5"
+                >
+                  <span>Read Official Source ({activeWire.sourceName}) &rarr;</span>
+                </a>
+                <span className="text-[10px] text-[#94A3B8] uppercase font-mono">
+                  Verified Ecosystem Wire
+                </span>
               </div>
             </div>
-          ))}
-        </div>
+          </div>
+        )}
       </div>
     </section>
   );

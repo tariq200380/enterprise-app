@@ -169,14 +169,14 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang="en" className="h-full antialiased">
+    <html lang="en" className="h-full antialiased" suppressHydrationWarning>
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="min-h-full flex flex-col bg-white text-gray-900 font-sans">
+      <body className="min-h-full flex flex-col bg-white text-gray-900 font-sans" suppressHydrationWarning>
         <AppLayoutWrapper
           socialLinks={socialLinks}
           copyrightText={copyrightText}
