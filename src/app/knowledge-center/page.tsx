@@ -10,7 +10,10 @@ import {
   LiveNewsItem,
   INITIAL_STORIES,
 } from "@/components/knowledge-center/knowledgeCenterData";
-import RegionalTechEcosystem from "@/components/knowledge-center/RegionalTechEcosystem";
+import RegionalTechEcosystem, {
+  RegionalWireItem,
+  INITIAL_REGIONAL_WIRES,
+} from "@/components/knowledge-center/RegionalTechEcosystem";
 import KnowledgeOverviewGrid from "@/components/knowledge-center/KnowledgeOverviewGrid";
 import Testimonial3DDeck from "@/components/knowledge-center/Testimonial3DDeck";
 
@@ -60,7 +63,6 @@ function formatDynamicRelativeTime(timestamp?: string, rawDateStr?: string, defa
   if (diffMin < 1) timeAgo = "Just now";
   else if (diffMin < 60) timeAgo = `${diffMin} min${diffMin > 1 ? "s" : ""} ago`;
   else if (diffHour < 24) timeAgo = `${diffHour} hour${diffHour > 1 ? "s" : ""} ago`;
-  else if (diffDay === 1) timeAgo = "1 day ago";
   else timeAgo = "Latest Official Dispatch";
 
   return sourceSuffix ? `${timeAgo} • ${sourceSuffix}` : timeAgo;
@@ -136,23 +138,49 @@ function getInitialNewsData() {
             })
           : INITIAL_STORIES;
 
-      return { brandWiresList, breakingNews };
+      const regionalWiresList: RegionalWireItem[] = (() => {
+        if (!parsed.regional_wires || typeof parsed.regional_wires !== "object") return INITIAL_REGIONAL_WIRES;
+        const order = ["dawn", "brecorder", "propakistani", "tribune"];
+        const list: RegionalWireItem[] = [];
+        for (const key of order) {
+          const item = parsed.regional_wires[key];
+          if (item) {
+            const pubTime = item.provider_published_at || item.timestamp;
+            list.push({
+              id: key,
+              name: item.name || key.toUpperCase(),
+              icon: item.icon || "🇵🇰",
+              brandBadge: item.brandBadge || `🇵🇰 ${key.toUpperCase()}`,
+              category: item.category || "PAKISTAN TECH",
+              date: formatDynamicRelativeTime(pubTime, item.date, item.sourceName || item.name),
+              title: item.title,
+              summary: item.summary,
+              sourceName: item.sourceName || item.name,
+              sourceUrl: item.sourceUrl,
+              image: normalizeImagePath(item.image || item.img, "/uploads/live_news/dawn_it_exports_headline.png"),
+            });
+          }
+        }
+        return list.length > 0 ? list : INITIAL_REGIONAL_WIRES;
+      })();
+
+      return { brandWiresList, breakingNews, regionalWiresList };
     }
   } catch (err) {
     console.error("Error reading initial news data on server:", err);
   }
-  return { brandWiresList: brandWires, breakingNews: INITIAL_STORIES };
+  return { brandWiresList: brandWires, breakingNews: INITIAL_STORIES, regionalWiresList: INITIAL_REGIONAL_WIRES };
 }
 
 export default function KnowledgeCenterPage() {
-  const { brandWiresList, breakingNews } = getInitialNewsData();
+  const { brandWiresList, breakingNews, regionalWiresList } = getInitialNewsData();
 
   return (
     <>
       <KnowledgeHero />
       <LatestTechNews initialStories={breakingNews} />
       <BrandTechWires initialWires={brandWiresList} />
-      <RegionalTechEcosystem />
+      <RegionalTechEcosystem initialWires={regionalWiresList} />
       <KnowledgeOverviewGrid />
       <Testimonial3DDeck />
     </>

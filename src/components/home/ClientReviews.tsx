@@ -81,6 +81,9 @@ export default async function ClientReviews() {
     return (parts[0]?.substring(0, 2) || "CT").toUpperCase();
   };
 
+  const isDisplayableAvatar = (url?: string) =>
+    Boolean(url && (!url.startsWith("data:") || url.length < 2048));
+
   return (
     <section
       id="client-reviews"
@@ -173,7 +176,7 @@ export default async function ClientReviews() {
                           &ldquo;{rev.quote}&rdquo;
                         </p>
                         <div className="flex items-center gap-3 pt-3 border-t border-gray-100">
-                          {rev.avatar ? (
+                          {isDisplayableAvatar(rev.avatar) ? (
                             <img
                               src={rev.avatar}
                               alt={rev.client_name}
@@ -217,7 +220,7 @@ export default async function ClientReviews() {
                           &ldquo;{rev.quote}&rdquo;
                         </p>
                         <div className="flex items-center gap-3 pt-3 border-t border-gray-100">
-                          {rev.avatar ? (
+                          {isDisplayableAvatar(rev.avatar) ? (
                             <img
                               src={rev.avatar}
                               alt={rev.client_name}

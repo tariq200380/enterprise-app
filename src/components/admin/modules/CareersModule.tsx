@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { Candidate, JobOpening } from "@/types/admin";
 import AddJobModal from "../modals/AddJobModal";
+import FounderProposalsModule from "./FounderProposalsModule";
 
 interface CareersModuleProps {
   candidates?: Candidate[];
@@ -31,20 +32,24 @@ export default function CareersModule({
 }: CareersModuleProps) {
   const [candidates, setCandidates] = useState<Candidate[]>(propCandidates || []);
   const [jobs, setJobs] = useState<JobOpening[]>(propJobs || []);
-  const [subTab, setSubTab] = useState<"candidates" | "jobs">("candidates");
+  const [proposalsCount, setProposalsCount] = useState(0);
+  const [subTab, setSubTab] = useState<"candidates" | "jobs" | "proposals">("candidates");
   const [selectedCandidate, setSelectedCandidate] = useState<Candidate | null>(null);
   const [showAddJobModal, setShowAddJobModal] = useState(false);
 
   const fetchCareersData = async () => {
     try {
-      const [candRes, jobsRes] = await Promise.all([
+      const [candRes, jobsRes, propRes] = await Promise.all([
         fetch("/api/admin/candidates"),
         fetch("/api/admin/jobs"),
+        fetch("/api/admin/founder-proposals"),
       ]);
       const candData = await candRes.json();
       const jobsData = await jobsRes.json();
+      const propData = await propRes.json();
       if (candData.candidates) setCandidates(candData.candidates);
       if (jobsData.jobs) setJobs(jobsData.jobs);
+      if (propData.proposals) setProposalsCount(propData.proposals.length);
     } catch (err) {
       console.error("Failed to load careers data:", err);
     }
@@ -205,6 +210,14 @@ export default function CareersModule({
         >
           Active Job Roles ({jobs.length})
         </button>
+        <button
+          onClick={() => setSubTab("proposals")}
+          className={`px-4 py-1.5 text-xs font-bold rounded cursor-pointer ${
+            subTab === "proposals" ? "bg-[#FF6B00] text-white" : "bg-gray-100 text-gray-700"
+          }`}
+        >
+          Founder Proposals ({proposalsCount})
+        </button>
       </div>
 
       {subTab === "candidates" && (
@@ -330,6 +343,17 @@ export default function CareersModule({
             </div>
           ))}
         </div>
+      )}
+
+      {subTab === "proposals" && (
+        <FounderProposalsModule
+          searchQuery={searchQuery}
+          showToast={showToast}
+          onRefresh={() => {
+            fetchCareersData();
+            onRefresh?.();
+          }}
+        />
       )}
 
       {/* Candidate Profile / Details Modal */}

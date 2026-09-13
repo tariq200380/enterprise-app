@@ -17,7 +17,9 @@ export async function GET() {
       "article_reviews",
       "subscribers",
       "portfolio_projects",
-      "website_settings"
+      "website_settings",
+      "founder_proposals",
+      "security_reports"
     ];
 
     const counts: Record<string, number> = {};
@@ -31,6 +33,9 @@ export async function GET() {
 
     const newInquiriesRes = await query("SELECT COUNT(*) FROM contact_inquiries WHERE status = 'NEW'");
     counts["new_inquiries"] = parseInt(newInquiriesRes.rows[0]?.count || "0", 10);
+
+    const newSecurityReportsRes = await query("SELECT COUNT(*) FROM security_reports WHERE status = 'NEW'");
+    counts["new_security_reports"] = parseInt(newSecurityReportsRes.rows[0]?.count || "0", 10);
 
     const mem = process.memoryUsage();
 
@@ -67,7 +72,9 @@ export async function POST(req: Request) {
         "article_reviews",
         "subscribers",
         "portfolio_projects",
-        "website_settings"
+        "website_settings",
+        "founder_proposals",
+        "security_reports"
       ];
       const backupData: Record<string, any[]> = {};
       for (const tbl of tables) {

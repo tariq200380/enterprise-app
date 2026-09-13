@@ -32,8 +32,8 @@ export const PROVIDER_CONFIGS: FeedProviderConfig[] = [
     brandBadge: "🌐 GOOGLE",
     category: "GOOGLE AI & DEVICES",
     sourceName: "Google The Keyword",
-    defaultImage: "/uploads/live_news/google_agentic_io2026_hero.jpg",
-    rssUrl: "https://blog.google/technology/ai/rss/",
+    defaultImage: "/uploads/live_news/google_venice_film_fest.png",
+    rssUrl: "https://blog.google/rss/",
     type: "international",
   },
   {
@@ -43,7 +43,7 @@ export const PROVIDER_CONFIGS: FeedProviderConfig[] = [
     brandBadge: "⚡ NVIDIA",
     category: "ACCELERATED COMPUTING & AI",
     sourceName: "NVIDIA Official Blog",
-    defaultImage: "/uploads/live_news/nvidia_huggingface_hero.png",
+    defaultImage: "/uploads/live_news/nvidia_skild_ai.jpg",
     rssUrl: "https://blogs.nvidia.com/feed/",
     type: "international",
   },
@@ -109,7 +109,7 @@ export const PROVIDER_CONFIGS: FeedProviderConfig[] = [
     brandBadge: "🇵🇰 DAWN TECH",
     category: "PAKISTAN TECH & SCIENCE",
     sourceName: "Dawn Sci-Tech",
-    defaultImage: "/uploads/live_news/dawn_awncomnews2029097_ef4437b0cf3b.webp",
+    defaultImage: "/uploads/live_news/dawn_anthropic_slowdown.webp",
     rssUrl: "https://www.dawn.com/feeds/tech/",
     type: "regional",
   },
@@ -120,7 +120,7 @@ export const PROVIDER_CONFIGS: FeedProviderConfig[] = [
     brandBadge: "🇵🇰 B-RECORDER",
     category: "PAKISTAN FINTECH & BUSINESS",
     sourceName: "Business Recorder",
-    defaultImage: "/uploads/live_news/brecorder_ercomnews40439068_e96651b0e57f.webp",
+    defaultImage: "/uploads/live_news/brecorder_anthropic_slowdown.webp",
     rssUrl: "https://www.brecorder.com/feeds/technology/",
     type: "regional",
   },
@@ -131,7 +131,7 @@ export const PROVIDER_CONFIGS: FeedProviderConfig[] = [
     brandBadge: "🇵🇰 PROPAKISTANI",
     category: "PAKISTAN DIGITAL ECOSYSTEM",
     sourceName: "ProPakistani",
-    defaultImage: "/uploads/live_news/propakistani_istanipkp1079932_03f857ed74e7.png",
+    defaultImage: "/uploads/live_news/propakistani_iphone_duo.jpg",
     rssUrl: "https://propakistani.pk/category/tech-and-telecom/feed/",
     type: "regional",
   },
@@ -142,7 +142,7 @@ export const PROVIDER_CONFIGS: FeedProviderConfig[] = [
     brandBadge: "🇵🇰 TRIBUNE",
     category: "PAKISTAN AEROSPACE & TECH",
     sourceName: "The Express Tribune",
-    defaultImage: "/uploads/live_news/tribune_necompkp2628789_a1bc05815081.jpg",
+    defaultImage: "/uploads/live_news/tribune_anthropic_spying.jpg",
     rssUrl: "https://tribune.com.pk/feed/technology",
     type: "regional",
   },
@@ -265,6 +265,59 @@ export async function fetchFeedItems(provider: FeedProviderConfig): Promise<Pars
   }
 }
 
+function matchArticleImage(providerKey: string, title: string, rssImg?: string | null): string {
+  const t = (title || "").toLowerCase();
+
+  if (t.includes("skild") || (providerKey === "nvidia" && t.includes("robot"))) {
+    return "/uploads/live_news/nvidia_skild_ai.jpg";
+  }
+  if (t.includes("hugging face") || t.includes("huggingface")) {
+    return "/uploads/live_news/nvidia_huggingface_hero.png";
+  }
+  if (t.includes("venice") || t.includes("film festival") || (providerKey === "google" && (t.includes("xr") || t.includes("premiere")))) {
+    return "/uploads/live_news/google_venice_film_fest.png";
+  }
+  if (t.includes("io 2026") || t.includes("agentic gemini")) {
+    return "/uploads/live_news/google_agentic_io2026_hero.jpg";
+  }
+  if (providerKey === "dawn" && (t.includes("anthropic") || t.includes("slowdown") || t.includes("amodei") || t.includes("altman"))) {
+    return "/uploads/live_news/dawn_anthropic_slowdown.webp";
+  }
+  if (providerKey === "brecorder" && (t.includes("anthropic") || t.includes("slowdown") || t.includes("misuse") || t.includes("amodei"))) {
+    return "/uploads/live_news/brecorder_anthropic_slowdown.webp";
+  }
+  if (providerKey === "propakistani" && (t.includes("duo") || t.includes("iphone") || t.includes("foldable"))) {
+    return "/uploads/live_news/propakistani_iphone_duo.jpg";
+  }
+  if (providerKey === "tribune" && (t.includes("spying") || t.includes("anthropic") || t.includes("iran"))) {
+    return "/uploads/live_news/tribune_anthropic_spying.jpg";
+  }
+  if (providerKey === "microsoft" && (t.includes("yield") || t.includes("semicon") || t.includes("maia"))) {
+    return "/uploads/live_news/microsoft_semicon_hero.png";
+  }
+  if (providerKey === "meta" && (t.includes("muse") || t.includes("agent"))) {
+    return "/uploads/live_news/meta_muse_hero.jpg";
+  }
+  if (providerKey === "apple" && (t.includes("iphone 18") || t.includes("watch") || t.includes("airpods"))) {
+    return "/uploads/live_news/apple_ineup-and-airpods-5_88773506c08c.jpg";
+  }
+  if (providerKey === "openai" && (t.includes("astra") || t.includes("perplexity"))) {
+    return "/uploads/live_news/openai_perplexity_aravind_hero.jpg";
+  }
+  if (providerKey === "intel" && (t.includes("asml") || t.includes("euv") || t.includes("high-na"))) {
+    return "/uploads/live_news/intel_high_na_euv_cleanroom.png";
+  }
+
+  if (rssImg && typeof rssImg === "string" && rssImg.trim().length > 0) {
+    const trimmed = rssImg.trim();
+    if (!trimmed.endsWith(".mp4") && !trimmed.endsWith(".webm") && !trimmed.includes(".mp4?") && !trimmed.includes(".webm?")) {
+      return trimmed;
+    }
+  }
+
+  return "";
+}
+
 export async function syncAllNewsFeeds(): Promise<{ count: number; timestamp: string }> {
   const localCachePath = path.join(process.cwd(), "public", "data", "live_news_cache.json");
 
@@ -312,10 +365,16 @@ export async function syncAllNewsFeeds(): Promise<{ count: number; timestamp: st
     const existingWire = brandWires[provider.key];
     const existingBreaking = breakingNewsMap[provider.key];
 
-    // Protect verified local uploaded hero images
-    const imagePath =
-      newest.img ||
-      (existingWire?.img && existingWire.img.startsWith("/uploads/") ? existingWire.img : provider.defaultImage);
+    // Authentic image resolution - never retain mismatched image from previous article
+    const matchedImg = matchArticleImage(provider.key, newest.title, newest.img);
+    let imagePath = matchedImg;
+    if (!imagePath) {
+      if (existingWire?.title === newest.title && existingWire?.img) {
+        imagePath = existingWire.img;
+      } else {
+        imagePath = provider.defaultImage;
+      }
+    }
 
     const pubIso = newest.pubDate ? new Date(newest.pubDate).toISOString() : new Date().toISOString();
 
@@ -360,7 +419,16 @@ export async function syncAllNewsFeeds(): Promise<{ count: number; timestamp: st
       updatedCount++;
     } else {
       const existingReg = regionalWires[provider.key];
-      const regImage = newest.img || (existingReg?.image && existingReg.image.startsWith("/uploads/") ? existingReg.image : provider.defaultImage);
+      const regMatchedImg = matchArticleImage(provider.key, newest.title, newest.img);
+      let regImage = regMatchedImg;
+      if (!regImage) {
+        if (existingReg?.title === newest.title && (existingReg?.image || existingReg?.img)) {
+          regImage = existingReg.image || existingReg.img;
+        } else {
+          regImage = provider.defaultImage;
+        }
+      }
+
       let regLink = newest.link;
       if (regLink.includes("news.google.com") && existingReg?.sourceUrl && !existingReg.sourceUrl.includes("news.google.com")) {
         regLink = existingReg.sourceUrl;
@@ -377,7 +445,23 @@ export async function syncAllNewsFeeds(): Promise<{ count: number; timestamp: st
         summary: newest.desc || existingReg?.summary || "",
         sourceName: provider.sourceName,
         sourceUrl: regLink,
+        link: regLink,
         image: regImage,
+        img: regImage,
+        provider_published_at: pubIso,
+      };
+
+      breakingNewsMap[provider.key] = {
+        id: `${provider.key}-${Date.now()}`,
+        provider: provider.key,
+        tag: provider.category,
+        providerLabel: provider.brandBadge,
+        date: `${provider.sourceName} (Live RSS)`,
+        source: provider.sourceName,
+        title: newest.title || existingReg?.title || provider.name,
+        desc: newest.desc || existingReg?.summary || "",
+        link: regLink,
+        source_image_url: newest.img || null,
         img: regImage,
         provider_published_at: pubIso,
       };
@@ -417,6 +501,10 @@ export async function syncAllNewsFeeds(): Promise<{ count: number; timestamp: st
   }
 
   fs.writeFileSync(localCachePath, JSON.stringify(finalData, null, 2), "utf-8");
+  try {
+    const backupPath = path.join(process.cwd(), "public", "data", "live_news_cache.backup.json");
+    fs.writeFileSync(backupPath, JSON.stringify(finalData, null, 2), "utf-8");
+  } catch {}
 
   return {
     count: breakingNewsList.length + Object.keys(regionalWires).length,

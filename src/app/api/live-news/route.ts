@@ -78,7 +78,6 @@ function formatDynamicRelativeTime(timestamp?: string, rawDateStr?: string, defa
   if (diffMin < 1) timeAgo = "Just now";
   else if (diffMin < 60) timeAgo = `${diffMin} min${diffMin > 1 ? "s" : ""} ago`;
   else if (diffHour < 24) timeAgo = `${diffHour} hour${diffHour > 1 ? "s" : ""} ago`;
-  else if (diffDay === 1) timeAgo = "1 day ago";
   else timeAgo = "Latest Official Dispatch";
 
   return sourceSuffix ? `${timeAgo} • ${sourceSuffix}` : timeAgo;
@@ -102,13 +101,34 @@ export async function GET(request: NextRequest) {
       } catch {}
     }
 
-    // Only trigger live network sync on explicit admin/manual request (forceSync)
-    if (forceSync && Date.now() - lastSyncTime > 10 * 1000) {
-      lastSyncTime = Date.now();
+    // Check if cache is stale (older than 15 minutes or missing)
+    let isStale = false;
+    if (fs.existsSync(localCachePath)) {
       try {
-        await syncAllNewsFeeds();
-      } catch (err: any) {
-        console.error("Live news sync error:", err.message);
+        const stats = fs.statSync(localCachePath);
+        if (Date.now() - stats.mtimeMs > 15 * 60 * 1000) {
+          isStale = true;
+        }
+      } catch {}
+    } else {
+      isStale = true;
+    }
+
+    // Trigger sync if forceSync OR if cache is stale (debounced every 5 minutes)
+    const canSync = forceSync || (isStale && Date.now() - lastSyncTime > 5 * 60 * 1000);
+    if (canSync) {
+      lastSyncTime = Date.now();
+      if (forceSync) {
+        try {
+          await syncAllNewsFeeds();
+        } catch (err: any) {
+          console.error("Live news sync error:", err.message);
+        }
+      } else {
+        // Non-blocking background sync so user response is immediate
+        syncAllNewsFeeds().catch((err: any) => {
+          console.error("Background live news sync error:", err.message);
+        });
       }
     }
 

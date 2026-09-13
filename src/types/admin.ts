@@ -21,6 +21,29 @@ export interface Candidate {
   status: string;
 }
 
+export interface FounderProposal {
+  id: number;
+  candidate_name: string;
+  email: string;
+  specialty_proposal: string;
+  portfolio_link?: string;
+  proposal_pitch?: string;
+  status: string;
+  created_at: string;
+}
+
+export interface SecurityReport {
+  id: number;
+  reporter_name: string;
+  email: string;
+  category: string;
+  severity: string;
+  subject: string;
+  description: string;
+  status: string;
+  created_at: string;
+}
+
 export interface SpecItem {
   key: string;
   value: string;

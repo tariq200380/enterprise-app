@@ -12,6 +12,8 @@ interface AdminSidebarProps {
   testimonialsCount: number;
   reviewsPendingCount: number;
   candidatesCount: number;
+  founderProposalsCount?: number;
+  securityReportsCount?: number;
   subscribersCount: number;
   portfolioCount: number;
   telemetry: TelemetryData | null;
@@ -26,6 +28,8 @@ export default function AdminSidebar({
   testimonialsCount,
   reviewsPendingCount,
   candidatesCount,
+  founderProposalsCount = 0,
+  securityReportsCount = 0,
   subscribersCount,
   portfolioCount,
   telemetry,
@@ -33,6 +37,7 @@ export default function AdminSidebar({
   const tabs = [
     { id: "dashboard", label: "Executive Dashboard", icon: "📊" },
     { id: "inquiries", label: "Contact Inquiries", icon: "💬", count: inquiriesCount, badgeColor: "bg-[#0052FF]/20 text-[#38BDF8]" },
+    { id: "security_reports", label: "Security & Complaints", icon: "🛡️", count: securityReportsCount, badgeColor: "bg-red-950 text-red-300" },
     { id: "vision_requests", label: "Vision Scoping Requests", icon: "🎯" },
     { id: "articles", label: "Knowledge Articles", icon: "📚", count: articlesCount, badgeColor: "bg-blue-900/50 text-blue-200" },
     { id: "videos", label: "Video Library", icon: "🎥", count: videosCount, badgeColor: "bg-orange-950 text-[#FF6B00]" },
@@ -46,6 +51,7 @@ export default function AdminSidebar({
       badgeColor: reviewsPendingCount > 0 ? "bg-[#EF4444] text-white" : "bg-[#10B981] text-white"
     },
     { id: "applicants", label: "Talent Pool / Careers", icon: "💼", count: candidatesCount, badgeColor: "bg-indigo-950 text-indigo-300" },
+    { id: "founder_proposals", label: "Founder Proposals", icon: "🔥", count: founderProposalsCount, badgeColor: "bg-orange-950 text-[#FF6B00]" },
     { id: "subscribers", label: "Newsletter Leads", icon: "📧", count: subscribersCount, badgeColor: "bg-emerald-950 text-emerald-300" },
     { id: "portfolio", label: "Portfolio Projects", icon: "💼", count: portfolioCount, badgeColor: "bg-purple-950 text-purple-300" },
     { id: "website_settings", label: "Website Settings", icon: "🌐" },

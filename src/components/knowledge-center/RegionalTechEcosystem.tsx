@@ -25,12 +25,12 @@ const INITIAL_REGIONAL_WIRES: RegionalWireItem[] = [
     brandBadge: "🇵🇰 DAWN TECH",
     category: "PAKISTAN TECH & SCIENCE",
     date: "Dawn Sci-Tech (Live Wire)",
-    title: "China, Iran among countries that have used AI to aid spying, Anthropic says",
+    title: "Anthropic boss calls for AI slowdown, Altman and Musk agree",
     summary:
-      "Foreign state-linked intelligence operatives have increasingly attempted to leverage frontier AI systems for automated vulnerability discovery, social engineering, and cyber espionage, according to an Anthropic threat report.",
+      "Dario Amodei, the CEO of Claude maker Anthropic, has joined rival tech executives calling for a measured approach to frontier model capabilities, cautioning against rushed deployments.",
     sourceName: "Dawn Sci-Tech",
-    sourceUrl: "https://www.dawn.com/news/2029097/china-iran-among-countries-that-have-used-ai-to-aid-spying-anthropic-says",
-    image: "/uploads/live_news/dawn_awncomnews2029097_ef4437b0cf3b.webp",
+    sourceUrl: "https://www.dawn.com/news/2029312/anthropic-boss-calls-for-ai-slowdown-altman-and-musk-agree",
+    image: "/uploads/live_news/dawn_anthropic_slowdown.webp",
   },
   {
     id: "brecorder",
@@ -39,12 +39,12 @@ const INITIAL_REGIONAL_WIRES: RegionalWireItem[] = [
     brandBadge: "🇵🇰 B-RECORDER",
     category: "PAKISTAN FINTECH & BUSINESS",
     date: "Business Recorder (Live Wire)",
-    title: "86pc of respondents experienced at least one cyber incident within the last year: survey",
+    title: "Anthropic CEO urges AI companies to slow model development amid fears over misuse",
     summary:
-      "A nationwide enterprise technology audit reveals escalating cyber incidents across financial institutions and corporate networks, prompting urgent adoption of zero-trust architecture and automated endpoint security.",
+      "Anthropic CEO Dario Amodei has urged frontier artificial intelligence companies to slow development of high-risk capabilities, emphasizing biological risk and cyber defense concerns.",
     sourceName: "Business Recorder",
-    sourceUrl: "https://www.brecorder.com/news/40438940/86pc-of-respondents-experienced-at-least-one-cyber-incident-within-the-last-year-survey",
-    image: "/uploads/live_news/brecorder_ercomnews40439068_e96651b0e57f.webp",
+    sourceUrl: "https://www.brecorder.com/news/40439167/anthropic-ceo-urges-ai-companies-to-slow-model-development-amid-fears-over-misuse",
+    image: "/uploads/live_news/brecorder_anthropic_slowdown.webp",
   },
   {
     id: "propakistani",
@@ -53,12 +53,12 @@ const INITIAL_REGIONAL_WIRES: RegionalWireItem[] = [
     brandBadge: "🇵🇰 PROPAKISTANI",
     category: "PAKISTAN DIGITAL ECOSYSTEM",
     date: "ProPakistani (Live Wire)",
-    title: "Someone Just Put 2 GTA Games on Play Store for Free",
+    title: "Even iPhone Duo Does Not Fix The Biggest Problems With Foldables",
     summary:
-      "Unauthorized ports of classic open-world franchise titles briefly surfaced on the Google Play Store before security teams took swift enforcement action to safeguard user data.",
+      "Hardware engineers explore Apple's dual-display and foldable patent innovations, evaluating hinge durability, display creasing, and operating system multitasking optimizations.",
     sourceName: "ProPakistani",
-    sourceUrl: "https://propakistani.pk/2026/09/11/someone-just-put-2-gta-games-on-play-store-for-free/",
-    image: "/uploads/live_news/propakistani_istanipkp1079932_03f857ed74e7.png",
+    sourceUrl: "https://propakistani.pk/2026/09/12/even-iphone-duo-does-not-fix-the-biggest-problems-with-foldables/",
+    image: "/uploads/live_news/propakistani_iphone_duo.jpg",
   },
   {
     id: "tribune",
@@ -69,15 +69,18 @@ const INITIAL_REGIONAL_WIRES: RegionalWireItem[] = [
     date: "The Express Tribune (Live Wire)",
     title: "China, Iran among countries that have used AI to aid spying, Anthropic says",
     summary:
-      "Cyber defense analysts highlight growing risks as threat actors explore AI-driven code analysis and automated reconnaissance, stressing the need for international standards on dual-use AI capabilities.",
+      "Foreign state-linked intelligence operatives have increasingly attempted to leverage frontier AI systems for automated vulnerability discovery, social engineering, and cyber espionage, according to an Anthropic threat report.",
     sourceName: "The Express Tribune",
-    sourceUrl: "https://tribune.com.pk/story/2628737/china-iran-among-countries-that-have-used-ai-to-aid-spying-anthropic-says",
-    image: "/uploads/live_news/tribune_necompkp2628789_a1bc05815081.jpg",
+    sourceUrl: "https://tribune.com.pk/story/2628789/china-iran-among-countries-that-have-used-ai-to-aid-spying-anthropic-says",
+    image: "/uploads/live_news/tribune_anthropic_spying.jpg",
   },
 ];
 
-export default function RegionalTechEcosystem() {
-  const [wires, setWires] = useState<RegionalWireItem[]>(INITIAL_REGIONAL_WIRES);
+export type { RegionalWireItem };
+export { INITIAL_REGIONAL_WIRES };
+
+export default function RegionalTechEcosystem({ initialWires }: { initialWires?: RegionalWireItem[] } = {}) {
+  const [wires, setWires] = useState<RegionalWireItem[]>(initialWires && initialWires.length > 0 ? initialWires : INITIAL_REGIONAL_WIRES);
   const [activeWireId, setActiveWireId] = useState<string>("dawn");
   const [isRefreshing, setIsRefreshing] = useState(false);
 

@@ -14,6 +14,8 @@ import NewsWireModule from "@/components/admin/modules/NewsWireModule";
 import TestimonialsModule from "@/components/admin/modules/TestimonialsModule";
 import ArticleReviewsModule from "@/components/admin/modules/ArticleReviewsModule";
 import CareersModule from "@/components/admin/modules/CareersModule";
+import FounderProposalsModule from "@/components/admin/modules/FounderProposalsModule";
+import SecurityReportsModule from "@/components/admin/modules/SecurityReportsModule";
 import SubscribersModule from "@/components/admin/modules/SubscribersModule";
 import PortfolioModule from "@/components/admin/modules/PortfolioModule";
 import WebsiteSettingsModule from "@/components/admin/modules/WebsiteSettingsModule";
@@ -119,6 +121,8 @@ export default function AdminPage() {
         testimonialsCount={counts.testimonials || 0}
         reviewsPendingCount={counts.pending_reviews || 0}
         candidatesCount={counts.candidates || 0}
+        founderProposalsCount={counts.founder_proposals || 0}
+        securityReportsCount={counts.security_reports || 0}
         subscribersCount={counts.subscribers || 0}
         portfolioCount={counts.portfolio_projects || 0}
         telemetry={telemetry}
@@ -144,6 +148,14 @@ export default function AdminPage() {
 
           {activeTab === "inquiries" && (
             <InquiriesModule
+              searchQuery={searchQuery}
+              showToast={showToast}
+              onRefresh={fetchTelemetry}
+            />
+          )}
+
+          {activeTab === "security_reports" && (
+            <SecurityReportsModule
               searchQuery={searchQuery}
               showToast={showToast}
               onRefresh={fetchTelemetry}
@@ -201,6 +213,14 @@ export default function AdminPage() {
 
           {(activeTab === "applicants" || activeTab === "careers") && (
             <CareersModule
+              searchQuery={searchQuery}
+              showToast={showToast}
+              onRefresh={fetchTelemetry}
+            />
+          )}
+
+          {activeTab === "founder_proposals" && (
+            <FounderProposalsModule
               searchQuery={searchQuery}
               showToast={showToast}
               onRefresh={fetchTelemetry}
