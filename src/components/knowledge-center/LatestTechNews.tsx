@@ -43,7 +43,69 @@ export default function LatestTechNews({ initialStories }: { initialStories?: Li
     return () => clearInterval(interval);
   }, [fetchLiveNews]);
 
-  const activeStory = stories[activeIdx] || stories[0];
+  // Helper to identify regional vs international news
+  const isRegionalStory = (s: LiveNewsItem): boolean => {
+    const p = (s.provider || "").toLowerCase();
+    if (["dawn", "brecorder", "propakistani", "tribune"].includes(p)) return true;
+    const tag = (s.tag || "").toLowerCase();
+    if (tag.includes("pakistan") || tag.includes("🇵🇰")) return true;
+    const label = (s.providerLabel || "").toLowerCase();
+    if (label.includes("pakistan") || label.includes("🇵🇰")) return true;
+    return false;
+  };
+
+  // Strictly curate 6 stories: 4 International and 2 Regional
+  const curatedStories = React.useMemo(() => {
+    const intl = stories.filter((s) => !isRegionalStory(s)).slice(0, 4);
+    const reg = stories.filter((s) => isRegionalStory(s)).slice(0, 2);
+
+    let finalReg = [...reg];
+    if (finalReg.length < 2) {
+      const fallbackReg: LiveNewsItem[] = [
+        {
+          id: "brecorder-fallback",
+          provider: "brecorder",
+          tag: "PAKISTAN FINTECH & BUSINESS",
+          providerLabel: "🇵🇰 B-RECORDER • FINTECH",
+          providerColor: "#0284C7",
+          date: "1 hour ago • Business Recorder",
+          source: "Business Recorder",
+          title: "Trump slams AI critics urging caution",
+          desc: "DOONBEG: Donald Trump on Sunday hit out at critics of artificial intelligence (AI) who have warned firms needed to slow down the development of the powerful technology.",
+          link: "https://www.brecorder.com/news/40439295/trump-slams-ai-critics-urging-caution",
+          img: "https://i.brecorder.com/large/2026/09/13214356dbecea6.webp",
+        },
+        {
+          id: "dawn-fallback",
+          provider: "dawn",
+          tag: "PAKISTAN TECH & SCIENCE",
+          providerLabel: "🇵🇰 DAWN • TECH & SCIENCE",
+          providerColor: "#059669",
+          date: "4 hours ago • Dawn Sci-Tech",
+          source: "Dawn Sci-Tech",
+          title: "Lack of skilled workforce hurdle to IT exports: minister",
+          desc: "Lack of skilled workforce hurdle to IT exports: minister. Real-time intelligence and verified enterprise developments.",
+          link: "https://www.dawn.com/news/2029614/lack-of-skilled-workforce-hurdle-to-it-exports-minister",
+          img: "https://i.dawn.com/large/2026/09/131143192c01dbe.webp",
+        },
+      ];
+      for (const fb of fallbackReg) {
+        if (finalReg.length < 2 && !finalReg.some((r) => (r.provider || "").toLowerCase() === fb.provider)) {
+          finalReg.push(fb);
+        }
+      }
+    }
+
+    return [...intl, ...finalReg];
+  }, [stories]);
+
+  useEffect(() => {
+    if (activeIdx >= curatedStories.length && curatedStories.length > 0) {
+      setActiveIdx(0);
+    }
+  }, [activeIdx, curatedStories.length]);
+
+  const activeStory = curatedStories[activeIdx] || curatedStories[0] || stories[0];
 
   return (
     <section className="w-full py-12 sm:py-14 bg-[#F8FAFC] border-b border-[#E2E8F0]">
@@ -145,14 +207,14 @@ export default function LatestTechNews({ initialStories }: { initialStories?: Li
             <div className="flex items-center justify-between px-1 mb-0.5">
               <span className="text-xs font-extrabold text-[#475569] uppercase tracking-wider flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-[#10B981]"></span>
-                Live News Stories ({stories.length})
+                Live News Stories ({curatedStories.length})
               </span>
               <span className="text-[11px] text-[#0052FF] font-semibold">
                 Click any story to preview
               </span>
             </div>
 
-            {stories.map((story, idx) => {
+            {curatedStories.map((story, idx) => {
               const isSelected = activeIdx === idx;
 
               return (

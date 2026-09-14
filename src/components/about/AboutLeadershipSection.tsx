@@ -45,12 +45,12 @@ export default function AboutLeadershipSection({
               key={member.id}
               className="bg-white rounded-2xl border border-[#E5E7EB] p-6 sm:p-7 shadow-sm hover:shadow-md transition-all flex flex-col sm:flex-row gap-5 sm:gap-6"
             >
-              <div className="w-full sm:w-44 h-48 sm:h-54 rounded-xl overflow-hidden shrink-0 relative bg-gray-900">
+              <div className="w-full sm:w-44 aspect-[4/5] rounded-xl overflow-hidden shrink-0 relative bg-gray-900">
                 <img
                   src={member.portraitUrl}
                   alt={member.name}
                   width={200}
-                  height={200}
+                  height={250}
                   loading="lazy"
                   decoding="async"
                   className="w-full h-full object-cover"

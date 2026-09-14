@@ -248,6 +248,32 @@ export const INITIAL_STORIES: LiveNewsItem[] = [
     link: "https://www.intel.com/content/www/us/en/newsroom/news/intel-foundry/intel-foundry-asml-accelerate-industry-readiness-for-high-na-euv.html",
     img: "/uploads/live_news/intel_high_na_euv_cleanroom.png",
   },
+  {
+    id: "brecorder-initial",
+    provider: "brecorder",
+    tag: "PAKISTAN FINTECH & BUSINESS",
+    providerLabel: "🇵🇰 B-RECORDER • FINTECH",
+    providerColor: "#0284C7",
+    date: "1 hour ago • Business Recorder",
+    source: "Business Recorder",
+    title: "Trump slams AI critics urging caution",
+    desc: "DOONBEG: Donald Trump on Sunday hit out at critics of artificial intelligence (AI) who have warned firms needed to slow down the development of the powerful technology, branding them “negative” forces.",
+    link: "https://www.brecorder.com/news/40439295/trump-slams-ai-critics-urging-caution",
+    img: "https://i.brecorder.com/large/2026/09/13214356dbecea6.webp",
+  },
+  {
+    id: "dawn-initial",
+    provider: "dawn",
+    tag: "PAKISTAN TECH & SCIENCE",
+    providerLabel: "🇵🇰 DAWN • TECH & SCIENCE",
+    providerColor: "#059669",
+    date: "4 hours ago • Dawn Sci-Tech",
+    source: "Dawn Sci-Tech",
+    title: "Lack of skilled workforce hurdle to IT exports: minister",
+    desc: "Lack of skilled workforce hurdle to IT exports: minister. Real-time intelligence and verified enterprise developments.",
+    link: "https://www.dawn.com/news/2029614/lack-of-skilled-workforce-hurdle-to-it-exports-minister",
+    img: "https://i.dawn.com/large/2026/09/131143192c01dbe.webp",
+  },
 ];
 
 export const FALLBACK_IMAGE = "/uploads/live_news/apple_ineup-and-airpods-5_88773506c08c.jpg";

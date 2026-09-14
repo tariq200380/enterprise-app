@@ -145,6 +145,7 @@ export default function WebsiteSettingsModule({ showToast }: WebsiteSettingsModu
               leadership: Array.isArray((s.aboutSettings || s.about_settings).leadership) && (s.aboutSettings || s.about_settings).leadership.length > 0
                 ? (s.aboutSettings || s.about_settings).leadership
                 : prev.aboutSettings.leadership,
+              reviewLinks: (s.aboutSettings || s.about_settings).reviewLinks ?? prev.aboutSettings.reviewLinks,
             } : prev.aboutSettings,
             servicesExplorer: s.servicesExplorer || s.services_explorer ? {
               sectionHeadline: (s.servicesExplorer || s.services_explorer).sectionHeadline ?? prev.servicesExplorer.sectionHeadline,

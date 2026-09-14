@@ -458,47 +458,6 @@ export default function PrivacyPolicyPage() {
           </main>
         </div>
       </div>
-
-      {/* Lightweight Browser Scrollspy for Sidebar (Runs after hydration) */}
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `
-            (function() {
-              function updateToc() {
-                var links = document.querySelectorAll('.toc-link');
-                if (!links.length) return;
-                var ids = [];
-                links.forEach(function(l) { ids.push(l.getAttribute('data-toc')); });
-                var scrollPos = window.scrollY + 200;
-                var active = ids[0];
-                for (var i = 0; i < ids.length; i++) {
-                  var el = document.getElementById(ids[i]);
-                  if (el && el.offsetTop <= scrollPos) {
-                    active = ids[i];
-                  }
-                }
-                if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 100) {
-                  active = ids[ids.length - 1];
-                }
-                links.forEach(function(l) {
-                  if (l.getAttribute('data-toc') === active) {
-                    l.classList.add('text-[#FF6B00]', 'font-semibold');
-                    l.classList.remove('text-slate-500');
-                  } else {
-                    l.classList.remove('text-[#FF6B00]', 'font-semibold');
-                    l.classList.add('text-slate-500');
-                  }
-                });
-              }
-              window.addEventListener('scroll', updateToc, { passive: true });
-              // Safely defer until React hydration has completed
-              if (typeof window !== 'undefined') {
-                setTimeout(updateToc, 150);
-              }
-            })();
-          `,
-        }}
-      />
     </div>
   );
 }

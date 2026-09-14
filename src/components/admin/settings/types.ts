@@ -144,6 +144,14 @@ export interface AboutLeadershipMemberItem {
   ctaUrl: string;
 }
 
+export interface ReviewLinksData {
+  theManifestUrl: string;
+  shopifyUrl: string;
+  trustpilotUrl: string;
+  clutchUrl: string;
+  googleReviewsUrl: string;
+}
+
 export interface AboutSettingsData {
   hubsBadgeTag: string;
   hubsHeadline: string;
@@ -154,6 +162,8 @@ export interface AboutSettingsData {
   leadershipHeadline: string;
   leadershipDescription: string;
   leadership: AboutLeadershipMemberItem[];
+
+  reviewLinks?: ReviewLinksData;
 }
 
 export interface ServiceExplorerCardItem {
@@ -770,6 +780,13 @@ export const DEFAULT_WEBSITE_SETTINGS: WebsiteSettingsData = {
         ctaUrl: "/contact",
       },
     ],
+    reviewLinks: {
+      theManifestUrl: "https://themanifest.com",
+      shopifyUrl: "https://www.shopify.com/partners",
+      trustpilotUrl: "https://www.trustpilot.com",
+      clutchUrl: "https://clutch.co",
+      googleReviewsUrl: "https://www.google.com",
+    },
   },
 
   servicesExplorer: {

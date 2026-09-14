@@ -4,6 +4,7 @@ import React from "react";
 import { WebsiteSettingsData, AboutSettingsData } from "./types";
 import AboutEngineeringHubsCard from "./about/AboutEngineeringHubsCard";
 import AboutLeadershipCard from "./about/AboutLeadershipCard";
+import AboutReviewLinksCard from "./about/AboutReviewLinksCard";
 
 interface Props {
   settings: WebsiteSettingsData;
@@ -32,14 +33,17 @@ export default function AboutSettingsSection({ settings, onChange }: Props) {
           </h2>
         </div>
         <p className="text-xs text-[#64748B]">
-          Manage global engineering centers, continuous coverage hubs, and executive leadership profiles for the public /about page.
+          Manage trust badges and review platform links (The Manifest, Shopify Partners, Trustpilot, Clutch, Google Reviews), global engineering centers, and executive leadership profiles for the public /about page.
         </p>
       </div>
 
-      {/* 1. Global Engineering Centers & Hubs */}
+      {/* 1. Reviewed & Recommended On (5 Platform Links) */}
+      <AboutReviewLinksCard data={aboutData} onChangeField={handleFieldChange} />
+
+      {/* 2. Global Engineering Centers & Hubs */}
       <AboutEngineeringHubsCard data={aboutData} onChangeField={handleFieldChange} />
 
-      {/* 2. Executive Leadership & Custodians */}
+      {/* 3. Executive Leadership & Custodians */}
       <AboutLeadershipCard data={aboutData} onChangeField={handleFieldChange} />
     </div>
   );

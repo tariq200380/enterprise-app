@@ -1,6 +1,6 @@
 {
   "status": "success",
-  "timestamp": "2026-09-13T09:50:45.712Z",
+  "timestamp": "2026-09-14T02:17:44.990Z",
   "gate_status": "CENTRAL_GATE_ACTIVE",
   "provider_statuses": {},
   "counts": {
@@ -139,14 +139,14 @@
       "brandBadge": "🇵🇰 DAWN TECH",
       "category": "PAKISTAN TECH & SCIENCE",
       "date": "Dawn Sci-Tech (Live RSS)",
-      "title": "Anthropic boss calls for AI slowdown, Altman and Musk agree",
-      "summary": "Anthropic CEO Dario Amodei on Saturday called on artificial intelligence (AI) firms to slow down the development of the powerful technology, amid mounting worries over the risks of “superintelligent” computer systems. His comments came a...",
+      "title": "Lack of skilled workforce hurdle to IT exports: minister",
+      "summary": "Lack of skilled workforce hurdle to IT exports: minister. Real-time intelligence and verified enterprise developments.",
       "sourceName": "Dawn Sci-Tech",
-      "sourceUrl": "https://www.dawn.com/news/2029414/anthropic-boss-calls-for-ai-slowdown-altman-and-musk-agree",
-      "link": "https://www.dawn.com/news/2029414/anthropic-boss-calls-for-ai-slowdown-altman-and-musk-agree",
-      "image": "/uploads/live_news/dawn_anthropic_slowdown.webp",
-      "img": "/uploads/live_news/dawn_anthropic_slowdown.webp",
-      "provider_published_at": "2026-09-12T18:04:35.000Z"
+      "sourceUrl": "https://www.dawn.com/news/2029614/lack-of-skilled-workforce-hurdle-to-it-exports-minister",
+      "link": "https://www.dawn.com/news/2029614/lack-of-skilled-workforce-hurdle-to-it-exports-minister",
+      "image": "https://i.dawn.com/large/2026/09/131143192c01dbe.webp",
+      "img": "https://i.dawn.com/large/2026/09/131143192c01dbe.webp",
+      "provider_published_at": "2026-09-13T06:43:48.000Z"
     },
     "brecorder": {
       "id": "brecorder",
@@ -155,14 +155,14 @@
       "brandBadge": "🇵🇰 B-RECORDER",
       "category": "PAKISTAN FINTECH & BUSINESS",
       "date": "Business Recorder (Live RSS)",
-      "title": "Anthropic CEO urges AI companies to slow model development amid fears over misuse",
-      "summary": "Anthropic CEO Dario Amodei called on AI companies to moderate the rate at which they advance model capabilities amid mounting fears of misuse of artificial intelligence, outlining a three-step framework intended to pace development and c...",
+      "title": "Trump slams AI critics urging caution",
+      "summary": "DOONBEG: Donald Trump on Sunday hit out at critics of artificial intelligence (AI) who have warned firms needed to slow down the development of the powerful technology, branding them “negative” forces. “I think you have a lot of negative...",
       "sourceName": "Business Recorder",
-      "sourceUrl": "https://www.brecorder.com/news/40439182/anthropic-ceo-urges-ai-companies-to-slow-model-development-amid-fears-over-misuse",
-      "link": "https://www.brecorder.com/news/40439182/anthropic-ceo-urges-ai-companies-to-slow-model-development-amid-fears-over-misuse",
-      "image": "/uploads/live_news/brecorder_anthropic_slowdown.webp",
-      "img": "/uploads/live_news/brecorder_anthropic_slowdown.webp",
-      "provider_published_at": "2026-09-12T15:39:42.000Z"
+      "sourceUrl": "https://www.brecorder.com/news/40439295/trump-slams-ai-critics-urging-caution",
+      "link": "https://www.brecorder.com/news/40439295/trump-slams-ai-critics-urging-caution",
+      "image": "https://i.brecorder.com/large/2026/09/13214356dbecea6.webp",
+      "img": "https://i.brecorder.com/large/2026/09/13214356dbecea6.webp",
+      "provider_published_at": "2026-09-13T16:48:01.000Z"
     },
     "propakistani": {
       "id": "propakistani",
@@ -171,14 +171,14 @@
       "brandBadge": "🇵🇰 PROPAKISTANI",
       "category": "PAKISTAN DIGITAL ECOSYSTEM",
       "date": "ProPakistani (Live RSS)",
-      "title": "Even iPhone Duo Does Not Fix The Biggest Problems With Foldables",
-      "summary": "Apple’s iPhone Duo is finally official, bringing the company into the foldable phone market after years of watching Samsung, Oppo, … Read More The post Even iPhone Duo Does Not Fix The Biggest Problems With Foldables appeared first on Pr...",
+      "title": "JazzWorld Supports Government’s Targeted Fuel Subsidy Initiative",
+      "summary": "JazzWorld has extended its support to the Government of Pakistan’s Targeted Fuel Subsidy initiative, aimed at providing relief to eligible … Read More The post JazzWorld Supports Government’s Targeted Fuel Subsidy Initiative appeared fir...",
       "sourceName": "ProPakistani",
-      "sourceUrl": "https://propakistani.pk/2026/09/12/even-iphone-duo-does-not-fix-the-biggest-problems-with-foldables/",
-      "link": "https://propakistani.pk/2026/09/12/even-iphone-duo-does-not-fix-the-biggest-problems-with-foldables/",
-      "image": "/uploads/live_news/propakistani_iphone_duo.jpg",
-      "img": "/uploads/live_news/propakistani_iphone_duo.jpg",
-      "provider_published_at": "2026-09-12T13:39:16.000Z"
+      "sourceUrl": "https://propakistani.pk/2026/09/13/jazzworld-supports-governments-targeted-fuel-subsidy-initiative/",
+      "link": "https://propakistani.pk/2026/09/13/jazzworld-supports-governments-targeted-fuel-subsidy-initiative/",
+      "image": "https://propakistani.pk/wp-content/uploads/2026/09/JazzWorld.png",
+      "img": "https://propakistani.pk/wp-content/uploads/2026/09/JazzWorld.png",
+      "provider_published_at": "2026-09-13T14:44:37.000Z"
     },
     "tribune": {
       "id": "tribune",
@@ -187,14 +187,14 @@
       "brandBadge": "🇵🇰 TRIBUNE",
       "category": "PAKISTAN AEROSPACE & TECH",
       "date": "The Express Tribune (Live RSS)",
-      "title": "China, Iran among countries that have used AI to aid spying, Anthropic says",
-      "summary": "China, Iran among countries that have used AI to aid spying, Anthropic says. Real-time intelligence and verified enterprise developments.",
+      "title": "Anthropic CEO urges AI companies to slow model development amid fears over misuse",
+      "summary": "Anthropic CEO urges AI companies to slow model development amid fears over misuse. Real-time intelligence and verified enterprise developments.",
       "sourceName": "The Express Tribune",
-      "sourceUrl": "https://tribune.com.pk/story/2628737/china-iran-among-countries-that-have-used-ai-to-aid-spying-anthropic-says",
-      "link": "https://tribune.com.pk/story/2628737/china-iran-among-countries-that-have-used-ai-to-aid-spying-anthropic-says",
+      "sourceUrl": "https://tribune.com.pk/story/2629081/anthropic-ceo-urges-ai-companies-to-slow-model-development-amid-fears-over-misuse",
+      "link": "https://tribune.com.pk/story/2629081/anthropic-ceo-urges-ai-companies-to-slow-model-development-amid-fears-over-misuse",
       "image": "/uploads/live_news/tribune_anthropic_spying.jpg",
       "img": "/uploads/live_news/tribune_anthropic_spying.jpg",
-      "provider_published_at": "2026-09-11T05:33:04.000Z"
+      "provider_published_at": "2026-09-13T09:32:09.000Z"
     }
   },
   "regional_items": [
@@ -205,14 +205,14 @@
       "brandBadge": "🇵🇰 DAWN TECH",
       "category": "PAKISTAN TECH & SCIENCE",
       "date": "Dawn Sci-Tech (Live RSS)",
-      "title": "Anthropic boss calls for AI slowdown, Altman and Musk agree",
-      "summary": "Anthropic CEO Dario Amodei on Saturday called on artificial intelligence (AI) firms to slow down the development of the powerful technology, amid mounting worries over the risks of “superintelligent” computer systems. His comments came a...",
+      "title": "Lack of skilled workforce hurdle to IT exports: minister",
+      "summary": "Lack of skilled workforce hurdle to IT exports: minister. Real-time intelligence and verified enterprise developments.",
       "sourceName": "Dawn Sci-Tech",
-      "sourceUrl": "https://www.dawn.com/news/2029414/anthropic-boss-calls-for-ai-slowdown-altman-and-musk-agree",
-      "link": "https://www.dawn.com/news/2029414/anthropic-boss-calls-for-ai-slowdown-altman-and-musk-agree",
-      "image": "/uploads/live_news/dawn_anthropic_slowdown.webp",
-      "img": "/uploads/live_news/dawn_anthropic_slowdown.webp",
-      "provider_published_at": "2026-09-12T18:04:35.000Z"
+      "sourceUrl": "https://www.dawn.com/news/2029614/lack-of-skilled-workforce-hurdle-to-it-exports-minister",
+      "link": "https://www.dawn.com/news/2029614/lack-of-skilled-workforce-hurdle-to-it-exports-minister",
+      "image": "https://i.dawn.com/large/2026/09/131143192c01dbe.webp",
+      "img": "https://i.dawn.com/large/2026/09/131143192c01dbe.webp",
+      "provider_published_at": "2026-09-13T06:43:48.000Z"
     },
     {
       "id": "brecorder",
@@ -221,14 +221,14 @@
       "brandBadge": "🇵🇰 B-RECORDER",
       "category": "PAKISTAN FINTECH & BUSINESS",
       "date": "Business Recorder (Live RSS)",
-      "title": "Anthropic CEO urges AI companies to slow model development amid fears over misuse",
-      "summary": "Anthropic CEO Dario Amodei called on AI companies to moderate the rate at which they advance model capabilities amid mounting fears of misuse of artificial intelligence, outlining a three-step framework intended to pace development and c...",
+      "title": "Trump slams AI critics urging caution",
+      "summary": "DOONBEG: Donald Trump on Sunday hit out at critics of artificial intelligence (AI) who have warned firms needed to slow down the development of the powerful technology, branding them “negative” forces. “I think you have a lot of negative...",
       "sourceName": "Business Recorder",
-      "sourceUrl": "https://www.brecorder.com/news/40439182/anthropic-ceo-urges-ai-companies-to-slow-model-development-amid-fears-over-misuse",
-      "link": "https://www.brecorder.com/news/40439182/anthropic-ceo-urges-ai-companies-to-slow-model-development-amid-fears-over-misuse",
-      "image": "/uploads/live_news/brecorder_anthropic_slowdown.webp",
-      "img": "/uploads/live_news/brecorder_anthropic_slowdown.webp",
-      "provider_published_at": "2026-09-12T15:39:42.000Z"
+      "sourceUrl": "https://www.brecorder.com/news/40439295/trump-slams-ai-critics-urging-caution",
+      "link": "https://www.brecorder.com/news/40439295/trump-slams-ai-critics-urging-caution",
+      "image": "https://i.brecorder.com/large/2026/09/13214356dbecea6.webp",
+      "img": "https://i.brecorder.com/large/2026/09/13214356dbecea6.webp",
+      "provider_published_at": "2026-09-13T16:48:01.000Z"
     },
     {
       "id": "propakistani",
@@ -237,14 +237,14 @@
       "brandBadge": "🇵🇰 PROPAKISTANI",
       "category": "PAKISTAN DIGITAL ECOSYSTEM",
       "date": "ProPakistani (Live RSS)",
-      "title": "Even iPhone Duo Does Not Fix The Biggest Problems With Foldables",
-      "summary": "Apple’s iPhone Duo is finally official, bringing the company into the foldable phone market after years of watching Samsung, Oppo, … Read More The post Even iPhone Duo Does Not Fix The Biggest Problems With Foldables appeared first on Pr...",
+      "title": "JazzWorld Supports Government’s Targeted Fuel Subsidy Initiative",
+      "summary": "JazzWorld has extended its support to the Government of Pakistan’s Targeted Fuel Subsidy initiative, aimed at providing relief to eligible … Read More The post JazzWorld Supports Government’s Targeted Fuel Subsidy Initiative appeared fir...",
       "sourceName": "ProPakistani",
-      "sourceUrl": "https://propakistani.pk/2026/09/12/even-iphone-duo-does-not-fix-the-biggest-problems-with-foldables/",
-      "link": "https://propakistani.pk/2026/09/12/even-iphone-duo-does-not-fix-the-biggest-problems-with-foldables/",
-      "image": "/uploads/live_news/propakistani_iphone_duo.jpg",
-      "img": "/uploads/live_news/propakistani_iphone_duo.jpg",
-      "provider_published_at": "2026-09-12T13:39:16.000Z"
+      "sourceUrl": "https://propakistani.pk/2026/09/13/jazzworld-supports-governments-targeted-fuel-subsidy-initiative/",
+      "link": "https://propakistani.pk/2026/09/13/jazzworld-supports-governments-targeted-fuel-subsidy-initiative/",
+      "image": "https://propakistani.pk/wp-content/uploads/2026/09/JazzWorld.png",
+      "img": "https://propakistani.pk/wp-content/uploads/2026/09/JazzWorld.png",
+      "provider_published_at": "2026-09-13T14:44:37.000Z"
     },
     {
       "id": "tribune",
@@ -253,19 +253,19 @@
       "brandBadge": "🇵🇰 TRIBUNE",
       "category": "PAKISTAN AEROSPACE & TECH",
       "date": "The Express Tribune (Live RSS)",
-      "title": "China, Iran among countries that have used AI to aid spying, Anthropic says",
-      "summary": "China, Iran among countries that have used AI to aid spying, Anthropic says. Real-time intelligence and verified enterprise developments.",
+      "title": "Anthropic CEO urges AI companies to slow model development amid fears over misuse",
+      "summary": "Anthropic CEO urges AI companies to slow model development amid fears over misuse. Real-time intelligence and verified enterprise developments.",
       "sourceName": "The Express Tribune",
-      "sourceUrl": "https://tribune.com.pk/story/2628737/china-iran-among-countries-that-have-used-ai-to-aid-spying-anthropic-says",
-      "link": "https://tribune.com.pk/story/2628737/china-iran-among-countries-that-have-used-ai-to-aid-spying-anthropic-says",
+      "sourceUrl": "https://tribune.com.pk/story/2629081/anthropic-ceo-urges-ai-companies-to-slow-model-development-amid-fears-over-misuse",
+      "link": "https://tribune.com.pk/story/2629081/anthropic-ceo-urges-ai-companies-to-slow-model-development-amid-fears-over-misuse",
       "image": "/uploads/live_news/tribune_anthropic_spying.jpg",
       "img": "/uploads/live_news/tribune_anthropic_spying.jpg",
-      "provider_published_at": "2026-09-11T05:33:04.000Z"
+      "provider_published_at": "2026-09-13T09:32:09.000Z"
     }
   ],
   "breaking_news": [
     {
-      "id": "openai-1789239552154",
+      "id": "openai-1789352264990",
       "provider": "openai",
       "tag": "GENERATIVE AI & REASONING",
       "providerLabel": "🤖 OPENAI",
@@ -279,49 +279,63 @@
       "provider_published_at": "2026-09-14T00:00:00.000Z"
     },
     {
-      "id": "dawn-1789239552154",
-      "provider": "dawn",
-      "tag": "PAKISTAN TECH & SCIENCE",
-      "providerLabel": "🇵🇰 DAWN TECH",
-      "date": "Dawn Sci-Tech (Live RSS)",
-      "source": "Dawn Sci-Tech",
-      "title": "Anthropic boss calls for AI slowdown, Altman and Musk agree",
-      "desc": "Anthropic CEO Dario Amodei on Saturday called on artificial intelligence (AI) firms to slow down the development of the powerful technology, amid mounting worries over the risks of “superintelligent” computer systems. His comments came a...",
-      "link": "https://www.dawn.com/news/2029414/anthropic-boss-calls-for-ai-slowdown-altman-and-musk-agree",
-      "source_image_url": "https://i.dawn.com/large/2026/09/122215106d44d6b.webp",
-      "img": "/uploads/live_news/dawn_anthropic_slowdown.webp",
-      "provider_published_at": "2026-09-12T18:04:35.000Z"
-    },
-    {
-      "id": "brecorder-1789239552154",
+      "id": "brecorder-1789352264990",
       "provider": "brecorder",
       "tag": "PAKISTAN FINTECH & BUSINESS",
       "providerLabel": "🇵🇰 B-RECORDER",
       "date": "Business Recorder (Live RSS)",
       "source": "Business Recorder",
-      "title": "Anthropic CEO urges AI companies to slow model development amid fears over misuse",
-      "desc": "Anthropic CEO Dario Amodei called on AI companies to moderate the rate at which they advance model capabilities amid mounting fears of misuse of artificial intelligence, outlining a three-step framework intended to pace development and c...",
-      "link": "https://www.brecorder.com/news/40439182/anthropic-ceo-urges-ai-companies-to-slow-model-development-amid-fears-over-misuse",
-      "source_image_url": "https://i.brecorder.com/large/2026/09/1220353321d3bb6.webp",
-      "img": "/uploads/live_news/brecorder_anthropic_slowdown.webp",
-      "provider_published_at": "2026-09-12T15:39:42.000Z"
+      "title": "Trump slams AI critics urging caution",
+      "desc": "DOONBEG: Donald Trump on Sunday hit out at critics of artificial intelligence (AI) who have warned firms needed to slow down the development of the powerful technology, branding them “negative” forces. “I think you have a lot of negative...",
+      "link": "https://www.brecorder.com/news/40439295/trump-slams-ai-critics-urging-caution",
+      "source_image_url": "https://i.brecorder.com/large/2026/09/13214356dbecea6.webp",
+      "img": "https://i.brecorder.com/large/2026/09/13214356dbecea6.webp",
+      "provider_published_at": "2026-09-13T16:48:01.000Z"
     },
     {
-      "id": "propakistani-1789239552154",
+      "id": "propakistani-1789352264990",
       "provider": "propakistani",
       "tag": "PAKISTAN DIGITAL ECOSYSTEM",
       "providerLabel": "🇵🇰 PROPAKISTANI",
       "date": "ProPakistani (Live RSS)",
       "source": "ProPakistani",
-      "title": "Even iPhone Duo Does Not Fix The Biggest Problems With Foldables",
-      "desc": "Apple’s iPhone Duo is finally official, bringing the company into the foldable phone market after years of watching Samsung, Oppo, … Read More The post Even iPhone Duo Does Not Fix The Biggest Problems With Foldables appeared first on Pr...",
-      "link": "https://propakistani.pk/2026/09/12/even-iphone-duo-does-not-fix-the-biggest-problems-with-foldables/",
-      "source_image_url": "https://propakistani.pk/wp-content/uploads/2026/09/iPhone-Duo.jpg",
-      "img": "/uploads/live_news/propakistani_iphone_duo.jpg",
-      "provider_published_at": "2026-09-12T13:39:16.000Z"
+      "title": "JazzWorld Supports Government’s Targeted Fuel Subsidy Initiative",
+      "desc": "JazzWorld has extended its support to the Government of Pakistan’s Targeted Fuel Subsidy initiative, aimed at providing relief to eligible … Read More The post JazzWorld Supports Government’s Targeted Fuel Subsidy Initiative appeared fir...",
+      "link": "https://propakistani.pk/2026/09/13/jazzworld-supports-governments-targeted-fuel-subsidy-initiative/",
+      "source_image_url": "https://propakistani.pk/wp-content/uploads/2026/09/JazzWorld.png",
+      "img": "https://propakistani.pk/wp-content/uploads/2026/09/JazzWorld.png",
+      "provider_published_at": "2026-09-13T14:44:37.000Z"
     },
     {
-      "id": "apple-1789239552153",
+      "id": "tribune-1789352264990",
+      "provider": "tribune",
+      "tag": "PAKISTAN AEROSPACE & TECH",
+      "providerLabel": "🇵🇰 TRIBUNE",
+      "date": "The Express Tribune (Live RSS)",
+      "source": "The Express Tribune",
+      "title": "Anthropic CEO urges AI companies to slow model development amid fears over misuse",
+      "desc": "Anthropic CEO urges AI companies to slow model development amid fears over misuse. Real-time intelligence and verified enterprise developments.",
+      "link": "https://tribune.com.pk/story/2629081/anthropic-ceo-urges-ai-companies-to-slow-model-development-amid-fears-over-misuse",
+      "source_image_url": "https://i.tribune.com.pk/media/images/anthropi-amodie1789310393-0/anthropi-amodie1789310393-0.jpg",
+      "img": "/uploads/live_news/tribune_anthropic_spying.jpg",
+      "provider_published_at": "2026-09-13T09:32:09.000Z"
+    },
+    {
+      "id": "dawn-1789352264990",
+      "provider": "dawn",
+      "tag": "PAKISTAN TECH & SCIENCE",
+      "providerLabel": "🇵🇰 DAWN TECH",
+      "date": "Dawn Sci-Tech (Live RSS)",
+      "source": "Dawn Sci-Tech",
+      "title": "Lack of skilled workforce hurdle to IT exports: minister",
+      "desc": "Lack of skilled workforce hurdle to IT exports: minister. Real-time intelligence and verified enterprise developments.",
+      "link": "https://www.dawn.com/news/2029614/lack-of-skilled-workforce-hurdle-to-it-exports-minister",
+      "source_image_url": "https://i.dawn.com/large/2026/09/131143192c01dbe.webp",
+      "img": "https://i.dawn.com/large/2026/09/131143192c01dbe.webp",
+      "provider_published_at": "2026-09-13T06:43:48.000Z"
+    },
+    {
+      "id": "apple-1789352264990",
       "provider": "apple",
       "tag": "HARDWARE & SILICON",
       "providerLabel": "🍎 APPLE",
@@ -335,7 +349,7 @@
       "provider_published_at": "2026-09-11T16:00:08.631Z"
     },
     {
-      "id": "intel-1789239552154",
+      "id": "intel-1789352264990",
       "provider": "intel",
       "tag": "NEXT-GEN SILICON & SEMICONDUCTORS",
       "providerLabel": "🔷 INTEL",
@@ -349,7 +363,7 @@
       "provider_published_at": "2026-09-11T15:06:31.000Z"
     },
     {
-      "id": "google-1789239552153",
+      "id": "google-1789352264990",
       "provider": "google",
       "tag": "GOOGLE AI & DEVICES",
       "providerLabel": "🌐 GOOGLE",
@@ -363,21 +377,7 @@
       "provider_published_at": "2026-09-11T11:00:00.000Z"
     },
     {
-      "id": "tribune-1789239552156",
-      "provider": "tribune",
-      "tag": "PAKISTAN AEROSPACE & TECH",
-      "providerLabel": "🇵🇰 TRIBUNE",
-      "date": "The Express Tribune (Live RSS)",
-      "source": "The Express Tribune",
-      "title": "China, Iran among countries that have used AI to aid spying, Anthropic says",
-      "desc": "China, Iran among countries that have used AI to aid spying, Anthropic says. Real-time intelligence and verified enterprise developments.",
-      "link": "https://tribune.com.pk/story/2628737/china-iran-among-countries-that-have-used-ai-to-aid-spying-anthropic-says",
-      "source_image_url": "https://i.tribune.com.pk/media/images/anthropic1788641385-0/anthropic1788641385-0.jpg",
-      "img": "/uploads/live_news/tribune_anthropic_spying.jpg",
-      "provider_published_at": "2026-09-11T05:33:04.000Z"
-    },
-    {
-      "id": "nvidia-1789239552154",
+      "id": "nvidia-1789352264990",
       "provider": "nvidia",
       "tag": "ACCELERATED COMPUTING & AI",
       "providerLabel": "⚡ NVIDIA",
@@ -391,7 +391,7 @@
       "provider_published_at": "2026-09-10T16:30:35.000Z"
     },
     {
-      "id": "anthropic-1789239552154",
+      "id": "anthropic-1789352264990",
       "provider": "anthropic",
       "tag": "FRONTIER AI & SCIENCE",
       "providerLabel": "🧠 ANTHROPIC",
@@ -405,7 +405,7 @@
       "provider_published_at": "2026-09-09T19:13:44.000Z"
     },
     {
-      "id": "meta-1789239552154",
+      "id": "meta-1789352264990",
       "provider": "meta",
       "tag": "OPEN SOURCE AI & INFRASTRUCTURE",
       "providerLabel": "♾️ META",
@@ -419,7 +419,7 @@
       "provider_published_at": "2026-09-08T19:00:51.000Z"
     },
     {
-      "id": "microsoft-1789239552154",
+      "id": "microsoft-1789352264990",
       "provider": "microsoft",
       "tag": "ENTERPRISE CLOUD & AI",
       "providerLabel": "🪟 MICROSOFT",

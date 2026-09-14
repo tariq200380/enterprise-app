@@ -6,8 +6,7 @@ import {
   PortfolioShowcaseSettings,
 } from "@/components/admin/settings/types";
 import PortfolioHero from "@/components/portfolio/PortfolioHero";
-import PortfolioShowcaseSection from "@/components/portfolio/PortfolioShowcaseSection";
-import PortfolioCaseStudiesSection from "@/components/portfolio/PortfolioCaseStudiesSection";
+import PortfolioModernDesign from "@/components/portfolio/PortfolioModernDesign";
 import PortfolioCtaBanner from "@/components/portfolio/PortfolioCtaBanner";
 
 export const dynamic = "force-dynamic";
@@ -47,14 +46,11 @@ async function getPortfolioData(): Promise<{
   return { showcase, projects };
 }
 
-export default async function PortfolioPage() {
-  const { showcase, projects } = await getPortfolioData();
-
+export default function PortfolioPage() {
   return (
     <div className="w-full bg-[#FAFAFC] text-[#111827] font-sans text-left">
       <PortfolioHero />
-      <PortfolioShowcaseSection showcase={showcase} />
-      <PortfolioCaseStudiesSection projects={projects} />
+      <PortfolioModernDesign />
       <PortfolioCtaBanner />
     </div>
   );

@@ -1,42 +1,70 @@
 import React from "react";
-import { PartnerLogoItem, DEFAULT_WEBSITE_SETTINGS } from "@/components/admin/settings/types";
 
-interface Props {
-  logos?: PartnerLogoItem[];
-}
-
-export default function PartnersRibbon({ logos }: Props) {
-  const activeLogos = logos && logos.length > 0 ? logos : DEFAULT_WEBSITE_SETTINGS.partnerLogos;
-
+export default function PartnersRibbon({ logos }: { logos?: any }) {
   return (
-    <section className="w-full py-6 border-t border-b border-[#D6E4FF] bg-[#F4F8FF] overflow-hidden relative select-none">
-      <div className="relative w-full overflow-hidden flex items-center">
-        {/* Gradient Edge Fade Masks */}
-        <div className="absolute left-0 top-0 bottom-0 w-24 z-10 pointer-events-none bg-gradient-to-r from-[#F4F8FF] to-transparent" />
-        <div className="absolute right-0 top-0 bottom-0 w-24 z-10 pointer-events-none bg-gradient-to-l from-[#F4F8FF] to-transparent" />
+    <section className="relative w-full bg-[#0B1220] py-6 sm:py-7 border-t border-b border-slate-800/80 overflow-hidden select-none">
+      {/* Subtle Ambient Orange Radial Glow */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(ellipse 70% 60% at 50% 50%, rgba(255, 107, 0, 0.18) 0%, rgba(255, 107, 0, 0.04) 50%, transparent 85%)",
+        }}
+      />
 
-        {/* Infinite 4-Set Continuous Marquee Track */}
-        <div className="partner-marquee-track items-center gap-14 sm:gap-20 px-6">
-          {[1, 2, 3, 4].map((setIndex) => (
-            <div key={setIndex} className="flex items-center gap-14 sm:gap-20 shrink-0">
-              {activeLogos.map((partner) => (
-                <a
-                  key={`${setIndex}-${partner.id}`}
-                  href={partner.websiteUrl || "#"}
-                  target={partner.websiteUrl?.startsWith("http") ? "_blank" : undefined}
-                  rel={partner.websiteUrl?.startsWith("http") ? "noopener noreferrer" : undefined}
-                  className="opacity-80 hover:opacity-100 transition-opacity flex items-center justify-center"
-                >
-                  <img
-                    src={partner.logoUrl}
-                    alt={partner.name}
-                    className="h-7 sm:h-9 max-h-10 w-auto object-contain"
-                    loading="lazy"
-                  />
-                </a>
-              ))}
-            </div>
-          ))}
+      {/* Centered Soft Orange Glow Light Orb */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] sm:w-[950px] h-[60px] sm:h-[85px] bg-[#FF6B00]/14 rounded-full blur-[55px] pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-5 sm:gap-6">
+          {/* Left Side: Reviewed and recommended on */}
+          <div className="text-white/85 text-sm sm:text-base font-normal tracking-wide text-center md:text-left whitespace-nowrap">
+            Reviewed and recommended on
+          </div>
+
+          {/* Right Side: Platform Links with Uniform Font Style */}
+          <div className="flex flex-wrap items-center justify-center md:justify-end gap-6 sm:gap-8 lg:gap-11">
+            <a
+              href="https://themanifest.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white hover:text-[#FF6B00] transition-colors text-sm sm:text-base font-medium tracking-tight cursor-pointer"
+            >
+              The Manifest
+            </a>
+            <a
+              href="https://www.shopify.com/partners"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white hover:text-[#FF6B00] transition-colors text-sm sm:text-base font-medium tracking-tight cursor-pointer"
+            >
+              Shopify Partners
+            </a>
+            <a
+              href="https://www.trustpilot.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white hover:text-[#FF6B00] transition-colors text-sm sm:text-base font-medium tracking-tight cursor-pointer"
+            >
+              Trustpilot
+            </a>
+            <a
+              href="https://clutch.co"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white hover:text-[#FF6B00] transition-colors text-sm sm:text-base font-medium tracking-tight cursor-pointer"
+            >
+              Clutch
+            </a>
+            <a
+              href="https://www.google.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white hover:text-[#FF6B00] transition-colors text-sm sm:text-base font-medium tracking-tight cursor-pointer"
+            >
+              Google
+            </a>
+          </div>
         </div>
       </div>
     </section>
