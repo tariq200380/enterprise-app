@@ -31,14 +31,14 @@ const commitments: CommitmentItem[] = [
 
 export default function DeliveryCommitment() {
   return (
-    <section id="delivery-commitment" className="relative w-full py-12 lg:py-16 bg-[#F8FAFC] border-b border-[#E2E8F0]">
+    <section id="delivery-commitment" className="relative w-full py-12 lg:py-16 bg-[#F7F6F5] border-b border-[#E2E8F0]">
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-[52rem] mx-auto mb-10">
           <h2 className="text-3xl sm:text-4xl lg:text-[2.35rem] font-extrabold text-[#0F172A] tracking-[-0.02em] mb-3 leading-tight">
             Our Delivery <span className="text-[#0052FF]">Commitment</span>
           </h2>
-          <p className="text-[15px] sm:text-[16px] text-[#475569] leading-relaxed font-normal m-0">
+          <p className="text-[15px] sm:text-[16px] text-[#5B6472] leading-relaxed font-normal m-0">
             We follow a clear and collaborative delivery process focused on agreed requirements reliable implementation transparent communication and responsible quality review.
           </p>
         </div>
@@ -56,7 +56,7 @@ export default function DeliveryCommitment() {
               <h3 className="text-[18px] font-semibold text-[#0F172A] mb-3 leading-snug m-0">
                 {item.title}
               </h3>
-              <p className="text-[15px] text-[#475569] leading-relaxed m-0 font-normal">
+              <p className="text-[15px] text-[#5B6472] leading-relaxed m-0 font-normal">
                 {item.desc}
               </p>
             </div>
@@ -65,7 +65,7 @@ export default function DeliveryCommitment() {
 
         {/* Footnote Disclaimer */}
         <div className="text-center">
-          <p className="text-[14px] text-[#64748B] italic m-0">
+          <p className="text-[14px] text-[#5B6472] italic m-0">
             Final scope timelines support terms and acceptance criteria are defined separately for each project.
           </p>
         </div>

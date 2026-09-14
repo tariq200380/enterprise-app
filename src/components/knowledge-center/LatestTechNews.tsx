@@ -108,7 +108,7 @@ export default function LatestTechNews({ initialStories }: { initialStories?: Li
   const activeStory = curatedStories[activeIdx] || curatedStories[0] || stories[0];
 
   return (
-    <section className="w-full py-12 sm:py-14 bg-[#F8FAFC] border-b border-[#E2E8F0]">
+    <section className="w-full py-12 sm:py-14 bg-[#F7F6F5] border-b border-[#E2E8F0]">
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="flex items-center justify-between flex-wrap gap-4 mb-8 pb-4 border-b-2 border-[#E2E8F0]">
@@ -123,7 +123,7 @@ export default function LatestTechNews({ initialStories }: { initialStories?: Li
           </div>
 
           <div className="flex items-center gap-3">
-            <span className="inline-flex items-center gap-2 text-[11.5px] text-[#475569] font-mono font-semibold bg-white px-3 py-1.5 rounded-md border border-[#CBD5E1] shadow-2xs">
+            <span className="inline-flex items-center gap-2 text-[11.5px] text-[#5B6472] font-mono font-semibold bg-white px-3 py-1.5 rounded-md border border-[#E2E8F0] shadow-2xs">
               <span className="w-2.5 h-2.5 rounded-full bg-[#10B981] animate-pulse"></span>
               <span>LIVE API WIRE • {lastSyncText}</span>
             </span>
@@ -132,7 +132,7 @@ export default function LatestTechNews({ initialStories }: { initialStories?: Li
               onClick={() => fetchLiveNews(true)}
               disabled={isRefreshing}
               title="Refresh Live Feeds"
-              className="inline-flex items-center gap-1.5 text-[11.5px] font-bold text-[#0052FF] bg-[#EFF6FF] hover:bg-[#DBEAFE] active:scale-95 px-3.5 py-1.5 rounded-md border border-[#BFDBFE] transition-all cursor-pointer disabled:opacity-50 shadow-2xs"
+              className="inline-flex items-center gap-1.5 text-[11.5px] font-bold text-[#0052FF] bg-white hover:bg-[#F0F7FF] active:scale-95 px-3.5 py-1.5 rounded-md border border-[#E2E8F0] transition-all cursor-pointer disabled:opacity-50 shadow-2xs"
             >
               <span className={`text-xs ${isRefreshing ? "animate-spin" : ""}`}>🔄</span>
               <span>{isRefreshing ? "Refreshing..." : "Refresh Wire"}</span>
@@ -171,17 +171,17 @@ export default function LatestTechNews({ initialStories }: { initialStories?: Li
 
               {/* Content Area */}
               <div className="p-6 sm:p-7 flex flex-col flex-1">
-                <div className="flex items-center gap-2 text-xs text-[#64748B] mb-2 flex-wrap font-medium">
+                <div className="flex items-center gap-2 text-xs text-[#5B6472] mb-2 flex-wrap font-medium">
                   <span className="text-[#059669] font-bold">● {activeStory.date}</span>
                   <span>•</span>
-                  <span className="font-semibold text-[#334155]">{activeStory.source}</span>
+                  <span className="font-semibold text-[#0F172A]">{activeStory.source}</span>
                 </div>
 
                 <h3 className="text-xl sm:text-2xl font-extrabold text-[#0F172A] leading-[1.35] mb-2.5">
                   {activeStory.title}
                 </h3>
 
-                <p className="text-[14.5px] sm:text-[15px] text-[#475569] leading-relaxed mb-5">
+                <p className="text-[14.5px] sm:text-[15px] text-[#5B6472] leading-relaxed mb-5">
                   {activeStory.desc}
                 </p>
 
@@ -205,7 +205,7 @@ export default function LatestTechNews({ initialStories }: { initialStories?: Li
           {/* Right Column ("apni side py"): Live Companion Stories List */}
           <div className="flex flex-col gap-2.5 w-full">
             <div className="flex items-center justify-between px-1 mb-0.5">
-              <span className="text-xs font-extrabold text-[#475569] uppercase tracking-wider flex items-center gap-1.5">
+              <span className="text-xs font-extrabold text-[#5B6472] uppercase tracking-wider flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-[#10B981]"></span>
                 Live News Stories ({curatedStories.length})
               </span>

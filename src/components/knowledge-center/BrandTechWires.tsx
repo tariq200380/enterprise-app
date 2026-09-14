@@ -77,7 +77,7 @@ export default function BrandTechWires({ initialWires }: { initialWires?: BrandW
                 className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-md text-xs font-bold transition-all duration-200 cursor-pointer select-none ${
                   isSelected
                     ? "bg-[#0052FF] text-white shadow-sm ring-2 ring-[#0052FF]/20 scale-105"
-                    : "bg-[#F1F5F9] text-[#475569] hover:bg-[#E2E8F0] hover:text-[#0F172A]"
+                    : "bg-[#F7F6F5] text-[#5B6472] border border-[#E2E8F0] hover:bg-[#EFECE6] hover:text-[#0F172A]"
                 }`}
               >
                 <span>{brand.icon}</span>
@@ -96,7 +96,7 @@ export default function BrandTechWires({ initialWires }: { initialWires?: BrandW
                 key={wire.id}
                 className={`${
                   isSelected ? "grid" : "hidden"
-                } grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-6 lg:gap-8 items-center bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-6 sm:p-7 shadow-[0_2px_8px_rgba(15,23,42,0.03)]`}
+                } grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-6 lg:gap-8 items-center bg-[#F7F6F5] border border-[#E2E8F0] rounded-2xl p-6 sm:p-7 shadow-[0_2px_8px_rgba(15,23,42,0.03)]`}
               >
                 {/* Visual Container */}
                 <div className="relative w-full aspect-[16/9] min-h-[240px] sm:min-h-[280px] rounded-xl overflow-hidden bg-[#0B1120]">
@@ -127,7 +127,7 @@ export default function BrandTechWires({ initialWires }: { initialWires?: BrandW
                     <span className="bg-[#DBEAFE] text-[#1E40AF] text-[10px] font-extrabold px-2 py-0.5 rounded-[3px] uppercase">
                       {wire.cat}
                     </span>
-                    <span className="text-xs text-[#64748B]">
+                    <span className="text-xs text-[#5B6472]">
                       {wire.date}
                     </span>
                   </div>
@@ -136,7 +136,7 @@ export default function BrandTechWires({ initialWires }: { initialWires?: BrandW
                     {wire.title}
                   </h3>
 
-                  <p className="text-[14.5px] sm:text-[15px] text-[#475569] leading-relaxed mb-4">
+                  <p className="text-[14.5px] sm:text-[15px] text-[#5B6472] leading-relaxed mb-4">
                     {wire.summary}
                   </p>
 

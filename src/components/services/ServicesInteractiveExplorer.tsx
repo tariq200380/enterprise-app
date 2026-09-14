@@ -254,7 +254,7 @@ export default function ServicesInteractiveExplorer({ data }: Props) {
   }, [svc, activeSubTab]);
 
   return (
-    <section id="what-we-provide" className="relative w-full py-12 lg:py-16 bg-white overflow-hidden">
+    <section id="what-we-provide" className="relative w-full py-12 lg:py-16 bg-[#F7F6F5] border-b border-[#E2E8F0] overflow-hidden">
       {/* Background blueprint grid pattern overlay */}
       <div
         className="absolute inset-0 pointer-events-none opacity-[0.035]"
@@ -271,7 +271,7 @@ export default function ServicesInteractiveExplorer({ data }: Props) {
           <h2 className="text-3xl sm:text-4xl lg:text-[2.35rem] font-extrabold text-[#0F172A] tracking-[-0.02em] mb-2 leading-tight">
             {sectionHeadline}
           </h2>
-          <p className="text-[15px] sm:text-[16px] text-[#475569] leading-relaxed font-normal m-0">
+          <p className="text-[15px] sm:text-[16px] text-[#5B6472] leading-relaxed font-normal m-0">
             {sectionDescription}
           </p>
         </div>

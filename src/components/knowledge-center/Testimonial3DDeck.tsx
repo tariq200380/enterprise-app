@@ -207,7 +207,7 @@ export default function Testimonial3DDeck() {
   };
 
   return (
-    <section className="relative w-full py-12 sm:py-16 bg-[#F8F9FB] border-t border-[#E5E7EB] overflow-hidden">
+    <section className="relative w-full py-12 sm:py-16 bg-[#F7F6F5] border-t border-[#E2E8F0] overflow-hidden">
       {/* Subtle Dot Grid Background */}
       <div
         className="absolute inset-0 pointer-events-none opacity-45 bg-[size:28px_28px]"
@@ -219,13 +219,13 @@ export default function Testimonial3DDeck() {
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
         <div className="text-center mb-8">
-          <span className="text-[11px] font-semibold text-[#64748B] uppercase tracking-[0.2em] block mb-1.5">
+          <span className="text-[11px] font-semibold text-[#5B6472] uppercase tracking-[0.2em] block mb-1.5">
             Testimonials
           </span>
           <h2 className="text-xl sm:text-2xl lg:text-[1.85rem] font-extrabold text-[#0F172A] uppercase tracking-[-0.01em] m-0 mb-1.5">
             Trusted by Founders &bull; Backed by Results
           </h2>
-          <p className="text-[13.5px] sm:text-sm text-[#64748B] font-normal m-0">
+          <p className="text-[13.5px] sm:text-sm text-[#5B6472] font-normal m-0">
             Results that speak through founder voices.
           </p>
         </div>
@@ -256,14 +256,14 @@ export default function Testimonial3DDeck() {
                 <div
                   key={item.author}
                   style={style}
-                  className="absolute top-0 left-0 right-0 bg-white rounded-[20px] p-7 sm:py-8 sm:px-10 border border-[#E5E7EB] box-border select-none text-left will-change-transform"
+                  className="absolute top-0 left-0 right-0 bg-white rounded-[20px] p-7 sm:py-8 sm:px-10 border border-[#E2E8F0] box-border select-none text-left will-change-transform"
                 >
                   {/* Top Company Row */}
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-xl sm:text-[1.3rem] font-black tracking-wider text-[#0F172A] uppercase font-sans">
                       {item.company}
                     </span>
-                    <span className="text-[#94A3B8] text-lg tracking-[3px] font-bold">
+                    <span className="text-[#5B6472] text-lg tracking-[3px] font-bold">
                       &bull;&bull;&bull;
                     </span>
                   </div>
@@ -274,7 +274,7 @@ export default function Testimonial3DDeck() {
                   </div>
 
                   {/* Quote Text */}
-                  <p className="text-[14px] sm:text-[15px] text-[#334155] leading-[1.75] mb-6 font-normal min-h-[72px]">
+                  <p className="text-[14px] sm:text-[15px] text-[#5B6472] leading-[1.75] mb-6 font-normal min-h-[72px]">
                     {item.quote}
                   </p>
 
@@ -294,7 +294,7 @@ export default function Testimonial3DDeck() {
                         <h4 className="text-[14.5px] font-extrabold text-[#0F172A] m-0 leading-tight">
                           {item.author}
                         </h4>
-                        <span className="text-xs text-[#64748B] font-medium block mt-0.5">
+                        <span className="text-xs text-[#5B6472] font-medium block mt-0.5">
                           {item.role}
                         </span>
                       </div>
@@ -305,7 +305,7 @@ export default function Testimonial3DDeck() {
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={(e) => e.stopPropagation()}
-                      className="w-[34px] h-[34px] rounded-lg bg-[#F1F5F9] hover:bg-[#E2E8F0] flex items-center justify-center text-[#0A66C2] font-extrabold text-sm transition-colors"
+                      className="w-[34px] h-[34px] rounded-lg bg-[#F7F6F5] hover:bg-[#EFECE6] border border-[#E2E8F0] flex items-center justify-center text-[#0A66C2] font-extrabold text-sm transition-colors"
                     >
                       in
                     </a>
@@ -320,7 +320,7 @@ export default function Testimonial3DDeck() {
             <button
               type="button"
               onClick={prevCard}
-              className="w-9 h-9 rounded-full bg-white border border-[#E2E8F0] text-[#0F172A] font-bold text-base flex items-center justify-center shadow-[0_2px_5px_rgba(0,0,0,0.06)] hover:bg-[#F1F5F9] transition-all cursor-pointer"
+              className="w-9 h-9 rounded-full bg-white border border-[#E2E8F0] text-[#0F172A] font-bold text-base flex items-center justify-center shadow-[0_2px_5px_rgba(0,0,0,0.06)] hover:bg-[#EFECE6] transition-all cursor-pointer"
             >
               ‹
             </button>
@@ -344,7 +344,7 @@ export default function Testimonial3DDeck() {
             <button
               type="button"
               onClick={() => nextCard()}
-              className="w-9 h-9 rounded-full bg-white border border-[#E2E8F0] text-[#0F172A] font-bold text-base flex items-center justify-center shadow-[0_2px_5px_rgba(0,0,0,0.06)] hover:bg-[#F1F5F9] transition-all cursor-pointer"
+              className="w-9 h-9 rounded-full bg-white border border-[#E2E8F0] text-[#0F172A] font-bold text-base flex items-center justify-center shadow-[0_2px_5px_rgba(0,0,0,0.06)] hover:bg-[#EFECE6] transition-all cursor-pointer"
             >
               ›
             </button>

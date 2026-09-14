@@ -14,6 +14,7 @@ interface AdminSidebarProps {
   candidatesCount: number;
   founderProposalsCount?: number;
   securityReportsCount?: number;
+  visionRequestsCount?: number;
   subscribersCount: number;
   portfolioCount: number;
   telemetry: TelemetryData | null;
@@ -30,6 +31,7 @@ export default function AdminSidebar({
   candidatesCount,
   founderProposalsCount = 0,
   securityReportsCount = 0,
+  visionRequestsCount = 0,
   subscribersCount,
   portfolioCount,
   telemetry,
@@ -38,7 +40,7 @@ export default function AdminSidebar({
     { id: "dashboard", label: "Executive Dashboard", icon: "📊" },
     { id: "inquiries", label: "Contact Inquiries", icon: "💬", count: inquiriesCount, badgeColor: "bg-[#0052FF]/20 text-[#38BDF8]" },
     { id: "security_reports", label: "Security & Complaints", icon: "🛡️", count: securityReportsCount, badgeColor: "bg-red-950 text-red-300" },
-    { id: "vision_requests", label: "Vision Scoping Requests", icon: "🎯" },
+    { id: "vision_requests", label: "Vision Scoping Requests", icon: "🎯", count: visionRequestsCount, badgeColor: "bg-emerald-950 text-emerald-300" },
     { id: "articles", label: "Knowledge Articles", icon: "📚", count: articlesCount, badgeColor: "bg-blue-900/50 text-blue-200" },
     { id: "videos", label: "Video Library", icon: "🎥", count: videosCount, badgeColor: "bg-orange-950 text-[#FF6B00]" },
     { id: "news_wire", label: "Tech Wire News", icon: "📰" },

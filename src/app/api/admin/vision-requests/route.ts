@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic";
 export async function GET() {
   try {
     const res = await query(
-      "SELECT * FROM contact_inquiries WHERE service ILIKE '%vision%' OR project_details IS NOT NULL ORDER BY id DESC"
+      "SELECT * FROM contact_inquiries WHERE service ILIKE '%vision%' OR service ILIKE '%project discussion%' OR project_details IS NOT NULL ORDER BY id DESC"
     );
     return NextResponse.json({ success: true, inquiries: res.rows });
   } catch (error: any) {

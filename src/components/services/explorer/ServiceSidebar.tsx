@@ -32,7 +32,7 @@ export default function ServiceSidebar({
     <aside className="w-full">
       <div className="relative flex flex-col gap-6 lg:sticky lg:top-[90px]">
         {/* Navigation Card */}
-        <div className="bg-white border border-[#D8E2ED] rounded-2xl p-6 shadow-[0_4px_16px_rgba(15,23,42,0.04)]">
+        <div className="bg-white border border-[#E2E8F0] rounded-2xl p-6 shadow-[0_4px_16px_rgba(15,23,42,0.04)]">
           <div
             key={`sb-head-${activeSvcId}`}
             className="pb-4 mb-4 border-b border-[#E2E8F0] animate-header-enter"
@@ -122,7 +122,7 @@ export default function ServiceSidebar({
                   className={`w-full flex items-center gap-2.5 px-3.5 py-2.5 rounded-lg border transition-all duration-200 text-left text-[16px] leading-none cursor-pointer active:scale-[0.98] ${
                     isTabActive
                       ? "bg-[#EFF6FF] border-[#BFDBFE] text-[#0052FF] font-bold shadow-xs"
-                      : "bg-transparent border-transparent text-[#334155] font-semibold hover:bg-[#F1F5F9] hover:text-[#0F172A]"
+                      : "bg-transparent border-transparent text-[#5B6472] font-semibold hover:bg-[#EFECE6] hover:text-[#0F172A]"
                   }`}
                 >
                   <span
@@ -142,12 +142,12 @@ export default function ServiceSidebar({
         {/* Sticky Start Project Card (Hidden on mobile < md) */}
         <div
           key={`sb-cta-${activeSvcId}`}
-          className="hidden md:block bg-white border border-[#D8E2ED] rounded-[14px] p-6 shadow-[0_2px_10px_rgba(15,23,42,0.03)] animate-header-enter"
+          className="hidden md:block bg-white border border-[#E2E8F0] rounded-[14px] p-6 shadow-[0_2px_10px_rgba(15,23,42,0.03)] animate-header-enter"
         >
           <h4 className="text-[18px] font-bold text-[#0F172A] mb-2 leading-snug">
             {cta.heading}
           </h4>
-          <p className="text-[15px] text-[#475569] mb-4 leading-relaxed font-normal">
+          <p className="text-[15px] text-[#5B6472] mb-4 leading-relaxed font-normal">
             {cta.desc}
           </p>
           <Link

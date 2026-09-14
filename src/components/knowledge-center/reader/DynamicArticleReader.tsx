@@ -774,21 +774,21 @@ export default function DynamicArticleReader({
         {/* ================= COLUMN 3: RIGHT SIDEBAR ================= */}
         <aside className="w-full flex flex-col gap-6 text-left lg:sticky lg:top-[90px]">
           {/* WIDGET 1: TOP STORIES */}
-          <div className="bg-white rounded-2xl border border-[#E5E7EB] p-5 shadow-xs">
-            <div className="flex items-center justify-between mb-4 pb-2 border-b border-[#F3F4F6]">
-              <h4 className="text-[13px] font-extrabold text-[#030712] uppercase m-0 tracking-wider">
+          <div className="bg-white rounded-2xl border border-[#E2E8F0] p-5 shadow-xs">
+            <div className="flex items-center justify-between mb-4 pb-2 border-b border-[#E2E8F0]">
+              <h4 className="text-[13px] font-extrabold text-[#0F172A] uppercase m-0 tracking-wider">
                 Top Stories
               </h4>
               <div className="flex items-center gap-1.5">
                 <button
                   type="button"
-                  className="w-6 h-6 bg-[#F1F5F9] border border-[#CBD5E1] rounded flex items-center justify-center text-xs font-bold text-[#1E293B] hover:bg-[#E2E8F0] transition-colors"
+                  className="w-6 h-6 bg-[#F7F6F5] border border-[#E2E8F0] rounded flex items-center justify-center text-xs font-bold text-[#0F172A] hover:bg-[#EFECE6] transition-colors"
                 >
                   ‹
                 </button>
                 <button
                   type="button"
-                  className="w-6 h-6 bg-[#F1F5F9] border border-[#CBD5E1] rounded flex items-center justify-center text-xs font-bold text-[#1E293B] hover:bg-[#E2E8F0] transition-colors"
+                  className="w-6 h-6 bg-[#F7F6F5] border border-[#E2E8F0] rounded flex items-center justify-center text-xs font-bold text-[#0F172A] hover:bg-[#EFECE6] transition-colors"
                 >
                   ›
                 </button>
@@ -810,7 +810,7 @@ export default function DynamicArticleReader({
                     key={topStory.id}
                     type="button"
                     onClick={() => onSelectArticle(topStory.id)}
-                    className="flex items-center gap-3 text-left group cursor-pointer border-b border-[#F9FAFB] pb-3 last:border-0 last:pb-0"
+                    className="flex items-center gap-3 text-left group cursor-pointer border-b border-[#F1F5F9] pb-3 last:border-0 last:pb-0"
                   >
                     <div
                       className={`w-12 h-12 rounded-lg ${bg} shrink-0 flex items-center justify-center text-xl`}
@@ -818,10 +818,10 @@ export default function DynamicArticleReader({
                       {icon}
                     </div>
                     <div>
-                      <h5 className="text-[12px] font-bold text-[#111827] group-hover:text-[#0052FF] leading-snug mb-0.5 line-clamp-2 transition-colors">
+                      <h5 className="text-[12px] font-bold text-[#0F172A] group-hover:text-[#0052FF] leading-snug mb-0.5 line-clamp-2 transition-colors">
                         {topStory.title}
                       </h5>
-                      <span className="text-[10px] text-[#9CA3AF] font-semibold block">
+                      <span className="text-[10px] text-[#5B6472] font-semibold block">
                         {topStory.date}
                       </span>
                     </div>
@@ -849,21 +849,21 @@ export default function DynamicArticleReader({
           </div>
 
           {/* WIDGET 3: NEWEST VIDEOS */}
-          <div className="bg-white rounded-2xl border border-[#E5E7EB] p-5 shadow-xs">
-            <div className="flex items-center justify-between mb-4 pb-2 border-b border-[#F3F4F6]">
-              <h4 className="text-[13px] font-extrabold text-[#030712] uppercase m-0 tracking-wider">
+          <div className="bg-white rounded-2xl border border-[#E2E8F0] p-5 shadow-xs">
+            <div className="flex items-center justify-between mb-4 pb-2 border-b border-[#E2E8F0]">
+              <h4 className="text-[13px] font-extrabold text-[#0F172A] uppercase m-0 tracking-wider">
                 Newest Videos
               </h4>
               <div className="flex items-center gap-1.5">
                 <button
                   type="button"
-                  className="w-6 h-6 bg-[#F1F5F9] border border-[#CBD5E1] rounded flex items-center justify-center text-xs font-bold text-[#1E293B] hover:bg-[#E2E8F0] transition-colors"
+                  className="w-6 h-6 bg-[#F7F6F5] border border-[#E2E8F0] rounded flex items-center justify-center text-xs font-bold text-[#0F172A] hover:bg-[#EFECE6] transition-colors"
                 >
                   ‹
                 </button>
                 <button
                   type="button"
-                  className="w-6 h-6 bg-[#F1F5F9] border border-[#CBD5E1] rounded flex items-center justify-center text-xs font-bold text-[#1E293B] hover:bg-[#E2E8F0] transition-colors"
+                  className="w-6 h-6 bg-[#F7F6F5] border border-[#E2E8F0] rounded flex items-center justify-center text-xs font-bold text-[#0F172A] hover:bg-[#EFECE6] transition-colors"
                 >
                   ›
                 </button>
@@ -884,10 +884,10 @@ export default function DynamicArticleReader({
                     ▶
                   </div>
                   <div>
-                    <h5 className="text-[11.5px] font-bold text-[#111827] group-hover:text-[#0052FF] leading-snug mb-0.5 uppercase transition-colors">
+                    <h5 className="text-[11.5px] font-bold text-[#0F172A] group-hover:text-[#0052FF] leading-snug mb-0.5 uppercase transition-colors">
                       {vid.title}
                     </h5>
-                    <span className="text-[10px] text-[#9CA3AF] font-semibold block">
+                    <span className="text-[10px] text-[#5B6472] font-semibold block">
                       {vid.date}
                     </span>
                   </div>
@@ -914,21 +914,21 @@ export default function DynamicArticleReader({
           </div>
 
           {/* WIDGET 5: UPCOMING EVENTS */}
-          <div className="bg-white rounded-2xl border border-[#E5E7EB] p-5 shadow-xs">
-            <div className="flex items-center justify-between mb-4 pb-2 border-b border-[#F3F4F6]">
-              <h4 className="text-[13px] font-extrabold text-[#030712] uppercase m-0 tracking-wider">
+          <div className="bg-white rounded-2xl border border-[#E2E8F0] p-5 shadow-xs">
+            <div className="flex items-center justify-between mb-4 pb-2 border-b border-[#E2E8F0]">
+              <h4 className="text-[13px] font-extrabold text-[#0F172A] uppercase m-0 tracking-wider">
                 Upcoming Events
               </h4>
               <div className="flex items-center gap-1.5">
                 <button
                   type="button"
-                  className="w-6 h-6 bg-[#F1F5F9] border border-[#CBD5E1] rounded flex items-center justify-center text-xs font-bold text-[#1E293B] hover:bg-[#E2E8F0] transition-colors"
+                  className="w-6 h-6 bg-[#F7F6F5] border border-[#E2E8F0] rounded flex items-center justify-center text-xs font-bold text-[#0F172A] hover:bg-[#EFECE6] transition-colors"
                 >
                   ‹
                 </button>
                 <button
                   type="button"
-                  className="w-6 h-6 bg-[#F1F5F9] border border-[#CBD5E1] rounded flex items-center justify-center text-xs font-bold text-[#1E293B] hover:bg-[#E2E8F0] transition-colors"
+                  className="w-6 h-6 bg-[#F7F6F5] border border-[#E2E8F0] rounded flex items-center justify-center text-xs font-bold text-[#0F172A] hover:bg-[#EFECE6] transition-colors"
                 >
                   ›
                 </button>
@@ -942,7 +942,7 @@ export default function DynamicArticleReader({
                 { day: "15", mon: "JUN", title: "Enterprise Cybersecurity & Threat Modeling Workshop", date: "15-Jun-2026" },
               ].map((ev, idx) => (
                 <div key={idx} className="flex items-start gap-3">
-                  <div className="w-12 h-12 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] flex flex-col items-center justify-center shrink-0">
+                  <div className="w-12 h-12 rounded-lg bg-[#F7F6F5] border border-[#E2E8F0] flex flex-col items-center justify-center shrink-0">
                     <span className="text-[12px] font-black text-[#0F172A] leading-none">
                       {ev.day}
                     </span>
@@ -951,10 +951,10 @@ export default function DynamicArticleReader({
                     </span>
                   </div>
                   <div>
-                    <h5 className="text-[11.5px] font-bold text-[#111827] leading-snug mb-0.5 line-clamp-2">
+                    <h5 className="text-[11.5px] font-bold text-[#0F172A] leading-snug mb-0.5 line-clamp-2">
                       {ev.title}
                     </h5>
-                    <span className="text-[10px] text-[#9CA3AF] font-semibold block">
+                    <span className="text-[10px] text-[#5B6472] font-semibold block">
                       {ev.date}
                     </span>
                   </div>

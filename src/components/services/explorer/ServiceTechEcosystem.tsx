@@ -16,7 +16,7 @@ export default function ServiceTechEcosystem({
   techItems,
 }: Props) {
   return (
-    <div className="bg-white border border-[#D8E2ED] rounded-2xl p-7 sm:p-8 shadow-[0_4px_16px_rgba(15,23,42,0.03)] transition-all duration-300">
+    <div className="bg-white border border-[#E2E8F0] rounded-2xl p-7 sm:p-8 shadow-[0_4px_16px_rgba(15,23,42,0.03)] transition-all duration-300">
       <div
         key={`tech-hdr-${activeSvcId}`}
         className="text-center max-w-[850px] mx-auto mb-8 animate-header-enter"
@@ -24,7 +24,7 @@ export default function ServiceTechEcosystem({
         <h3 className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-[-0.02em] mb-1.5 leading-tight">
           {title}
         </h3>
-        <p className="text-[14.5px] text-[#475569] m-0 font-normal">
+        <p className="text-[14.5px] text-[#5B6472] m-0 font-normal">
           {subtitle}
         </p>
       </div>
@@ -60,7 +60,7 @@ export default function ServiceTechEcosystem({
                   </div>
                 )}
               </div>
-              <span className="text-[13px] font-semibold text-[#1E293B] leading-tight text-center break-words">
+              <span className="text-[13px] font-semibold text-[#0F172A] leading-tight text-center break-words">
                 {tech.name}
               </span>
             </div>

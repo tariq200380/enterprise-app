@@ -122,7 +122,7 @@ export default function ProjectDeliveryProcess() {
   ];
 
   return (
-    <section id="delivery-process" className="relative w-full py-14 sm:py-16 bg-[#F4F1EB] text-[#0F172A] overflow-hidden border-t border-b border-[#E5DFD5]">
+    <section id="delivery-process" className="relative w-full py-14 sm:py-16 bg-[#F7F6F5] text-[#0F172A] overflow-hidden border-t border-b border-[#E2E8F0]">
       {/* Grid Pattern Overlay */}
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[linear-gradient(to_right,rgba(0,0,0,0.8)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.8)_1px,transparent_1px)] bg-[size:44px_44px]" />
       
@@ -139,7 +139,7 @@ export default function ProjectDeliveryProcess() {
           <h2 className="text-2xl sm:text-3xl lg:text-[2.35rem] font-extrabold text-[#0F172A] tracking-[-0.02em] mb-2 leading-[1.2]">
             OUR PROJECT DELIVERY PROCESS
           </h2>
-          <p className="text-[15px] text-[#475569] leading-relaxed font-normal">
+          <p className="text-[15px] text-[#5B6472] leading-relaxed font-normal">
             A clear eight-step process from discovery and planning to launch and continued growth.
           </p>
         </div>
@@ -148,7 +148,7 @@ export default function ProjectDeliveryProcess() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 lg:gap-6 max-w-[1240px] mx-auto">
           {steps.map((step) => (
             <div key={step.num} className="h-full">
-              <div className="group bg-white border border-[#E5DFD5] hover:border-[#0052FF] rounded-[14px] p-6 h-full min-h-[220px] flex flex-col box-border shadow-[0_2px_8px_rgba(15,23,42,0.03)] hover:shadow-[0_8px_20px_-2px_rgba(15,23,42,0.08)] hover:-translate-y-[3px] transition-all duration-200">
+              <div className="group bg-white border border-[#E2E8F0] hover:border-[#0052FF] rounded-[14px] p-6 h-full min-h-[220px] flex flex-col box-border shadow-[0_2px_8px_rgba(15,23,42,0.03)] hover:shadow-[0_8px_20px_-2px_rgba(15,23,42,0.08)] hover:-translate-y-[3px] transition-all duration-200">
                 {/* Top: Icon + Meta */}
                 <div className="flex items-center gap-3.5 mb-3.5">
                   <div className={`w-14 h-14 rounded-xl flex items-center justify-center shrink-0 ${step.tileBg}`}>
@@ -161,17 +161,17 @@ export default function ProjectDeliveryProcess() {
                     <h3 className="text-lg font-bold text-[#0F172A] leading-tight mb-1">
                       {step.title}
                     </h3>
-                    <span className="text-xs text-[#475569] leading-tight">
+                    <span className="text-xs text-[#5B6472] leading-tight">
                       {step.keywords}
                     </span>
                   </div>
                 </div>
 
                 {/* Divider line */}
-                <div className="w-full h-px bg-[#E5DFD5] mb-3.5" />
+                <div className="w-full h-px bg-[#E2E8F0] mb-3.5" />
 
                 {/* Description */}
-                <div className="text-[15px] text-[#475569] leading-[1.55]">
+                <div className="text-[15px] text-[#5B6472] leading-[1.55]">
                   <p className="mb-1">{step.desc1}</p>
                   <p>{step.desc2}</p>
                 </div>

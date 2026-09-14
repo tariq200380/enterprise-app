@@ -2,11 +2,11 @@ import Link from "next/link";
 
 export default function CareersSection() {
   return (
-    <section className="w-full bg-white py-14 sm:py-16 lg:py-20 border-b border-gray-100 relative overflow-hidden">
+    <section className="w-full bg-[#F7F6F5] py-14 sm:py-16 lg:py-20 border-b border-[#E2E8F0] relative overflow-hidden">
       
       {/* Subtle Ambient Background Accents */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-blue-50/50 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
-      <div className="absolute bottom-0 left-0 w-80 h-80 bg-orange-50/30 rounded-full blur-3xl pointer-events-none -ml-20 -mb-20" />
+      <div className="absolute top-0 right-0 w-96 h-96 bg-blue-50/40 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
+      <div className="absolute bottom-0 left-0 w-80 h-80 bg-orange-50/25 rounded-full blur-3xl pointer-events-none -ml-20 -mb-20" />
 
       <div className="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
@@ -15,7 +15,7 @@ export default function CareersSection() {
           <div className="lg:col-span-6 flex flex-col items-start text-left">
             
             {/* Pre-title Pill / Tag */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-[4px] bg-[#EBF3FF] text-[#0052FF] text-xs font-medium tracking-wider uppercase mb-5">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-[4px] bg-[#EBF3FF] text-[#0052FF] text-xs font-medium tracking-wider uppercase mb-5 font-mono">
               <span className="w-2 h-2 rounded-full bg-[#0052FF]" />
               <span>CAREERS AT CREED TECH</span>
             </div>
@@ -27,7 +27,7 @@ export default function CareersSection() {
             </h2>
 
             {/* Description */}
-            <p className="text-sm sm:text-base text-[#475569] leading-relaxed mb-7 max-w-xl font-normal">
+            <p className="text-sm sm:text-base text-[#5B6472] leading-relaxed mb-7 max-w-xl font-normal">
               Join a team focused on thoughtful engineering, continuous growth, and building technology that creates real business value.
             </p>
 
@@ -37,19 +37,19 @@ export default function CareersSection() {
                 <div className="w-5 h-5 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-xs shrink-0 border border-emerald-200/80">
                   &#10003;
                 </div>
-                <span className="text-sm sm:text-[15px] font-normal text-gray-800">Work on meaningful projects</span>
+                <span className="text-sm sm:text-[15px] font-normal text-[#1E293B]">Work on meaningful projects</span>
               </div>
               <div className="flex items-center gap-3">
                 <div className="w-5 h-5 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-xs shrink-0 border border-emerald-200/80">
                   &#10003;
                 </div>
-                <span className="text-sm sm:text-[15px] font-normal text-gray-800">Grow with experienced engineers</span>
+                <span className="text-sm sm:text-[15px] font-normal text-[#1E293B]">Grow with experienced engineers</span>
               </div>
               <div className="flex items-center gap-3">
                 <div className="w-5 h-5 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-xs shrink-0 border border-emerald-200/80">
                   &#10003;
                 </div>
-                <span className="text-sm sm:text-[15px] font-normal text-gray-800">Build with modern technologies</span>
+                <span className="text-sm sm:text-[15px] font-normal text-[#1E293B]">Build with modern technologies</span>
               </div>
             </div>
 
@@ -68,7 +68,7 @@ export default function CareersSection() {
 
           {/* RIGHT VISUAL: Premium Engineering & Careers 3D Visual Card */}
           <div className="lg:col-span-6 w-full flex items-center justify-center">
-            <div className="relative w-full max-w-[500px] aspect-[4/3] sm:aspect-[1.25/1] rounded-[28px] bg-gradient-to-br from-[#F8FAFC] via-[#F0F6FF] to-[#EBF3FC] p-6 sm:p-8 border border-[#D9E6F7] shadow-[0_15px_40px_-10px_rgba(0,82,255,0.08)] flex items-center justify-center overflow-hidden group select-none hover:shadow-[0_20px_50px_-10px_rgba(0,82,255,0.14)] hover:border-blue-200 transition-all duration-500">
+            <div className="relative w-full max-w-[500px] aspect-[4/3] sm:aspect-[1.25/1] rounded-[28px] bg-white p-6 sm:p-8 border border-[#E2E8F0] shadow-sm flex items-center justify-center overflow-hidden group select-none hover:shadow-md hover:border-blue-200 transition-all duration-500">
               
               {/* Light Blue Technical Grid Lines */}
               <div 

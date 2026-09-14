@@ -3,13 +3,13 @@ import Link from "next/link";
 
 export default function TrustSecurity() {
   return (
-    <section className="w-full bg-white py-14 sm:py-16 lg:py-20 border-b border-gray-100 relative overflow-hidden select-none">
+    <section className="w-full bg-[#F7F6F5] py-14 sm:py-16 lg:py-20 border-b border-[#E2E8F0] relative overflow-hidden select-none">
       <div className="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
 
           {/* LEFT VISUAL: Exact 3D Security Illustration Card */}
           <div className="lg:col-span-6 w-full flex items-center justify-center">
-            <div className="relative w-full max-w-[480px] rounded-[28px] overflow-hidden bg-white shadow-[0_15px_40px_-10px_rgba(0,82,255,0.08)] border border-[#E2E8F0]/90 group hover:shadow-[0_20px_50px_-10px_rgba(0,82,255,0.14)] transition-all duration-300">
+            <div className="relative w-full max-w-[480px] rounded-[28px] overflow-hidden bg-white shadow-[0_15px_40px_-10px_rgba(0,82,255,0.08)] border border-[#E2E8F0] group hover:shadow-[0_20px_50px_-10px_rgba(0,82,255,0.14)] transition-all duration-300">
               <Image
                 src="/images/trust-security-3d-test.webp"
                 alt="Secure Engineering - 99.99% Reliability SLA"
@@ -35,7 +35,7 @@ export default function TrustSecurity() {
             </h2>
 
             {/* Description */}
-            <p className="text-sm sm:text-[15px] text-[#475569] leading-relaxed mb-8 max-w-lg font-normal">
+            <p className="text-sm sm:text-[15px] text-[#5B6472] leading-relaxed mb-8 max-w-lg font-normal">
               We combine deep technical expertise with industry-leading security practices to deliver reliable, scalable, and future-ready solutions for your business.
             </p>
 
@@ -53,7 +53,7 @@ export default function TrustSecurity() {
               </div>
 
               {/* Vertical Divider */}
-              <div className="w-[1.5px] h-12 bg-gray-200" />
+              <div className="w-[1.5px] h-12 bg-[#E2E8F0]" />
 
               {/* Stat 2: 99.99% Reliability SLA */}
               <div className="flex flex-col">

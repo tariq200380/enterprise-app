@@ -16,12 +16,18 @@ export default function HeroSection() {
             Creed Tech delivers enterprise software architecture, robust cloud infrastructure, advanced cybersecurity, and AI solutions all in one platform.
           </p>
 
-          <div className="mt-7 w-full flex justify-center lg:justify-start">
+          <div className="mt-7 w-full flex flex-wrap items-center justify-center lg:justify-start gap-3.5">
             <Link
-              href="#services"
-              className="inline-flex items-center justify-center bg-[#0052FF] hover:bg-[#0042D0] text-white text-sm font-semibold h-10 px-[22px] rounded transition-colors shadow-none"
+              href="/contact"
+              className="inline-flex items-center justify-center bg-[#0052FF] hover:bg-[#0042D0] text-white text-sm font-semibold h-10 px-[22px] rounded transition-colors shadow-none cursor-pointer"
             >
-              Explore Solutions
+              Start Your Project
+            </Link>
+            <Link
+              href="/services"
+              className="inline-flex items-center justify-center bg-white hover:bg-gray-50 border border-gray-300 text-[#0F172A] hover:border-[#0052FF] hover:text-[#0052FF] text-sm font-semibold h-10 px-[22px] rounded transition-all shadow-none cursor-pointer"
+            >
+              Explore Solutions &rarr;
             </Link>
           </div>
         </div>

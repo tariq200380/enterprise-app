@@ -44,11 +44,16 @@ export default function VisionRequestsModule({
     if (propInquiries) {
       setInternalItems(
         propInquiries.filter(
-          (inq) => inq.project_details || inq.service?.toLowerCase().includes("vision")
+          (inq) =>
+            inq.project_details ||
+            inq.service?.toLowerCase().includes("vision") ||
+            inq.service?.toLowerCase().includes("project discussion")
         )
       );
     } else {
       fetchVisionRequests();
+      const interval = setInterval(fetchVisionRequests, 15000);
+      return () => clearInterval(interval);
     }
   }, [propInquiries, fetchVisionRequests]);
 
@@ -84,6 +89,20 @@ export default function VisionRequestsModule({
             Dedicated engineering pod engagements and custom high-throughput project architectures.
           </p>
         </div>
+        <button
+          type="button"
+          onClick={async () => {
+            await fetchVisionRequests();
+            if (onRefresh) onRefresh();
+            showToast("Vision requests refreshed", "success");
+          }}
+          disabled={isLoading}
+          className="px-3 py-1.5 text-xs font-bold rounded cursor-pointer inline-flex items-center gap-1.5 bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors disabled:opacity-60"
+          title="Refresh Vision Requests"
+        >
+          <span className={isLoading ? "animate-spin inline-block" : ""}>🔄</span>
+          <span>{isLoading ? "Refreshing..." : "Refresh"}</span>
+        </button>
       </div>
 
       {isLoading && internalItems.length === 0 ? (

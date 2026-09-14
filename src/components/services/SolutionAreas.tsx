@@ -73,14 +73,14 @@ const solutions: SolutionItem[] = [
 
 export default function SolutionAreas() {
   return (
-    <section id="solution-areas" className="relative w-full py-12 lg:py-16 bg-white border-b border-[#E2E8F0]">
+    <section id="solution-areas" className="relative w-full py-12 lg:py-16 bg-[#F7F6F5] border-b border-[#E2E8F0]">
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-[52rem] mx-auto mb-10">
           <h2 className="text-3xl sm:text-4xl lg:text-[2.35rem] font-extrabold text-[#0F172A] tracking-[-0.02em] mb-3 leading-tight">
             Solution <span className="text-[#0052FF]">Areas</span>
           </h2>
-          <p className="text-[15px] sm:text-[16px] text-[#475569] leading-relaxed font-normal m-0">
+          <p className="text-[15px] sm:text-[16px] text-[#5B6472] leading-relaxed font-normal m-0">
             Practical digital solutions designed around different operational and customer-facing business requirements.
           </p>
         </div>
@@ -90,7 +90,7 @@ export default function SolutionAreas() {
           {solutions.map((item, idx) => (
             <div
               key={idx}
-              className="bg-[#F8FAFC] border border-[#E2E8F0] hover:border-[#CBD5E1] rounded-[14px] p-7 h-full flex flex-col shadow-[0_2px_8px_rgba(15,23,42,0.02)] hover:-translate-y-1.5 hover:shadow-[0_12px_24px_-4px_rgba(15,23,42,0.08)] transition-all duration-300 ease-out cursor-default"
+              className="bg-white border border-[#E2E8F0] hover:border-[#CBD5E1] rounded-[14px] p-7 h-full flex flex-col shadow-[0_2px_8px_rgba(15,23,42,0.02)] hover:-translate-y-1.5 hover:shadow-[0_12px_24px_-4px_rgba(15,23,42,0.08)] transition-all duration-300 ease-out cursor-default"
             >
               <div className="flex items-center gap-3.5 mb-4">
                 <div className="w-[38px] h-[38px] rounded-[10px] bg-[#EFF6FF] border border-[#DBEAFE] flex items-center justify-center shrink-0">
@@ -100,7 +100,7 @@ export default function SolutionAreas() {
                   {item.title}
                 </h3>
               </div>
-              <p className="text-[15px] text-[#475569] leading-relaxed m-0 font-normal">
+              <p className="text-[15px] text-[#5B6472] leading-relaxed m-0 font-normal">
                 {item.desc}
               </p>
             </div>

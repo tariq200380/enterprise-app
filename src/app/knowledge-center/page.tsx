@@ -178,11 +178,13 @@ export default function KnowledgeCenterPage() {
   return (
     <>
       <KnowledgeHero />
-      <LatestTechNews initialStories={breakingNews} />
-      <BrandTechWires initialWires={brandWiresList} />
-      <RegionalTechEcosystem initialWires={regionalWiresList} />
-      <KnowledgeOverviewGrid />
-      <Testimonial3DDeck />
+      <div className="w-full bg-[#F7F6F5] text-[#0F172A] font-sans">
+        <LatestTechNews initialStories={breakingNews} />
+        <BrandTechWires initialWires={brandWiresList} />
+        <RegionalTechEcosystem initialWires={regionalWiresList} />
+        <KnowledgeOverviewGrid />
+        <Testimonial3DDeck />
+      </div>
     </>
   );
 }

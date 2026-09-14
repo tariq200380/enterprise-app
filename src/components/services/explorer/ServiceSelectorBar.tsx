@@ -120,7 +120,7 @@ export default function ServiceSelectorBar({
               className={`group relative bg-white rounded-xl py-3 px-2 flex flex-col items-center text-center gap-1.5 cursor-pointer outline-none transition-all duration-300 ease-out active:scale-95 ${
                 isActive
                   ? "border-2 border-[#0052FF] shadow-[0_12px_28px_-4px_rgba(0,82,255,0.25)] -translate-y-1.5"
-                  : "border border-[#D8E2ED] shadow-[0_2px_8px_rgba(15,23,42,0.04)] hover:-translate-y-1 hover:border-[#0052FF] hover:shadow-[0_10px_24px_-4px_rgba(15,23,42,0.1)]"
+                  : "border border-[#E2E8F0] shadow-[0_2px_8px_rgba(15,23,42,0.04)] hover:-translate-y-1 hover:border-[#0052FF] hover:shadow-[0_10px_24px_-4px_rgba(15,23,42,0.1)]"
               }`}
             >
               {/* Top Bar Accent */}

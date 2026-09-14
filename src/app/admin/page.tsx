@@ -123,6 +123,7 @@ export default function AdminPage() {
         candidatesCount={counts.candidates || 0}
         founderProposalsCount={counts.founder_proposals || 0}
         securityReportsCount={counts.security_reports || 0}
+        visionRequestsCount={counts.vision_requests || 0}
         subscribersCount={counts.subscribers || 0}
         portfolioCount={counts.portfolio_projects || 0}
         telemetry={telemetry}

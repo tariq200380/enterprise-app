@@ -25,9 +25,11 @@ export async function POST(req: Request) {
       need_nda,
     } = body;
 
-    const trimmedName = typeof client_name === "string" ? client_name.trim() : "";
+    const rawName = client_name || body.name || body.fullName || body.clientName;
+    const trimmedName = typeof rawName === "string" ? rawName.trim() : "";
     const trimmedEmail = typeof email === "string" ? email.trim() : "";
-    const trimmedDetails = typeof project_details === "string" ? project_details.trim() : "";
+    const rawDetails = project_details || body.projectScope || body.message || body.notes || body.architectureNotes;
+    const trimmedDetails = typeof rawDetails === "string" ? rawDetails.trim() : "";
 
     if (!trimmedName) {
       return NextResponse.json(

@@ -138,7 +138,7 @@ export default function RegionalTechEcosystem({ initialWires }: { initialWires?:
   const activeWire = wires.find((w) => w.id === activeWireId) || wires[0];
 
   return (
-    <section className="w-full py-12 sm:py-16 bg-[#F8FAFC] border-b border-[#E2E8F0]">
+    <section className="w-full py-12 sm:py-16 bg-[#F7F6F5] border-b border-[#E2E8F0]">
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-10">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#ECFDF5] border border-[#A7F3D0] mb-3">
@@ -150,7 +150,7 @@ export default function RegionalTechEcosystem({ initialWires }: { initialWires?:
           <h2 className="text-2xl sm:text-3xl lg:text-[2.2rem] font-bold text-[#0F172A] tracking-[-0.02em] m-0">
             Pakistan Regional Tech Ecosystem
           </h2>
-          <p className="text-xs sm:text-sm text-[#475569] mt-2 max-w-xl">
+          <p className="text-xs sm:text-sm text-[#5B6472] mt-2 max-w-xl">
             Live technological transformation, fintech advancements, and venture capital flows across Pakistan's digital economy.
           </p>
         </div>
@@ -167,7 +167,7 @@ export default function RegionalTechEcosystem({ initialWires }: { initialWires?:
                 className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-all duration-200 cursor-pointer select-none ${
                   isSelected
                     ? "bg-[#059669] text-white shadow-sm ring-2 ring-[#059669]/30 scale-105"
-                    : "bg-white text-[#475569] border border-[#E2E8F0] hover:border-[#CBD5E1] hover:text-[#0F172A]"
+                    : "bg-white text-[#5B6472] border border-[#E2E8F0] hover:bg-[#EFECE6] hover:text-[#0F172A]"
                 }`}
               >
                 <span>{wire.icon}</span>
@@ -196,7 +196,7 @@ export default function RegionalTechEcosystem({ initialWires }: { initialWires?:
 
             <div className="lg:col-span-7 flex flex-col justify-between h-full">
               <div>
-                <div className="flex items-center gap-2 text-xs text-[#64748B] mb-2 font-mono">
+                <div className="flex items-center gap-2 text-xs text-[#5B6472] mb-2 font-mono">
                   <span className="font-bold text-[#059669]">● {activeWire.date}</span>
                   <span>•</span>
                   <span>{activeWire.sourceName}</span>
@@ -204,7 +204,7 @@ export default function RegionalTechEcosystem({ initialWires }: { initialWires?:
                 <h3 className="text-xl sm:text-2xl font-bold text-[#0F172A] leading-tight mb-3">
                   {activeWire.title}
                 </h3>
-                <p className="text-sm text-[#475569] leading-relaxed mb-6">
+                <p className="text-sm text-[#5B6472] leading-relaxed mb-6">
                   {activeWire.summary}
                 </p>
               </div>

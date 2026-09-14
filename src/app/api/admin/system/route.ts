@@ -37,6 +37,11 @@ export async function GET() {
     const newSecurityReportsRes = await query("SELECT COUNT(*) FROM security_reports WHERE status = 'NEW'");
     counts["new_security_reports"] = parseInt(newSecurityReportsRes.rows[0]?.count || "0", 10);
 
+    const visionRequestsRes = await query(
+      "SELECT COUNT(*) FROM contact_inquiries WHERE service ILIKE '%vision%' OR service ILIKE '%project discussion%' OR project_details IS NOT NULL"
+    );
+    counts["vision_requests"] = parseInt(visionRequestsRes.rows[0]?.count || "0", 10);
+
     const mem = process.memoryUsage();
 
     return NextResponse.json({

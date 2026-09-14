@@ -32,7 +32,7 @@ export default function ServiceContentPane({
 }: Props) {
   return (
     <main className="w-full">
-      <div className="bg-white border border-[#D8E2ED] rounded-2xl p-6 sm:p-8 shadow-[0_4px_20px_-2px_rgba(15,23,42,0.05)] min-h-[400px] transition-all duration-300">
+      <div className="bg-white border border-[#E2E8F0] rounded-2xl p-6 sm:p-8 shadow-[0_4px_20px_-2px_rgba(15,23,42,0.05)] min-h-[400px] transition-all duration-300">
         {/* Header Badge + Title + Subtitle + Description + Divider */}
         <div
           key={`header-${activeSvcId}-${activeSubTab}`}
@@ -51,7 +51,7 @@ export default function ServiceContentPane({
               {paneSubtitle}
             </p>
           )}
-          <p className="text-[17px] text-[#475569] leading-relaxed max-w-[850px] m-0">
+          <p className="text-[17px] text-[#5B6472] leading-relaxed max-w-[850px] m-0">
             {paneDesc}
           </p>
         </div>
@@ -63,7 +63,7 @@ export default function ServiceContentPane({
               <div
                 key={`${activeSvcId}-ov-${idx}`}
                 style={{ animationDelay: `${idx * 45}ms` }}
-                className="bg-[#F8FAFC] border border-[#E2E8F0] hover:border-[#CBD5E1] rounded-[14px] p-7 h-full flex flex-col shadow-[0_2px_8px_rgba(15,23,42,0.02)] hover:-translate-y-1.5 hover:shadow-[0_12px_24px_-4px_rgba(15,23,42,0.1)] transition-all duration-300 ease-out animate-card-enter cursor-default"
+                className="bg-[#F7F6F5] border border-[#E2E8F0] hover:border-[#CBD5E1] rounded-[14px] p-7 h-full flex flex-col shadow-[0_2px_8px_rgba(15,23,42,0.02)] hover:-translate-y-1.5 hover:shadow-[0_12px_24px_-4px_rgba(15,23,42,0.1)] transition-all duration-300 ease-out animate-card-enter cursor-default"
               >
                 <div className="flex items-center justify-between mb-4">
                   {item.badge ? (
@@ -76,7 +76,7 @@ export default function ServiceContentPane({
                 <h4 className="text-[18px] font-semibold text-[#0F172A] mb-3 leading-snug">
                   {item.title}
                 </h4>
-                <p className="text-[15px] text-[#475569] leading-relaxed m-0 font-normal">
+                <p className="text-[15px] text-[#5B6472] leading-relaxed m-0 font-normal">
                   {item.desc}
                 </p>
               </div>
@@ -91,7 +91,7 @@ export default function ServiceContentPane({
               <div
                 key={`${activeSvcId}-svc-${idx}`}
                 style={{ animationDelay: `${idx * 40}ms` }}
-                className="bg-[#F8FAFC] border border-[#E2E8F0] hover:border-[#CBD5E1] rounded-[14px] p-7 h-full flex flex-col shadow-[0_2px_8px_rgba(15,23,42,0.02)] hover:-translate-y-1.5 hover:shadow-[0_12px_24px_-4px_rgba(15,23,42,0.1)] transition-all duration-300 ease-out animate-card-enter cursor-default"
+                className="bg-[#F7F6F5] border border-[#E2E8F0] hover:border-[#CBD5E1] rounded-[14px] p-7 h-full flex flex-col shadow-[0_2px_8px_rgba(15,23,42,0.02)] hover:-translate-y-1.5 hover:shadow-[0_12px_24px_-4px_rgba(15,23,42,0.1)] transition-all duration-300 ease-out animate-card-enter cursor-default"
               >
                 <div className="flex items-start gap-4 mb-3">
                   <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#EFF6FF] border border-[#BFDBFE] text-[#0052FF] shrink-0">
@@ -111,7 +111,7 @@ export default function ServiceContentPane({
                     {item.title}
                   </h4>
                 </div>
-                <p className="text-[15px] text-[#475569] leading-relaxed pl-10 m-0 font-normal">
+                <p className="text-[15px] text-[#5B6472] leading-relaxed pl-10 m-0 font-normal">
                   {item.desc}
                 </p>
               </div>
@@ -126,7 +126,7 @@ export default function ServiceContentPane({
               <div
                 key={`${activeSvcId}-ben-${idx}`}
                 style={{ animationDelay: `${idx * 40}ms` }}
-                className="bg-[#F8FAFC] border border-[#E2E8F0] hover:border-[#CBD5E1] rounded-[14px] p-7 h-full flex flex-col shadow-[0_2px_8px_rgba(15,23,42,0.02)] hover:-translate-y-1.5 hover:shadow-[0_12px_24px_-4px_rgba(15,23,42,0.1)] transition-all duration-300 ease-out animate-card-enter cursor-default"
+                className="bg-[#F7F6F5] border border-[#E2E8F0] hover:border-[#CBD5E1] rounded-[14px] p-7 h-full flex flex-col shadow-[0_2px_8px_rgba(15,23,42,0.02)] hover:-translate-y-1.5 hover:shadow-[0_12px_24px_-4px_rgba(15,23,42,0.1)] transition-all duration-300 ease-out animate-card-enter cursor-default"
               >
                 <div className="flex items-start gap-4 mb-3">
                   <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#EFF6FF] border border-[#BFDBFE] text-[#0052FF] shrink-0">
@@ -146,7 +146,7 @@ export default function ServiceContentPane({
                     {item.title}
                   </h4>
                 </div>
-                <p className="text-[15px] text-[#475569] leading-relaxed pl-10 m-0 font-normal">
+                <p className="text-[15px] text-[#5B6472] leading-relaxed pl-10 m-0 font-normal">
                   {item.desc}
                 </p>
               </div>
@@ -161,7 +161,7 @@ export default function ServiceContentPane({
               <div
                 key={`${activeSvcId}-proc-${idx}`}
                 style={{ animationDelay: `${idx * 40}ms` }}
-                className="bg-[#F8FAFC] border border-[#E2E8F0] border-t-[3.5px] border-t-[#0052FF] hover:border-t-[#FF6B00] hover:border-[#CBD5E1] rounded-[14px] p-7 h-full flex flex-col shadow-[0_2px_8px_rgba(15,23,42,0.02)] hover:-translate-y-1.5 hover:shadow-[0_12px_24px_-4px_rgba(15,23,42,0.1)] transition-all duration-300 ease-out animate-card-enter cursor-default"
+                className="bg-[#F7F6F5] border border-[#E2E8F0] border-t-[3.5px] border-t-[#0052FF] hover:border-t-[#FF6B00] hover:border-[#CBD5E1] rounded-[14px] p-7 h-full flex flex-col shadow-[0_2px_8px_rgba(15,23,42,0.02)] hover:-translate-y-1.5 hover:shadow-[0_12px_24px_-4px_rgba(15,23,42,0.1)] transition-all duration-300 ease-out animate-card-enter cursor-default"
               >
                 <div className="flex items-center gap-3 mb-3">
                   {st.step && (
@@ -173,7 +173,7 @@ export default function ServiceContentPane({
                     {st.title}
                   </h4>
                 </div>
-                <p className="text-[15px] text-[#475569] leading-relaxed mt-2 m-0 font-normal">
+                <p className="text-[15px] text-[#5B6472] leading-relaxed mt-2 m-0 font-normal">
                   {st.desc}
                 </p>
               </div>
@@ -209,7 +209,7 @@ export default function ServiceContentPane({
                     {item.title}
                   </h4>
                 </div>
-                <p className="text-[15px] text-[#334155] leading-relaxed pl-11 m-0 font-normal">
+                <p className="text-[15px] text-[#5B6472] leading-relaxed pl-11 m-0 font-normal">
                   {item.desc}
                 </p>
               </div>

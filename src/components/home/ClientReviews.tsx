@@ -87,7 +87,7 @@ export default async function ClientReviews() {
   return (
     <section
       id="client-reviews"
-      className="w-full py-16 sm:py-20 bg-[#E2E8F0] text-gray-900 border-b border-slate-300 overflow-hidden relative"
+      className="w-full py-16 sm:py-20 bg-[#F7F6F5] text-[#0F172A] border-b border-[#E2E8F0] overflow-hidden relative"
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
@@ -95,10 +95,10 @@ export default async function ClientReviews() {
           {/* LEFT COLUMN: Narrative and CTA */}
           <div className="lg:col-span-5 text-left space-y-6">
             <div>
-              <span className="text-xs sm:text-[13px] font-semibold text-[#E67E22] uppercase tracking-wider block mb-2">
+              <span className="text-xs sm:text-[13px] font-semibold text-[#EA580C] uppercase tracking-wider block mb-2 font-mono">
                 Enterprise Client Feedback
               </span>
-              <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-medium text-gray-950 tracking-tight leading-tight">
+              <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-medium text-[#0F172A] tracking-tight leading-tight">
                 <span className="block">What Our Clients Say</span>
                 <span className="block mt-2 sm:mt-2.5">About Creed Tech</span>
               </h2>
@@ -106,26 +106,26 @@ export default async function ClientReviews() {
 
             <div className="space-y-3.5 pt-2">
               <div className="flex items-start gap-3">
-                <span className="text-[#E67E22] font-semibold text-base shrink-0 mt-0.5">✓</span>
-                <span className="text-sm sm:text-[15px] font-normal text-gray-800 leading-snug">
+                <span className="text-[#EA580C] font-semibold text-base shrink-0 mt-0.5">✓</span>
+                <span className="text-sm sm:text-[15px] font-normal text-[#334155] leading-snug">
                   Dedicated Principal Engineers on Every Project.
                 </span>
               </div>
               <div className="flex items-start gap-3">
-                <span className="text-[#E67E22] font-semibold text-base shrink-0 mt-0.5">✓</span>
-                <span className="text-sm sm:text-[15px] font-normal text-gray-800 leading-snug">
+                <span className="text-[#EA580C] font-semibold text-base shrink-0 mt-0.5">✓</span>
+                <span className="text-sm sm:text-[15px] font-normal text-[#334155] leading-snug">
                   The Ability to Scale Engineering Pods in Real Time.
                 </span>
               </div>
               <div className="flex items-start gap-3">
-                <span className="text-[#E67E22] font-semibold text-base shrink-0 mt-0.5">✓</span>
-                <span className="text-sm sm:text-[15px] font-normal text-gray-800 leading-snug">
+                <span className="text-[#EA580C] font-semibold text-base shrink-0 mt-0.5">✓</span>
+                <span className="text-sm sm:text-[15px] font-normal text-[#334155] leading-snug">
                   99.8% On-Time Deployment &amp; Strict SLA Controls.
                 </span>
               </div>
               <div className="flex items-start gap-3">
-                <span className="text-[#E67E22] font-semibold text-base shrink-0 mt-0.5">✓</span>
-                <span className="text-sm sm:text-[15px] font-normal text-gray-800 leading-snug">
+                <span className="text-[#EA580C] font-semibold text-base shrink-0 mt-0.5">✓</span>
+                <span className="text-sm sm:text-[15px] font-normal text-[#334155] leading-snug">
                   Zero-Defect Code Audits &amp; SOC 2 Compliance.
                 </span>
               </div>
@@ -138,14 +138,14 @@ export default async function ClientReviews() {
               <div>
                 <Link
                   href="/portfolio"
-                  className="inline-flex items-center text-xs sm:text-sm font-medium text-gray-900 hover:text-[#E67E22] border-b-2 border-gray-900 hover:border-[#E67E22] pb-0.5 transition-colors"
+                  className="inline-flex items-center text-xs sm:text-sm font-medium text-gray-900 hover:text-[#EA580C] border-b-2 border-gray-900 hover:border-[#EA580C] pb-0.5 transition-colors"
                 >
                   View Client Portfolio &rarr;
                 </Link>
               </div>
             </div>
 
-            <p className="text-[11px] text-gray-500 font-normal pt-2">
+            <p className="text-[11px] text-[#64748B] font-normal pt-2">
               Verified Enterprise Customer Reviews on Clutch &amp; Trustpilot.
             </p>
           </div>
@@ -153,8 +153,8 @@ export default async function ClientReviews() {
           {/* RIGHT COLUMN: Dual-Direction Vertical Scrolling Marquee */}
           <div className="lg:col-span-7 relative h-[480px] sm:h-[520px] overflow-hidden rounded-2xl p-2 select-none">
             {/* Top & Bottom Gradient Edge Fade Masks */}
-            <div className="absolute top-0 left-0 right-0 h-16 bg-gradient-to-b from-[#E2E8F0] via-[#E2E8F0]/80 to-transparent z-20 pointer-events-none" />
-            <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-[#E2E8F0] via-[#E2E8F0]/80 to-transparent z-20 pointer-events-none" />
+            <div className="absolute top-0 left-0 right-0 h-16 bg-gradient-to-b from-[#F7F6F5] via-[#F7F6F5]/80 to-transparent z-20 pointer-events-none" />
+            <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-[#F7F6F5] via-[#F7F6F5]/80 to-transparent z-20 pointer-events-none" />
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 h-full">
               
@@ -163,7 +163,7 @@ export default async function ClientReviews() {
                 <div className="reviews-col-down">
                   {col1Items.map((rev, idx) => (
                     <div key={`c1-${rev.id}-${idx}`} className="mb-4">
-                      <div className="bg-white rounded-2xl border border-blue-100/70 p-5 shadow-xs hover:shadow-md transition-all duration-300 text-left bg-gradient-to-b from-white to-[#F7FAFE]">
+                      <div className="bg-white rounded-2xl border border-[#E2E8F0] p-5 shadow-xs hover:shadow-md transition-all duration-300 text-left">
                         <div className="flex items-center justify-between gap-2 mb-2.5">
                           <div className="text-xs sm:text-sm text-[#FFAA00] tracking-wider">
                             {getStars(rev.rating)}
@@ -207,7 +207,7 @@ export default async function ClientReviews() {
                 <div className="reviews-col-up">
                   {col2Items.map((rev, idx) => (
                     <div key={`c2-${rev.id}-${idx}`} className="mb-4">
-                      <div className="bg-white rounded-2xl border border-blue-100/70 p-5 shadow-xs hover:shadow-md transition-all duration-300 text-left bg-gradient-to-b from-white to-[#F7FAFE]">
+                      <div className="bg-white rounded-2xl border border-[#E2E8F0] p-5 shadow-xs hover:shadow-md transition-all duration-300 text-left">
                         <div className="flex items-center justify-between gap-2 mb-2.5">
                           <div className="text-xs sm:text-sm text-[#FFAA00] tracking-wider">
                             {getStars(rev.rating)}

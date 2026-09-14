@@ -1,5 +1,4 @@
 import React from "react";
-import Link from "next/link";
 
 export default function PortfolioHero() {
   return (
@@ -31,17 +30,11 @@ export default function PortfolioHero() {
           <h2 className="text-[28px] sm:text-[38px] font-extrabold text-white leading-[1.2] mb-4 tracking-tight">
             Proven Business Impact.
           </h2>
-          <p className="text-base font-normal text-white/75 leading-[1.7] max-w-[520px] mb-7">
+          <p className="text-base font-normal text-white/75 leading-[1.7] max-w-[520px]">
             In-depth case studies documenting how Creed Tech engineers mission-critical infrastructure,
             multi-region database replication, private LLMs, and enterprise-grade security platforms —
             delivering measurable outcomes for global enterprises.
           </p>
-          <Link
-            href="#portfolio-case-studies"
-            className="inline-block bg-[#0052FF] hover:bg-[#0042D0] text-white text-sm font-semibold px-8 py-4 rounded transition-colors"
-          >
-            View Case Studies
-          </Link>
         </div>
 
         {/* Right Column - 4 Stat Cards */}

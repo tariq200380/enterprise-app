@@ -29,6 +29,7 @@ export default function InquiriesModule({
   const [internalInquiries, setInternalInquiries] = useState<Inquiry[]>([]);
   const [filter, setFilter] = useState<InquiryFilter>("ALL");
   const [selectedInquiry, setSelectedInquiry] = useState<Inquiry | null>(null);
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
 
   const fetchInquiries = useCallback(async () => {
     try {
@@ -47,6 +48,8 @@ export default function InquiriesModule({
       setInternalInquiries(propInquiries);
     } else {
       fetchInquiries();
+      const interval = setInterval(fetchInquiries, 15000);
+      return () => clearInterval(interval);
     }
   }, [propInquiries, fetchInquiries]);
 
@@ -148,6 +151,22 @@ export default function InquiriesModule({
               </span>
             </button>
           ))}
+          <button
+            type="button"
+            onClick={async () => {
+              setIsRefreshing(true);
+              await fetchInquiries();
+              if (onRefresh) onRefresh();
+              setIsRefreshing(false);
+              showToast("Inquiries refreshed", "success");
+            }}
+            disabled={isRefreshing}
+            className="px-3 py-1 text-xs font-bold rounded cursor-pointer inline-flex items-center gap-1.5 bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors disabled:opacity-60"
+            title="Refresh Inquiries"
+          >
+            <span className={isRefreshing ? "animate-spin inline-block" : ""}>🔄</span>
+            <span>{isRefreshing ? "Refreshing..." : "Refresh"}</span>
+          </button>
         </div>
       </div>
 

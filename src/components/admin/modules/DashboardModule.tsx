@@ -43,6 +43,24 @@ export default function DashboardModule({
   const [subscribers, setSubscribers] = useState<SubscriberItem[]>(propSubscribers || []);
   const [portfolioProjects, setPortfolioProjects] = useState<PortfolioItem[]>(propPortfolio || []);
 
+  const loadDashboardData = () => {
+    Promise.all([
+      fetch("/api/admin/inquiries").then((r) => r.json()).catch(() => ({})),
+      fetch("/api/admin/candidates").then((r) => r.json()).catch(() => ({})),
+      fetch("/api/admin/articles").then((r) => r.json()).catch(() => ({})),
+      fetch("/api/admin/videos").then((r) => r.json()).catch(() => ({})),
+      fetch("/api/admin/subscribers").then((r) => r.json()).catch(() => ({})),
+      fetch("/api/admin/portfolio").then((r) => r.json()).catch(() => ({})),
+    ]).then(([inqD, canD, artD, vidD, subD, portD]) => {
+      if (inqD?.inquiries) setInquiries(inqD.inquiries);
+      if (canD?.candidates) setCandidates(canD.candidates);
+      if (artD?.articles) setArticles(artD.articles);
+      if (vidD?.videos) setVideos(vidD.videos);
+      if (subD?.subscribers) setSubscribers(subD.subscribers);
+      if (portD?.portfolio || portD?.projects) setPortfolioProjects(portD.portfolio || portD.projects);
+    });
+  };
+
   useEffect(() => {
     if (propInquiries) setInquiries(propInquiries);
     if (propCandidates) setCandidates(propCandidates);
@@ -52,21 +70,9 @@ export default function DashboardModule({
     if (propPortfolio) setPortfolioProjects(propPortfolio);
 
     if (!propInquiries && !propCandidates) {
-      Promise.all([
-        fetch("/api/admin/inquiries").then((r) => r.json()).catch(() => ({})),
-        fetch("/api/admin/candidates").then((r) => r.json()).catch(() => ({})),
-        fetch("/api/admin/articles").then((r) => r.json()).catch(() => ({})),
-        fetch("/api/admin/videos").then((r) => r.json()).catch(() => ({})),
-        fetch("/api/admin/subscribers").then((r) => r.json()).catch(() => ({})),
-        fetch("/api/admin/portfolio").then((r) => r.json()).catch(() => ({})),
-      ]).then(([inqD, canD, artD, vidD, subD, portD]) => {
-        if (inqD?.inquiries) setInquiries(inqD.inquiries);
-        if (canD?.candidates) setCandidates(canD.candidates);
-        if (artD?.articles) setArticles(artD.articles);
-        if (vidD?.videos) setVideos(vidD.videos);
-        if (subD?.subscribers) setSubscribers(subD.subscribers);
-        if (portD?.portfolio || portD?.projects) setPortfolioProjects(portD.portfolio || portD.projects);
-      });
+      loadDashboardData();
+      const interval = setInterval(loadDashboardData, 15000);
+      return () => clearInterval(interval);
     }
   }, [propInquiries, propCandidates, propArticles, propVideos, propSubscribers, propPortfolio]);
 
@@ -103,7 +109,16 @@ export default function DashboardModule({
             Real-time metrics, telemetry, and inbound communication streams via PostgreSQL 18.
           </p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 items-center">
+          <button
+            type="button"
+            onClick={loadDashboardData}
+            className="px-3 py-2 bg-white border border-[#CBD5E1] hover:bg-gray-50 text-[#0F172A] text-xs font-bold rounded shadow-xs cursor-pointer transition-colors inline-flex items-center gap-1.5"
+            title="Refresh Overview Data"
+          >
+            <span>🔄</span>
+            <span>Refresh</span>
+          </button>
           <button
             onClick={() => {
               if (onOpenNewArticle) onOpenNewArticle();
