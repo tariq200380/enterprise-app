@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 
-export default function PortfolioCtaBanner() {
+export default function PortfolioCtaSection() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
@@ -51,7 +51,9 @@ export default function PortfolioCtaBanner() {
     const fullName = String(formData.get("fullName") || "").trim();
     const workEmail = String(formData.get("workEmail") || "").trim();
     const phone = String(formData.get("phone") || "").trim();
-    const contactMethod = String(formData.get("contactMethod") || "Direct Video Consultation (Google Meet / Zoom)");
+    const contactMethod = String(
+      formData.get("contactMethod") || "Direct Video Consultation (Google Meet / Zoom)"
+    );
     const architectureNotes = String(formData.get("architectureNotes") || "").trim();
 
     if (!fullName || !workEmail) {
@@ -73,7 +75,8 @@ export default function PortfolioCtaBanner() {
           phone: phone || "",
           company: "Portfolio Technical Scoping",
           service: `Technical Team Scoping (${contactMethod})`,
-          project_details: architectureNotes || "Direct scoping request from Portfolio Technical Scoping modal.",
+          project_details:
+            architectureNotes || "Direct scoping request from Portfolio Technical Scoping modal.",
           projectScope: architectureNotes,
           architectureNotes: architectureNotes,
           need_nda: true,
@@ -121,9 +124,7 @@ export default function PortfolioCtaBanner() {
         </div>
       </section>
 
-      {/* ========================================================================= */}
-      {/* TECHNICAL TEAM SCOPING FORM MODAL                                         */}
-      {/* ========================================================================= */}
+      {/* TECHNICAL TEAM SCOPING FORM MODAL */}
       {isModalOpen && (
         <div
           role="dialog"

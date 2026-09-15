@@ -13,6 +13,10 @@ interface TopicCard {
   articleId: number;
 }
 
+/* ========================================================================= */
+/* EDITABLE TOPIC CARDS DATA                                                 */
+/* Edit research blueprint cards, topics, badges, titles & article links     */
+/* ========================================================================= */
 const topicCards: TopicCard[] = [
   // Hosting
   {
@@ -77,6 +81,9 @@ const topicCards: TopicCard[] = [
   },
 ];
 
+/* ========================================================================= */
+/* EDITABLE TRENDING LAB CARDS                                               */
+/* ========================================================================= */
 const trendingCards = [
   {
     badge: "HISTORICAL AI",
@@ -108,6 +115,9 @@ const trendingCards = [
   },
 ];
 
+/* ========================================================================= */
+/* EDITABLE TOPIC FILTERS TABS                                               */
+/* ========================================================================= */
 const topicFilters = [
   { label: "ALL", id: "all" },
   { label: "SEO", id: "seo" },

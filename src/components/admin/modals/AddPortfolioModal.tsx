@@ -8,6 +8,7 @@ interface AddPortfolioModalProps {
   onClose: () => void;
   onPortfolioCreated: (project: PortfolioItem) => void;
   showToast: (msg: string, type?: "success" | "error") => void;
+  projectToEdit?: PortfolioItem | null;
 }
 
 export default function AddPortfolioModal({
@@ -15,6 +16,7 @@ export default function AddPortfolioModal({
   onClose,
   onPortfolioCreated,
   showToast,
+  projectToEdit,
 }: AddPortfolioModalProps) {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("CLOUD & ENTERPRISE");
@@ -31,6 +33,39 @@ export default function AddPortfolioModal({
   const [imageMode, setImageMode] = useState<"upload" | "url">("upload");
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  React.useEffect(() => {
+    if (projectToEdit) {
+      setTitle(projectToEdit.title || "");
+      setCategory(projectToEdit.category || "CLOUD & ENTERPRISE");
+      setClient(projectToEdit.client || "Global Enterprise");
+      setSummary(projectToEdit.summary || "");
+      setStack(
+        Array.isArray(projectToEdit.stack)
+          ? projectToEdit.stack.join(", ")
+          : typeof projectToEdit.stack === "string"
+          ? projectToEdit.stack
+          : "Next.js, PostgreSQL, Docker, Kubernetes"
+      );
+      setLiveUrl(projectToEdit.live_url || "");
+      setGithubUrl(projectToEdit.github_url || "");
+      setImageUrl(
+        projectToEdit.image_url ||
+          "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=600&auto=format&fit=crop"
+      );
+    } else {
+      setTitle("");
+      setCategory("CLOUD & ENTERPRISE");
+      setClient("Global Enterprise");
+      setSummary("");
+      setStack("Next.js, PostgreSQL, Docker, Kubernetes");
+      setLiveUrl("https://creedtech.com");
+      setGithubUrl("https://github.com/creed-tech");
+      setImageUrl(
+        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=600&auto=format&fit=crop"
+      );
+    }
+  }, [projectToEdit, isOpen]);
 
   if (!isOpen) return null;
 
@@ -72,13 +107,15 @@ export default function AddPortfolioModal({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title) return;
+    const isEdit = Boolean(projectToEdit?.id);
     try {
       setSaving(true);
       const stackArr = stack.split(",").map((s) => s.trim()).filter(Boolean);
       const res = await fetch("/api/admin/portfolio", {
-        method: "POST",
+        method: isEdit ? "PUT" : "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          id: projectToEdit?.id,
           title,
           category,
           client,
@@ -90,16 +127,15 @@ export default function AddPortfolioModal({
         }),
       });
       const data = await res.json();
-      if (data.success) {
+      if (data.success && data.project) {
         onPortfolioCreated(data.project);
-        setTitle("");
-        setSummary("");
-        setImageUrl("https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=600&auto=format&fit=crop");
         onClose();
-        showToast("✓ Portfolio project published!");
+        showToast(isEdit ? "✓ Portfolio project updated!" : "✓ Portfolio project published!");
+      } else {
+        showToast(data.error || "Failed to save portfolio project", "error");
       }
-    } catch {
-      showToast("Failed to create portfolio project", "error");
+    } catch (err: any) {
+      showToast(err?.message || "Failed to save portfolio project", "error");
     } finally {
       setSaving(false);
     }
@@ -117,7 +153,9 @@ export default function AddPortfolioModal({
         <span className="text-[10px] font-bold text-[#0052FF] uppercase tracking-wider block mb-1">
           PORTFOLIO CMS
         </span>
-        <h3 className="text-base font-bold text-[#0F172A] mb-4">Add Portfolio Case Study</h3>
+        <h3 className="text-base font-bold text-[#0F172A] mb-4">
+          {projectToEdit ? "Edit Portfolio Case Study" : "Add Portfolio Case Study"}
+        </h3>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-3.5 text-xs">
           {/* Image Upload from System Section */}
@@ -303,7 +341,7 @@ export default function AddPortfolioModal({
               disabled={saving || isUploading}
               className="px-5 py-2 bg-[#0052FF] hover:bg-[#0042D0] text-white font-bold rounded-lg cursor-pointer shadow text-xs transition-colors disabled:opacity-50"
             >
-              {saving ? "Saving..." : isUploading ? "Uploading Image..." : "Save Project"}
+              {saving ? "Saving..." : isUploading ? "Uploading Image..." : projectToEdit ? "Update Project" : "Save Project"}
             </button>
           </div>
         </form>

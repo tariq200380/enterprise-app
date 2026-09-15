@@ -245,7 +245,7 @@ export default function AdminPage() {
           )}
 
           {activeTab === "website_settings" && (
-            <WebsiteSettingsModule showToast={showToast} />
+            <WebsiteSettingsModule showToast={showToast} onNavigateTab={setActiveTab} />
           )}
 
           {(activeTab === "settings" || activeTab === "system") && (

@@ -1,21 +1,21 @@
 "use client";
 
 import React from "react";
-import { WebsiteSettingsData, PortfolioProjectItem, PortfolioShowcaseSettings } from "./types";
+import { WebsiteSettingsData, PortfolioShowcaseSettings } from "./types";
 import PortfolioShowcaseCard from "./portfolio/PortfolioShowcaseCard";
-import PortfolioProjectCard from "./portfolio/PortfolioProjectCard";
 
 interface PortfolioSettingsSectionProps {
   settings: WebsiteSettingsData;
   onChange: <K extends keyof WebsiteSettingsData>(key: K, value: WebsiteSettingsData[K]) => void;
+  onNavigateTab?: (tab: string) => void;
 }
 
 export default function PortfolioSettingsSection({
   settings,
   onChange,
+  onNavigateTab,
 }: PortfolioSettingsSectionProps) {
   const showcase = settings.portfolioShowcase;
-  const projects = settings.portfolioProjects || [];
 
   // Update showcase field
   const handleShowcaseChange = (field: keyof PortfolioShowcaseSettings, value: string) => {
@@ -25,84 +25,52 @@ export default function PortfolioSettingsSection({
     });
   };
 
-  // Update specific field in a project
-  const handleProjectChange = (
-    index: number,
-    field: keyof PortfolioProjectItem,
-    value: string
-  ) => {
-    const updated = [...projects];
-    updated[index] = { ...updated[index], [field]: value };
-    onChange("portfolioProjects", updated);
-  };
-
-  // Add new project template
-  const handleAddProject = () => {
-    const newProject: PortfolioProjectItem = {
-      id: `case-${Date.now()}`,
-      coverImageUrl: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=1200&auto=format&fit=crop&q=80",
-      category: "Enterprise Engineering",
-      clientNameLocation: "Global Enterprise Partner • United States",
-      imageBadgeTag: "Engineering",
-      title: "New Enterprise Project",
-      description: "Detailed executive summary describing the mission-critical system, architecture, and business outcome.",
-      challenge: "Legacy architecture unable to handle high-concurrency real-time workloads.",
-      solution: "Modernized with scalable microservices, containerization, and automated CI/CD.",
-      metric1Value: "10x",
-      metric1Label: "Velocity Boost",
-      metric2Value: "99.99%",
-      metric2Label: "Uptime SLA",
-      metric3Value: "0 Defect",
-      metric3Label: "Code SLA",
-      techStack: "Go, Kubernetes, Docker, PostgreSQL, AWS",
-    };
-    onChange("portfolioProjects", [...projects, newProject]);
-  };
-
-  // Delete project
-  const handleDeleteProject = (index: number) => {
-    if (confirm(`Are you sure you want to delete Case ${index + 1}?`)) {
-      const updated = projects.filter((_, i) => i !== index);
-      onChange("portfolioProjects", updated);
-    }
-  };
-
   return (
-    <div className="flex flex-col gap-8">
-      {/* Top Header with Add Button */}
-      <div className="flex items-center justify-between flex-wrap gap-4 bg-white border border-[#E2E8F0] p-4 rounded-lg shadow-sm">
-        <div>
+    <div className="flex flex-col gap-6">
+      {/* Top Header Banner */}
+      <div className="bg-white border border-[#E2E8F0] p-4 rounded-lg shadow-sm">
+        <div className="flex items-center gap-2 mb-1">
+          <span className="text-base">💼</span>
           <h2 className="text-sm font-bold text-[#0F172A]">
-            Portfolio Page Architecture &amp; Case Studies
+            Portfolio Standards &amp; Showcase Section Settings
           </h2>
-          <p className="text-xs text-[#64748B]">
-            Customize top showcase standards and manage all published case study cards dynamically.
-          </p>
         </div>
-        <button
-          type="button"
-          onClick={handleAddProject}
-          className="px-4 py-2 bg-[#0052FF] hover:bg-[#0042D0] text-white text-xs font-bold rounded cursor-pointer transition-colors shadow-sm flex items-center gap-1.5"
-        >
-          <span>＋</span>
-          <span>Add New Project</span>
-        </button>
+        <p className="text-xs text-[#64748B]">
+          Configure the top engineering showcase standards, headline, badge, and description displayed on the public{" "}
+          <span className="font-mono text-[#0F172A] font-semibold">/portfolio</span> page.
+        </p>
       </div>
 
       {/* 1. Engineering Standards Showcase Card */}
       <PortfolioShowcaseCard showcase={showcase} onChange={handleShowcaseChange} />
 
-      {/* 2. Dynamic Case Studies & Projects */}
-      <div className="flex flex-col gap-6">
-        {projects.map((project, index) => (
-          <PortfolioProjectCard
-            key={project.id || index}
-            project={project}
-            index={index}
-            onChange={(field, value) => handleProjectChange(index, field, value)}
-            onDelete={() => handleDeleteProject(index)}
-          />
-        ))}
+      {/* 2. Direct Link / Info to Portfolio Projects CMS */}
+      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm">
+        <div className="flex items-start gap-3">
+          <div className="w-9 h-9 rounded-lg bg-[#0052FF] text-white flex items-center justify-center shrink-0 text-base shadow-sm">
+            📁
+          </div>
+          <div>
+            <h4 className="text-sm font-bold text-[#0F172A]">
+              Manage Case Studies &amp; Individual Projects
+            </h4>
+            <p className="text-xs text-[#475569] mt-0.5 max-w-xl leading-relaxed">
+              All portfolio projects, tech stacks, live links, and client case studies are managed in the dedicated{" "}
+              <strong>Portfolio Projects</strong> CMS tab in the sidebar to prevent duplicate entries.
+            </p>
+          </div>
+        </div>
+
+        {onNavigateTab && (
+          <button
+            type="button"
+            onClick={() => onNavigateTab("portfolio")}
+            className="px-4 py-2 bg-[#0052FF] hover:bg-[#0042D0] text-white text-xs font-bold rounded cursor-pointer transition-colors shadow-sm flex items-center gap-1.5 shrink-0"
+          >
+            <span>Open Portfolio Projects CMS</span>
+            <span>&rarr;</span>
+          </button>
+        )}
       </div>
     </div>
   );

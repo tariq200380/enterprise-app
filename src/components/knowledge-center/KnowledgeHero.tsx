@@ -1,32 +1,28 @@
 import React from "react";
 import Link from "next/link";
 
+/* ========================================================================= */
+/* KNOWLEDGE CENTER HERO SECTION                                             */
+/* Features live visitor telemetry card and flagship research headlines      */
+/* 100% Pure Tailwind CSS - Easy to read and edit                            */
+/* ========================================================================= */
 export default function KnowledgeHero() {
   return (
     <section className="relative w-full py-16 sm:py-20 lg:py-24 bg-[#070D1E] text-white overflow-hidden border-b border-[#1F2937]">
-      {/* Radial glows */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(circle at 20% 40%, rgba(0, 102, 255, 0.25) 0%, transparent 60%), radial-gradient(circle at 80% 60%, rgba(255, 107, 0, 0.15) 0%, transparent 55%)",
-        }}
-      />
+      {/* Radial background glows - Pure Tailwind CSS */}
+      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_20%_40%,rgba(0,102,255,0.25)_0%,transparent_60%),radial-gradient(circle_at_80%_60%,rgba(255,107,0,0.15)_0%,transparent_55%)]" />
 
-      {/* Cyan grid pattern overlay */}
-      <div
-        className="absolute inset-0 opacity-15 pointer-events-none bg-[size:40px_40px]"
-        style={{
-          backgroundImage:
-            "linear-gradient(to right, rgba(0, 150, 255, 0.2) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 150, 255, 0.2) 1px, transparent 1px)",
-        }}
-      />
+      {/* Cyan grid pattern overlay - Pure Tailwind CSS */}
+      <div className="absolute inset-0 opacity-15 pointer-events-none bg-[size:40px_40px] bg-[linear-gradient(to_right,rgba(0,150,255,0.2)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,150,255,0.2)_1px,transparent_1px)]" />
 
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-8 lg:gap-12 items-center">
-          {/* Left Telemetry Visual Card */}
+          
+          {/* ================================================================= */}
+          {/* LEFT: TELEMETRY VISUAL CARD (Visitors, Waveform & Metrics)        */}
+          {/* ================================================================= */}
           <div className="bg-white/[0.04] border border-white/[0.12] rounded-2xl p-6 sm:p-7 backdrop-blur-md shadow-[0_20px_40px_-15px_rgba(0,0,0,0.6)]">
-            {/* Top row */}
+            {/* Top row: Visitors counter */}
             <div className="mb-5 pb-5 border-b border-white/[0.12]">
               <div className="flex items-center justify-between mb-3">
                 <span className="text-xs font-extrabold text-white uppercase tracking-[0.06em]">
@@ -82,7 +78,7 @@ export default function KnowledgeHero() {
               </div>
             </div>
 
-            {/* Bottom metrics grid */}
+            {/* Bottom metrics dials */}
             <div className="grid grid-cols-2 gap-5 items-center">
               <div>
                 <span className="text-[11px] text-white font-bold block mb-1 uppercase tracking-[0.04em]">
@@ -106,17 +102,19 @@ export default function KnowledgeHero() {
                   </span>
                 </div>
                 <div className="w-10 h-10 border-[3px] border-[rgba(34,211,238,0.25)] border-t-[#22D3EE] border-r-[#22D3EE] flex items-center justify-center shrink-0">
-                  <div className="w-[7px] h-[7px] bg-[#22D3EE]"></div>
+                  <div className="w-[7px] h-[7px] bg-[#22D3EE]" />
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Right Editorial Headlines */}
+          {/* ================================================================= */}
+          {/* RIGHT: EDITORIAL HEADLINES & FEATURED ARTICLES                    */}
+          {/* ================================================================= */}
           <div className="text-left flex flex-col gap-4 sm:gap-5">
             {/* Tag Badge */}
             <div className="inline-flex items-center gap-2 self-start px-3 py-1 bg-[rgba(0,163,255,0.12)] border border-[rgba(0,163,255,0.3)] rounded">
-              <span className="w-1.5 h-1.5 rounded-full bg-white"></span>
+              <span className="w-1.5 h-1.5 rounded-full bg-white" />
               <span className="text-[11px] font-extrabold text-white uppercase tracking-[0.08em]">
                 FLAGSHIP RESEARCH &amp; BENCHMARKS
               </span>
@@ -127,7 +125,7 @@ export default function KnowledgeHero() {
               Enterprise Knowledge Center &amp; Tech Intelligence
             </h1>
 
-            {/* Featured Articles */}
+            {/* Featured Articles List */}
             <div className="flex flex-col gap-3.5 sm:gap-4">
               <div>
                 <Link
@@ -156,6 +154,7 @@ export default function KnowledgeHero() {
               </span>
             </div>
           </div>
+
         </div>
       </div>
     </section>

@@ -12,11 +12,12 @@ import ServicesSettingsSection from "../settings/ServicesSettingsSection";
 
 interface WebsiteSettingsModuleProps {
   showToast?: (msg: string, type: "success" | "error") => void;
+  onNavigateTab?: (tab: string) => void;
 }
 
 type SubTabType = "global" | "home" | "services" | "about" | "contact" | "portfolio" | "header_footer";
 
-export default function WebsiteSettingsModule({ showToast }: WebsiteSettingsModuleProps) {
+export default function WebsiteSettingsModule({ showToast, onNavigateTab }: WebsiteSettingsModuleProps) {
   const [subTab, setSubTab] = useState<SubTabType>("global");
   const [saving, setSaving] = useState(false);
   const [settings, setSettings] = useState<WebsiteSettingsData>(DEFAULT_WEBSITE_SETTINGS);
@@ -347,7 +348,11 @@ export default function WebsiteSettingsModule({ showToast }: WebsiteSettingsModu
           <ContactSettingsSection settings={settings} onChange={updateSetting} />
         )}
         {subTab === "portfolio" && (
-          <PortfolioSettingsSection settings={settings} onChange={updateSetting} />
+          <PortfolioSettingsSection
+            settings={settings}
+            onChange={updateSetting}
+            onNavigateTab={onNavigateTab}
+          />
         )}
         {subTab === "header_footer" && (
           <HeaderFooterSection settings={settings} onChange={updateSetting} />

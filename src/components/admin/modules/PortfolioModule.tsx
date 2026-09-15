@@ -23,6 +23,7 @@ export default function PortfolioModule({
 }: PortfolioModuleProps) {
   const [portfolioProjects, setPortfolioProjects] = useState<PortfolioItem[]>(propProjects || []);
   const [showAddModal, setShowAddModal] = useState(false);
+  const [editingProject, setEditingProject] = useState<PortfolioItem | null>(null);
 
   const fetchPortfolio = async () => {
     try {
@@ -62,11 +63,19 @@ export default function PortfolioModule({
   };
 
   const handleCreated = (newProject: PortfolioItem) => {
-    setPortfolioProjects((prev) => [newProject, ...prev]);
+    setPortfolioProjects((prev) => {
+      const idx = prev.findIndex((p) => p.id === newProject.id);
+      if (idx >= 0) {
+        const next = [...prev];
+        next[idx] = newProject;
+        return next;
+      }
+      return [newProject, ...prev];
+    });
     setShowAddModal(false);
+    setEditingProject(null);
     fetchPortfolio();
     onRefresh?.();
-    showToast?.("✓ Portfolio project published!");
   };
 
   const filtered = portfolioProjects.filter(
@@ -87,6 +96,7 @@ export default function PortfolioModule({
         </div>
         <button
           onClick={() => {
+            setEditingProject(null);
             if (onOpenAddModal) onOpenAddModal();
             else setShowAddModal(true);
           }}
@@ -131,12 +141,23 @@ export default function PortfolioModule({
                     </a>
                   )}
                 </div>
-                <button
-                  onClick={() => handleDelete(p.id)}
-                  className="px-2.5 py-1 text-xs text-red-600 hover:bg-red-50 rounded font-semibold cursor-pointer"
-                >
-                  Delete
-                </button>
+                <div className="flex items-center gap-1.5">
+                  <button
+                    onClick={() => {
+                      setEditingProject(p);
+                      setShowAddModal(true);
+                    }}
+                    className="px-2.5 py-1 text-xs text-[#0052FF] hover:bg-blue-50 rounded font-semibold cursor-pointer"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(p.id)}
+                    className="px-2.5 py-1 text-xs text-red-600 hover:bg-red-50 rounded font-semibold cursor-pointer"
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -152,6 +173,7 @@ export default function PortfolioModule({
             </p>
             <button
               onClick={() => {
+                setEditingProject(null);
                 if (onOpenAddModal) onOpenAddModal();
                 else setShowAddModal(true);
               }}
@@ -163,12 +185,16 @@ export default function PortfolioModule({
         )}
       </div>
 
-      {/* Embedded Add Portfolio Modal */}
+      {/* Embedded Add/Edit Portfolio Modal */}
       <AddPortfolioModal
         isOpen={showAddModal}
-        onClose={() => setShowAddModal(false)}
+        onClose={() => {
+          setShowAddModal(false);
+          setEditingProject(null);
+        }}
         onPortfolioCreated={handleCreated}
         showToast={showToast || (() => {})}
+        projectToEdit={editingProject}
       />
     </div>
   );

@@ -12,6 +12,10 @@ interface Testimonial {
   linkedin: string;
 }
 
+/* ========================================================================= */
+/* EDITABLE TESTIMONIALS DATA                                                */
+/* Edit founder reviews, quotes, authors, companies, and links below         */
+/* ========================================================================= */
 const testimonials: Testimonial[] = [
   {
     company: "SQUIRE",
@@ -208,13 +212,8 @@ export default function Testimonial3DDeck() {
 
   return (
     <section className="relative w-full py-12 sm:py-16 bg-[#F7F6F5] border-t border-[#E2E8F0] overflow-hidden">
-      {/* Subtle Dot Grid Background */}
-      <div
-        className="absolute inset-0 pointer-events-none opacity-45 bg-[size:28px_28px]"
-        style={{
-          backgroundImage: "radial-gradient(#E2E8F0 1.5px, transparent 1.5px)",
-        }}
-      />
+      {/* Subtle Dot Grid Background - Pure Tailwind CSS */}
+      <div className="absolute inset-0 pointer-events-none opacity-45 bg-[size:28px_28px] bg-[radial-gradient(#E2E8F0_1.5px,transparent_1.5px)]" />
 
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
