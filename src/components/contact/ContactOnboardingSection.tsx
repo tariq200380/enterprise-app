@@ -1,54 +1,109 @@
 import React from "react";
-import { ContactSettingsData } from "../admin/settings/types";
+import { ContactSettingsData } from "@/components/admin/settings/types";
 
-interface Props {
-  data: ContactSettingsData;
+interface ContactOnboardingSectionProps {
+  settings?: Partial<ContactSettingsData>;
 }
 
-export default function ContactOnboardingSection({ data }: Props) {
-  const steps = data.onboardingSteps || [];
+export default function ContactOnboardingSection({ settings }: ContactOnboardingSectionProps) {
+  const badge = settings?.stepsBadge || "HOW WE ENGAGE & DELIVER";
+  const title = settings?.stepsTitle || "Transparent, Zero-Friction Onboarding";
+  const desc =
+    settings?.stepsDescription ||
+    "From initial technical scoping to dedicated sprint kickoff, our onboarding protocol is engineered for velocity, complete transparency, and architectural rigor.";
 
   return (
-    <section className="w-full py-16 sm:py-24 bg-white border-b border-[#E5E7EB] text-center">
-      <div className="max-w-7xl mx-auto px-6 sm:px-8">
-        <div className="max-w-xl mx-auto mb-12 sm:mb-16">
-          {data.stepsBadge && (
-            <span className="text-[11.5px] font-bold text-[#FF6B00] uppercase tracking-wider block mb-1.5">
-              {data.stepsBadge}
-            </span>
-          )}
-          <h2 className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-[#030712] tracking-tight leading-tight mb-2">
-            {data.stepsTitle}
+    <section className="w-full py-10 sm:py-12 border-b border-[#E2E8F0] bg-[#F7F6F5]">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-2xl mx-auto text-center mb-10 sm:mb-12">
+          <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#EA580C] font-mono mb-2 block">
+            {badge}
+          </span>
+          <h2 className="text-2xl sm:text-3xl lg:text-[2.15rem] font-extrabold text-[#0F172A] tracking-tight leading-tight mb-3">
+            {title}
           </h2>
-          <p className="text-sm sm:text-base text-[#6B7280] font-normal leading-relaxed">
-            {data.stepsDescription}
+          <p className="text-slate-600 text-sm leading-relaxed">
+            {desc}
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
-          {steps.map((step, idx) => (
-            <div
-              key={step.id || idx}
-              className="bg-[#FAFAFC] border border-[#E5E7EB] rounded-2xl p-7 shadow-sm flex flex-col justify-between min-h-[240px]"
-            >
-              <div>
-                <span className="text-2xl font-bold font-mono text-[#0052FF] block mb-3">
-                  {step.number || String(idx + 1).padStart(2, "0")}
-                </span>
-                <h3 className="text-lg font-bold text-[#030712] mb-2">
-                  {step.headline}
-                </h3>
-                <p className="text-[13px] text-[#4B5563] leading-relaxed font-normal">
-                  {step.explanation}
-                </p>
-              </div>
-              {step.timelineSla && (
-                <div className="mt-5 pt-3 border-t border-[#E5E7EB] text-xs font-bold text-[#0052FF]">
-                  {step.timelineSla}
-                </div>
-              )}
+        {/* 4 Direct Steps Grid (Simple, Editable JSX Cards) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 text-left">
+          {/* Step 01 */}
+          <div className="bg-white border border-[#E2E8F0] rounded-xl p-5 shadow-[0_2px_4px_rgba(0,0,0,0.02)] hover:border-orange-400/50 hover:shadow-sm transition-all flex flex-col justify-between">
+            <div>
+              <span className="inline-block font-mono text-xs font-extrabold text-[#EA580C] bg-orange-50 border border-orange-200/70 px-2.5 py-0.5 rounded mb-3">
+                01
+              </span>
+              <h4 className="text-sm font-bold text-[#0F172A] mb-1.5">
+                Technical Scoping &amp; NDA
+              </h4>
+              <p className="text-xs text-slate-500 leading-relaxed mb-4">
+                Mutual NDA execution followed by a deep-dive technical review of your system
+                parameters, dependencies, and business goals.
+              </p>
             </div>
-          ))}
+            <div className="text-[11px] font-mono text-slate-400 border-t border-[#E2E8F0] pt-2.5">
+              TIMEFRAME: DAY 1
+            </div>
+          </div>
+
+          {/* Step 02 */}
+          <div className="bg-white border border-[#E2E8F0] rounded-xl p-5 shadow-[0_2px_4px_rgba(0,0,0,0.02)] hover:border-orange-400/50 hover:shadow-sm transition-all flex flex-col justify-between">
+            <div>
+              <span className="inline-block font-mono text-xs font-extrabold text-[#EA580C] bg-orange-50 border border-orange-200/70 px-2.5 py-0.5 rounded mb-3">
+                02
+              </span>
+              <h4 className="text-sm font-bold text-[#0F172A] mb-1.5">
+                Architecture Blueprint
+              </h4>
+              <p className="text-xs text-slate-500 leading-relaxed mb-4">
+                Our principal engineers deliver a comprehensive architectural diagram, technology
+                matrix, milestone breakdown, and SLA agreement.
+              </p>
+            </div>
+            <div className="text-[11px] font-mono text-slate-400 border-t border-[#E2E8F0] pt-2.5">
+              TIMEFRAME: DAY 2–3
+            </div>
+          </div>
+
+          {/* Step 03 */}
+          <div className="bg-white border border-[#E2E8F0] rounded-xl p-5 shadow-[0_2px_4px_rgba(0,0,0,0.02)] hover:border-orange-400/50 hover:shadow-sm transition-all flex flex-col justify-between">
+            <div>
+              <span className="inline-block font-mono text-xs font-extrabold text-[#EA580C] bg-orange-50 border border-orange-200/70 px-2.5 py-0.5 rounded mb-3">
+                03
+              </span>
+              <h4 className="text-sm font-bold text-[#0F172A] mb-1.5">
+                Dedicated Pod Formation
+              </h4>
+              <p className="text-xs text-slate-500 leading-relaxed mb-4">
+                A bespoke pod of senior principal engineers is locked into your context with
+                dedicated Slack channels and synchronized sprint cadences.
+              </p>
+            </div>
+            <div className="text-[11px] font-mono text-slate-400 border-t border-[#E2E8F0] pt-2.5">
+              TIMEFRAME: DAY 4–5
+            </div>
+          </div>
+
+          {/* Step 04 */}
+          <div className="bg-white border border-[#E2E8F0] rounded-xl p-5 shadow-[0_2px_4px_rgba(0,0,0,0.02)] hover:border-orange-400/50 hover:shadow-sm transition-all flex flex-col justify-between">
+            <div>
+              <span className="inline-block font-mono text-xs font-extrabold text-[#EA580C] bg-orange-50 border border-orange-200/70 px-2.5 py-0.5 rounded mb-3">
+                04
+              </span>
+              <h4 className="text-sm font-bold text-[#0F172A] mb-1.5">
+                Sprint Zero &amp; Production
+              </h4>
+              <p className="text-xs text-slate-500 leading-relaxed mb-4">
+                Immediate codebase assimilation, CI/CD pipeline automation, and delivery of the
+                first functional production milestone with zero lag.
+              </p>
+            </div>
+            <div className="text-[11px] font-mono text-slate-400 border-t border-[#E2E8F0] pt-2.5">
+              TIMEFRAME: WEEK 1
+            </div>
+          </div>
         </div>
       </div>
     </section>

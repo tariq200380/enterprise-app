@@ -1,10 +1,19 @@
 import React from "react";
 import { PartnerReviewLinks } from "@/lib/about-data";
+import { ReviewPlatformItem } from "@/components/admin/settings/types";
 
 interface AboutHeroSectionProps {
   partnerLinks?: PartnerReviewLinks;
   onOpenModal?: (topic?: string) => void;
 }
+
+const DEFAULT_PLATFORMS: ReviewPlatformItem[] = [
+  { id: "the-manifest", name: "The Manifest", url: "https://themanifest.com" },
+  { id: "shopify-partners", name: "Shopify Partners", url: "https://www.shopify.com/partners" },
+  { id: "trustpilot", name: "Trustpilot", url: "https://www.trustpilot.com" },
+  { id: "clutch", name: "Clutch", url: "https://clutch.co" },
+  { id: "google-reviews", name: "Google Reviews", url: "https://www.google.com" },
+];
 
 export default function AboutHeroSection({
   partnerLinks,
@@ -17,14 +26,11 @@ export default function AboutHeroSection({
     }
   };
 
-  const theManifestUrl = partnerLinks?.theManifestUrl || "https://themanifest.com";
-  const shopifyUrl = partnerLinks?.shopifyUrl || "https://www.shopify.com/partners";
-  const trustpilotUrl = partnerLinks?.trustpilotUrl || "https://www.trustpilot.com";
-  const clutchUrl = partnerLinks?.clutchUrl || "https://clutch.co";
-  const googleReviewsUrl = partnerLinks?.googleReviewsUrl || "https://www.google.com";
+  const sectionTitle = partnerLinks?.sectionTitle || "Reviewed & Recommended On";
+  const platforms = partnerLinks?.platforms?.filter((p) => p.enabled !== false) || [];
 
   return (
-    <section className="bg-[#0B1120] text-white relative overflow-hidden py-12 sm:py-14 px-6 sm:px-10 lg:px-16 border-b border-white/10 text-left">
+    <section className="bg-[#0B1120] text-white relative overflow-hidden py-10 sm:py-12 px-6 sm:px-10 lg:px-16 border-b border-white/10 text-left">
       {/* Ambient Orange Radial Glow */}
       <div
         aria-hidden="true"
@@ -60,7 +66,7 @@ export default function AboutHeroSection({
               <button
                 type="button"
                 onClick={() => onOpenModal?.("Enterprise Architecture & Systems")}
-                className="inline-flex items-center justify-center gap-1.5 bg-[#EA580C] hover:bg-orange-600 text-white font-bold py-2.5 px-5 min-w-[185px] rounded-lg text-xs tracking-wider uppercase font-mono transition-colors shadow-xs cursor-pointer"
+                className="inline-flex items-center justify-center gap-1.5 bg-[#EA580C] hover:bg-orange-600 text-white font-bold h-11 w-full sm:w-[230px] rounded-lg text-xs tracking-wider uppercase font-mono border border-transparent transition-colors shadow-xs cursor-pointer"
               >
                 <span>Start a Conversation</span>
                 <span>&rarr;</span>
@@ -68,7 +74,7 @@ export default function AboutHeroSection({
               <button
                 type="button"
                 onClick={handleScrollToJourney}
-                className="inline-flex items-center justify-center gap-1.5 bg-black hover:bg-[#EA580C] hover:border-[#EA580C] text-white font-bold py-2.5 px-5 min-w-[185px] rounded-lg text-xs tracking-wider uppercase font-mono border border-white/20 transition-colors shadow-xs cursor-pointer"
+                className="inline-flex items-center justify-center gap-1.5 bg-black hover:bg-[#EA580C] hover:border-[#EA580C] text-white font-bold h-11 w-full sm:w-[230px] rounded-lg text-xs tracking-wider uppercase font-mono border border-white/20 transition-colors shadow-xs cursor-pointer"
               >
                 <span>Explore Our Journey</span>
                 <span>&darr;</span>
@@ -125,53 +131,23 @@ export default function AboutHeroSection({
             </div>
           </div>
         </div>
-
         {/* Ledger Ribbon */}
         <div className="mt-10 pt-5 border-t border-white/10 flex items-center justify-between gap-6 flex-wrap text-left relative z-10">
           <div className="text-xs font-mono text-slate-400 uppercase tracking-wider whitespace-nowrap">
-            Reviewed &amp; Recommended On
+            {sectionTitle}
           </div>
           <div className="flex gap-6 sm:gap-10 items-center flex-wrap">
-            <a
-              href={theManifestUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm font-semibold text-white/90 hover:text-orange-400 transition-colors cursor-pointer"
-            >
-              The Manifest
-            </a>
-            <a
-              href={shopifyUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm font-semibold text-white/90 hover:text-orange-400 transition-colors cursor-pointer"
-            >
-              Shopify Partners
-            </a>
-            <a
-              href={trustpilotUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm font-semibold text-white/90 hover:text-orange-400 transition-colors cursor-pointer"
-            >
-              Trustpilot
-            </a>
-            <a
-              href={clutchUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm font-semibold text-white/90 hover:text-orange-400 transition-colors cursor-pointer"
-            >
-              Clutch
-            </a>
-            <a
-              href={googleReviewsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm font-semibold text-white/90 hover:text-orange-400 transition-colors cursor-pointer"
-            >
-              Google Reviews
-            </a>
+            {(platforms.length > 0 ? platforms : DEFAULT_PLATFORMS).map((platform) => (
+              <a
+                key={platform.id}
+                href={platform.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm font-semibold text-white/90 hover:text-orange-400 transition-colors cursor-pointer"
+              >
+                {platform.name}
+              </a>
+            ))}
           </div>
         </div>
       </div>

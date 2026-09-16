@@ -1,7 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { AboutLeadershipMemberItem, AboutSettingsData } from "../types";
+import { uploadImageFile } from "@/lib/uploadHelper";
 
 interface Props {
   data: AboutSettingsData;
@@ -9,6 +10,7 @@ interface Props {
 }
 
 export default function AboutLeadershipCard({ data, onChangeField }: Props) {
+  const [uploadingIdx, setUploadingIdx] = useState<number | null>(null);
   const leadership = data.leadership || [];
 
   const handleMemberChange = (
@@ -24,12 +26,28 @@ export default function AboutLeadershipCard({ data, onChangeField }: Props) {
     onChangeField("leadership", updated);
   };
 
+  const handleFileUpload = async (idx: number, e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingIdx(idx);
+    try {
+      const url = await uploadImageFile(file);
+      if (url) {
+        handleMemberChange(idx, "portraitUrl", url);
+      }
+    } finally {
+      setUploadingIdx(null);
+      e.target.value = "";
+    }
+  };
+
   const handleAddMember = () => {
     const newMember: AboutLeadershipMemberItem = {
       id: `leader-${Date.now()}`,
       name: "",
       role: "",
-      portraitUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&auto=format&fit=crop&q=80",
+      portraitUrl: "",
       badgeTag: "",
       bio: "",
       quote: "",
@@ -156,31 +174,45 @@ export default function AboutLeadershipCard({ data, onChangeField }: Props) {
 
                 {/* Member Fields */}
                 <div className="p-5 flex flex-col gap-4">
-                  {/* Portrait Photo URL with Live Thumbnail */}
+                  {/* Portrait Photo with Live Thumbnail & Upload from Computer */}
                   <div>
-                    <label className="block text-xs font-semibold text-[#334155] mb-1">
-                      Portrait Image URL <span className="text-red-500">*</span>
-                    </label>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <label className="block text-xs font-semibold text-[#334155]">
+                        Portrait Photo <span className="text-red-500">*</span>
+                      </label>
+                      <label className="inline-flex items-center gap-1 px-2.5 py-1 bg-[#EFF6FF] hover:bg-[#DBEAFE] text-[#0052FF] text-[11px] font-bold rounded cursor-pointer transition-colors border border-[#BFDBFE]">
+                        <span>{uploadingIdx === idx ? "⏳ Uploading..." : "📁 Upload from Computer"}</span>
+                        <input
+                          type="file"
+                          accept="image/*,.webp"
+                          className="hidden"
+                          disabled={uploadingIdx === idx}
+                          onChange={(e) => handleFileUpload(idx, e)}
+                        />
+                      </label>
+                    </div>
                     <div className="flex items-center gap-3">
                       {member.portraitUrl ? (
-                        <img
-                          src={member.portraitUrl}
-                          alt={member.name || "Member Portrait"}
-                          className="w-14 h-14 rounded-full object-cover border border-gray-300 shrink-0 bg-gray-100"
-                          onError={(e) => {
-                            (e.target as HTMLElement).style.display = "none";
-                          }}
-                        />
+                        <div className="relative group shrink-0">
+                          <img
+                            src={member.portraitUrl}
+                            alt={member.name || "Member Portrait"}
+                            className="w-14 h-14 rounded-full object-cover border-2 border-[#0052FF]/30 shadow-xs bg-gray-100"
+                            onError={(e) => {
+                              (e.target as HTMLElement).style.display = "none";
+                            }}
+                          />
+                        </div>
                       ) : (
-                        <div className="w-14 h-14 rounded-full border border-dashed border-gray-300 shrink-0 bg-gray-50 flex items-center justify-center text-[10px] text-gray-400">
-                          No img
+                        <div className="w-14 h-14 rounded-full border-2 border-dashed border-gray-300 shrink-0 bg-gray-50 flex items-center justify-center text-[10px] text-gray-400 font-medium">
+                          No photo
                         </div>
                       )}
                       <input
                         type="text"
                         value={member.portraitUrl}
                         onChange={(e) => handleMemberChange(idx, "portraitUrl", e.target.value)}
-                        placeholder="https://images.unsplash.com/photo-..."
+                        placeholder="Image URL or uploaded path (/uploads/...)"
                         className="w-full px-3 py-2 text-xs border border-gray-300 rounded focus:outline-none focus:border-[#0052FF]"
                       />
                     </div>

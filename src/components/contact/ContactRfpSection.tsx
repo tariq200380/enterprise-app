@@ -1,34 +1,47 @@
 import React from "react";
-import { ContactSettingsData } from "../admin/settings/types";
+import { ContactSettingsData } from "@/components/admin/settings/types";
 
-interface Props {
-  data: ContactSettingsData;
+interface ContactRfpSectionProps {
+  settings?: Partial<ContactSettingsData>;
+  onOpenScopingModal: () => void;
 }
 
-export default function ContactRfpSection({ data }: Props) {
-  const title = data.rfpBannerTitle || "Prefer direct enterprise correspondence?";
+export default function ContactRfpSection({
+  settings,
+  onOpenScopingModal,
+}: ContactRfpSectionProps) {
+  const title =
+    settings?.rfpBannerTitle || "Let's Build Your Next High-Performance Platform";
   const description =
-    data.rfpBannerDescription ||
-    "Send your RFP, architecture specs, or tender documents directly to our senior leadership inbox at projects@creed-tech.com.";
-  const buttonText = data.rfpButtonText || "Email RFP / Architecture Docs";
-  const targetEmail = data.rfpTargetEmail || "projects@creed-tech.com";
+    settings?.rfpBannerDescription ||
+    "Schedule a confidential sprint architecture consultation with our principal software architects.";
 
   return (
-    <section className="w-full py-14 sm:py-18 bg-[#0052FF] text-white text-center">
-      <div className="max-w-3xl mx-auto px-6 sm:px-8 flex flex-col items-center gap-4">
-        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white tracking-tight">
+    <section className="w-full bg-[#0B1120] py-10 sm:py-12 text-white text-center relative overflow-hidden border-t border-white/10">
+      {/* Soft Orange Radial Glow */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_50%_50%,rgba(249,115,22,0.22)_0%,transparent_65%)]"
+      />
+      <div className="max-w-2xl mx-auto px-6 relative z-10 flex flex-col items-center gap-4">
+        <span className="text-[11px] font-bold text-[#FF6B00] uppercase tracking-wider font-mono">
+          READY TO ELEVATE YOUR SYSTEM ARCHITECTURE?
+        </span>
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-white tracking-tight">
           {title}
         </h2>
-        <p className="text-sm sm:text-base text-blue-100 font-normal leading-relaxed max-w-xl">
+        <p className="text-sm sm:text-base text-gray-300 max-w-xl leading-relaxed font-normal">
           {description}
         </p>
         <div className="pt-2">
-          <a
-            href={`mailto:${targetEmail}`}
-            className="inline-block px-7 py-3 bg-white hover:bg-gray-100 text-[#0052FF] font-bold text-xs uppercase tracking-wider rounded shadow-md transition-colors"
+          <button
+            type="button"
+            onClick={onOpenScopingModal}
+            className="inline-flex items-center justify-center gap-1.5 bg-black hover:bg-[#EA580C] hover:border-[#EA580C] text-white font-bold py-2.5 px-6 rounded-lg text-xs tracking-wider uppercase font-mono border border-white/20 transition-colors shadow-xs cursor-pointer"
           >
-            {buttonText}
-          </a>
+            <span>Start Technical Scoping</span>
+            <span>&rarr;</span>
+          </button>
         </div>
       </div>
     </section>

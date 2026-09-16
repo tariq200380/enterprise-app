@@ -14,5 +14,10 @@ export default async function AboutPage() {
   const settings = await getAboutData();
   const partnerLinks = getPartnerReviewLinks(settings);
 
-  return <AboutPageClient partnerLinks={partnerLinks} />;
+  return (
+    <AboutPageClient
+      partnerLinks={partnerLinks}
+      aboutSettings={settings.aboutSettings}
+    />
+  );
 }

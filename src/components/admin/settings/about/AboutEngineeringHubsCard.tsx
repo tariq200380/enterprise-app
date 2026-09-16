@@ -25,7 +25,7 @@ export default function AboutEngineeringHubsCard({ data, onChangeField }: Props)
       id: `hub-${Date.now()}`,
       city: "",
       country: "",
-      coverImageUrl: "https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=600&auto=format&fit=crop&q=80",
+      coverImageUrl: "",
       statusTag: "Active Regional Engineering Pod",
       specialization: "",
       address: "",
@@ -52,7 +52,7 @@ export default function AboutEngineeringHubsCard({ data, onChangeField }: Props)
             </h3>
           </div>
           <p className="text-xs text-[#64748B]">
-            Manage international hub cities, countries, core specializations, addresses, and cover photos shown on the About page.
+            Manage international hub cities, countries, core specializations, and regional addresses shown on the About page.
           </p>
         </div>
 
@@ -150,36 +150,6 @@ export default function AboutEngineeringHubsCard({ data, onChangeField }: Props)
 
                 {/* Hub Card Fields */}
                 <div className="p-5 flex flex-col gap-4">
-                  {/* Cover Image URL with Live Thumbnail */}
-                  <div>
-                    <label className="block text-xs font-semibold text-[#334155] mb-1">
-                      Cover Image URL <span className="text-red-500">*</span>
-                    </label>
-                    <div className="flex items-center gap-3">
-                      {hub.coverImageUrl ? (
-                        <img
-                          src={hub.coverImageUrl}
-                          alt={hub.city || "Hub Cover"}
-                          className="w-16 h-12 rounded object-cover border border-gray-300 shrink-0 bg-gray-100"
-                          onError={(e) => {
-                            (e.target as HTMLElement).style.display = "none";
-                          }}
-                        />
-                      ) : (
-                        <div className="w-16 h-12 rounded border border-dashed border-gray-300 shrink-0 bg-gray-50 flex items-center justify-center text-[10px] text-gray-400">
-                          No img
-                        </div>
-                      )}
-                      <input
-                        type="text"
-                        value={hub.coverImageUrl}
-                        onChange={(e) => handleHubChange(idx, "coverImageUrl", e.target.value)}
-                        placeholder="https://images.unsplash.com/photo-..."
-                        className="w-full px-3 py-2 text-xs border border-gray-300 rounded focus:outline-none focus:border-[#0052FF]"
-                      />
-                    </div>
-                  </div>
-
                   {/* City & Country */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>

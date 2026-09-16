@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { AboutSettingsData, ReviewLinksData } from "../types";
+import { AboutSettingsData, ReviewLinksData, ReviewPlatformItem } from "../types";
 
 interface Props {
   data: AboutSettingsData;
@@ -11,78 +11,103 @@ interface Props {
   ) => void;
 }
 
-const DEFAULT_REVIEW_LINKS: ReviewLinksData = {
-  theManifestUrl: "https://themanifest.com",
-  shopifyUrl: "https://www.shopify.com/partners",
-  trustpilotUrl: "https://www.trustpilot.com",
-  clutchUrl: "https://clutch.co",
-  googleReviewsUrl: "https://www.google.com",
-};
-
-interface PlatformConfig {
-  key: keyof ReviewLinksData;
-  label: string;
-  badge: string;
-  icon: string;
-  placeholder: string;
-  description: string;
-}
-
-const PLATFORMS: PlatformConfig[] = [
+const DEFAULT_PLATFORMS: ReviewPlatformItem[] = [
   {
-    key: "theManifestUrl",
-    label: "The Manifest",
-    badge: "B2B RESEARCH",
-    icon: "📄",
-    placeholder: "https://themanifest.com/company/...",
-    description: "Company profile or award listing on The Manifest directory.",
+    id: "the-manifest",
+    name: "The Manifest",
+    url: "https://themanifest.com",
+    enabled: true,
   },
   {
-    key: "shopifyUrl",
-    label: "Shopify Partners",
-    badge: "ECOSYSTEM",
-    icon: "🛍️",
-    placeholder: "https://www.shopify.com/partners/directory/partner/...",
-    description: "Official verified Shopify Plus / Enterprise Partner profile URL.",
+    id: "shopify-partners",
+    name: "Shopify Partners",
+    url: "https://www.shopify.com/partners",
+    enabled: true,
   },
   {
-    key: "trustpilotUrl",
-    label: "Trustpilot",
-    badge: "CUSTOMER TRUST",
-    icon: "⭐",
-    placeholder: "https://www.trustpilot.com/review/...",
-    description: "Verified client feedback and customer rating page on Trustpilot.",
+    id: "trustpilot",
+    name: "Trustpilot",
+    url: "https://www.trustpilot.com",
+    enabled: true,
   },
   {
-    key: "clutchUrl",
-    label: "Clutch",
-    badge: "GLOBAL DIRECTORY",
-    icon: "🏆",
-    placeholder: "https://clutch.co/profile/...",
-    description: "Verified B2B client reviews, rating scorecard, and Clutch matrix.",
+    id: "clutch",
+    name: "Clutch",
+    url: "https://clutch.co",
+    enabled: true,
   },
   {
-    key: "googleReviewsUrl",
-    label: "Google Reviews",
-    badge: "SEARCH & MAPS",
-    icon: "🔍",
-    placeholder: "https://www.google.com/maps/place/...",
-    description: "Google Business Profile or direct Google review write-up URL.",
+    id: "google-reviews",
+    name: "Google Reviews",
+    url: "https://www.google.com",
+    enabled: true,
   },
 ];
 
 export default function AboutReviewLinksCard({ data, onChangeField }: Props) {
-  const currentLinks: ReviewLinksData = {
-    ...DEFAULT_REVIEW_LINKS,
-    ...(data.reviewLinks || {}),
+  const currentReviewLinks: ReviewLinksData = data.reviewLinks || {};
+  const sectionTitle = currentReviewLinks.sectionTitle ?? "Reviewed & Recommended On";
+
+  // Derive platforms list: use configured platforms array if present, or initialize from default values
+  const platforms: ReviewPlatformItem[] =
+    Array.isArray(currentReviewLinks.platforms) && currentReviewLinks.platforms.length > 0
+      ? currentReviewLinks.platforms
+      : DEFAULT_PLATFORMS.map((p) => {
+          const legacyUrl =
+            p.id === "the-manifest" ? currentReviewLinks.theManifestUrl :
+            p.id === "shopify-partners" ? currentReviewLinks.shopifyUrl :
+            p.id === "trustpilot" ? currentReviewLinks.trustpilotUrl :
+            p.id === "clutch" ? currentReviewLinks.clutchUrl :
+            p.id === "google-reviews" ? currentReviewLinks.googleReviewsUrl : undefined;
+          return legacyUrl ? { ...p, url: legacyUrl } : p;
+        });
+
+  const updateReviewLinks = (updatedPlatforms: ReviewPlatformItem[], newTitle?: string) => {
+    const findUrl = (keyword: string, fallback: string) => {
+      const match = updatedPlatforms.find(
+        (p) => p.name.toLowerCase().includes(keyword) || p.id.toLowerCase().includes(keyword)
+      );
+      return match ? match.url : fallback;
+    };
+
+    onChangeField("reviewLinks", {
+      ...currentReviewLinks,
+      sectionTitle: newTitle !== undefined ? newTitle : sectionTitle,
+      platforms: updatedPlatforms,
+      theManifestUrl: findUrl("manifest", currentReviewLinks.theManifestUrl || "https://themanifest.com"),
+      shopifyUrl: findUrl("shopify", currentReviewLinks.shopifyUrl || "https://www.shopify.com/partners"),
+      trustpilotUrl: findUrl("trustpilot", currentReviewLinks.trustpilotUrl || "https://www.trustpilot.com"),
+      clutchUrl: findUrl("clutch", currentReviewLinks.clutchUrl || "https://clutch.co"),
+      googleReviewsUrl: findUrl("google", currentReviewLinks.googleReviewsUrl || "https://www.google.com"),
+    });
   };
 
-  const handleUrlChange = (key: keyof ReviewLinksData, value: string) => {
-    const updated: ReviewLinksData = {
-      ...currentLinks,
-      [key]: value,
+  const handlePlatformChange = (
+    index: number,
+    field: keyof ReviewPlatformItem,
+    value: string | boolean
+  ) => {
+    const updated = [...platforms];
+    updated[index] = {
+      ...updated[index],
+      [field]: value,
     };
-    onChangeField("reviewLinks", updated);
+    updateReviewLinks(updated);
+  };
+
+  const handleAddPlatform = () => {
+    const newPlatform: ReviewPlatformItem = {
+      id: `platform-${Date.now()}`,
+      name: "",
+      url: "https://",
+      enabled: true,
+    };
+    updateReviewLinks([...platforms, newPlatform]);
+  };
+
+  const handleDeletePlatform = (index: number) => {
+    const updated = platforms.filter((_, i) => i !== index);
+    updateReviewLinks(updated);
   };
 
   return (
@@ -92,75 +117,133 @@ export default function AboutReviewLinksCard({ data, onChangeField }: Props) {
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="w-8 h-8 rounded bg-[#EFF6FF] text-[#0052FF] flex items-center justify-center font-bold text-base">
-              🔗
+              ⭐
             </span>
             <h3 className="text-base font-bold text-[#0F172A]">
-              Reviewed &amp; Recommended On (5 Platform Links)
+              Trust Badges &amp; Review Platforms (Trustpilot, Google Reviews, etc.)
             </h3>
           </div>
           <p className="text-xs text-[#64748B]">
-            Configure the destination URLs for the 5 trust badges displayed in the About page Hero section
-            (The Manifest, Shopify Partners, Trustpilot, Clutch, Google Reviews).
+            Configure trust badges, ratings, and profile links shown in the About Hero and throughout the site.
           </p>
         </div>
+
+        <button
+          type="button"
+          onClick={handleAddPlatform}
+          className="px-3.5 py-1.5 bg-[#0052FF] hover:bg-[#0042D0] text-white text-xs font-bold rounded cursor-pointer transition-colors shadow-xs flex items-center gap-1.5"
+        >
+          <span>＋</span>
+          <span>Add Platform</span>
+        </button>
       </div>
 
-      {/* 5 Platform Rows */}
+      {/* Section Title Input */}
+      <div className="bg-[#F8FAFC] border border-[#CBD5E1] rounded-lg p-4">
+        <label className="block text-xs font-semibold text-[#334155] mb-1">
+          Review Ribbon Title / Label
+        </label>
+        <input
+          type="text"
+          value={sectionTitle}
+          onChange={(e) => updateReviewLinks(platforms, e.target.value)}
+          placeholder="Reviewed & Recommended On"
+          className="w-full max-w-md px-3 py-2 text-xs border border-gray-300 rounded focus:outline-none focus:border-[#0052FF] bg-white font-semibold"
+        />
+        <span className="text-[11px] text-slate-500 mt-1 block">
+          This title appears above or next to the trust platform links in the hero section ribbon.
+        </span>
+      </div>
+
+      {/* Platforms List */}
       <div className="flex flex-col gap-3.5">
-        {PLATFORMS.map((platform, idx) => {
-          const value = currentLinks[platform.key] || "";
+        <div className="text-[11px] font-bold text-[#64748B] uppercase tracking-wider">
+          ACTIVE REVIEW PLATFORMS &amp; DESTINATION LINKS ({platforms.length})
+        </div>
+
+        {platforms.map((platform, idx) => {
+          const num = String(idx + 1).padStart(2, "0");
           const isValidUrl =
-            value.startsWith("http://") || value.startsWith("https://");
+            platform.url &&
+            (platform.url.startsWith("http://") || platform.url.startsWith("https://"));
 
           return (
             <div
-              key={platform.key}
-              className="bg-[#F8FAFC] border border-[#CBD5E1] rounded-lg p-4 flex flex-col gap-2"
+              key={platform.id || `platform-${idx}`}
+              className="bg-[#F8FAFC] border border-[#CBD5E1] rounded-lg p-4 flex flex-col gap-3"
             >
-              <div className="flex items-center justify-between flex-wrap gap-2">
+              <div className="flex items-center justify-between flex-wrap gap-2 pb-2 border-b border-gray-200">
                 <div className="flex items-center gap-2">
                   <span className="w-5 h-5 rounded bg-[#0052FF] text-white text-[10px] font-bold flex items-center justify-center">
-                    0{idx + 1}
+                    {num}
                   </span>
-                  <span className="text-sm font-bold text-[#0F172A] flex items-center gap-1.5">
-                    <span>{platform.icon}</span>
-                    <span>{platform.label}</span>
-                  </span>
-                  <span className="text-[10px] font-mono font-bold text-[#3B82F6] bg-blue-50 border border-blue-200 px-2 py-0.5 rounded">
-                    {platform.badge}
+                  <span className="text-xs font-bold text-[#0F172A]">
+                    {platform.name || `New Review Platform`}
                   </span>
                 </div>
 
-                {isValidUrl && (
-                  <a
-                    href={value}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#0052FF] hover:text-[#0042D0] hover:underline cursor-pointer"
+                <div className="flex items-center gap-3">
+                  <label className="inline-flex items-center gap-1.5 text-xs text-[#334155] cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={platform.enabled !== false}
+                      onChange={(e) => handlePlatformChange(idx, "enabled", e.target.checked)}
+                      className="rounded border-gray-300 text-[#0052FF] focus:ring-0 cursor-pointer"
+                    />
+                    <span className="text-[11px] font-medium">
+                      {platform.enabled !== false ? "Visible" : "Hidden"}
+                    </span>
+                  </label>
+
+                  {isValidUrl && (
+                    <a
+                      href={platform.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#0052FF] hover:underline"
+                    >
+                      <span>Test Link</span>
+                      <span>↗</span>
+                    </a>
+                  )}
+
+                  <button
+                    type="button"
+                    onClick={() => handleDeletePlatform(idx)}
+                    className="px-2.5 py-1 bg-[#FEE2E2] hover:bg-[#FCA5A5] text-[#991B1B] text-[11px] font-bold rounded cursor-pointer transition-colors"
                   >
-                    <span>Test Link</span>
-                    <span>↗</span>
-                  </a>
-                )}
+                    ✕ Delete
+                  </button>
+                </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-center">
+                {/* Platform Name */}
+                <div className="sm:col-span-4">
+                  <label className="block text-[11px] font-semibold text-[#334155] mb-1">
+                    Platform Name <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={platform.name}
+                    onChange={(e) => handlePlatformChange(idx, "name", e.target.value)}
+                    placeholder="e.g. Trustpilot or Google Reviews"
+                    className="w-full px-3 py-1.5 text-xs border border-gray-300 rounded focus:outline-none focus:border-[#0052FF] bg-white font-medium"
+                  />
+                </div>
+
+                {/* Destination URL */}
                 <div className="sm:col-span-8">
                   <label className="block text-[11px] font-semibold text-[#334155] mb-1">
-                    Destination Website / Profile URL
+                    Destination Website / Profile URL <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="url"
-                    value={value}
-                    onChange={(e) => handleUrlChange(platform.key, e.target.value)}
-                    placeholder={platform.placeholder}
-                    className="w-full px-3 py-2 text-xs border border-gray-300 rounded focus:outline-none focus:border-[#0052FF] bg-white font-mono"
+                    value={platform.url}
+                    onChange={(e) => handlePlatformChange(idx, "url", e.target.value)}
+                    placeholder="https://www.trustpilot.com/review/..."
+                    className="w-full px-3 py-1.5 text-xs border border-gray-300 rounded focus:outline-none focus:border-[#0052FF] bg-white font-mono text-[11px]"
                   />
-                </div>
-                <div className="sm:col-span-4">
-                  <span className="text-[11px] text-slate-500 leading-tight block">
-                    {platform.description}
-                  </span>
                 </div>
               </div>
             </div>

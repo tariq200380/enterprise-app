@@ -2,7 +2,7 @@ import React from "react";
 
 export default function AboutManifestoSection() {
   return (
-    <section className="bg-[#0B1120] text-white py-12 sm:py-14 border-t border-white/10 relative overflow-hidden text-left">
+    <section className="bg-[#0B1120] text-white py-10 sm:py-12 border-t border-white/10 relative overflow-hidden text-left">
       {/* Ambient Orange Radial Glow */}
       <div
         aria-hidden="true"

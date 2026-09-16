@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import dynamic from "next/dynamic";
 import { PartnerReviewLinks } from "@/lib/about-data";
+import { AboutSettingsData } from "@/components/admin/settings/types";
 import AboutHeroSection from "./AboutHeroSection";
 import AboutPhilosophySection from "./AboutPhilosophySection";
 import AboutServicesSection from "./AboutServicesSection";
@@ -20,9 +21,13 @@ const AboutConversationModal = dynamic(
 
 interface AboutPageClientProps {
   partnerLinks?: PartnerReviewLinks;
+  aboutSettings?: AboutSettingsData;
 }
 
-export default function AboutPageClient({ partnerLinks }: AboutPageClientProps) {
+export default function AboutPageClient({
+  partnerLinks,
+  aboutSettings,
+}: AboutPageClientProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTopic, setSelectedTopic] = useState("Enterprise Architecture & Systems");
 
@@ -38,7 +43,7 @@ export default function AboutPageClient({ partnerLinks }: AboutPageClientProps) 
   };
 
   return (
-    <div className="min-h-screen bg-white text-[#0F172A] font-sans antialiased selection:bg-[#EA580C] selection:text-white">
+    <div className="w-full min-h-screen bg-[#F7F6F5] text-[#0F172A] font-sans antialiased text-left selection:bg-[#EA580C] selection:text-white">
       {/* 1. Hero: Sovereign Platform Matrix Console */}
       <AboutHeroSection partnerLinks={partnerLinks} onOpenModal={handleOpenModal} />
 
@@ -52,10 +57,20 @@ export default function AboutPageClient({ partnerLinks }: AboutPageClientProps) 
       <AboutCreedCodeSection />
 
       {/* 5. Global Centers: Three Specialized Engineering Centers */}
-      <AboutGlobalCentersSection />
+      <AboutGlobalCentersSection
+        badgeTag={aboutSettings?.hubsBadgeTag}
+        headline={aboutSettings?.hubsHeadline}
+        description={aboutSettings?.hubsDescription}
+        hubs={aboutSettings?.hubs}
+      />
 
       {/* 6. Leadership: Executive Leadership & Technical Custodians */}
-      <AboutLeadershipSection />
+      <AboutLeadershipSection
+        badgeTag={aboutSettings?.leadershipBadgeTag}
+        headline={aboutSettings?.leadershipHeadline}
+        description={aboutSettings?.leadershipDescription}
+        members={aboutSettings?.leadership}
+      />
 
       {/* 7. Metrics: Data Driven & Digital Growth */}
       <AboutMetricsSection />

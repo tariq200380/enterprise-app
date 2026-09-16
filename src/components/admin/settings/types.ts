@@ -144,12 +144,22 @@ export interface AboutLeadershipMemberItem {
   ctaUrl: string;
 }
 
+export interface ReviewPlatformItem {
+  id: string;
+  name: string;
+  url: string;
+  badge?: string;
+  enabled?: boolean;
+}
+
 export interface ReviewLinksData {
-  theManifestUrl: string;
-  shopifyUrl: string;
-  trustpilotUrl: string;
-  clutchUrl: string;
-  googleReviewsUrl: string;
+  sectionTitle?: string;
+  theManifestUrl?: string;
+  shopifyUrl?: string;
+  trustpilotUrl?: string;
+  clutchUrl?: string;
+  googleReviewsUrl?: string;
+  platforms?: ReviewPlatformItem[];
 }
 
 export interface AboutSettingsData {

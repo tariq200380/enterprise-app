@@ -1,44 +1,70 @@
 import React from "react";
-import { ContactFaqItem } from "../admin/settings/types";
 
-interface Props {
-  faqs: ContactFaqItem[];
-}
-
-export default function ContactFaqSection({ faqs }: Props) {
+export default function ContactFaqSection() {
   return (
-    <section className="w-full py-16 sm:py-24 bg-[#FAFAFC] border-b border-[#E5E7EB] text-center">
-      <div className="max-w-4xl mx-auto px-6 sm:px-8">
-        <div className="mb-10 sm:mb-12">
-          <span className="text-[11.5px] font-bold text-[#0052FF] uppercase tracking-wider block mb-1.5">
-            ANSWERS &amp; ASSURANCE
+    <section className="w-full py-10 sm:py-12 border-b border-[#E2E8F0] bg-[#F7F6F5]">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-2xl mx-auto text-center mb-10 sm:mb-12">
+          <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#EA580C] font-mono mb-2 block">
+            COMMONLY ASKED QUESTIONS
           </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-[#030712] tracking-tight leading-tight mb-2">
-            Frequently Asked Questions
+          <h2 className="text-2xl sm:text-3xl lg:text-[2.15rem] font-extrabold text-[#0F172A] tracking-tight leading-tight mb-3">
+            Technical Scoping &amp; Engagement FAQ
           </h2>
-          <p className="text-sm sm:text-base text-[#6B7280] font-normal">
-            Everything you need to know about working with our senior engineering pods and custodians.
+          <p className="text-slate-600 text-sm leading-relaxed">
+            Clear answers regarding our engineering model, intellectual property, and SLA commitments.
           </p>
         </div>
 
-        <div className="flex flex-col gap-3.5 text-left">
-          {faqs.map((faq, idx) => (
-            <details
-              key={faq.id || idx}
-              className="group bg-white border border-[#E5E7EB] rounded-lg overflow-hidden shadow-sm [&_summary::-webkit-details-marker]:hidden"
-              open={idx === 0}
-            >
-              <summary className="w-full p-5 sm:p-6 text-left flex items-center justify-between gap-4 font-semibold text-sm sm:text-base text-[#030712] cursor-pointer select-none list-none">
-                <span>{faq.question}</span>
-                <span className="text-xl font-mono text-gray-400 group-open:rotate-45 transition-transform shrink-0">
-                  +
-                </span>
-              </summary>
-              <div className="px-5 sm:px-6 pb-5 text-[13px] sm:text-sm text-[#4B5563] leading-relaxed border-t border-[#F3F4F6] pt-3">
-                {faq.answer}
-              </div>
-            </details>
-          ))}
+        {/* 4 Direct FAQ Cards (Clean, Editable JSX) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-4xl mx-auto text-left">
+          {/* FAQ 1 */}
+          <div className="bg-white border border-[#E2E8F0] rounded-xl p-6 shadow-2xs hover:shadow-xs hover:border-orange-400/50 transition-all">
+            <h4 className="text-base font-bold text-[#0F172A] mb-2">
+              Who will actually engineer our software platform?
+            </h4>
+            <p className="text-xs sm:text-[13px] text-slate-600 leading-relaxed font-normal">
+              100% of your software is engineered by senior principal architects and domain specialists.
+              We have zero non-technical project managers, zero offshore delegation layers, and zero
+              junior developer bait-and-switch.
+            </p>
+          </div>
+
+          {/* FAQ 2 */}
+          <div className="bg-white border border-[#E2E8F0] rounded-xl p-6 shadow-2xs hover:shadow-xs hover:border-orange-400/50 transition-all">
+            <h4 className="text-base font-bold text-[#0F172A] mb-2">
+              Who owns the intellectual property and code?
+            </h4>
+            <p className="text-xs sm:text-[13px] text-slate-600 leading-relaxed font-normal">
+              You own 100% of all intellectual property, source code, documentation, and system
+              artifacts from day one. All code is committed directly into your private enterprise
+              repositories.
+            </p>
+          </div>
+
+          {/* FAQ 3 */}
+          <div className="bg-white border border-[#E2E8F0] rounded-xl p-6 shadow-2xs hover:shadow-xs hover:border-orange-400/50 transition-all">
+            <h4 className="text-base font-bold text-[#0F172A] mb-2">
+              How quickly can a dedicated pod begin execution?
+            </h4>
+            <p className="text-xs sm:text-[13px] text-slate-600 leading-relaxed font-normal">
+              Following mutual NDA and architectural blueprint alignment, dedicated pods deploy
+              within 5 to 7 business days, achieving full sprint velocity within the first 48 hours
+              of kickoff.
+            </p>
+          </div>
+
+          {/* FAQ 4 */}
+          <div className="bg-white border border-[#E2E8F0] rounded-xl p-6 shadow-2xs hover:shadow-xs hover:border-orange-400/50 transition-all">
+            <h4 className="text-base font-bold text-[#0F172A] mb-2">
+              How do you enforce security and compliance standards?
+            </h4>
+            <p className="text-xs sm:text-[13px] text-slate-600 leading-relaxed font-normal">
+              All development adheres strictly to SOC 2 Type II, ISO 27001, and GDPR controls.
+              Every build includes automated static code analysis, vulnerability scanning, and
+              cryptographic audit trails.
+            </p>
+          </div>
         </div>
       </div>
     </section>

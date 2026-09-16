@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import ContactModernDesign from "@/components/contact/ContactModernDesign";
+import { getContactSettings } from "@/lib/contact-data";
+import ContactPageClient from "@/components/contact/ContactPageClient";
 
 export const dynamic = "force-dynamic";
 
@@ -9,6 +10,8 @@ export const metadata: Metadata = {
     "Schedule a technical consultation with Creed Tech's principal solutions architects. Direct engineering scoping and zero-obligation NDA protection.",
 };
 
-export default function ContactPage() {
-  return <ContactModernDesign />;
+export default async function ContactPage() {
+  const settings = await getContactSettings();
+
+  return <ContactPageClient settings={settings} />;
 }
