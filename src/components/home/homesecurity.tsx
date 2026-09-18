@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Homesecurity() {
   return (
-    <section className="w-full bg-[#F7F6F5] py-14 sm:py-16 lg:py-20 border-b border-[#E2E8F0] relative overflow-hidden select-none">
+    <section className="w-full bg-[#F7F6F5] py-12 sm:py-14 lg:py-16 border-b border-[#E2E8F0] relative overflow-hidden select-none">
       <div className="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
 
@@ -29,9 +29,9 @@ export default function Homesecurity() {
             </div>
 
             {/* Main Headline */}
-            <h2 className="text-[28px] sm:text-4xl lg:text-[42px] font-medium text-[#0F172A] tracking-tight leading-tight mb-5">
+            <h2 className="text-[28px] sm:text-4xl lg:text-[38px] text-[#1A1A1A] tracking-tight leading-[1.15] mb-5">
               <span className="block">Enterprise engineering built on</span>
-              <span className="block mt-2.5 sm:mt-3">security reliability and trust</span>
+              <span className="block">security reliability and trust</span>
             </h2>
 
             {/* Description */}

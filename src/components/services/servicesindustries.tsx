@@ -12,7 +12,7 @@ export default function ServicesIndustries() {
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
         <div className="text-center max-w-[52rem] mx-auto mb-10 sm:mb-12">
-          <h2 className="text-3xl sm:text-4xl lg:text-[2.35rem] font-extrabold text-white tracking-[-0.02em] mb-3 leading-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight leading-[1.15] mb-3">
             Industries We <span className="text-[#FF6B00]">Support</span>
           </h2>
           <p className="text-[15px] sm:text-[16px] text-[#94A3B8] leading-relaxed font-normal m-0">
@@ -30,7 +30,7 @@ export default function ServicesIndustries() {
                 <path d="M5 20V8l4 3V8l4 3V4l6 4v12" />
               </svg>
             </div>
-            <span className="text-[17px] font-semibold text-[#F1F5F9] leading-[1.35]">
+            <span className="text-[17px] font-normal text-white tracking-tight leading-[1.35]">
               Manufacturing
             </span>
           </div>
@@ -42,7 +42,7 @@ export default function ServicesIndustries() {
                 <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
               </svg>
             </div>
-            <span className="text-[17px] font-semibold text-[#F1F5F9] leading-[1.35]">
+            <span className="text-[17px] font-normal text-white tracking-tight leading-[1.35]">
               Healthcare
             </span>
           </div>
@@ -56,7 +56,7 @@ export default function ServicesIndustries() {
                 <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
               </svg>
             </div>
-            <span className="text-[17px] font-semibold text-[#F1F5F9] leading-[1.35]">
+            <span className="text-[17px] font-normal text-white tracking-tight leading-[1.35]">
               Retail &amp; E-Commerce
             </span>
           </div>
@@ -69,7 +69,7 @@ export default function ServicesIndustries() {
                 <path d="M6 12v5c3 3 9 3 12 0v-5" />
               </svg>
             </div>
-            <span className="text-[17px] font-semibold text-[#F1F5F9] leading-[1.35]">
+            <span className="text-[17px] font-normal text-white tracking-tight leading-[1.35]">
               Education
             </span>
           </div>
@@ -85,7 +85,7 @@ export default function ServicesIndustries() {
                 <path d="M19.1 4.9C23 8.8 23 15.1 19.1 19" />
               </svg>
             </div>
-            <span className="text-[17px] font-semibold text-[#F1F5F9] leading-[1.35]">
+            <span className="text-[17px] font-normal text-white tracking-tight leading-[1.35]">
               Telecommunications
             </span>
           </div>
@@ -98,7 +98,7 @@ export default function ServicesIndustries() {
                 <polyline points="9 22 9 12 15 12 15 22" />
               </svg>
             </div>
-            <span className="text-[17px] font-semibold text-[#F1F5F9] leading-[1.35]">
+            <span className="text-[17px] font-normal text-white tracking-tight leading-[1.35]">
               Property &amp; Housing
             </span>
           </div>
@@ -110,7 +110,7 @@ export default function ServicesIndustries() {
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
               </svg>
             </div>
-            <span className="text-[17px] font-semibold text-[#F1F5F9] leading-[1.35]">
+            <span className="text-[17px] font-normal text-white tracking-tight leading-[1.35]">
               Insurance &amp; Financial Services
             </span>
           </div>
@@ -123,7 +123,7 @@ export default function ServicesIndustries() {
                 <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
               </svg>
             </div>
-            <span className="text-[17px] font-semibold text-[#F1F5F9] leading-[1.35]">
+            <span className="text-[17px] font-normal text-white tracking-tight leading-[1.35]">
               Professional Services
             </span>
           </div>

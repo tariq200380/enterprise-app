@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Homedicuss() {
   return (
-    <section className="w-full bg-[#0B1120] py-14 sm:py-16 lg:py-20 text-white overflow-hidden relative border-y border-[#1E293B]/60 select-none">
+    <section className="w-full bg-[#0B1120] py-12 sm:py-14 lg:py-16 text-white overflow-hidden relative border-y border-[#1E293B]/60 select-none">
       <div 
         className="absolute inset-0 pointer-events-none"
         style={{

@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function Homedeliver() {
   return (
     <section
-      className="w-full py-14 sm:py-16 lg:py-20 text-white relative overflow-hidden border-b border-gray-800 select-none bg-[#0B1120]"
+      className="w-full py-12 sm:py-14 lg:py-16 text-white relative overflow-hidden border-b border-gray-800 select-none bg-[#0B1120]"
       id="how-we-deliver-section"
     >
       {/* Hidden Radio Buttons for Pure CSS Tabs (Zero useState, Zero JS) */}

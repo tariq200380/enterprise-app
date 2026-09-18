@@ -116,7 +116,7 @@ function FeatureCardGrid({
                 <polyline points="20 6 9 17 4 12" />
               </svg>
             </span>
-            <h4 className="text-[18px] font-semibold text-[#0F172A] leading-snug m-0">
+            <h4 className="text-[18px] text-[#1A1A1A] tracking-tight leading-snug m-0">
               {item.title}
             </h4>
           </div>
@@ -220,7 +220,7 @@ export default function ServicesDigital({ data }: Props) {
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Headline */}
         <div className="text-center max-w-[52rem] mx-auto mb-8">
-          <h2 className="text-3xl sm:text-4xl lg:text-[2.35rem] font-extrabold text-[#0F172A] tracking-[-0.02em] mb-2 leading-tight">
+          <h2 className="font-outfit font-bold tracking-tight text-slate-900 text-4xl sm:text-5xl leading-[1.15] mb-2">
             {data?.sectionHeadline || "Enterprise Engineering & Digital Solutions"}
           </h2>
           <p className="text-[15px] sm:text-[16px] text-[#5B6472] leading-relaxed font-normal m-0">
@@ -354,7 +354,7 @@ export default function ServicesDigital({ data }: Props) {
                   <span className="text-[12px] font-bold text-[#FF6B00] tracking-[0.04em] block mb-1 leading-none">
                     {svc.num}
                   </span>
-                  <h3 className="text-[20px] font-bold text-[#0F172A] leading-tight m-0">
+                  <h3 className="text-[20px] text-[#1A1A1A] tracking-tight leading-tight m-0">
                     {svc.name}
                   </h3>
                 </div>
@@ -428,7 +428,7 @@ export default function ServicesDigital({ data }: Props) {
                 key={`sb-cta-${activeSvcId}`}
                 className="hidden md:block bg-white border border-[#E2E8F0] rounded-[14px] p-6 shadow-[0_2px_10px_rgba(15,23,42,0.03)] animate-header-enter"
               >
-                <h4 className="text-[18px] font-bold text-[#0F172A] mb-2 leading-snug">
+                <h4 className="text-[18px] text-[#1A1A1A] tracking-tight mb-2 leading-snug">
                   {svc.cta.heading}
                 </h4>
                 <p className="text-[15px] text-[#5B6472] mb-4 leading-relaxed font-normal">
@@ -436,10 +436,10 @@ export default function ServicesDigital({ data }: Props) {
                 </p>
                 <Link
                   href={svc.cta.link || "/contact"}
-                  className="w-full h-12 px-5 bg-[#0052FF] hover:bg-[#0043D6] text-white font-semibold text-[16px] rounded-lg inline-flex items-center justify-center gap-1.5 shadow-[0_2px_6px_rgba(0,82,255,0.2)] hover:-translate-y-[2px] transition-all"
+                  className="bg-[#1E3A8A] text-white font-medium px-5 py-2.5 rounded-lg hover:bg-blue-800 transition-colors w-full inline-flex items-center justify-center gap-1.5"
                 >
                   <span>{svc.cta.btn}</span>
-                  <span className="text-[#FF6B00] font-extrabold ml-1.5">&rarr;</span>
+                  <span className="text-white font-extrabold ml-1.5">&rarr;</span>
                 </Link>
               </div>
             </div>
@@ -462,11 +462,11 @@ export default function ServicesDigital({ data }: Props) {
                     SERVICE {svc.num} / {String(availableServices.length).padStart(2, "0")}
                   </span>
                 </div>
-                <h3 className="text-3xl sm:text-[34px] lg:text-[38px] font-bold text-[#0F172A] tracking-[-0.025em] mb-2 leading-tight">
+                <h3 className="text-3xl sm:text-[34px] lg:text-[38px] text-[#1A1A1A] tracking-tight mb-2 leading-tight">
                   {paneTitle}
                 </h3>
                 {paneSubtitle && (
-                  <p className="text-[18px] font-semibold text-[#0052FF] mb-3 leading-snug">
+                  <p className="text-[18px] font-normal text-[#0052FF] mb-3 leading-snug">
                     {paneSubtitle}
                   </p>
                 )}
@@ -492,7 +492,7 @@ export default function ServicesDigital({ data }: Props) {
                         ) : <span />}
                         <span className="w-2 h-2 rounded-full bg-[#FF6B00] inline-block" />
                       </div>
-                      <h4 className="text-[18px] font-semibold text-[#0F172A] mb-3 leading-snug">
+                      <h4 className="text-[18px] text-[#1A1A1A] tracking-tight mb-3 leading-snug">
                         {item.title}
                       </h4>
                       <p className="text-[15px] text-[#5B6472] leading-relaxed m-0 font-normal">
@@ -534,7 +534,7 @@ export default function ServicesDigital({ data }: Props) {
                             STEP {st.step}
                           </span>
                         )}
-                        <h4 className="text-[17px] font-bold text-[#0F172A] leading-snug m-0">
+                        <h4 className="text-[17px] text-[#1A1A1A] tracking-tight leading-snug m-0">
                           {st.title}
                         </h4>
                       </div>
@@ -562,7 +562,7 @@ export default function ServicesDigital({ data }: Props) {
                             <polyline points="17 6 23 6 23 12" />
                           </svg>
                         </span>
-                        <h4 className="text-[18px] font-semibold text-[#0F172A] leading-snug m-0">
+                        <h4 className="text-[18px] text-[#1A1A1A] tracking-tight leading-snug m-0">
                           {item.title}
                         </h4>
                       </div>
@@ -587,7 +587,7 @@ export default function ServicesDigital({ data }: Props) {
             key={`tech-hdr-${activeSvcId}`}
             className="text-center max-w-[850px] mx-auto mb-8 animate-header-enter"
           >
-            <h3 className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-[-0.02em] mb-1.5 leading-tight">
+            <h3 className="text-2xl sm:text-3xl text-[#1A1A1A] tracking-tight mb-1.5 leading-tight">
               {svc.techEcosystemTitle}
             </h3>
             <p className="text-[14.5px] text-[#5B6472] m-0 font-normal">
@@ -619,7 +619,7 @@ export default function ServicesDigital({ data }: Props) {
                       </div>
                     )}
                   </div>
-                  <span className="text-[13px] font-semibold text-[#0F172A] leading-tight text-center break-words">
+                  <span className="text-[13px] font-normal text-[#1A1A1A] tracking-tight leading-tight text-center break-words">
                     {tech.name}
                   </span>
                 </div>

@@ -4,7 +4,7 @@ export default function Homeprovide() {
   return (
     <>
       {/* 1. RIBBON SECTION (Reviewed and recommended on) */}
-      <section className="relative w-full bg-[#F7F6F5] py-6 sm:py-7 border-t border-b border-[#E2E8F0] overflow-hidden select-none">
+      <section className="relative w-full bg-[#F7F6F5] py-4 sm:py-5 border-t border-b border-[#E2E8F0] overflow-hidden select-none">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="flex flex-col md:flex-row items-center justify-between gap-5 sm:gap-6">
             {/* Left Side: Reviewed and recommended on */}
@@ -60,11 +60,11 @@ export default function Homeprovide() {
       </section>
 
       {/* 2. WHAT WE PROVIDE SECTION */}
-      <section className="w-full bg-[#F7F6F5] pt-12 pb-16 lg:pt-16 lg:pb-20 border-b border-[#E2E8F0] relative overflow-hidden select-none" id="what-we-provide-section">
+      <section className="w-full bg-[#F7F6F5] pt-10 sm:pt-11 lg:pt-12 pb-12 sm:pb-13 lg:pb-14 border-b border-[#E2E8F0] relative overflow-hidden select-none" id="what-we-provide-section">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col items-center relative z-10">
           {/* Section Heading & Subtitle */}
-          <div className="flex flex-col items-center text-center mb-10 max-w-3xl">
-            <h2 className="text-3xl sm:text-4xl lg:text-[2.6rem] font-medium tracking-tight text-[#0F172A] leading-tight">
+          <div className="flex flex-col items-center text-center mb-8 sm:mb-9 max-w-3xl">
+            <h2 className="text-3xl sm:text-4xl lg:text-[2.6rem] text-[#1A1A1A] tracking-tight leading-[1.15]">
               What We Provide
             </h2>
             <p className="text-sm sm:text-base text-[#5B6472] mt-3 font-normal leading-relaxed max-w-2xl">
@@ -85,7 +85,7 @@ export default function Homeprovide() {
                 </svg>
               </div>
               <div className="flex-1 flex flex-col h-full">
-                <h3 className="text-base sm:text-lg font-medium text-[#0F172A] leading-snug mb-1.5 tracking-tight">
+                <h3 className="text-base sm:text-lg text-[#1A1A1A] leading-snug mb-1.5 tracking-tight">
                   Software Development
                 </h3>
                 <p className="text-xs sm:text-sm text-[#5B6472] leading-relaxed mb-3 font-normal">
@@ -112,7 +112,7 @@ export default function Homeprovide() {
                 </svg>
               </div>
               <div className="flex-1 flex flex-col h-full">
-                <h3 className="text-base sm:text-lg font-medium text-[#0F172A] leading-snug mb-1.5 tracking-tight">
+                <h3 className="text-base sm:text-lg text-[#1A1A1A] leading-snug mb-1.5 tracking-tight">
                   UI/UX Design
                 </h3>
                 <p className="text-xs sm:text-sm text-[#5B6472] leading-relaxed mb-3 font-normal">
@@ -138,7 +138,7 @@ export default function Homeprovide() {
                 </svg>
               </div>
               <div className="flex-1 flex flex-col h-full">
-                <h3 className="text-base sm:text-lg font-medium text-[#0F172A] leading-snug mb-1.5 tracking-tight">
+                <h3 className="text-base sm:text-lg text-[#1A1A1A] leading-snug mb-1.5 tracking-tight">
                   Mobile Applications
                 </h3>
                 <p className="text-xs sm:text-sm text-[#5B6472] leading-relaxed mb-3 font-normal">
@@ -163,7 +163,7 @@ export default function Homeprovide() {
                 </svg>
               </div>
               <div className="flex-1 flex flex-col h-full">
-                <h3 className="text-base sm:text-lg font-medium text-[#0F172A] leading-snug mb-1.5 tracking-tight">
+                <h3 className="text-base sm:text-lg text-[#1A1A1A] leading-snug mb-1.5 tracking-tight">
                   Cloud Infrastructure
                 </h3>
                 <p className="text-xs sm:text-sm text-[#5B6472] leading-relaxed mb-3 font-normal">
@@ -190,7 +190,7 @@ export default function Homeprovide() {
                 </svg>
               </div>
               <div className="flex-1 flex flex-col h-full">
-                <h3 className="text-base sm:text-lg font-medium text-[#0F172A] leading-snug mb-1.5 tracking-tight">
+                <h3 className="text-base sm:text-lg text-[#1A1A1A] leading-snug mb-1.5 tracking-tight">
                   Database Management
                 </h3>
                 <p className="text-xs sm:text-sm text-[#5B6472] leading-relaxed mb-3 font-normal">
@@ -215,7 +215,7 @@ export default function Homeprovide() {
                 </svg>
               </div>
               <div className="flex-1 flex flex-col h-full">
-                <h3 className="text-base sm:text-lg font-medium text-[#0F172A] leading-snug mb-1.5 tracking-tight">
+                <h3 className="text-base sm:text-lg text-[#1A1A1A] leading-snug mb-1.5 tracking-tight">
                   Cybersecurity & QA
                 </h3>
                 <p className="text-xs sm:text-sm text-[#5B6472] leading-relaxed mb-3 font-normal">
@@ -242,7 +242,7 @@ export default function Homeprovide() {
                 </svg>
               </div>
               <div className="flex-1 flex flex-col h-full">
-                <h3 className="text-base sm:text-lg font-medium text-[#0F172A] leading-snug mb-1.5 tracking-tight">
+                <h3 className="text-base sm:text-lg text-[#1A1A1A] leading-snug mb-1.5 tracking-tight">
                   Artificial Intelligence (AI)
                 </h3>
                 <p className="text-xs sm:text-sm text-[#5B6472] leading-relaxed mb-3 font-normal">
@@ -268,7 +268,7 @@ export default function Homeprovide() {
                 </svg>
               </div>
               <div className="flex-1 flex flex-col h-full">
-                <h3 className="text-base sm:text-lg font-medium text-[#0F172A] leading-snug mb-1.5 tracking-tight">
+                <h3 className="text-base sm:text-lg text-[#1A1A1A] leading-snug mb-1.5 tracking-tight">
                   Digital Marketing & Branding
                 </h3>
                 <p className="text-xs sm:text-sm text-[#5B6472] leading-relaxed mb-3 font-normal">

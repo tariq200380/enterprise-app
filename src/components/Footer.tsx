@@ -89,14 +89,14 @@ export default function Footer({
               <span className="text-[#F4F6F8]">CREED</span>
               <span className="text-[#FF6A00]">TECH</span>
             </p>
-            <div className="text-sm text-[#F4F6F8]/80 leading-relaxed flex flex-col justify-between h-auto md:h-[290px] space-y-3.5 md:space-y-0 font-normal">
-              <p>
+            <div className="text-white text-sm leading-relaxed flex flex-col justify-between h-auto md:h-[290px] space-y-3.5 md:space-y-0 font-normal">
+              <p className="text-white">
                 We specialize in enterprise software architecture, robust cloud infrastructure, and next-generation cybersecurity.
               </p>
-              <p>
+              <p className="text-white">
                 Engineering scalable, high-performance, and resilient systems tailored for global enterprises and modern businesses.
               </p>
-              <p>
+              <p className="text-white">
                 Delivering end-to-end digital transformation, modern web systems, and strategic IT consulting to accelerate growth.
               </p>
             </div>
@@ -109,42 +109,42 @@ export default function Footer({
             </p>
             <ul className="flex flex-col space-y-3.5">
               <li className="h-6 flex items-center">
-                <Link href="/" className="text-sm leading-6 text-[#F4F6F8]/80 hover:text-white transition-colors">
+                <Link href="/" className="text-sm leading-6 text-white hover:text-white transition-colors">
                   Home
                 </Link>
               </li>
               <li className="h-6 flex items-center">
-                <Link href="/services" className="text-sm leading-6 text-[#F4F6F8]/80 hover:text-white transition-colors">
+                <Link href="/services" className="text-sm leading-6 text-white hover:text-white transition-colors">
                   Services
                 </Link>
               </li>
               <li className="h-6 flex items-center">
-                <Link href="/knowledge-center" className="text-sm leading-6 text-[#F4F6F8]/80 hover:text-white transition-colors">
+                <Link href="/knowledge-center" className="text-sm leading-6 text-white hover:text-white transition-colors">
                   Knowledge Center
                 </Link>
               </li>
               <li className="h-6 flex items-center">
-                <Link href="/portfolio" className="text-sm leading-6 text-[#F4F6F8]/80 hover:text-white transition-colors">
+                <Link href="/portfolio" className="text-sm leading-6 text-white hover:text-white transition-colors">
                   Portfolio
                 </Link>
               </li>
               <li className="h-6 flex items-center">
-                <Link href="/about" className="text-sm leading-6 text-[#F4F6F8]/80 hover:text-white transition-colors">
+                <Link href="/about" className="text-sm leading-6 text-white hover:text-white transition-colors">
                   About
                 </Link>
               </li>
               <li className="h-6 flex items-center">
-                <Link href="/contact" className="text-sm leading-6 text-[#F4F6F8]/80 hover:text-white transition-colors">
+                <Link href="/contact" className="text-sm leading-6 text-white hover:text-white transition-colors">
                   Contact
                 </Link>
               </li>
               <li className="h-6 flex items-center">
-                <Link href="/careers" className="text-sm leading-6 text-[#F4F6F8]/80 hover:text-white transition-colors">
+                <Link href="/careers" className="text-sm leading-6 text-white hover:text-white transition-colors">
                   Careers
                 </Link>
               </li>
               <li className="h-6 flex items-center">
-                <Link href="/security" className="text-sm leading-6 text-[#F4F6F8]/80 hover:text-white transition-colors">
+                <Link href="/security" className="text-sm leading-6 text-white hover:text-white transition-colors">
                   Security Center
                 </Link>
               </li>
@@ -158,42 +158,42 @@ export default function Footer({
             </p>
             <ul className="flex flex-col space-y-3.5">
               <li className="h-6 flex items-center">
-                <Link href="/services" className="text-sm leading-6 text-[#F4F6F8]/80 hover:text-white transition-colors">
+                <Link href="/services" className="text-sm leading-6 text-white hover:text-white transition-colors">
                   Database Management
                 </Link>
               </li>
               <li className="h-6 flex items-center">
-                <Link href="/services" className="text-sm leading-6 text-[#F4F6F8]/80 hover:text-white transition-colors">
+                <Link href="/services" className="text-sm leading-6 text-white hover:text-white transition-colors">
                   Web Development
                 </Link>
               </li>
               <li className="h-6 flex items-center">
-                <Link href="/services" className="text-sm leading-6 text-[#F4F6F8]/80 hover:text-white transition-colors">
+                <Link href="/services" className="text-sm leading-6 text-white hover:text-white transition-colors">
                   Software Development
                 </Link>
               </li>
               <li className="h-6 flex items-center">
-                <Link href="/services" className="text-sm leading-6 text-[#F4F6F8]/80 hover:text-white transition-colors">
+                <Link href="/services" className="text-sm leading-6 text-white hover:text-white transition-colors">
                   Digital Marketing
                 </Link>
               </li>
               <li className="h-6 flex items-center">
-                <Link href="/services" className="text-sm leading-6 text-[#F4F6F8]/80 hover:text-white transition-colors">
+                <Link href="/services" className="text-sm leading-6 text-white hover:text-white transition-colors">
                   Artificial Intelligence (AI)
                 </Link>
               </li>
               <li className="h-6 flex items-center">
-                <Link href="/services" className="text-sm leading-6 text-[#F4F6F8]/80 hover:text-white transition-colors">
+                <Link href="/services" className="text-sm leading-6 text-white hover:text-white transition-colors">
                   Cloud Infrastructure
                 </Link>
               </li>
               <li className="h-6 flex items-center">
-                <Link href="/services" className="text-sm leading-6 text-[#F4F6F8]/80 hover:text-white transition-colors">
+                <Link href="/services" className="text-sm leading-6 text-white hover:text-white transition-colors">
                   UI/UX Design
                 </Link>
               </li>
               <li className="h-6 flex items-center">
-                <Link href="/services" className="text-sm leading-6 text-[#F4F6F8]/80 hover:text-white transition-colors">
+                <Link href="/services" className="text-sm leading-6 text-white hover:text-white transition-colors">
                   Digital Branding
                 </Link>
               </li>
@@ -209,7 +209,7 @@ export default function Footer({
                 <p className="text-xs font-medium text-white uppercase tracking-widest h-6 flex items-center mb-6">
                   Get In Touch
                 </p>
-                <div className="text-sm leading-6 text-[#F4F6F8]/80 flex flex-col space-y-3.5 font-normal">
+                <div className="text-sm leading-6 text-white flex flex-col space-y-3.5 font-normal">
                   <div className="h-auto leading-snug whitespace-pre-line">
                     {generalInfo.officeAddress}
                   </div>
@@ -241,7 +241,7 @@ export default function Footer({
                 </div>
 
                 {/* Social Icons Grid directly under PSEB */}
-                <div className="grid grid-cols-2 gap-x-3 gap-y-3 max-w-[200px] text-sm leading-6 text-[#F4F6F8]/80 font-normal">
+                <div className="grid grid-cols-2 gap-x-3 gap-y-3 max-w-[200px] text-sm leading-6 text-white font-normal">
                   {socialLinks.map((item) => {
                     const isX = item.platform.toLowerCase().includes("twitter") || item.platform.toLowerCase() === "x" || item.platform.toLowerCase().includes("x (twitter)");
                     return (

@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Homebulid() {
   return (
-    <section className="w-full bg-[#F7F6F5] py-14 sm:py-16 lg:py-20 border-b border-[#E2E8F0] relative overflow-hidden">
+    <section className="w-full bg-[#F7F6F5] py-12 sm:py-14 lg:py-16 border-b border-[#E2E8F0] relative overflow-hidden">
       
       {/* Subtle Ambient Background Accents */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-blue-50/40 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
@@ -21,9 +21,8 @@ export default function Homebulid() {
             </div>
 
             {/* Main Headline */}
-            <h2 className="text-[22px] sm:text-4xl lg:text-[40px] font-medium text-[#0F172A] tracking-tight leading-tight mb-5">
-              <span className="block">Build meaningful technology</span>
-              <span className="block mt-2.5 sm:mt-3">Grow with the people behind it</span>
+            <h2 className="text-4xl md:text-5xl font-normal tracking-tight text-slate-900 leading-tight max-w-2xl text-balance">
+              Build meaningful technology. Grow with the people behind it.
             </h2>
 
             {/* Description */}

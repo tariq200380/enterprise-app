@@ -3,12 +3,12 @@ import Link from "next/link";
 
 export default function Homeknowledge() {
   return (
-    <section className="w-full py-14 sm:py-16 lg:py-20 border-b border-[#E2E8F0] bg-[#F7F6F5]">
+    <section className="w-full py-12 sm:py-14 lg:py-16 border-b border-[#E2E8F0] bg-[#F7F6F5]">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         
         {/* Heading & Subtitle */}
         <div className="flex flex-col items-center text-center mb-10">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-medium text-[#0F172A] tracking-tight mb-4">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl text-[#1A1A1A] tracking-tight leading-[1.15] mb-4">
             Knowledge Center
           </h2>
           <p className="text-sm sm:text-base text-[#5B6472] max-w-2xl font-normal">

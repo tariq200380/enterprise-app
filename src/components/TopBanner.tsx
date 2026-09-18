@@ -109,9 +109,9 @@ export default function TopBanner({
       <div className="max-w-4xl mx-auto flex items-center justify-start sm:justify-center gap-3">
         {/* Fixed Stationary Orange Badge - Anchor locked, NEVER moves */}
         {badgeLabel && (
-          <div className="w-[84px] h-5 bg-[#FF5805] text-white text-[11px] font-bold rounded-full uppercase tracking-wider shrink-0 shadow-sm flex items-center justify-center px-1.5 select-none">
-            <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse shrink-0 mr-1"></span>
-            <span className="truncate text-center">{badgeLabel}</span>
+          <div className="bg-[#EA580C] text-white font-semibold text-xs px-2.5 py-1 rounded-full flex items-center justify-center uppercase tracking-wider shrink-0 shadow-sm select-none">
+            <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse shrink-0 mr-1.5"></span>
+            <span className="truncate text-center leading-none">{badgeLabel}</span>
           </div>
         )}
 

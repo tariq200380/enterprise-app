@@ -15,7 +15,7 @@ export async function GET() {
 
     // Synchronize live portfolio projects
     if (portRes.rows.length > 0) {
-      val.portfolioProjects = portRes.rows.map((p) => ({
+      val.portfolioProjects = portRes.rows.map((p: any) => ({
         id: String(p.id),
         coverImageUrl: p.image_url || "",
         category: p.category || "Enterprise",

@@ -199,7 +199,7 @@ export async function getPortfolioProjects(): Promise<PortfolioProjectItem[]> {
        FROM portfolio_projects 
        ORDER BY id DESC`
     );
-    return res.rows.map((row) => {
+    return res.rows.map((row: any) => {
       let parsedStack: string[] = [];
       if (Array.isArray(row.stack)) {
         parsedStack = row.stack;

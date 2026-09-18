@@ -8,7 +8,7 @@ export default function Homehero() {
         
         {/* LEFT — Text & CTA */}
         <div className="w-full lg:w-1/2 flex flex-col items-center lg:items-start text-center lg:text-left shrink-0">
-          <h1 className="font-normal text-4xl sm:text-5xl text-[#1A1A1A] tracking-tight leading-[1.15]">
+          <h1 className="font-outfit font-bold tracking-tight text-slate-900 text-4xl sm:text-5xl leading-[1.15]">
             Your infrastructure supercharged
           </h1>
 
@@ -20,7 +20,7 @@ export default function Homehero() {
             <button
               type="button"
               data-modal="project"
-              className="w-full sm:w-[185px] h-11 inline-flex items-center justify-center bg-[#0052FF] hover:bg-[#0042D0] text-white text-sm font-semibold rounded border border-[#0052FF] transition-colors shadow-none cursor-pointer text-center whitespace-nowrap"
+              className="w-full sm:w-[185px] h-11 inline-flex items-center justify-center bg-blue-600 text-white font-medium hover:bg-blue-700 rounded transition-colors shadow-none cursor-pointer text-center whitespace-nowrap"
             >
               Start Your Project
             </button>

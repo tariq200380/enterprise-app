@@ -1,6 +1,6 @@
 export default function Homedecade() {
   return (
-    <section className="w-full bg-[#0B1120] py-16 lg:py-20 text-white relative overflow-hidden border-b border-[#1E293B]/60 select-none">
+    <section className="w-full bg-[#0B1120] py-12 sm:py-14 lg:py-16 text-white relative overflow-hidden border-b border-[#1E293B]/60 select-none">
       {/* Ambient Orange Radial Glow */}
       <div
         className="absolute inset-0 pointer-events-none"

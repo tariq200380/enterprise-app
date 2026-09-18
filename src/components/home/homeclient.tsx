@@ -4,7 +4,7 @@ export default function Homeclient() {
   return (
     <section
       id="client-reviews"
-      className="w-full py-16 sm:py-20 bg-[#F7F6F5] text-[#0F172A] border-b border-[#E2E8F0] overflow-hidden relative select-none"
+      className="w-full py-12 sm:py-14 lg:py-16 bg-[#F7F6F5] text-[#0F172A] border-b border-[#E2E8F0] overflow-hidden relative select-none"
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
@@ -15,9 +15,9 @@ export default function Homeclient() {
               <span className="text-xs sm:text-[13px] font-semibold text-[#EA580C] uppercase tracking-wider block mb-2 font-mono">
                 Enterprise Client Feedback
               </span>
-              <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-medium text-[#0F172A] tracking-tight leading-tight">
+              <h2 className="text-3xl sm:text-4xl lg:text-[44px] text-[#1A1A1A] tracking-tight leading-[1.15]">
                 <span className="block">What Our Clients Say</span>
-                <span className="block mt-2 sm:mt-2.5">About Creed Tech</span>
+                <span className="block">About Creed Tech</span>
               </h2>
             </div>
 
@@ -61,17 +61,17 @@ export default function Homeclient() {
                 <button
                   type="button"
                   data-modal="review"
-                  className="inline-flex items-center justify-center gap-2 bg-[#111827] hover:bg-black text-white font-semibold text-[13.5px] h-10 px-5 rounded border border-gray-700 transition-colors text-center w-full sm:w-[220px] cursor-pointer shadow-xs"
+                  className="inline-flex items-center justify-center gap-2 bg-slate-900 text-white font-medium hover:bg-slate-800 text-[13.5px] h-10 px-5 rounded border border-gray-700 transition-colors text-center w-full sm:w-[220px] cursor-pointer shadow-xs"
                 >
                   <span className="text-[#FFAA00]">&#9733;</span>
-                  <span>Write a Client Review</span>
+                  <span className="text-white">Write a Client Review</span>
                 </button>
               </div>
 
               <div>
                 <Link
                   href="/portfolio"
-                  className="inline-flex items-center text-xs sm:text-sm font-medium text-gray-900 hover:text-[#EA580C] border-b-2 border-gray-900 hover:border-[#EA580C] pb-0.5 transition-colors"
+                  className="text-slate-800 hover:text-blue-600 font-semibold text-sm inline-flex items-center gap-1"
                 >
                   View Client Portfolio &rarr;
                 </Link>

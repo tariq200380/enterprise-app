@@ -6,7 +6,7 @@ export default function ServicesDelivery() {
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-[52rem] mx-auto mb-10">
-          <h2 className="text-3xl sm:text-4xl lg:text-[2.35rem] font-extrabold text-[#0F172A] tracking-[-0.02em] mb-3 leading-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl text-[#1A1A1A] tracking-tight leading-[1.15] mb-3">
             Our Delivery <span className="text-[#0052FF]">Commitment</span>
           </h2>
           <p className="text-[15px] sm:text-[16px] text-[#5B6472] leading-relaxed font-normal m-0">
@@ -21,7 +21,7 @@ export default function ServicesDelivery() {
             <span className="text-[11px] font-extrabold text-[#0052FF] bg-[#EFF6FF] border border-[#DBEAFE] px-2 py-0.5 rounded tracking-[0.04em] mb-4 inline-block w-max">
               COMMITMENT 01
             </span>
-            <h3 className="text-[18px] font-semibold text-[#0F172A] mb-3 leading-snug m-0">
+            <h3 className="text-[18px] text-[#1A1A1A] tracking-tight mb-3 leading-snug m-0">
               Clear Requirements
             </h3>
             <p className="text-[15px] text-[#5B6472] leading-relaxed m-0 font-normal">
@@ -34,7 +34,7 @@ export default function ServicesDelivery() {
             <span className="text-[11px] font-extrabold text-[#0052FF] bg-[#EFF6FF] border border-[#DBEAFE] px-2 py-0.5 rounded tracking-[0.04em] mb-4 inline-block w-max">
               COMMITMENT 02
             </span>
-            <h3 className="text-[18px] font-semibold text-[#0F172A] mb-3 leading-snug m-0">
+            <h3 className="text-[18px] text-[#1A1A1A] tracking-tight mb-3 leading-snug m-0">
               Transparent Progress
             </h3>
             <p className="text-[15px] text-[#5B6472] leading-relaxed m-0 font-normal">
@@ -47,7 +47,7 @@ export default function ServicesDelivery() {
             <span className="text-[11px] font-extrabold text-[#0052FF] bg-[#EFF6FF] border border-[#DBEAFE] px-2 py-0.5 rounded tracking-[0.04em] mb-4 inline-block w-max">
               COMMITMENT 03
             </span>
-            <h3 className="text-[18px] font-semibold text-[#0F172A] mb-3 leading-snug m-0">
+            <h3 className="text-[18px] text-[#1A1A1A] tracking-tight mb-3 leading-snug m-0">
               Quality Review
             </h3>
             <p className="text-[15px] text-[#5B6472] leading-relaxed m-0 font-normal">
@@ -60,7 +60,7 @@ export default function ServicesDelivery() {
             <span className="text-[11px] font-extrabold text-[#0052FF] bg-[#EFF6FF] border border-[#DBEAFE] px-2 py-0.5 rounded tracking-[0.04em] mb-4 inline-block w-max">
               COMMITMENT 04
             </span>
-            <h3 className="text-[18px] font-semibold text-[#0F172A] mb-3 leading-snug m-0">
+            <h3 className="text-[18px] text-[#1A1A1A] tracking-tight mb-3 leading-snug m-0">
               Continued Support
             </h3>
             <p className="text-[15px] text-[#5B6472] leading-relaxed m-0 font-normal">

@@ -2,16 +2,16 @@ import Link from "next/link";
 
 export default function Homefocus() {
   return (
-    <section className="w-full bg-[#F7F6F5] border-b border-[#E2E8F0] py-14 sm:py-16 lg:py-20 select-none">
+    <section className="w-full bg-[#F7F6F5] border-b border-[#E2E8F0] py-12 sm:py-14 lg:py-16 select-none">
       <div className="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16">
         {/* Left Column: Heading, Text & CTA */}
         <div className="w-full lg:w-[44%] flex flex-col items-start text-left shrink-0">
           <span className="text-xs font-semibold text-[#EA580C] uppercase tracking-widest mb-3 font-mono">
             WHY CREED TECH
           </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-medium text-[#0F172A] tracking-tight leading-tight mb-5">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl text-[#1A1A1A] tracking-tight leading-[1.15] mb-5">
             <span className="block">Focused teams</span>
-            <span className="block text-[#0052FF] mt-2 sm:mt-2.5">Reliable delivery</span>
+            <span className="block text-[#0052FF]">Reliable delivery</span>
           </h2>
           <p className="text-sm sm:text-base text-[#5B6472] leading-relaxed mb-8 max-w-md font-normal">
             What does this mean for you? You gain enterprise-grade engineering with the responsiveness of a dedicated team.

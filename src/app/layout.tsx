@@ -1,7 +1,20 @@
 import type { Metadata } from "next";
+import { Outfit, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import AppLayoutWrapper from "@/components/AppLayoutWrapper";
 import { query } from "@/lib/db";
+
+const outfit = Outfit({
+  subsets: ["latin"],
+  variable: "--font-outfit",
+  display: "swap",
+});
+
+const jakarta = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-jakarta",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://creed-tech.com"),
@@ -176,7 +189,7 @@ export default async function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="min-h-full flex flex-col bg-white text-gray-900 font-sans" suppressHydrationWarning>
+      <body className={`min-h-full flex flex-col bg-white text-slate-600 font-jakarta font-normal leading-relaxed ${outfit.variable} ${jakarta.variable}`} suppressHydrationWarning>
         <AppLayoutWrapper
           socialLinks={socialLinks}
           copyrightText={copyrightText}

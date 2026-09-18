@@ -15,18 +15,18 @@ export default function ServicesHero() {
           </div>
 
           {/* H1 Heading */}
-          <h1 className="text-3xl sm:text-4xl lg:text-[2.75rem] font-extrabold tracking-[-0.03em] text-[#0F172A] leading-[1.2] mb-3">
+          <h1 className="font-outfit font-bold tracking-tight text-slate-900 text-4xl sm:text-5xl leading-[1.15] mb-3">
             Architecting Enterprise <br />
             <span className="text-[#0052FF]">IT &amp; Cloud Solutions</span>
           </h1>
 
           {/* Paragraph 1 */}
-          <p className="text-[15px] sm:text-[15.5px] font-semibold text-[#0F172A] leading-relaxed mb-1.5">
+          <p className="text-[15px] sm:text-[15.5px] font-normal text-[#3E3E3E] leading-relaxed mb-1.5">
             End-to-end cloud infrastructure, bespoke software engineering, AI automation, and cybersecurity.
           </p>
 
           {/* Paragraph 2 */}
-          <p className="text-[14.5px] sm:text-[15px] font-medium text-[#1E293B] leading-relaxed mb-5">
+          <p className="text-[14.5px] sm:text-[15px] font-normal text-[#5B6472] leading-relaxed mb-5">
             Engineered for unprecedented enterprise scale, high availability, and cryptographic data protection.
           </p>
 
@@ -34,7 +34,7 @@ export default function ServicesHero() {
           <div className="grid grid-cols-2 gap-3 max-w-sm sm:max-w-md">
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center bg-[#0052FF] hover:bg-[#0043D6] text-white font-bold text-xs sm:text-sm h-10 sm:h-11 px-3 sm:px-5 rounded-md shadow-sm transition-all duration-200 text-center whitespace-nowrap"
+              className="inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-medium text-xs sm:text-sm h-10 sm:h-11 px-3 sm:px-5 rounded-md shadow-sm transition-all duration-200 text-center whitespace-nowrap"
             >
               Start Your Project
             </Link>
@@ -42,7 +42,7 @@ export default function ServicesHero() {
               href="#delivery-process"
               className="inline-flex items-center justify-center bg-white hover:bg-gray-50 border-2 border-[#0052FF] text-[#0052FF] hover:text-[#0043D6] font-bold text-xs sm:text-sm h-10 sm:h-11 px-3 sm:px-5 rounded-md shadow-sm transition-all duration-200 text-center whitespace-nowrap"
             >
-              Explore Services &darr;
+              Explore Services &rarr;
             </Link>
           </div>
         </div>
