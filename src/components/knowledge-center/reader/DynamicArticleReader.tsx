@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import { uploadImageFile } from "@/lib/uploadHelper";
 import {
   KnowledgeArticle,
   PeerReview,
@@ -51,6 +52,10 @@ export default function DynamicArticleReader({
   const [revRating, setRevRating] = useState(5);
   const [revTitle, setRevTitle] = useState("");
   const [revComment, setRevComment] = useState("");
+  const [revAvatarFile, setRevAvatarFile] = useState<File | null>(null);
+  const [revAvatarPreview, setRevAvatarPreview] = useState<string | null>(null);
+  const [revAvatarFileName, setRevAvatarFileName] = useState<string>("");
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [helpfulClicked, setHelpfulClicked] = useState<Record<number, boolean>>({});
 
   // Live tech news from API
@@ -180,12 +185,55 @@ export default function DynamicArticleReader({
     }
   };
 
+  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 5 * 1024 * 1024) {
+      alert("File size exceeds 5MB limit. Please select a smaller image.");
+      return;
+    }
+
+    setRevAvatarFile(file);
+    setRevAvatarFileName(file.name);
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      setRevAvatarPreview((event.target?.result as string) || null);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleRemoveAvatar = () => {
+    setRevAvatarFile(null);
+    setRevAvatarPreview(null);
+    setRevAvatarFileName("");
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
   const handleAddReviewSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!revName.trim() || !revTitle.trim() || !revComment.trim()) return;
 
     setIsSubmittingReview(true);
     try {
+      let finalAvatar =
+        "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=180&auto=format&fit=crop&q=80";
+
+      if (revAvatarFile) {
+        try {
+          const uploadedUrl = await uploadImageFile(revAvatarFile);
+          if (uploadedUrl) {
+            finalAvatar = uploadedUrl;
+          }
+        } catch (err) {
+          console.warn("Avatar upload failed, using local preview fallback:", err);
+          if (revAvatarPreview) finalAvatar = revAvatarPreview;
+        }
+      }
+
       const res = await fetch("/api/reviews", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -197,36 +245,24 @@ export default function DynamicArticleReader({
           rating: revRating,
           review_title: revTitle.trim(),
           details: revComment.trim(),
-          avatar:
-            "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=180&auto=format&fit=crop&q=80",
+          avatar: finalAvatar,
         }),
       });
 
       const data = await res.json();
       if (data.success && data.review) {
-        const newReview: PeerReview = {
-          article_id: currentArticle.id,
-          name: data.review.reviewer_name || revName.trim(),
-          role: data.review.organization || revRole.trim() || "Enterprise Architect",
-          avatar:
-            data.review.avatar ||
-            "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=180&auto=format&fit=crop&q=80",
-          rating: Number(data.review.rating) || revRating,
-          date: "Just Now",
-          title: data.review.review_title || revTitle.trim(),
-          comment: data.review.details || revComment.trim(),
-          helpful: 1,
-        };
-
-        setDbReviews((prev) => [newReview, ...prev]);
         setReviewSuccessMsg(
-          "✓ Thank you! Your review has been submitted and published."
+          "✓ Thank you! Your review has been submitted for moderation. It will be published live once approved by the administrator."
         );
-        setTimeout(() => setReviewSuccessMsg(null), 6000);
+        setTimeout(() => setReviewSuccessMsg(null), 8000);
         setRevName("");
         setRevRole("");
         setRevTitle("");
         setRevComment("");
+        setRevAvatarFile(null);
+        setRevAvatarPreview(null);
+        setRevAvatarFileName("");
+        if (fileInputRef.current) fileInputRef.current.value = "";
         setIsReviewModalOpen(false);
       } else {
         alert(data.error || "Failed to submit review.");
@@ -1016,6 +1052,58 @@ export default function DynamicArticleReader({
                     placeholder="e.g. Senior Architect @ CloudNet"
                     className="w-full px-3 py-2 border border-[#CBD5E1] rounded-lg text-xs bg-white focus:outline-none focus:border-[#0052FF]"
                   />
+                </div>
+              </div>
+
+              {/* Photo / Avatar Upload from Computer */}
+              <div>
+                <label className="block text-xs font-bold text-[#334155] mb-1">
+                  Profile Photo / Avatar <span className="text-[#64748B] font-normal">(Optional — from your computer)</span>
+                </label>
+                <div className="flex items-center gap-3 p-2.5 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl">
+                  <div className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-white shadow-xs shrink-0 bg-[#E2E8F0] flex items-center justify-center">
+                    {revAvatarPreview ? (
+                      <img
+                        src={revAvatarPreview}
+                        alt="Preview"
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <span className="text-xl text-[#94A3B8]">👤</span>
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept="image/*"
+                      onChange={handleAvatarChange}
+                      className="hidden"
+                      id="peer-review-avatar-input"
+                    />
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => fileInputRef.current?.click()}
+                        className="px-3 py-1.5 bg-white border border-[#CBD5E1] hover:bg-[#F1F5F9] text-xs font-bold text-[#1E293B] rounded-lg transition-colors cursor-pointer flex items-center gap-1.5 shadow-2xs"
+                      >
+                        <span>📷</span>
+                        <span>{revAvatarPreview ? "Change Photo" : "Upload Photo from Computer"}</span>
+                      </button>
+                      {revAvatarPreview && (
+                        <button
+                          type="button"
+                          onClick={handleRemoveAvatar}
+                          className="px-2 py-1 text-xs text-[#DC2626] hover:bg-[#FEE2E2] rounded-lg transition-colors font-semibold cursor-pointer"
+                        >
+                          Remove
+                        </button>
+                      )}
+                    </div>
+                    <p className="text-[10.5px] text-[#64748B] mt-1 m-0 truncate">
+                      {revAvatarFileName ? revAvatarFileName : "Supports PNG, JPG, WebP up to 5MB"}
+                    </p>
+                  </div>
                 </div>
               </div>
 

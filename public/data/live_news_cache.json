@@ -1,6 +1,6 @@
 {
   "status": "success",
-  "timestamp": "2026-09-18T22:04:29.964Z",
+  "timestamp": "2026-09-20T17:09:05.565Z",
   "gate_status": "CENTRAL_GATE_ACTIVE",
   "provider_statuses": {},
   "counts": {
@@ -58,7 +58,7 @@
       "source_image_url": null,
       "img": "/uploads/live_news/anthropic_fable_mythos_hero.jpg",
       "caption": "📷 Partnering with Accenture on embedded evaluation",
-      "provider_published_at": "2026-09-18T23:26:15.000Z"
+      "provider_published_at": "2026-09-18T20:10:07.000Z"
     },
     "microsoft": {
       "brandBadge": "🪟 MICROSOFT",
@@ -107,14 +107,14 @@
       "captionTag": "OPENAI OFFICIAL WIRE",
       "cat": "GENERATIVE AI & REASONING",
       "date": "OpenAI Newsroom (Live RSS)",
-      "title": "How Cooley is accelerating IPO work with ChatGPT",
-      "summary": "Cooley built GO Public with ChatGPT Work to bring intelligence to the IPO process, helping lawyers surface issues earlier and focus judgment where it matters most.",
+      "title": "Introducing the Australian Youth Safety Blueprint",
+      "summary": "OpenAI introduces the Australian Youth Safety Blueprint, a six-pillar roadmap for safer AI experiences that protect and empower young people.",
       "source": "OpenAI Newsroom",
-      "link": "https://openai.com/index/cooley-gopublic",
+      "link": "https://openai.com/index/australian-youth-safety-blueprint",
       "source_image_url": null,
       "img": "/uploads/live_news/openai_perplexity_aravind_hero.jpg",
-      "caption": "📷 How Cooley is accelerating IPO work with ChatGPT",
-      "provider_published_at": "2026-09-17T12:00:00.000Z"
+      "caption": "📷 Introducing the Australian Youth Safety Blueprint",
+      "provider_published_at": "2026-09-18T12:00:00.000Z"
     },
     "intel": {
       "brandBadge": "🔷 INTEL",
@@ -139,14 +139,14 @@
       "brandBadge": "🇵🇰 DAWN TECH",
       "category": "PAKISTAN TECH & SCIENCE",
       "date": "Dawn Sci-Tech (Live RSS)",
-      "title": "Guidelines issued for govt employees, public-sector organisations to prevent cyberattack",
-      "summary": "Guidelines issued for govt employees, public-sector organisations to prevent cyberattack. Real-time intelligence and verified enterprise developments.",
+      "title": "AI 'warning shots' make Beijing turn its focus to national security risks",
+      "summary": "While AI researchers in the United States fret over out-of-control superintelligence wiping out humanity, Chinese policymakers have until now been more focused on immediate risks, from deepfakes to child safety. But the alarming hacking ...",
       "sourceName": "Dawn Sci-Tech",
-      "sourceUrl": "https://www.dawn.com/news/2031074/guidelines-issued-for-govt-employees-public-sector-organisations-to-prevent-cyberattack",
-      "link": "https://www.dawn.com/news/2031074/guidelines-issued-for-govt-employees-public-sector-organisations-to-prevent-cyberattack",
-      "image": "https://i.dawn.com/large/2026/09/190747231f0b34b.webp",
-      "img": "https://i.dawn.com/large/2026/09/190747231f0b34b.webp",
-      "provider_published_at": "2026-09-19T02:47:45.000Z"
+      "sourceUrl": "https://www.dawn.com/news/2031366/ai-warning-shots-make-beijing-turn-its-focus-to-national-security-risks",
+      "link": "https://www.dawn.com/news/2031366/ai-warning-shots-make-beijing-turn-its-focus-to-national-security-risks",
+      "image": "https://i.dawn.com/large/2026/09/20180032027a726.webp",
+      "img": "https://i.dawn.com/large/2026/09/20180032027a726.webp",
+      "provider_published_at": "2026-09-20T15:35:49.000Z"
     },
     "brecorder": {
       "id": "brecorder",
@@ -155,14 +155,14 @@
       "brandBadge": "🇵🇰 B-RECORDER",
       "category": "PAKISTAN FINTECH & BUSINESS",
       "date": "Business Recorder (Live RSS)",
-      "title": "China's Huawei to launch two new AI chips in 2027",
-      "summary": "SHANGHAI: Huawei Technologies will launch two ​new artificial-intelligence chips in ‌2027, rotating chairman David Wang said on Thursday, ​as the Chinese ​company expands its push into ⁠AI computing. Huawei plans ​to launch the 960DT ​in...",
+      "title": "Apple's Tim Cook sees Australia's social media curbs as 'world-leading', PM says",
+      "summary": "SYDNEY: Apple Executive Chair Tim Cook views the Australian government’s pioneering curbs on ​social media as “world-leading”, Prime Minister Anthony Albanese said on Sunday after ‌meeting with Cook at the company’s US headquarters. “Tim...",
       "sourceName": "Business Recorder",
-      "sourceUrl": "https://www.brecorder.com/news/40439916/chinas-huawei-to-launch-two-new-ai-chips-in-2027",
-      "link": "https://www.brecorder.com/news/40439916/chinas-huawei-to-launch-two-new-ai-chips-in-2027",
-      "image": "https://i.brecorder.com/large/2026/09/1708054178c2dab.webp",
-      "img": "https://i.brecorder.com/large/2026/09/1708054178c2dab.webp",
-      "provider_published_at": "2026-09-17T03:07:24.000Z"
+      "sourceUrl": "https://www.brecorder.com/news/40440357/apples-tim-cook-sees-australias-social-media-curbs-as-world-leading-pm-says",
+      "link": "https://www.brecorder.com/news/40440357/apples-tim-cook-sees-australias-social-media-curbs-as-world-leading-pm-says",
+      "image": "https://i.brecorder.com/large/2026/09/20105541594e7f3.webp",
+      "img": "https://i.brecorder.com/large/2026/09/20105541594e7f3.webp",
+      "provider_published_at": "2026-09-20T06:07:47.000Z"
     },
     "propakistani": {
       "id": "propakistani",
@@ -171,14 +171,14 @@
       "brandBadge": "🇵🇰 PROPAKISTANI",
       "category": "PAKISTAN DIGITAL ECOSYSTEM",
       "date": "ProPakistani (Live RSS)",
-      "title": "Zong Dominates in Overall Network Performance in PTA’s Q2 2026 QoS Survey",
-      "summary": "Zong has reaffirmed its status as Pakistan’s leading Technology Services Enterprise by securing top positions across 7 out of 10 … Read More The post Zong Dominates in Overall Network Performance in PTA’s Q2 2026 QoS Survey appeared firs...",
+      "title": "P@SHA Announces Date for Upcoming 2026 ICT Awards in Karachi",
+      "summary": "The Pakistan Software Houses Association for IT &#38; ITES (P@SHA) will hold the P@SHA ICT Awards 2026 in Karachi on … Read More The post P@SHA Announces Date for Upcoming 2026 ICT Awards in Karachi appeared first on ProPakistani .",
       "sourceName": "ProPakistani",
-      "sourceUrl": "https://propakistani.pk/2026/09/18/zong-dominates-in-overall-network-performance-in-ptas-q2-2026-qos-survey/",
-      "link": "https://propakistani.pk/2026/09/18/zong-dominates-in-overall-network-performance-in-ptas-q2-2026-qos-survey/",
-      "image": "https://propakistani.pk/wp-content/uploads/2026/09/zong-5g.jpg",
-      "img": "https://propakistani.pk/wp-content/uploads/2026/09/zong-5g.jpg",
-      "provider_published_at": "2026-09-18T16:47:01.000Z"
+      "sourceUrl": "https://propakistani.pk/2026/09/20/psha-announces-date-for-upcoming-2026-ict-awards-in-karachi/",
+      "link": "https://propakistani.pk/2026/09/20/psha-announces-date-for-upcoming-2026-ict-awards-in-karachi/",
+      "image": "https://propakistani.pk/wp-content/uploads/2026/06/pasha-pp-1.png",
+      "img": "https://propakistani.pk/wp-content/uploads/2026/06/pasha-pp-1.png",
+      "provider_published_at": "2026-09-20T15:59:54.000Z"
     },
     "tribune": {
       "id": "tribune",
@@ -187,14 +187,14 @@
       "brandBadge": "🇵🇰 TRIBUNE",
       "category": "PAKISTAN AEROSPACE & TECH",
       "date": "The Express Tribune (Live RSS)",
-      "title": "Founder of Chinese startup Spirit AI says robot brains set for 2027 breakthrough",
-      "summary": "Founder of Chinese startup Spirit AI says robot brains set for 2027 breakthrough. Real-time intelligence and verified enterprise developments.",
+      "title": "US Treasury's Bessent, China's He to launch talks on AI, trade, critical minerals",
+      "summary": "US Treasury's Bessent, China's He to launch talks on AI, trade, critical minerals. Real-time intelligence and verified enterprise developments.",
       "sourceName": "The Express Tribune",
-      "sourceUrl": "https://tribune.com.pk/story/2630041/founder-of-chinese-startup-spirit-ai-says-robot-brains-set-for-2027-breakthrough",
-      "link": "https://tribune.com.pk/story/2630041/founder-of-chinese-startup-spirit-ai-says-robot-brains-set-for-2027-breakthrough",
-      "image": "https://i.tribune.com.pk/media/images/image-of-the-us-senate-21789730953-0/image-of-the-us-senate-21789730953-0.png",
-      "img": "https://i.tribune.com.pk/media/images/image-of-the-us-senate-21789730953-0/image-of-the-us-senate-21789730953-0.png",
-      "provider_published_at": "2026-09-18T06:15:26.000Z"
+      "sourceUrl": "https://tribune.com.pk/story/2630343/us-treasurys-bessent-chinas-he-to-launch-talks-on-ai-trade-critical-minerals",
+      "link": "https://tribune.com.pk/story/2630343/us-treasurys-bessent-chinas-he-to-launch-talks-on-ai-trade-critical-minerals",
+      "image": "https://i.tribune.com.pk/media/images/5nmfny5gdbj57gkococmusovze1786993138-0/5nmfny5gdbj57gkococmusovze1786993138-0.jpg",
+      "img": "https://i.tribune.com.pk/media/images/5nmfny5gdbj57gkococmusovze1786993138-0/5nmfny5gdbj57gkococmusovze1786993138-0.jpg",
+      "provider_published_at": "2026-09-20T02:17:59.000Z"
     }
   },
   "regional_items": [
@@ -205,14 +205,14 @@
       "brandBadge": "🇵🇰 DAWN TECH",
       "category": "PAKISTAN TECH & SCIENCE",
       "date": "Dawn Sci-Tech (Live RSS)",
-      "title": "Guidelines issued for govt employees, public-sector organisations to prevent cyberattack",
-      "summary": "Guidelines issued for govt employees, public-sector organisations to prevent cyberattack. Real-time intelligence and verified enterprise developments.",
+      "title": "AI 'warning shots' make Beijing turn its focus to national security risks",
+      "summary": "While AI researchers in the United States fret over out-of-control superintelligence wiping out humanity, Chinese policymakers have until now been more focused on immediate risks, from deepfakes to child safety. But the alarming hacking ...",
       "sourceName": "Dawn Sci-Tech",
-      "sourceUrl": "https://www.dawn.com/news/2031074/guidelines-issued-for-govt-employees-public-sector-organisations-to-prevent-cyberattack",
-      "link": "https://www.dawn.com/news/2031074/guidelines-issued-for-govt-employees-public-sector-organisations-to-prevent-cyberattack",
-      "image": "https://i.dawn.com/large/2026/09/190747231f0b34b.webp",
-      "img": "https://i.dawn.com/large/2026/09/190747231f0b34b.webp",
-      "provider_published_at": "2026-09-19T02:47:45.000Z"
+      "sourceUrl": "https://www.dawn.com/news/2031366/ai-warning-shots-make-beijing-turn-its-focus-to-national-security-risks",
+      "link": "https://www.dawn.com/news/2031366/ai-warning-shots-make-beijing-turn-its-focus-to-national-security-risks",
+      "image": "https://i.dawn.com/large/2026/09/20180032027a726.webp",
+      "img": "https://i.dawn.com/large/2026/09/20180032027a726.webp",
+      "provider_published_at": "2026-09-20T15:35:49.000Z"
     },
     {
       "id": "brecorder",
@@ -221,14 +221,14 @@
       "brandBadge": "🇵🇰 B-RECORDER",
       "category": "PAKISTAN FINTECH & BUSINESS",
       "date": "Business Recorder (Live RSS)",
-      "title": "China's Huawei to launch two new AI chips in 2027",
-      "summary": "SHANGHAI: Huawei Technologies will launch two ​new artificial-intelligence chips in ‌2027, rotating chairman David Wang said on Thursday, ​as the Chinese ​company expands its push into ⁠AI computing. Huawei plans ​to launch the 960DT ​in...",
+      "title": "Apple's Tim Cook sees Australia's social media curbs as 'world-leading', PM says",
+      "summary": "SYDNEY: Apple Executive Chair Tim Cook views the Australian government’s pioneering curbs on ​social media as “world-leading”, Prime Minister Anthony Albanese said on Sunday after ‌meeting with Cook at the company’s US headquarters. “Tim...",
       "sourceName": "Business Recorder",
-      "sourceUrl": "https://www.brecorder.com/news/40439916/chinas-huawei-to-launch-two-new-ai-chips-in-2027",
-      "link": "https://www.brecorder.com/news/40439916/chinas-huawei-to-launch-two-new-ai-chips-in-2027",
-      "image": "https://i.brecorder.com/large/2026/09/1708054178c2dab.webp",
-      "img": "https://i.brecorder.com/large/2026/09/1708054178c2dab.webp",
-      "provider_published_at": "2026-09-17T03:07:24.000Z"
+      "sourceUrl": "https://www.brecorder.com/news/40440357/apples-tim-cook-sees-australias-social-media-curbs-as-world-leading-pm-says",
+      "link": "https://www.brecorder.com/news/40440357/apples-tim-cook-sees-australias-social-media-curbs-as-world-leading-pm-says",
+      "image": "https://i.brecorder.com/large/2026/09/20105541594e7f3.webp",
+      "img": "https://i.brecorder.com/large/2026/09/20105541594e7f3.webp",
+      "provider_published_at": "2026-09-20T06:07:47.000Z"
     },
     {
       "id": "propakistani",
@@ -237,14 +237,14 @@
       "brandBadge": "🇵🇰 PROPAKISTANI",
       "category": "PAKISTAN DIGITAL ECOSYSTEM",
       "date": "ProPakistani (Live RSS)",
-      "title": "Zong Dominates in Overall Network Performance in PTA’s Q2 2026 QoS Survey",
-      "summary": "Zong has reaffirmed its status as Pakistan’s leading Technology Services Enterprise by securing top positions across 7 out of 10 … Read More The post Zong Dominates in Overall Network Performance in PTA’s Q2 2026 QoS Survey appeared firs...",
+      "title": "P@SHA Announces Date for Upcoming 2026 ICT Awards in Karachi",
+      "summary": "The Pakistan Software Houses Association for IT &#38; ITES (P@SHA) will hold the P@SHA ICT Awards 2026 in Karachi on … Read More The post P@SHA Announces Date for Upcoming 2026 ICT Awards in Karachi appeared first on ProPakistani .",
       "sourceName": "ProPakistani",
-      "sourceUrl": "https://propakistani.pk/2026/09/18/zong-dominates-in-overall-network-performance-in-ptas-q2-2026-qos-survey/",
-      "link": "https://propakistani.pk/2026/09/18/zong-dominates-in-overall-network-performance-in-ptas-q2-2026-qos-survey/",
-      "image": "https://propakistani.pk/wp-content/uploads/2026/09/zong-5g.jpg",
-      "img": "https://propakistani.pk/wp-content/uploads/2026/09/zong-5g.jpg",
-      "provider_published_at": "2026-09-18T16:47:01.000Z"
+      "sourceUrl": "https://propakistani.pk/2026/09/20/psha-announces-date-for-upcoming-2026-ict-awards-in-karachi/",
+      "link": "https://propakistani.pk/2026/09/20/psha-announces-date-for-upcoming-2026-ict-awards-in-karachi/",
+      "image": "https://propakistani.pk/wp-content/uploads/2026/06/pasha-pp-1.png",
+      "img": "https://propakistani.pk/wp-content/uploads/2026/06/pasha-pp-1.png",
+      "provider_published_at": "2026-09-20T15:59:54.000Z"
     },
     {
       "id": "tribune",
@@ -253,33 +253,75 @@
       "brandBadge": "🇵🇰 TRIBUNE",
       "category": "PAKISTAN AEROSPACE & TECH",
       "date": "The Express Tribune (Live RSS)",
-      "title": "Founder of Chinese startup Spirit AI says robot brains set for 2027 breakthrough",
-      "summary": "Founder of Chinese startup Spirit AI says robot brains set for 2027 breakthrough. Real-time intelligence and verified enterprise developments.",
+      "title": "US Treasury's Bessent, China's He to launch talks on AI, trade, critical minerals",
+      "summary": "US Treasury's Bessent, China's He to launch talks on AI, trade, critical minerals. Real-time intelligence and verified enterprise developments.",
       "sourceName": "The Express Tribune",
-      "sourceUrl": "https://tribune.com.pk/story/2630041/founder-of-chinese-startup-spirit-ai-says-robot-brains-set-for-2027-breakthrough",
-      "link": "https://tribune.com.pk/story/2630041/founder-of-chinese-startup-spirit-ai-says-robot-brains-set-for-2027-breakthrough",
-      "image": "https://i.tribune.com.pk/media/images/image-of-the-us-senate-21789730953-0/image-of-the-us-senate-21789730953-0.png",
-      "img": "https://i.tribune.com.pk/media/images/image-of-the-us-senate-21789730953-0/image-of-the-us-senate-21789730953-0.png",
-      "provider_published_at": "2026-09-18T06:15:26.000Z"
+      "sourceUrl": "https://tribune.com.pk/story/2630343/us-treasurys-bessent-chinas-he-to-launch-talks-on-ai-trade-critical-minerals",
+      "link": "https://tribune.com.pk/story/2630343/us-treasurys-bessent-chinas-he-to-launch-talks-on-ai-trade-critical-minerals",
+      "image": "https://i.tribune.com.pk/media/images/5nmfny5gdbj57gkococmusovze1786993138-0/5nmfny5gdbj57gkococmusovze1786993138-0.jpg",
+      "img": "https://i.tribune.com.pk/media/images/5nmfny5gdbj57gkococmusovze1786993138-0/5nmfny5gdbj57gkococmusovze1786993138-0.jpg",
+      "provider_published_at": "2026-09-20T02:17:59.000Z"
     }
   ],
   "breaking_news": [
     {
-      "id": "dawn-1789769069963",
+      "id": "propakistani-1789924145565",
+      "provider": "propakistani",
+      "tag": "PAKISTAN DIGITAL ECOSYSTEM",
+      "providerLabel": "🇵🇰 PROPAKISTANI",
+      "date": "ProPakistani (Live RSS)",
+      "source": "ProPakistani",
+      "title": "P@SHA Announces Date for Upcoming 2026 ICT Awards in Karachi",
+      "desc": "The Pakistan Software Houses Association for IT &#38; ITES (P@SHA) will hold the P@SHA ICT Awards 2026 in Karachi on … Read More The post P@SHA Announces Date for Upcoming 2026 ICT Awards in Karachi appeared first on ProPakistani .",
+      "link": "https://propakistani.pk/2026/09/20/psha-announces-date-for-upcoming-2026-ict-awards-in-karachi/",
+      "source_image_url": "https://propakistani.pk/wp-content/uploads/2026/06/pasha-pp-1.png",
+      "img": "https://propakistani.pk/wp-content/uploads/2026/06/pasha-pp-1.png",
+      "provider_published_at": "2026-09-20T15:59:54.000Z"
+    },
+    {
+      "id": "dawn-1789924145565",
       "provider": "dawn",
       "tag": "PAKISTAN TECH & SCIENCE",
       "providerLabel": "🇵🇰 DAWN TECH",
       "date": "Dawn Sci-Tech (Live RSS)",
       "source": "Dawn Sci-Tech",
-      "title": "Guidelines issued for govt employees, public-sector organisations to prevent cyberattack",
-      "desc": "Guidelines issued for govt employees, public-sector organisations to prevent cyberattack. Real-time intelligence and verified enterprise developments.",
-      "link": "https://www.dawn.com/news/2031074/guidelines-issued-for-govt-employees-public-sector-organisations-to-prevent-cyberattack",
-      "source_image_url": "https://i.dawn.com/large/2026/09/190747231f0b34b.webp",
-      "img": "https://i.dawn.com/large/2026/09/190747231f0b34b.webp",
-      "provider_published_at": "2026-09-19T02:47:45.000Z"
+      "title": "AI 'warning shots' make Beijing turn its focus to national security risks",
+      "desc": "While AI researchers in the United States fret over out-of-control superintelligence wiping out humanity, Chinese policymakers have until now been more focused on immediate risks, from deepfakes to child safety. But the alarming hacking ...",
+      "link": "https://www.dawn.com/news/2031366/ai-warning-shots-make-beijing-turn-its-focus-to-national-security-risks",
+      "source_image_url": "https://i.dawn.com/large/2026/09/20180032027a726.webp",
+      "img": "https://i.dawn.com/large/2026/09/20180032027a726.webp",
+      "provider_published_at": "2026-09-20T15:35:49.000Z"
     },
     {
-      "id": "anthropic-1789769069963",
+      "id": "brecorder-1789924145565",
+      "provider": "brecorder",
+      "tag": "PAKISTAN FINTECH & BUSINESS",
+      "providerLabel": "🇵🇰 B-RECORDER",
+      "date": "Business Recorder (Live RSS)",
+      "source": "Business Recorder",
+      "title": "Apple's Tim Cook sees Australia's social media curbs as 'world-leading', PM says",
+      "desc": "SYDNEY: Apple Executive Chair Tim Cook views the Australian government’s pioneering curbs on ​social media as “world-leading”, Prime Minister Anthony Albanese said on Sunday after ‌meeting with Cook at the company’s US headquarters. “Tim...",
+      "link": "https://www.brecorder.com/news/40440357/apples-tim-cook-sees-australias-social-media-curbs-as-world-leading-pm-says",
+      "source_image_url": "https://i.brecorder.com/large/2026/09/20105541594e7f3.webp",
+      "img": "https://i.brecorder.com/large/2026/09/20105541594e7f3.webp",
+      "provider_published_at": "2026-09-20T06:07:47.000Z"
+    },
+    {
+      "id": "tribune-1789924145565",
+      "provider": "tribune",
+      "tag": "PAKISTAN AEROSPACE & TECH",
+      "providerLabel": "🇵🇰 TRIBUNE",
+      "date": "The Express Tribune (Live RSS)",
+      "source": "The Express Tribune",
+      "title": "US Treasury's Bessent, China's He to launch talks on AI, trade, critical minerals",
+      "desc": "US Treasury's Bessent, China's He to launch talks on AI, trade, critical minerals. Real-time intelligence and verified enterprise developments.",
+      "link": "https://tribune.com.pk/story/2630343/us-treasurys-bessent-chinas-he-to-launch-talks-on-ai-trade-critical-minerals",
+      "source_image_url": "https://i.tribune.com.pk/media/images/5nmfny5gdbj57gkococmusovze1786993138-0/5nmfny5gdbj57gkococmusovze1786993138-0.jpg",
+      "img": "https://i.tribune.com.pk/media/images/5nmfny5gdbj57gkococmusovze1786993138-0/5nmfny5gdbj57gkococmusovze1786993138-0.jpg",
+      "provider_published_at": "2026-09-20T02:17:59.000Z"
+    },
+    {
+      "id": "anthropic-1789924145565",
       "provider": "anthropic",
       "tag": "FRONTIER AI & SCIENCE",
       "providerLabel": "🧠 ANTHROPIC",
@@ -290,24 +332,10 @@
       "link": "https://www.anthropic.com/claude-fable-and-mythos-5-1",
       "source_image_url": null,
       "img": "/uploads/live_news/anthropic_fable_mythos_hero.jpg",
-      "provider_published_at": "2026-09-18T23:26:15.000Z"
+      "provider_published_at": "2026-09-18T20:10:07.000Z"
     },
     {
-      "id": "propakistani-1789769069964",
-      "provider": "propakistani",
-      "tag": "PAKISTAN DIGITAL ECOSYSTEM",
-      "providerLabel": "🇵🇰 PROPAKISTANI",
-      "date": "ProPakistani (Live RSS)",
-      "source": "ProPakistani",
-      "title": "Zong Dominates in Overall Network Performance in PTA’s Q2 2026 QoS Survey",
-      "desc": "Zong has reaffirmed its status as Pakistan’s leading Technology Services Enterprise by securing top positions across 7 out of 10 … Read More The post Zong Dominates in Overall Network Performance in PTA’s Q2 2026 QoS Survey appeared firs...",
-      "link": "https://propakistani.pk/2026/09/18/zong-dominates-in-overall-network-performance-in-ptas-q2-2026-qos-survey/",
-      "source_image_url": "https://propakistani.pk/wp-content/uploads/2026/09/zong-5g.jpg",
-      "img": "https://propakistani.pk/wp-content/uploads/2026/09/zong-5g.jpg",
-      "provider_published_at": "2026-09-18T16:47:01.000Z"
-    },
-    {
-      "id": "google-1789769069963",
+      "id": "google-1789924145565",
       "provider": "google",
       "tag": "GOOGLE AI & DEVICES",
       "providerLabel": "🌐 GOOGLE",
@@ -321,7 +349,7 @@
       "provider_published_at": "2026-09-18T16:00:00.000Z"
     },
     {
-      "id": "meta-1789769069963",
+      "id": "meta-1789924145565",
       "provider": "meta",
       "tag": "OPEN SOURCE AI & INFRASTRUCTURE",
       "providerLabel": "♾️ META",
@@ -335,21 +363,21 @@
       "provider_published_at": "2026-09-18T14:55:13.000Z"
     },
     {
-      "id": "tribune-1789769069964",
-      "provider": "tribune",
-      "tag": "PAKISTAN AEROSPACE & TECH",
-      "providerLabel": "🇵🇰 TRIBUNE",
-      "date": "The Express Tribune (Live RSS)",
-      "source": "The Express Tribune",
-      "title": "Founder of Chinese startup Spirit AI says robot brains set for 2027 breakthrough",
-      "desc": "Founder of Chinese startup Spirit AI says robot brains set for 2027 breakthrough. Real-time intelligence and verified enterprise developments.",
-      "link": "https://tribune.com.pk/story/2630041/founder-of-chinese-startup-spirit-ai-says-robot-brains-set-for-2027-breakthrough",
-      "source_image_url": "https://i.tribune.com.pk/media/images/image-of-the-us-senate-21789730953-0/image-of-the-us-senate-21789730953-0.png",
-      "img": "https://i.tribune.com.pk/media/images/image-of-the-us-senate-21789730953-0/image-of-the-us-senate-21789730953-0.png",
-      "provider_published_at": "2026-09-18T06:15:26.000Z"
+      "id": "openai-1789924145565",
+      "provider": "openai",
+      "tag": "GENERATIVE AI & REASONING",
+      "providerLabel": "🤖 OPENAI",
+      "date": "OpenAI Newsroom (Live RSS)",
+      "source": "OpenAI Newsroom",
+      "title": "Introducing the Australian Youth Safety Blueprint",
+      "desc": "OpenAI introduces the Australian Youth Safety Blueprint, a six-pillar roadmap for safer AI experiences that protect and empower young people.",
+      "link": "https://openai.com/index/australian-youth-safety-blueprint",
+      "source_image_url": null,
+      "img": "/uploads/live_news/openai_perplexity_aravind_hero.jpg",
+      "provider_published_at": "2026-09-18T12:00:00.000Z"
     },
     {
-      "id": "apple-1789769069963",
+      "id": "apple-1789924145565",
       "provider": "apple",
       "tag": "HARDWARE & SILICON",
       "providerLabel": "🍎 APPLE",
@@ -363,7 +391,7 @@
       "provider_published_at": "2026-09-18T05:02:14.780Z"
     },
     {
-      "id": "microsoft-1789769069963",
+      "id": "microsoft-1789924145565",
       "provider": "microsoft",
       "tag": "ENTERPRISE CLOUD & AI",
       "providerLabel": "🪟 MICROSOFT",
@@ -377,7 +405,7 @@
       "provider_published_at": "2026-09-17T14:00:05.000Z"
     },
     {
-      "id": "nvidia-1789769069963",
+      "id": "nvidia-1789924145565",
       "provider": "nvidia",
       "tag": "ACCELERATED COMPUTING & AI",
       "providerLabel": "⚡ NVIDIA",
@@ -391,35 +419,7 @@
       "provider_published_at": "2026-09-17T13:00:55.000Z"
     },
     {
-      "id": "openai-1789769069963",
-      "provider": "openai",
-      "tag": "GENERATIVE AI & REASONING",
-      "providerLabel": "🤖 OPENAI",
-      "date": "OpenAI Newsroom (Live RSS)",
-      "source": "OpenAI Newsroom",
-      "title": "How Cooley is accelerating IPO work with ChatGPT",
-      "desc": "Cooley built GO Public with ChatGPT Work to bring intelligence to the IPO process, helping lawyers surface issues earlier and focus judgment where it matters most.",
-      "link": "https://openai.com/index/cooley-gopublic",
-      "source_image_url": null,
-      "img": "/uploads/live_news/openai_perplexity_aravind_hero.jpg",
-      "provider_published_at": "2026-09-17T12:00:00.000Z"
-    },
-    {
-      "id": "brecorder-1789769069964",
-      "provider": "brecorder",
-      "tag": "PAKISTAN FINTECH & BUSINESS",
-      "providerLabel": "🇵🇰 B-RECORDER",
-      "date": "Business Recorder (Live RSS)",
-      "source": "Business Recorder",
-      "title": "China's Huawei to launch two new AI chips in 2027",
-      "desc": "SHANGHAI: Huawei Technologies will launch two ​new artificial-intelligence chips in ‌2027, rotating chairman David Wang said on Thursday, ​as the Chinese ​company expands its push into ⁠AI computing. Huawei plans ​to launch the 960DT ​in...",
-      "link": "https://www.brecorder.com/news/40439916/chinas-huawei-to-launch-two-new-ai-chips-in-2027",
-      "source_image_url": "https://i.brecorder.com/large/2026/09/1708054178c2dab.webp",
-      "img": "https://i.brecorder.com/large/2026/09/1708054178c2dab.webp",
-      "provider_published_at": "2026-09-17T03:07:24.000Z"
-    },
-    {
-      "id": "intel-1789769069963",
+      "id": "intel-1789924145565",
       "provider": "intel",
       "tag": "NEXT-GEN SILICON & SEMICONDUCTORS",
       "providerLabel": "🔷 INTEL",

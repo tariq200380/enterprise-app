@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
     const res = await query(
       `INSERT INTO article_reviews 
        (article_id, article_title, reviewer_name, organization, rating, review_title, details, avatar, status, helpful, submitted_at)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, 'APPROVED', 1, NOW())
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, 'PENDING', 1, NOW())
        RETURNING *`,
       [
         article_id ? parseInt(article_id, 10) : 1,
@@ -69,7 +69,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      message: "Review submitted successfully and published.",
+      message: "Review submitted successfully. It will be published live once approved by an administrator.",
       review: res.rows[0],
     });
   } catch (error: any) {

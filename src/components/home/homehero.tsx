@@ -3,16 +3,21 @@ import Image from "next/image";
 
 export default function Homehero() {
   return (
-    <section className="w-full bg-white pt-8 pb-8 lg:pt-12 lg:pb-12 m-0 border-b border-gray-100 overflow-hidden">
+    <section
+      className="w-full pt-8 pb-8 lg:pt-12 lg:pb-12 m-0 border-b border-gray-100 overflow-hidden bg-cover bg-center bg-no-repeat"
+      style={{
+        backgroundImage: "url('/images/microsoft-hero-bg.webp')",
+      }}
+    >
       <div className="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-16">
         
         {/* LEFT — Text & CTA */}
         <div className="w-full lg:w-1/2 flex flex-col items-center lg:items-start text-center lg:text-left shrink-0">
-          <h1 className="font-outfit font-bold tracking-tight text-slate-900 text-4xl sm:text-5xl leading-[1.15]">
+          <h1 className="font-outfit font-bold tracking-tight text-white text-4xl sm:text-5xl leading-[1.15]">
             Your infrastructure supercharged
           </h1>
 
-          <p className="text-base sm:text-lg text-[#3E3E3E] leading-[1.75] mt-4 max-w-lg font-normal">
+          <p className="text-base sm:text-lg text-white/90 leading-[1.75] mt-4 max-w-lg font-normal">
             Creed Tech delivers enterprise software architecture, robust cloud infrastructure, advanced cybersecurity, and AI solutions all in one platform.
           </p>
 

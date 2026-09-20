@@ -128,7 +128,14 @@ export default function ArticleReviewsModule({
   };
 
   const getAvatar = (r: ArticleReview, index: number) => {
-    if (r.avatar && r.avatar.startsWith("http")) return r.avatar;
+    if (
+      r.avatar &&
+      (r.avatar.startsWith("http") ||
+        r.avatar.startsWith("/") ||
+        r.avatar.startsWith("data:"))
+    ) {
+      return r.avatar;
+    }
     const pool = [
       "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=180&auto=format&fit=crop&q=80",
       "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=180&auto=format&fit=crop&q=80",

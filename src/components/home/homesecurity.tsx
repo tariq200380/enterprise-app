@@ -9,7 +9,7 @@ export default function Homesecurity() {
 
           {/* LEFT VISUAL: Exact 3D Security Illustration Card */}
           <div className="lg:col-span-6 w-full flex items-center justify-center">
-            <div className="relative w-full max-w-[480px] rounded-[28px] overflow-hidden bg-white shadow-[0_15px_40px_-10px_rgba(0,82,255,0.08)] border border-[#E2E8F0] group hover:shadow-[0_20px_50px_-10px_rgba(0,82,255,0.14)] transition-all duration-300">
+            <div className="relative w-full max-w-[480px] rounded-[28px] overflow-hidden bg-[#0B1120] shadow-[0_15px_40px_-10px_rgba(255,107,0,0.15)] border border-[#1E293B] group hover:shadow-[0_20px_50px_-10px_rgba(255,107,0,0.22)] transition-all duration-300">
               <Image
                 src="/images/trust-security-3d-test.webp"
                 alt="Secure Engineering - 99.99% Reliability SLA"

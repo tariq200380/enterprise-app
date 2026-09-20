@@ -4,11 +4,29 @@ export default function Homeprovide() {
   return (
     <>
       {/* 1. RIBBON SECTION (Reviewed and recommended on) */}
-      <section className="relative w-full bg-[#F7F6F5] py-4 sm:py-5 border-t border-b border-[#E2E8F0] overflow-hidden select-none">
+      <section className="relative w-full bg-[#0B1120] py-6 sm:py-7 border-t border-b border-[#1E293B] overflow-hidden select-none">
+        {/* Ambient Orange Radial Glow matching How We Deliver */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              "radial-gradient(ellipse at 50% 50%, rgba(255, 107, 0, 0.18) 0%, rgba(255, 107, 0, 0.05) 55%, rgba(11, 17, 32, 0) 80%)",
+          }}
+        />
+
+        {/* Blueprint Grid Background Pattern (jaal) */}
+        <div
+          className="absolute inset-0 opacity-[0.04] pointer-events-none"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, #FFFFFF 1px, transparent 1px), linear-gradient(to bottom, #FFFFFF 1px, transparent 1px)",
+            backgroundSize: "36px 36px",
+          }}
+        />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="flex flex-col md:flex-row items-center justify-between gap-5 sm:gap-6">
             {/* Left Side: Reviewed and recommended on */}
-            <div className="text-[#5B6472] text-sm sm:text-base font-medium tracking-wide text-center md:text-left whitespace-nowrap">
+            <div className="text-white/90 text-sm sm:text-base font-medium tracking-wide text-center md:text-left whitespace-nowrap">
               Reviewed and recommended on
             </div>
 
@@ -18,7 +36,7 @@ export default function Homeprovide() {
                 href="https://themanifest.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#0F172A] hover:text-[#0052FF] transition-colors text-sm sm:text-base font-semibold tracking-tight cursor-pointer"
+                className="text-white hover:text-[#FF6B00] transition-colors text-sm sm:text-base font-semibold tracking-tight cursor-pointer"
               >
                 The Manifest
               </a>
@@ -26,7 +44,7 @@ export default function Homeprovide() {
                 href="https://www.shopify.com/partners"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#0F172A] hover:text-[#0052FF] transition-colors text-sm sm:text-base font-semibold tracking-tight cursor-pointer"
+                className="text-white hover:text-[#FF6B00] transition-colors text-sm sm:text-base font-semibold tracking-tight cursor-pointer"
               >
                 Shopify Partners
               </a>
@@ -34,7 +52,7 @@ export default function Homeprovide() {
                 href="https://www.trustpilot.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#0F172A] hover:text-[#0052FF] transition-colors text-sm sm:text-base font-semibold tracking-tight cursor-pointer"
+                className="text-white hover:text-[#FF6B00] transition-colors text-sm sm:text-base font-semibold tracking-tight cursor-pointer"
               >
                 Trustpilot
               </a>
@@ -42,7 +60,7 @@ export default function Homeprovide() {
                 href="https://clutch.co"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#0F172A] hover:text-[#0052FF] transition-colors text-sm sm:text-base font-semibold tracking-tight cursor-pointer"
+                className="text-white hover:text-[#FF6B00] transition-colors text-sm sm:text-base font-semibold tracking-tight cursor-pointer"
               >
                 Clutch
               </a>
@@ -50,7 +68,7 @@ export default function Homeprovide() {
                 href="https://www.google.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#0F172A] hover:text-[#0052FF] transition-colors text-sm sm:text-base font-semibold tracking-tight cursor-pointer"
+                className="text-white hover:text-[#FF6B00] transition-colors text-sm sm:text-base font-semibold tracking-tight cursor-pointer"
               >
                 Google
               </a>
