@@ -6,7 +6,7 @@ export default function ServicesDelivery() {
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-[52rem] mx-auto mb-10">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl text-[#1A1A1A] tracking-tight leading-[1.15] mb-3">
+          <h2 className="font-outfit font-bold text-3xl sm:text-4xl lg:text-5xl text-[#1A1A1A] tracking-tight leading-[1.15] mb-3">
             Our Delivery <span className="text-[#0052FF]">Commitment</span>
           </h2>
           <p className="text-[15px] sm:text-[16px] text-[#5B6472] leading-relaxed font-normal m-0">
@@ -18,10 +18,10 @@ export default function ServicesDelivery() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {/* Commitment 01 */}
           <div className="bg-white border border-[#E2E8F0] border-t-[3.5px] border-t-[#0052FF] hover:border-t-[#FF6B00] hover:border-[#CBD5E1] rounded-[14px] p-7 h-full flex flex-col shadow-[0_2px_8px_rgba(15,23,42,0.03)] hover:-translate-y-1.5 hover:shadow-[0_12px_24px_-4px_rgba(15,23,42,0.08)] transition-all duration-300 ease-out cursor-default">
-            <span className="text-[11px] font-extrabold text-[#0052FF] bg-[#EFF6FF] border border-[#DBEAFE] px-2 py-0.5 rounded tracking-[0.04em] mb-4 inline-block w-max">
+            <span className="text-[11px] font-semibold text-[#0052FF] bg-[#EFF6FF] border border-[#DBEAFE] px-2.5 py-0.5 rounded tracking-wider uppercase mb-4 inline-block w-max">
               COMMITMENT 01
             </span>
-            <h3 className="text-[18px] text-[#1A1A1A] tracking-tight mb-3 leading-snug m-0">
+            <h3 className="font-outfit font-bold text-[18px] text-[#1A1A1A] tracking-tight mb-3 leading-snug m-0">
               Clear Requirements
             </h3>
             <p className="text-[15px] text-[#5B6472] leading-relaxed m-0 font-normal">
@@ -31,10 +31,10 @@ export default function ServicesDelivery() {
 
           {/* Commitment 02 */}
           <div className="bg-white border border-[#E2E8F0] border-t-[3.5px] border-t-[#0052FF] hover:border-t-[#FF6B00] hover:border-[#CBD5E1] rounded-[14px] p-7 h-full flex flex-col shadow-[0_2px_8px_rgba(15,23,42,0.03)] hover:-translate-y-1.5 hover:shadow-[0_12px_24px_-4px_rgba(15,23,42,0.08)] transition-all duration-300 ease-out cursor-default">
-            <span className="text-[11px] font-extrabold text-[#0052FF] bg-[#EFF6FF] border border-[#DBEAFE] px-2 py-0.5 rounded tracking-[0.04em] mb-4 inline-block w-max">
+            <span className="text-[11px] font-semibold text-[#0052FF] bg-[#EFF6FF] border border-[#DBEAFE] px-2.5 py-0.5 rounded tracking-wider uppercase mb-4 inline-block w-max">
               COMMITMENT 02
             </span>
-            <h3 className="text-[18px] text-[#1A1A1A] tracking-tight mb-3 leading-snug m-0">
+            <h3 className="font-outfit font-bold text-[18px] text-[#1A1A1A] tracking-tight mb-3 leading-snug m-0">
               Transparent Progress
             </h3>
             <p className="text-[15px] text-[#5B6472] leading-relaxed m-0 font-normal">
@@ -44,10 +44,10 @@ export default function ServicesDelivery() {
 
           {/* Commitment 03 */}
           <div className="bg-white border border-[#E2E8F0] border-t-[3.5px] border-t-[#0052FF] hover:border-t-[#FF6B00] hover:border-[#CBD5E1] rounded-[14px] p-7 h-full flex flex-col shadow-[0_2px_8px_rgba(15,23,42,0.03)] hover:-translate-y-1.5 hover:shadow-[0_12px_24px_-4px_rgba(15,23,42,0.08)] transition-all duration-300 ease-out cursor-default">
-            <span className="text-[11px] font-extrabold text-[#0052FF] bg-[#EFF6FF] border border-[#DBEAFE] px-2 py-0.5 rounded tracking-[0.04em] mb-4 inline-block w-max">
+            <span className="text-[11px] font-semibold text-[#0052FF] bg-[#EFF6FF] border border-[#DBEAFE] px-2.5 py-0.5 rounded tracking-wider uppercase mb-4 inline-block w-max">
               COMMITMENT 03
             </span>
-            <h3 className="text-[18px] text-[#1A1A1A] tracking-tight mb-3 leading-snug m-0">
+            <h3 className="font-outfit font-bold text-[18px] text-[#1A1A1A] tracking-tight mb-3 leading-snug m-0">
               Quality Review
             </h3>
             <p className="text-[15px] text-[#5B6472] leading-relaxed m-0 font-normal">
@@ -57,10 +57,10 @@ export default function ServicesDelivery() {
 
           {/* Commitment 04 */}
           <div className="bg-white border border-[#E2E8F0] border-t-[3.5px] border-t-[#0052FF] hover:border-t-[#FF6B00] hover:border-[#CBD5E1] rounded-[14px] p-7 h-full flex flex-col shadow-[0_2px_8px_rgba(15,23,42,0.03)] hover:-translate-y-1.5 hover:shadow-[0_12px_24px_-4px_rgba(15,23,42,0.08)] transition-all duration-300 ease-out cursor-default">
-            <span className="text-[11px] font-extrabold text-[#0052FF] bg-[#EFF6FF] border border-[#DBEAFE] px-2 py-0.5 rounded tracking-[0.04em] mb-4 inline-block w-max">
+            <span className="text-[11px] font-semibold text-[#0052FF] bg-[#EFF6FF] border border-[#DBEAFE] px-2.5 py-0.5 rounded tracking-wider uppercase mb-4 inline-block w-max">
               COMMITMENT 04
             </span>
-            <h3 className="text-[18px] text-[#1A1A1A] tracking-tight mb-3 leading-snug m-0">
+            <h3 className="font-outfit font-bold text-[18px] text-[#1A1A1A] tracking-tight mb-3 leading-snug m-0">
               Continued Support
             </h3>
             <p className="text-[15px] text-[#5B6472] leading-relaxed m-0 font-normal">

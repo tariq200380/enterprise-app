@@ -12,7 +12,7 @@ export default function PciHero() {
           <div className="lg:col-span-7 flex flex-col items-start text-left">
             {/* Breadcrumb Navigation */}
             <div className="mb-3">
-              <span className="text-[11px] font-mono font-bold text-[#FF6B00] tracking-[0.18em] uppercase">
+              <span className="text-[11px] font-semibold text-[#FF6B00] tracking-wider uppercase">
                 <Link href="/security" className="hover:underline">
                   SECURITY CENTER
                 </Link>{" "}
@@ -21,13 +21,13 @@ export default function PciHero() {
             </div>
 
             {/* Status Badge */}
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FF6B00]/10 border border-[#FF6B00]/25 text-[#FF6B00] text-[11px] font-mono font-bold tracking-wider uppercase mb-4 shadow-2xs">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FF6B00]/10 border border-[#FF6B00]/25 text-[#FF6B00] text-[11px] font-semibold tracking-wider uppercase mb-4 shadow-2xs">
               <span className="w-2 h-2 rounded-full bg-[#FF6B00] animate-pulse"></span>
               <span>PCI SSC &bull; PCI-DSS V4.0 COMPLIANT ARCHITECTURE</span>
             </div>
 
             {/* Headline */}
-            <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-[#1C1917] tracking-tight leading-[1.12] mb-4">
+            <h1 className="font-outfit text-3xl sm:text-4xl md:text-5xl font-bold text-[#1C1917] tracking-tight leading-[1.12] mb-4">
               PCI-DSS v4.0 <br className="hidden sm:inline" />
               FinTech &amp; Tokenized Payment <br className="hidden sm:inline" />
               Architecture
@@ -62,10 +62,10 @@ export default function PciHero() {
             <div className="w-full max-w-md bg-white rounded-2xl border border-[#E6E4DF] p-5 sm:p-6 shadow-xs">
               {/* Header */}
               <div className="flex items-center justify-between pb-3 border-b border-[#F0EFEB] mb-4">
-                <span className="text-[11px] font-mono font-bold text-[#FF6B00] tracking-wider uppercase">
+                <span className="text-[11px] font-semibold text-[#FF6B00] tracking-wider uppercase">
                   PAYMENT SECURITY SNAPSHOT
                 </span>
-                <span className="text-[10px] font-mono font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded">
+                <span className="text-[10px] font-semibold text-slate-400 bg-slate-100 px-2 py-0.5 rounded tracking-wider uppercase">
                   GLOBAL FINTECH
                 </span>
               </div>
@@ -80,7 +80,7 @@ export default function PciHero() {
                     PCI Security Standards Council
                   </span>
                 </div>
-                <span className="font-mono text-xs font-bold text-[#FF6B00]">
+                <span className="font-outfit text-xs font-bold text-[#FF6B00]">
                   PCI-DSS v4.0
                 </span>
               </div>
@@ -95,7 +95,7 @@ export default function PciHero() {
                     Merchant Cardholder Isolation
                   </span>
                 </div>
-                <span className="font-mono text-xs font-bold text-[#FF6B00]">
+                <span className="font-outfit text-xs font-bold text-[#FF6B00]">
                   SAQ A Scope
                 </span>
               </div>
@@ -110,7 +110,7 @@ export default function PciHero() {
                     Direct Client-Side Vault Iframe
                   </span>
                 </div>
-                <span className="font-mono text-xs font-bold text-[#FF6B00]">
+                <span className="font-outfit text-xs font-bold text-[#FF6B00]">
                   Zero PAN Exposure
                 </span>
               </div>
@@ -125,7 +125,7 @@ export default function PciHero() {
                     Transport Layer Security
                   </span>
                 </div>
-                <span className="font-mono text-xs font-bold text-[#FF6B00]">
+                <span className="font-outfit text-xs font-bold text-[#FF6B00]">
                   TLS 1.3 &bull; AES-256
                 </span>
               </div>

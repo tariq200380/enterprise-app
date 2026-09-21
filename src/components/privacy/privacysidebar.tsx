@@ -92,7 +92,7 @@ export default function PrivacySidebar() {
                   : "text-slate-500 hover:text-[#FF6B00] font-normal"
               }`}
             >
-              <span className="text-[11px] font-bold w-4 shrink-0 text-[#FF6B00]">
+              <span className="text-[11px] font-outfit font-bold w-4 shrink-0 text-[#FF6B00]">
                 {item.num}
               </span>
               <span className="leading-snug">{item.label}</span>

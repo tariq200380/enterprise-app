@@ -82,7 +82,7 @@ export default function Homeprovide() {
         <div className="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col items-center relative z-10">
           {/* Section Heading & Subtitle */}
           <div className="flex flex-col items-center text-center mb-8 sm:mb-9 max-w-3xl">
-            <h2 className="text-3xl sm:text-4xl lg:text-[2.6rem] text-[#1A1A1A] tracking-tight leading-[1.15]">
+            <h2 className="text-3xl sm:text-4xl lg:text-[2.6rem] font-outfit font-bold text-[#1A1A1A] tracking-tight leading-[1.15]">
               What We Provide
             </h2>
             <p className="text-sm sm:text-base text-[#5B6472] mt-3 font-normal leading-relaxed max-w-2xl">

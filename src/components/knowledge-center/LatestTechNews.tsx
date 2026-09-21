@@ -113,17 +113,17 @@ export default function LatestTechNews({ initialStories }: { initialStories?: Li
         {/* Section Header */}
         <div className="flex items-center justify-between flex-wrap gap-4 mb-8 pb-4 border-b-2 border-[#E2E8F0]">
           <div className="flex items-center gap-3 flex-wrap">
-            <span className="bg-[#EF4444] text-white text-[10px] font-extrabold px-2.5 py-1 rounded-[2px] tracking-[0.08em] uppercase flex items-center gap-1.5 shadow-xs">
+            <span className="bg-[#EF4444] text-white text-[10px] font-semibold px-2.5 py-1 rounded-[2px] tracking-wider uppercase flex items-center gap-1.5 shadow-xs">
               <span className="w-2 h-2 rounded-full bg-white animate-ping"></span>
               LIVE BREAKING NEWS
             </span>
-            <h2 className="text-xl sm:text-2xl lg:text-[1.65rem] font-extrabold text-[#0F172A] m-0 tracking-[-0.02em]">
+            <h2 className="font-outfit font-bold text-xl sm:text-2xl lg:text-[1.75rem] text-[#0F172A] m-0 tracking-tight">
               Latest IT &amp; Business Intelligence
             </h2>
           </div>
 
           <div className="flex items-center gap-3">
-            <span className="inline-flex items-center gap-2 text-[11.5px] text-[#5B6472] font-mono font-semibold bg-white px-3 py-1.5 rounded-md border border-[#E2E8F0] shadow-2xs">
+            <span className="inline-flex items-center gap-2 text-[11.5px] text-[#5B6472] font-semibold bg-white px-3 py-1.5 rounded-md border border-[#E2E8F0] shadow-2xs">
               <span className="w-2.5 h-2.5 rounded-full bg-[#10B981] animate-pulse"></span>
               <span>LIVE API WIRE • {lastSyncText}</span>
             </span>
@@ -164,7 +164,7 @@ export default function LatestTechNews({ initialStories }: { initialStories?: Li
                 >
                   {activeStory.tag}
                 </span>
-                <span className="absolute bottom-3 right-3 bg-black/75 backdrop-blur-xs text-white text-[10px] font-mono px-2 py-0.5 rounded shadow">
+                <span className="absolute bottom-3 right-3 bg-black/75 backdrop-blur-xs text-white text-[10px] font-semibold tracking-wider px-2 py-0.5 rounded shadow">
                   ORIGINAL SOURCE IMAGE
                 </span>
               </div>
@@ -177,7 +177,7 @@ export default function LatestTechNews({ initialStories }: { initialStories?: Li
                   <span className="font-semibold text-[#0F172A]">{activeStory.source}</span>
                 </div>
 
-                <h3 className="text-xl sm:text-2xl font-extrabold text-[#0F172A] leading-[1.35] mb-2.5">
+                <h3 className="font-outfit font-bold text-xl sm:text-2xl text-[#0F172A] leading-[1.35] mb-2.5 tracking-tight">
                   {activeStory.title}
                 </h3>
 
@@ -194,7 +194,7 @@ export default function LatestTechNews({ initialStories }: { initialStories?: Li
                   >
                     <span>Read Full Wire ({activeStory.source}) &rarr;</span>
                   </a>
-                  <span className="text-[11px] text-[#94A3B8] font-mono tracking-wider">
+                  <span className="text-[11px] text-[#94A3B8] font-semibold tracking-wider">
                     VERIFIED OFFICIAL LINK
                   </span>
                 </div>
@@ -250,7 +250,7 @@ export default function LatestTechNews({ initialStories }: { initialStories?: Li
                       >
                         {story.providerLabel}
                       </span>
-                      <h4 className="text-[13px] font-bold text-[#0F172A] leading-[1.3] mb-1 line-clamp-2">
+                      <h4 className="font-outfit font-bold text-[13px] text-[#0F172A] leading-[1.3] mb-1 line-clamp-2">
                         {story.title}
                       </h4>
                       <span className="text-[10px] text-[#64748B] block">

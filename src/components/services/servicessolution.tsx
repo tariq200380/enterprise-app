@@ -7,7 +7,7 @@ export default function ServicesSolution() {
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-[52rem] mx-auto mb-10">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl text-[#1A1A1A] tracking-tight leading-[1.15] mb-3">
+          <h2 className="font-outfit font-bold text-3xl sm:text-4xl lg:text-5xl text-[#1A1A1A] tracking-tight leading-[1.15] mb-3">
             Solution <span className="text-[#0052FF]">Areas</span>
           </h2>
           <p className="text-[15px] sm:text-[16px] text-[#5B6472] leading-relaxed font-normal m-0">
@@ -27,7 +27,7 @@ export default function ServicesSolution() {
                   <path d="M9 21V9" />
                 </svg>
               </div>
-              <h3 className="text-[18px] text-[#1A1A1A] tracking-tight leading-snug m-0">
+              <h3 className="font-outfit font-bold text-[18px] text-[#1A1A1A] tracking-tight leading-snug m-0">
                 Business Platforms
               </h3>
             </div>
@@ -45,7 +45,7 @@ export default function ServicesSolution() {
                   <circle cx="12" cy="7" r="4" />
                 </svg>
               </div>
-              <h3 className="text-[18px] text-[#1A1A1A] tracking-tight leading-snug m-0">
+              <h3 className="font-outfit font-bold text-[18px] text-[#1A1A1A] tracking-tight leading-snug m-0">
                 Customer Portals
               </h3>
             </div>
@@ -62,7 +62,7 @@ export default function ServicesSolution() {
                   <path d="M12 20v-6M6 20V10M18 20V4" />
                 </svg>
               </div>
-              <h3 className="text-[18px] text-[#1A1A1A] tracking-tight leading-snug m-0">
+              <h3 className="font-outfit font-bold text-[18px] text-[#1A1A1A] tracking-tight leading-snug m-0">
                 Process Automation
               </h3>
             </div>
@@ -81,7 +81,7 @@ export default function ServicesSolution() {
                   <path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3" />
                 </svg>
               </div>
-              <h3 className="text-[18px] text-[#1A1A1A] tracking-tight leading-snug m-0">
+              <h3 className="font-outfit font-bold text-[18px] text-[#1A1A1A] tracking-tight leading-snug m-0">
                 Data Solutions
               </h3>
             </div>
@@ -100,7 +100,7 @@ export default function ServicesSolution() {
                   <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
                 </svg>
               </div>
-              <h3 className="text-[18px] text-[#1A1A1A] tracking-tight leading-snug m-0">
+              <h3 className="font-outfit font-bold text-[18px] text-[#1A1A1A] tracking-tight leading-snug m-0">
                 Digital Commerce
               </h3>
             </div>
@@ -117,7 +117,7 @@ export default function ServicesSolution() {
                   <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
                 </svg>
               </div>
-              <h3 className="text-[18px] text-[#1A1A1A] tracking-tight leading-snug m-0">
+              <h3 className="font-outfit font-bold text-[18px] text-[#1A1A1A] tracking-tight leading-snug m-0">
                 AI-Assisted Tools
               </h3>
             </div>

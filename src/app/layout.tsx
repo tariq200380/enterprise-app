@@ -182,7 +182,7 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang="en" className="h-full antialiased scroll-smooth" suppressHydrationWarning>
+    <html lang="en" className={`h-full antialiased scroll-smooth ${outfit.variable} ${jakarta.variable}`} data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
         <script
           type="application/ld+json"

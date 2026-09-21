@@ -41,7 +41,7 @@ export default function Homedeliver() {
             <span className="w-1.5 h-1.5 rounded-full bg-[#FF6B00]" />
             ENGINEERING METHODOLOGY
           </Link>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-medium tracking-tight text-white uppercase mb-3">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-outfit font-bold tracking-tight text-white uppercase mb-3">
             HOW WE DELIVER
           </h2>
           <p className="text-xs sm:text-sm text-gray-400 font-normal leading-relaxed">
@@ -125,11 +125,11 @@ export default function Homedeliver() {
           {/* Phase 1 Pane */}
           <div className="phase-pane-1 hidden relative z-10 grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-7 flex flex-col items-start text-left">
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[6px] bg-orange-500/10 border border-orange-500/30 text-[#FF6B00] font-mono text-[11px] font-bold uppercase tracking-wider mb-3">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[6px] bg-orange-500/10 border border-orange-500/30 text-[#FF6B00] text-[11px] font-semibold uppercase tracking-wider mb-3">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#FF6B00]" />
                 PHASE 01
               </div>
-              <h3 className="text-2xl sm:text-3xl font-medium text-white tracking-tight mb-3">
+              <h3 className="text-2xl sm:text-3xl font-outfit font-bold text-white tracking-tight mb-3">
                 Team Requirement
               </h3>
               <p className="text-xs sm:text-sm text-gray-300 leading-relaxed font-normal">
@@ -139,7 +139,7 @@ export default function Homedeliver() {
 
             <div className="lg:col-span-5 w-full flex flex-col justify-center divide-y divide-gray-800/80">
               <div className="py-3.5 first:pt-0 last:pb-0 flex items-center gap-3.5">
-                <span className="text-xs font-mono font-bold text-[#FF6B00] tracking-wider shrink-0">
+                <span className="text-xs font-outfit font-bold text-[#FF6B00] tracking-wider shrink-0">
                   01
                 </span>
                 <span className="text-xs sm:text-sm text-gray-200 font-normal">
@@ -147,7 +147,7 @@ export default function Homedeliver() {
                 </span>
               </div>
               <div className="py-3.5 first:pt-0 last:pb-0 flex items-center gap-3.5">
-                <span className="text-xs font-mono font-bold text-[#FF6B00] tracking-wider shrink-0">
+                <span className="text-xs font-outfit font-bold text-[#FF6B00] tracking-wider shrink-0">
                   02
                 </span>
                 <span className="text-xs sm:text-sm text-gray-200 font-normal">
@@ -155,7 +155,7 @@ export default function Homedeliver() {
                 </span>
               </div>
               <div className="py-3.5 first:pt-0 last:pb-0 flex items-center gap-3.5">
-                <span className="text-xs font-mono font-bold text-[#FF6B00] tracking-wider shrink-0">
+                <span className="text-xs font-outfit font-bold text-[#FF6B00] tracking-wider shrink-0">
                   03
                 </span>
                 <span className="text-xs sm:text-sm text-gray-200 font-normal">
@@ -168,11 +168,11 @@ export default function Homedeliver() {
           {/* Phase 2 Pane */}
           <div className="phase-pane-2 hidden relative z-10 grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-7 flex flex-col items-start text-left">
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[6px] bg-orange-500/10 border border-orange-500/30 text-[#FF6B00] font-mono text-[11px] font-bold uppercase tracking-wider mb-3">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[6px] bg-orange-500/10 border border-orange-500/30 text-[#FF6B00] text-[11px] font-semibold uppercase tracking-wider mb-3">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#FF6B00]" />
                 PHASE 02
               </div>
-              <h3 className="text-2xl sm:text-3xl font-medium text-white tracking-tight mb-3">
+              <h3 className="text-2xl sm:text-3xl font-outfit font-bold text-white tracking-tight mb-3">
                 Rapid Onboarding &amp; Setup
               </h3>
               <p className="text-xs sm:text-sm text-gray-300 leading-relaxed font-normal">
@@ -182,7 +182,7 @@ export default function Homedeliver() {
 
             <div className="lg:col-span-5 w-full flex flex-col justify-center divide-y divide-gray-800/80">
               <div className="py-3.5 first:pt-0 last:pb-0 flex items-center gap-3.5">
-                <span className="text-xs font-mono font-bold text-[#FF6B00] tracking-wider shrink-0">
+                <span className="text-xs font-outfit font-bold text-[#FF6B00] tracking-wider shrink-0">
                   01
                 </span>
                 <span className="text-xs sm:text-sm text-gray-200 font-normal">
@@ -190,7 +190,7 @@ export default function Homedeliver() {
                 </span>
               </div>
               <div className="py-3.5 first:pt-0 last:pb-0 flex items-center gap-3.5">
-                <span className="text-xs font-mono font-bold text-[#FF6B00] tracking-wider shrink-0">
+                <span className="text-xs font-outfit font-bold text-[#FF6B00] tracking-wider shrink-0">
                   02
                 </span>
                 <span className="text-xs sm:text-sm text-gray-200 font-normal">
@@ -198,7 +198,7 @@ export default function Homedeliver() {
                 </span>
               </div>
               <div className="py-3.5 first:pt-0 last:pb-0 flex items-center gap-3.5">
-                <span className="text-xs font-mono font-bold text-[#FF6B00] tracking-wider shrink-0">
+                <span className="text-xs font-outfit font-bold text-[#FF6B00] tracking-wider shrink-0">
                   03
                 </span>
                 <span className="text-xs sm:text-sm text-gray-200 font-normal">
@@ -211,11 +211,11 @@ export default function Homedeliver() {
           {/* Phase 3 Pane */}
           <div className="phase-pane-3 hidden relative z-10 grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-7 flex flex-col items-start text-left">
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[6px] bg-orange-500/10 border border-orange-500/30 text-[#FF6B00] font-mono text-[11px] font-bold uppercase tracking-wider mb-3">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[6px] bg-orange-500/10 border border-orange-500/30 text-[#FF6B00] text-[11px] font-semibold uppercase tracking-wider mb-3">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#FF6B00]" />
                 PHASE 03
               </div>
-              <h3 className="text-2xl sm:text-3xl font-medium text-white tracking-tight mb-3">
+              <h3 className="text-2xl sm:text-3xl font-outfit font-bold text-white tracking-tight mb-3">
                 Full Velocity Execution
               </h3>
               <p className="text-xs sm:text-sm text-gray-300 leading-relaxed font-normal">
@@ -225,7 +225,7 @@ export default function Homedeliver() {
 
             <div className="lg:col-span-5 w-full flex flex-col justify-center divide-y divide-gray-800/80">
               <div className="py-3.5 first:pt-0 last:pb-0 flex items-center gap-3.5">
-                <span className="text-xs font-mono font-bold text-[#FF6B00] tracking-wider shrink-0">
+                <span className="text-xs font-outfit font-bold text-[#FF6B00] tracking-wider shrink-0">
                   01
                 </span>
                 <span className="text-xs sm:text-sm text-gray-200 font-normal">
@@ -233,7 +233,7 @@ export default function Homedeliver() {
                 </span>
               </div>
               <div className="py-3.5 first:pt-0 last:pb-0 flex items-center gap-3.5">
-                <span className="text-xs font-mono font-bold text-[#FF6B00] tracking-wider shrink-0">
+                <span className="text-xs font-outfit font-bold text-[#FF6B00] tracking-wider shrink-0">
                   02
                 </span>
                 <span className="text-xs sm:text-sm text-gray-200 font-normal">
@@ -241,7 +241,7 @@ export default function Homedeliver() {
                 </span>
               </div>
               <div className="py-3.5 first:pt-0 last:pb-0 flex items-center gap-3.5">
-                <span className="text-xs font-mono font-bold text-[#FF6B00] tracking-wider shrink-0">
+                <span className="text-xs font-outfit font-bold text-[#FF6B00] tracking-wider shrink-0">
                   03
                 </span>
                 <span className="text-xs sm:text-sm text-gray-200 font-normal">
@@ -254,11 +254,11 @@ export default function Homedeliver() {
           {/* Phase 4 Pane */}
           <div className="phase-pane-4 hidden relative z-10 grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-7 flex flex-col items-start text-left">
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[6px] bg-orange-500/10 border border-orange-500/30 text-[#FF6B00] font-mono text-[11px] font-bold uppercase tracking-wider mb-3">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[6px] bg-orange-500/10 border border-orange-500/30 text-[#FF6B00] text-[11px] font-semibold uppercase tracking-wider mb-3">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#FF6B00]" />
                 PHASE 04
               </div>
-              <h3 className="text-2xl sm:text-3xl font-medium text-white tracking-tight mb-3">
+              <h3 className="text-2xl sm:text-3xl font-outfit font-bold text-white tracking-tight mb-3">
                 Continuous Quality Control
               </h3>
               <p className="text-xs sm:text-sm text-gray-300 leading-relaxed font-normal">
@@ -268,7 +268,7 @@ export default function Homedeliver() {
 
             <div className="lg:col-span-5 w-full flex flex-col justify-center divide-y divide-gray-800/80">
               <div className="py-3.5 first:pt-0 last:pb-0 flex items-center gap-3.5">
-                <span className="text-xs font-mono font-bold text-[#FF6B00] tracking-wider shrink-0">
+                <span className="text-xs font-outfit font-bold text-[#FF6B00] tracking-wider shrink-0">
                   01
                 </span>
                 <span className="text-xs sm:text-sm text-gray-200 font-normal">
@@ -276,7 +276,7 @@ export default function Homedeliver() {
                 </span>
               </div>
               <div className="py-3.5 first:pt-0 last:pb-0 flex items-center gap-3.5">
-                <span className="text-xs font-mono font-bold text-[#FF6B00] tracking-wider shrink-0">
+                <span className="text-xs font-outfit font-bold text-[#FF6B00] tracking-wider shrink-0">
                   02
                 </span>
                 <span className="text-xs sm:text-sm text-gray-200 font-normal">
@@ -284,7 +284,7 @@ export default function Homedeliver() {
                 </span>
               </div>
               <div className="py-3.5 first:pt-0 last:pb-0 flex items-center gap-3.5">
-                <span className="text-xs font-mono font-bold text-[#FF6B00] tracking-wider shrink-0">
+                <span className="text-xs font-outfit font-bold text-[#FF6B00] tracking-wider shrink-0">
                   03
                 </span>
                 <span className="text-xs sm:text-sm text-gray-200 font-normal">

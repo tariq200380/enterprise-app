@@ -56,11 +56,11 @@ export default function BrandTechWires({ initialWires }: { initialWires?: BrandW
         <div className="text-center max-w-[48rem] mx-auto mb-8">
           <div className="inline-flex items-center gap-1.5 bg-[#EFF6FF] border border-[#BFDBFE] px-3 py-1 rounded-full mb-2.5">
             <span className="w-1.5 h-1.5 rounded-full bg-[#10B981]"></span>
-            <span className="text-[10.5px] font-bold text-[#1E40AF] uppercase tracking-[0.06em]">
+            <span className="text-[10.5px] font-semibold text-[#1E40AF] uppercase tracking-wider">
               LIVE 8-PROVIDER OFFICIAL RSS WIRE
             </span>
           </div>
-          <h2 className="text-2xl sm:text-3xl lg:text-[2.15rem] font-bold text-[#0F172A] tracking-[-0.02em] m-0">
+          <h2 className="font-outfit font-bold text-2xl sm:text-3xl lg:text-[2.2rem] text-[#0F172A] tracking-tight m-0">
             Frontier AI &amp; Enterprise Tech Wires
           </h2>
         </div>
@@ -74,7 +74,7 @@ export default function BrandTechWires({ initialWires }: { initialWires?: BrandW
                 key={brand.id}
                 type="button"
                 onClick={() => setActiveBrandId(brand.id)}
-                className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-md text-xs font-bold transition-all duration-200 cursor-pointer select-none ${
+                className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-md text-xs font-semibold transition-all duration-200 cursor-pointer select-none ${
                   isSelected
                     ? "bg-[#0052FF] text-white shadow-sm ring-2 ring-[#0052FF]/20 scale-105"
                     : "bg-[#F7F6F5] text-[#5B6472] border border-[#E2E8F0] hover:bg-[#EFECE6] hover:text-[#0F172A]"
@@ -115,7 +115,7 @@ export default function BrandTechWires({ initialWires }: { initialWires?: BrandW
                   />
                   {/* Top right floating badge */}
                   <div className="absolute top-3 right-3 z-10">
-                    <span className="inline-flex items-center gap-1.5 bg-white/95 backdrop-blur-md text-[#0F172A] text-[11px] font-extrabold px-3 py-1 rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.25)]">
+                    <span className="inline-flex items-center gap-1.5 bg-white/95 backdrop-blur-md text-[#0F172A] text-[11px] font-semibold px-3 py-1 rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.25)]">
                       {wire.brandBadge}
                     </span>
                   </div>
@@ -124,7 +124,7 @@ export default function BrandTechWires({ initialWires }: { initialWires?: BrandW
                 {/* Details */}
                 <div className="flex flex-col justify-center">
                   <div className="flex items-center gap-2 mb-2.5 flex-wrap">
-                    <span className="bg-[#DBEAFE] text-[#1E40AF] text-[10px] font-extrabold px-2 py-0.5 rounded-[3px] uppercase">
+                    <span className="bg-[#DBEAFE] text-[#1E40AF] text-[10px] font-semibold px-2 py-0.5 rounded-[3px] uppercase tracking-wider">
                       {wire.cat}
                     </span>
                     <span className="text-xs text-[#5B6472]">
@@ -132,7 +132,7 @@ export default function BrandTechWires({ initialWires }: { initialWires?: BrandW
                     </span>
                   </div>
 
-                  <h3 className="text-xl sm:text-2xl font-extrabold text-[#0F172A] leading-[1.35] mb-2.5">
+                  <h3 className="font-outfit font-bold text-xl sm:text-2xl text-[#0F172A] leading-[1.35] mb-2.5 tracking-tight">
                     {wire.title}
                   </h3>
 
@@ -145,11 +145,11 @@ export default function BrandTechWires({ initialWires }: { initialWires?: BrandW
                       href={wire.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-xs font-bold text-[#0052FF] hover:text-[#0043D6] hover:underline"
+                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#0052FF] hover:text-[#0043D6] hover:underline"
                     >
                       <span>Read Full Wire ({wire.name} Official) &rarr;</span>
                     </a>
-                    <span className="text-[11px] text-[#94A3B8] font-mono">
+                    <span className="text-[11px] text-[#94A3B8] font-semibold tracking-wider">
                       VERIFIED OFFICIAL LINK
                     </span>
                   </div>

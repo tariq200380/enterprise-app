@@ -8,7 +8,7 @@ export default function SecurityArchitecture() {
             <span className="text-[11px] font-bold text-[#FF6B00] tracking-[0.16em] uppercase block mb-2">
               DEFENSE IN DEPTH
             </span>
-            <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] tracking-tight leading-tight">
+            <h2 className="text-3xl sm:text-4xl font-outfit font-bold text-[#0F172A] tracking-tight leading-tight">
               Four-layer enterprise<br className="hidden sm:inline" />
               {" "}security architecture
             </h2>
@@ -24,10 +24,10 @@ export default function SecurityArchitecture() {
             {/* Layer 01 */}
             <div className="p-5 sm:p-6 flex flex-col justify-between">
               <div>
-                <span className="text-xs font-bold text-[#FF6B00] uppercase tracking-wider block mb-2">
+                <span className="text-xs font-outfit font-bold text-[#FF6B00] uppercase tracking-wider block mb-2">
                   01
                 </span>
-                <h3 className="text-sm sm:text-base font-bold text-[#0F172A] tracking-tight mb-2">
+                <h3 className="text-sm sm:text-base font-outfit font-bold text-[#0F172A] tracking-tight mb-2">
                   Zero-Trust Identity &amp; Access (IAM)
                 </h3>
                 <p className="text-xs text-slate-500 leading-relaxed font-normal">
@@ -39,10 +39,10 @@ export default function SecurityArchitecture() {
             {/* Layer 02 */}
             <div className="p-5 sm:p-6 flex flex-col justify-between">
               <div>
-                <span className="text-xs font-bold text-[#FF6B00] uppercase tracking-wider block mb-2">
+                <span className="text-xs font-outfit font-bold text-[#FF6B00] uppercase tracking-wider block mb-2">
                   02
                 </span>
-                <h3 className="text-sm sm:text-base font-bold text-[#0F172A] tracking-tight mb-2">
+                <h3 className="text-sm sm:text-base font-outfit font-bold text-[#0F172A] tracking-tight mb-2">
                   Cryptographic Protection
                 </h3>
                 <p className="text-xs text-slate-500 leading-relaxed font-normal">
@@ -54,10 +54,10 @@ export default function SecurityArchitecture() {
             {/* Layer 03 */}
             <div className="p-5 sm:p-6 flex flex-col justify-between">
               <div>
-                <span className="text-xs font-bold text-[#FF6B00] uppercase tracking-wider block mb-2">
+                <span className="text-xs font-outfit font-bold text-[#FF6B00] uppercase tracking-wider block mb-2">
                   03
                 </span>
-                <h3 className="text-sm sm:text-base font-bold text-[#0F172A] tracking-tight mb-2">
+                <h3 className="text-sm sm:text-base font-outfit font-bold text-[#0F172A] tracking-tight mb-2">
                   Secure Development Lifecycle (SSDLC)
                 </h3>
                 <p className="text-xs text-slate-500 leading-relaxed font-normal">
@@ -69,10 +69,10 @@ export default function SecurityArchitecture() {
             {/* Layer 04 */}
             <div className="p-5 sm:p-6 flex flex-col justify-between">
               <div>
-                <span className="text-xs font-bold text-[#FF6B00] uppercase tracking-wider block mb-2">
+                <span className="text-xs font-outfit font-bold text-[#FF6B00] uppercase tracking-wider block mb-2">
                   04
                 </span>
-                <h3 className="text-sm sm:text-base font-bold text-[#0F172A] tracking-tight mb-2">
+                <h3 className="text-sm sm:text-base font-outfit font-bold text-[#0F172A] tracking-tight mb-2">
                   24/7 Threat Telemetry &amp; SIEM
                 </h3>
                 <p className="text-xs text-slate-500 leading-relaxed font-normal">

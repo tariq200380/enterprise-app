@@ -5,10 +5,10 @@ export default function GdprArticle6() {
         {/* Section Header Split */}
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-8 sm:pb-10 border-b border-[#E6E4DF] mb-8 sm:mb-10">
           <div>
-            <span className="text-[11px] font-mono font-bold text-[#FF6B00] tracking-[0.18em] uppercase block mb-2">
+            <span className="text-[11px] font-semibold text-[#FF6B00] tracking-[0.18em] uppercase block mb-2">
               STATUTORY FOUNDATION
             </span>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#1C1917] tracking-tight leading-tight">
+            <h2 className="font-outfit text-3xl sm:text-4xl font-bold text-[#1C1917] tracking-tight leading-tight">
               Article 6: 6 Lawful Bases for Processing
             </h2>
           </div>
@@ -23,14 +23,14 @@ export default function GdprArticle6() {
           <div className="bg-white rounded-2xl border border-[#E6E4DF] border-t-2 border-t-[#FF6B00] p-5 sm:p-6 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between gap-2 pb-3 border-b border-[#F0EFEB] mb-4">
-                <span className="text-[10px] font-mono font-bold text-[#FF6B00] bg-[#FF6B00]/10 px-2 py-0.5 rounded">
+                <span className="text-[10px] font-outfit font-bold text-[#FF6B00] bg-[#FF6B00]/10 px-2 py-0.5 rounded">
                   ART. 6.1.a
                 </span>
                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
                   EXPLICIT
                 </span>
               </div>
-              <h3 className="font-serif text-lg font-bold text-[#1C1917] tracking-tight mb-2">
+              <h3 className="font-outfit text-lg font-bold text-[#1C1917] tracking-tight mb-2">
                 1. Consent
               </h3>
               <p className="text-slate-600 text-xs sm:text-[13px] leading-relaxed font-normal">
@@ -46,14 +46,14 @@ export default function GdprArticle6() {
           <div className="bg-white rounded-2xl border border-[#E6E4DF] border-t-2 border-t-[#FF6B00] p-5 sm:p-6 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between gap-2 pb-3 border-b border-[#F0EFEB] mb-4">
-                <span className="text-[10px] font-mono font-bold text-[#FF6B00] bg-[#FF6B00]/10 px-2 py-0.5 rounded">
+                <span className="text-[10px] font-outfit font-bold text-[#FF6B00] bg-[#FF6B00]/10 px-2 py-0.5 rounded">
                   ART. 6.1.b
                 </span>
                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
                   OPERATIONAL
                 </span>
               </div>
-              <h3 className="font-serif text-lg font-bold text-[#1C1917] tracking-tight mb-2">
+              <h3 className="font-outfit text-lg font-bold text-[#1C1917] tracking-tight mb-2">
                 2. Contractual Necessity
               </h3>
               <p className="text-slate-600 text-xs sm:text-[13px] leading-relaxed font-normal">
@@ -69,14 +69,14 @@ export default function GdprArticle6() {
           <div className="bg-white rounded-2xl border border-[#E6E4DF] border-t-2 border-t-[#FF6B00] p-5 sm:p-6 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between gap-2 pb-3 border-b border-[#F0EFEB] mb-4">
-                <span className="text-[10px] font-mono font-bold text-[#FF6B00] bg-[#FF6B00]/10 px-2 py-0.5 rounded">
+                <span className="text-[10px] font-outfit font-bold text-[#FF6B00] bg-[#FF6B00]/10 px-2 py-0.5 rounded">
                   ART. 6.1.c
                 </span>
                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
                   MANDATORY
                 </span>
               </div>
-              <h3 className="font-serif text-lg font-bold text-[#1C1917] tracking-tight mb-2">
+              <h3 className="font-outfit text-lg font-bold text-[#1C1917] tracking-tight mb-2">
                 3. Legal Obligation
               </h3>
               <p className="text-slate-600 text-xs sm:text-[13px] leading-relaxed font-normal">
@@ -92,14 +92,14 @@ export default function GdprArticle6() {
           <div className="bg-white rounded-2xl border border-[#E6E4DF] border-t-2 border-t-[#FF6B00] p-5 sm:p-6 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between gap-2 pb-3 border-b border-[#F0EFEB] mb-4">
-                <span className="text-[10px] font-mono font-bold text-[#FF6B00] bg-[#FF6B00]/10 px-2 py-0.5 rounded">
+                <span className="text-[10px] font-outfit font-bold text-[#FF6B00] bg-[#FF6B00]/10 px-2 py-0.5 rounded">
                   ART. 6.1.d
                 </span>
                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
                   CRITICAL
                 </span>
               </div>
-              <h3 className="font-serif text-lg font-bold text-[#1C1917] tracking-tight mb-2">
+              <h3 className="font-outfit text-lg font-bold text-[#1C1917] tracking-tight mb-2">
                 4. Vital Interests
               </h3>
               <p className="text-slate-600 text-xs sm:text-[13px] leading-relaxed font-normal">
@@ -115,14 +115,14 @@ export default function GdprArticle6() {
           <div className="bg-white rounded-2xl border border-[#E6E4DF] border-t-2 border-t-[#FF6B00] p-5 sm:p-6 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between gap-2 pb-3 border-b border-[#F0EFEB] mb-4">
-                <span className="text-[10px] font-mono font-bold text-[#FF6B00] bg-[#FF6B00]/10 px-2 py-0.5 rounded">
+                <span className="text-[10px] font-outfit font-bold text-[#FF6B00] bg-[#FF6B00]/10 px-2 py-0.5 rounded">
                   ART. 6.1.e
                 </span>
                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
                   INSTITUTIONAL
                 </span>
               </div>
-              <h3 className="font-serif text-lg font-bold text-[#1C1917] tracking-tight mb-2">
+              <h3 className="font-outfit text-lg font-bold text-[#1C1917] tracking-tight mb-2">
                 5. Public Task
               </h3>
               <p className="text-slate-600 text-xs sm:text-[13px] leading-relaxed font-normal">
@@ -138,14 +138,14 @@ export default function GdprArticle6() {
           <div className="bg-white rounded-2xl border border-[#E6E4DF] border-t-2 border-t-[#FF6B00] p-5 sm:p-6 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between gap-2 pb-3 border-b border-[#F0EFEB] mb-4">
-                <span className="text-[10px] font-mono font-bold text-[#FF6B00] bg-[#FF6B00]/10 px-2 py-0.5 rounded">
+                <span className="text-[10px] font-outfit font-bold text-[#FF6B00] bg-[#FF6B00]/10 px-2 py-0.5 rounded">
                   ART. 6.1.f
                 </span>
                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
                   COMMERCIAL
                 </span>
               </div>
-              <h3 className="font-serif text-lg font-bold text-[#1C1917] tracking-tight mb-2">
+              <h3 className="font-outfit text-lg font-bold text-[#1C1917] tracking-tight mb-2">
                 6. Legitimate Interests
               </h3>
               <p className="text-slate-600 text-xs sm:text-[13px] leading-relaxed font-normal">

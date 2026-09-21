@@ -326,7 +326,7 @@ export default function DynamicArticleReader({
         <aside className="w-full flex flex-col gap-4 lg:sticky lg:top-[90px] max-h-[85vh] overflow-y-auto pr-1">
           {/* Search Box */}
           <div className="bg-white border border-[#E2E8F0] rounded-xl p-4 shadow-xs">
-            <div className="text-[11px] font-extrabold text-[#0052FF] uppercase tracking-wider mb-2">
+            <div className="text-[11px] font-semibold text-[#0052FF] uppercase tracking-wider mb-2">
               📚 ALL ARTICLES &amp; BLUEPRINTS
             </div>
             <input
@@ -356,7 +356,7 @@ export default function DynamicArticleReader({
                 >
                   <div className="flex items-center justify-between gap-1 mb-1">
                     <span
-                      className={`text-[9.5px] font-extrabold uppercase tracking-wide ${
+                      className={`text-[9.5px] font-semibold uppercase tracking-wider ${
                         isActive ? "text-[#0052FF]" : "text-[#475569]"
                       }`}
                     >
@@ -367,7 +367,7 @@ export default function DynamicArticleReader({
                     </span>
                   </div>
                   <h5
-                    className={`text-[12px] font-bold leading-snug line-clamp-2 m-0 ${
+                    className={`font-outfit text-[12px] font-bold leading-snug line-clamp-2 m-0 ${
                       isActive ? "text-[#0F172A]" : "text-[#334155]"
                     }`}
                   >
@@ -381,11 +381,10 @@ export default function DynamicArticleReader({
           {/* Breaking Brand Wires Widget */}
           <div className="bg-white border border-[#E2E8F0] rounded-xl p-4 shadow-xs">
             <div className="flex items-center justify-between mb-2.5">
-              <span className="text-[11px] font-extrabold text-[#EF4444] uppercase tracking-wider flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#EF4444] animate-ping"></span>
-                ⚡ LIVE BRAND WIRES
+              <span className="text-[11px] font-semibold text-[#EF4444] uppercase tracking-wider flex items-center gap-1.5">
+                🔥 FAST WIRE FEED
               </span>
-              <span className="text-[9.5px] font-mono text-[#10B981] font-bold">● LIVE</span>
+              <span className="text-[9.5px] text-[#10B981] font-semibold tracking-wider">● LIVE</span>
             </div>
             <div className="flex flex-col gap-2.5">
               {liveNews.length > 0
@@ -411,7 +410,7 @@ export default function DynamicArticleReader({
                         >
                           {wire.providerLabel || wire.tag}
                         </span>
-                        <h5 className="text-xs font-bold text-[#0F172A] group-hover:text-[#0052FF] leading-tight line-clamp-2 transition-colors">
+                        <h5 className="font-outfit text-xs font-bold text-[#0F172A] group-hover:text-[#0052FF] leading-tight line-clamp-2 transition-colors">
                           {wire.title}
                         </h5>
                       </div>
@@ -439,7 +438,7 @@ export default function DynamicArticleReader({
           {/* Header Metadata */}
           <div className="mb-6 pb-5 border-b border-[#E2E8F0]">
             <div className="flex items-center gap-2 flex-wrap mb-3 text-xs text-[#64748B]">
-              <span className="bg-[#EF4444] text-white text-[10px] font-extrabold px-2.5 py-0.5 rounded uppercase tracking-wide">
+              <span className="bg-[#EF4444] text-white text-[10px] font-semibold px-2.5 py-0.5 rounded uppercase tracking-wider">
                 {currentArticle.category}
               </span>
               <span>•</span>
@@ -450,17 +449,17 @@ export default function DynamicArticleReader({
               </span>
             </div>
 
-            <h1 className="text-2xl sm:text-3xl lg:text-[2.15rem] font-extrabold text-[#0F172A] tracking-[-0.025em] leading-[1.25] mb-4">
+            <h1 className="font-outfit text-2xl sm:text-3xl lg:text-[2.15rem] font-bold text-[#0F172A] tracking-tight leading-[1.25] mb-4">
               {currentArticle.title}
             </h1>
 
             {/* Author Profile */}
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-[#0052FF] text-white flex items-center justify-center font-black text-sm shadow-xs shrink-0">
+              <div className="w-10 h-10 rounded-full bg-[#0052FF] text-white flex items-center justify-center font-bold text-sm shadow-xs shrink-0">
                 CT
               </div>
               <div>
-                <div className="text-sm font-bold text-[#0F172A]">
+                <div className="font-outfit text-sm font-bold text-[#0F172A]">
                   {currentArticle.author}
                 </div>
                 <div className="text-xs text-[#64748B]">
@@ -494,10 +493,10 @@ export default function DynamicArticleReader({
           {/* Audio Player */}
           <div className="bg-[#0F172A] text-white rounded-xl p-5 sm:p-6 mb-7 border border-[#1E293B]">
             <div className="flex items-center justify-between flex-wrap gap-2 mb-3">
-              <span className="text-[13.5px] font-bold text-[#F8FAFC]">
+              <span className="font-outfit text-[13.5px] font-bold text-[#F8FAFC]">
                 🎧 Audio Briefing Podcast &amp; Teardown
               </span>
-              <span className="text-[11px] text-[#94A3B8] font-mono">
+              <span className="text-[11px] text-[#94A3B8] font-semibold tracking-wider uppercase">
                 Studio 96kHz Master
               </span>
             </div>
@@ -529,7 +528,7 @@ export default function DynamicArticleReader({
                   onChange={handleSeekAudio}
                   className="w-full cursor-pointer accent-[#0052FF]"
                 />
-                <div className="flex justify-between text-[11px] text-[#94A3B8] font-mono">
+                <div className="flex justify-between text-[11px] text-[#94A3B8] font-semibold tabular-nums">
                   <span>{formatTime(currentTime)}</span>
                   <span>{formatTime(duration)}</span>
                 </div>
@@ -573,10 +572,10 @@ export default function DynamicArticleReader({
                       />
                     </div>
                     <div>
-                      <span className="text-[11px] font-extrabold text-[#E11D48] uppercase tracking-wider block mb-1">
+                      <span className="text-[11px] font-semibold text-[#E11D48] uppercase tracking-wider block mb-1">
                         {prod.award}
                       </span>
-                      <h3 className="text-xl sm:text-[1.35rem] font-extrabold text-[#0F172A] leading-tight mb-2">
+                      <h3 className="font-outfit text-xl sm:text-[1.35rem] font-bold text-[#0F172A] leading-tight tracking-tight mb-2">
                         {prod.name}
                       </h3>
                       <div className="text-sm font-extrabold text-[#0052FF] mb-3">
@@ -682,15 +681,15 @@ export default function DynamicArticleReader({
             <div className="flex items-center justify-between flex-wrap gap-3 mb-6 pb-4 border-b border-[#E2E8F0]">
               <div>
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="text-[10px] font-extrabold text-[#0052FF] bg-[#EFF6FF] px-2 py-0.5 rounded uppercase tracking-wider">
+                  <span className="text-[10px] font-semibold text-[#0052FF] bg-[#EFF6FF] px-2 py-0.5 rounded uppercase tracking-wider">
                     VERIFIED PEER REVIEWS
                   </span>
                   <span className="text-xs text-[#64748B]">•</span>
-                  <span className="text-xs text-[#059669] font-bold">
+                  <span className="text-xs text-[#059669] font-semibold">
                     ★★★★★ {avgRating} / 5.0 ({dbReviews.length} Peer {dbReviews.length === 1 ? "Review" : "Reviews"})
                   </span>
                 </div>
-                <h3 className="text-xl font-extrabold text-[#0F172A] m-0">
+                <h3 className="font-outfit text-xl font-bold text-[#0F172A] tracking-tight m-0">
                   Peer Reviews on this Research Post
                 </h3>
               </div>
@@ -752,7 +751,7 @@ export default function DynamicArticleReader({
                           />
                           <div>
                             <div className="flex items-center gap-1.5">
-                              <h4 className="text-[13.5px] font-extrabold text-[#0F172A] m-0">
+                              <h4 className="font-outfit text-[13.5px] font-bold text-[#0F172A] m-0">
                                 {rev.name}
                               </h4>
                               <span className="bg-[#DCFCE7] text-[#15803D] text-[9.5px] font-bold px-1.5 py-0.2 rounded">
@@ -812,7 +811,7 @@ export default function DynamicArticleReader({
           {/* WIDGET 1: TOP STORIES */}
           <div className="bg-white rounded-2xl border border-[#E2E8F0] p-5 shadow-xs">
             <div className="flex items-center justify-between mb-4 pb-2 border-b border-[#E2E8F0]">
-              <h4 className="text-[13px] font-extrabold text-[#0F172A] uppercase m-0 tracking-wider">
+              <h4 className="font-outfit text-[13px] font-bold text-[#0F172A] uppercase m-0 tracking-wider">
                 Top Stories
               </h4>
               <div className="flex items-center gap-1.5">
@@ -887,7 +886,7 @@ export default function DynamicArticleReader({
           {/* WIDGET 3: NEWEST VIDEOS */}
           <div className="bg-white rounded-2xl border border-[#E2E8F0] p-5 shadow-xs">
             <div className="flex items-center justify-between mb-4 pb-2 border-b border-[#E2E8F0]">
-              <h4 className="text-[13px] font-extrabold text-[#0F172A] uppercase m-0 tracking-wider">
+              <h4 className="font-outfit text-[13px] font-bold text-[#0F172A] uppercase m-0 tracking-wider">
                 Newest Videos
               </h4>
               <div className="flex items-center gap-1.5">
@@ -952,7 +951,7 @@ export default function DynamicArticleReader({
           {/* WIDGET 5: UPCOMING EVENTS */}
           <div className="bg-white rounded-2xl border border-[#E2E8F0] p-5 shadow-xs">
             <div className="flex items-center justify-between mb-4 pb-2 border-b border-[#E2E8F0]">
-              <h4 className="text-[13px] font-extrabold text-[#0F172A] uppercase m-0 tracking-wider">
+              <h4 className="font-outfit text-[13px] font-bold text-[#0F172A] uppercase m-0 tracking-wider">
                 Upcoming Events
               </h4>
               <div className="flex items-center gap-1.5">
@@ -1014,10 +1013,10 @@ export default function DynamicArticleReader({
             </button>
 
             <div className="mb-4">
-              <span className="text-[10px] font-extrabold text-[#0052FF] uppercase tracking-wider block mb-0.5">
+              <span className="text-[10px] font-semibold text-[#0052FF] uppercase tracking-wider block mb-0.5">
                 COMMUNITY FEEDBACK
               </span>
-              <h3 className="text-xl font-extrabold text-[#0F172A] m-0">
+              <h3 className="font-outfit text-xl font-bold text-[#0F172A] tracking-tight m-0">
                 Write a Verified Peer Review
               </h3>
               <p className="text-xs text-[#64748B] mt-1 m-0 truncate">

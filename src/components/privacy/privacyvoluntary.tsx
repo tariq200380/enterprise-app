@@ -1,10 +1,10 @@
 export default function PrivacyVoluntary() {
   return (
     <article id="voluntary-info" className="border-b border-[#E6E4DF] pb-10 sm:pb-12 mb-10 sm:mb-12 scroll-mt-28">
-      <span className="text-xs font-semibold text-[#B8A89A] block mb-2">
+      <span className="text-xs font-outfit font-bold text-[#FF6B00] block mb-2">
         02
       </span>
-      <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#1C1917] tracking-tight mb-4">
+      <h2 className="font-outfit text-2xl sm:text-3xl font-bold text-[#1C1917] tracking-tight mb-4">
         Information You Voluntarily Provide
       </h2>
       <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal mb-4">

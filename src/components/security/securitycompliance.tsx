@@ -10,7 +10,7 @@ export default function SecurityCompliance() {
             <span className="text-[11px] font-bold text-[#FF6B00] tracking-[0.16em] uppercase block mb-2">
               STANDARDS &amp; AUDITS
             </span>
-            <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] tracking-tight leading-tight">
+            <h2 className="text-3xl sm:text-4xl font-outfit font-bold text-[#0F172A] tracking-tight leading-tight">
               Enterprise compliance &amp;<br className="hidden sm:inline" />
               {" "}security frameworks
             </h2>
@@ -38,7 +38,7 @@ export default function SecurityCompliance() {
                 </Link>
               </div>
 
-              <h3 className="text-lg sm:text-xl font-bold text-[#0F172A] tracking-tight">
+              <h3 className="text-lg sm:text-xl font-outfit font-bold text-[#0F172A] tracking-tight">
                 ISO/IEC 27001:2022
               </h3>
               <p className="text-xs text-slate-500 mt-0.5 font-normal">
@@ -80,7 +80,7 @@ export default function SecurityCompliance() {
                 </Link>
               </div>
 
-              <h3 className="text-lg sm:text-xl font-bold text-[#0F172A] tracking-tight">
+              <h3 className="text-lg sm:text-xl font-outfit font-bold text-[#0F172A] tracking-tight">
                 EU GDPR Regulation (EU) 2016/679
               </h3>
               <p className="text-xs text-slate-500 mt-0.5 font-normal">
@@ -122,7 +122,7 @@ export default function SecurityCompliance() {
                 </Link>
               </div>
 
-              <h3 className="text-lg sm:text-xl font-bold text-[#0F172A] tracking-tight">
+              <h3 className="text-lg sm:text-xl font-outfit font-bold text-[#0F172A] tracking-tight">
                 AICPA SOC 2 Type II
               </h3>
               <p className="text-xs text-slate-500 mt-0.5 font-normal">
@@ -164,7 +164,7 @@ export default function SecurityCompliance() {
                 </Link>
               </div>
 
-              <h3 className="text-lg sm:text-xl font-bold text-[#0F172A] tracking-tight">
+              <h3 className="text-lg sm:text-xl font-outfit font-bold text-[#0F172A] tracking-tight">
                 PCI-DSS Version 4.0
               </h3>
               <p className="text-xs text-slate-500 mt-0.5 font-normal">

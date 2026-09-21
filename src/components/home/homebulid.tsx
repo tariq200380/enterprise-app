@@ -15,13 +15,13 @@ export default function Homebulid() {
           <div className="lg:col-span-6 flex flex-col items-start text-left">
             
             {/* Pre-title Pill / Tag */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-[4px] bg-[#EBF3FF] text-[#0052FF] text-xs font-medium tracking-wider uppercase mb-5 font-mono">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-[4px] bg-[#EBF3FF] text-[#0052FF] text-xs font-semibold tracking-wider uppercase mb-5">
               <span className="w-2 h-2 rounded-full bg-[#0052FF]" />
               <span>CAREERS AT CREED TECH</span>
             </div>
 
             {/* Main Headline */}
-            <h2 className="text-4xl md:text-5xl font-normal tracking-tight text-slate-900 leading-tight max-w-2xl text-balance">
+            <h2 className="text-4xl md:text-5xl font-outfit font-bold tracking-tight text-slate-900 leading-tight max-w-2xl text-balance">
               Build meaningful technology. Grow with the people behind it.
             </h2>
 

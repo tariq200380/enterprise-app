@@ -103,10 +103,10 @@ export default function PortfolioCtaSection() {
           className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_50%_50%,rgba(0,102,255,0.22)_0%,transparent_65%)]"
         />
         <div className="max-w-2xl mx-auto px-6 relative z-10 flex flex-col items-center gap-4">
-          <span className="text-[11px] font-bold text-[#FF6B00] uppercase tracking-wider font-mono">
+          <span className="text-[11px] font-semibold text-[#FF6B00] uppercase tracking-wider">
             HAVE AN AMBITIOUS ENGINEERING INITIATIVE?
           </span>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-white tracking-tight">
+          <h2 className="font-outfit text-2xl sm:text-3xl lg:text-4xl font-bold text-white tracking-tight">
             Let&apos;s Build Your Next High-Performance Platform
           </h2>
           <p className="text-sm sm:text-base text-gray-300 max-w-xl leading-relaxed font-normal">
@@ -146,13 +146,13 @@ export default function PortfolioCtaSection() {
             </button>
 
             {/* Header */}
-            <span className="text-[10.5px] font-bold text-[#EA580C] uppercase tracking-wider font-mono block mb-1">
+            <span className="text-[10.5px] font-semibold text-[#EA580C] uppercase tracking-wider block mb-1">
               ⚡ DIRECT TECHNICAL TEAM SCOPING
             </span>
-            <h3 className="text-xl sm:text-2xl font-extrabold text-[#0F172A] mb-1.5 tracking-tight">
+            <h3 className="font-outfit text-xl sm:text-2xl font-bold text-[#0F172A] mb-1.5 tracking-tight">
               Connect with Technical Team
             </h3>
-            <p className="text-xs text-slate-500 mb-4 leading-relaxed">
+            <p className="text-xs text-slate-500 mb-4 leading-relaxed font-normal">
               Bypass sales queues. Connect directly with our Principal Software Architects to scope technical constraints, system scale, and delivery roadmaps.
             </p>
 
@@ -177,7 +177,7 @@ export default function PortfolioCtaSection() {
                 <div className="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-xl font-bold">
                   ✓
                 </div>
-                <h4 className="font-bold text-base text-emerald-900">
+                <h4 className="font-outfit font-bold text-base text-emerald-900">
                   Technical Scoping Request Submitted!
                 </h4>
                 <p className="text-xs text-emerald-700 leading-relaxed max-w-sm mx-auto">

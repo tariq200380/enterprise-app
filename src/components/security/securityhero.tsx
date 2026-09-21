@@ -25,7 +25,7 @@ export default function SecurityHero() {
               ENTERPRISE TRUST, GOVERNANCE &amp; ZERO-TRUST
             </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-[56px] font-bold text-[#0F172A] tracking-tight leading-[1.08] mb-6">
+            <h1 className="text-4xl sm:text-5xl lg:text-[56px] font-outfit font-bold text-[#0F172A] tracking-tight leading-[1.08] mb-6">
               Trust,<br />
               engineered into<br />
               <span className="text-[#FF6B00]">every layer</span>
@@ -45,7 +45,7 @@ export default function SecurityHero() {
                   <span className="text-xs sm:text-[13px] text-slate-600 text-left font-normal">
                     Standard client<br />availability
                   </span>
-                  <span className="text-2xl sm:text-3xl font-black text-[#FF6B00] tracking-tight text-right">
+                  <span className="text-2xl sm:text-3xl font-outfit font-bold text-[#FF6B00] tracking-tight text-right">
                     99.98%
                   </span>
                 </div>
@@ -55,7 +55,7 @@ export default function SecurityHero() {
                   <span className="text-xs sm:text-[13px] text-slate-600 text-left font-normal">
                     Standing admin<br />privileges
                   </span>
-                  <span className="text-2xl sm:text-3xl font-black text-[#FF6B00] tracking-tight text-right">
+                  <span className="text-2xl sm:text-3xl font-outfit font-bold text-[#FF6B00] tracking-tight text-right">
                     0
                   </span>
                 </div>
@@ -65,7 +65,7 @@ export default function SecurityHero() {
                   <span className="text-xs sm:text-[13px] text-slate-600 text-left font-normal">
                     Threat telemetry &amp;<br />SIEM coverage
                   </span>
-                  <span className="text-2xl sm:text-3xl font-black text-[#FF6B00] tracking-tight text-right">
+                  <span className="text-2xl sm:text-3xl font-outfit font-bold text-[#FF6B00] tracking-tight text-right">
                     24/7
                   </span>
                 </div>
@@ -75,7 +75,7 @@ export default function SecurityHero() {
                   <span className="text-xs sm:text-[13px] text-slate-600 text-left font-normal">
                     Target critical incident<br />triage time
                   </span>
-                  <span className="text-2xl sm:text-3xl font-black text-[#FF6B00] tracking-tight text-right">
+                  <span className="text-2xl sm:text-3xl font-outfit font-bold text-[#FF6B00] tracking-tight text-right">
                     &lt; 15m
                   </span>
                 </div>

@@ -53,11 +53,11 @@ export default function PortfolioCaseStudiesSection({
 
                   {/* Top Badge & Case Number */}
                   <div className="relative z-10 flex items-center justify-between mb-3">
-                    <span className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/15 px-3 py-1 rounded-full text-white/90 text-xs font-mono">
+                    <span className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/15 px-3 py-1 rounded-full text-white/90 text-xs font-semibold tracking-wider">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#EA580C]"></span>
                       {proj.category || "Enterprise Engineering"}
                     </span>
-                    <span className="text-[11px] font-mono text-white/50 bg-black/30 px-2 py-0.5 rounded border border-white/10">
+                    <span className="text-[11px] font-semibold tracking-wider text-white/50 bg-black/30 px-2 py-0.5 rounded border border-white/10">
                       CASE #{String(idx + 1).padStart(2, "0")}
                     </span>
                   </div>
@@ -73,9 +73,9 @@ export default function PortfolioCaseStudiesSection({
                         className="w-full h-full object-cover opacity-90 transition-transform duration-500 group-hover:scale-105"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
-                      <div className="absolute bottom-2 left-3 right-3 flex items-center justify-between text-[11px] font-mono text-white/90">
+                      <div className="absolute bottom-2 left-3 right-3 flex items-center justify-between text-[11px] font-semibold tracking-wider text-white/90">
                         <span className="truncate">{proj.client || "Enterprise Deployment"}</span>
-                        <span className="text-orange-400 font-bold shrink-0">VERIFIED BUILD</span>
+                        <span className="text-orange-400 font-semibold shrink-0">VERIFIED BUILD</span>
                       </div>
                     </div>
                   )}
@@ -112,7 +112,7 @@ export default function PortfolioCaseStudiesSection({
                   </div>
 
                   {/* Bottom Caption */}
-                  <div className="relative z-10 border-t border-white/10 pt-4 flex items-center justify-between text-xs font-mono mt-2">
+                  <div className="relative z-10 border-t border-white/10 pt-4 flex items-center justify-between text-xs font-semibold tracking-wider mt-2">
                     <span className="text-white/70">
                       {proj.client || "Creed Tech Enterprise Deployment"}
                     </span>
@@ -128,15 +128,15 @@ export default function PortfolioCaseStudiesSection({
                     isEven ? "order-2" : "order-2 lg:order-1"
                   }`}
                 >
-                  <span className="text-xs font-extrabold uppercase tracking-[0.16em] text-[#EA580C] font-mono mb-2 block">
+                  <span className="text-xs font-semibold uppercase tracking-wider text-[#EA580C] mb-2 block">
                     {proj.category || "Enterprise Core"}
                   </span>
 
-                  <h3 className="text-xl sm:text-2xl lg:text-[1.8rem] font-extrabold text-[#0F172A] tracking-tight leading-[1.25] mb-3">
+                  <h3 className="font-outfit text-xl sm:text-2xl lg:text-[1.8rem] font-bold text-[#0F172A] tracking-tight leading-[1.25] mb-3">
                     {proj.title}
                   </h3>
 
-                  <p className="text-slate-600 text-sm leading-relaxed mb-6">
+                  <p className="text-slate-600 text-sm leading-relaxed mb-6 font-normal">
                     {proj.summary}
                   </p>
 
@@ -147,10 +147,10 @@ export default function PortfolioCaseStudiesSection({
                         key={mIdx}
                         className={mIdx > 0 ? "border-l border-[#E2E8F0] pl-3" : ""}
                       >
-                        <div className="text-lg sm:text-xl font-extrabold text-[#0F172A] tracking-tight">
+                        <div className="font-outfit text-lg sm:text-xl font-bold text-[#0F172A] tracking-tight">
                           {m.val}
                         </div>
-                        <div className="text-[11px] text-slate-500 font-medium mt-0.5">
+                        <div className="text-[11px] text-slate-500 font-semibold mt-0.5">
                           {m.lbl}
                         </div>
                       </div>
@@ -163,7 +163,7 @@ export default function PortfolioCaseStudiesSection({
                       {stackList.map((tag, tIdx) => (
                         <span
                           key={tIdx}
-                          className="bg-white border border-[#CBD5E1] text-slate-700 text-[11px] font-mono font-medium px-2.5 py-1 rounded-md shadow-2xs"
+                          className="bg-white border border-[#CBD5E1] text-slate-700 text-[11px] font-semibold tracking-wider px-2.5 py-1 rounded-md shadow-2xs"
                         >
                           {tag}
                         </span>
@@ -175,7 +175,7 @@ export default function PortfolioCaseStudiesSection({
                   <div>
                     <Link
                       href={proj.live_url || "/contact"}
-                      className="inline-flex items-center gap-2 bg-[#0F172A] hover:bg-[#EA580C] text-white text-xs font-bold px-5 py-3 rounded-lg shadow-sm transition-colors duration-200"
+                      className="inline-flex items-center gap-2 bg-[#0F172A] hover:bg-[#EA580C] text-white text-xs font-semibold px-5 py-3 rounded-lg shadow-sm transition-colors duration-200"
                     >
                       <span>Explore case study</span>
                       <span>&rarr;</span>

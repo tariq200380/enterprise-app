@@ -28,7 +28,7 @@ export default function PortfolioStandardsSection({
 
             {/* Top Badge */}
             <div className="relative z-10 flex items-center justify-between mb-4">
-              <span className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/15 px-3 py-1.5 rounded-full text-white/90 text-xs font-mono font-medium">
+              <span className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/15 px-3 py-1.5 rounded-full text-white/90 text-xs font-semibold tracking-wider">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#EA580C] animate-pulse"></span>
                 {showcase?.badgeLabel || "Engineering culture"}
               </span>
@@ -45,8 +45,8 @@ export default function PortfolioStandardsSection({
                   className="w-full h-full object-cover opacity-90 transition-transform duration-500 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
-                <div className="absolute bottom-2.5 left-3 right-3 flex items-center justify-between text-[11px] font-mono text-white/90">
-                  <span className="text-orange-400 font-bold">{showcase?.badgeLabel || "ENGINEERING CULTURE"}</span>
+                <div className="absolute bottom-2.5 left-3 right-3 flex items-center justify-between text-[11px] font-semibold tracking-wider text-white/90">
+                  <span className="text-orange-400 font-semibold">{showcase?.badgeLabel || "ENGINEERING CULTURE"}</span>
                   <span className="text-white/70">ARCHITECTURAL RIGOR</span>
                 </div>
               </div>
@@ -80,10 +80,10 @@ export default function PortfolioStandardsSection({
 
             {/* Bottom Guarantee */}
             <div className="relative z-10 border-t border-white/10 pt-5">
-              <h4 className="text-white font-bold text-sm sm:text-[15px] mb-1">
+              <h4 className="font-outfit text-white font-bold text-sm sm:text-[15px] mb-1">
                 {showcase?.overlayMetricTitle || "100% principal engineers led"}
               </h4>
-              <p className="text-white/60 text-xs leading-relaxed">
+              <p className="text-white/60 text-xs leading-relaxed font-normal">
                 Direct senior architectural leadership on every build with zero
                 delegation layers or offshore intermediary staffing.
               </p>
@@ -93,17 +93,17 @@ export default function PortfolioStandardsSection({
           {/* Right Column: Built on rigorous enterprise standards */}
           <div className="col-span-12 lg:col-span-7 flex flex-col justify-center text-left">
             {/* Category Eyebrow */}
-            <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#EA580C] font-mono mb-2 block">
+            <span className="text-xs font-semibold uppercase tracking-wider text-[#EA580C] mb-2 block">
               {showcase?.badgeLabel || "HOW WE GUARANTEE EXECUTION"}
             </span>
 
             {/* Section Heading */}
-            <h2 className="text-2xl sm:text-3xl lg:text-[2.15rem] font-extrabold text-[#0F172A] tracking-tight leading-[1.2] mb-3">
+            <h2 className="font-outfit text-2xl sm:text-3xl lg:text-[2.15rem] font-bold text-[#0F172A] tracking-tight leading-[1.2] mb-3">
               {showcase?.headline || "Built on rigorous enterprise standards"}
             </h2>
 
             {/* Lead Paragraph */}
-            <p className="text-slate-600 text-sm sm:text-[14.5px] leading-relaxed mb-7">
+            <p className="text-slate-600 text-sm sm:text-[14.5px] leading-relaxed mb-7 font-normal">
               {showcase?.description ||
                 "Every case study in our portfolio is the direct outcome of disciplined architectural principles, continuous automated verification, and zero-compromise security controls."}
             </p>
@@ -112,13 +112,13 @@ export default function PortfolioStandardsSection({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
               {/* Standard 01 */}
               <div className="bg-white border border-[#E2E8F0] rounded-xl p-5 shadow-[0_2px_4px_rgba(0,0,0,0.02)] hover:border-orange-400/50 hover:shadow-sm transition-all">
-                <span className="inline-block font-mono text-xs font-extrabold text-[#EA580C] bg-orange-50 border border-orange-200/70 px-2.5 py-0.5 rounded mb-2.5">
+                <span className="inline-block font-outfit text-xs font-bold text-[#EA580C] bg-orange-50 border border-orange-200/70 px-2.5 py-0.5 rounded mb-2.5">
                   01
                 </span>
-                <h4 className="text-sm font-bold text-[#0F172A] mb-1">
+                <h4 className="font-outfit text-sm font-bold text-[#0F172A] mb-1">
                   Contractual 99.99% SLA
                 </h4>
-                <p className="text-xs text-slate-500 leading-relaxed">
+                <p className="text-xs text-slate-500 leading-relaxed font-normal">
                   Every release backed by contractual delivery and uptime
                   guarantees with measurable commercial accountability.
                 </p>
@@ -126,13 +126,13 @@ export default function PortfolioStandardsSection({
 
               {/* Standard 02 */}
               <div className="bg-white border border-[#E2E8F0] rounded-xl p-5 shadow-[0_2px_4px_rgba(0,0,0,0.02)] hover:border-orange-400/50 hover:shadow-sm transition-all">
-                <span className="inline-block font-mono text-xs font-extrabold text-[#EA580C] bg-orange-50 border border-orange-200/70 px-2.5 py-0.5 rounded mb-2.5">
+                <span className="inline-block font-outfit text-xs font-bold text-[#EA580C] bg-orange-50 border border-orange-200/70 px-2.5 py-0.5 rounded mb-2.5">
                   02
                 </span>
-                <h4 className="text-sm font-bold text-[#0F172A] mb-1">
+                <h4 className="font-outfit text-sm font-bold text-[#0F172A] mb-1">
                   Cryptographic zero trust
                 </h4>
-                <p className="text-xs text-slate-500 leading-relaxed">
+                <p className="text-xs text-slate-500 leading-relaxed font-normal">
                   Automated mTLS everywhere, isolated VPC boundaries, hardware-rooted
                   KMS, and immutable audit logs.
                 </p>
@@ -140,13 +140,13 @@ export default function PortfolioStandardsSection({
 
               {/* Standard 03 */}
               <div className="bg-white border border-[#E2E8F0] rounded-xl p-5 shadow-[0_2px_4px_rgba(0,0,0,0.02)] hover:border-orange-400/50 hover:shadow-sm transition-all">
-                <span className="inline-block font-mono text-xs font-extrabold text-[#EA580C] bg-orange-50 border border-orange-200/70 px-2.5 py-0.5 rounded mb-2.5">
+                <span className="inline-block font-outfit text-xs font-bold text-[#EA580C] bg-orange-50 border border-orange-200/70 px-2.5 py-0.5 rounded mb-2.5">
                   03
                 </span>
-                <h4 className="text-sm font-bold text-[#0F172A] mb-1">
+                <h4 className="font-outfit text-sm font-bold text-[#0F172A] mb-1">
                   Dedicated senior pods
                 </h4>
-                <p className="text-xs text-slate-500 leading-relaxed">
+                <p className="text-xs text-slate-500 leading-relaxed font-normal">
                   Direct collaboration with senior principal architects daily on
                   context with zero offshore delegation layers.
                 </p>
@@ -154,13 +154,13 @@ export default function PortfolioStandardsSection({
 
               {/* Standard 04 */}
               <div className="bg-white border border-[#E2E8F0] rounded-xl p-5 shadow-[0_2px_4px_rgba(0,0,0,0.02)] hover:border-orange-400/50 hover:shadow-sm transition-all">
-                <span className="inline-block font-mono text-xs font-extrabold text-[#EA580C] bg-orange-50 border border-orange-200/70 px-2.5 py-0.5 rounded mb-2.5">
+                <span className="inline-block font-outfit text-xs font-bold text-[#EA580C] bg-orange-50 border border-orange-200/70 px-2.5 py-0.5 rounded mb-2.5">
                   04
                 </span>
-                <h4 className="text-sm font-bold text-[#0F172A] mb-1">
+                <h4 className="font-outfit text-sm font-bold text-[#0F172A] mb-1">
                   Zero-downtime releases
                 </h4>
-                <p className="text-xs text-slate-500 leading-relaxed">
+                <p className="text-xs text-slate-500 leading-relaxed font-normal">
                   Automated GitOps shipping with zero-impact multi-region failovers
                   and 100% automated test coverage.
                 </p>
@@ -179,7 +179,7 @@ export default function PortfolioStandardsSection({
             <div>
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-1.5 text-xs font-bold text-[#EA580C] hover:text-orange-700 uppercase tracking-wider font-mono transition-colors"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#EA580C] hover:text-orange-700 uppercase tracking-wider transition-colors"
               >
                 <span>Request technical scoping</span>
                 <span>&rarr;</span>

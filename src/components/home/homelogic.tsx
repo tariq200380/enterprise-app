@@ -125,7 +125,7 @@ export default function HomeLogic() {
         ) : (
           /* 2. FORMS (Project ya Review) */
           <div>
-            <h2 className="text-xl font-semibold mb-1 text-slate-900">
+            <h2 className="text-xl font-outfit font-bold mb-1 text-slate-900">
               {modal === "project" ? "Start Your Project" : "Write a Client Review"}
             </h2>
             <p className="text-xs text-slate-500 mb-4">

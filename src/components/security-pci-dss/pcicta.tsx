@@ -10,10 +10,10 @@ export default function PciCta() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] sm:w-[750px] h-[300px] sm:h-[420px] bg-[#FF6B00]/15 rounded-full blur-[110px] pointer-events-none" />
 
       <div className="max-w-4xl mx-auto relative z-10">
-        <span className="text-[11px] font-mono font-bold text-[#FF6B00] tracking-[0.2em] uppercase block mb-3">
+        <span className="text-[11px] font-semibold text-[#FF6B00] tracking-wider uppercase block mb-3">
           PAYMENT SECURITY ASSURANCE &bull; PCI-DSS V4.0
         </span>
-        <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight mb-5">
+        <h2 className="font-outfit text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight mb-5">
           Building a Tokenized Checkout or FinTech Payment Engine?
         </h2>
         <p className="text-slate-400 text-xs sm:text-sm max-w-2xl mx-auto leading-relaxed mb-8 font-normal">

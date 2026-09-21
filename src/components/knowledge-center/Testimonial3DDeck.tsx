@@ -218,10 +218,10 @@ export default function Testimonial3DDeck() {
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
         <div className="text-center mb-8">
-          <span className="text-[11px] font-semibold text-[#5B6472] uppercase tracking-[0.2em] block mb-1.5">
+          <span className="text-[11px] font-semibold text-[#5B6472] uppercase tracking-wider block mb-1.5">
             Testimonials
           </span>
-          <h2 className="text-xl sm:text-2xl lg:text-[1.85rem] font-extrabold text-[#0F172A] uppercase tracking-[-0.01em] m-0 mb-1.5">
+          <h2 className="font-outfit text-xl sm:text-2xl lg:text-[1.85rem] font-bold text-[#0F172A] uppercase tracking-tight m-0 mb-1.5">
             Trusted by Founders &bull; Backed by Results
           </h2>
           <p className="text-[13.5px] sm:text-sm text-[#5B6472] font-normal m-0">
@@ -259,7 +259,7 @@ export default function Testimonial3DDeck() {
                 >
                   {/* Top Company Row */}
                   <div className="flex items-center justify-between mb-3">
-                    <span className="text-xl sm:text-[1.3rem] font-black tracking-wider text-[#0F172A] uppercase font-sans">
+                    <span className="font-outfit text-xl sm:text-[1.3rem] font-bold tracking-tight text-[#0F172A] uppercase">
                       {item.company}
                     </span>
                     <span className="text-[#5B6472] text-lg tracking-[3px] font-bold">
@@ -290,7 +290,7 @@ export default function Testimonial3DDeck() {
                         />
                       </div>
                       <div>
-                        <h4 className="text-[14.5px] font-extrabold text-[#0F172A] m-0 leading-tight">
+                        <h4 className="font-outfit text-[14.5px] font-bold text-[#0F172A] m-0 leading-tight">
                           {item.author}
                         </h4>
                         <span className="text-xs text-[#5B6472] font-medium block mt-0.5">

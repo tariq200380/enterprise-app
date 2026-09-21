@@ -165,7 +165,7 @@ export default function Homedicuss() {
           <span className="text-xs font-bold text-[#FF6B00] uppercase tracking-widest mb-4">
             CONTACT
           </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-medium tracking-tight text-white mb-6 leading-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-outfit font-bold tracking-tight text-white mb-6 leading-tight">
             Let&apos;s Discuss <span className="text-[#FF6B00]">Your Project</span>
           </h2>
           <p className="text-sm sm:text-base text-gray-300 max-w-xl mb-9 leading-relaxed font-normal">

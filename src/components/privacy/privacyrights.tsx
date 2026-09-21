@@ -3,16 +3,16 @@ import Link from "next/link";
 export default function PrivacyRights() {
   return (
     <article id="statutory-gdpr" className="border-b border-[#E6E4DF] pb-10 sm:pb-12 mb-10 sm:mb-12 scroll-mt-28">
-      <span className="text-xs font-semibold text-[#B8A89A] block mb-2">
+      <span className="text-xs font-outfit font-bold text-[#FF6B00] block mb-2">
         06
       </span>
-      <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#1C1917] tracking-tight mb-4">
+      <h2 className="font-outfit text-2xl sm:text-3xl font-bold text-[#1C1917] tracking-tight mb-4">
         Statutory Data Rights &amp; GDPR Compliance
       </h2>
 
       {/* Callout Box */}
       <div className="bg-[#FFF9F5] border border-[#FDBA74]/70 rounded-xl p-6 sm:p-7 space-y-3">
-        <h3 className="text-sm sm:text-base font-bold text-[#C2410C]">
+        <h3 className="text-sm sm:text-base font-outfit font-bold text-[#C2410C]">
           Your rights under GDPR
         </h3>
         <p className="text-xs sm:text-sm text-slate-700 leading-relaxed font-normal">

@@ -26,7 +26,7 @@ export default function IsoHero() {
           <div className="lg:col-span-7">
             {/* Breadcrumb Header */}
             <div className="mb-3">
-              <span className="text-xs sm:text-[12px] font-mono font-bold text-[#FF6B00] tracking-widest uppercase">
+              <span className="text-xs sm:text-[12px] font-semibold text-[#FF6B00] tracking-widest uppercase">
                 <Link href="/security" className="hover:underline">
                   SECURITY CENTER
                 </Link>{" "}
@@ -35,13 +35,13 @@ export default function IsoHero() {
             </div>
 
             {/* Category Mini Tag Pill */}
-            <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#FF6B00]/10 border border-[#FF6B00]/20 text-[11px] font-mono font-bold text-[#FF6B00] tracking-wider uppercase mb-4">
+            <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#FF6B00]/10 border border-[#FF6B00]/20 text-[11px] font-semibold text-[#FF6B00] tracking-wider uppercase mb-4">
               <span>&bull;</span>
               <span>GLOBAL ISMS STANDARD &bull; ANNEX A ARCHITECTURE</span>
             </div>
 
-            {/* Main Headline (Premium Editorial Serif) */}
-            <h1 className="text-4xl sm:text-5xl lg:text-[54px] font-serif font-bold text-[#1C1917] tracking-tight leading-[1.08] mb-5">
+            {/* Main Headline */}
+            <h1 className="text-4xl sm:text-5xl lg:text-[54px] font-outfit font-bold text-[#1C1917] tracking-tight leading-[1.08] mb-5">
               ISO/IEC 27001:2022<br />
               Standard &amp; <span className="text-[#FF6B00]">ISMS Architecture</span>
             </h1>
@@ -59,7 +59,7 @@ export default function IsoHero() {
                 <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
                   SPECIFICATION SNAPSHOT
                 </span>
-                <span className="text-[11px] font-mono font-bold text-[#FF6B00] bg-[#FF6B00]/10 px-2 py-0.5 rounded">
+                <span className="text-[11px] font-semibold text-[#FF6B00] bg-[#FF6B00]/10 px-2 py-0.5 rounded">
                   ISO/IEC 27001
                 </span>
               </div>
@@ -68,7 +68,7 @@ export default function IsoHero() {
                   <span className="text-xs sm:text-[13px] text-slate-600 text-left font-normal">
                     Governing Body
                   </span>
-                  <span className="text-sm sm:text-base font-bold text-[#FF6B00] tracking-tight text-right">
+                  <span className="text-sm sm:text-base font-outfit font-bold text-[#FF6B00] tracking-tight text-right">
                     ISO (Geneva, Switzerland)
                   </span>
                 </div>
@@ -77,7 +77,7 @@ export default function IsoHero() {
                   <span className="text-xs sm:text-[13px] text-slate-600 text-left font-normal">
                     Control Framework
                   </span>
-                  <span className="text-2xl sm:text-3xl font-black text-[#FF6B00] tracking-tight text-right">
+                  <span className="text-2xl sm:text-3xl font-outfit font-bold text-[#FF6B00] tracking-tight text-right">
                     93 Controls
                   </span>
                 </div>
@@ -86,7 +86,7 @@ export default function IsoHero() {
                   <span className="text-xs sm:text-[13px] text-slate-600 text-left font-normal">
                     Security Domains
                   </span>
-                  <span className="text-2xl sm:text-3xl font-black text-[#FF6B00] tracking-tight text-right">
+                  <span className="text-2xl sm:text-3xl font-outfit font-bold text-[#FF6B00] tracking-tight text-right">
                     4 Domains
                   </span>
                 </div>
@@ -95,7 +95,7 @@ export default function IsoHero() {
                   <span className="text-xs sm:text-[13px] text-slate-600 text-left font-normal">
                     Operational Status
                   </span>
-                  <span className="text-base sm:text-lg font-bold text-[#FF6B00] tracking-tight text-right">
+                  <span className="text-base sm:text-lg font-outfit font-bold text-[#FF6B00] tracking-tight text-right">
                     ISMS Aligned
                   </span>
                 </div>

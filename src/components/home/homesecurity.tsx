@@ -29,7 +29,7 @@ export default function Homesecurity() {
             </div>
 
             {/* Main Headline */}
-            <h2 className="text-[28px] sm:text-4xl lg:text-[38px] text-[#1A1A1A] tracking-tight leading-[1.15] mb-5">
+            <h2 className="text-[28px] sm:text-4xl lg:text-[38px] font-outfit font-bold text-[#1A1A1A] tracking-tight leading-[1.15] mb-5">
               <span className="block">Enterprise engineering built on</span>
               <span className="block">security reliability and trust</span>
             </h2>
@@ -44,8 +44,8 @@ export default function Homesecurity() {
               {/* Stat 1: 10+ Years Experience */}
               <div className="flex flex-col">
                 <div className="flex items-baseline mb-1">
-                  <span className="text-4xl sm:text-5xl font-medium text-[#0F172A] tracking-tight">10</span>
-                  <span className="text-3xl sm:text-4xl font-medium text-[#0052FF] ml-0.5">+</span>
+                  <span className="text-4xl sm:text-5xl font-outfit font-bold text-[#0F172A] tracking-tight">10</span>
+                  <span className="text-3xl sm:text-4xl font-outfit font-bold text-[#0052FF] ml-0.5">+</span>
                 </div>
                 <span className="text-xs sm:text-[13px] font-medium text-[#64748B] uppercase tracking-wider">
                   YEARS EXPERIENCE
@@ -58,11 +58,11 @@ export default function Homesecurity() {
               {/* Stat 2: 99.99% Reliability SLA */}
               <div className="flex flex-col">
                 <div className="flex items-baseline mb-1">
-                  <span className="text-4xl sm:text-5xl font-medium text-[#0F172A] tracking-tight">99.99</span>
-                  <span className="text-2xl sm:text-3xl font-medium text-[#0052FF] ml-0.5">%</span>
+                  <span className="text-4xl sm:text-5xl font-outfit font-bold text-[#0F172A] tracking-tight">99.99</span>
+                  <span className="text-2xl sm:text-3xl font-outfit font-bold text-[#0052FF] ml-0.5">%</span>
                 </div>
                 <span className="text-xs sm:text-[13px] font-medium text-[#64748B] uppercase tracking-wider">
-                  RELIABILITY SLA
+                  UPTIME SLA
                 </span>
               </div>
             </div>

@@ -16,10 +16,10 @@ export default function ContactOnboardingSection({ settings }: ContactOnboarding
     <section className="w-full py-10 sm:py-12 border-b border-[#E2E8F0] bg-[#F7F6F5]">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl mx-auto text-center mb-10 sm:mb-12">
-          <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#EA580C] font-mono mb-2 block">
+          <span className="text-xs font-semibold uppercase tracking-wider text-[#EA580C] mb-2 block">
             {badge}
           </span>
-          <h2 className="text-2xl sm:text-3xl lg:text-[2.15rem] font-extrabold text-[#0F172A] tracking-tight leading-tight mb-3">
+          <h2 className="text-2xl sm:text-3xl lg:text-[2.15rem] font-outfit font-bold text-[#0F172A] tracking-tight leading-tight mb-3">
             {title}
           </h2>
           <p className="text-slate-600 text-sm leading-relaxed">
@@ -32,10 +32,10 @@ export default function ContactOnboardingSection({ settings }: ContactOnboarding
           {/* Step 01 */}
           <div className="bg-white border border-[#E2E8F0] rounded-xl p-5 shadow-[0_2px_4px_rgba(0,0,0,0.02)] hover:border-orange-400/50 hover:shadow-sm transition-all flex flex-col justify-between">
             <div>
-              <span className="inline-block font-mono text-xs font-extrabold text-[#EA580C] bg-orange-50 border border-orange-200/70 px-2.5 py-0.5 rounded mb-3">
+              <span className="inline-block font-outfit text-xs font-bold text-[#EA580C] bg-orange-50 border border-orange-200/70 px-2.5 py-0.5 rounded mb-3">
                 01
               </span>
-              <h4 className="text-sm font-bold text-[#0F172A] mb-1.5">
+              <h4 className="text-sm font-outfit font-bold text-[#0F172A] mb-1.5">
                 Technical Scoping &amp; NDA
               </h4>
               <p className="text-xs text-slate-500 leading-relaxed mb-4">
@@ -43,7 +43,7 @@ export default function ContactOnboardingSection({ settings }: ContactOnboarding
                 parameters, dependencies, and business goals.
               </p>
             </div>
-            <div className="text-[11px] font-mono text-slate-400 border-t border-[#E2E8F0] pt-2.5">
+            <div className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider border-t border-[#E2E8F0] pt-2.5">
               TIMEFRAME: DAY 1
             </div>
           </div>
@@ -51,10 +51,10 @@ export default function ContactOnboardingSection({ settings }: ContactOnboarding
           {/* Step 02 */}
           <div className="bg-white border border-[#E2E8F0] rounded-xl p-5 shadow-[0_2px_4px_rgba(0,0,0,0.02)] hover:border-orange-400/50 hover:shadow-sm transition-all flex flex-col justify-between">
             <div>
-              <span className="inline-block font-mono text-xs font-extrabold text-[#EA580C] bg-orange-50 border border-orange-200/70 px-2.5 py-0.5 rounded mb-3">
+              <span className="inline-block font-outfit text-xs font-bold text-[#EA580C] bg-orange-50 border border-orange-200/70 px-2.5 py-0.5 rounded mb-3">
                 02
               </span>
-              <h4 className="text-sm font-bold text-[#0F172A] mb-1.5">
+              <h4 className="text-sm font-outfit font-bold text-[#0F172A] mb-1.5">
                 Architecture Blueprint
               </h4>
               <p className="text-xs text-slate-500 leading-relaxed mb-4">
@@ -62,7 +62,7 @@ export default function ContactOnboardingSection({ settings }: ContactOnboarding
                 matrix, milestone breakdown, and SLA agreement.
               </p>
             </div>
-            <div className="text-[11px] font-mono text-slate-400 border-t border-[#E2E8F0] pt-2.5">
+            <div className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider border-t border-[#E2E8F0] pt-2.5">
               TIMEFRAME: DAY 2–3
             </div>
           </div>
@@ -70,10 +70,10 @@ export default function ContactOnboardingSection({ settings }: ContactOnboarding
           {/* Step 03 */}
           <div className="bg-white border border-[#E2E8F0] rounded-xl p-5 shadow-[0_2px_4px_rgba(0,0,0,0.02)] hover:border-orange-400/50 hover:shadow-sm transition-all flex flex-col justify-between">
             <div>
-              <span className="inline-block font-mono text-xs font-extrabold text-[#EA580C] bg-orange-50 border border-orange-200/70 px-2.5 py-0.5 rounded mb-3">
+              <span className="inline-block font-outfit text-xs font-bold text-[#EA580C] bg-orange-50 border border-orange-200/70 px-2.5 py-0.5 rounded mb-3">
                 03
               </span>
-              <h4 className="text-sm font-bold text-[#0F172A] mb-1.5">
+              <h4 className="text-sm font-outfit font-bold text-[#0F172A] mb-1.5">
                 Dedicated Pod Formation
               </h4>
               <p className="text-xs text-slate-500 leading-relaxed mb-4">
@@ -81,7 +81,7 @@ export default function ContactOnboardingSection({ settings }: ContactOnboarding
                 dedicated Slack channels and synchronized sprint cadences.
               </p>
             </div>
-            <div className="text-[11px] font-mono text-slate-400 border-t border-[#E2E8F0] pt-2.5">
+            <div className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider border-t border-[#E2E8F0] pt-2.5">
               TIMEFRAME: DAY 4–5
             </div>
           </div>
@@ -89,10 +89,10 @@ export default function ContactOnboardingSection({ settings }: ContactOnboarding
           {/* Step 04 */}
           <div className="bg-white border border-[#E2E8F0] rounded-xl p-5 shadow-[0_2px_4px_rgba(0,0,0,0.02)] hover:border-orange-400/50 hover:shadow-sm transition-all flex flex-col justify-between">
             <div>
-              <span className="inline-block font-mono text-xs font-extrabold text-[#EA580C] bg-orange-50 border border-orange-200/70 px-2.5 py-0.5 rounded mb-3">
+              <span className="inline-block font-outfit text-xs font-bold text-[#EA580C] bg-orange-50 border border-orange-200/70 px-2.5 py-0.5 rounded mb-3">
                 04
               </span>
-              <h4 className="text-sm font-bold text-[#0F172A] mb-1.5">
+              <h4 className="text-sm font-outfit font-bold text-[#0F172A] mb-1.5">
                 Sprint Zero &amp; Production
               </h4>
               <p className="text-xs text-slate-500 leading-relaxed mb-4">
@@ -100,7 +100,7 @@ export default function ContactOnboardingSection({ settings }: ContactOnboarding
                 first functional production milestone with zero lag.
               </p>
             </div>
-            <div className="text-[11px] font-mono text-slate-400 border-t border-[#E2E8F0] pt-2.5">
+            <div className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider border-t border-[#E2E8F0] pt-2.5">
               TIMEFRAME: WEEK 1
             </div>
           </div>

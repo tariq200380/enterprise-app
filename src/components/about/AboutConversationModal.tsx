@@ -104,13 +104,13 @@ export default function AboutConversationModal({
           ✕
         </button>
 
-        <span className="text-[10.5px] font-bold text-[#EA580C] uppercase tracking-wider font-mono block mb-1">
+        <span className="text-[10.5px] font-semibold text-[#EA580C] uppercase tracking-wider block mb-1">
           ⚡ DIRECT ARCHITECTURAL CONSULTATION
         </span>
-        <h3 className="text-lg sm:text-xl font-extrabold text-[#0F172A] mb-1">
+        <h3 className="font-outfit text-lg sm:text-xl font-bold text-[#0F172A] mb-1 tracking-tight">
           Start a Conversation
         </h3>
-        <p className="text-xs text-slate-500 mb-5 leading-relaxed">
+        <p className="text-xs text-slate-500 mb-5 leading-relaxed font-normal">
           Connect directly with our engineering leadership to discuss your system architecture, technical constraints, or roadmap.
         </p>
 
@@ -241,7 +241,7 @@ export default function AboutConversationModal({
               <button
                 type="submit"
                 disabled={status === "loading"}
-                className="inline-flex items-center justify-center gap-1.5 bg-[#EA580C] hover:bg-orange-600 text-white font-bold py-2.5 px-5 min-w-[170px] rounded-lg text-xs tracking-wider uppercase font-mono transition-colors shadow-xs cursor-pointer disabled:opacity-50"
+                className="inline-flex items-center justify-center gap-1.5 bg-[#EA580C] hover:bg-orange-600 text-white font-semibold py-2.5 px-5 min-w-[170px] rounded-lg text-xs tracking-wider uppercase transition-colors shadow-xs cursor-pointer disabled:opacity-50"
               >
                 {status === "loading" ? (
                   <>

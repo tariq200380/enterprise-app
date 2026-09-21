@@ -9,7 +9,7 @@ export default function ServicesHero() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 relative z-10">
         <div className="max-w-[38rem] text-left">
           {/* Pill Badge */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-white border border-[#CBD5E1] text-[#0F172A] text-[11.5px] font-extrabold uppercase tracking-[0.08em] mb-3 rounded shadow-[0_1px_3px_rgba(0,0,0,0.06)]">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-white border border-[#CBD5E1] text-[#0F172A] text-[11.5px] font-semibold uppercase tracking-wider mb-3 rounded shadow-[0_1px_3px_rgba(0,0,0,0.06)]">
             <span className="w-[7px] h-[7px] rounded-full bg-[#FF6B00] inline-block shrink-0"></span>
             <span>ENTERPRISE CAPABILITIES &amp; SOLUTIONS</span>
           </div>
@@ -34,13 +34,13 @@ export default function ServicesHero() {
           <div className="grid grid-cols-2 gap-3 max-w-sm sm:max-w-md">
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-medium text-xs sm:text-sm h-10 sm:h-11 px-3 sm:px-5 rounded-md shadow-sm transition-all duration-200 text-center whitespace-nowrap"
+              className="inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs sm:text-sm h-10 sm:h-11 px-3 sm:px-5 rounded-md shadow-sm transition-all duration-200 text-center whitespace-nowrap"
             >
               Start Your Project
             </Link>
             <Link
               href="#delivery-process"
-              className="inline-flex items-center justify-center bg-white hover:bg-gray-50 border-2 border-[#0052FF] text-[#0052FF] hover:text-[#0043D6] font-bold text-xs sm:text-sm h-10 sm:h-11 px-3 sm:px-5 rounded-md shadow-sm transition-all duration-200 text-center whitespace-nowrap"
+              className="inline-flex items-center justify-center bg-white hover:bg-gray-50 border-2 border-[#0052FF] text-[#0052FF] hover:text-[#0043D6] font-semibold text-xs sm:text-sm h-10 sm:h-11 px-3 sm:px-5 rounded-md shadow-sm transition-all duration-200 text-center whitespace-nowrap"
             >
               Explore Services &rarr;
             </Link>

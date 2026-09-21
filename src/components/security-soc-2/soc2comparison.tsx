@@ -5,10 +5,10 @@ export default function Soc2Comparison() {
         {/* Section Header Split */}
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-8 sm:pb-10 border-b border-[#E6E4DF] mb-8 sm:mb-10">
           <div>
-            <span className="text-[11px] font-mono font-bold text-[#FF6B00] tracking-[0.18em] uppercase block mb-2">
+            <span className="text-[11px] font-semibold text-[#FF6B00] tracking-wider uppercase block mb-2">
               AUDIT RIGOR COMPARISON
             </span>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#1C1917] tracking-tight leading-tight">
+            <h2 className="font-outfit text-3xl sm:text-4xl font-bold text-[#1C1917] tracking-tight leading-tight">
               Why Type II Operational Rigor Matters for SaaS
             </h2>
           </div>
@@ -23,14 +23,14 @@ export default function Soc2Comparison() {
           <div className="bg-white rounded-2xl border border-[#E6E4DF] border-t-2 border-t-slate-400 p-6 sm:p-7 shadow-xs flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between gap-2 pb-3 border-b border-[#F0EFEB] mb-4">
-                <span className="text-[10px] font-mono font-bold text-slate-600 bg-slate-100 px-2 py-0.5 rounded">
+                <span className="text-[10px] font-semibold text-slate-600 bg-slate-100 px-2 py-0.5 rounded tracking-wider uppercase">
                   TYPE I REPORT
                 </span>
                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
                   POINT-IN-TIME
                 </span>
               </div>
-              <h3 className="font-serif text-xl font-bold text-[#1C1917] tracking-tight mb-2">
+              <h3 className="font-outfit text-xl font-bold text-[#1C1917] tracking-tight mb-2">
                 Single Point-in-Time Snapshot
               </h3>
               <p className="text-slate-600 text-xs sm:text-sm leading-relaxed font-normal mb-4">
@@ -60,14 +60,14 @@ export default function Soc2Comparison() {
           <div className="bg-white rounded-2xl border border-[#E6E4DF] border-t-2 border-t-[#FF6B00] p-6 sm:p-7 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between gap-2 pb-3 border-b border-[#F0EFEB] mb-4">
-                <span className="text-[10px] font-mono font-bold text-[#FF6B00] bg-[#FF6B00]/10 px-2 py-0.5 rounded">
+                <span className="text-[10px] font-semibold text-[#FF6B00] bg-[#FF6B00]/10 px-2 py-0.5 rounded tracking-wider uppercase">
                   TYPE II ALIGNMENT
                 </span>
                 <span className="text-[10px] font-bold text-[#FF6B00] uppercase tracking-wider">
                   12-MONTH PROOF
                 </span>
               </div>
-              <h3 className="font-serif text-xl font-bold text-[#1C1917] tracking-tight mb-2">
+              <h3 className="font-outfit text-xl font-bold text-[#1C1917] tracking-tight mb-2">
                 12-Month Live Operational Proof
               </h3>
               <p className="text-slate-600 text-xs sm:text-sm leading-relaxed font-normal mb-4">

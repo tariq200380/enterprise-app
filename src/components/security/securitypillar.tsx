@@ -5,7 +5,7 @@ export default function SecurityPillar() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-[#E6E4DF] py-4 sm:py-5">
           {/* Pillar 1 */}
           <div className="p-4 sm:px-6 flex flex-col justify-center">
-            <h3 className="text-[#0F172A] font-bold text-sm sm:text-base tracking-tight">
+            <h3 className="text-[#0F172A] font-outfit font-bold text-sm sm:text-base tracking-tight">
               High Availability
             </h3>
             <p className="text-slate-500 text-xs mt-1 font-normal">
@@ -15,7 +15,7 @@ export default function SecurityPillar() {
 
           {/* Pillar 2 */}
           <div className="p-4 sm:px-6 flex flex-col justify-center">
-            <h3 className="text-[#0F172A] font-bold text-sm sm:text-base tracking-tight">
+            <h3 className="text-[#0F172A] font-outfit font-bold text-sm sm:text-base tracking-tight">
               Zero Trust
             </h3>
             <p className="text-slate-500 text-xs mt-1 font-normal">
@@ -25,7 +25,7 @@ export default function SecurityPillar() {
 
           {/* Pillar 3 */}
           <div className="p-4 sm:px-6 flex flex-col justify-center">
-            <h3 className="text-[#0F172A] font-bold text-sm sm:text-base tracking-tight">
+            <h3 className="text-[#0F172A] font-outfit font-bold text-sm sm:text-base tracking-tight">
               Centralized SIEM
             </h3>
             <p className="text-slate-500 text-xs mt-1 font-normal">
@@ -35,7 +35,7 @@ export default function SecurityPillar() {
 
           {/* Pillar 4 */}
           <div className="p-4 sm:px-6 flex flex-col justify-center">
-            <h3 className="text-[#0F172A] font-bold text-sm sm:text-base tracking-tight">
+            <h3 className="text-[#0F172A] font-outfit font-bold text-sm sm:text-base tracking-tight">
               Rapid Triage
             </h3>
             <p className="text-slate-500 text-xs mt-1 font-normal">

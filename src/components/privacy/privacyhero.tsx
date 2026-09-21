@@ -6,7 +6,7 @@ export default function PrivacyHero() {
           &mdash; Data Governance &amp; Trust
         </span>
 
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold text-[#1C1917] tracking-tight mb-4">
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-outfit font-bold text-[#1C1917] tracking-tight mb-4">
           Privacy Policy
         </h1>
 

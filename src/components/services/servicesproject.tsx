@@ -10,11 +10,11 @@ export default function ServicesProject() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
         <div className="text-center max-w-[50rem] mx-auto mb-8 sm:mb-10">
-          <div className="inline-flex items-center gap-[7px] px-3.5 py-1 bg-white border border-[#FF6B00] text-[#FF6B00] text-[11px] font-bold uppercase tracking-[0.1em] mb-3.5 rounded-full shadow-[0_2px_8px_rgba(255,107,0,0.12)]">
+          <div className="inline-flex items-center gap-[7px] px-3.5 py-1 bg-white border border-[#FF6B00] text-[#FF6B00] text-[11px] font-semibold uppercase tracking-wider mb-3.5 rounded-full shadow-[0_2px_8px_rgba(255,107,0,0.12)]">
             <span className="w-1.5 h-1.5 rounded-full bg-[#FF6B00] inline-block"></span>
             <span>DELIVERY FRAMEWORK</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl text-[#1A1A1A] tracking-tight leading-[1.15] mb-2">
+          <h2 className="font-outfit font-bold text-3xl sm:text-4xl lg:text-5xl text-[#1A1A1A] tracking-tight leading-[1.15] mb-2">
             OUR PROJECT DELIVERY PROCESS
           </h2>
           <p className="text-[15px] text-[#5B6472] leading-relaxed font-normal">
@@ -36,10 +36,10 @@ export default function ServicesProject() {
                   </svg>
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-xs font-extrabold text-[#FF6B00] tracking-[0.06em] leading-none mb-1">
+                  <span className="font-outfit text-xs font-bold text-[#FF6B00] tracking-wider leading-none mb-1">
                     01
                   </span>
-                  <h3 className="text-lg text-[#1A1A1A] tracking-tight leading-tight mb-1">
+                  <h3 className="font-outfit font-bold text-lg text-[#1A1A1A] tracking-tight leading-tight mb-1">
                     DISCOVERY
                   </h3>
                   <span className="text-xs text-[#5B6472] leading-tight">
@@ -68,10 +68,10 @@ export default function ServicesProject() {
                   </svg>
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-xs font-extrabold text-[#FF6B00] tracking-[0.06em] leading-none mb-1">
+                  <span className="font-outfit text-xs font-bold text-[#FF6B00] tracking-wider leading-none mb-1">
                     02
                   </span>
-                  <h3 className="text-lg text-[#1A1A1A] tracking-tight leading-tight mb-1">
+                  <h3 className="font-outfit font-bold text-lg text-[#1A1A1A] tracking-tight leading-tight mb-1">
                     REQUIREMENTS
                   </h3>
                   <span className="text-xs text-[#5B6472] leading-tight">
@@ -99,10 +99,10 @@ export default function ServicesProject() {
                   </svg>
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-xs font-extrabold text-[#FF6B00] tracking-[0.06em] leading-none mb-1">
+                  <span className="font-outfit text-xs font-bold text-[#FF6B00] tracking-wider leading-none mb-1">
                     03
                   </span>
-                  <h3 className="text-lg text-[#1A1A1A] tracking-tight leading-tight mb-1">
+                  <h3 className="font-outfit font-bold text-lg text-[#1A1A1A] tracking-tight leading-tight mb-1">
                     PLANNING
                   </h3>
                   <span className="text-xs text-[#5B6472] leading-tight">
@@ -130,10 +130,10 @@ export default function ServicesProject() {
                   </svg>
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-xs font-extrabold text-[#FF6B00] tracking-[0.06em] leading-none mb-1">
+                  <span className="font-outfit text-xs font-bold text-[#FF6B00] tracking-wider leading-none mb-1">
                     04
                   </span>
-                  <h3 className="text-lg text-[#1A1A1A] tracking-tight leading-tight mb-1">
+                  <h3 className="font-outfit font-bold text-lg text-[#1A1A1A] tracking-tight leading-tight mb-1">
                     UI/UX DESIGN
                   </h3>
                   <span className="text-xs text-[#5B6472] leading-tight">
@@ -161,10 +161,10 @@ export default function ServicesProject() {
                   </svg>
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-xs font-extrabold text-[#FF6B00] tracking-[0.06em] leading-none mb-1">
+                  <span className="font-outfit text-xs font-bold text-[#FF6B00] tracking-wider leading-none mb-1">
                     05
                   </span>
-                  <h3 className="text-lg text-[#1A1A1A] tracking-tight leading-tight mb-1">
+                  <h3 className="font-outfit font-bold text-lg text-[#1A1A1A] tracking-tight leading-tight mb-1">
                     DEVELOPMENT
                   </h3>
                   <span className="text-xs text-[#5B6472] leading-tight">
@@ -191,10 +191,10 @@ export default function ServicesProject() {
                   </svg>
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-xs font-extrabold text-[#FF6B00] tracking-[0.06em] leading-none mb-1">
+                  <span className="font-outfit text-xs font-bold text-[#FF6B00] tracking-wider leading-none mb-1">
                     06
                   </span>
-                  <h3 className="text-lg text-[#1A1A1A] tracking-tight leading-tight mb-1">
+                  <h3 className="font-outfit font-bold text-lg text-[#1A1A1A] tracking-tight leading-tight mb-1">
                     QUALITY ASSURANCE
                   </h3>
                   <span className="text-xs text-[#5B6472] leading-tight">
@@ -221,10 +221,10 @@ export default function ServicesProject() {
                   </svg>
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-xs font-extrabold text-[#FF6B00] tracking-[0.06em] leading-none mb-1">
+                  <span className="font-outfit text-xs font-bold text-[#FF6B00] tracking-wider leading-none mb-1">
                     07
                   </span>
-                  <h3 className="text-lg text-[#1A1A1A] tracking-tight leading-tight mb-1">
+                  <h3 className="font-outfit font-bold text-lg text-[#1A1A1A] tracking-tight leading-tight mb-1">
                     INTEGRATION &amp; LAUNCH
                   </h3>
                   <span className="text-xs text-[#5B6472] leading-tight">
@@ -252,10 +252,10 @@ export default function ServicesProject() {
                   </svg>
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-xs font-extrabold text-[#FF6B00] tracking-[0.06em] leading-none mb-1">
+                  <span className="font-outfit text-xs font-bold text-[#FF6B00] tracking-wider leading-none mb-1">
                     08
                   </span>
-                  <h3 className="text-lg text-[#1A1A1A] tracking-tight leading-tight mb-1">
+                  <h3 className="font-outfit font-bold text-lg text-[#1A1A1A] tracking-tight leading-tight mb-1">
                     SUPPORT &amp; GROWTH
                   </h3>
                   <span className="text-xs text-[#5B6472] leading-tight">

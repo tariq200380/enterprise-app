@@ -76,13 +76,13 @@ export default function AboutLeadershipSection({
     <section className="w-full py-10 sm:py-12 border-b border-[#E2E8F0] bg-[#F7F6F5]">
       <div className="max-w-[1240px] mx-auto px-6 sm:px-10">
         <div className="max-w-[640px] mx-auto mb-10 sm:mb-12 text-center">
-          <div className="text-[13px] text-[#FF5A1F] font-semibold mb-3">
+          <div className="text-[11px] text-[#FF5A1F] font-semibold uppercase tracking-wider mb-3">
             {badgeTag || "THE PEOPLE BEHIND THE CODE"}
           </div>
-          <h2 className="font-serif font-medium text-2xl sm:text-4xl text-[#0F172A] tracking-[-0.015em] leading-[1.15] mb-4">
+          <h2 className="font-outfit text-2xl sm:text-4xl font-bold text-[#0F172A] tracking-tight leading-[1.15] mb-4">
             {headline || "Executive leadership and technical custodians"}
           </h2>
-          <p className="text-[#5B6472] text-[15.5px] leading-[1.7]">
+          <p className="text-[#5B6472] text-[15.5px] leading-[1.7] font-normal">
             {description ||
               "Meet the founders and principal architects who guide our engineering vision and mentor our senior pods across three global centers."}
           </p>
@@ -108,12 +108,12 @@ export default function AboutLeadershipSection({
                       className="w-full h-full object-cover object-center"
                     />
                   ) : (
-                    <span className="font-serif text-[32px] text-[#C7D2FF] tracking-[0.01em]">
+                    <span className="font-outfit font-bold text-[32px] text-[#C7D2FF] tracking-tight">
                       {initials}
                     </span>
                   )}
                   {member.badgeTag && (
-                    <div className="absolute bottom-2 left-2 right-2 px-2 py-0.5 rounded bg-black/70 backdrop-blur-xs text-[10px] font-mono text-white text-center truncate">
+                    <div className="absolute bottom-2 left-2 right-2 px-2 py-0.5 rounded bg-black/70 backdrop-blur-xs text-[10px] font-semibold tracking-wider uppercase text-white text-center truncate">
                       {member.badgeTag}
                     </div>
                   )}
@@ -121,14 +121,14 @@ export default function AboutLeadershipSection({
 
                 <div className="flex flex-col justify-between h-full">
                   <div>
-                    <h3 className="font-serif font-medium text-lg text-[#0F172A] mb-1">
+                    <h3 className="font-outfit text-lg font-bold text-[#0F172A] mb-1 tracking-tight">
                       {member.name || "Leadership Team Member"}
                     </h3>
-                    <div className="text-[#3D6BFF] text-[13px] font-medium mb-3">
+                    <div className="text-[#3D6BFF] text-[13px] font-semibold mb-3">
                       {member.role || "Executive Leadership"}
                     </div>
                     {member.bio && (
-                      <p className="text-[#5B6472] text-[13.5px] leading-[1.6] mb-3.5">
+                      <p className="text-[#5B6472] text-[13.5px] leading-[1.6] mb-3.5 font-normal">
                         {member.bio}
                       </p>
                     )}
@@ -140,7 +140,7 @@ export default function AboutLeadershipSection({
                   </div>
                   <Link
                     href={connectUrl}
-                    className="text-[12.5px] font-medium text-[#3D6BFF] hover:underline"
+                    className="text-[12.5px] font-semibold text-[#3D6BFF] hover:underline"
                   >
                     {connectText}
                   </Link>

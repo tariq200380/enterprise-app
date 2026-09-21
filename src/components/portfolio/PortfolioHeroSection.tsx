@@ -20,14 +20,14 @@ export default function PortfolioHeroSection() {
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-10 lg:gap-14 relative z-10">
         {/* Left Column: Heading & Mission */}
         <div className="w-full lg:w-1/2 text-left">
-          <div className="text-[11px] font-semibold uppercase tracking-[3px] text-[#AEB6C2] mb-2.5">
+          <div className="text-[11px] font-semibold uppercase tracking-wider text-[#AEB6C2] mb-2.5">
             FLAGSHIP CASE STUDIES &amp; PROVEN ARCHITECTURES
           </div>
           <div className="w-[60px] h-[2px] bg-[#FF6B00] opacity-80 mb-6" />
-          <h1 className="text-[34px] sm:text-[46px] font-extrabold text-white leading-[1.1] mb-1 tracking-tight">
+          <h1 className="font-outfit text-[34px] sm:text-[46px] font-bold text-white leading-[1.1] mb-1 tracking-tight">
             Architectural Mastery.
           </h1>
-          <h2 className="text-[28px] sm:text-[38px] font-extrabold text-white leading-[1.2] mb-4 tracking-tight">
+          <h2 className="font-outfit text-[28px] sm:text-[38px] font-bold text-white leading-[1.2] mb-4 tracking-tight">
             Proven Business Impact.
           </h2>
           <p className="text-base font-normal text-white/75 leading-[1.7] max-w-[520px]">
@@ -51,10 +51,10 @@ export default function PortfolioHeroSection() {
             >
               <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
             </svg>
-            <p className="text-xl sm:text-[26px] font-bold text-white block leading-[1.1] mb-0.5">
+            <p className="font-outfit text-xl sm:text-[26px] font-bold text-white block leading-[1.1] mb-0.5">
               End-to-End
             </p>
-            <p className="text-[11px] font-medium uppercase tracking-[1px] text-white/50 block">
+            <p className="text-[11px] font-semibold uppercase tracking-wider text-white/50 block">
               Project Delivery
             </p>
           </div>
@@ -72,10 +72,10 @@ export default function PortfolioHeroSection() {
               <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
               <polyline points="9 12 11 14 15 10" />
             </svg>
-            <p className="text-xl sm:text-[26px] font-bold text-white block leading-[1.1] mb-0.5">
+            <p className="font-outfit text-xl sm:text-[26px] font-bold text-white block leading-[1.1] mb-0.5">
               Security-First
             </p>
-            <p className="text-[11px] font-medium uppercase tracking-[1px] text-white/50 block">
+            <p className="text-[11px] font-semibold uppercase tracking-wider text-white/50 block">
               Engineering
             </p>
           </div>
@@ -93,10 +93,10 @@ export default function PortfolioHeroSection() {
               <circle cx="12" cy="12" r="10" />
               <polyline points="12 6 12 12 16 14" />
             </svg>
-            <p className="text-xl sm:text-[26px] font-bold text-white block leading-[1.1] mb-0.5">
+            <p className="font-outfit text-xl sm:text-[26px] font-bold text-white block leading-[1.1] mb-0.5">
               Reliable
             </p>
-            <p className="text-[11px] font-medium uppercase tracking-[1px] text-white/50 block">
+            <p className="text-[11px] font-semibold uppercase tracking-wider text-white/50 block">
               Delivery
             </p>
           </div>
@@ -113,10 +113,10 @@ export default function PortfolioHeroSection() {
             >
               <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
             </svg>
-            <p className="text-xl sm:text-[26px] font-bold text-white block leading-[1.1] mb-0.5">
+            <p className="font-outfit text-xl sm:text-[26px] font-bold text-white block leading-[1.1] mb-0.5">
               Quality-Driven
             </p>
-            <p className="text-[11px] font-medium uppercase tracking-[1px] text-white/50 block">
+            <p className="text-[11px] font-semibold uppercase tracking-wider text-white/50 block">
               Development
             </p>
           </div>

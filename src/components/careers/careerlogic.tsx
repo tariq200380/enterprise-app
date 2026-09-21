@@ -55,13 +55,13 @@ export default function CareerLogic() {
         {active === "done" ? (
           <div className="text-center py-6">
             <div className="w-12 h-12 bg-orange-50 border-2 border-orange-300 text-[#FF6B00] rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-3">✓</div>
-            <h3 className="text-lg font-semibold text-slate-900 mb-1">Submission Received!</h3>
+            <h3 className="text-lg font-outfit font-bold text-slate-900 mb-1">Submission Received!</h3>
             <p className="text-xs text-slate-500 mb-5">Shukriya! Hum jald hi aapse contact karein ge.</p>
             <button type="button" onClick={() => setActive(null)} className="px-5 py-2 bg-black text-white text-xs font-semibold rounded cursor-pointer">Close Window</button>
           </div>
         ) : (
           <div>
-            <h2 className="text-xl font-semibold mb-1 text-slate-900">{isJob ? "Apply for Engineering Role" : "Security & Founder Hotline"}</h2>
+            <h2 className="text-xl font-outfit font-bold mb-1 text-slate-900">{isJob ? "Apply for Engineering Role" : "Security & Founder Hotline"}</h2>
             <p className="text-xs text-slate-500 mb-4">{isJob ? `Position: ${active}` : "Submit your security report or architecture proposal:"}</p>
 
             <form onSubmit={handleSubmit} className="flex flex-col gap-3">

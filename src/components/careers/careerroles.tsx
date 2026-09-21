@@ -5,7 +5,7 @@ export default function CareerRoles() {
         <span className="text-[11px] sm:text-xs font-bold text-[#FF6B00] tracking-widest uppercase block mb-3">
           OPEN ENGINEERING VACANCIES
         </span>
-        <h2 className="text-3xl sm:text-4xl lg:text-[40px] font-bold text-[#0F172A] tracking-tight leading-tight max-w-3xl mx-auto">
+        <h2 className="text-3xl sm:text-4xl lg:text-[40px] font-outfit font-bold text-[#0F172A] tracking-tight leading-tight max-w-3xl mx-auto">
           Explore active pod<br className="hidden sm:inline" /> openings &amp; upcoming roles
         </h2>
         <p className="mt-4 text-sm sm:text-base text-slate-600 max-w-2xl mx-auto leading-relaxed font-normal">
@@ -39,7 +39,7 @@ export default function CareerRoles() {
           {/* Job 1 */}
           <div className="bg-white rounded-xl border border-[#E6E4DF] p-5 sm:p-6 shadow-2xs hover:border-[#FF6B00]/40 hover:shadow-xs transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <h3 className="text-sm sm:text-base font-bold text-slate-900 tracking-tight">
+              <h3 className="text-sm sm:text-base font-outfit font-bold text-slate-900 tracking-tight">
                 Senior Distributed Systems &amp; Rust Architect
               </h3>
               <p className="text-xs text-slate-500 mt-1 font-normal">
@@ -60,7 +60,7 @@ export default function CareerRoles() {
           {/* Job 2 */}
           <div className="bg-white rounded-xl border border-[#E6E4DF] p-5 sm:p-6 shadow-2xs hover:border-[#FF6B00]/40 hover:shadow-xs transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <h3 className="text-sm sm:text-base font-bold text-slate-900 tracking-tight">
+              <h3 className="text-sm sm:text-base font-outfit font-bold text-slate-900 tracking-tight">
                 Lead AI Systems Engineer (LLM Inference &amp; CUDA)
               </h3>
               <p className="text-xs text-slate-500 mt-1 font-normal">
@@ -81,7 +81,7 @@ export default function CareerRoles() {
           {/* Job 3 */}
           <div className="bg-white rounded-xl border border-[#E6E4DF] p-5 sm:p-6 shadow-2xs hover:border-[#FF6B00]/40 hover:shadow-xs transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <h3 className="text-sm sm:text-base font-bold text-slate-900 tracking-tight">
+              <h3 className="text-sm sm:text-base font-outfit font-bold text-slate-900 tracking-tight">
                 Staff Design Systems Architect (WCAG AAA)
               </h3>
               <p className="text-xs text-slate-500 mt-1 font-normal">
@@ -102,7 +102,7 @@ export default function CareerRoles() {
           {/* Job 4 */}
           <div className="bg-white rounded-xl border border-[#E6E4DF] p-5 sm:p-6 shadow-2xs hover:border-[#FF6B00]/40 hover:shadow-xs transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <h3 className="text-sm sm:text-base font-bold text-slate-900 tracking-tight">
+              <h3 className="text-sm sm:text-base font-outfit font-bold text-slate-900 tracking-tight">
                 Cloud DevOps &amp; SRE Architect (Kubernetes &amp; Terraform)
               </h3>
               <p className="text-xs text-slate-500 mt-1 font-normal">
@@ -123,7 +123,7 @@ export default function CareerRoles() {
           {/* Job 5 */}
           <div className="bg-white rounded-xl border border-[#E6E4DF] p-5 sm:p-6 shadow-2xs hover:border-[#FF6B00]/40 hover:shadow-xs transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <h3 className="text-sm sm:text-base font-bold text-slate-900 tracking-tight">
+              <h3 className="text-sm sm:text-base font-outfit font-bold text-slate-900 tracking-tight">
                 Solutions Architect &amp; Technical Engagement Lead
               </h3>
               <p className="text-xs text-slate-500 mt-1 font-normal">
@@ -144,7 +144,7 @@ export default function CareerRoles() {
           {/* Job 6 */}
           <div className="bg-white rounded-xl border border-[#E6E4DF] p-5 sm:p-6 shadow-2xs hover:border-[#FF6B00]/40 hover:shadow-xs transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <h3 className="text-sm sm:text-base font-bold text-slate-900 tracking-tight">
+              <h3 className="text-sm sm:text-base font-outfit font-bold text-slate-900 tracking-tight">
                 Principal Platform &amp; Linux Kernel Engineer
               </h3>
               <p className="text-xs text-slate-500 mt-1 font-normal">
@@ -165,7 +165,7 @@ export default function CareerRoles() {
           {/* Job 7 */}
           <div className="bg-white rounded-xl border border-[#E6E4DF] p-5 sm:p-6 shadow-2xs hover:border-[#FF6B00]/40 hover:shadow-xs transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <h3 className="text-sm sm:text-base font-bold text-slate-900 tracking-tight">
+              <h3 className="text-sm sm:text-base font-outfit font-bold text-slate-900 tracking-tight">
                 Senior AI &amp; Deep Learning Research Scientist
               </h3>
               <p className="text-xs text-slate-500 mt-1 font-normal">
@@ -187,7 +187,7 @@ export default function CareerRoles() {
         {/* Bottom Talent Network Card */}
         <div className="mt-10 sm:mt-12 rounded-2xl bg-white border border-[#E6E4DF] p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-5 text-left max-w-5xl mx-auto shadow-xs">
           <div>
-            <h3 className="text-base sm:text-lg font-bold text-[#0F172A]">
+            <h3 className="text-base sm:text-lg font-outfit font-bold text-[#0F172A]">
               Don&apos;t see your exact engineering domain?
             </h3>
             <p className="text-xs sm:text-[13px] text-slate-500 mt-1.5 max-w-2xl leading-relaxed font-normal">

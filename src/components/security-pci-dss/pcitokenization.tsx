@@ -5,10 +5,10 @@ export default function PciTokenization() {
         {/* Section Header Split */}
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-8 sm:pb-10 border-b border-[#E6E4DF] mb-8 sm:mb-10">
           <div>
-            <span className="text-[11px] font-mono font-bold text-[#FF6B00] tracking-[0.18em] uppercase block mb-2">
+            <span className="text-[11px] font-semibold text-[#FF6B00] tracking-wider uppercase block mb-2">
               DATA PIPELINE ARCHITECTURE
             </span>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#1C1917] tracking-tight leading-tight">
+            <h2 className="font-outfit text-3xl sm:text-4xl font-bold text-[#1C1917] tracking-tight leading-tight">
               Zero-PAN Tokenization Data Flow
             </h2>
           </div>
@@ -23,14 +23,14 @@ export default function PciTokenization() {
           <div className="bg-white rounded-2xl border border-[#E6E4DF] border-t-2 border-t-[#FF6B00] p-5 sm:p-6 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between gap-2 pb-3 border-b border-[#F0EFEB] mb-4">
-                <span className="text-[10px] font-mono font-bold text-[#FF6B00] bg-[#FF6B00]/10 px-2 py-0.5 rounded">
+                <span className="text-[10px] font-semibold text-[#FF6B00] bg-[#FF6B00]/10 px-2 py-0.5 rounded tracking-wider uppercase">
                   STEP 01
                 </span>
                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
                   BROWSER CLIENT
                 </span>
               </div>
-              <h3 className="font-serif text-lg font-bold text-[#1C1917] tracking-tight mb-2">
+              <h3 className="font-outfit text-lg font-bold text-[#1C1917] tracking-tight mb-2">
                 Client-Side Vault Iframe
               </h3>
               <p className="text-slate-600 text-xs sm:text-[13px] leading-relaxed font-normal">
@@ -46,14 +46,14 @@ export default function PciTokenization() {
           <div className="bg-white rounded-2xl border border-[#E6E4DF] border-t-2 border-t-[#FF6B00] p-5 sm:p-6 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between gap-2 pb-3 border-b border-[#F0EFEB] mb-4">
-                <span className="text-[10px] font-mono font-bold text-[#FF6B00] bg-[#FF6B00]/10 px-2 py-0.5 rounded">
+                <span className="text-[10px] font-semibold text-[#FF6B00] bg-[#FF6B00]/10 px-2 py-0.5 rounded tracking-wider uppercase">
                   STEP 02
                 </span>
                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
                   ENCRYPTED VAULT
                 </span>
               </div>
-              <h3 className="font-serif text-lg font-bold text-[#1C1917] tracking-tight mb-2">
+              <h3 className="font-outfit text-lg font-bold text-[#1C1917] tracking-tight mb-2">
                 Hardware Token Generation
               </h3>
               <p className="text-slate-600 text-xs sm:text-[13px] leading-relaxed font-normal">
@@ -69,14 +69,14 @@ export default function PciTokenization() {
           <div className="bg-white rounded-2xl border border-[#E6E4DF] border-t-2 border-t-[#FF6B00] p-5 sm:p-6 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between gap-2 pb-3 border-b border-[#F0EFEB] mb-4">
-                <span className="text-[10px] font-mono font-bold text-[#FF6B00] bg-[#FF6B00]/10 px-2 py-0.5 rounded">
+                <span className="text-[10px] font-semibold text-[#FF6B00] bg-[#FF6B00]/10 px-2 py-0.5 rounded tracking-wider uppercase">
                   STEP 03
                 </span>
                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
                   MERCHANT SERVER
                 </span>
               </div>
-              <h3 className="font-serif text-lg font-bold text-[#1C1917] tracking-tight mb-2">
+              <h3 className="font-outfit text-lg font-bold text-[#1C1917] tracking-tight mb-2">
                 Zero-Scope Charge Execution
               </h3>
               <p className="text-slate-600 text-xs sm:text-[13px] leading-relaxed font-normal">

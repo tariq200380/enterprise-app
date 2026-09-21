@@ -8,7 +8,7 @@ export default function SecurityProcessors() {
             <span className="text-[11px] font-bold text-[#FF6B00] tracking-[0.16em] uppercase block mb-2">
               SUPPLIER GOVERNANCE
             </span>
-            <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] tracking-tight leading-tight">
+            <h2 className="text-3xl sm:text-4xl font-outfit font-bold text-[#0F172A] tracking-tight leading-tight">
               Audited enterprise<br />
               sub-processors
             </h2>

@@ -100,10 +100,10 @@ export default function ContactScopingModal({
         </button>
 
         {/* Header */}
-        <span className="text-[10.5px] font-bold text-[#EA580C] uppercase tracking-wider font-mono block mb-1">
+        <span className="text-[10.5px] font-semibold text-[#EA580C] uppercase tracking-wider block mb-1">
           ⚡ DIRECT TECHNICAL CONSULTATION
         </span>
-        <h3 className="text-xl sm:text-2xl font-extrabold text-[#0F172A] mb-1.5 tracking-tight">
+        <h3 className="text-xl sm:text-2xl font-outfit font-bold text-[#0F172A] mb-1.5 tracking-tight">
           Direct Contact with Lead Architect
         </h3>
         <p className="text-xs text-slate-500 mb-4 leading-relaxed">
@@ -220,7 +220,7 @@ export default function ContactScopingModal({
             <button
               type="submit"
               disabled={scopingStatus === "loading"}
-              className="w-full h-11 bg-[#EA580C] hover:bg-orange-600 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-colors cursor-pointer disabled:opacity-50 mt-1 flex items-center justify-center gap-2 shadow-xs"
+              className="w-full h-11 bg-[#EA580C] hover:bg-orange-600 text-white font-semibold text-xs uppercase tracking-wider rounded-xl transition-colors cursor-pointer disabled:opacity-50 mt-1 flex items-center justify-center gap-2 shadow-xs"
             >
               {scopingStatus === "loading" ? "Connecting..." : "Request Direct Technical Scoping ⚡"}
             </button>

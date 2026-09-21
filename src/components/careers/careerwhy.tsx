@@ -12,7 +12,7 @@ export default function CareerWhy() {
               </svg>
             </div>
             <div>
-              <h4 className="text-sm sm:text-base font-bold text-slate-900 tracking-tight">The Creed Tech Hiring Guarantee</h4>
+              <h4 className="text-sm sm:text-base font-outfit font-bold text-slate-900 tracking-tight">The Creed Tech Hiring Guarantee</h4>
               <p className="text-xs sm:text-[13px] text-slate-500 mt-0.5 font-normal">
                 Every candidate receives personalized feedback from a Principal Architect within 24 hours of every interview stage.
               </p>
@@ -29,7 +29,7 @@ export default function CareerWhy() {
 
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12">
-          <h2 className="text-3xl sm:text-4xl lg:text-[40px] font-bold text-[#0F172A] tracking-tight leading-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-[40px] font-outfit font-bold text-[#0F172A] tracking-tight leading-tight">
             Why senior engineers thrive with us
           </h2>
           <p className="mt-4 text-sm sm:text-base text-slate-600 max-w-2xl mx-auto leading-relaxed font-normal">
@@ -47,7 +47,7 @@ export default function CareerWhy() {
                   <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
                 </svg>
               </div>
-              <h3 className="text-base sm:text-[17px] font-bold text-[#0F172A] leading-snug">
+              <h3 className="text-base sm:text-[17px] font-outfit font-bold text-[#0F172A] leading-snug">
                 Autonomous Senior Pods
               </h3>
               <p className="text-xs sm:text-[13px] text-slate-500 mt-2 sm:mt-2.5 leading-relaxed font-normal">
@@ -69,7 +69,7 @@ export default function CareerWhy() {
                   <line x1="17.5" y1="15" x2="9" y2="15" />
                 </svg>
               </div>
-              <h3 className="text-base sm:text-[17px] font-bold text-[#0F172A] leading-snug">
+              <h3 className="text-base sm:text-[17px] font-outfit font-bold text-[#0F172A] leading-snug">
                 Deep Asynchronous Focus
               </h3>
               <p className="text-xs sm:text-[13px] text-slate-500 mt-2 sm:mt-2.5 leading-relaxed font-normal">
@@ -91,7 +91,7 @@ export default function CareerWhy() {
                   <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
                 </svg>
               </div>
-              <h3 className="text-base sm:text-[17px] font-bold text-[#0F172A] leading-snug">
+              <h3 className="text-base sm:text-[17px] font-outfit font-bold text-[#0F172A] leading-snug">
                 Top-Tier Global Compensation
               </h3>
               <p className="text-xs sm:text-[13px] text-slate-500 mt-2 sm:mt-2.5 leading-relaxed font-normal">
@@ -112,7 +112,7 @@ export default function CareerWhy() {
                   <path d="M20 20H4" />
                 </svg>
               </div>
-              <h3 className="text-base sm:text-[17px] font-bold text-[#0F172A] leading-snug">
+              <h3 className="text-base sm:text-[17px] font-outfit font-bold text-[#0F172A] leading-snug">
                 $5K Gear &amp; Ergonomics Stipend
               </h3>
               <p className="text-xs sm:text-[13px] text-slate-500 mt-2 sm:mt-2.5 leading-relaxed font-normal">
@@ -133,7 +133,7 @@ export default function CareerWhy() {
                   <path d="M6 12v5c3 3 9 3 12 0v-5" />
                 </svg>
               </div>
-              <h3 className="text-base sm:text-[17px] font-bold text-[#0F172A] leading-snug">
+              <h3 className="text-base sm:text-[17px] font-outfit font-bold text-[#0F172A] leading-snug">
                 Annual Learning &amp; Research Fund
               </h3>
               <p className="text-xs sm:text-[13px] text-slate-500 mt-2 sm:mt-2.5 leading-relaxed font-normal">
@@ -154,7 +154,7 @@ export default function CareerWhy() {
                   <path d="M9 12l2 2 4-4" />
                 </svg>
               </div>
-              <h3 className="text-base sm:text-[17px] font-bold text-[#0F172A] leading-snug">
+              <h3 className="text-base sm:text-[17px] font-outfit font-bold text-[#0F172A] leading-snug">
                 Comprehensive Health &amp; Unlimited PTO
               </h3>
               <p className="text-xs sm:text-[13px] text-slate-500 mt-2 sm:mt-2.5 leading-relaxed font-normal">

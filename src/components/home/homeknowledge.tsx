@@ -8,7 +8,7 @@ export default function Homeknowledge() {
         
         {/* Heading & Subtitle */}
         <div className="flex flex-col items-center text-center mb-10">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl text-[#1A1A1A] tracking-tight leading-[1.15] mb-4">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-outfit font-bold text-[#1A1A1A] tracking-tight leading-[1.15] mb-4">
             Knowledge Center
           </h2>
           <p className="text-sm sm:text-base text-[#5B6472] max-w-2xl font-normal">
@@ -25,7 +25,7 @@ export default function Homeknowledge() {
             className="group bg-white rounded-2xl border border-[#E2E8F0] p-6 sm:p-7 shadow-xs hover:shadow-md transition-all duration-300 flex items-center justify-between gap-6"
           >
             <div className="flex flex-col items-start pr-2">
-              <span className="text-xs font-medium text-[#0052FF] uppercase tracking-wider mb-2 font-mono">
+              <span className="text-xs font-semibold text-[#0052FF] uppercase tracking-wider mb-2">
                 INSIGHT
               </span>
               <h3 className="text-base sm:text-lg font-medium text-[#0F172A] group-hover:text-[#0052FF] transition-colors leading-snug mb-2.5 max-w-md">
@@ -53,7 +53,7 @@ export default function Homeknowledge() {
             className="group bg-white rounded-2xl border border-[#E2E8F0] p-6 sm:p-7 shadow-xs hover:shadow-md transition-all duration-300 flex items-center justify-between gap-6"
           >
             <div className="flex flex-col items-start pr-2">
-              <span className="text-xs font-medium text-[#0052FF] uppercase tracking-wider mb-2 font-mono">
+              <span className="text-xs font-semibold text-[#0052FF] uppercase tracking-wider mb-2">
                 ARTICLE
               </span>
               <h3 className="text-base sm:text-lg font-medium text-[#0F172A] group-hover:text-[#0052FF] transition-colors leading-snug mb-2.5 max-w-md">
@@ -81,7 +81,7 @@ export default function Homeknowledge() {
             className="group bg-white rounded-2xl border border-[#E2E8F0] p-6 sm:p-7 shadow-xs hover:shadow-md transition-all duration-300 flex items-center justify-between gap-6"
           >
             <div className="flex flex-col items-start pr-2">
-              <span className="text-xs font-medium text-[#0052FF] uppercase tracking-wider mb-2 font-mono">
+              <span className="text-xs font-semibold text-[#0052FF] uppercase tracking-wider mb-2">
                 NEWS
               </span>
               <h3 className="text-base sm:text-lg font-medium text-[#0F172A] group-hover:text-[#0052FF] transition-colors leading-snug mb-2.5 max-w-md">
@@ -108,7 +108,7 @@ export default function Homeknowledge() {
             className="group bg-white rounded-2xl border border-[#E2E8F0] p-6 sm:p-7 shadow-xs hover:shadow-md transition-all duration-300 flex items-center justify-between gap-6"
           >
             <div className="flex flex-col items-start pr-2">
-              <span className="text-xs font-medium text-[#0052FF] uppercase tracking-wider mb-2 font-mono">
+              <span className="text-xs font-semibold text-[#0052FF] uppercase tracking-wider mb-2">
                 BLOG
               </span>
               <h3 className="text-base sm:text-lg font-medium text-[#0F172A] group-hover:text-[#0052FF] transition-colors leading-snug mb-2.5 max-w-md">

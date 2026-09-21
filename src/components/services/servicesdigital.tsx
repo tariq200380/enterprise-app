@@ -116,7 +116,7 @@ function FeatureCardGrid({
                 <polyline points="20 6 9 17 4 12" />
               </svg>
             </span>
-            <h4 className="text-[18px] text-[#1A1A1A] tracking-tight leading-snug m-0">
+            <h4 className="font-outfit font-bold text-[18px] text-[#1A1A1A] tracking-tight leading-snug m-0">
               {item.title}
             </h4>
           </div>
@@ -354,7 +354,7 @@ export default function ServicesDigital({ data }: Props) {
                   <span className="text-[12px] font-bold text-[#FF6B00] tracking-[0.04em] block mb-1 leading-none">
                     {svc.num}
                   </span>
-                  <h3 className="text-[20px] text-[#1A1A1A] tracking-tight leading-tight m-0">
+                  <h3 className="font-outfit font-bold text-[20px] text-[#1A1A1A] tracking-tight leading-tight m-0">
                     {svc.name}
                   </h3>
                 </div>
@@ -428,7 +428,7 @@ export default function ServicesDigital({ data }: Props) {
                 key={`sb-cta-${activeSvcId}`}
                 className="hidden md:block bg-white border border-[#E2E8F0] rounded-[14px] p-6 shadow-[0_2px_10px_rgba(15,23,42,0.03)] animate-header-enter"
               >
-                <h4 className="text-[18px] text-[#1A1A1A] tracking-tight mb-2 leading-snug">
+                <h4 className="font-outfit font-bold text-[18px] text-[#1A1A1A] tracking-tight mb-2 leading-snug">
                   {svc.cta.heading}
                 </h4>
                 <p className="text-[15px] text-[#5B6472] mb-4 leading-relaxed font-normal">
@@ -462,7 +462,7 @@ export default function ServicesDigital({ data }: Props) {
                     SERVICE {svc.num} / {String(availableServices.length).padStart(2, "0")}
                   </span>
                 </div>
-                <h3 className="text-3xl sm:text-[34px] lg:text-[38px] text-[#1A1A1A] tracking-tight mb-2 leading-tight">
+                <h3 className="font-outfit font-bold text-3xl sm:text-[34px] lg:text-[38px] text-[#1A1A1A] tracking-tight mb-2 leading-tight">
                   {paneTitle}
                 </h3>
                 {paneSubtitle && (
@@ -492,7 +492,7 @@ export default function ServicesDigital({ data }: Props) {
                         ) : <span />}
                         <span className="w-2 h-2 rounded-full bg-[#FF6B00] inline-block" />
                       </div>
-                      <h4 className="text-[18px] text-[#1A1A1A] tracking-tight mb-3 leading-snug">
+                      <h4 className="font-outfit font-bold text-[18px] text-[#1A1A1A] tracking-tight mb-3 leading-snug">
                         {item.title}
                       </h4>
                       <p className="text-[15px] text-[#5B6472] leading-relaxed m-0 font-normal">
@@ -534,7 +534,7 @@ export default function ServicesDigital({ data }: Props) {
                             STEP {st.step}
                           </span>
                         )}
-                        <h4 className="text-[17px] text-[#1A1A1A] tracking-tight leading-snug m-0">
+                        <h4 className="font-outfit font-bold text-[17px] text-[#1A1A1A] tracking-tight leading-snug m-0">
                           {st.title}
                         </h4>
                       </div>
@@ -562,7 +562,7 @@ export default function ServicesDigital({ data }: Props) {
                             <polyline points="17 6 23 6 23 12" />
                           </svg>
                         </span>
-                        <h4 className="text-[18px] text-[#1A1A1A] tracking-tight leading-snug m-0">
+                        <h4 className="font-outfit font-bold text-[18px] text-[#1A1A1A] tracking-tight leading-snug m-0">
                           {item.title}
                         </h4>
                       </div>
@@ -587,7 +587,7 @@ export default function ServicesDigital({ data }: Props) {
             key={`tech-hdr-${activeSvcId}`}
             className="text-center max-w-[850px] mx-auto mb-8 animate-header-enter"
           >
-            <h3 className="text-2xl sm:text-3xl text-[#1A1A1A] tracking-tight mb-1.5 leading-tight">
+            <h3 className="font-outfit font-bold text-2xl sm:text-3xl text-[#1A1A1A] tracking-tight mb-1.5 leading-tight">
               {svc.techEcosystemTitle}
             </h3>
             <p className="text-[14.5px] text-[#5B6472] m-0 font-normal">

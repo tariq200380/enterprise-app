@@ -106,19 +106,19 @@ export default function TopBanner({
 
   return (
     <div className="w-full bg-[#090E1A] text-white text-xs sm:text-sm py-2 px-4 overflow-hidden border-b border-gray-800">
-      <div className="max-w-4xl mx-auto flex items-center justify-start sm:justify-center gap-3">
-        {/* Fixed Stationary Orange Badge - Anchor locked, NEVER moves */}
+      <div className="max-w-[800px] w-full mx-auto flex items-center gap-3 sm:translate-x-10 md:translate-x-12">
+        {/* Fixed Stationary Orange Badge - Locked width & position, NEVER shifts */}
         {badgeLabel && (
-          <div className="bg-[#EA580C] text-white font-semibold text-xs px-2.5 py-1 rounded-full flex items-center justify-center uppercase tracking-wider shrink-0 shadow-sm select-none">
+          <div className="w-[84px] h-[22px] bg-[#EA580C] text-white font-semibold text-xs rounded-full flex items-center justify-center uppercase tracking-wider shrink-0 shadow-sm select-none">
             <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse shrink-0 mr-1.5"></span>
             <span className="truncate text-center leading-none">{badgeLabel}</span>
           </div>
         )}
 
-        {/* News Content - Dedicated flex-1 left-aligned track so badge never shifts when text length varies */}
-        <div className="overflow-hidden relative flex-1 min-w-0">
+        {/* News Content Track - Fixed width track so total bar size is constant, only text changes */}
+        <div className="overflow-hidden relative flex-1 min-w-0 flex items-center">
           <div
-            className={`flex items-center gap-2 whitespace-nowrap cursor-default transition-all duration-400 ease-in-out ${
+            className={`w-full flex items-center gap-2 whitespace-nowrap cursor-default transition-all duration-400 ease-in-out ${
               fadeState === "in" ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2"
             }`}
           >

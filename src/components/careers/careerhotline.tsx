@@ -8,7 +8,7 @@ export default function CareerHotline() {
         <span className="text-[11px] sm:text-xs font-bold text-[#FF6B00] tracking-widest uppercase block mb-3">
           DIRECT FOUNDER &amp; SECURITY HOTLINE
         </span>
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-tight max-w-2xl mx-auto">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-outfit font-bold text-white tracking-tight leading-tight max-w-2xl mx-auto">
           Have a specialized systems architecture proposal or security concern?
         </h2>
         <p className="mt-4 sm:mt-5 text-sm sm:text-base text-gray-400 max-w-xl mx-auto leading-relaxed font-normal">

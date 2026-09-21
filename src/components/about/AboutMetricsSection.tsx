@@ -6,13 +6,13 @@ export default function AboutMetricsSection() {
     <section className="w-full py-10 sm:py-12 text-center border-b border-[#E2E8F0] bg-[#F7F6F5]">
       <div className="max-w-[1240px] mx-auto px-6 sm:px-10">
         <div className="max-w-[640px] mx-auto mb-10 sm:mb-12 text-center">
-          <div className="text-[13px] text-[#3D6BFF] font-semibold mb-3">
+          <div className="text-[11px] text-[#3D6BFF] font-semibold uppercase tracking-wider mb-3">
             DATA DRIVEN &bull; PROVEN RESULTS
           </div>
-          <h2 className="font-serif font-medium text-2xl sm:text-4xl text-[#0F172A] tracking-[-0.015em] leading-[1.15] mb-4">
+          <h2 className="font-outfit text-2xl sm:text-4xl font-bold text-[#0F172A] tracking-tight leading-[1.15] mb-4">
             Leading you to digital growth
           </h2>
-          <p className="text-[#5B6472] text-[15.5px] leading-[1.7]">
+          <p className="text-[#5B6472] text-[15.5px] leading-[1.7] font-normal">
             Our proven expertise and cutting-edge technology have driven measurable success —
             see the numbers that showcase our impact.
           </p>
@@ -31,12 +31,12 @@ export default function AboutMetricsSection() {
           />
 
           {/* Header bar */}
-          <div className="relative z-10 flex items-center justify-between pb-4 mb-6 border-b border-white/10 font-mono text-xs text-white/50">
-            <span className="flex items-center gap-2 text-white font-bold">
+          <div className="relative z-10 flex items-center justify-between pb-4 mb-6 border-b border-white/10 text-xs text-white/50">
+            <span className="flex items-center gap-2 text-white font-semibold">
               <span className="w-2 h-2 rounded-full bg-[#EA580C] animate-pulse" />
               DELIVERY TELEMETRY &bull; REAL-TIME METRICS
             </span>
-            <span className="text-[11px] font-mono text-orange-400">VERIFIED METRICS v4.8</span>
+            <span className="text-[11px] font-semibold text-orange-400 tracking-wider">VERIFIED METRICS v4.8</span>
           </div>
 
           {/* 4 Direct Stat Cards (Simple JSX, No Complex JS Array) */}
@@ -50,10 +50,10 @@ export default function AboutMetricsSection() {
                   strokeWidth="1.6"
                 />
               </svg>
-              <div className="font-serif text-2xl sm:text-3xl font-extrabold text-white mb-1">
+              <div className="font-outfit text-2xl sm:text-3xl font-bold text-white mb-1">
                 99%
               </div>
-              <div className="text-[11.5px] text-slate-300 font-mono">
+              <div className="text-[11.5px] text-slate-300 font-semibold">
                 Job success rate
               </div>
             </div>
@@ -64,10 +64,10 @@ export default function AboutMetricsSection() {
                 <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.6" />
                 <path d="M12 7v5l3 3" stroke="currentColor" strokeWidth="1.6" />
               </svg>
-              <div className="font-serif text-2xl sm:text-3xl font-extrabold text-white mb-1">
+              <div className="font-outfit text-2xl sm:text-3xl font-bold text-white mb-1">
                 15,000+
               </div>
-              <div className="text-[11.5px] text-slate-300 font-mono">
+              <div className="text-[11.5px] text-slate-300 font-semibold">
                 Working hours
               </div>
             </div>
@@ -82,10 +82,10 @@ export default function AboutMetricsSection() {
                 />
                 <circle cx="12" cy="7" r="4" stroke="currentColor" strokeWidth="1.6" />
               </svg>
-              <div className="font-serif text-2xl sm:text-3xl font-extrabold text-white mb-1">
+              <div className="font-outfit text-2xl sm:text-3xl font-bold text-white mb-1">
                 300+
               </div>
-              <div className="text-[11.5px] text-slate-300 font-mono">
+              <div className="text-[11.5px] text-slate-300 font-semibold">
                 Satisfied clients
               </div>
             </div>
@@ -97,10 +97,10 @@ export default function AboutMetricsSection() {
                 <circle cx="17" cy="9" r="3.2" stroke="currentColor" strokeWidth="1.6" />
                 <path d="M2 21c0-4.5 2.7-7 6-7s6 2.5 6 7M12 21c0-4.5 2.2-7 5-7s5 2.5 5 7" stroke="currentColor" strokeWidth="1.6" />
               </svg>
-              <div className="font-serif text-2xl sm:text-3xl font-extrabold text-white mb-1">
+              <div className="font-outfit text-2xl sm:text-3xl font-bold text-white mb-1">
                 80+
               </div>
-              <div className="text-[11.5px] text-slate-300 font-mono">
+              <div className="text-[11.5px] text-slate-300 font-semibold">
                 Professional team
               </div>
             </div>
@@ -110,13 +110,13 @@ export default function AboutMetricsSection() {
         <div className="flex gap-4 justify-center flex-wrap">
           <Link
             href="/contact"
-            className="inline-flex items-center justify-center text-center bg-[#0F172A] hover:bg-[#1B3A8C] text-[#F7F6F5] h-12 w-full sm:w-[260px] rounded-lg text-[14px] font-bold tracking-wider uppercase font-mono border border-[#0F172A] transition-colors shadow-sm cursor-pointer"
+            className="inline-flex items-center justify-center text-center bg-[#0F172A] hover:bg-[#1B3A8C] text-[#F7F6F5] h-12 w-full sm:w-[260px] rounded-lg text-[13px] font-semibold tracking-wider uppercase border border-[#0F172A] transition-colors shadow-sm cursor-pointer"
           >
             Get free consultation &rarr;
           </Link>
           <Link
             href="/careers"
-            className="inline-flex items-center justify-center text-center h-12 w-full sm:w-[260px] rounded-lg text-[14px] font-bold tracking-wider uppercase font-mono border border-[#CBD5E1] hover:border-[#0F172A] text-[#0F172A] bg-white transition-colors shadow-xs cursor-pointer"
+            className="inline-flex items-center justify-center text-center h-12 w-full sm:w-[260px] rounded-lg text-[13px] font-semibold tracking-wider uppercase border border-[#CBD5E1] hover:border-[#0F172A] text-[#0F172A] bg-white transition-colors shadow-xs cursor-pointer"
           >
             Hire top talent
           </Link>

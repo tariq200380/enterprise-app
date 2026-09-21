@@ -36,12 +36,12 @@ export default function ContactDirectChannels({
         />
 
         <div className="relative z-10">
-          <span className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/15 px-3 py-1.5 rounded-full text-white/90 text-xs font-mono font-medium mb-3.5">
+          <span className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/15 px-3 py-1.5 rounded-full text-white/90 text-xs font-semibold uppercase tracking-wider mb-3.5">
             <span className="w-1.5 h-1.5 rounded-full bg-[#EA580C] animate-pulse" />
             INSTANT ARCHITECTURAL DISCOVERY
           </span>
 
-          <h3 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight leading-snug mb-2">
+          <h3 className="text-xl sm:text-2xl font-outfit font-bold text-white tracking-tight leading-snug mb-2">
             {discoveryTitle}
           </h3>
 
@@ -49,7 +49,7 @@ export default function ContactDirectChannels({
             {discoveryDesc}
           </p>
 
-          <div className="space-y-2 mb-6 font-mono text-xs text-white/80">
+          <div className="space-y-2 mb-6 text-xs text-white/80 font-normal">
             <div className="flex items-center gap-2">
               <span className="text-emerald-400 font-bold">✓</span>
               <span>Direct code &amp; system architecture review</span>
@@ -66,13 +66,13 @@ export default function ContactDirectChannels({
         </div>
 
         <div className="relative z-10 border-t border-white/10 pt-4 flex items-center justify-between flex-wrap gap-3">
-          <div className="text-[11px] font-mono text-white/60">
-            Availability: <span className="text-orange-400 font-bold">Available Daily / Flexible</span>
+          <div className="text-[11px] text-white/60 font-normal">
+            Availability: <span className="text-orange-400 font-semibold">Available Daily / Flexible</span>
           </div>
           <button
             type="button"
             onClick={onOpenScheduleModal}
-            className="inline-flex items-center justify-center gap-1.5 bg-[#EA580C] hover:bg-orange-600 text-white font-bold py-2.5 px-4 min-w-[185px] rounded-lg text-xs tracking-wider uppercase font-mono transition-colors shadow-xs cursor-pointer"
+            className="inline-flex items-center justify-center gap-1.5 bg-[#EA580C] hover:bg-orange-600 text-white font-semibold py-2.5 px-4 min-w-[185px] rounded-lg text-xs tracking-wider uppercase transition-colors shadow-xs cursor-pointer"
           >
             <span>Book 30-Min Call</span>
             <span>&rarr;</span>
@@ -82,7 +82,7 @@ export default function ContactDirectChannels({
 
       {/* Card 2: Direct Communication Channels */}
       <div className="bg-white border border-[#E2E8F0] rounded-2xl p-6 sm:p-7 shadow-[0_2px_4px_rgba(0,0,0,0.02)]">
-        <span className="text-xs font-extrabold uppercase tracking-[0.16em] text-[#EA580C] font-mono block mb-3">
+        <span className="text-xs font-semibold uppercase tracking-wider text-[#EA580C] block mb-3">
           DIRECT VERIFICATION CHANNELS
         </span>
 
@@ -92,12 +92,12 @@ export default function ContactDirectChannels({
               ✉
             </div>
             <div>
-              <div className="text-xs font-bold text-[#0F172A]">
+              <div className="text-xs font-outfit font-bold text-[#0F172A]">
                 Official Technical Inquiries
               </div>
               <a
                 href={`mailto:${officialEmail}`}
-                className="text-xs text-[#0052FF] hover:underline font-mono font-medium"
+                className="text-xs text-[#0052FF] hover:underline font-medium"
               >
                 {officialEmail}
               </a>
@@ -112,12 +112,12 @@ export default function ContactDirectChannels({
               ☎
             </div>
             <div>
-              <div className="text-xs font-bold text-[#0F172A]">
+              <div className="text-xs font-outfit font-bold text-[#0F172A]">
                 Direct Engineering Phone
               </div>
               <a
                 href={`tel:${phone.replace(/\s+/g, "")}`}
-                className="text-xs text-[#0F172A] hover:text-[#EA580C] font-mono font-medium"
+                className="text-xs text-[#0F172A] hover:text-[#EA580C] font-medium"
               >
                 {phone}
               </a>
@@ -132,7 +132,7 @@ export default function ContactDirectChannels({
               📍
             </div>
             <div>
-              <div className="text-xs font-bold text-[#0F172A]">
+              <div className="text-xs font-outfit font-bold text-[#0F172A]">
                 Executive Operations Office
               </div>
               <div className="text-xs text-slate-600 font-medium">
@@ -148,11 +148,11 @@ export default function ContactDirectChannels({
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-[#0F172A] animate-pulse" />
-            <span className="text-xs font-bold text-[#0F172A] uppercase tracking-wider font-mono">
+            <span className="text-xs font-semibold text-[#0F172A] uppercase tracking-wider">
               Q3 Pod Allocation
             </span>
           </div>
-          <span className="text-[11px] font-mono font-bold text-white bg-[#0F172A] px-2 py-0.5 rounded">
+          <span className="text-[11px] font-semibold text-white bg-[#0F172A] px-2 py-0.5 rounded tracking-wide">
             ACTIVE SPRINT SLOTS
           </span>
         </div>

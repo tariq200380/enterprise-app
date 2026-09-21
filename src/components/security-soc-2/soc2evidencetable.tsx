@@ -4,10 +4,10 @@ export default function Soc2EvidenceTable() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="mb-8 sm:mb-8">
-          <span className="text-[11px] font-mono font-bold text-[#FF6B00] tracking-[0.18em] uppercase block mb-2">
+          <span className="text-[11px] font-semibold text-[#FF6B00] tracking-wider uppercase block mb-2">
             AUDIT TELEMETRY &bull; CONTINUOUS EVIDENCE
           </span>
-          <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#1C1917] tracking-tight leading-tight mb-4">
+          <h2 className="font-outfit text-3xl sm:text-4xl font-bold text-[#1C1917] tracking-tight leading-tight mb-4">
             Continuous Control Evidence Architecture
           </h2>
           <p className="text-slate-600 text-xs sm:text-sm max-w-3xl leading-relaxed font-normal">
@@ -21,16 +21,16 @@ export default function Soc2EvidenceTable() {
             <table className="w-full text-left border-collapse min-w-[840px]">
               <thead>
                 <tr className="border-b border-[#E6E4DF] bg-[#FAF9F6]">
-                  <th className="py-4 px-6 text-[#1C1917] font-mono font-bold text-xs uppercase tracking-wider">
+                  <th className="py-4 px-6 text-[#1C1917] font-outfit font-bold text-xs uppercase tracking-wider">
                     Trust Services Category
                   </th>
-                  <th className="py-4 px-6 text-[#1C1917] font-mono font-bold text-xs uppercase tracking-wider whitespace-nowrap">
+                  <th className="py-4 px-6 text-[#1C1917] font-outfit font-bold text-xs uppercase tracking-wider whitespace-nowrap">
                     Criteria Code
                   </th>
-                  <th className="py-4 px-6 text-[#1C1917] font-mono font-bold text-xs uppercase tracking-wider">
+                  <th className="py-4 px-6 text-[#1C1917] font-outfit font-bold text-xs uppercase tracking-wider">
                     Automated Evidence Ingestion Source
                   </th>
-                  <th className="py-4 px-6 text-[#1C1917] font-mono font-bold text-xs uppercase tracking-wider">
+                  <th className="py-4 px-6 text-[#1C1917] font-outfit font-bold text-xs uppercase tracking-wider">
                     Audit Sampling Frequency
                   </th>
                 </tr>
@@ -47,7 +47,7 @@ export default function Soc2EvidenceTable() {
                     </span>
                   </td>
                   <td className="py-4 px-6 whitespace-nowrap">
-                    <span className="inline-flex items-center bg-[#FAF9F6] text-slate-700 text-xs font-mono font-medium px-2.5 py-1 rounded-md border border-[#E6E4DF] whitespace-nowrap">
+                    <span className="inline-flex items-center bg-[#FAF9F6] text-slate-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-[#E6E4DF] whitespace-nowrap">
                       CC6.1 &ndash; CC6.3
                     </span>
                   </td>
@@ -72,7 +72,7 @@ export default function Soc2EvidenceTable() {
                     </span>
                   </td>
                   <td className="py-4 px-6 whitespace-nowrap">
-                    <span className="inline-flex items-center bg-[#FAF9F6] text-slate-700 text-xs font-mono font-medium px-2.5 py-1 rounded-md border border-[#E6E4DF] whitespace-nowrap">
+                    <span className="inline-flex items-center bg-[#FAF9F6] text-slate-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-[#E6E4DF] whitespace-nowrap">
                       CC8.1
                     </span>
                   </td>
@@ -97,7 +97,7 @@ export default function Soc2EvidenceTable() {
                     </span>
                   </td>
                   <td className="py-4 px-6 whitespace-nowrap">
-                    <span className="inline-flex items-center bg-[#FAF9F6] text-slate-700 text-xs font-mono font-medium px-2.5 py-1 rounded-md border border-[#E6E4DF] whitespace-nowrap">
+                    <span className="inline-flex items-center bg-[#FAF9F6] text-slate-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-[#E6E4DF] whitespace-nowrap">
                       CC6.6 &ndash; CC6.7
                     </span>
                   </td>
@@ -122,7 +122,7 @@ export default function Soc2EvidenceTable() {
                     </span>
                   </td>
                   <td className="py-4 px-6 whitespace-nowrap">
-                    <span className="inline-flex items-center bg-[#FAF9F6] text-slate-700 text-xs font-mono font-medium px-2.5 py-1 rounded-md border border-[#E6E4DF] whitespace-nowrap">
+                    <span className="inline-flex items-center bg-[#FAF9F6] text-slate-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-[#E6E4DF] whitespace-nowrap">
                       A1.2 &ndash; A1.3
                     </span>
                   </td>

@@ -6,10 +6,10 @@ export default function Homefocus() {
       <div className="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16">
         {/* Left Column: Heading, Text & CTA */}
         <div className="w-full lg:w-[44%] flex flex-col items-start text-left shrink-0">
-          <span className="text-xs font-semibold text-[#EA580C] uppercase tracking-widest mb-3 font-mono">
+          <span className="text-xs font-semibold text-[#EA580C] uppercase tracking-widest mb-3">
             WHY CREED TECH
           </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl text-[#1A1A1A] tracking-tight leading-[1.15] mb-5">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-outfit font-bold text-[#1A1A1A] tracking-tight leading-[1.15] mb-5">
             <span className="block">Focused teams</span>
             <span className="block text-[#0052FF]">Reliable delivery</span>
           </h2>

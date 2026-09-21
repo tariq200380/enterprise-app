@@ -18,7 +18,7 @@ export default function Soc2Hero() {
           <div className="lg:col-span-7 flex flex-col items-start text-left">
             {/* Breadcrumb Navigation */}
             <div className="mb-3">
-              <span className="text-[11px] font-mono font-bold text-[#FF6B00] tracking-[0.18em] uppercase">
+              <span className="text-[11px] font-semibold text-[#FF6B00] tracking-wider uppercase">
                 <Link href="/security" className="hover:underline">
                   SECURITY CENTER
                 </Link>{" "}
@@ -27,13 +27,13 @@ export default function Soc2Hero() {
             </div>
 
             {/* Status Badge */}
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FF6B00]/10 border border-[#FF6B00]/30 text-[#FF6B00] text-[11px] font-mono font-bold tracking-wider uppercase mb-4 shadow-2xs">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FF6B00]/10 border border-[#FF6B00]/30 text-[#FF6B00] text-[11px] font-semibold tracking-wider uppercase mb-4 shadow-2xs">
               <span className="w-2 h-2 rounded-full bg-[#FF6B00] animate-pulse"></span>
               <span>AICPA TRUST CRITERIA &bull; SOC 2 TYPE II ALIGNED</span>
             </div>
 
             {/* Headline */}
-            <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight leading-[1.12] mb-4">
+            <h1 className="font-outfit text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight leading-[1.12] mb-4">
               SOC 2 Type II <br className="hidden sm:inline" />
               Trust Services Criteria &amp; <br className="hidden sm:inline" />
               Continuous Operational Rigor
@@ -68,10 +68,10 @@ export default function Soc2Hero() {
             <div className="w-full max-w-md bg-[#0E1726]/90 backdrop-blur-md rounded-2xl border border-slate-700/60 p-5 sm:p-6 shadow-2xl">
               {/* Header */}
               <div className="flex items-center justify-between pb-3 border-b border-slate-700/60 mb-4">
-                <span className="text-[11px] font-mono font-bold text-[#FF6B00] tracking-wider uppercase">
+                <span className="text-[11px] font-semibold text-[#FF6B00] tracking-wider uppercase">
                   AICPA SSAE 18 / AT-C 205
                 </span>
-                <span className="text-[10px] font-mono font-bold text-[#FF6B00] bg-[#FF6B00]/10 px-2 py-0.5 rounded border border-[#FF6B00]/25">
+                <span className="text-[10px] font-semibold text-[#FF6B00] bg-[#FF6B00]/10 px-2 py-0.5 rounded border border-[#FF6B00]/25">
                   TYPE II AUDIT
                 </span>
               </div>
@@ -86,7 +86,7 @@ export default function Soc2Hero() {
                     AICPA Trust Services Criteria
                   </span>
                 </div>
-                <span className="font-mono text-xs font-bold text-[#FF6B00]">
+                <span className="font-outfit text-xs font-bold text-[#FF6B00]">
                   SOC 2 Type II
                 </span>
               </div>
@@ -101,7 +101,7 @@ export default function Soc2Hero() {
                     Security, Availability, Confidentiality
                   </span>
                 </div>
-                <span className="font-mono text-xs font-bold text-[#FF6B00]">
+                <span className="font-outfit text-xs font-bold text-[#FF6B00]">
                   CC1 &ndash; CC9
                 </span>
               </div>
@@ -116,7 +116,7 @@ export default function Soc2Hero() {
                     Continuous live verification
                   </span>
                 </div>
-                <span className="font-mono text-xs font-bold text-[#FF6B00]">
+                <span className="font-outfit text-xs font-bold text-[#FF6B00]">
                   12 Months
                 </span>
               </div>
@@ -131,7 +131,7 @@ export default function Soc2Hero() {
                     Operational effectiveness proof
                   </span>
                 </div>
-                <span className="font-mono text-xs font-bold text-[#FF6B00]">
+                <span className="font-outfit text-xs font-bold text-[#FF6B00]">
                   Continuous SIEM
                 </span>
               </div>

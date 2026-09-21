@@ -6,13 +6,13 @@ export default function AboutPhilosophySection() {
       <div className="max-w-[1240px] mx-auto px-6 sm:px-10">
         {/* Simple, Elegant Header */}
         <div className="max-w-3xl mb-10 sm:mb-12 text-left sm:text-center sm:mx-auto">
-          <div className="text-[11px] font-mono font-bold uppercase tracking-[2.5px] text-[#EA580C] mb-3">
+          <div className="text-[11px] font-semibold uppercase tracking-wider text-[#EA580C] mb-3">
             ENGINEERING ETHOS &bull; OUR PHILOSOPHY
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-extrabold text-[#0F172A] tracking-tight leading-[1.15] mb-5">
+          <h2 className="font-outfit text-3xl sm:text-4xl lg:text-[44px] font-bold text-[#0F172A] tracking-tight leading-[1.15] mb-5">
             Discipline over hype. Architecture over shortcuts.
           </h2>
-          <p className="text-[#5B6472] text-base sm:text-lg leading-[1.7]">
+          <p className="text-[#5B6472] text-base sm:text-lg leading-[1.7] font-normal">
             We build mission-critical enterprise systems with{" "}
             <strong className="text-[#0F172A] font-semibold">mathematical rigor</strong> — eliminating technical debt while bridging deep computer science with real-world enterprise velocity.
           </p>
@@ -23,13 +23,13 @@ export default function AboutPhilosophySection() {
           {/* Pillar 1 */}
           <div className="bg-white border border-[#E2E8F0] rounded-xl p-6 sm:p-7 shadow-xs hover:shadow-md hover:border-[#EA580C]/50 transition-all flex flex-col justify-between">
             <div>
-              <span className="text-xs font-mono font-bold text-[#EA580C] block mb-2.5">
+              <span className="font-outfit text-xs font-bold text-[#EA580C] block mb-2.5">
                 01 / PROGRESS
               </span>
-              <h3 className="text-lg font-bold text-[#0F172A] mb-2 tracking-tight">
+              <h3 className="font-outfit text-lg font-bold text-[#0F172A] mb-2 tracking-tight">
                 Continuous Innovation
               </h3>
-              <p className="text-sm text-[#5B6472] leading-[1.7]">
+              <p className="text-sm text-[#5B6472] leading-[1.7] font-normal">
                 Enduring partnerships built on{" "}
                 <strong className="text-[#0F172A] font-semibold">technical transparency</strong>, rapid release cycles, and measurable architectural reliability.
               </p>
@@ -39,13 +39,13 @@ export default function AboutPhilosophySection() {
           {/* Pillar 2 */}
           <div className="bg-white border border-[#E2E8F0] rounded-xl p-6 sm:p-7 shadow-xs hover:shadow-md hover:border-[#EA580C]/50 transition-all flex flex-col justify-between">
             <div>
-              <span className="text-xs font-mono font-bold text-[#EA580C] block mb-2.5">
+              <span className="font-outfit text-xs font-bold text-[#EA580C] block mb-2.5">
                 02 / FOCUS
               </span>
-              <h3 className="text-lg font-bold text-[#0F172A] mb-2 tracking-tight">
+              <h3 className="font-outfit text-lg font-bold text-[#0F172A] mb-2 tracking-tight">
                 Laser Discipline
               </h3>
-              <p className="text-sm text-[#5B6472] leading-[1.7]">
+              <p className="text-sm text-[#5B6472] leading-[1.7] font-normal">
                 We prioritize{" "}
                 <strong className="text-[#0F172A] font-semibold">absolute mastery</strong> in our domain, communicating transparently the moment a problem falls outside our core specialization.
               </p>
@@ -55,13 +55,13 @@ export default function AboutPhilosophySection() {
           {/* Pillar 3 */}
           <div className="bg-white border border-[#E2E8F0] rounded-xl p-6 sm:p-7 shadow-xs hover:shadow-md hover:border-[#EA580C]/50 transition-all flex flex-col justify-between">
             <div>
-              <span className="text-xs font-mono font-bold text-[#EA580C] block mb-2.5">
+              <span className="font-outfit text-xs font-bold text-[#EA580C] block mb-2.5">
                 03 / ADAPTABILITY
               </span>
-              <h3 className="text-lg font-bold text-[#0F172A] mb-2 tracking-tight">
+              <h3 className="font-outfit text-lg font-bold text-[#0F172A] mb-2 tracking-tight">
                 Modular Architecture
               </h3>
-              <p className="text-sm text-[#5B6472] leading-[1.7]">
+              <p className="text-sm text-[#5B6472] leading-[1.7] font-normal">
                 Client-centric systems without compromise —{" "}
                 <strong className="text-[#0F172A] font-semibold">specialized engineering pods</strong> tailored to your team&apos;s exact technical constraints.
               </p>
@@ -71,13 +71,13 @@ export default function AboutPhilosophySection() {
           {/* Pillar 4 */}
           <div className="bg-white border border-[#E2E8F0] rounded-xl p-6 sm:p-7 shadow-xs hover:shadow-md hover:border-[#EA580C]/50 transition-all flex flex-col justify-between">
             <div>
-              <span className="text-xs font-mono font-bold text-[#EA580C] block mb-2.5">
+              <span className="font-outfit text-xs font-bold text-[#EA580C] block mb-2.5">
                 04 / PERFORMANCE
               </span>
-              <h3 className="text-lg font-bold text-[#0F172A] mb-2 tracking-tight">
+              <h3 className="font-outfit text-lg font-bold text-[#0F172A] mb-2 tracking-tight">
                 Sub-Second Ergonomics
               </h3>
-              <p className="text-sm text-[#5B6472] leading-[1.7]">
+              <p className="text-sm text-[#5B6472] leading-[1.7] font-normal">
                 Intuitive developer ergonomics,{" "}
                 <strong className="text-[#0F172A] font-semibold">sub-second response latencies</strong>, and friction-free user journeys across all digital touchpoints.
               </p>
@@ -87,13 +87,13 @@ export default function AboutPhilosophySection() {
           {/* Pillar 5 */}
           <div className="bg-white border border-[#E2E8F0] rounded-xl p-6 sm:p-7 shadow-xs hover:shadow-md hover:border-[#EA580C]/50 transition-all flex flex-col justify-between">
             <div>
-              <span className="text-xs font-mono font-bold text-[#EA580C] block mb-2.5">
+              <span className="font-outfit text-xs font-bold text-[#EA580C] block mb-2.5">
                 05 / ALIGNMENT
               </span>
-              <h3 className="text-lg font-bold text-[#0F172A] mb-2 tracking-tight">
+              <h3 className="font-outfit text-lg font-bold text-[#0F172A] mb-2 tracking-tight">
                 Co-Engineering Alliance
               </h3>
-              <p className="text-sm text-[#5B6472] leading-[1.7]">
+              <p className="text-sm text-[#5B6472] leading-[1.7] font-normal">
                 We operate as{" "}
                 <strong className="text-[#0F172A] font-semibold">long-term technical allies</strong>, scaling alongside you through architecture reviews, compliance, and enterprise growth.
               </p>
@@ -103,13 +103,13 @@ export default function AboutPhilosophySection() {
           {/* Pillar 6 */}
           <div className="bg-white border border-[#E2E8F0] rounded-xl p-6 sm:p-7 shadow-xs hover:shadow-md hover:border-[#EA580C]/50 transition-all flex flex-col justify-between">
             <div>
-              <span className="text-xs font-mono font-bold text-[#EA580C] block mb-2.5">
+              <span className="font-outfit text-xs font-bold text-[#EA580C] block mb-2.5">
                 06 / R&amp;D
               </span>
-              <h3 className="text-lg font-bold text-[#0F172A] mb-2 tracking-tight">
+              <h3 className="font-outfit text-lg font-bold text-[#0F172A] mb-2 tracking-tight">
                 Future-Proof R&amp;D
               </h3>
-              <p className="text-sm text-[#5B6472] leading-[1.7]">
+              <p className="text-sm text-[#5B6472] leading-[1.7] font-normal">
                 Proactively staying ahead of paradigm shifts — engineering{" "}
                 <strong className="text-[#0F172A] font-semibold">autonomous AI pipelines</strong> and robust distributed consensus infrastructure.
               </p>

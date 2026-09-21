@@ -25,14 +25,14 @@ export default function KnowledgeHero() {
             {/* Top row: Visitors counter */}
             <div className="mb-5 pb-5 border-b border-white/[0.12]">
               <div className="flex items-center justify-between mb-3">
-                <span className="text-xs font-extrabold text-white uppercase tracking-[0.06em]">
+                <span className="text-xs font-semibold text-white uppercase tracking-wider">
                   Visitors
                 </span>
-                <div className="flex items-center gap-2 text-xs font-mono">
+                <div className="flex items-center gap-2 text-xs font-medium">
                   <span className="text-white">48 hours</span>
                   <span className="text-white/50">|</span>
                   <span className="text-white">48 hrs</span>
-                  <span className="text-white font-extrabold text-[13px] bg-[rgba(37,99,235,0.4)] px-2 py-0.5 rounded border border-[rgba(37,99,235,0.6)]">
+                  <span className="text-white font-outfit font-bold text-[13px] bg-[rgba(37,99,235,0.4)] px-2 py-0.5 rounded border border-[rgba(37,99,235,0.6)]">
                     78 M
                   </span>
                 </div>
@@ -81,10 +81,10 @@ export default function KnowledgeHero() {
             {/* Bottom metrics dials */}
             <div className="grid grid-cols-2 gap-5 items-center">
               <div>
-                <span className="text-[11px] text-white font-bold block mb-1 uppercase tracking-[0.04em]">
+                <span className="text-[11px] text-white font-semibold block mb-1 uppercase tracking-wider">
                   /Icce Visitors
                 </span>
-                <span className="text-3xl sm:text-[1.85rem] font-extrabold text-white tracking-[-0.03em] block leading-none">
+                <span className="font-outfit text-3xl sm:text-[1.85rem] font-bold text-white tracking-tight block leading-none">
                   142
                 </span>
                 <span className="text-xs text-white font-medium mt-1 block">
@@ -94,10 +94,10 @@ export default function KnowledgeHero() {
 
               <div className="flex items-center justify-end gap-3">
                 <div className="text-right">
-                  <span className="text-xs text-white block font-bold uppercase">
+                  <span className="text-xs text-white block font-semibold uppercase tracking-wider">
                     Top Articles
                   </span>
-                  <span className="text-2xl sm:text-[1.65rem] font-extrabold text-white leading-tight">
+                  <span className="font-outfit text-2xl sm:text-[1.65rem] font-bold text-white leading-tight">
                     73%
                   </span>
                 </div>
@@ -115,13 +115,13 @@ export default function KnowledgeHero() {
             {/* Tag Badge */}
             <div className="inline-flex items-center gap-2 self-start px-3 py-1 bg-[rgba(0,163,255,0.12)] border border-[rgba(0,163,255,0.3)] rounded">
               <span className="w-1.5 h-1.5 rounded-full bg-white" />
-              <span className="text-[11px] font-extrabold text-white uppercase tracking-[0.08em]">
+              <span className="text-[11px] font-semibold text-white uppercase tracking-wider">
                 FLAGSHIP RESEARCH &amp; BENCHMARKS
               </span>
             </div>
 
             {/* Page H1 Title */}
-            <h1 className="text-2xl sm:text-3xl lg:text-[2.1rem] font-extrabold text-white tracking-[-0.03em] leading-[1.2] m-0">
+            <h1 className="font-outfit text-2xl sm:text-3xl lg:text-[2.25rem] font-bold text-white tracking-tight leading-[1.2] m-0">
               Enterprise Knowledge Center &amp; Tech Intelligence
             </h1>
 
@@ -130,7 +130,7 @@ export default function KnowledgeHero() {
               <div>
                 <Link
                   href="/knowledge-center#article-1"
-                  className="text-lg sm:text-xl lg:text-[1.55rem] font-extrabold text-white tracking-[-0.02em] leading-snug hover:underline transition-colors duration-200 block"
+                  className="font-outfit text-lg sm:text-xl lg:text-[1.5rem] font-bold text-white tracking-tight leading-snug hover:underline transition-colors duration-200 block"
                 >
                   The 7 Best Enterprise AI &amp; Cloud Laptops for Senior Engineers &amp; Architects
                 </Link>
@@ -139,7 +139,7 @@ export default function KnowledgeHero() {
               <div className="pt-3 border-t border-white/[0.12]">
                 <Link
                   href="/knowledge-center#article-2"
-                  className="text-[15px] sm:text-[17px] font-semibold text-white tracking-[-0.01em] leading-relaxed hover:underline transition-colors duration-200 block"
+                  className="font-outfit text-[15px] sm:text-[17px] font-bold text-white tracking-tight leading-relaxed hover:underline transition-colors duration-200 block"
                 >
                   Artificial Intelligence Development from 1950 to 1965: The Foundation of Modern AI
                 </Link>
@@ -148,7 +148,7 @@ export default function KnowledgeHero() {
 
             {/* Sub-label footer */}
             <div className="pt-1">
-              <span className="text-xs sm:text-[13px] font-extrabold tracking-[0.12em] text-white uppercase inline-flex items-center gap-1.5">
+              <span className="text-xs sm:text-[13px] font-semibold tracking-wider text-white uppercase inline-flex items-center gap-1.5">
                 <span>⚡</span>
                 <span>AI WRITING ASSISTANT &bull; VERIFIED INTELLIGENCE</span>
               </span>

@@ -24,10 +24,10 @@ export default function ContactRfpSection({
         className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_50%_50%,rgba(249,115,22,0.22)_0%,transparent_65%)]"
       />
       <div className="max-w-2xl mx-auto px-6 relative z-10 flex flex-col items-center gap-4">
-        <span className="text-[11px] font-bold text-[#FF6B00] uppercase tracking-wider font-mono">
+        <span className="text-[11px] font-semibold text-[#FF6B00] uppercase tracking-wider">
           READY TO ELEVATE YOUR SYSTEM ARCHITECTURE?
         </span>
-        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-white tracking-tight">
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-outfit font-bold text-white tracking-tight">
           {title}
         </h2>
         <p className="text-sm sm:text-base text-gray-300 max-w-xl leading-relaxed font-normal">
@@ -37,7 +37,7 @@ export default function ContactRfpSection({
           <button
             type="button"
             onClick={onOpenScopingModal}
-            className="inline-flex items-center justify-center gap-1.5 bg-black hover:bg-[#EA580C] hover:border-[#EA580C] text-white font-bold py-2.5 px-6 rounded-lg text-xs tracking-wider uppercase font-mono border border-white/20 transition-colors shadow-xs cursor-pointer"
+            className="inline-flex items-center justify-center gap-1.5 bg-black hover:bg-[#EA580C] hover:border-[#EA580C] text-white font-semibold py-2.5 px-6 rounded-lg text-xs tracking-wider uppercase border border-white/20 transition-colors shadow-xs cursor-pointer"
           >
             <span>Start Technical Scoping</span>
             <span>&rarr;</span>

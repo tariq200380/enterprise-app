@@ -3,10 +3,10 @@ import Link from "next/link";
 export default function PrivacyContacts() {
   return (
     <article id="contacts" className="scroll-mt-28">
-      <span className="text-xs font-semibold text-[#B8A89A] block mb-2">
+      <span className="text-xs font-outfit font-bold text-[#FF6B00] block mb-2">
         10
       </span>
-      <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#1C1917] tracking-tight mb-4">
+      <h2 className="font-outfit text-2xl sm:text-3xl font-bold text-[#1C1917] tracking-tight mb-4">
         Data Privacy Contacts
       </h2>
       <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal mb-5">

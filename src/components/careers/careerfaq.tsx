@@ -5,7 +5,7 @@ export default function CareerFaq() {
         <span className="text-[11px] sm:text-xs font-bold text-[#FF6B00] tracking-widest uppercase block mb-3">
           CANDIDATE QUESTIONS
         </span>
-        <h2 className="text-3xl sm:text-4xl lg:text-[40px] font-bold text-[#0F172A] tracking-tight leading-tight max-w-2xl mx-auto">
+        <h2 className="text-3xl sm:text-4xl lg:text-[40px] font-outfit font-bold text-[#0F172A] tracking-tight leading-tight max-w-2xl mx-auto">
           Frequently Asked Questions
         </h2>
         <p className="mt-4 text-sm sm:text-base text-slate-600 max-w-2xl mx-auto leading-relaxed font-normal">
@@ -18,7 +18,7 @@ export default function CareerFaq() {
             open
             className="group bg-white rounded-xl border border-[#E6E4DF] p-5 sm:p-6 shadow-2xs transition-all duration-200"
           >
-            <summary className="flex items-center justify-between cursor-pointer list-none select-none font-bold text-sm sm:text-[15px] text-[#0F172A] transition-colors focus:outline-none">
+            <summary className="flex items-center justify-between cursor-pointer list-none select-none font-outfit font-bold text-sm sm:text-[15px] text-[#0F172A] transition-colors focus:outline-none">
               <span>How does Creed Tech handle remote work and time zones?</span>
               <span className="text-base text-slate-400 group-open:hidden">+</span>
               <span className="text-base text-[#FF6B00] hidden group-open:inline">&minus;</span>
@@ -30,7 +30,7 @@ export default function CareerFaq() {
 
           {/* FAQ 2 */}
           <details className="group bg-white rounded-xl border border-[#E6E4DF] p-5 sm:p-6 shadow-2xs transition-all duration-200">
-            <summary className="flex items-center justify-between cursor-pointer list-none select-none font-bold text-sm sm:text-[15px] text-[#0F172A] transition-colors focus:outline-none">
+            <summary className="flex items-center justify-between cursor-pointer list-none select-none font-outfit font-bold text-sm sm:text-[15px] text-[#0F172A] transition-colors focus:outline-none">
               <span>Is the take-home technical challenge really paid?</span>
               <span className="text-base text-slate-400 group-open:hidden">+</span>
               <span className="text-base text-[#FF6B00] hidden group-open:inline">&minus;</span>
@@ -42,7 +42,7 @@ export default function CareerFaq() {
 
           {/* FAQ 3 */}
           <details className="group bg-white rounded-xl border border-[#E6E4DF] p-5 sm:p-6 shadow-2xs transition-all duration-200">
-            <summary className="flex items-center justify-between cursor-pointer list-none select-none font-bold text-sm sm:text-[15px] text-[#0F172A] transition-colors focus:outline-none">
+            <summary className="flex items-center justify-between cursor-pointer list-none select-none font-outfit font-bold text-sm sm:text-[15px] text-[#0F172A] transition-colors focus:outline-none">
               <span>What contract and employment types do you offer?</span>
               <span className="text-base text-slate-400 group-open:hidden">+</span>
               <span className="text-base text-[#FF6B00] hidden group-open:inline">&minus;</span>
@@ -54,7 +54,7 @@ export default function CareerFaq() {
 
           {/* FAQ 4 */}
           <details className="group bg-white rounded-xl border border-[#E6E4DF] p-5 sm:p-6 shadow-2xs transition-all duration-200">
-            <summary className="flex items-center justify-between cursor-pointer list-none select-none font-bold text-sm sm:text-[15px] text-[#0F172A] transition-colors focus:outline-none">
+            <summary className="flex items-center justify-between cursor-pointer list-none select-none font-outfit font-bold text-sm sm:text-[15px] text-[#0F172A] transition-colors focus:outline-none">
               <span>What hardware and software stack do you support?</span>
               <span className="text-base text-slate-400 group-open:hidden">+</span>
               <span className="text-base text-[#FF6B00] hidden group-open:inline">&minus;</span>
@@ -66,7 +66,7 @@ export default function CareerFaq() {
 
           {/* FAQ 5 */}
           <details className="group bg-white rounded-xl border border-[#E6E4DF] p-5 sm:p-6 shadow-2xs transition-all duration-200">
-            <summary className="flex items-center justify-between cursor-pointer list-none select-none font-bold text-sm sm:text-[15px] text-[#0F172A] transition-colors focus:outline-none">
+            <summary className="flex items-center justify-between cursor-pointer list-none select-none font-outfit font-bold text-sm sm:text-[15px] text-[#0F172A] transition-colors focus:outline-none">
               <span>What happens after I submit a Vacancy Alert registration?</span>
               <span className="text-base text-slate-400 group-open:hidden">+</span>
               <span className="text-base text-[#FF6B00] hidden group-open:inline">&minus;</span>

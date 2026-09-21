@@ -4,10 +4,10 @@ export default function PciSaqTable() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="mb-8 sm:mb-8">
-          <span className="text-[11px] font-mono font-bold text-[#FF6B00] tracking-[0.18em] uppercase block mb-2">
+          <span className="text-[11px] font-semibold text-[#FF6B00] tracking-wider uppercase block mb-2">
             AUDIT SCOPE &bull; SAQ COMPLIANCE
           </span>
-          <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#1C1917] tracking-tight leading-tight mb-4">
+          <h2 className="font-outfit text-3xl sm:text-4xl font-bold text-[#1C1917] tracking-tight leading-tight mb-4">
             Self-Assessment Questionnaire (SAQ) Scope Matrix
           </h2>
           <p className="text-slate-600 text-xs sm:text-sm max-w-3xl leading-relaxed font-normal">
@@ -21,16 +21,16 @@ export default function PciSaqTable() {
             <table className="w-full text-left border-collapse min-w-[840px]">
               <thead>
                 <tr className="border-b border-[#E6E4DF] bg-[#FAF9F6]">
-                  <th className="py-4 px-6 text-[#1C1917] font-mono font-bold text-xs uppercase tracking-wider">
+                  <th className="py-4 px-6 text-[#1C1917] font-outfit font-bold text-xs uppercase tracking-wider">
                     Validation Level
                   </th>
-                  <th className="py-4 px-6 text-[#1C1917] font-mono font-bold text-xs uppercase tracking-wider whitespace-nowrap">
+                  <th className="py-4 px-6 text-[#1C1917] font-outfit font-bold text-xs uppercase tracking-wider whitespace-nowrap">
                     SAQ Type
                   </th>
-                  <th className="py-4 px-6 text-[#1C1917] font-mono font-bold text-xs uppercase tracking-wider">
+                  <th className="py-4 px-6 text-[#1C1917] font-outfit font-bold text-xs uppercase tracking-wider">
                     Cardholder Scope Isolation
                   </th>
-                  <th className="py-4 px-6 text-[#1C1917] font-mono font-bold text-xs uppercase tracking-wider">
+                  <th className="py-4 px-6 text-[#1C1917] font-outfit font-bold text-xs uppercase tracking-wider">
                     Audit Instrument
                   </th>
                 </tr>
@@ -47,7 +47,7 @@ export default function PciSaqTable() {
                     </span>
                   </td>
                   <td className="py-4 px-6 whitespace-nowrap">
-                    <span className="inline-flex items-center bg-[#FAF9F6] text-slate-700 text-xs font-mono font-medium px-2.5 py-1 rounded-md border border-[#E6E4DF] whitespace-nowrap">
+                    <span className="inline-flex items-center bg-[#FAF9F6] text-slate-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-[#E6E4DF] whitespace-nowrap">
                       SAQ A
                     </span>
                   </td>
@@ -72,7 +72,7 @@ export default function PciSaqTable() {
                     </span>
                   </td>
                   <td className="py-4 px-6 whitespace-nowrap">
-                    <span className="inline-flex items-center bg-[#FAF9F6] text-slate-700 text-xs font-mono font-medium px-2.5 py-1 rounded-md border border-[#E6E4DF] whitespace-nowrap">
+                    <span className="inline-flex items-center bg-[#FAF9F6] text-slate-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-[#E6E4DF] whitespace-nowrap">
                       SAQ A-EP
                     </span>
                   </td>
@@ -97,7 +97,7 @@ export default function PciSaqTable() {
                     </span>
                   </td>
                   <td className="py-4 px-6 whitespace-nowrap">
-                    <span className="inline-flex items-center bg-[#FAF9F6] text-slate-700 text-xs font-mono font-medium px-2.5 py-1 rounded-md border border-[#E6E4DF] whitespace-nowrap">
+                    <span className="inline-flex items-center bg-[#FAF9F6] text-slate-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-[#E6E4DF] whitespace-nowrap">
                       SAQ B-IP
                     </span>
                   </td>
@@ -122,7 +122,7 @@ export default function PciSaqTable() {
                     </span>
                   </td>
                   <td className="py-4 px-6 whitespace-nowrap">
-                    <span className="inline-flex items-center bg-[#FAF9F6] text-slate-700 text-xs font-mono font-medium px-2.5 py-1 rounded-md border border-[#E6E4DF] whitespace-nowrap">
+                    <span className="inline-flex items-center bg-[#FAF9F6] text-slate-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-[#E6E4DF] whitespace-nowrap">
                       SAQ D
                     </span>
                   </td>

@@ -20,35 +20,35 @@ export default function AboutManifestoSection() {
           <div className="lg:col-span-4">
             <div className="flex items-center gap-2 mb-2.5">
               <span className="w-1.5 h-1.5 rounded-full bg-[#EA580C] animate-pulse" />
-              <span className="text-[11px] font-mono font-bold uppercase tracking-[2.5px] text-[#AEB6C2]">
+              <span className="text-[11px] font-semibold uppercase tracking-wider text-[#AEB6C2]">
                 FOUNDING MANIFESTO
               </span>
             </div>
             <div className="w-12 h-[2px] bg-[#EA580C] opacity-80 mb-5" />
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight mb-3">
+            <h2 className="font-outfit text-2xl sm:text-3xl font-bold text-white tracking-tight leading-tight mb-3">
               Architectural Imperative
             </h2>
-            <p className="text-sm text-white/60 leading-[1.7] max-w-sm">
+            <p className="text-sm text-white/60 leading-[1.7] max-w-sm font-normal">
               The standard that governs every engineering pod, every commit, and every architecture decision we deliver.
             </p>
           </div>
 
           {/* Right Column: Statement & Seal */}
           <div className="lg:col-span-8">
-            <blockquote className="text-xl sm:text-2xl lg:text-[28px] font-bold text-white leading-[1.4] tracking-tight mb-8">
+            <blockquote className="font-outfit text-xl sm:text-2xl lg:text-[28px] font-bold text-white leading-[1.4] tracking-tight mb-8">
               &ldquo;Software fails quietly until the day it fails loudly. We treat every release the way a structural engineer treats a blueprint —{" "}
-              <strong className="text-white font-extrabold">assume it will be trusted with something critical</strong>, because it will be.&rdquo;
+              <strong className="text-white font-bold">assume it will be trusted with something critical</strong>, because it will be.&rdquo;
             </blockquote>
 
             <div className="flex items-center gap-4 pt-6 border-t border-white/10">
-              <div className="w-10 h-10 rounded-lg bg-white/[0.06] border border-white/10 flex items-center justify-center font-mono font-bold text-xs text-[#EA580C]">
+              <div className="w-10 h-10 rounded-lg bg-white/[0.06] border border-white/10 flex items-center justify-center font-outfit font-bold text-xs text-[#EA580C]">
                 CT
               </div>
               <div>
-                <cite className="block not-italic text-xs sm:text-sm font-mono font-bold uppercase tracking-wider text-white">
+                <cite className="block not-italic text-xs sm:text-sm font-semibold uppercase tracking-wider text-white">
                   Founding Principle &bull; Creed Tech
                 </cite>
-                <span className="text-[11px] font-mono text-white/50">
+                <span className="text-[11px] text-white/50">
                   Sovereign Enterprise Software Standard
                 </span>
               </div>

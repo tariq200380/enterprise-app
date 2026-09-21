@@ -26,7 +26,7 @@ export default function TermsSidebar() {
               href={`#${item.id}`}
               className="group flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-slate-600 hover:text-[#FF6B00] hover:bg-[#FAF9F6] transition-colors"
             >
-              <span className="w-5 h-5 rounded bg-[#FAF9F6] border border-[#E6E4DF] text-[10px] font-mono font-bold text-[#FF6B00] group-hover:border-[#FF6B00]/40 flex items-center justify-center shrink-0 transition-colors">
+              <span className="w-5 h-5 rounded bg-[#FAF9F6] border border-[#E6E4DF] text-[10px] font-outfit font-bold text-[#FF6B00] group-hover:border-[#FF6B00]/40 flex items-center justify-center shrink-0 transition-colors">
                 {item.num}
               </span>
               <span className="truncate">{item.label}</span>
@@ -37,7 +37,7 @@ export default function TermsSidebar() {
 
       {/* Quick Contact Micro-Card */}
       <div className="bg-white border border-[#E6E4DF] rounded-2xl p-4 shadow-2xs text-xs space-y-2">
-        <p className="font-semibold text-[#1C1917]">Legal Consultation</p>
+        <p className="font-outfit font-bold text-[#1C1917]">Legal Consultation</p>
         <p className="text-slate-500 text-[11px] leading-relaxed">
           Direct questions regarding Bilateral NDAs or MSAs can be submitted anytime.
         </p>

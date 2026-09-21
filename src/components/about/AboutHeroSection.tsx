@@ -46,15 +46,15 @@ export default function AboutHeroSection({
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
           {/* Left Column: Mission & Positioning */}
           <div className="lg:col-span-7">
-            <div className="text-[11px] font-semibold uppercase tracking-[3px] text-[#AEB6C2] mb-2.5 font-mono">
+            <div className="text-[11px] font-semibold uppercase tracking-wider text-[#AEB6C2] mb-2.5">
               ENGINEERING SOVEREIGNTY &bull; ARCHITECTURAL MASTERY
             </div>
             <div className="w-[60px] h-[2px] bg-[#FF6B00] opacity-80 mb-6" />
 
-            <h1 className="text-[34px] sm:text-[46px] lg:text-[52px] font-extrabold text-white leading-[1.1] mb-2 tracking-tight">
+            <h1 className="font-outfit text-[34px] sm:text-[46px] lg:text-[52px] font-bold text-white leading-[1.1] mb-2 tracking-tight">
               Architects &amp; Builders of
             </h1>
-            <h2 className="text-[28px] sm:text-[38px] lg:text-[44px] font-extrabold text-white leading-[1.2] mb-5 tracking-tight">
+            <h2 className="font-outfit text-[28px] sm:text-[38px] lg:text-[44px] font-bold text-white leading-[1.2] mb-5 tracking-tight">
               Critical Digital Infrastructure.
             </h2>
 
@@ -66,7 +66,7 @@ export default function AboutHeroSection({
               <button
                 type="button"
                 onClick={() => onOpenModal?.("Enterprise Architecture & Systems")}
-                className="inline-flex items-center justify-center gap-1.5 bg-[#EA580C] hover:bg-orange-600 text-white font-bold h-11 w-full sm:w-[230px] rounded-lg text-xs tracking-wider uppercase font-mono border border-transparent transition-colors shadow-xs cursor-pointer"
+                className="inline-flex items-center justify-center gap-1.5 bg-[#EA580C] hover:bg-orange-600 text-white font-semibold h-11 w-full sm:w-[230px] rounded-lg text-xs tracking-wider uppercase border border-transparent transition-colors shadow-xs cursor-pointer"
               >
                 <span>Start a Conversation</span>
                 <span>&rarr;</span>
@@ -74,7 +74,7 @@ export default function AboutHeroSection({
               <button
                 type="button"
                 onClick={handleScrollToJourney}
-                className="inline-flex items-center justify-center gap-1.5 bg-black hover:bg-[#EA580C] hover:border-[#EA580C] text-white font-bold h-11 w-full sm:w-[230px] rounded-lg text-xs tracking-wider uppercase font-mono border border-white/20 transition-colors shadow-xs cursor-pointer"
+                className="inline-flex items-center justify-center gap-1.5 bg-black hover:bg-[#EA580C] hover:border-[#EA580C] text-white font-semibold h-11 w-full sm:w-[230px] rounded-lg text-xs tracking-wider uppercase border border-white/20 transition-colors shadow-xs cursor-pointer"
               >
                 <span>Explore Our Journey</span>
                 <span>&darr;</span>
@@ -93,11 +93,11 @@ export default function AboutHeroSection({
 
               {/* Top Badge */}
               <div className="relative z-10 flex items-center justify-between mb-4">
-                <span className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/15 px-3 py-1 rounded-full text-white/90 text-xs font-mono">
+                <span className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/15 px-3 py-1 rounded-full text-white/90 text-xs font-semibold tracking-wider">
                   <span className="w-1.5 h-1.5 rounded-full bg-white/70 animate-pulse" />
                   SOVEREIGN PLATFORM MATRIX
                 </span>
-                <span className="text-[11px] font-mono text-white/40">VERIFIED v4.8</span>
+                <span className="text-[11px] font-semibold text-white/40 tracking-wider">VERIFIED v4.8</span>
               </div>
 
               {/* Interactive Terminal / Telemetry Console */}
@@ -116,16 +116,16 @@ export default function AboutHeroSection({
               {/* 3 Metric Stat Pillars */}
               <div className="relative z-10 grid grid-cols-3 gap-3 pt-4 border-t border-white/10 text-left">
                 <div>
-                  <div className="text-xl sm:text-2xl font-extrabold text-white">12+ Yrs</div>
-                  <div className="text-[11px] text-slate-400 font-mono mt-0.5">Core Architecture</div>
+                  <div className="font-outfit text-xl sm:text-2xl font-bold text-white">12+ Yrs</div>
+                  <div className="text-[11px] text-slate-400 font-semibold mt-0.5">Core Architecture</div>
                 </div>
                 <div>
-                  <div className="text-xl sm:text-2xl font-extrabold text-white">99.99%</div>
-                  <div className="text-[11px] text-slate-400 font-mono mt-0.5">SLA Guarantee</div>
+                  <div className="font-outfit text-xl sm:text-2xl font-bold text-white">99.99%</div>
+                  <div className="text-[11px] text-slate-400 font-semibold mt-0.5">SLA Guarantee</div>
                 </div>
                 <div>
-                  <div className="text-xl sm:text-2xl font-extrabold text-white">100%</div>
-                  <div className="text-[11px] text-slate-400 font-mono mt-0.5">Principal Leads</div>
+                  <div className="font-outfit text-xl sm:text-2xl font-bold text-white">100%</div>
+                  <div className="text-[11px] text-slate-400 font-semibold mt-0.5">Principal Leads</div>
                 </div>
               </div>
             </div>
@@ -133,7 +133,7 @@ export default function AboutHeroSection({
         </div>
         {/* Ledger Ribbon */}
         <div className="mt-10 pt-5 border-t border-white/10 flex items-center justify-between gap-6 flex-wrap text-left relative z-10">
-          <div className="text-xs font-mono text-slate-400 uppercase tracking-wider whitespace-nowrap">
+          <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider whitespace-nowrap">
             {sectionTitle}
           </div>
           <div className="flex gap-6 sm:gap-10 items-center flex-wrap">

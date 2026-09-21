@@ -4,10 +4,10 @@ export default function IsoIncidentTable() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="mb-8 sm:mb-8">
-          <span className="text-[11px] font-mono font-bold text-[#FF6B00] tracking-[0.18em] uppercase block mb-2">
+          <span className="text-[11px] font-semibold text-[#FF6B00] tracking-[0.18em] uppercase block mb-2">
             INCIDENT RESPONSE PLAYBOOK
           </span>
-          <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#1C1917] tracking-tight leading-tight mb-4">
+          <h2 className="font-outfit text-3xl sm:text-4xl font-bold text-[#1C1917] tracking-tight leading-tight mb-4">
             Incident Severity Classification &amp; Response Framework
           </h2>
           <p className="text-slate-600 text-xs sm:text-sm max-w-3xl leading-relaxed font-normal">
@@ -21,16 +21,16 @@ export default function IsoIncidentTable() {
             <table className="w-full text-left border-collapse min-w-[760px]">
               <thead>
                 <tr className="border-b border-[#E6E4DF] bg-[#FAF9F6]">
-                  <th className="py-4 px-6 text-[#1C1917] font-mono font-bold text-xs uppercase tracking-wider">
+                  <th className="py-4 px-6 text-[#1C1917] font-outfit font-bold text-xs uppercase tracking-wider">
                     Severity Level
                   </th>
-                  <th className="py-4 px-6 text-[#1C1917] font-mono font-bold text-xs uppercase tracking-wider">
+                  <th className="py-4 px-6 text-[#1C1917] font-outfit font-bold text-xs uppercase tracking-wider">
                     Definition / Scenario
                   </th>
-                  <th className="py-4 px-6 text-[#1C1917] font-mono font-bold text-xs uppercase tracking-wider">
+                  <th className="py-4 px-6 text-[#1C1917] font-outfit font-bold text-xs uppercase tracking-wider">
                     Response Priority
                   </th>
-                  <th className="py-4 px-6 text-[#1C1917] font-mono font-bold text-xs uppercase tracking-wider">
+                  <th className="py-4 px-6 text-[#1C1917] font-outfit font-bold text-xs uppercase tracking-wider">
                     Client Notification
                   </th>
                 </tr>
@@ -39,7 +39,7 @@ export default function IsoIncidentTable() {
                 {/* SEV-1 */}
                 <tr className="hover:bg-[#FAF9F6]/60 transition-colors">
                   <td className="py-4 px-6 whitespace-nowrap">
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#FAF9F6] border border-[#E6E4DF] text-slate-700 font-mono text-xs font-semibold shadow-2xs">
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#FAF9F6] border border-[#E6E4DF] text-slate-700 font-outfit text-xs font-bold shadow-2xs">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#FF6B00]"></span>
                       SEV-1 (Critical)
                     </span>
@@ -58,7 +58,7 @@ export default function IsoIncidentTable() {
                 {/* SEV-2 */}
                 <tr className="hover:bg-[#FAF9F6]/60 transition-colors">
                   <td className="py-4 px-6 whitespace-nowrap">
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#FAF9F6] border border-[#E6E4DF] text-slate-700 font-mono text-xs font-semibold shadow-2xs">
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#FAF9F6] border border-[#E6E4DF] text-slate-700 font-outfit text-xs font-bold shadow-2xs">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#FF6B00]"></span>
                       SEV-2 (High)
                     </span>
@@ -77,7 +77,7 @@ export default function IsoIncidentTable() {
                 {/* SEV-3 */}
                 <tr className="hover:bg-[#FAF9F6]/60 transition-colors">
                   <td className="py-4 px-6 whitespace-nowrap">
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#FAF9F6] border border-[#E6E4DF] text-slate-700 font-mono text-xs font-semibold shadow-2xs">
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#FAF9F6] border border-[#E6E4DF] text-slate-700 font-outfit text-xs font-bold shadow-2xs">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#FF6B00]"></span>
                       SEV-3 (Medium)
                     </span>
@@ -96,7 +96,7 @@ export default function IsoIncidentTable() {
                 {/* SEV-4 */}
                 <tr className="hover:bg-[#FAF9F6]/60 transition-colors">
                   <td className="py-4 px-6 whitespace-nowrap">
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#FAF9F6] border border-[#E6E4DF] text-slate-700 font-mono text-xs font-semibold shadow-2xs">
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#FAF9F6] border border-[#E6E4DF] text-slate-700 font-outfit text-xs font-bold shadow-2xs">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#FF6B00]"></span>
                       SEV-4 (Low)
                     </span>

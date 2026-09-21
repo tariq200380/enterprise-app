@@ -8,7 +8,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: "Segoe UI", "Segoe UI Variable", -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+  --font-sans: var(--font-jakarta), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   --font-outfit: var(--font-outfit), sans-serif;
   --font-jakarta: var(--font-jakarta), sans-serif;
@@ -21,10 +21,15 @@
   h3, h4 {
     @apply font-outfit font-semibold text-slate-800;
   }
+  h1 span, h2 span, h3 span, h4 span {
+    font-family: inherit;
+    font-weight: inherit;
+    letter-spacing: inherit;
+  }
   p {
     @apply font-jakarta font-normal text-slate-600 leading-relaxed;
   }
-  span, button, input {
+  button, input, select, textarea {
     @apply font-jakarta font-normal leading-relaxed;
   }
   input {
@@ -42,6 +47,7 @@
 body {
   background: var(--background);
   color: var(--foreground);
+  font-family: var(--font-jakarta), sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

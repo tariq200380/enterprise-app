@@ -85,10 +85,10 @@ export default function ContactScopingForm() {
   return (
     <div className="col-span-12 lg:col-span-7 bg-white border border-[#E2E8F0] rounded-2xl p-6 sm:p-9 shadow-[0_2px_4px_rgba(0,0,0,0.02)] text-left">
       <div className="border-b border-[#E2E8F0] pb-5 mb-7">
-        <span className="text-xs font-extrabold uppercase tracking-[0.16em] text-[#EA580C] font-mono block mb-1">
+        <span className="text-xs font-semibold uppercase tracking-wider text-[#EA580C] block mb-1">
           PROJECT SPECIFICATION &amp; SCOPING
         </span>
-        <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-tight">
+        <h2 className="text-2xl sm:text-3xl font-outfit font-bold text-[#0F172A] tracking-tight">
           Scope Your Engineering Initiative
         </h2>
         <p className="text-xs sm:text-sm text-slate-500 mt-1.5 font-normal leading-relaxed">
@@ -107,7 +107,7 @@ export default function ContactScopingForm() {
               <span className="text-emerald-600 font-bold text-lg leading-none">✓</span>
             </div>
             <div>
-              <h4 className="text-sm font-bold text-emerald-900 mb-1">
+              <h4 className="text-sm font-outfit font-bold text-emerald-900 mb-1">
                 Technical Inquiry Submitted Successfully!
               </h4>
               <p className="text-xs text-emerald-700 leading-relaxed font-normal">
@@ -265,7 +265,7 @@ export default function ContactScopingForm() {
           <button
             type="submit"
             disabled={status === "loading"}
-            className="inline-flex items-center justify-center bg-[#0F172A] hover:bg-[#EA580C] text-white font-bold py-2.5 px-6 min-w-[200px] rounded-lg text-xs tracking-wider uppercase font-mono transition-colors duration-200 shadow-xs cursor-pointer disabled:opacity-50"
+            className="inline-flex items-center justify-center bg-[#0F172A] hover:bg-[#EA580C] text-white font-semibold py-2.5 px-6 min-w-[200px] rounded-lg text-xs tracking-wider uppercase transition-colors duration-200 shadow-xs cursor-pointer disabled:opacity-50"
           >
             {status === "loading" ? "Submitting Inquiry..." : "Submit Scoping Request →"}
           </button>

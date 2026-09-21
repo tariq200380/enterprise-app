@@ -5,10 +5,10 @@ export default function IsoGovernance() {
         {/* Section Header Split */}
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-8 sm:pb-10 border-b border-[#E6E4DF] mb-8 sm:mb-10">
           <div>
-            <span className="text-[11px] font-mono font-bold text-[#FF6B00] tracking-[0.18em] uppercase block mb-2">
+            <span className="text-[11px] font-semibold text-[#FF6B00] tracking-[0.18em] uppercase block mb-2">
               POLICY HIERARCHY
             </span>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#1C1917] tracking-tight leading-tight">
+            <h2 className="font-outfit text-3xl sm:text-4xl font-bold text-[#1C1917] tracking-tight leading-tight">
               4-Tier ISMS Governance Structure
             </h2>
           </div>
@@ -23,14 +23,14 @@ export default function IsoGovernance() {
           <div className="bg-white rounded-2xl border border-[#E6E4DF] border-t-2 border-t-[#FF6B00] p-5 sm:p-6 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between gap-2 pb-3 border-b border-[#F0EFEB] mb-4">
-                <span className="text-[10px] font-mono font-bold text-[#FF6B00] bg-[#FF6B00]/10 px-2 py-0.5 rounded">
+                <span className="text-[10px] font-outfit font-bold text-[#FF6B00] bg-[#FF6B00]/10 px-2 py-0.5 rounded">
                   TIER 1
                 </span>
                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
                   EXECUTIVE
                 </span>
               </div>
-              <h3 className="font-serif text-lg font-bold text-[#1C1917] tracking-tight mb-2">
+              <h3 className="font-outfit text-lg font-bold text-[#1C1917] tracking-tight mb-2">
                 Security Policy
               </h3>
               <p className="text-slate-600 text-xs sm:text-[13px] leading-relaxed font-normal">
@@ -46,14 +46,14 @@ export default function IsoGovernance() {
           <div className="bg-white rounded-2xl border border-[#E6E4DF] border-t-2 border-t-[#FF6B00] p-5 sm:p-6 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between gap-2 pb-3 border-b border-[#F0EFEB] mb-4">
-                <span className="text-[10px] font-mono font-bold text-[#FF6B00] bg-[#FF6B00]/10 px-2 py-0.5 rounded">
+                <span className="text-[10px] font-outfit font-bold text-[#FF6B00] bg-[#FF6B00]/10 px-2 py-0.5 rounded">
                   TIER 2
                 </span>
                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
                   TECHNICAL
                 </span>
               </div>
-              <h3 className="font-serif text-lg font-bold text-[#1C1917] tracking-tight mb-2">
+              <h3 className="font-outfit text-lg font-bold text-[#1C1917] tracking-tight mb-2">
                 Technical Standards
               </h3>
               <p className="text-slate-600 text-xs sm:text-[13px] leading-relaxed font-normal">
@@ -69,14 +69,14 @@ export default function IsoGovernance() {
           <div className="bg-white rounded-2xl border border-[#E6E4DF] border-t-2 border-t-[#FF6B00] p-5 sm:p-6 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between gap-2 pb-3 border-b border-[#F0EFEB] mb-4">
-                <span className="text-[10px] font-mono font-bold text-[#FF6B00] bg-[#FF6B00]/10 px-2 py-0.5 rounded">
+                <span className="text-[10px] font-outfit font-bold text-[#FF6B00] bg-[#FF6B00]/10 px-2 py-0.5 rounded">
                   TIER 3
                 </span>
                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
                   OPERATIONAL
                 </span>
               </div>
-              <h3 className="font-serif text-lg font-bold text-[#1C1917] tracking-tight mb-2">
+              <h3 className="font-outfit text-lg font-bold text-[#1C1917] tracking-tight mb-2">
                 Operating Procedures
               </h3>
               <p className="text-slate-600 text-xs sm:text-[13px] leading-relaxed font-normal">
@@ -92,14 +92,14 @@ export default function IsoGovernance() {
           <div className="bg-white rounded-2xl border border-[#E6E4DF] border-t-2 border-t-[#FF6B00] p-5 sm:p-6 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between gap-2 pb-3 border-b border-[#F0EFEB] mb-4">
-                <span className="text-[10px] font-mono font-bold text-[#FF6B00] bg-[#FF6B00]/10 px-2 py-0.5 rounded">
+                <span className="text-[10px] font-outfit font-bold text-[#FF6B00] bg-[#FF6B00]/10 px-2 py-0.5 rounded">
                   TIER 4
                 </span>
                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
                   VERIFICATION
                 </span>
               </div>
-              <h3 className="font-serif text-lg font-bold text-[#1C1917] tracking-tight mb-2">
+              <h3 className="font-outfit text-lg font-bold text-[#1C1917] tracking-tight mb-2">
                 Evidence &amp; Audits
               </h3>
               <p className="text-slate-600 text-xs sm:text-[13px] leading-relaxed font-normal">

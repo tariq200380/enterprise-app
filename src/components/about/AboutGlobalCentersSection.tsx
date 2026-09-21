@@ -54,13 +54,13 @@ export default function AboutGlobalCentersSection({
     <section className="w-full py-10 sm:py-12 border-b border-[#E2E8F0] bg-[#F7F6F5]">
       <div className="max-w-[1240px] mx-auto px-6 sm:px-10">
         <div className="max-w-[640px] mx-auto mb-10 sm:mb-12 text-center">
-          <div className="text-[13px] text-[#3D6BFF] font-semibold mb-3">
+          <div className="text-[11px] text-[#3D6BFF] font-semibold uppercase tracking-wider mb-3">
             {badgeTag || "GLOBAL REACH • CONTINUOUS COVERAGE"}
           </div>
-          <h2 className="font-serif font-medium text-2xl sm:text-4xl text-[#0F172A] tracking-[-0.015em] leading-[1.15] mb-4">
+          <h2 className="font-outfit text-2xl sm:text-4xl font-bold text-[#0F172A] tracking-tight leading-[1.15] mb-4">
             {headline || "Three specialized global engineering centers"}
           </h2>
-          <p className="text-[#5B6472] text-[15.5px] leading-[1.7]">
+          <p className="text-[#5B6472] text-[15.5px] leading-[1.7] font-normal">
             {description ||
               "Operating across multiple time zones to deliver seamless 24/7 technical continuity and deep regional domain expertise."}
           </p>
@@ -80,18 +80,18 @@ export default function AboutGlobalCentersSection({
                 className="bg-white border border-[#E2E8F0] rounded-xl p-6 sm:p-7 flex flex-col justify-between shadow-xs hover:shadow-md hover:border-[#3D6BFF]/40 transition-all"
               >
                 <div>
-                  <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#3D6BFF]/10 text-[#3D6BFF] text-xs font-mono font-semibold mb-4">
+                  <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#3D6BFF]/10 text-[#3D6BFF] text-xs font-semibold tracking-wider mb-4">
                     <span>📍 {locationLabel}</span>
                   </div>
-                  <h3 className="font-serif font-medium text-xl text-[#0F172A] mb-2.5">
+                  <h3 className="font-outfit text-xl font-bold text-[#0F172A] mb-2.5 tracking-tight">
                     {hub.specialization || "Engineering Operations"}
                   </h3>
-                  <p className="text-[#5B6472] text-sm leading-[1.65] mb-5">
+                  <p className="text-[#5B6472] text-sm leading-[1.65] mb-5 font-normal">
                     {hub.address ||
                       "Operating across multiple time zones to deliver continuous delivery and technical continuity."}
                   </p>
                 </div>
-                <div className="text-[13px] text-[#3D6BFF] font-medium pt-3.5 border-t border-[#E2E8F0]">
+                <div className="text-[13px] text-[#3D6BFF] font-semibold pt-3.5 border-t border-[#E2E8F0]">
                   {ctaLabel} &rarr;
                 </div>
               </div>

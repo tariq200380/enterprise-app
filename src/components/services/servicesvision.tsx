@@ -110,7 +110,7 @@ export default function ServicesVision() {
       <section className="relative w-full py-10 sm:py-12 lg:py-16 bg-[#F7F6F5]">
         <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-[850px] mx-auto text-center bg-white border border-[#E2E8F0] rounded-2xl p-8 sm:p-12 shadow-[0_4px_16px_rgba(15,23,42,0.03)] box-border">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl text-[#1A1A1A] tracking-tight leading-[1.15] mb-4">
+            <h2 className="font-outfit font-bold text-3xl sm:text-4xl lg:text-5xl text-[#1A1A1A] tracking-tight leading-[1.15] mb-4">
               Let&apos;s Bring Your <span className="text-[#0052FF]">Vision to Life</span>
             </h2>
             <p className="text-[15px] sm:text-[17px] text-[#5B6472] leading-relaxed font-normal max-w-[620px] mx-auto mb-8">
@@ -157,10 +157,10 @@ export default function ServicesVision() {
             {/* Modal Header */}
             <div className="px-6 py-5 border-b border-[#E2E8F0] bg-white flex items-center justify-between sticky top-0 z-20">
               <div>
-                <span className="text-[11px] font-bold tracking-widest text-[#0052FF] uppercase block mb-0.5">
+                <span className="text-[11px] font-semibold tracking-wider text-[#0052FF] uppercase block mb-0.5">
                   Direct Engineering Channel
                 </span>
-                <h3 className="text-xl text-[#1A1A1A] tracking-tight">
+                <h3 className="font-outfit font-bold text-xl text-[#1A1A1A] tracking-tight">
                   Discuss Your Project Scope
                 </h3>
               </div>
@@ -186,7 +186,7 @@ export default function ServicesVision() {
                       <polyline points="20 6 9 17 4 12" />
                     </svg>
                   </div>
-                  <h4 className="text-2xl text-[#1A1A1A] tracking-tight mb-2">
+                  <h4 className="font-outfit font-bold text-2xl text-[#1A1A1A] tracking-tight mb-2">
                     Inquiry Received
                   </h4>
                   <p className="text-[15px] text-[#5B6472] max-w-md mx-auto leading-relaxed mb-6">

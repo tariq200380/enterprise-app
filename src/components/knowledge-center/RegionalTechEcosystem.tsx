@@ -143,14 +143,14 @@ export default function RegionalTechEcosystem({ initialWires }: { initialWires?:
         <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-10">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#ECFDF5] border border-[#A7F3D0] mb-3">
             <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse"></span>
-            <span className="text-[10.5px] font-bold text-[#065F46] uppercase tracking-wider">
+            <span className="text-[10.5px] font-semibold text-[#065F46] uppercase tracking-wider">
               REGIONAL INTELLIGENCE WIRE
             </span>
           </div>
-          <h2 className="text-2xl sm:text-3xl lg:text-[2.2rem] font-bold text-[#0F172A] tracking-[-0.02em] m-0">
+          <h2 className="font-outfit text-2xl sm:text-3xl lg:text-[2.2rem] font-bold text-[#0F172A] tracking-tight m-0">
             Pakistan Regional Tech Ecosystem
           </h2>
-          <p className="text-xs sm:text-sm text-[#5B6472] mt-2 max-w-xl">
+          <p className="text-xs sm:text-sm text-[#5B6472] mt-2 max-w-xl font-normal">
             Live technological transformation, fintech advancements, and venture capital flows across Pakistan's digital economy.
           </p>
         </div>
@@ -164,7 +164,7 @@ export default function RegionalTechEcosystem({ initialWires }: { initialWires?:
                 key={wire.id}
                 type="button"
                 onClick={() => setActiveWireId(wire.id)}
-                className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-all duration-200 cursor-pointer select-none ${
+                className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold transition-all duration-200 cursor-pointer select-none ${
                   isSelected
                     ? "bg-[#059669] text-white shadow-sm ring-2 ring-[#059669]/30 scale-105"
                     : "bg-white text-[#5B6472] border border-[#E2E8F0] hover:bg-[#EFECE6] hover:text-[#0F172A]"
@@ -189,22 +189,22 @@ export default function RegionalTechEcosystem({ initialWires }: { initialWires?:
                   (e.currentTarget as HTMLImageElement).src = "/uploads/live_news/apple_iphone16_hero.jpg";
                 }}
               />
-              <span className="absolute top-3 left-3 bg-[#059669] text-white text-[10px] font-bold px-2.5 py-1 rounded shadow-sm uppercase">
+              <span className="absolute top-3 left-3 bg-[#059669] text-white text-[10px] font-semibold tracking-wider px-2.5 py-1 rounded shadow-sm uppercase">
                 {activeWire.brandBadge}
               </span>
             </div>
 
             <div className="lg:col-span-7 flex flex-col justify-between h-full">
               <div>
-                <div className="flex items-center gap-2 text-xs text-[#5B6472] mb-2 font-mono">
-                  <span className="font-bold text-[#059669]">● {activeWire.date}</span>
+                <div className="flex items-center gap-2 text-xs text-[#5B6472] mb-2">
+                  <span className="font-semibold text-[#059669]">● {activeWire.date}</span>
                   <span>•</span>
                   <span>{activeWire.sourceName}</span>
                 </div>
-                <h3 className="text-xl sm:text-2xl font-bold text-[#0F172A] leading-tight mb-3">
+                <h3 className="font-outfit text-xl sm:text-2xl font-bold text-[#0F172A] leading-tight tracking-tight mb-3">
                   {activeWire.title}
                 </h3>
-                <p className="text-sm text-[#5B6472] leading-relaxed mb-6">
+                <p className="text-sm text-[#5B6472] leading-relaxed mb-6 font-normal">
                   {activeWire.summary}
                 </p>
               </div>
@@ -214,11 +214,11 @@ export default function RegionalTechEcosystem({ initialWires }: { initialWires?:
                   href={activeWire.sourceUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs font-bold text-[#059669] hover:underline inline-flex items-center gap-1.5"
+                  className="text-xs font-semibold text-[#059669] hover:underline inline-flex items-center gap-1.5"
                 >
                   <span>Read Official Source ({activeWire.sourceName}) &rarr;</span>
                 </a>
-                <span className="text-[10px] text-[#94A3B8] uppercase font-mono">
+                <span className="text-[10px] text-[#94A3B8] uppercase font-semibold tracking-wider">
                   Verified Ecosystem Wire
                 </span>
               </div>

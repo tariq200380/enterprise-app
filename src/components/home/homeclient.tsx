@@ -12,10 +12,10 @@ export default function Homeclient() {
           {/* LEFT COLUMN: Narrative and CTA */}
           <div className="lg:col-span-5 text-left space-y-6">
             <div>
-              <span className="text-xs sm:text-[13px] font-semibold text-[#EA580C] uppercase tracking-wider block mb-2 font-mono">
+              <span className="text-xs sm:text-[13px] font-semibold text-[#EA580C] uppercase tracking-wider block mb-2">
                 Enterprise Client Feedback
               </span>
-              <h2 className="text-3xl sm:text-4xl lg:text-[44px] text-[#1A1A1A] tracking-tight leading-[1.15]">
+              <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-outfit font-bold text-[#1A1A1A] tracking-tight leading-[1.15]">
                 <span className="block">What Our Clients Say</span>
                 <span className="block">About Creed Tech</span>
               </h2>

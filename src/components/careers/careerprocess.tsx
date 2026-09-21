@@ -5,7 +5,7 @@ export default function CareerProcess() {
         <span className="text-[11px] sm:text-xs font-bold text-[#FF6B00] tracking-widest uppercase block mb-3">
           TRANSPARENT &amp; COMPENSATED
         </span>
-        <h2 className="text-3xl sm:text-4xl lg:text-[40px] font-bold text-[#0F172A] tracking-tight leading-tight max-w-3xl mx-auto">
+        <h2 className="text-3xl sm:text-4xl lg:text-[40px] font-outfit font-bold text-[#0F172A] tracking-tight leading-tight max-w-3xl mx-auto">
           Our 4-Stage Respectful Hiring Process
         </h2>
         <p className="mt-4 text-sm sm:text-base text-slate-600 max-w-2xl mx-auto leading-relaxed font-normal">
@@ -16,13 +16,13 @@ export default function CareerProcess() {
           {/* Stage 1 */}
           <div className="bg-white rounded-2xl border border-[#E6E4DF] p-6 sm:p-7 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between">
             <div>
-              <span className="text-2xl sm:text-3xl font-bold text-[#FF6B00] block tracking-tight">
+              <span className="text-2xl sm:text-3xl font-outfit font-bold text-[#FF6B00] block tracking-tight">
                 01
               </span>
               <span className="text-[10px] sm:text-[11px] font-semibold text-slate-400 uppercase tracking-wider mt-3 block">
                 STAGE 1 · 30 MINUTES
               </span>
-              <h3 className="text-base sm:text-[17px] font-bold text-[#0F172A] mt-2.5 leading-snug">
+              <h3 className="text-base sm:text-[17px] font-outfit font-bold text-[#0F172A] mt-2.5 leading-snug">
                 Architectural &amp; Values Alignment Call
               </h3>
               <p className="text-xs sm:text-[13px] text-slate-500 mt-3 leading-relaxed font-normal">
@@ -37,13 +37,13 @@ export default function CareerProcess() {
           {/* Stage 2 */}
           <div className="bg-white rounded-2xl border border-[#E6E4DF] p-6 sm:p-7 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between">
             <div>
-              <span className="text-2xl sm:text-3xl font-bold text-[#FF6B00] block tracking-tight">
+              <span className="text-2xl sm:text-3xl font-outfit font-bold text-[#FF6B00] block tracking-tight">
                 02
               </span>
               <span className="text-[10px] sm:text-[11px] font-semibold text-slate-400 uppercase tracking-wider mt-3 block">
                 STAGE 2 · COMPENSATED
               </span>
-              <h3 className="text-base sm:text-[17px] font-bold text-[#0F172A] mt-2.5 leading-snug">
+              <h3 className="text-base sm:text-[17px] font-outfit font-bold text-[#0F172A] mt-2.5 leading-snug">
                 Paid Practical Code &amp; System Challenge
               </h3>
               <p className="text-xs sm:text-[13px] text-slate-500 mt-3 leading-relaxed font-normal">
@@ -58,13 +58,13 @@ export default function CareerProcess() {
           {/* Stage 3 */}
           <div className="bg-white rounded-2xl border border-[#E6E4DF] p-6 sm:p-7 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between">
             <div>
-              <span className="text-2xl sm:text-3xl font-bold text-[#FF6B00] block tracking-tight">
+              <span className="text-2xl sm:text-3xl font-outfit font-bold text-[#FF6B00] block tracking-tight">
                 03
               </span>
               <span className="text-[10px] sm:text-[11px] font-semibold text-slate-400 uppercase tracking-wider mt-3 block">
                 STAGE 3 · 45 MINUTES
               </span>
-              <h3 className="text-base sm:text-[17px] font-bold text-[#0F172A] mt-2.5 leading-snug">
+              <h3 className="text-base sm:text-[17px] font-outfit font-bold text-[#0F172A] mt-2.5 leading-snug">
                 Interactive Design &amp; Solution Teardown
               </h3>
               <p className="text-xs sm:text-[13px] text-slate-500 mt-3 leading-relaxed font-normal">
@@ -79,13 +79,13 @@ export default function CareerProcess() {
           {/* Stage 4 */}
           <div className="bg-white rounded-2xl border border-[#E6E4DF] p-6 sm:p-7 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between">
             <div>
-              <span className="text-2xl sm:text-3xl font-bold text-[#FF6B00] block tracking-tight">
+              <span className="text-2xl sm:text-3xl font-outfit font-bold text-[#FF6B00] block tracking-tight">
                 04
               </span>
               <span className="text-[10px] sm:text-[11px] font-semibold text-slate-400 uppercase tracking-wider mt-3 block">
                 STAGE 4 · &lt; 48 HOURS
               </span>
-              <h3 className="text-base sm:text-[17px] font-bold text-[#0F172A] mt-2.5 leading-snug">
+              <h3 className="text-base sm:text-[17px] font-outfit font-bold text-[#0F172A] mt-2.5 leading-snug">
                 Formal Offer &amp; Custom Hardware Kit
               </h3>
               <p className="text-xs sm:text-[13px] text-slate-500 mt-3 leading-relaxed font-normal">

@@ -233,7 +233,7 @@ export default function KnowledgeOverviewGrid() {
                 {/* 1. DON'T MISS SECTION */}
                 <div>
                   <div className="border-b-2 border-[#0F172A] pb-2 mb-6 inline-block">
-                    <h3 className="text-[1.35rem] font-extrabold text-[#0F172A] m-0">
+                    <h3 className="font-outfit text-[1.35rem] font-bold text-[#0F172A] tracking-tight m-0">
                       Don&apos;t Miss
                     </h3>
                   </div>
@@ -249,13 +249,13 @@ export default function KnowledgeOverviewGrid() {
                           <div className="w-14 h-14 mx-auto mb-2 rounded-lg bg-blue-600/30 border border-blue-400/40 flex items-center justify-center text-2xl group-hover:scale-105 transition-transform">
                             🤖
                           </div>
-                          <span className="text-[11.5px] font-mono text-[#67E8F9] tracking-wider uppercase font-semibold">
+                          <span className="text-[11.5px] text-[#67E8F9] tracking-wider uppercase font-semibold">
                             AI RESEARCH ARCHIVE
                           </span>
                         </div>
                       </div>
                       <div className="p-5">
-                        <h4 className="text-[0.95rem] sm:text-base font-bold text-[#0F172A] group-hover:text-[#0052FF] leading-[1.4] m-0 transition-colors">
+                        <h4 className="font-outfit text-[0.95rem] sm:text-base font-bold text-[#0F172A] group-hover:text-[#0052FF] leading-[1.4] tracking-tight m-0 transition-colors">
                           Artificial Intelligence Development from 1950 to 1965: The Foundation of Modern AI Research
                         </h4>
                       </div>
@@ -271,13 +271,13 @@ export default function KnowledgeOverviewGrid() {
                           <div className="w-14 h-14 mx-auto mb-2 rounded-lg bg-emerald-500/30 border border-emerald-400/40 flex items-center justify-center text-2xl group-hover:scale-105 transition-transform">
                             ⚡
                           </div>
-                          <span className="text-[11.5px] font-mono text-[#6EE7B7] tracking-wider uppercase font-semibold">
+                          <span className="text-[11.5px] text-[#6EE7B7] tracking-wider uppercase font-semibold">
                             CLOUD ORCHESTRATION
                           </span>
                         </div>
                       </div>
                       <div className="p-5">
-                        <h4 className="text-[0.95rem] sm:text-base font-bold text-[#0F172A] group-hover:text-[#0052FF] leading-[1.4] m-0 transition-colors">
+                        <h4 className="font-outfit text-[0.95rem] sm:text-base font-bold text-[#0F172A] group-hover:text-[#0052FF] leading-[1.4] tracking-tight m-0 transition-colors">
                           Cloud Native Microservices Architecture: A Deep Dive into Kubernetes Orchestration
                         </h4>
                       </div>
@@ -289,10 +289,10 @@ export default function KnowledgeOverviewGrid() {
                 <div className="bg-white border border-[#E2E8F0] rounded-2xl p-6 sm:p-7 shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
                   <div className="flex items-center justify-between flex-wrap gap-3 mb-6 pb-4 border-b border-[#F1F5F9]">
                     <div>
-                      <span className="text-[10.5px] font-bold text-[#0052FF] uppercase tracking-[0.1em] block mb-0.5">
+                      <span className="text-[10.5px] font-semibold text-[#0052FF] uppercase tracking-wider block mb-0.5">
                         CATEGORY DIRECTORY
                       </span>
-                      <h3 className="text-xl font-extrabold text-[#0F172A] m-0">
+                      <h3 className="font-outfit text-xl font-bold text-[#0F172A] tracking-tight m-0">
                         Discover Articles by Topic
                       </h3>
                     </div>
@@ -303,7 +303,7 @@ export default function KnowledgeOverviewGrid() {
                         <label
                           key={tab.id}
                           htmlFor={`filter-${tab.id}`}
-                          className={`btn-filter-${tab.id} px-3.5 py-1.5 text-xs rounded font-bold transition-all duration-150 cursor-pointer select-none bg-[#F7F6F5] text-[#5B6472] border border-[#E2E8F0] hover:bg-[#EFECE6] hover:text-[#0F172A]`}
+                          className={`btn-filter-${tab.id} px-3.5 py-1.5 text-xs rounded font-semibold transition-all duration-150 cursor-pointer select-none bg-[#F7F6F5] text-[#5B6472] border border-[#E2E8F0] hover:bg-[#EFECE6] hover:text-[#0F172A]`}
                         >
                           {tab.label}
                         </label>
@@ -326,14 +326,14 @@ export default function KnowledgeOverviewGrid() {
                           style={{ background: card.gradient }}
                         >
                           <span
-                            className="text-[11px] font-mono font-bold tracking-wider uppercase"
+                            className="text-[11px] font-semibold tracking-wider uppercase"
                             style={{ color: card.badgeColor }}
                           >
                             {card.badge}
                           </span>
                         </div>
                         <div className="p-4">
-                          <h5 className="text-[13.5px] font-bold text-[#0F172A] group-hover:text-[#0052FF] leading-[1.4] m-0 line-clamp-2 transition-colors">
+                          <h5 className="font-outfit text-[13.5px] font-bold text-[#0F172A] group-hover:text-[#0052FF] leading-[1.4] tracking-tight m-0 line-clamp-2 transition-colors">
                             {card.title}
                           </h5>
                         </div>
@@ -346,14 +346,14 @@ export default function KnowledgeOverviewGrid() {
                 <div className="bg-white border border-[#E2E8F0] rounded-2xl p-6 sm:p-7 shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
                   <div className="flex items-center justify-between flex-wrap gap-2 mb-6 pb-4 border-b border-[#F1F5F9]">
                     <div>
-                      <span className="text-[10.5px] font-bold text-[#EF4444] uppercase tracking-[0.1em] block mb-0.5">
+                      <span className="text-[10.5px] font-semibold text-[#EF4444] uppercase tracking-wider block mb-0.5">
                         🔥 VIRAL INTELLIGENCE
                       </span>
-                      <h3 className="text-xl font-extrabold text-[#0F172A] m-0">
+                      <h3 className="font-outfit text-xl font-bold text-[#0F172A] tracking-tight m-0">
                         What&apos;s Trending Across Labs
                       </h3>
                     </div>
-                    <span className="text-[11.5px] text-[#64748B] font-mono font-semibold">
+                    <span className="text-[11.5px] text-[#64748B] font-semibold tracking-wider">
                       UPDATED HOURLY
                     </span>
                   </div>
@@ -382,7 +382,7 @@ export default function KnowledgeOverviewGrid() {
                             </svg>
                           ) : (
                             <span
-                              className="text-[11px] font-mono font-bold tracking-wider uppercase"
+                              className="text-[11px] font-semibold tracking-wider uppercase"
                               style={{ color: card.badgeColor }}
                             >
                               {card.badge}
@@ -391,11 +391,11 @@ export default function KnowledgeOverviewGrid() {
                         </div>
                         <div className="p-4 flex-1 flex flex-col justify-center">
                           {card.isSpecialIcon && (
-                            <span className="text-[10px] font-bold text-[#5B6472] uppercase tracking-wider block mb-1">
+                            <span className="text-[10px] font-semibold text-[#5B6472] uppercase tracking-wider block mb-1">
                               TRENDING
                             </span>
                           )}
-                          <h5 className="text-[13.5px] font-bold text-[#0F172A] group-hover:text-[#0052FF] leading-[1.4] m-0 line-clamp-2 transition-colors">
+                          <h5 className="font-outfit text-[13.5px] font-bold text-[#0F172A] group-hover:text-[#0052FF] leading-[1.4] tracking-tight m-0 line-clamp-2 transition-colors">
                             {card.title}
                           </h5>
                         </div>
@@ -410,19 +410,19 @@ export default function KnowledgeOverviewGrid() {
                 {/* WIDGET 1: TOP STORIES */}
                 <div className="bg-white rounded-2xl border border-[#E2E8F0] p-5 shadow-[0_1px_3px_rgba(0,0,0,0.05)]">
                   <div className="flex items-center justify-between mb-4 pb-2 border-b border-[#E2E8F0]">
-                    <h4 className="text-[13px] font-extrabold text-[#0F172A] uppercase m-0 tracking-wider">
+                    <h4 className="font-outfit text-[13px] font-bold text-[#0F172A] uppercase m-0 tracking-wider">
                       Top Stories
                     </h4>
                     <div className="flex items-center gap-1.5">
                       <button
                         type="button"
-                        className="w-6 h-6 bg-[#F7F6F5] border border-[#E2E8F0] rounded flex items-center justify-center text-xs font-bold text-[#0F172A] hover:bg-[#EFECE6] transition-colors"
+                        className="w-6 h-6 bg-[#F7F6F5] border border-[#E2E8F0] rounded flex items-center justify-center text-xs font-semibold text-[#0F172A] hover:bg-[#EFECE6] transition-colors"
                       >
                         ‹
                       </button>
                       <button
                         type="button"
-                        className="w-6 h-6 bg-[#F7F6F5] border border-[#E2E8F0] rounded flex items-center justify-center text-xs font-bold text-[#0F172A] hover:bg-[#EFECE6] transition-colors"
+                        className="w-6 h-6 bg-[#F7F6F5] border border-[#E2E8F0] rounded flex items-center justify-center text-xs font-semibold text-[#0F172A] hover:bg-[#EFECE6] transition-colors"
                       >
                         ›
                       </button>
@@ -438,7 +438,7 @@ export default function KnowledgeOverviewGrid() {
                         💻
                       </div>
                       <div>
-                        <h5 className="text-[12.5px] font-bold text-[#0F172A] group-hover:text-[#0052FF] leading-[1.35] mb-1 transition-colors">
+                        <h5 className="font-outfit text-[12.5px] font-bold text-[#0F172A] group-hover:text-[#0052FF] leading-[1.35] mb-1 transition-colors">
                           The 7 Best Enterprise AI &amp; Cloud Laptops in 2026
                         </h5>
                         <span className="text-[10.5px] text-[#5B6472] font-semibold block">
@@ -455,7 +455,7 @@ export default function KnowledgeOverviewGrid() {
                         🤖
                       </div>
                       <div>
-                        <h5 className="text-[12.5px] font-bold text-[#0F172A] group-hover:text-[#0052FF] leading-[1.35] mb-1 transition-colors">
+                        <h5 className="font-outfit text-[12.5px] font-bold text-[#0F172A] group-hover:text-[#0052FF] leading-[1.35] mb-1 transition-colors">
                           Artificial Intelligence Development: Modern AI Foundations
                         </h5>
                         <span className="text-[10.5px] text-[#5B6472] font-semibold block">
@@ -472,7 +472,7 @@ export default function KnowledgeOverviewGrid() {
                         📈
                       </div>
                       <div>
-                        <h5 className="text-[12.5px] font-bold text-[#0F172A] group-hover:text-[#0052FF] leading-[1.35] mb-1 transition-colors">
+                        <h5 className="font-outfit text-[12.5px] font-bold text-[#0F172A] group-hover:text-[#0052FF] leading-[1.35] mb-1 transition-colors">
                           International Growth &amp; High-Throughput Cloud Scaling
                         </h5>
                         <span className="text-[10.5px] text-[#5B6472] font-semibold block">
@@ -486,15 +486,15 @@ export default function KnowledgeOverviewGrid() {
                 {/* WIDGET 2: SPECIAL FEATURE 1 */}
                 <div className="bg-[#0B1120] text-white rounded-2xl p-6 relative overflow-hidden border border-[#1F2937] shadow-lg">
                   <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#4ADE80] via-[#22D3EE] to-[#3B82F6]"></div>
-                  <span className="text-[11px] font-bold text-[#9CA3AF] uppercase tracking-wider block mb-1">
+                  <span className="text-[11px] font-semibold text-[#9CA3AF] uppercase tracking-wider block mb-1">
                     Special Feature
                   </span>
-                  <p className="text-[12.5px] text-[#D1D5DB] leading-relaxed mb-4">
+                  <p className="text-[12.5px] text-[#D1D5DB] leading-relaxed mb-4 font-normal">
                     Watch our exclusive video briefings &amp; live architecture teardowns.
                   </p>
                   <Link
                     href="/contact"
-                    className="inline-block px-5 py-2 bg-[#E53935] hover:bg-[#C62828] text-white font-bold text-xs rounded-sm shadow-[0_4px_6px_-1px_rgba(229,57,53,0.4)] transition-colors text-center"
+                    className="inline-block px-5 py-2 bg-[#E53935] hover:bg-[#C62828] text-white font-semibold text-xs rounded-sm shadow-[0_4px_6px_-1px_rgba(229,57,53,0.4)] transition-colors text-center"
                   >
                     Watch Now
                   </Link>
@@ -503,19 +503,19 @@ export default function KnowledgeOverviewGrid() {
                 {/* WIDGET 3: NEWEST VIDEOS */}
                 <div className="bg-white rounded-2xl border border-[#E2E8F0] p-5 shadow-[0_1px_3px_rgba(0,0,0,0.05)]">
                   <div className="flex items-center justify-between mb-4 pb-2 border-b border-[#E2E8F0]">
-                    <h4 className="text-[13px] font-extrabold text-[#0F172A] uppercase m-0 tracking-wider">
+                    <h4 className="font-outfit text-[13px] font-bold text-[#0F172A] uppercase m-0 tracking-wider">
                       Newest Videos
                     </h4>
                     <div className="flex items-center gap-1.5">
                       <button
                         type="button"
-                        className="w-6 h-6 bg-[#F7F6F5] border border-[#E2E8F0] rounded flex items-center justify-center text-xs font-bold text-[#0F172A] hover:bg-[#EFECE6] transition-colors"
+                        className="w-6 h-6 bg-[#F7F6F5] border border-[#E2E8F0] rounded flex items-center justify-center text-xs font-semibold text-[#0F172A] hover:bg-[#EFECE6] transition-colors"
                       >
                         ‹
                       </button>
                       <button
                         type="button"
-                        className="w-6 h-6 bg-[#F7F6F5] border border-[#E2E8F0] rounded flex items-center justify-center text-xs font-bold text-[#0F172A] hover:bg-[#EFECE6] transition-colors"
+                        className="w-6 h-6 bg-[#F7F6F5] border border-[#E2E8F0] rounded flex items-center justify-center text-xs font-semibold text-[#0F172A] hover:bg-[#EFECE6] transition-colors"
                       >
                         ›
                       </button>
@@ -528,7 +528,7 @@ export default function KnowledgeOverviewGrid() {
                         ▶
                       </div>
                       <div>
-                        <h5 className="text-[12px] font-bold text-[#0F172A] group-hover:text-[#0052FF] leading-[1.35] mb-1 uppercase transition-colors">
+                        <h5 className="font-outfit text-[12px] font-bold text-[#0F172A] group-hover:text-[#0052FF] leading-[1.35] mb-1 uppercase transition-colors">
                           WHAT ARE SOCIAL ADVERTISING?
                         </h5>
                         <span className="text-[10.5px] text-[#5B6472] font-semibold block">
@@ -542,7 +542,7 @@ export default function KnowledgeOverviewGrid() {
                         ▶
                       </div>
                       <div>
-                        <h5 className="text-[12px] font-bold text-[#0F172A] group-hover:text-[#0052FF] leading-[1.35] mb-1 uppercase transition-colors">
+                        <h5 className="font-outfit text-[12px] font-bold text-[#0F172A] group-hover:text-[#0052FF] leading-[1.35] mb-1 uppercase transition-colors">
                           ENTERPRISE AI ARCHITECTURE
                         </h5>
                         <span className="text-[10.5px] text-[#5B6472] font-semibold block">
@@ -556,7 +556,7 @@ export default function KnowledgeOverviewGrid() {
                         ▶
                       </div>
                       <div>
-                        <h5 className="text-[12px] font-bold text-[#0F172A] group-hover:text-[#0052FF] leading-[1.35] mb-1 uppercase transition-colors">
+                        <h5 className="font-outfit text-[12px] font-bold text-[#0F172A] group-hover:text-[#0052FF] leading-[1.35] mb-1 uppercase transition-colors">
                           HYBRID CLOUD DEVOPS TEARDOWN
                         </h5>
                         <span className="text-[10.5px] text-[#5B6472] font-semibold block">
@@ -570,15 +570,15 @@ export default function KnowledgeOverviewGrid() {
                 {/* WIDGET 4: SPECIAL FEATURE 2 */}
                 <div className="bg-[#0B1120] text-white rounded-2xl p-6 relative overflow-hidden border border-[#1F2937] shadow-lg">
                   <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#FB923C] via-[#EF4444] to-[#EC4899]"></div>
-                  <span className="text-[11px] font-bold text-[#9CA3AF] uppercase tracking-wider block mb-1">
+                  <span className="text-[11px] font-semibold text-[#9CA3AF] uppercase tracking-wider block mb-1">
                     Special Feature
                   </span>
-                  <p className="text-[12.5px] text-[#D1D5DB] leading-relaxed mb-4">
+                  <p className="text-[12.5px] text-[#D1D5DB] leading-relaxed mb-4 font-normal">
                     Explore our high-throughput AI infrastructure benchmarks.
                   </p>
                   <Link
                     href="/contact"
-                    className="inline-block px-5 py-2 bg-[#E53935] hover:bg-[#C62828] text-white font-bold text-xs rounded-sm shadow-[0_4px_6px_-1px_rgba(229,57,53,0.4)] transition-colors text-center"
+                    className="inline-block px-5 py-2 bg-[#E53935] hover:bg-[#C62828] text-white font-semibold text-xs rounded-sm shadow-[0_4px_6px_-1px_rgba(229,57,53,0.4)] transition-colors text-center"
                   >
                     Watch Now
                   </Link>
@@ -587,19 +587,19 @@ export default function KnowledgeOverviewGrid() {
                 {/* WIDGET 5: UPCOMING EVENTS */}
                 <div className="bg-white rounded-2xl border border-[#E2E8F0] p-5 shadow-[0_1px_3px_rgba(0,0,0,0.05)]">
                   <div className="flex items-center justify-between mb-4 pb-2 border-b border-[#E2E8F0]">
-                    <h4 className="text-[13px] font-extrabold text-[#0F172A] uppercase m-0 tracking-wider">
+                    <h4 className="font-outfit text-[13px] font-bold text-[#0F172A] uppercase m-0 tracking-wider">
                       Upcoming Events
                     </h4>
                     <div className="flex items-center gap-1.5">
                       <button
                         type="button"
-                        className="w-6 h-6 bg-[#F7F6F5] border border-[#E2E8F0] rounded flex items-center justify-center text-xs font-bold text-[#0F172A] hover:bg-[#EFECE6] transition-colors"
+                        className="w-6 h-6 bg-[#F7F6F5] border border-[#E2E8F0] rounded flex items-center justify-center text-xs font-semibold text-[#0F172A] hover:bg-[#EFECE6] transition-colors"
                       >
                         ‹
                       </button>
                       <button
                         type="button"
-                        className="w-6 h-6 bg-[#F7F6F5] border border-[#E2E8F0] rounded flex items-center justify-center text-xs font-bold text-[#0F172A] hover:bg-[#EFECE6] transition-colors"
+                        className="w-6 h-6 bg-[#F7F6F5] border border-[#E2E8F0] rounded flex items-center justify-center text-xs font-semibold text-[#0F172A] hover:bg-[#EFECE6] transition-colors"
                       >
                         ›
                       </button>
@@ -609,15 +609,15 @@ export default function KnowledgeOverviewGrid() {
                   <div className="flex flex-col gap-3.5">
                     <div className="flex items-center gap-3.5 cursor-pointer group">
                       <div className="w-12 h-12 rounded-xl bg-[#F7F6F5] border border-[#E2E8F0] flex flex-col items-center justify-center shrink-0">
-                        <span className="text-sm font-extrabold text-[#0F172A] leading-none">
+                        <span className="font-outfit text-sm font-bold text-[#0F172A] leading-none">
                           13
                         </span>
-                        <span className="text-[9px] font-bold text-[#5B6472] tracking-wider">
+                        <span className="text-[9px] font-semibold text-[#5B6472] tracking-wider">
                           APR
                         </span>
                       </div>
                       <div>
-                        <h5 className="text-[12.5px] font-bold text-[#0F172A] group-hover:text-[#0052FF] leading-[1.35] mb-0.5 transition-colors">
+                        <h5 className="font-outfit text-[12.5px] font-bold text-[#0F172A] group-hover:text-[#0052FF] leading-[1.35] mb-0.5 transition-colors">
                           International Conference on World Cloud Architecture
                         </h5>
                         <span className="text-[10.5px] text-[#5B6472] font-semibold block">
@@ -628,15 +628,15 @@ export default function KnowledgeOverviewGrid() {
 
                     <div className="flex items-center gap-3.5 pt-3 border-t border-[#F1F5F9] cursor-pointer group">
                       <div className="w-12 h-12 rounded-xl bg-[#F7F6F5] border border-[#E2E8F0] flex flex-col items-center justify-center shrink-0">
-                        <span className="text-sm font-extrabold text-[#0F172A] leading-none">
+                        <span className="font-outfit text-sm font-bold text-[#0F172A] leading-none">
                           28
                         </span>
-                        <span className="text-[9px] font-bold text-[#5B6472] tracking-wider">
+                        <span className="text-[9px] font-semibold text-[#5B6472] tracking-wider">
                           MAY
                         </span>
                       </div>
                       <div>
-                        <h5 className="text-[12.5px] font-bold text-[#0F172A] group-hover:text-[#0052FF] leading-[1.35] mb-0.5 transition-colors">
+                        <h5 className="font-outfit text-[12.5px] font-bold text-[#0F172A] group-hover:text-[#0052FF] leading-[1.35] mb-0.5 transition-colors">
                           Global AI &amp; Autonomous Agents Summit 2026
                         </h5>
                         <span className="text-[10.5px] text-[#5B6472] font-semibold block">
@@ -647,15 +647,15 @@ export default function KnowledgeOverviewGrid() {
 
                     <div className="flex items-center gap-3.5 pt-3 border-t border-[#F1F5F9] cursor-pointer group">
                       <div className="w-12 h-12 rounded-xl bg-[#F7F6F5] border border-[#E2E8F0] flex flex-col items-center justify-center shrink-0">
-                        <span className="text-sm font-extrabold text-[#0F172A] leading-none">
+                        <span className="font-outfit text-sm font-bold text-[#0F172A] leading-none">
                           15
                         </span>
-                        <span className="text-[9px] font-bold text-[#5B6472] tracking-wider">
+                        <span className="text-[9px] font-semibold text-[#5B6472] tracking-wider">
                           JUN
                         </span>
                       </div>
                       <div>
-                        <h5 className="text-[12.5px] font-bold text-[#0F172A] group-hover:text-[#0052FF] leading-[1.35] mb-0.5 transition-colors">
+                        <h5 className="font-outfit text-[12.5px] font-bold text-[#0F172A] group-hover:text-[#0052FF] leading-[1.35] mb-0.5 transition-colors">
                           Enterprise Cybersecurity &amp; Threat Modeling Workshop
                         </h5>
                         <span className="text-[10.5px] text-[#5B6472] font-semibold block">

@@ -104,10 +104,10 @@ export default function ContactScheduleModal({
           ✕
         </button>
 
-        <span className="text-[10.5px] font-bold text-[#EA580C] uppercase tracking-wider font-mono block mb-1">
+        <span className="text-[10.5px] font-semibold text-[#EA580C] uppercase tracking-wider block mb-1">
           ⚡ DIRECT ARCHITECTURAL DISCOVERY
         </span>
-        <h3 className="text-lg sm:text-xl font-extrabold text-[#0F172A] mb-1">
+        <h3 className="text-lg sm:text-xl font-outfit font-bold text-[#0F172A] mb-1">
           Schedule 30-Min Discovery Call
         </h3>
         <p className="text-xs text-slate-500 mb-5 leading-relaxed">
@@ -222,7 +222,7 @@ export default function ContactScheduleModal({
             <button
               type="submit"
               disabled={status === "loading"}
-              className="w-full h-11 bg-[#EA580C] hover:bg-orange-600 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-colors cursor-pointer disabled:opacity-50 mt-2 flex items-center justify-center gap-2 shadow-xs"
+              className="w-full h-11 bg-[#EA580C] hover:bg-orange-600 text-white font-semibold text-xs uppercase tracking-wider rounded-xl transition-colors cursor-pointer disabled:opacity-50 mt-2 flex items-center justify-center gap-2 shadow-xs"
             >
               {status === "loading" ? "Scheduling..." : "Confirm Call ⚡"}
             </button>

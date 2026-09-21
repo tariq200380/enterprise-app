@@ -35,12 +35,12 @@ export default function ContactHeroSection({ settings }: ContactHeroSectionProps
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-10 lg:gap-14 relative z-10">
         {/* Left Column */}
         <div className="w-full lg:w-1/2">
-          <div className="text-[11px] font-semibold uppercase tracking-[3px] text-[#AEB6C2] mb-2.5 font-mono">
+          <div className="text-[11px] font-semibold uppercase tracking-wider text-[#AEB6C2] mb-2.5">
             {badge}
           </div>
           <div className="w-[60px] h-[2px] bg-[#FF6B00] opacity-80 mb-6" />
 
-          <h1 className="text-[32px] sm:text-[44px] font-extrabold text-white leading-[1.15] mb-4 tracking-tight">
+          <h1 className="text-[32px] sm:text-[44px] font-outfit font-bold text-white leading-[1.15] mb-4 tracking-tight">
             {headline.includes(".") ? (
               <>
                 <span>{headline.split(".")[0]}.</span>
@@ -61,10 +61,10 @@ export default function ContactHeroSection({ settings }: ContactHeroSectionProps
         {/* Right Column: 4 Stat Metrics (Clean, direct JSX) */}
         <div className="w-full lg:w-1/2 grid grid-cols-2 gap-y-8 gap-x-6 sm:gap-x-10 text-left">
           <div>
-            <span className="text-[10.5px] font-bold text-slate-400 uppercase tracking-wider block font-mono">
+            <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">
               {m1Label}
             </span>
-            <div className="text-2xl sm:text-3xl font-extrabold text-white mt-1.5 mb-1">
+            <div className="text-2xl sm:text-3xl font-outfit font-bold text-white mt-1.5 mb-1 tracking-tight">
               {m1Value}
             </div>
             <p className="text-xs text-white/60 leading-relaxed font-normal">
@@ -73,10 +73,10 @@ export default function ContactHeroSection({ settings }: ContactHeroSectionProps
           </div>
 
           <div>
-            <span className="text-[10.5px] font-bold text-slate-400 uppercase tracking-wider block font-mono">
+            <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">
               {m2Label}
             </span>
-            <div className="text-2xl sm:text-3xl font-extrabold text-white mt-1.5 mb-1">
+            <div className="text-2xl sm:text-3xl font-outfit font-bold text-white mt-1.5 mb-1 tracking-tight">
               {m2Value}
             </div>
             <p className="text-xs text-white/60 leading-relaxed font-normal">
@@ -85,10 +85,10 @@ export default function ContactHeroSection({ settings }: ContactHeroSectionProps
           </div>
 
           <div>
-            <span className="text-[10.5px] font-bold text-slate-400 uppercase tracking-wider block font-mono">
+            <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">
               {m3Label}
             </span>
-            <div className="text-2xl sm:text-3xl font-extrabold text-white mt-1.5 mb-1">
+            <div className="text-2xl sm:text-3xl font-outfit font-bold text-white mt-1.5 mb-1 tracking-tight">
               {m3Value}
             </div>
             <p className="text-xs text-white/60 leading-relaxed font-normal">
@@ -97,10 +97,10 @@ export default function ContactHeroSection({ settings }: ContactHeroSectionProps
           </div>
 
           <div>
-            <span className="text-[10.5px] font-bold text-slate-400 uppercase tracking-wider block font-mono">
+            <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">
               DELIVERY COMMITMENT
             </span>
-            <div className="text-2xl sm:text-3xl font-extrabold text-white mt-1.5 mb-1">
+            <div className="text-2xl sm:text-3xl font-outfit font-bold text-white mt-1.5 mb-1 tracking-tight">
               99.99% SLA
             </div>
             <p className="text-xs text-white/60 leading-relaxed font-normal">

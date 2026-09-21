@@ -4,7 +4,7 @@ export default function CareerHero() {
       <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(to_right,#e5e2db80_1px,transparent_1px),linear-gradient(to_bottom,#e5e2db80_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_75%_65%_at_50%_40%,#000_65%,transparent_100%)]" />
 
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#0F172A] tracking-tight leading-tight max-w-4xl mx-auto">
+        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-outfit font-bold text-[#0F172A] tracking-tight leading-tight max-w-4xl mx-auto">
           Build digital infrastructure that<br className="hidden sm:inline" />
           {" "}<span className="text-[#FF6B00]">endures.</span> Not just demos.
         </h1>
@@ -21,7 +21,7 @@ export default function CareerHero() {
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1.5">
                 WORK MODEL
               </span>
-              <div className="text-base sm:text-[17px] font-bold text-slate-900 tracking-tight leading-snug">
+              <div className="text-base sm:text-[17px] font-outfit font-bold text-slate-900 tracking-tight leading-snug">
                 100% Remote &amp; Async
               </div>
               <p className="text-xs text-slate-500 mt-1 font-normal">
@@ -34,7 +34,7 @@ export default function CareerHero() {
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1.5">
                 HIRING SLA
               </span>
-              <div className="text-base sm:text-[17px] font-bold text-slate-900 tracking-tight leading-snug">
+              <div className="text-base sm:text-[17px] font-outfit font-bold text-slate-900 tracking-tight leading-snug">
                 7-Day Total Cycle
               </div>
               <p className="text-xs text-slate-500 mt-1 font-normal">
@@ -47,7 +47,7 @@ export default function CareerHero() {
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1.5">
                 HARDWARE ALLOWANCE
               </span>
-              <div className="text-base sm:text-[17px] font-bold text-slate-900 tracking-tight leading-snug">
+              <div className="text-base sm:text-[17px] font-outfit font-bold text-slate-900 tracking-tight leading-snug">
                 $5,000 Gear Budget
               </div>
               <p className="text-xs text-slate-500 mt-1 font-normal">
@@ -60,7 +60,7 @@ export default function CareerHero() {
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1.5">
                 AUTONOMY LEVEL
               </span>
-              <div className="text-base sm:text-[17px] font-bold text-slate-900 tracking-tight leading-snug">
+              <div className="text-base sm:text-[17px] font-outfit font-bold text-slate-900 tracking-tight leading-snug">
                 Direct Architect-to-Client
               </div>
               <p className="text-xs text-slate-500 mt-1 font-normal">
