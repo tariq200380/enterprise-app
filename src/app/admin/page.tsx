@@ -35,28 +35,45 @@ export default function AdminPage() {
   const [userEmail, setUserEmail] = useState<string>("admin@creed-tech.com");
   const [authChecked, setAuthChecked] = useState<boolean>(false);
 
+  // Check server-side session cookie on mount
   useEffect(() => {
-    const storedAuth = localStorage.getItem("creed_admin_authenticated");
-    const storedEmail = localStorage.getItem("creed_admin_user_email");
-    if (storedAuth === "true") {
-      setIsAuthenticated(true);
-      if (storedEmail) setUserEmail(storedEmail);
-    } else {
-      setIsAuthenticated(false);
-    }
-    setAuthChecked(true);
+    let isMounted = true;
+    fetch("/api/admin/auth/check")
+      .then((res) => res.json())
+      .then((data) => {
+        if (!isMounted) return;
+        if (data.authenticated && data.user) {
+          setIsAuthenticated(true);
+          setUserEmail(data.user.email || "admin@creed-tech.com");
+        } else {
+          setIsAuthenticated(false);
+          localStorage.removeItem("creed_admin_authenticated");
+        }
+      })
+      .catch(() => {
+        if (isMounted) setIsAuthenticated(false);
+      })
+      .finally(() => {
+        if (isMounted) setAuthChecked(true);
+      });
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const handleLogin = (email: string) => {
-    localStorage.setItem("creed_admin_authenticated", "true");
-    localStorage.setItem("creed_admin_user_email", email);
     setIsAuthenticated(true);
     setUserEmail(email);
     showToast("Signed in successfully as Admin!", "success");
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    try {
+      await fetch("/api/admin/auth/logout", { method: "POST" });
+    } catch {}
     localStorage.removeItem("creed_admin_authenticated");
+    localStorage.removeItem("creed_admin_user_email");
     setIsAuthenticated(false);
     showToast("Signed out of Admin Panel.", "success");
   };
@@ -77,10 +94,11 @@ export default function AdminPage() {
   }, []);
 
   useEffect(() => {
+    if (!isAuthenticated) return;
     fetchTelemetry();
     const interval = setInterval(fetchTelemetry, 30000);
     return () => clearInterval(interval);
-  }, [fetchTelemetry]);
+  }, [fetchTelemetry, isAuthenticated]);
 
   const counts = telemetry?.counts || {};
 

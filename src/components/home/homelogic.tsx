@@ -8,6 +8,7 @@ const inputStyle = "w-full px-3 py-2 border border-slate-300 rounded text-sm tex
 export default function HomeLogic() {
   // SIRF 1 STATE: "project" (inquiry modal) | "review" (review modal) | "done" (success screen) | null (band)
   const [modal, setModal] = useState<"project" | "review" | "done" | null>(null);
+  const [errorMsg, setErrorMsg] = useState<string>("");
 
   // Buttons par click hone par popup kholna
   useEffect(() => {
@@ -16,6 +17,7 @@ export default function HomeLogic() {
       const type = btn?.dataset.modal;
       if (type === "project" || type === "review") {
         e.preventDefault();
+        setErrorMsg("");
         setModal(type);
       }
     };
@@ -33,24 +35,9 @@ export default function HomeLogic() {
       submitBtn.innerText = "Submitting...";
     }
 
+    setErrorMsg("");
     const fd = new FormData(form);
     const isProject = modal === "project";
-
-    let avatar = "";
-    if (!isProject) {
-      const picFile = fd.get("pic") as File | null;
-      if (picFile && picFile.size > 0) {
-        try {
-          const upData = new FormData();
-          upData.append("file", picFile);
-          const upRes = await fetch("/api/admin/upload", { method: "POST", body: upData });
-          const upJson = await upRes.json();
-          if (upJson?.url) avatar = upJson.url;
-        } catch {
-          // ignore upload failure
-        }
-      }
-    }
 
     const data = isProject
       ? {
@@ -66,23 +53,31 @@ export default function HomeLogic() {
           client_name: fd.get("name"),
           role: fd.get("role") || "Client",
           company: fd.get("location") || "Global",
-          avatar,
           rating: Number(fd.get("rating")) || 5,
           quote: fd.get("quote"),
-          verified: false,
         };
 
-    const res = await fetch(isProject ? "/api/admin/inquiries" : "/api/admin/testimonials", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    }).catch(() => null);
+    try {
+      const res = await fetch(isProject ? "/api/inquiries" : "/api/testimonials", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
 
-    if (res?.ok) {
-      setModal("done");
-    } else if (submitBtn) {
-      submitBtn.disabled = false;
-      submitBtn.innerText = isProject ? "Submit Project Inquiry" : "Submit Review ★";
+      const resData = await res.json().catch(() => ({}));
+      if (res.ok && resData.success) {
+        setModal("done");
+        form.reset();
+      } else {
+        setErrorMsg(resData.error || "Submission failed. Please check your inputs and try again.");
+      }
+    } catch {
+      setErrorMsg("Network error. Please try again.");
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerText = isProject ? "Submit Project Inquiry" : "Submit Review ★";
+      }
     }
   };
 
@@ -131,6 +126,12 @@ export default function HomeLogic() {
             <p className="text-xs text-slate-500 mb-4">
               {modal === "project" ? "Apne project ki details darj karein:" : "Apna review darj karein:"}
             </p>
+
+            {errorMsg && (
+              <div className="p-2.5 mb-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded">
+                {errorMsg}
+              </div>
+            )}
 
             <form onSubmit={handleSubmit} className="flex flex-col gap-3">
               

@@ -21,7 +21,7 @@ export default function NewsletterLogic() {
     setMessage("");
 
     try {
-      const res = await fetch("/api/admin/subscribers", {
+      const res = await fetch("/api/newsletter", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

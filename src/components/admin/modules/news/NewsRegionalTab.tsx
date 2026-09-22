@@ -3,17 +3,26 @@
 import React from "react";
 import { StoryItem } from "./types";
 
+const REGIONAL_FALLBACK_IMAGES: Record<string, string> = {
+  dawn: "https://i.dawn.com/large/2026/09/21112713801fded.webp",
+  brecorder: "https://i.brecorder.com/large/2026/09/220759353d42770.webp",
+  propakistani: "https://propakistani.pk/wp-content/uploads/2026/09/Vivo-X500-2.jpg",
+  tribune: "https://i.tribune.com.pk/media/images/silent-hill-f-11759313708-0/silent-hill-f-11759313708-0.png",
+};
+
 interface NewsRegionalTabProps {
   regionalWires: Record<string, StoryItem>;
-  creatingDraftId: string | null;
-  onCreateKnowledgeDraft: (story: StoryItem) => void;
+  savedTitles: Set<string>;
+  savingStoryId: string | null;
+  onSaveNews: (story: StoryItem) => void;
   onOpenEdit: (section: "regional", id: string, story: StoryItem) => void;
 }
 
 export default function NewsRegionalTab({
   regionalWires,
-  creatingDraftId,
-  onCreateKnowledgeDraft,
+  savedTitles,
+  savingStoryId,
+  onSaveNews,
   onOpenEdit,
 }: NewsRegionalTabProps) {
   const entries = Object.entries(regionalWires);
@@ -29,7 +38,12 @@ export default function NewsRegionalTab({
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
       {entries.map(([rKey, wire]) => {
-        const imgSrc = wire.image || wire.img || "/uploads/live_news/apple_iphone16_hero.jpg";
+        const pKey = rKey.toLowerCase();
+        const fallback = REGIONAL_FALLBACK_IMAGES[pKey] || "/uploads/live_news/apple_iphone16_hero.jpg";
+        const raw = (wire.image || wire.img || fallback).trim().replace(/&amp;/g, "&");
+        const imgSrc = raw || fallback;
+        const isSaved = savedTitles.has((wire.title || "").trim().toLowerCase());
+        const isSaving = savingStoryId === wire.title;
 
         return (
           <div
@@ -44,7 +58,7 @@ export default function NewsRegionalTab({
                   alt={wire.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   onError={(e) => {
-                    (e.currentTarget as HTMLImageElement).src = "/uploads/live_news/apple_iphone16_hero.jpg";
+                    (e.currentTarget as HTMLImageElement).src = fallback;
                   }}
                 />
                 <span className="absolute top-2.5 left-2.5 bg-[#059669] text-white text-[10px] font-extrabold px-2.5 py-0.5 rounded uppercase shadow-sm">
@@ -52,10 +66,16 @@ export default function NewsRegionalTab({
                 </span>
               </div>
 
-              <div className="flex items-center gap-2 text-xs text-[#64748B] mb-1.5">
+              <div className="flex items-center gap-2 text-xs text-[#64748B] mb-1.5 flex-wrap">
                 <span className="font-bold text-[#059669]">● {wire.date}</span>
                 <span>•</span>
-                <span className="font-semibold">{wire.sourceName}</span>
+                <span className="font-semibold">{wire.sourceName || wire.source}</span>
+                {isSaved && (
+                  <span className="bg-emerald-100 text-emerald-800 border border-emerald-300 text-[9px] font-extrabold px-2 py-0.2 rounded-full uppercase tracking-wider flex items-center gap-1">
+                    <span>✓</span>
+                    <span>Saved in Database</span>
+                  </span>
+                )}
               </div>
               <h3 className="text-sm sm:text-[15px] font-bold text-[#0F172A] leading-snug mb-2">
                 {wire.title}
@@ -77,14 +97,16 @@ export default function NewsRegionalTab({
               <div className="flex items-center gap-2">
                 <button
                   type="button"
-                  disabled={creatingDraftId === (wire.title || rKey)}
-                  onClick={() => onCreateKnowledgeDraft(wire)}
-                  className="px-3 py-1.5 bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 text-xs font-bold rounded shadow-xs cursor-pointer transition-colors flex items-center gap-1 disabled:opacity-50"
+                  disabled={isSaved || isSaving}
+                  onClick={() => onSaveNews(wire)}
+                  className={`px-3.5 py-1.5 text-xs font-bold rounded shadow-xs cursor-pointer transition-all flex items-center gap-1.5 ${
+                    isSaved
+                      ? "bg-emerald-50 text-emerald-700 border border-emerald-300 opacity-90 cursor-default"
+                      : "bg-emerald-600 hover:bg-emerald-700 text-white active:scale-95"
+                  }`}
                 >
-                  <span>📝</span>
-                  <span>
-                    {creatingDraftId === (wire.title || rKey) ? "Drafting..." : "+ Knowledge Draft"}
-                  </span>
+                  <span>{isSaved ? "✓" : isSaving ? "⏳" : "💾"}</span>
+                  <span>{isSaved ? "Saved in DB" : isSaving ? "Saving..." : "Save News"}</span>
                 </button>
                 <button
                   type="button"

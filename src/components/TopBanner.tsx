@@ -59,23 +59,15 @@ export default function TopBanner({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [fadeState, setFadeState] = useState<"in" | "out">("in");
 
+  // Sync state if initialSettings changes (e.g. during client navigation or RSC revalidation)
   useEffect(() => {
-    fetch("/api/admin/website-settings")
-      .then((res) => res.json())
-      .then((data) => {
-        const s = data.settings || data;
-        if (s) {
-          if (s.showAnnouncement !== undefined) {
-            setShow(Boolean(s.showAnnouncement));
-          } else if (s.show_announcement !== undefined) {
-            setShow(Boolean(s.show_announcement));
-          }
-          const loaded = parseItems(s);
-          setItems(loaded);
-        }
-      })
-      .catch(() => {});
-  }, []);
+    if (initialSettings) {
+      if (initialSettings.showAnnouncement !== undefined) {
+        setShow(Boolean(initialSettings.showAnnouncement));
+      }
+      setItems(parseItems(initialSettings));
+    }
+  }, [initialSettings]);
 
   // Carousel rotation timer if more than 1 item
   useEffect(() => {

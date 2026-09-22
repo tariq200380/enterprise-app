@@ -50,32 +50,27 @@ export default function Footer({
       initialGeneralInfo?.officeAddress || "Office # 02, Main Shopping Center Sheikhupura.",
   });
 
+  // Sync state if initial props change (e.g. during client navigation or RSC revalidation)
   useEffect(() => {
-    fetch("/api/admin/website-settings")
-      .then((res) => res.json())
-      .then((data) => {
-        const s = data.settings || data;
-        if (s) {
-          if (Array.isArray(s.socialLinks) && s.socialLinks.length > 0) {
-            const valid = s.socialLinks.filter((l: SocialLink) => l.url && l.url.trim() !== "");
-            if (valid.length > 0) {
-              setSocialLinks(valid);
-            }
-          }
-          if (s.copyrightText) {
-            setCopyright(s.copyrightText);
-          }
-          setGeneralInfo((prev) => ({
-            siteName: s.siteName || s.site_name || prev.siteName,
-            siteTagline: s.siteTagline || s.site_tagline || prev.siteTagline,
-            contactEmail: s.contactEmail || s.contact_email || prev.contactEmail,
-            contactPhone: s.contactPhone || s.contact_phone || prev.contactPhone,
-            officeAddress: s.officeAddress || s.office_address || prev.officeAddress,
-          }));
-        }
-      })
-      .catch(() => {});
-  }, []);
+    if (initialSocialLinks && initialSocialLinks.length > 0) {
+      const valid = initialSocialLinks.filter((l: SocialLink) => l.url && l.url.trim() !== "");
+      if (valid.length > 0) {
+        setSocialLinks(valid);
+      }
+    }
+    if (initialCopyrightText) {
+      setCopyright(initialCopyrightText);
+    }
+    if (initialGeneralInfo) {
+      setGeneralInfo((prev) => ({
+        siteName: initialGeneralInfo.siteName || prev.siteName,
+        siteTagline: initialGeneralInfo.siteTagline || prev.siteTagline,
+        contactEmail: initialGeneralInfo.contactEmail || prev.contactEmail,
+        contactPhone: initialGeneralInfo.contactPhone || prev.contactPhone,
+        officeAddress: initialGeneralInfo.officeAddress || prev.officeAddress,
+      }));
+    }
+  }, [initialSocialLinks, initialCopyrightText, initialGeneralInfo]);
   return (
     <footer className="bg-[#1A1A1A] text-[#F4F6F8] pt-16 pb-8 mt-auto w-full">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

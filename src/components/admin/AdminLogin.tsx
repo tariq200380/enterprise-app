@@ -13,7 +13,7 @@ export default function AdminLogin({ onLogin }: AdminLoginProps) {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
 
@@ -24,26 +24,25 @@ export default function AdminLogin({ onLogin }: AdminLoginProps) {
 
     setLoading(true);
 
-    setTimeout(() => {
-      const validEmail = email.trim().toLowerCase();
-      const validPass = password.trim();
+    try {
+      const res = await fetch("/api/admin/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email.trim(), password }),
+      });
 
-      if (
-        (validEmail === "admin@creed-tech.com" || validEmail === "admin") &&
-        validPass === "admin123"
-      ) {
-        setLoading(false);
-        onLogin(email);
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        onLogin(data.user?.email || email.trim());
       } else {
-        setLoading(false);
-        setError("Invalid credentials. Default: admin@creed-tech.com / admin123");
+        setError(data.error || "Invalid administrator credentials.");
       }
-    }, 600);
-  };
-
-  const handleQuickLogin = () => {
-    setEmail("admin@creed-tech.com");
-    setPassword("admin123");
+    } catch {
+      setError("Unable to connect to authentication service. Please retry.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -99,17 +98,10 @@ export default function AdminLogin({ onLogin }: AdminLoginProps) {
           </div>
 
           <div>
-            <div className="flex items-center justify-between mb-1.5">
+            <div className="mb-1.5">
               <label className="block text-xs font-semibold text-[#CBD5E1]">
                 Security Password
               </label>
-              <button
-                type="button"
-                onClick={handleQuickLogin}
-                className="text-[10px] text-[#38BDF8] hover:underline"
-              >
-                Auto-fill Demo
-              </button>
             </div>
             <div className="relative">
               <input
@@ -150,7 +142,7 @@ export default function AdminLogin({ onLogin }: AdminLoginProps) {
 
         <div className="mt-6 pt-4 border-t border-[#1E293B] text-center">
           <p className="text-[11px] text-[#64748B]">
-            Default Login: <code className="text-[#38BDF8] bg-[#1E293B] px-1.5 py-0.5 rounded">admin@creed-tech.com</code> | Pass: <code className="text-[#38BDF8] bg-[#1E293B] px-1.5 py-0.5 rounded">admin123</code>
+            Enterprise Administrative Access &bull; Protected by Secure Session Verification
           </p>
         </div>
       </div>

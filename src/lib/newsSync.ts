@@ -266,7 +266,7 @@ function extractImageFromXml(itemXml: string): string | null {
   }
 
   if (matchedUrl && !isGenericPlaceholderImage(matchedUrl)) {
-    return matchedUrl;
+    return matchedUrl.replace(/&amp;/g, "&").trim();
   }
 
   return null;
@@ -440,11 +440,13 @@ async function fetchOgImage(link: string): Promise<string | null> {
 export const getCachedFeedForSource = (provider: FeedProviderConfig) => {
   return unstable_cache(
     async (): Promise<AggregatedArticle[]> => {
-      const rawItems = await fetchFeedItems(provider);
+      const allFetched = await fetchFeedItems(provider);
+      // Keep only the top 4-5 fresh live items per provider
+      const rawItems = allFetched.slice(0, 5);
 
-      // Enrich top items that lack an authentic image from RSS with their real page og:image
-      const enrichedItems = await Promise.all(
-        rawItems.slice(0, 8).map(async (item) => {
+      // Enrich items that lack an authentic image from RSS with their real page og:image
+      const allItems = await Promise.all(
+        rawItems.map(async (item) => {
           if (!item.img && item.link) {
             const ogImg = await fetchOgImage(item.link);
             if (ogImg) {
@@ -454,7 +456,6 @@ export const getCachedFeedForSource = (provider: FeedProviderConfig) => {
           return item;
         })
       );
-      const allItems = [...enrichedItems, ...rawItems.slice(8)];
 
       return allItems.map((item) => {
         // Authentic image attached to article; fallback only to that source's default image
@@ -530,7 +531,8 @@ export async function fetchAllAggregatedNews(): Promise<AggregatedArticle[]> {
     return tb - ta;
   });
 
-  return allNews;
+  // Keep the latest 25-30 live dispatches
+  return allNews.slice(0, 28);
 }
 
 /**

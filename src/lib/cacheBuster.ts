@@ -8,8 +8,13 @@ export function withCacheBuster(
   version?: string | number | null
 ): string {
   if (!url) return "";
-  const trimmed = url.trim();
+  let trimmed = url.trim().replace(/&amp;/g, "&");
   if (!trimmed) return "";
+
+  // Contentful Images API (ctfassets.net) strictly rejects unexpected query parameters (like v=...) with HTTP 400 Bad Request
+  if (trimmed.includes("ctfassets.net")) {
+    return trimmed.replace(/([?&])v=[^&]*(&|$)/g, (m, p1, p2) => p2 ? p1 : "").replace(/[?&]$/, "");
+  }
 
   // If already contains a version query parameter (?v= or &v=), don't duplicate
   if (/[?&]v=/.test(trimmed)) {

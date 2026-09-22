@@ -71,16 +71,48 @@ export default function NewsWireModule({ showToast, onDraftCreated }: NewsWireMo
     return () => clearInterval(interval);
   }, [fetchNewsData]);
 
-  // Promote a wire into an editorial draft in Knowledge Center
-  const handleCreateKnowledgeDraft = async (wire: StoryItem) => {
+  const [savedTitles, setSavedTitles] = useState<Set<string>>(new Set());
+  const [savingStoryId, setSavingStoryId] = useState<string | null>(null);
+
+  // Fetch already saved articles from Database to display "Saved" badge
+  const fetchSavedArticles = useCallback(async () => {
+    try {
+      const res = await fetch("/api/admin/articles?t=" + Date.now(), { cache: "no-store" });
+      const data = await res.json();
+      if (data?.articles && Array.isArray(data.articles)) {
+        const titles = new Set<string>();
+        data.articles.forEach((a: any) => {
+          if (a.title) titles.add(a.title.trim().toLowerCase());
+          if (a.source_news) {
+            titles.add(a.source_news.trim().toLowerCase());
+            // Extract wire title prefix before " (" if formatted as "Title (Source)"
+            const parenIdx = a.source_news.indexOf(" (");
+            if (parenIdx !== -1) {
+              titles.add(a.source_news.substring(0, parenIdx).trim().toLowerCase());
+            }
+          }
+        });
+        setSavedTitles(titles);
+      }
+    } catch (err) {
+      console.error("Failed to load saved articles list:", err);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchSavedArticles();
+  }, [fetchSavedArticles]);
+
+  // Save a live news wire directly to Database Knowledge Articles
+  const handleSaveNews = async (wire: StoryItem) => {
     const wireTitle = wire.title || "Untitled Wire";
     const wireSource = wire.source || wire.sourceName || "Tech Wire";
     const wireCategory = wire.tag || wire.category || wire.brandBadge || wire.providerLabel || "HARDWARE";
     const wireDesc = wire.desc || wire.summary || "";
-    const wireImage = wire.img || wire.image || "";
+    const wireImage = (wire.img || wire.image || "").replace(/&amp;/g, "&");
 
     try {
-      setCreatingDraftId(wireTitle);
+      setSavingStoryId(wireTitle);
       const res = await fetch("/api/admin/articles", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -91,7 +123,7 @@ export default function NewsWireModule({ showToast, onDraftCreated }: NewsWireMo
           read_time: "5 min read",
           cover_photo_url: wireImage,
           editor_note: wireDesc,
-          content: `<p><strong>Original Intelligence Summary:</strong> ${wireDesc}</p><p>Creed Tech Systems Lab is reviewing this blueprint for production architecture compliance and hardware performance benchmarks.</p>`,
+          content: `<p><strong>Original Intelligence Summary:</strong> ${wireDesc}</p><p>Saved from live tech news wire into Creed Tech knowledge base.</p>`,
           source_news: `${wireTitle} (${wireSource})`,
           status: "DRAFT",
         }),
@@ -99,17 +131,19 @@ export default function NewsWireModule({ showToast, onDraftCreated }: NewsWireMo
 
       const data = await res.json();
       if (data.success) {
-        showToast(`✓ Knowledge draft created in "News Editorial Drafts" for review!`);
+        setSavedTitles((prev) => new Set([...prev, wireTitle.trim().toLowerCase()]));
+        showToast(`✓ "${wireTitle.slice(0, 40)}..." saved to Knowledge Articles in Database!`);
         if (onDraftCreated) {
           onDraftCreated(data.article);
         }
+        fetchSavedArticles();
       } else {
-        showToast(data.error || "Failed to create knowledge draft");
+        showToast(data.error || "Failed to save news to database");
       }
     } catch (err: any) {
-      showToast("Error creating article draft: " + err.message);
+      showToast("Error saving news: " + err.message);
     } finally {
-      setCreatingDraftId(null);
+      setSavingStoryId(null);
     }
   };
 
@@ -267,9 +301,10 @@ export default function NewsWireModule({ showToast, onDraftCreated }: NewsWireMo
           {activeTab === "breaking" && (
             <NewsBreakingTab
               breakingStories={breakingStories}
-              creatingDraftId={creatingDraftId}
+              savedTitles={savedTitles}
+              savingStoryId={savingStoryId}
               onPinStory={handlePinStory}
-              onCreateKnowledgeDraft={handleCreateKnowledgeDraft}
+              onSaveNews={handleSaveNews}
               onOpenEdit={(section, id, story) => setEditingStory({ section, id, item: story })}
             />
           )}
@@ -277,8 +312,9 @@ export default function NewsWireModule({ showToast, onDraftCreated }: NewsWireMo
           {activeTab === "brand" && (
             <NewsBrandTab
               brandWires={brandWires}
-              creatingDraftId={creatingDraftId}
-              onCreateKnowledgeDraft={handleCreateKnowledgeDraft}
+              savedTitles={savedTitles}
+              savingStoryId={savingStoryId}
+              onSaveNews={handleSaveNews}
               onOpenEdit={(section, id, story) => setEditingStory({ section, id, item: story })}
             />
           )}
@@ -286,8 +322,9 @@ export default function NewsWireModule({ showToast, onDraftCreated }: NewsWireMo
           {activeTab === "regional" && (
             <NewsRegionalTab
               regionalWires={regionalWires}
-              creatingDraftId={creatingDraftId}
-              onCreateKnowledgeDraft={handleCreateKnowledgeDraft}
+              savedTitles={savedTitles}
+              savingStoryId={savingStoryId}
+              onSaveNews={handleSaveNews}
               onOpenEdit={(section, id, story) => setEditingStory({ section, id, item: story })}
             />
           )}
