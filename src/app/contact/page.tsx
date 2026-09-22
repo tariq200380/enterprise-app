@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { getContactSettings } from "@/lib/contact-data";
 import ContactPageClient from "@/components/contact/ContactPageClient";
 
-export const dynamic = "force-dynamic";
+// Step 3: Short cache for Contact page (5 minutes / 300 seconds ISR)
+export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: "Contact Solutions Architecture & Engineering | Creed Tech",

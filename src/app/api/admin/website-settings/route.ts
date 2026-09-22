@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { query } from "@/lib/db";
 
 export async function GET() {
@@ -115,6 +116,14 @@ export async function POST(req: Request) {
        RETURNING value`,
       [JSON.stringify(body)]
     );
+
+    // Step 4: Refresh global layout and public page cache immediately
+    revalidatePath("/", "layout");
+    revalidatePath("/services");
+    revalidatePath("/portfolio");
+    revalidatePath("/about");
+    revalidatePath("/contact");
+
     return NextResponse.json({ success: true, settings: res.rows[0].value });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });

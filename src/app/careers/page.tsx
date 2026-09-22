@@ -7,7 +7,8 @@ import CareerFaq from "@/components/careers/careerfaq";
 import CareerHotline from "@/components/careers/careerhotline";
 import CareerLogic from "@/components/careers/careerlogic";
 
-export const dynamic = "force-dynamic";
+// Step 3: Short cache for Careers page (5 minutes / 300 seconds ISR)
+export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: "Careers & Engineering Pods | Creed Tech",

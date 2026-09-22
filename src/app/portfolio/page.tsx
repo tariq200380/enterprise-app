@@ -5,7 +5,8 @@ import PortfolioStandardsSection from "@/components/portfolio/PortfolioStandards
 import PortfolioCaseStudiesSection from "@/components/portfolio/PortfolioCaseStudiesSection";
 import PortfolioCtaSection from "@/components/portfolio/PortfolioCtaSection";
 
-export const dynamic = "force-dynamic";
+// Step 3: Short cache for Portfolio page (5 minutes / 300 seconds ISR)
+export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: "Enterprise Case Studies & Delivered Systems | Creed Tech",

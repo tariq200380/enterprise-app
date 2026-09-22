@@ -9,7 +9,8 @@ import ServicesDelivery from "@/components/services/servicesdelivery";
 import ServicesIndustries from "@/components/services/servicesindustries";
 import ServicesVision from "@/components/services/servicesvision";
 
-export const dynamic = "force-dynamic";
+// Step 3: Short cache for Services category page (5 minutes / 300 seconds ISR)
+export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: "Enterprise Services & Engineering Solutions | Creed Tech",

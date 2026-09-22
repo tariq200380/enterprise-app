@@ -100,19 +100,26 @@ export default function BrandTechWires({ initialWires }: { initialWires?: BrandW
               >
                 {/* Visual Container */}
                 <div className="relative w-full aspect-[16/9] min-h-[240px] sm:min-h-[280px] rounded-xl overflow-hidden bg-[#0B1120]">
-                  <Image
-                    src={safeImageUrl(wire.img, "/uploads/live_news/apple_iphone16_hero.jpg")}
-                    alt={wire.title}
-                    fill
-                    unoptimized
-                    sizes="(max-width: 1024px) 100vw, 45vw"
-                    className="object-cover object-center transition-all duration-300"
-                    priority={wire.id === "apple" || wire.id === "google"}
-                    onError={(e) => {
-                      const target = e.currentTarget as HTMLImageElement;
-                      target.src = "/uploads/live_news/apple_iphone16_hero.jpg";
-                    }}
-                  />
+                  {(() => {
+                    const defaultProviderImg = brandWires.find((b) => b.id === wire.id)?.img || wire.img;
+                    return (
+                      <Image
+                        src={safeImageUrl(wire.img, defaultProviderImg)}
+                        alt={wire.title}
+                        fill
+                        unoptimized
+                        sizes="(max-width: 1024px) 100vw, 45vw"
+                        className="object-cover object-center transition-all duration-300"
+                        priority={wire.id === "apple" || wire.id === "google"}
+                        onError={(e) => {
+                          const target = e.currentTarget as HTMLImageElement;
+                          if (defaultProviderImg && !target.src.endsWith(defaultProviderImg)) {
+                            target.src = defaultProviderImg;
+                          }
+                        }}
+                      />
+                    );
+                  })()}
                   {/* Top right floating badge */}
                   <div className="absolute top-3 right-3 z-10">
                     <span className="inline-flex items-center gap-1.5 bg-white/95 backdrop-blur-md text-[#0F172A] text-[11px] font-semibold px-3 py-1 rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.25)]">

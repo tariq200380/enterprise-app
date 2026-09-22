@@ -2,79 +2,10 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-
-interface RegionalWireItem {
-  id: string;
-  name: string;
-  icon: string;
-  brandBadge: string;
-  category: string;
-  date: string;
-  title: string;
-  summary: string;
-  sourceName: string;
-  sourceUrl: string;
-  image: string;
-}
-
-const INITIAL_REGIONAL_WIRES: RegionalWireItem[] = [
-  {
-    id: "dawn",
-    name: "Dawn Sci-Tech",
-    icon: "🇵🇰",
-    brandBadge: "🇵🇰 DAWN TECH",
-    category: "PAKISTAN TECH & SCIENCE",
-    date: "Dawn Sci-Tech (Live Wire)",
-    title: "Anthropic boss calls for AI slowdown, Altman and Musk agree",
-    summary:
-      "Dario Amodei, the CEO of Claude maker Anthropic, has joined rival tech executives calling for a measured approach to frontier model capabilities, cautioning against rushed deployments.",
-    sourceName: "Dawn Sci-Tech",
-    sourceUrl: "https://www.dawn.com/news/2029312/anthropic-boss-calls-for-ai-slowdown-altman-and-musk-agree",
-    image: "/uploads/live_news/dawn_anthropic_slowdown.webp",
-  },
-  {
-    id: "brecorder",
-    name: "Business Recorder",
-    icon: "📈",
-    brandBadge: "🇵🇰 B-RECORDER",
-    category: "PAKISTAN FINTECH & BUSINESS",
-    date: "Business Recorder (Live Wire)",
-    title: "Anthropic CEO urges AI companies to slow model development amid fears over misuse",
-    summary:
-      "Anthropic CEO Dario Amodei has urged frontier artificial intelligence companies to slow development of high-risk capabilities, emphasizing biological risk and cyber defense concerns.",
-    sourceName: "Business Recorder",
-    sourceUrl: "https://www.brecorder.com/news/40439167/anthropic-ceo-urges-ai-companies-to-slow-model-development-amid-fears-over-misuse",
-    image: "/uploads/live_news/brecorder_anthropic_slowdown.webp",
-  },
-  {
-    id: "propakistani",
-    name: "ProPakistani",
-    icon: "📱",
-    brandBadge: "🇵🇰 PROPAKISTANI",
-    category: "PAKISTAN DIGITAL ECOSYSTEM",
-    date: "ProPakistani (Live Wire)",
-    title: "Even iPhone Duo Does Not Fix The Biggest Problems With Foldables",
-    summary:
-      "Hardware engineers explore Apple's dual-display and foldable patent innovations, evaluating hinge durability, display creasing, and operating system multitasking optimizations.",
-    sourceName: "ProPakistani",
-    sourceUrl: "https://propakistani.pk/2026/09/12/even-iphone-duo-does-not-fix-the-biggest-problems-with-foldables/",
-    image: "/uploads/live_news/propakistani_iphone_duo.jpg",
-  },
-  {
-    id: "tribune",
-    name: "The Express Tribune",
-    icon: "🚀",
-    brandBadge: "🇵🇰 TRIBUNE",
-    category: "PAKISTAN AEROSPACE & TECH",
-    date: "The Express Tribune (Live Wire)",
-    title: "China, Iran among countries that have used AI to aid spying, Anthropic says",
-    summary:
-      "Foreign state-linked intelligence operatives have increasingly attempted to leverage frontier AI systems for automated vulnerability discovery, social engineering, and cyber espionage, according to an Anthropic threat report.",
-    sourceName: "The Express Tribune",
-    sourceUrl: "https://tribune.com.pk/story/2628789/china-iran-among-countries-that-have-used-ai-to-aid-spying-anthropic-says",
-    image: "/uploads/live_news/tribune_anthropic_spying.jpg",
-  },
-];
+import {
+  RegionalWireItem,
+  INITIAL_REGIONAL_WIRES,
+} from "./knowledgeCenterData";
 
 export type { RegionalWireItem };
 export { INITIAL_REGIONAL_WIRES };
@@ -94,33 +25,35 @@ export default function RegionalTechEcosystem({ initialWires }: { initialWires?:
       const data = await res.json();
       if (data.regional_wires && typeof data.regional_wires === "object") {
         const order = ["dawn", "brecorder", "propakistani", "tribune"];
-        const updated: RegionalWireItem[] = [];
-        for (const key of order) {
-          const item = data.regional_wires[key];
-          if (item) {
-            updated.push({
-              id: key,
-              name: item.name || key.toUpperCase(),
-              icon: item.icon || "🇵🇰",
-              brandBadge: item.brandBadge || `🇵🇰 ${key.toUpperCase()}`,
-              category: item.category || "PAKISTAN TECH",
-              date: item.date || "Live Wire",
-              title: item.title,
-              summary: item.summary,
-              sourceName: item.sourceName || item.name,
-              sourceUrl: item.sourceUrl,
-              image: (() => {
-                const img = (item.image || item.img || "").trim();
-                if (!img) return "/uploads/live_news/dawn_it_exports_headline.png";
-                if (img.startsWith("http://") || img.startsWith("https://") || img.startsWith("/")) return img;
-                return `/${img}`;
-              })(),
-            });
-          }
-        }
-        if (updated.length > 0) {
-          setWires(updated);
-        }
+        setWires((prev) => {
+          return order
+            .map((key) => {
+              const item = data.regional_wires[key];
+              const existing = prev.find((w) => w.id === key);
+              if (item) {
+                const rawImg = (item.image || item.img || "").trim();
+                const finalImg =
+                  rawImg.startsWith("http://") || rawImg.startsWith("https://") || rawImg.startsWith("/")
+                    ? rawImg
+                    : `/${rawImg}`;
+                return {
+                  id: key,
+                  name: item.name || existing?.name || key.toUpperCase(),
+                  icon: item.icon || existing?.icon || "🇵🇰",
+                  brandBadge: item.brandBadge || existing?.brandBadge || `🇵🇰 ${key.toUpperCase()}`,
+                  category: item.category || existing?.category || "PAKISTAN TECH",
+                  date: item.date || existing?.date || "Live Wire",
+                  title: item.title || existing?.title || "",
+                  summary: item.summary || existing?.summary || "",
+                  sourceName: item.sourceName || existing?.sourceName || item.name,
+                  sourceUrl: item.sourceUrl || existing?.sourceUrl || "#",
+                  image: finalImg || existing?.image || "/uploads/live_news/apple_iphone16_hero.jpg",
+                };
+              }
+              return existing || INITIAL_REGIONAL_WIRES.find((w) => w.id === key)!;
+            })
+            .filter(Boolean);
+        });
       }
     } catch {
       // Keep existing wires

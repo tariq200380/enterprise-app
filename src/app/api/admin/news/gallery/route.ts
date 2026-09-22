@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { writeFile, mkdir, readdir } from "fs/promises";
 import path from "path";
 import fs from "fs";
+import crypto from "crypto";
+import { withCacheBuster } from "@/lib/cacheBuster";
 
 export const dynamic = "force-dynamic";
 
@@ -45,13 +47,15 @@ export async function POST(req: Request) {
     await mkdir(UPLOADS_DIR, { recursive: true });
 
     const timestamp = Date.now();
+    const uniqueId = crypto.randomUUID().slice(0, 8);
     const safeName = file.name.replace(/[^a-zA-Z0-9.-]/g, "_");
-    const fileName = `custom_${timestamp}_${safeName}`;
+    const fileName = `custom_${timestamp}_${uniqueId}_${safeName}`;
     const filePath = path.join(UPLOADS_DIR, fileName);
 
     await writeFile(filePath, buffer);
 
-    const publicUrl = `/uploads/live_news/${fileName}`;
+    const rawUrl = `/uploads/live_news/${fileName}`;
+    const publicUrl = withCacheBuster(rawUrl, timestamp);
     return NextResponse.json({
       success: true,
       url: publicUrl,

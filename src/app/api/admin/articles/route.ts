@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { query } from "@/lib/db";
 
 export async function GET() {
@@ -52,6 +53,11 @@ export async function POST(req: Request) {
         source_news || "",
       ]
     );
+
+    // Step 4: Instantly refresh article, homepage, and public articles cache
+    revalidatePath("/knowledge-center");
+    revalidatePath("/");
+    revalidatePath("/api/articles");
 
     return NextResponse.json({ success: true, article: res.rows[0] });
   } catch (error: any) {
@@ -136,6 +142,11 @@ export async function PATCH(req: Request) {
     const queryText = `UPDATE articles SET ${setClauses.join(", ")} WHERE id = $${paramIndex} RETURNING *`;
     const res = await query(queryText, values);
 
+    // Step 4: Instantly refresh article, homepage, and public articles cache
+    revalidatePath("/knowledge-center");
+    revalidatePath("/");
+    revalidatePath("/api/articles");
+
     return NextResponse.json({ success: true, article: res.rows[0] });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
@@ -154,6 +165,12 @@ export async function DELETE(req: Request) {
       return NextResponse.json({ success: false, error: "Article ID is required" }, { status: 400 });
     }
     await query("DELETE FROM articles WHERE id = $1", [id]);
+
+    // Step 4: Instantly refresh article, homepage, and public articles cache
+    revalidatePath("/knowledge-center");
+    revalidatePath("/");
+    revalidatePath("/api/articles");
+
     return NextResponse.json({ success: true, message: `Article ${id} deleted` });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });

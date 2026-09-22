@@ -54,9 +54,30 @@ export default function LatestTechNews({ initialStories }: { initialStories?: Li
     return false;
   };
 
-  // Strictly curate 6 stories: 4 International and 2 Regional
+  // Strictly curate 6 stories: 4 International (from diverse providers) and 2 Regional
   const curatedStories = React.useMemo(() => {
-    const intl = stories.filter((s) => !isRegionalStory(s)).slice(0, 4);
+    const seenProviders = new Set<string>();
+    const intl: LiveNewsItem[] = [];
+
+    // Prioritize diverse distinct international providers first
+    for (const s of stories) {
+      if (!isRegionalStory(s) && !seenProviders.has(s.provider)) {
+        seenProviders.add(s.provider);
+        intl.push(s);
+        if (intl.length >= 4) break;
+      }
+    }
+
+    // Fill up to 4 if fewer than 4 unique providers found
+    if (intl.length < 4) {
+      for (const s of stories) {
+        if (!isRegionalStory(s) && !intl.some((x) => x.id === s.id)) {
+          intl.push(s);
+          if (intl.length >= 4) break;
+        }
+      }
+    }
+
     const reg = stories.filter((s) => isRegionalStory(s)).slice(0, 2);
 
     let finalReg = [...reg];
@@ -68,12 +89,12 @@ export default function LatestTechNews({ initialStories }: { initialStories?: Li
           tag: "PAKISTAN FINTECH & BUSINESS",
           providerLabel: "🇵🇰 B-RECORDER • FINTECH",
           providerColor: "#0284C7",
-          date: "1 hour ago • Business Recorder",
+          date: "Just now • Business Recorder",
           source: "Business Recorder",
-          title: "Trump slams AI critics urging caution",
-          desc: "DOONBEG: Donald Trump on Sunday hit out at critics of artificial intelligence (AI) who have warned firms needed to slow down the development of the powerful technology.",
-          link: "https://www.brecorder.com/news/40439295/trump-slams-ai-critics-urging-caution",
-          img: "https://i.brecorder.com/large/2026/09/13214356dbecea6.webp",
+          title: "Alibaba plans AI model with 5 trillion to 10 trillion parameters, unveils new chip",
+          desc: "Alibaba Cloud announces next-generation frontier AI model scaling to 10 trillion parameters alongside specialized accelerator silicon for enterprise cloud infrastructure.",
+          link: "https://www.brecorder.com/feeds/technology/",
+          img: "https://i.brecorder.com/large/2026/09/220759353d42770.webp",
         },
         {
           id: "dawn-fallback",
@@ -81,12 +102,12 @@ export default function LatestTechNews({ initialStories }: { initialStories?: Li
           tag: "PAKISTAN TECH & SCIENCE",
           providerLabel: "🇵🇰 DAWN • TECH & SCIENCE",
           providerColor: "#059669",
-          date: "4 hours ago • Dawn Sci-Tech",
+          date: "Today • Dawn Sci-Tech",
           source: "Dawn Sci-Tech",
-          title: "Lack of skilled workforce hurdle to IT exports: minister",
-          desc: "Lack of skilled workforce hurdle to IT exports: minister. Real-time intelligence and verified enterprise developments.",
-          link: "https://www.dawn.com/news/2029614/lack-of-skilled-workforce-hurdle-to-it-exports-minister",
-          img: "https://i.dawn.com/large/2026/09/131143192c01dbe.webp",
+          title: "'I live in fear': 1.5 million Pakistani children sexually exploited online",
+          desc: "Digital safety advocates and law enforcement highlight urgency for cyber safety measures protecting children across Pakistan's digital space.",
+          link: "https://www.dawn.com/feeds/tech/",
+          img: "https://i.dawn.com/large/2026/09/21112713801fded.webp",
         },
       ];
       for (const fb of fallbackReg) {

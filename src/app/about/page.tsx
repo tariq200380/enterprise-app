@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { getAboutData, getPartnerReviewLinks } from "@/lib/about-data";
 import AboutPageClient from "@/components/about/AboutPageClient";
 
-export const dynamic = "force-dynamic";
+// Step 3: Short cache for About page (5 minutes / 300 seconds ISR)
+export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: "About Creed Tech | Engineering Principles & Leadership",

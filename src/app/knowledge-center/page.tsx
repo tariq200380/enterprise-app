@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import type { Metadata } from "next";
+import { withCacheBuster } from "@/lib/cacheBuster";
 import KnowledgeHero from "@/components/knowledge-center/KnowledgeHero";
 import LatestTechNews from "@/components/knowledge-center/LatestTechNews";
 import BrandTechWires from "@/components/knowledge-center/BrandTechWires";
@@ -9,11 +10,10 @@ import {
   brandWires,
   LiveNewsItem,
   INITIAL_STORIES,
-} from "@/components/knowledge-center/knowledgeCenterData";
-import RegionalTechEcosystem, {
   RegionalWireItem,
   INITIAL_REGIONAL_WIRES,
-} from "@/components/knowledge-center/RegionalTechEcosystem";
+} from "@/components/knowledge-center/knowledgeCenterData";
+import RegionalTechEcosystem from "@/components/knowledge-center/RegionalTechEcosystem";
 import KnowledgeOverviewGrid from "@/components/knowledge-center/KnowledgeOverviewGrid";
 import Testimonial3DDeck from "@/components/knowledge-center/Testimonial3DDeck";
 
@@ -23,6 +23,7 @@ export const metadata: Metadata = {
     "Curated technical research, engineering blueprints, system architecture patterns, and enterprise technology analysis from Creed Tech.",
 };
 
+// Force dynamic SSR so live news and original images are always 100% fresh on reopen
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
@@ -57,7 +58,6 @@ function formatDynamicRelativeTime(timestamp?: string, rawDateStr?: string, defa
   const diffSec = Math.floor(diffMs / 1000);
   const diffMin = Math.floor(diffSec / 60);
   const diffHour = Math.floor(diffMin / 60);
-  const diffDay = Math.floor(diffHour / 24);
 
   let timeAgo = "";
   if (diffMin < 1) timeAgo = "Just now";
@@ -83,12 +83,31 @@ const PROVIDER_COLORS: Record<string, string> = {
   tribune: "#DC2626",
 };
 
-function normalizeImagePath(img: string | undefined, fallback = "/uploads/live_news/apple_iphone16_hero.jpg"): string {
-  if (!img) return fallback;
-  const trimmed = img.trim();
-  if (!trimmed) return fallback;
-  if (trimmed.startsWith("http://") || trimmed.startsWith("https://") || trimmed.startsWith("/")) return trimmed;
-  return `/${trimmed}`;
+const DEFAULT_BRAND_FALLBACKS: Record<string, string> = {
+  apple: "https://www.apple.com/newsroom/images/2026/09/apple-opens-apple-music-hall-a-state-of-the-art-live-music-venue-in-london/tile/Apple-Music-Hall-event-space-01-lp.jpg.og.jpg",
+  openai: "/uploads/live_news/openai_gpt4o_official.png",
+  microsoft: "/uploads/live_news/microsoft_copilot_hero.jpg",
+  nvidia: "/uploads/live_news/nvidia_skild_ai.jpg",
+  google: "/uploads/live_news/google_venice_film_fest.png",
+  meta: "/uploads/live_news/meta_muse_hero.jpg",
+  anthropic: "/uploads/live_news/anthropic_fable_mythos_hero.jpg",
+  intel: "/uploads/live_news/intel_high_na_euv_cleanroom.png",
+  dawn: "https://i.dawn.com/large/2026/09/21112713801fded.webp",
+  brecorder: "https://i.brecorder.com/large/2026/09/220759353d42770.webp",
+  propakistani: "https://propakistani.pk/wp-content/uploads/2026/09/Vivo-X500-2.jpg",
+  tribune: "https://i.tribune.com.pk/media/images/robot-r1790005546-0/robot-r1790005546-0.jpg",
+};
+
+function normalizeImagePath(
+  img: string | undefined,
+  fallback = "/uploads/live_news/openai_gpt4o_official.png",
+  version?: string | number | null
+): string {
+  const target = !img || !img.trim() ? fallback : img.trim();
+  const normalized = target.startsWith("http://") || target.startsWith("https://") || target.startsWith("/")
+    ? target
+    : `/${target}`;
+  return withCacheBuster(normalized, version);
 }
 
 function getInitialNewsData() {
@@ -103,13 +122,14 @@ function getInitialNewsData() {
         if (!live) return item;
         const rawImg = live.img || item.img;
         const pubTime = live.provider_published_at || live.timestamp;
+        const fallback = DEFAULT_BRAND_FALLBACKS[item.id] || item.img;
         return {
           ...item,
           title: live.title || item.title,
           summary: live.desc || live.summary || item.summary,
           date: formatDynamicRelativeTime(pubTime, live.date, item.source || item.brandBadge),
           link: live.link || item.link,
-          img: normalizeImagePath(rawImg, item.img),
+          img: normalizeImagePath(rawImg, fallback, pubTime),
           cat: live.tag || live.category || item.cat,
         };
       });
@@ -117,35 +137,36 @@ function getInitialNewsData() {
       const breakingNews: LiveNewsItem[] =
         Array.isArray(parsed.breaking_news) && parsed.breaking_news.length > 0
           ? parsed.breaking_news.map((item: any, idx: number) => {
-              const rawImg = item.img || "";
+              const rawImg = item.image || item.img || "";
               const pKey = (item.provider || "google").toLowerCase();
-              const pubTime = item.provider_published_at || parsed.timestamp;
+              const pubTime = item.provider_published_at || item.timestamp || parsed.timestamp;
+              const fallback = DEFAULT_BRAND_FALLBACKS[pKey] || "/uploads/live_news/openai_gpt4o_official.png";
               return {
-                id: item.external_id || `${item.provider || "news"}-${idx}`,
+                id: item.id || item.external_id || `${pKey}-${idx}`,
                 provider: pKey,
                 tag: item.tag || "TECH NEWS",
-                providerLabel: item.brand_badge || (item.provider ? item.provider.toUpperCase() : "TECH"),
+                providerLabel: item.providerLabel || item.brand_badge || (item.provider ? item.provider.toUpperCase() : "TECH"),
                 providerColor: PROVIDER_COLORS[pKey] || "#475569",
                 date: formatDynamicRelativeTime(pubTime, item.date, item.source || item.provider?.toUpperCase()),
                 source: item.source || "Tech Newsroom",
                 title: item.title || "",
                 desc: item.desc || item.summary || "",
                 link: item.link || "#",
-                img: normalizeImagePath(rawImg),
-                source_image_url: item.source_image_url,
+                img: normalizeImagePath(rawImg, fallback, pubTime),
+                source_image_url: item.source_image_url || rawImg,
                 timestamp: pubTime || parsed.timestamp,
               };
             })
           : INITIAL_STORIES;
 
       const regionalWiresList: RegionalWireItem[] = (() => {
-        if (!parsed.regional_wires || typeof parsed.regional_wires !== "object") return INITIAL_REGIONAL_WIRES;
         const order = ["dawn", "brecorder", "propakistani", "tribune"];
         const list: RegionalWireItem[] = [];
         for (const key of order) {
-          const item = parsed.regional_wires[key];
+          const item = parsed.regional_wires?.[key] || INITIAL_REGIONAL_WIRES.find((w) => w.id === key);
           if (item) {
             const pubTime = item.provider_published_at || item.timestamp;
+            const fallback = DEFAULT_BRAND_FALLBACKS[key] || item.image || item.img;
             list.push({
               id: key,
               name: item.name || key.toUpperCase(),
@@ -157,11 +178,11 @@ function getInitialNewsData() {
               summary: item.summary,
               sourceName: item.sourceName || item.name,
               sourceUrl: item.sourceUrl,
-              image: normalizeImagePath(item.image || item.img, "/uploads/live_news/dawn_it_exports_headline.png"),
+              image: normalizeImagePath(item.image || item.img, fallback, pubTime),
             });
           }
         }
-        return list.length > 0 ? list : INITIAL_REGIONAL_WIRES;
+        return list.length === 4 ? list : INITIAL_REGIONAL_WIRES;
       })();
 
       return { brandWiresList, breakingNews, regionalWiresList };
