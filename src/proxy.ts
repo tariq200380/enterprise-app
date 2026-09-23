@@ -9,19 +9,19 @@ export function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Intercept and protect all other /api/admin/* routes
-  if (pathname.startsWith("/api/admin")) {
-    const session = getAdminSessionFromRequest(request);
-    if (!session) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: "Unauthorized: Valid admin session required",
-        },
-        { status: 401 }
-      );
-    }
-  }
+  // Admin session check temporarily disabled as requested
+  // if (pathname.startsWith("/api/admin")) {
+  //   const session = getAdminSessionFromRequest(request);
+  //   if (!session) {
+  //     return NextResponse.json(
+  //       {
+  //         success: false,
+  //         error: "Unauthorized: Valid admin session required",
+  //       },
+  //       { status: 401 }
+  //     );
+  //   }
+  // }
 
   return NextResponse.next();
 }

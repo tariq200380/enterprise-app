@@ -30,10 +30,10 @@ export default function AdminPage() {
   const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
   const [telemetry, setTelemetry] = useState<TelemetryData | null>(null);
 
-  // Authentication state
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  // Authentication state (Admin check temporarily bypassed)
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
   const [userEmail, setUserEmail] = useState<string>("admin@creed-tech.com");
-  const [authChecked, setAuthChecked] = useState<boolean>(false);
+  const [authChecked, setAuthChecked] = useState<boolean>(true);
 
   // Check server-side session cookie on mount
   useEffect(() => {
@@ -45,14 +45,9 @@ export default function AdminPage() {
         if (data.authenticated && data.user) {
           setIsAuthenticated(true);
           setUserEmail(data.user.email || "admin@creed-tech.com");
-        } else {
-          setIsAuthenticated(false);
-          localStorage.removeItem("creed_admin_authenticated");
         }
       })
-      .catch(() => {
-        if (isMounted) setIsAuthenticated(false);
-      })
+      .catch(() => {})
       .finally(() => {
         if (isMounted) setAuthChecked(true);
       });

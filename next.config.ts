@@ -1,6 +1,25 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  turbopack: {},
+  // Allow ngrok domain to connect to dev server, HMR, WebSockets, and static chunks
+  allowedDevOrigins: [
+    "runt-royal-reps.ngrok-free.dev",
+    "*.ngrok-free.dev",
+    "*.ngrok-free.app",
+    "localhost:3001",
+    "0.0.0.0",
+  ],
+  experimental: {
+    serverActions: {
+      allowedOrigins: [
+        "runt-royal-reps.ngrok-free.dev",
+        "*.ngrok-free.dev",
+        "*.ngrok-free.app",
+        "localhost:3001",
+      ],
+    },
+  },
   images: {
     unoptimized: true,
     remotePatterns: [
@@ -16,6 +35,14 @@ const nextConfig: NextConfig = {
   },
   async headers() {
     return [
+      {
+        source: "/:path*",
+        headers: [
+          { key: "Access-Control-Allow-Origin", value: "*" },
+          { key: "Access-Control-Allow-Methods", value: "GET,POST,OPTIONS" },
+          { key: "ngrok-skip-browser-warning", value: "69420" },
+        ],
+      },
       {
         source: "/uploads/:path*",
         headers: [
@@ -35,6 +62,14 @@ const nextConfig: NextConfig = {
         ],
       },
     ];
+  },
+  webpack: (config, { dev }) => {
+    if (dev) {
+      config.infrastructureLogging = {
+        level: "error",
+      };
+    }
+    return config;
   },
 };
 

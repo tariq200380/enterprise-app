@@ -92,7 +92,7 @@ export default function NewsletterLogic() {
           onChange={() => {
             if (status === "error") setStatus("idle");
           }}
-          className="w-full flex-1 h-14 px-5 bg-[#F4F6F8] border border-[#E5E8EB] text-[#1A1A1A] placeholder-gray-400 text-sm rounded outline-none focus:border-[#0052FF] transition-colors disabled:opacity-50"
+          className="w-full sm:flex-1 h-14 min-h-[56px] px-5 bg-[#F4F6F8] border border-[#E5E8EB] text-[#1A1A1A] placeholder-gray-400 text-sm rounded outline-none focus:border-[#0052FF] transition-colors disabled:opacity-50"
         />
         <button
           type="submit"
