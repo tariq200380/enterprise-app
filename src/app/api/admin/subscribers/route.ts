@@ -1,7 +1,15 @@
 import { NextResponse } from "next/server";
 import { query } from "@/lib/db";
+import { verifyAdminAuth } from "@/lib/adminAuth";
+
+export const dynamic = "force-dynamic";
 
 export async function GET() {
+  const auth = await verifyAdminAuth();
+  if (!auth.isAuthorized) {
+    return auth.response!;
+  }
+
   try {
     const res = await query("SELECT * FROM subscribers ORDER BY id DESC");
     return NextResponse.json({ success: true, subscribers: res.rows });
@@ -11,6 +19,11 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
+  const auth = await verifyAdminAuth();
+  if (!auth.isAuthorized) {
+    return auth.response!;
+  }
+
   try {
     const body = await req.json();
     const { email, source } = body;
@@ -30,6 +43,11 @@ export async function POST(req: Request) {
 }
 
 export async function DELETE(req: Request) {
+  const auth = await verifyAdminAuth();
+  if (!auth.isAuthorized) {
+    return auth.response!;
+  }
+
   try {
     const { searchParams } = new URL(req.url);
     const id = searchParams.get("id");

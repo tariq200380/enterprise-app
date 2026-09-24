@@ -20,7 +20,7 @@ import SubscribersModule from "@/components/admin/modules/SubscribersModule";
 import PortfolioModule from "@/components/admin/modules/PortfolioModule";
 import WebsiteSettingsModule from "@/components/admin/modules/WebsiteSettingsModule";
 import SystemSecurityModule from "@/components/admin/modules/SystemSecurityModule";
-import AdminLogin from "@/components/admin/AdminLogin";
+import { useUser, useClerk, SignIn } from "@clerk/nextjs";
 
 import { TelemetryData } from "@/types/admin";
 
@@ -30,46 +30,71 @@ export default function AdminPage() {
   const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
   const [telemetry, setTelemetry] = useState<TelemetryData | null>(null);
 
-  // Authentication state (Admin check temporarily bypassed)
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
-  const [userEmail, setUserEmail] = useState<string>("admin@creed-tech.com");
-  const [authChecked, setAuthChecked] = useState<boolean>(true);
+  // Clerk hooks
+  const { isSignedIn, user } = useUser();
+  const { signOut } = useClerk();
 
-  // Check server-side session cookie on mount
-  useEffect(() => {
-    let isMounted = true;
-    fetch("/api/admin/auth/check")
-      .then((res) => res.json())
-      .then((data) => {
-        if (!isMounted) return;
+  // Authentication & Authorization state (Strict Clerk Boundary)
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [isAuthorized, setIsAuthorized] = useState<boolean>(false);
+  const [userEmail, setUserEmail] = useState<string>("");
+  const [, setUserRole] = useState<string>("");
+  const [authChecked, setAuthChecked] = useState<boolean>(false);
+  const [forbiddenError, setForbiddenError] = useState<string | null>(null);
+
+  // Authoritative server-side session check against Clerk auth boundary
+  const verifySession = useCallback(async () => {
+    try {
+      const res = await fetch("/api/admin/auth/check");
+      if (res.status === 401) {
+        setIsAuthenticated(false);
+        setIsAuthorized(false);
+        setForbiddenError(null);
+      } else if (res.status === 403) {
+        const data = await res.json().catch(() => ({}));
+        setIsAuthenticated(true);
+        setIsAuthorized(false);
+        setForbiddenError(data.error || "Access Denied: Admin authorization required.");
+      } else if (res.ok) {
+        const data = await res.json().catch(() => ({}));
         if (data.authenticated && data.user) {
           setIsAuthenticated(true);
-          setUserEmail(data.user.email || "admin@creed-tech.com");
+          setIsAuthorized(true);
+          setUserEmail(data.user.email || user?.primaryEmailAddress?.emailAddress || "admin");
+          setUserRole(data.user.role || "admin");
+          setForbiddenError(null);
+        } else {
+          setIsAuthenticated(false);
+          setIsAuthorized(false);
         }
-      })
-      .catch(() => {})
-      .finally(() => {
-        if (isMounted) setAuthChecked(true);
-      });
+      } else {
+        setIsAuthenticated(false);
+        setIsAuthorized(false);
+      }
+    } catch {
+      setIsAuthenticated(false);
+      setIsAuthorized(false);
+    } finally {
+      setAuthChecked(true);
+    }
+  }, [user]);
 
-    return () => {
-      isMounted = false;
-    };
-  }, []);
-
-  const handleLogin = (email: string) => {
-    setIsAuthenticated(true);
-    setUserEmail(email);
-    showToast("Signed in successfully as Admin!", "success");
-  };
+  useEffect(() => {
+    verifySession();
+  }, [verifySession, isSignedIn]);
 
   const handleLogout = async () => {
     try {
+      if (signOut) {
+        await signOut();
+      }
       await fetch("/api/admin/auth/logout", { method: "POST" });
     } catch {}
     localStorage.removeItem("creed_admin_authenticated");
     localStorage.removeItem("creed_admin_user_email");
     setIsAuthenticated(false);
+    setIsAuthorized(false);
+    setUserEmail("");
     showToast("Signed out of Admin Panel.", "success");
   };
 
@@ -89,11 +114,11 @@ export default function AdminPage() {
   }, []);
 
   useEffect(() => {
-    if (!isAuthenticated) return;
+    if (!isAuthenticated || !isAuthorized) return;
     fetchTelemetry();
     const interval = setInterval(fetchTelemetry, 30000);
     return () => clearInterval(interval);
-  }, [fetchTelemetry, isAuthenticated]);
+  }, [fetchTelemetry, isAuthenticated, isAuthorized]);
 
   const counts = telemetry?.counts || {};
 
@@ -105,8 +130,74 @@ export default function AdminPage() {
     );
   }
 
-  if (!isAuthenticated) {
-    return <AdminLogin onLogin={handleLogin} />;
+  // 403 Forbidden: Signed in via Clerk, but requires 2FA or lacks admin role
+  if (isAuthenticated && !isAuthorized) {
+    const is2FAMissing = forbiddenError?.includes("Two-factor authentication") || forbiddenError?.includes("2FA");
+    return (
+      <div className="min-h-screen bg-[#070C18] flex items-center justify-center p-4 relative overflow-hidden font-sans">
+        <div className={`w-full max-w-md bg-[#0F172A] border ${is2FAMissing ? "border-amber-500/30" : "border-red-500/30"} rounded-2xl p-8 text-center text-white shadow-2xl backdrop-blur-md`}>
+          <div className={`w-14 h-14 rounded-full ${is2FAMissing ? "bg-amber-500/20 text-amber-400" : "bg-red-500/20 text-red-400"} flex items-center justify-center mx-auto mb-4 text-2xl font-bold`}>
+            {is2FAMissing ? "🔐" : "🚫"}
+          </div>
+          <h1 className="text-xl font-bold text-white tracking-tight mb-2">
+            {is2FAMissing ? "2FA Setup Required" : "Access Denied (403)"}
+          </h1>
+          <p className="text-xs text-[#94A3B8] mb-6">
+            {forbiddenError || "Your account does not possess administrator privileges ('admin' or 'super_admin' role required)."}
+          </p>
+          <div className="flex flex-col gap-2.5">
+            {is2FAMissing && (
+              <a
+                href="/setup-2fa"
+                className="w-full bg-[#0052FF] hover:bg-[#0042D0] text-white font-semibold text-xs py-2.5 rounded-lg transition-all"
+              >
+                Set Up Two-Factor Authentication &rarr;
+              </a>
+            )}
+            <button
+              onClick={handleLogout}
+              className="w-full bg-[#1E293B] hover:bg-[#334155] text-white font-semibold text-xs py-2.5 rounded-lg border border-[#334155] transition-all"
+            >
+              Sign Out & Switch Account
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // 401 Unauthorized: Not signed in via Clerk
+  if (!isAuthenticated || !isAuthorized) {
+    return (
+      <div className="min-h-screen bg-[#070C18] flex items-center justify-center p-4 relative overflow-hidden font-sans select-none">
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-[#0052FF]/15 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-[#FF6B00]/10 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="w-full max-w-md bg-[#0F172A]/90 border border-[#1E293B] rounded-2xl shadow-2xl p-8 relative z-10 backdrop-blur-md">
+          <div className="text-center mb-6">
+            <div className="inline-flex items-center gap-2 mb-3">
+              <span className="text-2xl font-black tracking-wider text-white">
+                CREED<span className="text-[#FF6B00]">TECH</span>
+              </span>
+            </div>
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <span className="h-2 w-2 rounded-full bg-[#38BDF8] animate-pulse" />
+              <span className="text-xs font-semibold tracking-wider text-[#38BDF8] uppercase">
+                Enterprise Admin Portal
+              </span>
+            </div>
+            <h1 className="text-xl font-bold text-white tracking-tight">Admin Authentication</h1>
+            <p className="text-xs text-[#94A3B8] mt-1">
+              Protected by Clerk server-side authentication boundary.
+            </p>
+          </div>
+
+          <div className="flex justify-center">
+            <SignIn routing="hash" />
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (

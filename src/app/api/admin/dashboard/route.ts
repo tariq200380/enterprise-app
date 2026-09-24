@@ -1,7 +1,15 @@
 import { NextResponse } from "next/server";
 import { query } from "@/lib/db";
+import { verifyAdminAuth } from "@/lib/adminAuth";
+
+export const dynamic = "force-dynamic";
 
 export async function GET() {
+  const auth = await verifyAdminAuth();
+  if (!auth.isAuthorized) {
+    return auth.response!;
+  }
+
   try {
     const inquiriesRes = await query("SELECT * FROM contact_inquiries ORDER BY id ASC LIMIT 10");
     const candidatesRes = await query("SELECT * FROM candidates ORDER BY id ASC LIMIT 10");

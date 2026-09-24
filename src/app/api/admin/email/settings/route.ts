@@ -1,7 +1,15 @@
 import { NextResponse } from "next/server";
 import { getSmtpConfig, saveSmtpConfig, sendEmail } from "@/lib/mailer";
+import { verifyAdminAuth } from "@/lib/adminAuth";
+
+export const dynamic = "force-dynamic";
 
 export async function GET() {
+  const auth = await verifyAdminAuth();
+  if (!auth.isAuthorized) {
+    return auth.response!;
+  }
+
   try {
     const config = await getSmtpConfig();
     return NextResponse.json({
@@ -23,6 +31,11 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
+  const auth = await verifyAdminAuth();
+  if (!auth.isAuthorized) {
+    return auth.response!;
+  }
+
   try {
     const body = await req.json();
     await saveSmtpConfig(body);
@@ -38,6 +51,11 @@ export async function POST(req: Request) {
 }
 
 export async function PUT(req: Request) {
+  const auth = await verifyAdminAuth();
+  if (!auth.isAuthorized) {
+    return auth.response!;
+  }
+
   try {
     const body = await req.json();
     const testTo = body.test_email || body.user;

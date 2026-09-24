@@ -1,7 +1,15 @@
 import { NextResponse } from "next/server";
 import { query } from "@/lib/db";
+import { verifyAdminAuth } from "@/lib/adminAuth";
+
+export const dynamic = "force-dynamic";
 
 export async function GET() {
+  const auth = await verifyAdminAuth();
+  if (!auth.isAuthorized) {
+    return auth.response!;
+  }
+
   try {
     const start = Date.now();
     await query("SELECT 1");
@@ -62,6 +70,11 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
+  const auth = await verifyAdminAuth();
+  if (!auth.isAuthorized) {
+    return auth.response!;
+  }
+
   try {
     const body = await req.json();
     const { action } = body;

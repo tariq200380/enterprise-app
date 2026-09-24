@@ -1,8 +1,16 @@
 import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import { query } from "@/lib/db";
+import { verifyAdminAuth } from "@/lib/adminAuth";
+
+export const dynamic = "force-dynamic";
 
 export async function GET() {
+  const auth = await verifyAdminAuth();
+  if (!auth.isAuthorized) {
+    return auth.response!;
+  }
+
   try {
     const res = await query("SELECT value FROM website_settings WHERE key = 'global_config'");
     const portRes = await query("SELECT * FROM portfolio_projects ORDER BY id DESC");
@@ -43,6 +51,11 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
+  const auth = await verifyAdminAuth();
+  if (!auth.isAuthorized) {
+    return auth.response!;
+  }
+
   try {
     const body = await req.json();
 
@@ -74,37 +87,20 @@ export async function POST(req: Request) {
             ]
           );
         } else {
-          const exist = await query("SELECT id FROM portfolio_projects WHERE title = $1", [p.title]);
-          if (exist.rows.length > 0) {
-            await query(
-              `UPDATE portfolio_projects
-               SET category = $1, client = $2, summary = $3, stack = $4, image_url = $5
-               WHERE id = $6`,
-              [
-                p.category || "Enterprise",
-                p.clientNameLocation || "Global Client",
-                p.description || "Executive architectural delivery summary.",
-                JSON.stringify(stackArr),
-                p.coverImageUrl || "",
-                exist.rows[0].id,
-              ]
-            );
-          } else {
-            await query(
-              `INSERT INTO portfolio_projects (title, category, client, summary, stack, live_url, github_url, image_url)
-               VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
-              [
-                p.title,
-                p.category || "Enterprise",
-                p.clientNameLocation || "Global Client",
-                p.description || "Executive architectural delivery summary.",
-                JSON.stringify(stackArr),
-                "/contact",
-                "https://github.com/creed-tech",
-                p.coverImageUrl || "",
-              ]
-            );
-          }
+          await query(
+            `INSERT INTO portfolio_projects (title, category, client, summary, stack, live_url, github_url, image_url)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+            [
+              p.title,
+              p.category || "Enterprise",
+              p.clientNameLocation || "Global Client",
+              p.description || "Executive architectural delivery summary.",
+              JSON.stringify(stackArr),
+              p.liveUrl || "",
+              p.githubUrl || "",
+              p.coverImageUrl || "",
+            ]
+          );
         }
       }
     }
@@ -117,7 +113,7 @@ export async function POST(req: Request) {
       [JSON.stringify(body)]
     );
 
-    // Step 4: Refresh global layout and public page cache immediately
+    // Refresh global layout and public page cache immediately
     revalidatePath("/", "layout");
     revalidatePath("/services");
     revalidatePath("/portfolio");

@@ -1,7 +1,15 @@
 import { NextResponse } from "next/server";
 import { query } from "@/lib/db";
+import { verifyAdminAuth } from "@/lib/adminAuth";
+
+export const dynamic = "force-dynamic";
 
 export async function GET() {
+  const auth = await verifyAdminAuth();
+  if (!auth.isAuthorized) {
+    return auth.response!;
+  }
+
   try {
     const res = await query("SELECT * FROM portfolio_projects ORDER BY id DESC");
     return NextResponse.json({ success: true, projects: res.rows, portfolio: res.rows });
@@ -11,6 +19,11 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
+  const auth = await verifyAdminAuth();
+  if (!auth.isAuthorized) {
+    return auth.response!;
+  }
+
   try {
     const body = await req.json();
     const { title, category, client, summary, stack, live_url, github_url, image_url } = body;
@@ -35,6 +48,11 @@ export async function POST(req: Request) {
 }
 
 export async function PUT(req: Request) {
+  const auth = await verifyAdminAuth();
+  if (!auth.isAuthorized) {
+    return auth.response!;
+  }
+
   try {
     const body = await req.json();
     const { id, title, category, client, summary, stack, live_url, github_url, image_url } = body;
@@ -67,6 +85,11 @@ export async function PUT(req: Request) {
 }
 
 export async function DELETE(req: Request) {
+  const auth = await verifyAdminAuth();
+  if (!auth.isAuthorized) {
+    return auth.response!;
+  }
+
   try {
     const { searchParams } = new URL(req.url);
     const id = searchParams.get("id");
@@ -79,4 +102,3 @@ export async function DELETE(req: Request) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }
-

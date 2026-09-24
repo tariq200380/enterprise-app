@@ -1,8 +1,16 @@
 import { NextResponse } from "next/server";
 import { sendEmail, getSmtpConfig } from "@/lib/mailer";
 import { query } from "@/lib/db";
+import { verifyAdminAuth } from "@/lib/adminAuth";
+
+export const dynamic = "force-dynamic";
 
 export async function POST(req: Request) {
+  const auth = await verifyAdminAuth();
+  if (!auth.isAuthorized) {
+    return auth.response!;
+  }
+
   try {
     const body = await req.json();
     const { inquiryId, to, subject, message, updateStatus = true } = body;

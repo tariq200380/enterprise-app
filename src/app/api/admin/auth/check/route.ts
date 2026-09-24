@@ -1,16 +1,20 @@
-import { NextRequest, NextResponse } from "next/server";
-import { getAdminSessionFromRequest } from "@/lib/adminAuth";
+import { NextResponse } from "next/server";
+import { verifyAdminAuth } from "@/lib/adminAuth";
 
 export const dynamic = "force-dynamic";
 
-export async function GET(req: NextRequest) {
-  // Admin check temporarily disabled as requested
-  const session = getAdminSessionFromRequest(req);
+export async function GET() {
+  const authResult = await verifyAdminAuth();
+  if (!authResult.isAuthorized) {
+    return authResult.response!;
+  }
+
   return NextResponse.json({
+    success: true,
     authenticated: true,
     user: {
-      email: session?.email || "admin@creed-tech.com",
-      role: session?.role || "SUPER_ADMIN",
+      email: authResult.email,
+      role: authResult.role,
     },
   });
 }

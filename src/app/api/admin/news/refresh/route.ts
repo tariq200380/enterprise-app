@@ -1,9 +1,13 @@
 import { NextResponse } from "next/server";
 import { syncAllNewsFeeds } from "@/lib/newsSync";
+import { verifyAdminAuth } from "@/lib/adminAuth";
 
 export const dynamic = "force-dynamic";
 
 export async function POST() {
+  const auth = await verifyAdminAuth();
+  if (!auth.isAuthorized) return auth.response!;
+
   try {
     const result = await syncAllNewsFeeds();
 

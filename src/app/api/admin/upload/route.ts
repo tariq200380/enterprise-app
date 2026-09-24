@@ -3,8 +3,12 @@ import { writeFile, mkdir } from "fs/promises";
 import path from "path";
 import crypto from "crypto";
 import { withCacheBuster } from "@/lib/cacheBuster";
+import { verifyAdminAuth } from "@/lib/adminAuth";
 
 export async function POST(req: Request) {
+  const auth = await verifyAdminAuth();
+  if (!auth.isAuthorized) return auth.response!;
+
   try {
     const formData = await req.formData();
     const file = formData.get("file") as File | null;

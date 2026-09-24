@@ -1,9 +1,15 @@
 import { NextResponse } from "next/server";
 import { query } from "@/lib/db";
+import { verifyAdminAuth } from "@/lib/adminAuth";
 
 export const dynamic = "force-dynamic";
 
 export async function GET() {
+  const auth = await verifyAdminAuth();
+  if (!auth.isAuthorized) {
+    return auth.response!;
+  }
+
   try {
     const res = await query(
       "SELECT * FROM contact_inquiries WHERE service ILIKE '%vision%' OR service ILIKE '%project discussion%' OR project_details IS NOT NULL ORDER BY id DESC"
@@ -15,6 +21,11 @@ export async function GET() {
 }
 
 export async function DELETE(req: Request) {
+  const auth = await verifyAdminAuth();
+  if (!auth.isAuthorized) {
+    return auth.response!;
+  }
+
   try {
     const { searchParams } = new URL(req.url);
     const id = searchParams.get("id");

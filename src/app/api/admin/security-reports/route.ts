@@ -1,9 +1,15 @@
 import { NextResponse } from "next/server";
 import { query } from "@/lib/db";
+import { verifyAdminAuth } from "@/lib/adminAuth";
 
 export const dynamic = "force-dynamic";
 
 export async function GET() {
+  const auth = await verifyAdminAuth();
+  if (!auth.isAuthorized) {
+    return auth.response!;
+  }
+
   try {
     const res = await query("SELECT * FROM security_reports ORDER BY id DESC");
     return NextResponse.json({ success: true, reports: res.rows });
@@ -12,6 +18,7 @@ export async function GET() {
   }
 }
 
+// PUBLIC SUBMISSION ENDPOINT: Preserved for public security vulnerability reports
 export async function POST(req: Request) {
   try {
     const body = await req.json();
@@ -61,22 +68,24 @@ export async function POST(req: Request) {
     }
 
     const now = new Date();
-    const dateFormatted = now.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
-    const timeFormatted = now.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true });
-    const createdAt = `${dateFormatted} at ${timeFormatted}`;
+    const formattedDate = now.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
 
     const res = await query(
       `INSERT INTO security_reports (reporter_name, email, category, severity, subject, description, status, created_at)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`,
+       VALUES ($1, $2, $3, $4, $5, $6, 'NEW', $7)
+       RETURNING *`,
       [
         trimmedName.slice(0, 255),
         trimmedEmail.slice(0, 255),
-        trimmedCategory.slice(0, 255),
+        trimmedCategory.slice(0, 100),
         trimmedSeverity.slice(0, 50),
-        trimmedSubject.slice(0, 300),
+        trimmedSubject.slice(0, 255),
         trimmedDesc.slice(0, 10000),
-        "NEW",
-        createdAt,
+        formattedDate,
       ]
     );
 
@@ -90,6 +99,11 @@ export async function POST(req: Request) {
 }
 
 export async function PATCH(req: Request) {
+  const auth = await verifyAdminAuth();
+  if (!auth.isAuthorized) {
+    return auth.response!;
+  }
+
   try {
     const body = await req.json();
     const { id, status } = body;
@@ -107,6 +121,11 @@ export async function PATCH(req: Request) {
 }
 
 export async function DELETE(req: Request) {
+  const auth = await verifyAdminAuth();
+  if (!auth.isAuthorized) {
+    return auth.response!;
+  }
+
   try {
     const { searchParams } = new URL(req.url);
     const id = searchParams.get("id");

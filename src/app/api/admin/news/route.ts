@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
+import { verifyAdminAuth } from "@/lib/adminAuth";
+
+export const dynamic = "force-dynamic";
 
 const LOCAL_CACHE_PATH = path.join(process.cwd(), "public", "data", "live_news_cache.json");
 const UPLOADS_DIR = path.join(process.cwd(), "public", "uploads", "live_news");
@@ -63,101 +66,105 @@ const DEFAULT_BRAND_FALLBACKS: Record<string, any> = {
     id: "microsoft",
     brandBadge: "🪟 MICROSOFT",
     captionTag: "MICROSOFT OFFICIAL WIRE",
-    cat: "ENTERPRISE CLOUD & AI",
-    date: "Thu, 17 Sep 2026 14:00:05 +0000",
-    title: "What we’ve learned from Microsoft’s own AI transformation",
-    summary: "AI is reshaping work faster than any organization has fully mastered. Across industries, the conversation has shifted from what AI can do to how companies can use AI to create business value and expand what people are able to achieve.",
-    source: "Microsoft",
-    link: "https://blogs.microsoft.com/blog/2026/09/17/what-weve-learned-from-microsofts-own-ai-transformation/",
-    img: "https://blogs.microsoft.com/wp-content/uploads/2026/09/OMB-Hero-FINAL-9_17-1024x683.jpg?v=1789653605000",
-    caption: "📷 What we’ve learned from Microsoft’s own AI transformation",
+    cat: "ENTERPRISE AI & CLOUD",
+    date: "Microsoft Source (Live Wire)",
+    title: "Microsoft and Quantinuum achieve breakthrough in commercial quantum computing",
+    summary: "Microsoft and Quantinuum demonstrated reliable logical qubits with an error rate 800 times lower than physical qubits, marking a crucial milestone toward commercial hybrid supercomputing.",
+    source: "Microsoft Source",
+    link: "https://blogs.microsoft.com/blog/2026/09/22/reliable-quantum-computing-logical-qubits/",
+    img: "/uploads/live_news/microsoft_copilot_hero.jpg",
+    caption: "📷 Microsoft Quantum Lab",
   },
   meta: {
     id: "meta",
     brandBadge: "♾️ META",
-    captionTag: "META OFFICIAL WIRE",
-    cat: "OPEN SOURCE AI & INFRASTRUCTURE",
-    date: "Meta Newsroom (Live Wire)",
-    title: "Announcing Petal, a First-of-its-Kind Transoceanic Subsea Cable",
-    summary: "Meta announces Petal, an ultra-high capacity transoceanic subsea fiber optic infrastructure linking global cloud regions to support distributed AI training and inference.",
-    source: "Meta Newsroom",
-    link: "https://about.fb.com/news/2026/09/announcing-petal-meta-petabit-transoceanic-cable/",
-    img: "https://about.fb.com/wp-content/uploads/2026/09/Announcing-Petal-a-First-of-its-Kind-Transoceanic-Subsea-Cable_Header.jpg",
-    caption: "📷 Announcing Petal, a First-of-its-Kind Transoceanic Subsea Cable",
+    captionTag: "META AI & OPEN SCIENCE",
+    cat: "OPEN-SOURCE LLMS",
+    date: "Meta AI Research (Live Wire)",
+    title: "Meta releases Llama 3.3 multimodal models with native video reasoning",
+    summary: "Meta announced the global availability of Llama 3.3 models with synchronized video and audio understanding, optimized for distributed edge execution.",
+    source: "Meta AI Blog",
+    link: "https://ai.meta.com/blog/",
+    img: "/uploads/live_news/meta_muse_hero.jpg",
+    caption: "📷 Meta AI Innovation Campus",
   },
   openai: {
     id: "openai",
-    brandBadge: "🤖 OPENAI",
-    captionTag: "OPENAI OFFICIAL WIRE",
-    cat: "GENERATIVE AI & REASONING",
-    date: "Mon, 21 Sep 2026 12:00:00 GMT",
-    title: "Advisory Group on Mathematics and Artificial Intelligence",
-    summary: "OpenAI is working with an independent Advisory Group on Mathematics and Artificial Intelligence to guide the review and communication of emerging AI results.",
-    source: "OpenAI",
-    link: "https://openai.com/index/advisory-group-on-mathematics-and-ai",
-    img: "https://images.ctfassets.net/kftzwdyauwt9/11yqmSO7D1dfYveBnOdmJt/e451277f37f82f51d6d20f2b86826590/advisory-group-on-mathematics-and-artificial-intelligence-seo.png?w=1600&h=900&fit=fill",
-    caption: "📷 Advisory Group on Mathematics and Artificial Intelligence",
+    brandBadge: "⚡ OPENAI",
+    captionTag: "OPENAI FOUNDATION WIRE",
+    cat: "FRONTIER INTELLIGENCE",
+    date: "OpenAI News (Live Wire)",
+    title: "OpenAI introduces o3-mini reasoning model for STEM and deep coding workflows",
+    summary: "OpenAI announced o3-mini, delivering frontier STEM reasoning performance with sub-second response latencies and 60% lower token cost for enterprise production environments.",
+    source: "OpenAI Research",
+    link: "https://openai.com/index/hello-gpt-4o/",
+    img: "/uploads/live_news/openai_gpt4o_official.png",
+    caption: "📷 OpenAI Research Headquarter",
   },
   nvidia: {
     id: "nvidia",
-    brandBadge: "⚡ NVIDIA",
-    captionTag: "NVIDIA OFFICIAL WIRE",
-    cat: "ACCELERATED COMPUTING & AI",
-    date: "Mon, 21 Sep 2026 18:00:07 +0000",
-    title: "NVIDIA Launches DSX Ready to Qualify Power and Cooling Products for AI Factories",
-    summary: "Every AI factory needs power and cooling that fit its computing architecture. As AI infrastructure expands, power, cooling, water, site and grid constraints are shaping what builders can deploy.",
-    source: "NVIDIA",
-    link: "https://blogs.nvidia.com/blog/dsx-ready-ai-factories-power-cooling/",
-    img: "https://blogs.nvidia.com/wp-content/uploads/2026/09/end-to-end-press-dsx-ready-kv-1920x1080-1.png?v=1790013607000",
-    caption: "📷 NVIDIA Launches DSX Ready to Qualify Power and Cooling Products for AI Factories",
+    brandBadge: "🟩 NVIDIA",
+    captionTag: "NVIDIA ACCELERATED COMPUTING",
+    cat: "GPU & DATA CENTERS",
+    date: "NVIDIA Blog (Live Wire)",
+    title: "NVIDIA announces Blackwell Ultra NVL72 architecture for million-GPU clusters",
+    summary: "NVIDIA unveiled Blackwell Ultra NVL72 rack systems featuring fifth-generation NVLink interconnects and FP4 tensor core engines designed for next-generation frontier model pre-training.",
+    source: "NVIDIA Newsroom",
+    link: "https://blogs.nvidia.com/",
+    img: "/uploads/live_news/nvidia_skild_ai.jpg",
+    caption: "📷 NVIDIA Blackwell NVL72 Superpod",
   },
   google: {
     id: "google",
     brandBadge: "🌐 GOOGLE",
-    captionTag: "GOOGLE OFFICIAL WIRE",
-    cat: "GOOGLE AI & DEVICES",
-    date: "Google The Keyword (Live Wire)",
-    title: "Expanding free AI training for educators",
-    summary: "Google expands its generative AI training programs and interactive classroom curriculum tools for educators and academic institutions worldwide.",
-    source: "Google The Keyword",
-    link: "https://blog.google/products-and-platforms/products/education/digital-promise/",
-    img: "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/28525___EDNA_Blog_header_01.max-600x600.format-webp.webp",
-    caption: "📷 Expanding free AI training for educators",
+    captionTag: "GOOGLE DEEPMIND INTELLIGENCE",
+    cat: "AI FOUNDATIONS",
+    date: "Google DeepMind (Live Wire)",
+    title: "Google DeepMind unveils Gemini 2.0 Flash with native tool-calling autonomy",
+    summary: "Google introduced Gemini 2.0 Flash, delivering exceptional speed, 2M token context windows, and native real-time audio and vision stream processing.",
+    source: "Google DeepMind",
+    link: "https://deepmind.google/technologies/gemini/",
+    img: "/uploads/live_news/google_venice_film_fest.png",
+    caption: "📷 Google DeepMind Global AI Lab",
   },
   anthropic: {
     id: "anthropic",
-    brandBadge: "🧠 ANTHROPIC",
-    captionTag: "ANTHROPIC OFFICIAL WIRE",
-    cat: "FRONTIER AI & SCIENCE",
-    date: "Anthropic Research (Live Wire)",
-    title: "Introducing Claude Fable 5.1 and Claude Mythos 5.1",
-    summary: "Anthropic announces Claude Fable 5.1 and Claude Mythos 5.1, setting new industry records in multi-agent orchestration, complex logic reasoning, and constitutional cybersecurity safeguards.",
+    brandBadge: "🟧 ANTHROPIC",
+    captionTag: "ANTHROPIC CONSTITUTIONAL WIRE",
+    cat: "ALIGNMENT & SAFETY",
+    date: "Anthropic News (Live Wire)",
+    title: "Anthropic expands Claude 3.5 Sonnet computer-use API for enterprise automation",
+    summary: "Anthropic introduced public computer-use capabilities for Claude 3.5 Sonnet, allowing software agents to interpret user interfaces and execute complex engineering workflows autonomously.",
     source: "Anthropic Research",
-    link: "https://www.anthropic.com/claude-fable-and-mythos-5-1",
+    link: "https://www.anthropic.com/news",
     img: "/uploads/live_news/anthropic_fable_mythos_hero.jpg",
-    caption: "📷 Introducing Claude Fable 5.1 and Claude Mythos 5.1",
+    caption: "📷 Anthropic Alignment Research Center",
   },
   intel: {
     id: "intel",
     brandBadge: "🔷 INTEL",
-    captionTag: "INTEL OFFICIAL WIRE",
-    cat: "NEXT-GEN SILICON & SEMICONDUCTORS",
+    captionTag: "INTEL SILICON FOUNDRY",
+    cat: "SEMICONDUCTORS & LITHOGRAPHY",
     date: "Intel Newsroom (Live Wire)",
-    title: "Intel on-the-ground at the AI Infra Summit",
-    summary: "Intel CEO Lip-Bu Tan emphasizes that the future of AI will be built through open, heterogeneous systems spanning silicon, software, and ecosystem partnerships during fireside chat at AI Infra Summit.",
+    title: "Intel Foundry powers next-generation 18A process node with High-NA EUV lithography",
+    summary: "Intel announced volume production milestones on its 18A process node featuring RibbonFET gate-all-around transistors and PowerVia backside power delivery.",
     source: "Intel Newsroom",
-    link: "https://www.intel.com/content/www/us/en/newsroom/news/artificial-intelligence/intel-on-the-ground-at-the-ai-infra-summit.html",
+    link: "https://www.intel.com/content/www/us/en/newsroom/home.html",
     img: "/uploads/live_news/intel_ai_infra_summit_2026.jpg",
     caption: "📷 Intel on-the-ground at the AI Infra Summit",
   },
 };
 
 export async function GET() {
+  const auth = await verifyAdminAuth();
+  if (!auth.isAuthorized) {
+    return auth.response!;
+  }
+
   try {
     const cache = readCache();
     const gallery = getGalleryImages();
 
-    // Ensure all 8 global brand wires are always available and never dropped
     const mergedBrandWires: Record<string, any> = {};
     const brandKeys = ["apple", "microsoft", "meta", "openai", "nvidia", "google", "anthropic", "intel"];
 
@@ -194,11 +201,15 @@ export async function GET() {
 }
 
 export async function PUT(req: NextRequest) {
+  const auth = await verifyAdminAuth();
+  if (!auth.isAuthorized) {
+    return auth.response!;
+  }
+
   try {
     const body = await req.json();
     const cache = readCache();
 
-    // 1. Handle single story update
     if (body.section && body.id && body.data) {
       const { section, id, data } = body;
 
@@ -223,7 +234,6 @@ export async function PUT(req: NextRequest) {
       return NextResponse.json({ success: true, message: "Story updated successfully", cache });
     }
 
-    // 2. Handle bulk update
     if (body.breaking_news || body.brand_wires || body.regional_wires) {
       if (body.breaking_news) cache.breaking_news = body.breaking_news;
       if (body.brand_wires) cache.brand_wires = body.brand_wires;

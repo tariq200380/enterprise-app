@@ -1,16 +1,23 @@
 import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import { query } from "@/lib/db";
+import { verifyAdminAuth } from "@/lib/adminAuth";
+
+export const dynamic = "force-dynamic";
 
 export async function DELETE(
   req: Request,
   context: { params: Promise<{ id: string }> }
 ) {
+  const auth = await verifyAdminAuth();
+  if (!auth.isAuthorized) {
+    return auth.response!;
+  }
+
   try {
     const { id } = await context.params;
     await query("DELETE FROM articles WHERE id = $1", [id]);
 
-    // Step 4: Instantly refresh article, homepage, and public articles cache
     revalidatePath("/knowledge-center");
     revalidatePath("/");
     revalidatePath("/api/articles");
@@ -25,6 +32,11 @@ export async function PUT(
   req: Request,
   context: { params: Promise<{ id: string }> }
 ) {
+  const auth = await verifyAdminAuth();
+  if (!auth.isAuthorized) {
+    return auth.response!;
+  }
+
   try {
     const { id } = await context.params;
     const body = await req.json();
@@ -72,7 +84,6 @@ export async function PUT(
       ]
     );
 
-    // Step 4: Instantly refresh article, homepage, and public articles cache
     revalidatePath("/knowledge-center");
     revalidatePath("/");
     revalidatePath("/api/articles");
@@ -87,6 +98,11 @@ export async function PATCH(
   req: Request,
   context: { params: Promise<{ id: string }> }
 ) {
+  const auth = await verifyAdminAuth();
+  if (!auth.isAuthorized) {
+    return auth.response!;
+  }
+
   try {
     const { id } = await context.params;
     const body = await req.json();
@@ -161,7 +177,6 @@ export async function PATCH(
     const queryText = `UPDATE articles SET ${setClauses.join(", ")} WHERE id = $${paramIndex} RETURNING *`;
     const res = await query(queryText, values);
 
-    // Step 4: Instantly refresh article, homepage, and public articles cache
     revalidatePath("/knowledge-center");
     revalidatePath("/");
     revalidatePath("/api/articles");
