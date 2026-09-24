@@ -321,9 +321,9 @@ export default function DynamicArticleReader({
       </div>
 
       {/* 2. RESPONSIVE 3-COLUMN STUDIO GRID */}
-      <div className="grid grid-cols-1 lg:grid-cols-[240px_minmax(0,1fr)_300px] gap-6 items-start w-full">
+      <div className="grid grid-cols-1 md:grid-cols-[200px_minmax(0,1fr)_260px] lg:grid-cols-[240px_minmax(0,1fr)_300px] gap-4 md:gap-5 lg:gap-6 items-start w-full">
         {/* ================= COLUMN 1: LEFT NAVIGATOR ================= */}
-        <aside className="w-full flex flex-col gap-4 lg:sticky lg:top-[90px] max-h-[85vh] overflow-y-auto pr-1">
+        <aside className="w-full flex flex-col gap-4 md:sticky md:top-[90px] max-h-[85vh] overflow-y-auto pr-1">
           {/* Search Box */}
           <div className="bg-white border border-[#E2E8F0] rounded-xl p-4 shadow-xs">
             <div className="text-[11px] font-semibold text-[#0052FF] uppercase tracking-wider mb-2">
@@ -807,7 +807,7 @@ export default function DynamicArticleReader({
         </main>
 
         {/* ================= COLUMN 3: RIGHT SIDEBAR ================= */}
-        <aside className="w-full flex flex-col gap-6 text-left lg:sticky lg:top-[90px]">
+        <aside className="w-full flex flex-col gap-6 text-left md:sticky md:top-[90px]">
           {/* WIDGET 1: TOP STORIES */}
           <div className="bg-white rounded-2xl border border-[#E2E8F0] p-5 shadow-xs">
             <div className="flex items-center justify-between mb-4 pb-2 border-b border-[#E2E8F0]">

@@ -9,10 +9,10 @@ export default function Homehero() {
         backgroundImage: "url('/images/microsoft-hero-bg.webp')",
       }}
     >
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-16">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col md:flex-row items-center justify-between gap-8 md:gap-10 lg:gap-16">
         
         {/* LEFT — Text & CTA */}
-        <div className="w-full lg:w-1/2 flex flex-col items-center lg:items-start text-center lg:text-left shrink-0">
+        <div className="w-full md:w-1/2 flex flex-col items-center md:items-start text-center md:text-left shrink-0">
           <h1 className="font-outfit font-bold tracking-tight text-white text-4xl sm:text-5xl leading-[1.15]">
             Your infrastructure supercharged
           </h1>
@@ -21,7 +21,7 @@ export default function Homehero() {
             Creed Tech delivers enterprise software architecture, robust cloud infrastructure, advanced cybersecurity, and AI solutions all in one platform.
           </p>
 
-          <div className="mt-7 w-full flex flex-wrap items-center justify-center lg:justify-start gap-3.5">
+          <div className="mt-7 w-full flex flex-wrap items-center justify-center md:justify-start gap-3.5">
             <button
               type="button"
               data-modal="project"
@@ -39,7 +39,7 @@ export default function Homehero() {
         </div>
 
         {/* RIGHT — Hero Graphic */}
-        <div className="w-full lg:w-[48%] flex justify-center lg:justify-end">
+        <div className="w-full md:w-[48%] flex justify-center md:justify-end">
           <div className="relative w-full max-w-[620px] flex items-center justify-center">
             <Image
               src="/images/hero-services-web-q90.webp"

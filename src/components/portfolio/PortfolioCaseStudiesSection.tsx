@@ -34,11 +34,11 @@ export default function PortfolioCaseStudiesSection({
             className={`w-full py-16 sm:py-20 ${isLast ? "" : "border-b border-[#E2E8F0]"}`}
           >
             <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-center">
                 {/* Visual Preview Card with Ambient Orange Glow */}
                 <div
-                  className={`col-span-12 lg:col-span-6 relative bg-[#0B1120] rounded-2xl border border-white/10 p-6 sm:p-8 flex flex-col justify-between overflow-hidden min-h-[340px] shadow-lg ${
-                    isEven ? "order-1" : "order-1 lg:order-2"
+                  className={`col-span-12 md:col-span-6 relative bg-[#0B1120] rounded-2xl border border-white/10 p-6 sm:p-8 flex flex-col justify-between overflow-hidden min-h-[340px] shadow-lg ${
+                    isEven ? "order-1" : "order-1 md:order-2"
                   }`}
                 >
                   {/* Soft Orange Glow */}
@@ -124,8 +124,8 @@ export default function PortfolioCaseStudiesSection({
 
                 {/* Case Study Details Column */}
                 <div
-                  className={`col-span-12 lg:col-span-6 flex flex-col justify-center text-left ${
-                    isEven ? "order-2" : "order-2 lg:order-1"
+                  className={`col-span-12 md:col-span-6 flex flex-col justify-center text-left ${
+                    isEven ? "order-2" : "order-2 md:order-1"
                   }`}
                 >
                   <span className="text-xs font-semibold uppercase tracking-wider text-[#EA580C] mb-2 block">

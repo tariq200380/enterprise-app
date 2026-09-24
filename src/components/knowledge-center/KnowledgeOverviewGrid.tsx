@@ -227,7 +227,7 @@ export default function KnowledgeOverviewGrid() {
             ))}
 
             {/* 2-Column Overview Studio Layout */}
-            <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_320px] gap-8 items-start">
+            <div className="grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_300px] lg:grid-cols-[minmax(0,1fr)_320px] gap-6 lg:gap-8 items-start">
               {/* LEFT 1FR COLUMN */}
               <div className="flex flex-col gap-10 text-left">
                 {/* 1. DON'T MISS SECTION */}

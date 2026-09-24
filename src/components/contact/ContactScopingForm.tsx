@@ -83,7 +83,7 @@ export default function ContactScopingForm() {
   };
 
   return (
-    <div className="col-span-12 lg:col-span-7 bg-white border border-[#E2E8F0] rounded-2xl p-6 sm:p-9 shadow-[0_2px_4px_rgba(0,0,0,0.02)] text-left">
+    <div className="col-span-12 md:col-span-7 bg-white border border-[#E2E8F0] rounded-2xl p-6 sm:p-9 shadow-[0_2px_4px_rgba(0,0,0,0.02)] text-left">
       <div className="border-b border-[#E2E8F0] pb-5 mb-7">
         <span className="text-xs font-semibold uppercase tracking-wider text-[#EA580C] block mb-1">
           PROJECT SPECIFICATION &amp; SCOPING

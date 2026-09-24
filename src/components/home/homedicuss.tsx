@@ -10,10 +10,10 @@ export default function Homedicuss() {
         }}
       />
 
-      <div className="relative max-w-7xl mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16 z-10">
+      <div className="relative max-w-7xl mx-auto px-6 lg:px-12 flex flex-col md:flex-row items-center justify-between gap-8 md:gap-10 lg:gap-16 z-10">
         
         {/* LEFT: 3D Communication Visual */}
-        <div className="w-full lg:w-1/2 relative bg-[#131C31]/90 border border-[#1E293B] rounded-2xl h-72 sm:h-84 flex flex-col items-center justify-center overflow-hidden shadow-2xl group select-none">
+        <div className="w-full md:w-1/2 relative bg-[#131C31]/90 border border-[#1E293B] rounded-2xl h-72 sm:h-84 flex flex-col items-center justify-center overflow-hidden shadow-2xl group select-none">
           
           {/* Subtle Technical Grid Lines */}
           <div 
@@ -161,7 +161,7 @@ export default function Homedicuss() {
         </div>
 
         {/* RIGHT: Contact Content */}
-        <div className="w-full lg:w-1/2 flex flex-col items-start text-left">
+        <div className="w-full md:w-1/2 flex flex-col items-start text-left">
           <span className="text-xs font-bold text-[#FF6B00] uppercase tracking-widest mb-4">
             CONTACT
           </span>

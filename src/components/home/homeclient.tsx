@@ -7,10 +7,10 @@ export default function Homeclient() {
       className="w-full py-12 sm:py-14 lg:py-16 bg-[#F7F6F5] text-[#0F172A] border-b border-[#E2E8F0] overflow-hidden relative select-none"
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-10 lg:gap-14 items-center">
           
           {/* LEFT COLUMN: Narrative and CTA */}
-          <div className="lg:col-span-5 text-left space-y-6">
+          <div className="md:col-span-5 text-left space-y-6">
             <div>
               <span className="text-xs sm:text-[13px] font-semibold text-[#EA580C] uppercase tracking-wider block mb-2">
                 Enterprise Client Feedback
@@ -84,7 +84,7 @@ export default function Homeclient() {
           </div>
 
           {/* RIGHT COLUMN: Dual-Direction Vertical Scrolling Marquee */}
-          <div className="lg:col-span-7 relative h-[480px] sm:h-[520px] overflow-hidden rounded-2xl p-2 select-none">
+          <div className="md:col-span-7 relative h-[480px] sm:h-[520px] overflow-hidden rounded-2xl p-2 select-none">
             {/* Top & Bottom Gradient Edge Fade Masks */}
             <div className="absolute top-0 left-0 right-0 h-16 bg-gradient-to-b from-[#F7F6F5] via-[#F7F6F5]/80 to-transparent z-20 pointer-events-none" />
             <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-[#F7F6F5] via-[#F7F6F5]/80 to-transparent z-20 pointer-events-none" />

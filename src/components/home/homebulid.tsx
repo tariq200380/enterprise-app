@@ -9,10 +9,10 @@ export default function Homebulid() {
       <div className="absolute bottom-0 left-0 w-80 h-80 bg-orange-50/25 rounded-full blur-3xl pointer-events-none -ml-20 -mb-20" />
 
       <div className="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-10 lg:gap-16 items-center">
 
           {/* LEFT CONTENT: Heading, Description, Bullet Points, and CTA */}
-          <div className="lg:col-span-6 flex flex-col items-start text-left">
+          <div className="md:col-span-6 flex flex-col items-start text-left">
             
             {/* Pre-title Pill / Tag */}
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-[4px] bg-[#EBF3FF] text-[#0052FF] text-xs font-semibold tracking-wider uppercase mb-5">
@@ -66,7 +66,7 @@ export default function Homebulid() {
           </div>
 
           {/* RIGHT VISUAL: Premium Engineering & Careers 3D Visual Card */}
-          <div className="lg:col-span-6 w-full flex items-center justify-center">
+          <div className="md:col-span-6 w-full flex items-center justify-center">
             <div className="relative w-full max-w-[500px] aspect-[4/3] sm:aspect-[1.25/1] rounded-[28px] bg-white p-6 sm:p-8 border border-[#E2E8F0] shadow-sm flex items-center justify-center overflow-hidden group select-none hover:shadow-md hover:border-blue-200 transition-all duration-500">
               
               {/* Light Blue Technical Grid Lines */}

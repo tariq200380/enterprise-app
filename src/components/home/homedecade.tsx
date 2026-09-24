@@ -35,9 +35,9 @@ export default function Homedecade() {
         </h2>
 
         {/* Single Horizontal Row of 4 Statistics with Hairline Dividers */}
-        <div className="w-full grid grid-cols-2 lg:grid-cols-4 border-t border-[#1E293B]">
+        <div className="w-full grid grid-cols-2 md:grid-cols-4 border-t border-[#1E293B]">
           {/* Stat 1 */}
-          <div className="min-h-[190px] sm:min-h-[210px] flex flex-col justify-between items-start text-left py-7 sm:py-8 border-b lg:border-b-0 border-r border-[#1E293B] pr-6 lg:pr-8">
+          <div className="min-h-[190px] sm:min-h-[210px] flex flex-col justify-between items-start text-left py-7 sm:py-8 border-b md:border-b-0 border-r border-[#1E293B] pr-6 md:pr-8">
             <div>
               <div className="flex items-baseline mb-3">
                 <span className="text-5xl sm:text-6xl font-outfit font-bold text-white tracking-tight">
@@ -61,7 +61,7 @@ export default function Homedecade() {
           </div>
 
           {/* Stat 2 */}
-          <div className="min-h-[190px] sm:min-h-[210px] flex flex-col justify-between items-start text-left py-7 sm:py-8 border-b lg:border-b-0 lg:border-r border-[#1E293B] pl-6 sm:pl-8 lg:px-8">
+          <div className="min-h-[190px] sm:min-h-[210px] flex flex-col justify-between items-start text-left py-7 sm:py-8 border-b md:border-b-0 md:border-r border-[#1E293B] pl-6 sm:pl-8 md:px-8">
             <div>
               <div className="flex items-baseline mb-3">
                 <span className="text-5xl sm:text-6xl font-outfit font-bold text-white tracking-tight">
@@ -85,7 +85,7 @@ export default function Homedecade() {
           </div>
 
           {/* Stat 3 */}
-          <div className="min-h-[190px] sm:min-h-[210px] flex flex-col justify-between items-start text-left py-7 sm:py-8 border-r border-[#1E293B] pr-6 lg:px-8">
+          <div className="min-h-[190px] sm:min-h-[210px] flex flex-col justify-between items-start text-left py-7 sm:py-8 border-r border-[#1E293B] pr-6 md:px-8">
             <div>
               <div className="flex items-baseline mb-3">
                 <span className="text-5xl sm:text-6xl font-outfit font-bold text-white tracking-tight">
@@ -109,7 +109,7 @@ export default function Homedecade() {
           </div>
 
           {/* Stat 4 */}
-          <div className="min-h-[190px] sm:min-h-[210px] flex flex-col justify-between items-start text-left py-7 sm:py-8 pl-6 sm:pl-8 lg:pl-8">
+          <div className="min-h-[190px] sm:min-h-[210px] flex flex-col justify-between items-start text-left py-7 sm:py-8 pl-6 sm:pl-8 md:pl-8">
             <div>
               <div className="flex items-baseline mb-3">
                 <span className="text-5xl sm:text-6xl font-outfit font-bold text-white tracking-tight">

@@ -32,9 +32,9 @@ export default function ContactHeroSection({ settings }: ContactHeroSectionProps
         className="absolute inset-0 pointer-events-none bg-[linear-gradient(to_right,#FFFFFF_1px,transparent_1px),linear-gradient(to_bottom,#FFFFFF_1px,transparent_1px)] bg-[size:36px_36px] opacity-[0.035]"
       />
 
-      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-10 lg:gap-14 relative z-10">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-10 md:gap-14 relative z-10">
         {/* Left Column */}
-        <div className="w-full lg:w-1/2">
+        <div className="w-full md:w-1/2">
           <div className="text-[11px] font-semibold uppercase tracking-wider text-[#AEB6C2] mb-2.5">
             {badge}
           </div>
@@ -59,7 +59,7 @@ export default function ContactHeroSection({ settings }: ContactHeroSectionProps
         </div>
 
         {/* Right Column: 4 Stat Metrics (Clean, direct JSX) */}
-        <div className="w-full lg:w-1/2 grid grid-cols-2 gap-y-8 gap-x-6 sm:gap-x-10 text-left">
+        <div className="w-full md:w-1/2 grid grid-cols-2 gap-y-8 gap-x-6 sm:gap-x-10 text-left">
           <div>
             <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">
               {m1Label}

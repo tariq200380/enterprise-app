@@ -123,8 +123,8 @@ export default function Homedeliver() {
           <div className="absolute w-72 h-72 bg-orange-500/10 rounded-full blur-3xl pointer-events-none top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
 
           {/* Phase 1 Pane */}
-          <div className="phase-pane-1 hidden relative z-10 grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            <div className="lg:col-span-7 flex flex-col items-start text-left">
+          <div className="phase-pane-1 hidden relative z-10 grid-cols-1 md:grid-cols-12 gap-8 items-center">
+            <div className="md:col-span-7 flex flex-col items-start text-left">
               <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[6px] bg-orange-500/10 border border-orange-500/30 text-[#FF6B00] text-[11px] font-semibold uppercase tracking-wider mb-3">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#FF6B00]" />
                 PHASE 01
@@ -137,7 +137,7 @@ export default function Homedeliver() {
               </p>
             </div>
 
-            <div className="lg:col-span-5 w-full flex flex-col justify-center divide-y divide-gray-800/80">
+            <div className="md:col-span-5 w-full flex flex-col justify-center divide-y divide-gray-800/80">
               <div className="py-3.5 first:pt-0 last:pb-0 flex items-center gap-3.5">
                 <span className="text-xs font-outfit font-bold text-[#FF6B00] tracking-wider shrink-0">
                   01
@@ -166,8 +166,8 @@ export default function Homedeliver() {
           </div>
 
           {/* Phase 2 Pane */}
-          <div className="phase-pane-2 hidden relative z-10 grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            <div className="lg:col-span-7 flex flex-col items-start text-left">
+          <div className="phase-pane-2 hidden relative z-10 grid-cols-1 md:grid-cols-12 gap-8 items-center">
+            <div className="md:col-span-7 flex flex-col items-start text-left">
               <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[6px] bg-orange-500/10 border border-orange-500/30 text-[#FF6B00] text-[11px] font-semibold uppercase tracking-wider mb-3">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#FF6B00]" />
                 PHASE 02
@@ -180,7 +180,7 @@ export default function Homedeliver() {
               </p>
             </div>
 
-            <div className="lg:col-span-5 w-full flex flex-col justify-center divide-y divide-gray-800/80">
+            <div className="md:col-span-5 w-full flex flex-col justify-center divide-y divide-gray-800/80">
               <div className="py-3.5 first:pt-0 last:pb-0 flex items-center gap-3.5">
                 <span className="text-xs font-outfit font-bold text-[#FF6B00] tracking-wider shrink-0">
                   01
@@ -209,8 +209,8 @@ export default function Homedeliver() {
           </div>
 
           {/* Phase 3 Pane */}
-          <div className="phase-pane-3 hidden relative z-10 grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            <div className="lg:col-span-7 flex flex-col items-start text-left">
+          <div className="phase-pane-3 hidden relative z-10 grid-cols-1 md:grid-cols-12 gap-8 items-center">
+            <div className="md:col-span-7 flex flex-col items-start text-left">
               <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[6px] bg-orange-500/10 border border-orange-500/30 text-[#FF6B00] text-[11px] font-semibold uppercase tracking-wider mb-3">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#FF6B00]" />
                 PHASE 03
@@ -223,7 +223,7 @@ export default function Homedeliver() {
               </p>
             </div>
 
-            <div className="lg:col-span-5 w-full flex flex-col justify-center divide-y divide-gray-800/80">
+            <div className="md:col-span-5 w-full flex flex-col justify-center divide-y divide-gray-800/80">
               <div className="py-3.5 first:pt-0 last:pb-0 flex items-center gap-3.5">
                 <span className="text-xs font-outfit font-bold text-[#FF6B00] tracking-wider shrink-0">
                   01
@@ -252,8 +252,8 @@ export default function Homedeliver() {
           </div>
 
           {/* Phase 4 Pane */}
-          <div className="phase-pane-4 hidden relative z-10 grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            <div className="lg:col-span-7 flex flex-col items-start text-left">
+          <div className="phase-pane-4 hidden relative z-10 grid-cols-1 md:grid-cols-12 gap-8 items-center">
+            <div className="md:col-span-7 flex flex-col items-start text-left">
               <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[6px] bg-orange-500/10 border border-orange-500/30 text-[#FF6B00] text-[11px] font-semibold uppercase tracking-wider mb-3">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#FF6B00]" />
                 PHASE 04
@@ -266,7 +266,7 @@ export default function Homedeliver() {
               </p>
             </div>
 
-            <div className="lg:col-span-5 w-full flex flex-col justify-center divide-y divide-gray-800/80">
+            <div className="md:col-span-5 w-full flex flex-col justify-center divide-y divide-gray-800/80">
               <div className="py-3.5 first:pt-0 last:pb-0 flex items-center gap-3.5">
                 <span className="text-xs font-outfit font-bold text-[#FF6B00] tracking-wider shrink-0">
                   01

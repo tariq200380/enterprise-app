@@ -91,7 +91,7 @@ export default function Homeprovide() {
           </div>
 
           {/* 2 Columns Desktop Grid */}
-          <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-6">
+          <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-6">
             
             {/* Card 1: Software Development */}
             <div className="relative flex items-start gap-4 sm:gap-5 bg-white border border-[#E2E8F0] rounded-xl p-6 sm:p-7 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-blue-300 hover:shadow-md group overflow-hidden">

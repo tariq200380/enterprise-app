@@ -3,9 +3,9 @@ import Link from "next/link";
 export default function Homefocus() {
   return (
     <section className="w-full bg-[#F7F6F5] border-b border-[#E2E8F0] py-12 sm:py-14 lg:py-16 select-none">
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col md:flex-row items-center justify-between gap-8 md:gap-10 lg:gap-16">
         {/* Left Column: Heading, Text & CTA */}
-        <div className="w-full lg:w-[44%] flex flex-col items-start text-left shrink-0">
+        <div className="w-full md:w-[44%] flex flex-col items-start text-left shrink-0">
           <span className="text-xs font-semibold text-[#EA580C] uppercase tracking-widest mb-3">
             WHY CREED TECH
           </span>
@@ -25,7 +25,7 @@ export default function Homefocus() {
         </div>
 
         {/* Right Column: 2x2 Feature Cards Grid */}
-        <div className="w-full lg:w-[52%] grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
+        <div className="w-full md:w-[52%] grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
           {/* Card 1: Risk Free */}
           <div className="bg-white border border-[#E2E8F0] rounded-2xl p-6 sm:p-7 flex flex-col justify-between shadow-sm hover:shadow-md hover:border-blue-200 transition-all duration-200 h-full">
             <div>

@@ -17,7 +17,7 @@ export default function Homeknowledge() {
         </div>
 
         {/* 2x2 Cards Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-10 lg:gap-x-14 gap-y-6 w-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 md:gap-x-10 lg:gap-x-14 gap-y-6 w-full">
           
           {/* 1. INSIGHT CARD */}
           <Link

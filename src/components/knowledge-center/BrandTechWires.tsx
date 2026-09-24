@@ -96,7 +96,7 @@ export default function BrandTechWires({ initialWires }: { initialWires?: BrandW
                 key={wire.id}
                 className={`${
                   isSelected ? "grid" : "hidden"
-                } grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-6 lg:gap-8 items-center bg-[#F7F6F5] border border-[#E2E8F0] rounded-2xl p-6 sm:p-7 shadow-[0_2px_8px_rgba(15,23,42,0.03)]`}
+                } grid-cols-1 md:grid-cols-[1fr_1.2fr] gap-6 lg:gap-8 items-center bg-[#F7F6F5] border border-[#E2E8F0] rounded-2xl p-6 sm:p-7 shadow-[0_2px_8px_rgba(15,23,42,0.03)]`}
               >
                 {/* Visual Container */}
                 <div className="relative w-full aspect-[16/9] min-h-[240px] sm:min-h-[280px] rounded-xl overflow-hidden bg-[#0B1120]">

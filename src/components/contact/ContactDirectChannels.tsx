@@ -18,7 +18,7 @@ export default function ContactDirectChannels({
     "Skip the formal specification and book a 30-minute technical discovery session directly with one of our Principal Systems Architects.";
 
   return (
-    <div className="col-span-12 lg:col-span-5 flex flex-col gap-6 text-left">
+    <div className="col-span-12 md:col-span-5 flex flex-col gap-6 text-left">
       {/* Card 1: Direct Discovery Call (Dark Card with Orange Radial Glow) */}
       <div
         id="direct-call"

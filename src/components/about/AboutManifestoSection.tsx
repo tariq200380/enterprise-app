@@ -15,9 +15,9 @@ export default function AboutManifestoSection() {
       />
 
       <div className="max-w-[1200px] mx-auto px-6 sm:px-10 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-14 items-start">
           {/* Left Column: Heading & Context */}
-          <div className="lg:col-span-4">
+          <div className="md:col-span-4">
             <div className="flex items-center gap-2 mb-2.5">
               <span className="w-1.5 h-1.5 rounded-full bg-[#EA580C] animate-pulse" />
               <span className="text-[11px] font-semibold uppercase tracking-wider text-[#AEB6C2]">
@@ -34,8 +34,8 @@ export default function AboutManifestoSection() {
           </div>
 
           {/* Right Column: Statement & Seal */}
-          <div className="lg:col-span-8">
-            <blockquote className="font-outfit text-xl sm:text-2xl lg:text-[28px] font-bold text-white leading-[1.4] tracking-tight mb-8">
+          <div className="md:col-span-8">
+            <blockquote className="font-outfit text-xl sm:text-2xl md:text-[28px] font-bold text-white leading-[1.4] tracking-tight mb-8">
               &ldquo;Software fails quietly until the day it fails loudly. We treat every release the way a structural engineer treats a blueprint —{" "}
               <strong className="text-white font-bold">assume it will be trusted with something critical</strong>, because it will be.&rdquo;
             </blockquote>

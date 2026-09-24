@@ -17,9 +17,9 @@ export default function PortfolioHeroSection() {
         className="absolute inset-0 pointer-events-none bg-[linear-gradient(to_right,#FFFFFF_1px,transparent_1px),linear-gradient(to_bottom,#FFFFFF_1px,transparent_1px)] bg-[size:36px_36px] opacity-[0.035]"
       />
 
-      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-10 lg:gap-14 relative z-10">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-8 md:gap-10 lg:gap-14 relative z-10">
         {/* Left Column: Heading & Mission */}
-        <div className="w-full lg:w-1/2 text-left">
+        <div className="w-full md:w-1/2 text-left">
           <div className="text-[11px] font-semibold uppercase tracking-wider text-[#AEB6C2] mb-2.5">
             FLAGSHIP CASE STUDIES &amp; PROVEN ARCHITECTURES
           </div>
@@ -38,7 +38,7 @@ export default function PortfolioHeroSection() {
         </div>
 
         {/* Right Column: 4 Stat Cards */}
-        <div className="w-full lg:w-1/2 grid grid-cols-2 gap-3 sm:gap-4">
+        <div className="w-full md:w-1/2 grid grid-cols-2 gap-3 sm:gap-4">
           <div className="bg-white/[0.06] backdrop-blur-md border border-white/[0.08] rounded-[14px] p-5 sm:p-6 shadow-[0_8px_32px_rgba(0,0,0,0.25)] hover:-translate-y-1 hover:border-[#FF6B00]/40 transition-all text-left">
             <svg
               className="w-6 h-6 text-[#00F0FF]/70 mb-2.5"

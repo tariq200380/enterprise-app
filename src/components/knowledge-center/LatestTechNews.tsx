@@ -162,7 +162,7 @@ export default function LatestTechNews({ initialStories }: { initialStories?: Li
         </div>
 
         {/* 2-Column Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-[7.5fr_4.5fr] gap-6 lg:gap-8 items-start">
+        <div className="grid grid-cols-1 md:grid-cols-[7.5fr_4.5fr] gap-6 lg:gap-8 items-start">
           {/* Left Column: Main Featured Breaking Card with Live Original Picture */}
           <div className="w-full">
             <div className="bg-white border border-[#E2E8F0] rounded-2xl overflow-hidden shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05)] flex flex-col w-full transition-all duration-300">

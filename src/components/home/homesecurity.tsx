@@ -5,10 +5,10 @@ export default function Homesecurity() {
   return (
     <section className="w-full bg-[#F7F6F5] py-12 sm:py-14 lg:py-16 border-b border-[#E2E8F0] relative overflow-hidden select-none">
       <div className="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-10 lg:gap-14 items-center">
 
           {/* LEFT VISUAL: Exact 3D Security Illustration Card */}
-          <div className="lg:col-span-6 w-full flex items-center justify-center">
+          <div className="md:col-span-6 w-full flex items-center justify-center">
             <div className="relative w-full max-w-[480px] rounded-[28px] overflow-hidden bg-[#0B1120] shadow-[0_15px_40px_-10px_rgba(255,107,0,0.15)] border border-[#1E293B] group hover:shadow-[0_20px_50px_-10px_rgba(255,107,0,0.22)] transition-all duration-300">
               <Image
                 src="/images/trust-security-3d-test.webp"
@@ -21,7 +21,7 @@ export default function Homesecurity() {
           </div>
 
           {/* RIGHT CONTENT: Badge, Heading, Description, Stats & CTA */}
-          <div className="lg:col-span-6 flex flex-col items-start text-left">
+          <div className="md:col-span-6 flex flex-col items-start text-left">
             {/* Pre-title Pill / Tag */}
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-[4px] bg-[#EBF3FF] text-[#0052FF] text-xs font-medium tracking-wider uppercase mb-5">
               <span className="w-2 h-2 rounded-full bg-[#0052FF]" />

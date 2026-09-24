@@ -43,9 +43,9 @@ export default function AboutHeroSection({
       />
 
       <div className="max-w-7xl mx-auto relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-14 items-center">
           {/* Left Column: Mission & Positioning */}
-          <div className="lg:col-span-7">
+          <div className="md:col-span-7">
             <div className="text-[11px] font-semibold uppercase tracking-wider text-[#AEB6C2] mb-2.5">
               ENGINEERING SOVEREIGNTY &bull; ARCHITECTURAL MASTERY
             </div>
@@ -83,7 +83,7 @@ export default function AboutHeroSection({
           </div>
 
           {/* Right Column: High-Tech Sovereign Console Card */}
-          <div className="lg:col-span-5 w-full">
+          <div className="md:col-span-5 w-full">
             <div className="relative bg-white/[0.04] backdrop-blur-md border border-white/10 rounded-2xl p-6 sm:p-7 shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-left">
               {/* Ambient orange glow inside card */}
               <div

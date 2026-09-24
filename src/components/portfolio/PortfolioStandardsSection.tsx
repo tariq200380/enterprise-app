@@ -12,9 +12,9 @@ export default function PortfolioStandardsSection({
   return (
     <section className="w-full py-16 sm:py-20 border-b border-[#E2E8F0] bg-[#F7F6F5] text-[#0F172A]">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-stretch">
           {/* Left Card: Engineering Culture with Ambient Orange Glow */}
-          <div className="col-span-12 lg:col-span-5 relative bg-[#0B1120] rounded-2xl border border-white/10 p-7 sm:p-9 flex flex-col justify-between overflow-hidden min-h-[380px] shadow-lg">
+          <div className="col-span-12 md:col-span-5 relative bg-[#0B1120] rounded-2xl border border-white/10 p-7 sm:p-9 flex flex-col justify-between overflow-hidden min-h-[380px] shadow-lg">
             {/* Ambient Orange Radial Glow */}
             <div
               aria-hidden="true"
@@ -91,7 +91,7 @@ export default function PortfolioStandardsSection({
           </div>
 
           {/* Right Column: Built on rigorous enterprise standards */}
-          <div className="col-span-12 lg:col-span-7 flex flex-col justify-center text-left">
+          <div className="col-span-12 md:col-span-7 flex flex-col justify-center text-left">
             {/* Category Eyebrow */}
             <span className="text-xs font-semibold uppercase tracking-wider text-[#EA580C] mb-2 block">
               {showcase?.badgeLabel || "HOW WE GUARANTEE EXECUTION"}

@@ -37,7 +37,7 @@ export default function ContactPageClient({ settings }: ContactPageClientProps) 
       {/* 2. Main 2-Column Technical Scoping & Direct Contact Hub */}
       <section id="scoping-form" className="w-full py-10 sm:py-12 border-b border-[#E2E8F0]">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-start">
             {/* Left 7 Columns: Scoping Form */}
             <ContactScopingForm />
 

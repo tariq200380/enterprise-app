@@ -112,8 +112,8 @@ export default function RegionalTechEcosystem({ initialWires }: { initialWires?:
 
         {/* Active Regional Card */}
         {activeWire && (
-          <div className="bg-white border border-[#E2E8F0] rounded-2xl overflow-hidden shadow-xs grid grid-cols-1 lg:grid-cols-12 gap-6 p-6 sm:p-8 items-center">
-            <div className="lg:col-span-5 aspect-[16/10] bg-[#0B1120] rounded-xl overflow-hidden relative">
+          <div className="bg-white border border-[#E2E8F0] rounded-2xl overflow-hidden shadow-xs grid grid-cols-1 md:grid-cols-12 gap-6 p-6 sm:p-8 items-center">
+            <div className="md:col-span-5 aspect-[16/10] bg-[#0B1120] rounded-xl overflow-hidden relative">
               <img
                 src={activeWire.image}
                 alt={activeWire.title}
@@ -127,7 +127,7 @@ export default function RegionalTechEcosystem({ initialWires }: { initialWires?:
               </span>
             </div>
 
-            <div className="lg:col-span-7 flex flex-col justify-between h-full">
+            <div className="md:col-span-7 flex flex-col justify-between h-full">
               <div>
                 <div className="flex items-center gap-2 text-xs text-[#5B6472] mb-2">
                   <span className="font-semibold text-[#059669]">● {activeWire.date}</span>

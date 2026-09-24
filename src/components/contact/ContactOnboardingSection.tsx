@@ -28,7 +28,7 @@ export default function ContactOnboardingSection({ settings }: ContactOnboarding
         </div>
 
         {/* 4 Direct Steps Grid (Simple, Editable JSX Cards) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 text-left">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-5 text-left">
           {/* Step 01 */}
           <div className="bg-white border border-[#E2E8F0] rounded-xl p-5 shadow-[0_2px_4px_rgba(0,0,0,0.02)] hover:border-orange-400/50 hover:shadow-sm transition-all flex flex-col justify-between">
             <div>
