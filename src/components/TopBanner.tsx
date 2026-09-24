@@ -98,7 +98,7 @@ export default function TopBanner({
 
   return (
     <div className="w-full bg-[#090E1A] text-white text-xs sm:text-sm py-2 px-4 overflow-hidden border-b border-gray-800">
-      <div className="max-w-[850px] w-full mx-auto flex items-center justify-center gap-3">
+      <div className="max-w-[820px] w-full mx-auto flex items-center justify-center gap-3 sm:translate-x-8 md:translate-x-10">
         {/* Fixed Stationary Orange Badge - Locked width & position, NEVER shifts */}
         {badgeLabel && (
           <div className="w-[84px] h-[22px] bg-[#EA580C] text-white font-semibold text-xs rounded-full flex items-center justify-center uppercase tracking-wider shrink-0 shadow-sm select-none">
