@@ -10,6 +10,15 @@ export const metadata: Metadata = {
   title: "Trust, Engineered Into Every Layer | Enterprise Security Center",
   description:
     "Security at Creed Tech isn't a layer we add — it's built into our infrastructure, our development lifecycle, and how we govern the company. Explore the architecture, controls, and audited standards behind every engagement.",
+  alternates: {
+    canonical: "/security",
+  },
+  openGraph: {
+    title: "Trust, Engineered Into Every Layer | Enterprise Security Center",
+    description:
+      "Security at Creed Tech isn't a layer we add — it's built into our infrastructure, our development lifecycle, and how we govern the company. Explore the architecture, controls, and audited standards behind every engagement.",
+    url: "https://creed-tech.com/security",
+  },
 };
 
 export default function SecurityPage() {

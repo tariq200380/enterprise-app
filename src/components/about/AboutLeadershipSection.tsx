@@ -105,6 +105,8 @@ export default function AboutLeadershipSection({
                     <img
                       src={member.portraitUrl}
                       alt={member.name || "Leader Portrait"}
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover object-center"
                     />
                   ) : (

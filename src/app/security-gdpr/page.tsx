@@ -7,9 +7,18 @@ import GdprDpaTable from "@/components/security-gdpr/gdprdpatable";
 import GdprCta from "@/components/security-gdpr/gdprcta";
 
 export const metadata: Metadata = {
-  title: "EU GDPR Regulation (EU) 2016/679 Privacy Architecture",
+  title: "EU GDPR Regulation (EU) 2016/679 Privacy Architecture | Creed Tech",
   description:
     "Enacted by the European Parliament, the GDPR mandates sovereign privacy by design. Creed Tech provides structured Article 28 Data Processing Agreement (DPA) templates and architects dedicated European cloud infrastructure with sovereign data residency.",
+  alternates: {
+    canonical: "/security-gdpr",
+  },
+  openGraph: {
+    title: "EU GDPR Regulation (EU) 2016/679 Privacy Architecture | Creed Tech",
+    description:
+      "Enacted by the European Parliament, the GDPR mandates sovereign privacy by design. Creed Tech provides structured Article 28 Data Processing Agreement (DPA) templates and architects dedicated European cloud infrastructure.",
+    url: "https://creed-tech.com/security-gdpr",
+  },
 };
 
 export default function SecurityGdprPage() {

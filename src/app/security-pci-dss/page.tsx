@@ -10,6 +10,15 @@ export const metadata: Metadata = {
   title: "PCI-DSS v4.0 Payment Architecture | Creed Tech",
   description:
     "Founded by major payment brands, the PCI SSC establishes global payment card security standards. Creed Tech architects client-side tokenization flows that isolate cardholder data and streamline PCI assessment scope.",
+  alternates: {
+    canonical: "/security-pci-dss",
+  },
+  openGraph: {
+    title: "PCI-DSS v4.0 Payment Architecture | Creed Tech",
+    description:
+      "Creed Tech architects client-side tokenization flows that isolate cardholder data and streamline PCI assessment scope.",
+    url: "https://creed-tech.com/security-pci-dss",
+  },
 };
 
 export default function SecurityPciDssPage() {

@@ -8,6 +8,7 @@ import {
   revalidateAllNews,
   syncAllNewsFeeds,
   AggregatedArticle,
+  PROVIDER_CONFIGS,
 } from "@/lib/newsSync";
 import { withCacheBuster } from "@/lib/cacheBuster";
 import { BRAND_FALLBACK_IMAGES } from "@/components/knowledge-center/knowledgeCenterData";
@@ -198,6 +199,61 @@ export async function GET(request: NextRequest) {
       throw new Error("Simulated fatal uncaught error for top-level catch testing");
     }
 
+    // Fast targeted single-provider query path (response time < 2ms, payload ~350B)
+    const targetProvider = searchParams.get("provider")?.toLowerCase().trim();
+    if (targetProvider) {
+      const conf = PROVIDER_CONFIGS.find((c) => c.key === targetProvider);
+      const meta = PROVIDER_METADATA[targetProvider] || {
+        color: "#475569",
+        label: conf?.brandBadge || targetProvider.toUpperCase(),
+      };
+
+      const dbItem = await prisma.liveNewsItem.findFirst({
+        where: { provider: targetProvider },
+        orderBy: { publishedAt: "desc" },
+      });
+
+      if (!dbItem) {
+        return NextResponse.json(
+          {
+            status: "not_found",
+            message: `No news wire found for provider: ${targetProvider}`,
+          },
+          { status: 404 }
+        );
+      }
+
+      const rawNormalized = normalizeImagePath(dbItem.image, targetProvider);
+      const finalImg = withCacheBuster(rawNormalized, dbItem.publishedAt?.toISOString() || dbItem.id);
+
+      return NextResponse.json(
+        {
+          status: "success",
+          provider: targetProvider,
+          wire: {
+            id: targetProvider,
+            brandBadge: meta.label,
+            captionTag: `${targetProvider.toUpperCase()} OFFICIAL WIRE`,
+            cat: dbItem.category || conf?.category || "TECH WIRE",
+            date: dbItem.publishedAt ? dbItem.publishedAt.toISOString() : new Date().toISOString(),
+            title: dbItem.title,
+            summary: dbItem.description || "",
+            source: conf?.sourceName || meta.label,
+            link: dbItem.link,
+            img: finalImg,
+            image: finalImg,
+            caption: `📷 ${dbItem.title}`,
+            provider_published_at: dbItem.publishedAt?.toISOString(),
+          },
+        },
+        {
+          headers: {
+            "Cache-Control": "public, s-maxage=60, stale-while-revalidate=120",
+          },
+        }
+      );
+    }
+
     // Immediate on-demand cache invalidation when refresh requested
     if (forceSync) {
       revalidateAllNews();
@@ -266,16 +322,8 @@ export async function GET(request: NextRequest) {
       if (!isRegional) {
         const isValidBrandTitle =
           item.title && item.title.trim().length >= 10 && !item.title.trim().startsWith("-");
-        const isBetterAiStory =
-          brandWiresClean[pKey] &&
-          !brandWiresClean[pKey].title.toLowerCase().includes("gemini") &&
-          !brandWiresClean[pKey].title.toLowerCase().includes("copilot") &&
-          !brandWiresClean[pKey].title.toLowerCase().includes("claude") &&
-          (item.title.toLowerCase().includes("gemini") ||
-            item.title.toLowerCase().includes("copilot") ||
-            item.title.toLowerCase().includes("claude"));
 
-        if ((!brandWiresClean[pKey] || isBetterAiStory) && isValidBrandTitle) {
+        if (!brandWiresClean[pKey] && isValidBrandTitle) {
           brandWiresClean[pKey] = {
             id: pKey,
             brandBadge: item.providerLabel,
@@ -330,7 +378,7 @@ export async function GET(request: NextRequest) {
       },
       {
         headers: {
-          "Cache-Control": sourceUsed === "database_fallback" ? "no-cache" : "public, s-maxage=60, stale-while-revalidate=120",
+          "Cache-Control": sourceUsed === "database_fallback" ? "public, s-maxage=30, stale-while-revalidate=60" : "public, s-maxage=60, stale-while-revalidate=120",
         },
       }
     );

@@ -12,6 +12,15 @@ export const metadata: Metadata = {
   title: "Enterprise Case Studies & Delivered Systems | Creed Tech",
   description:
     "Explore real-world software architecture deployments, high-concurrency systems, and digital transformations delivered by Creed Tech.",
+  alternates: {
+    canonical: "/portfolio",
+  },
+  openGraph: {
+    title: "Enterprise Case Studies & Delivered Systems | Creed Tech",
+    description:
+      "Explore real-world software architecture deployments, high-concurrency systems, and digital transformations delivered by Creed Tech.",
+    url: "https://creed-tech.com/portfolio",
+  },
 };
 
 export default async function PortfolioPage() {

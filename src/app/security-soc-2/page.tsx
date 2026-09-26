@@ -10,6 +10,15 @@ export const metadata: Metadata = {
   title: "AICPA SOC 2 Type II Security Controls | Creed Tech",
   description:
     "The American Institute of CPAs (AICPA, USA) establishes the definitive benchmark for SaaS security. Creed Tech engineers systems aligned with continuous operational controls across Security, Availability, and Confidentiality.",
+  alternates: {
+    canonical: "/security-soc-2",
+  },
+  openGraph: {
+    title: "AICPA SOC 2 Type II Security Controls | Creed Tech",
+    description:
+      "Creed Tech engineers systems aligned with continuous operational controls across Security, Availability, and Confidentiality.",
+    url: "https://creed-tech.com/security-soc-2",
+  },
 };
 
 export default function SecuritySoc2Page() {

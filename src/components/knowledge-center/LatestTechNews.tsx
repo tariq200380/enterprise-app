@@ -60,14 +60,21 @@ export default function LatestTechNews({ initialStories }: { initialStories?: Li
     const unsubscribe = subscribeLiveNews((data) => {
       if (data?.breaking_news && Array.isArray(data.breaking_news) && data.breaking_news.length > 0) {
         setStories((prev) => {
-          if (
-            prev.length === data.breaking_news!.length &&
-            prev[0]?.id === data.breaking_news![0]?.id &&
-            prev[0]?.title === data.breaking_news![0]?.title
-          ) {
-            return prev;
+          const incoming = data.breaking_news!;
+          if (prev.length === incoming.length) {
+            const hasDiff = prev.some((story, idx) => {
+              const nextStory = incoming[idx];
+              return (
+                !nextStory ||
+                story.id !== nextStory.id ||
+                story.title !== nextStory.title ||
+                story.img !== nextStory.img ||
+                story.image !== nextStory.image
+              );
+            });
+            if (!hasDiff) return prev;
           }
-          return data.breaking_news!;
+          return incoming;
         });
         setLastSyncText("Verified live");
       }
@@ -173,6 +180,8 @@ export default function LatestTechNews({ initialStories }: { initialStories?: Li
                 <img
                   src={getStoryImage(activeStory)}
                   alt={activeStory.title}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
                   onError={(e) => {
                     const target = e.currentTarget;
@@ -258,6 +267,8 @@ export default function LatestTechNews({ initialStories }: { initialStories?: Li
                       <img
                         src={getStoryImage(story)}
                         alt={story.title}
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-cover"
                         onError={(e) => {
                           const target = e.currentTarget;

@@ -14,9 +14,18 @@ import TermsModifications from "@/components/terms/termsmodifications";
 import TermsLegal from "@/components/terms/termslegal";
 
 export const metadata: Metadata = {
-  title: "Terms & Conditions",
+  title: "Terms & Conditions | Creed Tech",
   description:
     "Please read these Terms and Conditions carefully before using Creed Tech's website and online communication channels.",
+  alternates: {
+    canonical: "/terms",
+  },
+  openGraph: {
+    title: "Terms & Conditions | Creed Tech",
+    description:
+      "Please read these Terms and Conditions carefully before using Creed Tech's website and online communication channels.",
+    url: "https://creed-tech.com/terms",
+  },
 };
 
 export default function TermsPage() {

@@ -13,9 +13,18 @@ import PrivacyUpdates from "@/components/privacy/privacyupdates";
 import PrivacyContacts from "@/components/privacy/privacycontacts";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy",
+  title: "Privacy Policy | Creed Tech",
   description:
     "Transparent principles governing how Creed Tech respects, processes, and secures information submitted through our website and engineering communication channels.",
+  alternates: {
+    canonical: "/privacy-policy",
+  },
+  openGraph: {
+    title: "Privacy Policy | Creed Tech",
+    description:
+      "Transparent principles governing how Creed Tech respects, processes, and secures information submitted through our website.",
+    url: "https://creed-tech.com/privacy-policy",
+  },
 };
 
 export default function PrivacyPolicyPage() {

@@ -10,6 +10,15 @@ export const metadata: Metadata = {
   title: "ISO/IEC 27001:2022 ISMS Architecture | Creed Tech Security",
   description:
     "The International Organization for Standardization (ISO, Geneva) defines the premier global framework for information security management. Explore our 93-control Annex A implementation, 4-tier policy hierarchy, and client code protection models.",
+  alternates: {
+    canonical: "/security-iso-27001",
+  },
+  openGraph: {
+    title: "ISO/IEC 27001:2022 ISMS Architecture | Creed Tech Security",
+    description:
+      "Explore our 93-control Annex A implementation, 4-tier policy hierarchy, and client code protection models.",
+    url: "https://creed-tech.com/security-iso-27001",
+  },
 };
 
 export default function SecurityIso27001Page() {

@@ -9,6 +9,15 @@ export const metadata: Metadata = {
   title: "About Creed Tech | Engineering Principles & Leadership",
   description:
     "Learn about Creed Tech's engineering principles, distributed architecture hubs, and commitment to sovereign enterprise software.",
+  alternates: {
+    canonical: "/about",
+  },
+  openGraph: {
+    title: "About Creed Tech | Engineering Principles & Leadership",
+    description:
+      "Learn about Creed Tech's engineering principles, distributed architecture hubs, and commitment to sovereign enterprise software.",
+    url: "https://creed-tech.com/about",
+  },
 };
 
 export default async function AboutPage() {

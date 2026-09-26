@@ -50,8 +50,9 @@ export async function fetchSharedLiveNews(forceSync = false): Promise<LiveNewsDa
     try {
       const url = `/api/live-news?_v=${Math.floor(now / CACHE_FRESH_MS)}${forceSync ? "&refresh=true" : ""}`;
       const res = await fetch(url, {
-        cache: "no-store",
-        headers: { "Cache-Control": "no-cache" },
+        ...(forceSync
+          ? { cache: "no-store", headers: { "Cache-Control": "no-cache" } }
+          : { cache: "default" }),
       });
 
       if (!res.ok) throw new Error(`Live news fetch failed with status: ${res.status}`);

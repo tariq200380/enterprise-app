@@ -44,6 +44,19 @@ export default function AdminPage() {
   const [authChecked, setAuthChecked] = useState<boolean>(false);
   const [forbiddenError, setForbiddenError] = useState<string | null>(null);
 
+
+  const handleLogout = useCallback(async () => {
+    try {
+      if (signOut) {
+        await signOut({ redirectUrl: "/sign-in" });
+      }
+      await adminFetch("/api/admin/auth/logout", { method: "POST" });
+    } catch {}
+    localStorage.removeItem("creed_admin_authenticated");
+    localStorage.removeItem("creed_admin_user_email");
+    window.location.href = "/sign-in";
+  }, [signOut, adminFetch]);
+
   // Authoritative server-side session check against Clerk auth boundary
   const verifySession = useCallback(async () => {
     try {
@@ -80,21 +93,6 @@ export default function AdminPage() {
   useEffect(() => {
     verifySession();
   }, [verifySession, isSignedIn]);
-
-  const handleLogout = async () => {
-    try {
-      if (signOut) {
-        await signOut();
-      }
-      await adminFetch("/api/admin/auth/logout", { method: "POST" });
-    } catch {}
-    localStorage.removeItem("creed_admin_authenticated");
-    localStorage.removeItem("creed_admin_user_email");
-    setIsAuthenticated(false);
-    setIsAuthorized(false);
-    setUserEmail("");
-    showToast("Signed out of Admin Panel.", "success");
-  };
 
   const showToast = useCallback((message: string, type: "success" | "error" = "success") => {
     setToast({ message, type });

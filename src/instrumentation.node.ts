@@ -41,8 +41,8 @@ export async function startNewsScheduler(): Promise<void> {
     }
   }, 5000);
 
-  // Schedule background news synchronization every 30 minutes
-  const SYNC_INTERVAL_MS = 30 * 60 * 1000;
+  // Schedule background news synchronization every 3 minutes for live updates
+  const SYNC_INTERVAL_MS = 3 * 60 * 1000;
   setInterval(async () => {
     try {
       console.log("[Auto-Scheduler] Starting scheduled periodic news sync...");

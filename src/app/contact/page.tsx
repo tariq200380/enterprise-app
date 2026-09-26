@@ -9,6 +9,15 @@ export const metadata: Metadata = {
   title: "Contact Solutions Architecture & Engineering | Creed Tech",
   description:
     "Schedule a technical consultation with Creed Tech's principal solutions architects. Direct engineering scoping and zero-obligation NDA protection.",
+  alternates: {
+    canonical: "/contact",
+  },
+  openGraph: {
+    title: "Contact Solutions Architecture & Engineering | Creed Tech",
+    description:
+      "Schedule a technical consultation with Creed Tech's principal solutions architects. Direct engineering scoping and zero-obligation NDA protection.",
+    url: "https://creed-tech.com/contact",
+  },
 };
 
 export default async function ContactPage() {

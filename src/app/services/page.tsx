@@ -16,6 +16,15 @@ export const metadata: Metadata = {
   title: "Enterprise Services & Engineering Solutions | Creed Tech",
   description:
     "End-to-end cloud infrastructure, bespoke software engineering, AI automation, and cybersecurity engineered for unprecedented enterprise scale.",
+  alternates: {
+    canonical: "/services",
+  },
+  openGraph: {
+    title: "Enterprise Services & Engineering Solutions | Creed Tech",
+    description:
+      "End-to-end cloud infrastructure, bespoke software engineering, AI automation, and cybersecurity engineered for unprecedented enterprise scale.",
+    url: "https://creed-tech.com/services",
+  },
 };
 
 async function getServicesData() {

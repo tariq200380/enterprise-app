@@ -42,7 +42,7 @@ export const PROVIDER_CONFIGS: FeedProviderConfig[] = [
     category: "GOOGLE AI & NEXT-GEN MODELS",
     sourceName: "Google The Keyword",
     defaultImage: "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Slide_16_9_-_37.max-1000x1000.format-webp.webp",
-    rssUrl: "https://blog.google/rss/",
+    rssUrl: "https://blog.google/technology/ai/rss/",
     type: "international",
   },
   {
@@ -248,24 +248,38 @@ function extractImageFromXml(itemXml: string): string | null {
     if (atomEncMatch?.[1]) matchedUrl = atomEncMatch[1] || atomEncMatch[2];
   }
 
-  // 3. Media content tag (<media:content url="...">)
-  if (!matchedUrl) {
-    const mediaMatches = Array.from(itemXml.matchAll(/<media:content[^>]*url=["']([^"']+)["']/gi));
-    if (mediaMatches.length > 0) {
-      // Prefer primary article image over archival file photos (such as Dawn where primary article image is 24185550bbf621f)
-      const primary = mediaMatches.find((m) => m[1].includes("24185550") || m[1].includes("primary")) ||
-        mediaMatches[mediaMatches.length - 1];
-      matchedUrl = primary[1];
-    }
-  }
-
-  // 4. Media thumbnail tag (<media:thumbnail url="...">)
+  // 3. Media thumbnail tag (<media:thumbnail url="...">)
   if (!matchedUrl) {
     const mediaThumbMatch = itemXml.match(/<media:thumbnail[^>]*url=["']([^"']+)["']/i);
     if (mediaThumbMatch?.[1]) matchedUrl = mediaThumbMatch[1];
   }
 
-  // 5. HTML img tag in itemXml or embedded CDATA (both standard and encoded &lt;img)
+  // 4. Standard WordPress thumbnail tag (<thumbnail>url</thumbnail>)
+  if (!matchedUrl) {
+    const thumbTagMatch = itemXml.match(/<thumbnail[^>]*>(?:<!\[CDATA\[)?([\s\S]*?)(?:\]\]>)?<\/thumbnail>/i);
+    if (thumbTagMatch?.[1]) matchedUrl = thumbTagMatch[1].trim();
+  }
+
+  // 5. Media content tag (<media:content url="...">)
+  if (!matchedUrl) {
+    const mediaMatches = Array.from(itemXml.matchAll(/<media:content[^>]*url=["']([^"']+)["']/gi));
+    if (mediaMatches.length > 0) {
+      // Prioritize explicit header / primary / featured images, otherwise choose the FIRST media item
+      // (in news feeds, the 1st media:content is the lead photo; subsequent tags are inline body attachments)
+      const primary =
+        mediaMatches.find(
+          (m) =>
+            m[1].toLowerCase().includes("header") ||
+            m[1].toLowerCase().includes("primary") ||
+            m[1].toLowerCase().includes("lead") ||
+            m[1].toLowerCase().includes("featured") ||
+            m[1].includes("24185550")
+        ) || mediaMatches[0];
+      matchedUrl = primary[1];
+    }
+  }
+
+  // 6. HTML img tag in itemXml or embedded CDATA (both standard and encoded &lt;img)
   if (!matchedUrl) {
     const imgTagMatch =
       itemXml.match(/<img[^>]+src=["'](https?:\/\/[^"'\s>]+)["']/i) ||
@@ -532,7 +546,12 @@ async function fetchOgImage(link: string): Promise<string | null> {
       html.match(/<meta[^>]+content=["']([^"']+)["'][^>]+name=["']twitter:image["']/i);
 
     if (ogMatch?.[1]) {
-      const imgUrl = ogMatch[1].trim();
+      let imgUrl = ogMatch[1].replace(/&amp;/g, "&").trim();
+      if (imgUrl.startsWith("/")) {
+        try {
+          imgUrl = new URL(imgUrl, link).href;
+        } catch {}
+      }
       if (imgUrl.startsWith("http") && !isGenericPlaceholderImage(imgUrl)) {
         ogImageCache.set(link, imgUrl);
         return imgUrl;
@@ -888,25 +907,7 @@ export async function syncAllNewsFeeds(): Promise<{ count: number; timestamp: st
   // Guarantee every international brand wire is populated from full feed or DB
   const intlProviders = PROVIDER_CONFIGS.filter((p) => p.type === "international");
   for (const p of intlProviders) {
-    let item =
-      allArticles.find(
-        (a) =>
-          a.provider === p.key &&
-          !a.title.toLowerCase().includes("crispr") &&
-          !a.title.toLowerCase().includes("enzyme") &&
-          (a.title.toLowerCase().includes("gemini") ||
-            a.title.toLowerCase().includes("opus") ||
-            a.title.toLowerCase().includes("sonnet") ||
-            a.title.toLowerCase().includes("claude") ||
-            a.title.toLowerCase().includes("copilot"))
-      ) ||
-      allArticles.find(
-        (a) =>
-          a.provider === p.key &&
-          !a.title.toLowerCase().includes("crispr") &&
-          !a.title.toLowerCase().includes("enzyme")
-      ) ||
-      allArticles.find((a) => a.provider === p.key);
+    let item = sortedArticles.find((a) => a.provider === p.key);
     if (!item) {
       try {
         const dbRow = await prisma.liveNewsItem.findFirst({

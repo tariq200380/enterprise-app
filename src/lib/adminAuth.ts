@@ -61,7 +61,16 @@ export async function verifyAdminAuth(): Promise<AdminAuthResult> {
       (sessionClaims?.email as string) ||
       "admin";
 
-    const isAdmin = role === "admin" || role === "super_admin";
+    const isConfiguredAdminEmail = Boolean(
+      process.env.ADMIN_EMAIL &&
+      email &&
+      email.toLowerCase() === process.env.ADMIN_EMAIL.toLowerCase()
+    );
+
+    const isAdmin = role === "admin" || role === "super_admin" || isConfiguredAdminEmail;
+    if (isConfiguredAdminEmail && !role) {
+      role = "admin";
+    }
 
     if (!isAdmin) {
       return {

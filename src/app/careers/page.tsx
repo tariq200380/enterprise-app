@@ -14,6 +14,15 @@ export const metadata: Metadata = {
   title: "Careers & Engineering Pods | Creed Tech",
   description:
     "Build digital infrastructure that endures. We are an autonomous collective of principal systems architects, AI engineers, and design artisans.",
+  alternates: {
+    canonical: "/careers",
+  },
+  openGraph: {
+    title: "Careers & Engineering Pods | Creed Tech",
+    description:
+      "Build digital infrastructure that endures. We are an autonomous collective of principal systems architects, AI engineers, and design artisans.",
+    url: "https://creed-tech.com/careers",
+  },
 };
 
 export default function CareersPage() {

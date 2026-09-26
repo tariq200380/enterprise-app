@@ -610,7 +610,15 @@ export default function ServicesDigital({ data }: Props) {
                 >
                   <div className="w-10 h-10 flex items-center justify-center mb-3 [&>svg]:w-9 [&>svg]:h-9 [&>svg]:object-contain">
                     {tech.iconUrl ? (
-                      <img src={tech.iconUrl} alt={tech.name} className="w-9 h-9 object-contain" />
+                      <img
+                        src={tech.iconUrl}
+                        alt={tech.name}
+                        width={36}
+                        height={36}
+                        loading="lazy"
+                        decoding="async"
+                        className="w-9 h-9 object-contain"
+                      />
                     ) : iconSvg ? (
                       <div className="w-9 h-9 flex items-center justify-center" dangerouslySetInnerHTML={{ __html: iconSvg }} />
                     ) : (

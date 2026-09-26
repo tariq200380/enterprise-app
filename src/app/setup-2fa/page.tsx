@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { UserProfile, useUser, SignIn, SignedIn } from "@clerk/nextjs";
+import { UserProfile, useUser, SignIn, Show } from "@clerk/nextjs";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -168,9 +168,9 @@ export default function Setup2FAPage() {
         {/* Embedded Clerk UserProfile Component */}
         <div className="flex justify-center">
           <div className="w-full bg-[#0F172A] border border-[#1E293B] rounded-2xl shadow-2xl overflow-hidden p-2 sm:p-4">
-            <SignedIn>
+            <Show when="signed-in">
               <UserProfile routing="hash" />
-            </SignedIn>
+            </Show>
           </div>
         </div>
       </div>
