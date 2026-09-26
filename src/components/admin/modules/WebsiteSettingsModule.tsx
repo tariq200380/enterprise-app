@@ -9,6 +9,7 @@ import AboutSettingsSection from "../settings/AboutSettingsSection";
 import ContactSettingsSection from "../settings/ContactSettingsSection";
 import PortfolioSettingsSection from "../settings/PortfolioSettingsSection";
 import ServicesSettingsSection from "../settings/ServicesSettingsSection";
+import { useAdminFetch } from "@/lib/useAdminFetch";
 
 interface WebsiteSettingsModuleProps {
   showToast?: (msg: string, type: "success" | "error") => void;
@@ -18,13 +19,14 @@ interface WebsiteSettingsModuleProps {
 type SubTabType = "global" | "home" | "services" | "about" | "contact" | "portfolio" | "header_footer";
 
 export default function WebsiteSettingsModule({ showToast, onNavigateTab }: WebsiteSettingsModuleProps) {
+  const adminFetch = useAdminFetch();
   const [subTab, setSubTab] = useState<SubTabType>("global");
   const [saving, setSaving] = useState(false);
   const [settings, setSettings] = useState<WebsiteSettingsData>(DEFAULT_WEBSITE_SETTINGS);
 
   // Load from API
   const loadSettings = () => {
-    fetch("/api/admin/website-settings")
+    adminFetch("/api/admin/website-settings")
       .then((res) => res.json())
       .then((data) => {
         const s = data.settings || data;
@@ -189,7 +191,7 @@ export default function WebsiteSettingsModule({ showToast, onNavigateTab }: Webs
         socialGithub: settings.socialLinks.find((l) => l.platform.toLowerCase().includes("github"))?.url || "",
       };
 
-      const res = await fetch("/api/admin/website-settings", {
+      const res = await adminFetch("/api/admin/website-settings", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),

@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { VideoItem } from "@/types/admin";
 import AddVideoModal from "../modals/AddVideoModal";
 import VideoPreviewModal from "../modals/VideoPreviewModal";
+import { useAdminFetch } from "@/lib/useAdminFetch";
 
 interface VideosModuleProps {
   searchQuery?: string;
@@ -19,6 +20,7 @@ export default function VideosModule({
   videos: propVideos,
   onRefresh,
 }: VideosModuleProps) {
+  const adminFetch = useAdminFetch();
   const [internalVideos, setInternalVideos] = useState<VideoItem[]>([]);
   const [isLoading, setIsLoading] = useState(!propVideos);
   const [showAddModal, setShowAddModal] = useState(false);
@@ -27,7 +29,7 @@ export default function VideosModule({
   const fetchVideos = useCallback(async () => {
     try {
       setIsLoading(true);
-      const res = await fetch("/api/admin/videos", { cache: "no-store" });
+      const res = await adminFetch("/api/admin/videos", { cache: "no-store" });
       const data = await res.json();
       if (data.success && data.videos) {
         setInternalVideos(data.videos);
@@ -37,7 +39,7 @@ export default function VideosModule({
     } finally {
       setIsLoading(false);
     }
-  }, [showToast]);
+  }, [adminFetch, showToast]);
 
   useEffect(() => {
     if (propVideos) {
@@ -52,7 +54,7 @@ export default function VideosModule({
   const handleDelete = async (id: number) => {
     if (!confirm(`Are you sure you want to delete video #${id}?`)) return;
     try {
-      const res = await fetch(`/api/admin/videos?id=${id}`, { method: "DELETE" });
+      const res = await adminFetch(`/api/admin/videos?id=${id}`, { method: "DELETE" });
       const data = await res.json();
       if (data.success) {
         showToast("✓ Video deleted successfully");

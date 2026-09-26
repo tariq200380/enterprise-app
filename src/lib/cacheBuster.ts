@@ -16,6 +16,11 @@ export function withCacheBuster(
     return trimmed.replace(/([?&])v=[^&]*(&|$)/g, (m, p1, p2) => p2 ? p1 : "").replace(/[?&]$/, "");
   }
 
+  // Local static assets (/images/..., /uploads/...) are permanent files. Keep them stable to avoid cache invalidation.
+  if (trimmed.startsWith("/images/") || trimmed.startsWith("/uploads/")) {
+    return trimmed;
+  }
+
   // If already contains a version query parameter (?v= or &v=), don't duplicate
   if (/[?&]v=/.test(trimmed)) {
     return trimmed;
@@ -31,9 +36,9 @@ export function withCacheBuster(
     }
   }
 
-  // Fallback to current timestamp if version is not provided or could not be parsed
+  // If no valid version could be determined, return the stable URL as-is without cache-busting
   if (!v) {
-    v = String(Date.now());
+    return trimmed;
   }
 
   const separator = trimmed.includes("?") ? "&" : "?";

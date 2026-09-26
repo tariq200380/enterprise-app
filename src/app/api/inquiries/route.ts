@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { query } from "@/lib/db";
+import { checkRateLimit } from "@/lib/rateLimit";
 
 export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest) {
+  const rateLimitError = checkRateLimit(req);
+  if (rateLimitError) return rateLimitError;
+
   try {
     const body = await req.json().catch(() => ({}));
     const rawName = body.client_name || body.name || body.fullName;

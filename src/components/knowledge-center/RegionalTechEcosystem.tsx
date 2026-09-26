@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import { subscribeLiveNews } from "@/lib/liveNewsClient";
 import {
   RegionalWireItem,
   INITIAL_REGIONAL_WIRES,
@@ -13,22 +14,16 @@ export { INITIAL_REGIONAL_WIRES };
 export default function RegionalTechEcosystem({ initialWires }: { initialWires?: RegionalWireItem[] } = {}) {
   const [wires, setWires] = useState<RegionalWireItem[]>(initialWires && initialWires.length > 0 ? initialWires : INITIAL_REGIONAL_WIRES);
   const [activeWireId, setActiveWireId] = useState<string>("dawn");
-  const [isRefreshing, setIsRefreshing] = useState(false);
 
-  const fetchRegionalWires = async (forceSync = false) => {
-    try {
-      setIsRefreshing(true);
-      const res = await fetch(`/api/live-news?t=${Date.now()}${forceSync ? "&refresh=true" : ""}`, {
-        cache: "no-store",
-      });
-      if (!res.ok) return;
-      const data = await res.json();
+  useEffect(() => {
+    const unsubscribe = subscribeLiveNews((data) => {
       if (data.regional_wires && typeof data.regional_wires === "object") {
         const order = ["dawn", "brecorder", "propakistani", "tribune"];
         setWires((prev) => {
-          return order
+          let hasDiff = false;
+          const next = order
             .map((key) => {
-              const item = data.regional_wires[key];
+              const item = data.regional_wires![key];
               const existing = prev.find((w) => w.id === key);
               if (item) {
                 const rawImg = (item.image || item.img || "").trim();
@@ -36,6 +31,9 @@ export default function RegionalTechEcosystem({ initialWires }: { initialWires?:
                   rawImg.startsWith("http://") || rawImg.startsWith("https://") || rawImg.startsWith("/")
                     ? rawImg
                     : `/${rawImg}`;
+                if (!existing || existing.title !== item.title || existing.image !== finalImg) {
+                  hasDiff = true;
+                }
                 return {
                   id: key,
                   name: item.name || existing?.name || key.toUpperCase(),
@@ -47,25 +45,17 @@ export default function RegionalTechEcosystem({ initialWires }: { initialWires?:
                   summary: item.summary || existing?.summary || "",
                   sourceName: item.sourceName || existing?.sourceName || item.name,
                   sourceUrl: item.sourceUrl || existing?.sourceUrl || "#",
-                  image: finalImg || existing?.image || "/uploads/live_news/apple_iphone16_hero.jpg",
+                  image: finalImg || existing?.image || "/images/kc-news.webp",
                 };
               }
               return existing || INITIAL_REGIONAL_WIRES.find((w) => w.id === key)!;
             })
             .filter(Boolean);
+          return hasDiff ? next : prev;
         });
       }
-    } catch {
-      // Keep existing wires
-    } finally {
-      setIsRefreshing(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchRegionalWires(false);
-    const interval = setInterval(() => fetchRegionalWires(false), 30000);
-    return () => clearInterval(interval);
+    });
+    return unsubscribe;
   }, []);
 
   const activeWire = wires.find((w) => w.id === activeWireId) || wires[0];
@@ -119,7 +109,7 @@ export default function RegionalTechEcosystem({ initialWires }: { initialWires?:
                 alt={activeWire.title}
                 className="w-full h-full object-cover"
                 onError={(e) => {
-                  (e.currentTarget as HTMLImageElement).src = "/uploads/live_news/apple_iphone16_hero.jpg";
+                  (e.currentTarget as HTMLImageElement).src = "/images/kc-news.webp";
                 }}
               />
               <span className="absolute top-3 left-3 bg-[#059669] text-white text-[10px] font-semibold tracking-wider px-2.5 py-1 rounded shadow-sm uppercase">

@@ -3,6 +3,7 @@
 import React, { useState, useRef } from "react";
 import Image from "next/image";
 import { WebsiteSettingsData } from "../types";
+import { useAdminFetch } from "@/lib/useAdminFetch";
 
 interface Props {
   settings: WebsiteSettingsData;
@@ -10,6 +11,7 @@ interface Props {
 }
 
 export default function HeaderLogoCard({ settings, onChange }: Props) {
+  const adminFetch = useAdminFetch();
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState("");
   const [previewBg, setPreviewBg] = useState<"light" | "dark">("light");
@@ -41,7 +43,7 @@ export default function HeaderLogoCard({ settings, onChange }: Props) {
       const formData = new FormData();
       formData.append("file", file);
 
-      const res = await fetch("/api/admin/upload", {
+      const res = await adminFetch("/api/admin/upload", {
         method: "POST",
         body: formData,
       });

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
 import { verifyAdminAuth } from "@/lib/adminAuth";
+import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 
@@ -246,6 +247,79 @@ export async function PUT(req: NextRequest) {
       { success: false, error: "Invalid payload: must provide section & data or full cache" },
       { status: 400 }
     );
+  } catch (error: any) {
+    return NextResponse.json(
+      { success: false, error: error.message || "Failed to update news" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function PATCH(req: NextRequest) {
+  const auth = await verifyAdminAuth();
+  if (!auth.isAuthorized) {
+    return auth.response!;
+  }
+
+  try {
+    const body = await req.json();
+    const cache = readCache();
+    const section = body.section;
+    const id = body.id;
+    const data = body.item || body.data;
+
+    if (!section || !id || !data) {
+      return NextResponse.json(
+        { success: false, error: "Missing required fields: section, id, and item/data" },
+        { status: 400 }
+      );
+    }
+
+    if (section === "breaking") {
+      if (!Array.isArray(cache.breaking_news)) cache.breaking_news = [];
+      const idx = cache.breaking_news.findIndex(
+        (item: any) => item.external_id === id || item.id === id || item.provider === id
+      );
+      if (idx !== -1) {
+        cache.breaking_news[idx] = { ...cache.breaking_news[idx], ...data };
+      } else {
+        cache.breaking_news.unshift(data);
+      }
+    } else if (section === "brand") {
+      if (!cache.brand_wires) cache.brand_wires = {};
+      cache.brand_wires[id] = { ...(cache.brand_wires[id] || {}), ...data };
+    } else if (section === "regional") {
+      if (!cache.regional_wires) cache.regional_wires = {};
+      cache.regional_wires[id] = { ...(cache.regional_wires[id] || {}), ...data };
+    }
+
+    writeCache(cache);
+
+    // Also persist update to PostgreSQL if link or title matches
+    try {
+      const targetLink = data.link || cache.breaking_news?.find((i: any) => (i.id === id || i.external_id === id))?.link;
+      const targetTitle = data.title;
+      if (targetLink || targetTitle) {
+        await prisma.liveNewsItem.updateMany({
+          where: {
+            OR: [
+              ...(targetLink ? [{ link: targetLink }] : []),
+              ...(targetTitle ? [{ title: targetTitle }] : []),
+            ],
+          },
+          data: {
+            ...(data.title ? { title: data.title } : {}),
+            ...(data.desc ? { description: data.desc } : {}),
+            ...(data.img || data.image ? { image: data.img || data.image } : {}),
+            ...(data.tag || data.category ? { category: data.tag || data.category } : {}),
+          },
+        });
+      }
+    } catch (dbErr) {
+      console.warn("[Admin News PATCH] DB update warning:", dbErr);
+    }
+
+    return NextResponse.json({ success: true, message: "Story updated and persisted successfully", cache });
   } catch (error: any) {
     return NextResponse.json(
       { success: false, error: error.message || "Failed to update news" },

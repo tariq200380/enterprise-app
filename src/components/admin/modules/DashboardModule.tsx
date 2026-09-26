@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Inquiry, Candidate, ArticleItem, VideoItem, SubscriberItem, PortfolioItem } from "@/types/admin";
+import { useAdminFetch } from "@/lib/useAdminFetch";
 
 interface DashboardModuleProps {
   inquiries?: Inquiry[];
@@ -36,6 +37,7 @@ export default function DashboardModule({
   onOpenNewTestimonial,
   onOpenNewPortfolio,
 }: DashboardModuleProps) {
+  const adminFetch = useAdminFetch();
   const [inquiries, setInquiries] = useState<Inquiry[]>(propInquiries || []);
   const [candidates, setCandidates] = useState<Candidate[]>(propCandidates || []);
   const [articles, setArticles] = useState<ArticleItem[]>(propArticles || []);
@@ -45,12 +47,12 @@ export default function DashboardModule({
 
   const loadDashboardData = () => {
     Promise.all([
-      fetch("/api/admin/inquiries").then((r) => r.json()).catch(() => ({})),
-      fetch("/api/admin/candidates").then((r) => r.json()).catch(() => ({})),
-      fetch("/api/admin/articles").then((r) => r.json()).catch(() => ({})),
-      fetch("/api/admin/videos").then((r) => r.json()).catch(() => ({})),
-      fetch("/api/admin/subscribers").then((r) => r.json()).catch(() => ({})),
-      fetch("/api/admin/portfolio").then((r) => r.json()).catch(() => ({})),
+      adminFetch("/api/admin/inquiries").then((r) => r.json()).catch(() => ({})),
+      adminFetch("/api/admin/candidates").then((r) => r.json()).catch(() => ({})),
+      adminFetch("/api/admin/articles").then((r) => r.json()).catch(() => ({})),
+      adminFetch("/api/admin/videos").then((r) => r.json()).catch(() => ({})),
+      adminFetch("/api/admin/subscribers").then((r) => r.json()).catch(() => ({})),
+      adminFetch("/api/admin/portfolio").then((r) => r.json()).catch(() => ({})),
     ]).then(([inqD, canD, artD, vidD, subD, portD]) => {
       if (inqD?.inquiries) setInquiries(inqD.inquiries);
       if (canD?.candidates) setCandidates(canD.candidates);
@@ -83,7 +85,7 @@ export default function DashboardModule({
     }
     if (!confirm(`Delete inquiry #${id}?`)) return;
     try {
-      const res = await fetch(`/api/admin/inquiries?id=${id}`, { method: "DELETE" });
+      const res = await adminFetch(`/api/admin/inquiries?id=${id}`, { method: "DELETE" });
       if (res.ok) {
         setInquiries((prev) => prev.filter((i) => i.id !== id));
       }

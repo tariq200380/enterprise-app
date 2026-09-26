@@ -4,10 +4,10 @@ import React from "react";
 import { StoryItem } from "./types";
 
 const REGIONAL_FALLBACK_IMAGES: Record<string, string> = {
-  dawn: "https://i.dawn.com/large/2026/09/21112713801fded.webp",
-  brecorder: "https://i.brecorder.com/large/2026/09/220759353d42770.webp",
-  propakistani: "https://propakistani.pk/wp-content/uploads/2026/09/Vivo-X500-2.jpg",
-  tribune: "https://i.tribune.com.pk/media/images/silent-hill-f-11759313708-0/silent-hill-f-11759313708-0.png",
+  dawn: "/images/kc-news.webp",
+  brecorder: "/images/kc-news.webp",
+  propakistani: "/images/kc-news.webp",
+  tribune: "/images/kc-news.webp",
 };
 
 interface NewsRegionalTabProps {
@@ -39,7 +39,7 @@ export default function NewsRegionalTab({
     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
       {entries.map(([rKey, wire]) => {
         const pKey = rKey.toLowerCase();
-        const fallback = REGIONAL_FALLBACK_IMAGES[pKey] || "/uploads/live_news/apple_iphone16_hero.jpg";
+        const fallback = REGIONAL_FALLBACK_IMAGES[pKey] || "/images/kc-news.webp";
         const raw = (wire.image || wire.img || fallback).trim().replace(/&amp;/g, "&");
         const imgSrc = raw || fallback;
         const isSaved = savedTitles.has((wire.title || "").trim().toLowerCase());

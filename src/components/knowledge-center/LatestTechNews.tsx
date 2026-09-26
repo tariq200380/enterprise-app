@@ -1,31 +1,50 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
+import { subscribeLiveNews, fetchSharedLiveNews, seedLiveNewsCache } from "@/lib/liveNewsClient";
 
-import { LiveNewsItem, INITIAL_STORIES, FALLBACK_IMAGE } from "./knowledgeCenterData";
+import { LiveNewsItem, INITIAL_STORIES, FALLBACK_IMAGE, BRAND_FALLBACK_IMAGES } from "./knowledgeCenterData";
 export type { LiveNewsItem };
-export { INITIAL_STORIES, FALLBACK_IMAGE };
+export { INITIAL_STORIES, FALLBACK_IMAGE, BRAND_FALLBACK_IMAGES };
+
+function getStoryImage(story?: LiveNewsItem): string {
+  if (!story) return FALLBACK_IMAGE;
+  const p = (story.provider || "").toLowerCase();
+  const fallback = BRAND_FALLBACK_IMAGES[p] || FALLBACK_IMAGE;
+  const src = (story.img || story.image || story.source_image_url || "").trim();
+  if (
+    !src ||
+    src === FALLBACK_IMAGE ||
+    src.includes("kc-news.webp") ||
+    src.includes("25a7c99743ebfb3b") ||
+    src.includes("8a4eb6c412e5e7ffa38f07233344f4b7e6644994") ||
+    src.toLowerCase().includes("omb-home-final") ||
+    (p === "microsoft" && (src.includes("blogs.microsoft.com") || src.includes("thesourcemediaassets")))
+  ) {
+    return fallback;
+  }
+  return src;
+}
 
 export default function LatestTechNews({ initialStories }: { initialStories?: LiveNewsItem[] } = {}) {
   const [stories, setStories] = useState<LiveNewsItem[]>(initialStories && initialStories.length > 0 ? initialStories : INITIAL_STORIES);
-  const [activeIdx, setActiveIdx] = useState<number>(0);
+  const [selectedStoryId, setSelectedStoryId] = useState<string | null>(null);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const [lastSyncText, setLastSyncText] = useState<string>("Verified live");
 
-  // Fetch verified live news from API
+  // Seed the shared client cache with initialStories to prevent cold-fetch layout shifts
+  useEffect(() => {
+    if (initialStories && initialStories.length > 0) {
+      seedLiveNewsCache({ breaking_news: initialStories });
+    }
+  }, [initialStories]);
+
+  // Fetch verified live news using the shared client
   const fetchLiveNews = useCallback(async (forceSync = false) => {
     try {
       setIsRefreshing(true);
-      const url = `/api/live-news?t=${Date.now()}${forceSync ? "&refresh=true" : ""}`;
-      const res = await fetch(url, {
-        cache: "no-store",
-        headers: { "Cache-Control": "no-cache" },
-      });
-
-      if (!res.ok) throw new Error("Failed to fetch live news");
-
-      const data = await res.json();
-      if (data.breaking_news && Array.isArray(data.breaking_news) && data.breaking_news.length > 0) {
+      const data = await fetchSharedLiveNews(forceSync);
+      if (data?.breaking_news && Array.isArray(data.breaking_news) && data.breaking_news.length > 0) {
         setStories(data.breaking_news);
         setLastSyncText("Verified live");
       }
@@ -36,12 +55,25 @@ export default function LatestTechNews({ initialStories }: { initialStories?: Li
     }
   }, []);
 
-  // Initial fetch and auto-refresh interval
+  // Subscribe to shared updates and centralized auto-refresh interval
   useEffect(() => {
-    fetchLiveNews(false);
-    const interval = setInterval(() => fetchLiveNews(false), 30000); // 30s auto-refresh
-    return () => clearInterval(interval);
-  }, [fetchLiveNews]);
+    const unsubscribe = subscribeLiveNews((data) => {
+      if (data?.breaking_news && Array.isArray(data.breaking_news) && data.breaking_news.length > 0) {
+        setStories((prev) => {
+          if (
+            prev.length === data.breaking_news!.length &&
+            prev[0]?.id === data.breaking_news![0]?.id &&
+            prev[0]?.title === data.breaking_news![0]?.title
+          ) {
+            return prev;
+          }
+          return data.breaking_news!;
+        });
+        setLastSyncText("Verified live");
+      }
+    });
+    return unsubscribe;
+  }, []);
 
   // Helper to identify regional vs international news
   const isRegionalStory = (s: LiveNewsItem): boolean => {
@@ -80,53 +112,23 @@ export default function LatestTechNews({ initialStories }: { initialStories?: Li
 
     const reg = stories.filter((s) => isRegionalStory(s)).slice(0, 2);
 
-    let finalReg = [...reg];
-    if (finalReg.length < 2) {
-      const fallbackReg: LiveNewsItem[] = [
-        {
-          id: "brecorder-fallback",
-          provider: "brecorder",
-          tag: "PAKISTAN FINTECH & BUSINESS",
-          providerLabel: "🇵🇰 B-RECORDER • FINTECH",
-          providerColor: "#0284C7",
-          date: "Just now • Business Recorder",
-          source: "Business Recorder",
-          title: "Alibaba plans AI model with 5 trillion to 10 trillion parameters, unveils new chip",
-          desc: "Alibaba Cloud announces next-generation frontier AI model scaling to 10 trillion parameters alongside specialized accelerator silicon for enterprise cloud infrastructure.",
-          link: "https://www.brecorder.com/feeds/technology/",
-          img: "https://i.brecorder.com/large/2026/09/220759353d42770.webp",
-        },
-        {
-          id: "dawn-fallback",
-          provider: "dawn",
-          tag: "PAKISTAN TECH & SCIENCE",
-          providerLabel: "🇵🇰 DAWN • TECH & SCIENCE",
-          providerColor: "#059669",
-          date: "Today • Dawn Sci-Tech",
-          source: "Dawn Sci-Tech",
-          title: "'I live in fear': 1.5 million Pakistani children sexually exploited online",
-          desc: "Digital safety advocates and law enforcement highlight urgency for cyber safety measures protecting children across Pakistan's digital space.",
-          link: "https://www.dawn.com/feeds/tech/",
-          img: "https://i.dawn.com/large/2026/09/21112713801fded.webp",
-        },
-      ];
-      for (const fb of fallbackReg) {
-        if (finalReg.length < 2 && !finalReg.some((r) => (r.provider || "").toLowerCase() === fb.provider)) {
-          finalReg.push(fb);
+    const combined = [...intl, ...reg];
+    if (combined.length < 6) {
+      for (const s of stories) {
+        if (!combined.some((x) => x.id === s.id)) {
+          combined.push(s);
+          if (combined.length >= 6) break;
         }
       }
     }
 
-    return [...intl, ...finalReg];
+    return combined;
   }, [stories]);
 
-  useEffect(() => {
-    if (activeIdx >= curatedStories.length && curatedStories.length > 0) {
-      setActiveIdx(0);
-    }
-  }, [activeIdx, curatedStories.length]);
-
-  const activeStory = curatedStories[activeIdx] || curatedStories[0] || stories[0];
+  const activeStory =
+    (selectedStoryId ? curatedStories.find((s) => s.id === selectedStoryId) : null) ||
+    curatedStories[0] ||
+    stories[0];
 
   return (
     <section className="w-full py-12 sm:py-14 bg-[#F7F6F5] border-b border-[#E2E8F0]">
@@ -169,13 +171,14 @@ export default function LatestTechNews({ initialStories }: { initialStories?: Li
               {/* Visual Container with True 16:9 Landscape Proportion */}
               <div className="relative w-full aspect-[16/9] bg-[#0B1120] overflow-hidden group">
                 <img
-                  src={activeStory.img || activeStory.source_image_url || FALLBACK_IMAGE}
+                  src={getStoryImage(activeStory)}
                   alt={activeStory.title}
                   className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
                   onError={(e) => {
                     const target = e.currentTarget;
-                    if (target.src !== FALLBACK_IMAGE) {
-                      target.src = FALLBACK_IMAGE;
+                    const fallback = BRAND_FALLBACK_IMAGES[activeStory?.provider?.toLowerCase()] || FALLBACK_IMAGE;
+                    if (target.src !== fallback) {
+                      target.src = fallback;
                     }
                   }}
                 />
@@ -223,7 +226,7 @@ export default function LatestTechNews({ initialStories }: { initialStories?: Li
             </div>
           </div>
 
-          {/* Right Column ("apni side py"): Live Companion Stories List */}
+          {/* Right Column: Live Companion Stories List */}
           <div className="flex flex-col gap-2.5 w-full">
             <div className="flex items-center justify-between px-1 mb-0.5">
               <span className="text-xs font-extrabold text-[#5B6472] uppercase tracking-wider flex items-center gap-1.5">
@@ -235,14 +238,14 @@ export default function LatestTechNews({ initialStories }: { initialStories?: Li
               </span>
             </div>
 
-            {curatedStories.map((story, idx) => {
-              const isSelected = activeIdx === idx;
+            {curatedStories.map((story) => {
+              const isSelected = activeStory?.id === story.id;
 
               return (
                 <button
                   key={story.id || story.title}
                   type="button"
-                  onClick={() => setActiveIdx(idx)}
+                  onClick={() => setSelectedStoryId(story.id)}
                   className={`text-left bg-white border rounded-[10px] p-3 cursor-pointer transition-all duration-200 w-full box-border block select-none ${
                     isSelected
                       ? "border-[#0052FF] bg-[#F0F7FF] shadow-[0_0_0_2px_rgba(0,82,255,0.2)] -translate-y-[1px]"
@@ -253,13 +256,14 @@ export default function LatestTechNews({ initialStories }: { initialStories?: Li
                     {/* Live Original Picture Thumbnail */}
                     <div className="w-[60px] h-[60px] rounded-[6px] overflow-hidden bg-[#0B1120] shrink-0 relative">
                       <img
-                        src={story.img || story.source_image_url || FALLBACK_IMAGE}
+                        src={getStoryImage(story)}
                         alt={story.title}
                         className="w-full h-full object-cover"
                         onError={(e) => {
                           const target = e.currentTarget;
-                          if (target.src !== FALLBACK_IMAGE) {
-                            target.src = FALLBACK_IMAGE;
+                          const fallback = BRAND_FALLBACK_IMAGES[story.provider?.toLowerCase()] || FALLBACK_IMAGE;
+                          if (target.src !== fallback) {
+                            target.src = fallback;
                           }
                         }}
                       />
@@ -287,8 +291,8 @@ export default function LatestTechNews({ initialStories }: { initialStories?: Li
                 </button>
               );
             })}
-          </div>
         </div>
+      </div>
       </div>
     </section>
   );

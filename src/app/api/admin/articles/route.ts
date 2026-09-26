@@ -15,7 +15,8 @@ export async function GET() {
     const res = await query("SELECT * FROM articles ORDER BY id DESC");
     return NextResponse.json({ success: true, articles: res.rows });
   } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    console.error("Articles GET error:", error);
+    return NextResponse.json({ success: false, error: "Something went wrong. Please try again." }, { status: 500 });
   }
 }
 
@@ -74,7 +75,8 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ success: true, article: res.rows[0] });
   } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    console.error("Articles POST error:", error);
+    return NextResponse.json({ success: false, error: "Something went wrong. Please try again." }, { status: 500 });
   }
 }
 
@@ -167,7 +169,8 @@ export async function PATCH(req: Request) {
 
     return NextResponse.json({ success: true, article: res.rows[0] });
   } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    console.error("Articles PATCH error:", error);
+    return NextResponse.json({ success: false, error: "Something went wrong. Please try again." }, { status: 500 });
   }
 }
 
@@ -196,6 +199,7 @@ export async function DELETE(req: Request) {
 
     return NextResponse.json({ success: true, message: `Article ${id} deleted` });
   } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    console.error("Articles DELETE error:", error);
+    return NextResponse.json({ success: false, error: "Something went wrong. Please try again." }, { status: 500 });
   }
 }

@@ -96,7 +96,7 @@ export async function sendEmail({
         return tls.connect({
           host: config.host,
           port: config.port,
-          rejectUnauthorized: false,
+          rejectUnauthorized: true,
         });
       } else {
         return net.connect({

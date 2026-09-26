@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import AdminHeader from "@/components/admin/AdminHeader";
 import AdminSidebar from "@/components/admin/AdminSidebar";
 
@@ -21,10 +21,12 @@ import PortfolioModule from "@/components/admin/modules/PortfolioModule";
 import WebsiteSettingsModule from "@/components/admin/modules/WebsiteSettingsModule";
 import SystemSecurityModule from "@/components/admin/modules/SystemSecurityModule";
 import { useUser, useClerk, SignIn } from "@clerk/nextjs";
+import { useAdminFetch } from "@/lib/useAdminFetch";
 
 import { TelemetryData } from "@/types/admin";
 
 export default function AdminPage() {
+  const adminFetch = useAdminFetch();
   const [activeTab, setActiveTab] = useState<string>("dashboard");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
@@ -45,27 +47,23 @@ export default function AdminPage() {
   // Authoritative server-side session check against Clerk auth boundary
   const verifySession = useCallback(async () => {
     try {
-      const res = await fetch("/api/admin/auth/check");
-      if (res.status === 401) {
-        setIsAuthenticated(false);
-        setIsAuthorized(false);
-        setForbiddenError(null);
-      } else if (res.status === 403) {
-        const data = await res.json().catch(() => ({}));
+      const res = await adminFetch("/api/admin/auth/check");
+      const data: any = await res.json().catch(() => ({}));
+      if (data?.authenticated && data?.user) {
         setIsAuthenticated(true);
-        setIsAuthorized(false);
-        setForbiddenError(data.error || "Access Denied: Admin authorization required.");
-      } else if (res.ok) {
-        const data = await res.json().catch(() => ({}));
-        if (data.authenticated && data.user) {
+        setIsAuthorized(true);
+        setUserEmail(data.user.email || user?.primaryEmailAddress?.emailAddress || "admin");
+        setUserRole(data.user.role || "admin");
+        setForbiddenError(null);
+      } else if (data?.error) {
+        if (data.requires2FA || data.error?.includes("authorization required")) {
           setIsAuthenticated(true);
-          setIsAuthorized(true);
-          setUserEmail(data.user.email || user?.primaryEmailAddress?.emailAddress || "admin");
-          setUserRole(data.user.role || "admin");
-          setForbiddenError(null);
+          setIsAuthorized(false);
+          setForbiddenError(data.error);
         } else {
           setIsAuthenticated(false);
           setIsAuthorized(false);
+          setForbiddenError(null);
         }
       } else {
         setIsAuthenticated(false);
@@ -77,7 +75,7 @@ export default function AdminPage() {
     } finally {
       setAuthChecked(true);
     }
-  }, [user]);
+  }, [adminFetch, user]);
 
   useEffect(() => {
     verifySession();
@@ -88,7 +86,7 @@ export default function AdminPage() {
       if (signOut) {
         await signOut();
       }
-      await fetch("/api/admin/auth/logout", { method: "POST" });
+      await adminFetch("/api/admin/auth/logout", { method: "POST" });
     } catch {}
     localStorage.removeItem("creed_admin_authenticated");
     localStorage.removeItem("creed_admin_user_email");
@@ -105,13 +103,13 @@ export default function AdminPage() {
 
   const fetchTelemetry = useCallback(async () => {
     try {
-      const res = await fetch("/api/admin/system");
-      const data = await res.json();
-      if (data.telemetry) setTelemetry(data.telemetry);
+      const res = await adminFetch("/api/admin/system");
+      const data: any = await res.json().catch(() => ({}));
+      if (data?.telemetry) setTelemetry(data.telemetry);
     } catch (err) {
       console.error("Failed to fetch telemetry:", err);
     }
-  }, []);
+  }, [adminFetch]);
 
   useEffect(() => {
     if (!isAuthenticated || !isAuthorized) return;

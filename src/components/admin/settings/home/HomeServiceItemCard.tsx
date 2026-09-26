@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { HomeServiceItem } from "../types";
 import { uploadImageFile } from "@/lib/uploadHelper";
+import { useAdminFetch } from "@/lib/useAdminFetch";
 
 export const SERVICE_ICON_OPTIONS = [
   { value: "code", label: "💻 Code / Software Development" },
@@ -23,6 +24,7 @@ interface Props {
 }
 
 export default function HomeServiceItemCard({ service, index, onChange, onDelete }: Props) {
+  const adminFetch = useAdminFetch();
   const [uploading, setUploading] = useState(false);
   const num = String(index + 1).padStart(2, "0");
   const title = service.title ? `SERVICE ${num}: ${service.title}` : `SERVICE ${num}: New Service Domain`;
@@ -33,7 +35,7 @@ export default function HomeServiceItemCard({ service, index, onChange, onDelete
 
     setUploading(true);
     try {
-      const url = await uploadImageFile(file);
+      const url = await uploadImageFile(file, adminFetch);
       if (url) {
         onChange("customIconUrl", url);
       }

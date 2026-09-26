@@ -2,6 +2,7 @@
 
 import React, { useState, useRef } from "react";
 import { StoryItem, GalleryImage } from "./types";
+import { useAdminFetch } from "@/lib/useAdminFetch";
 
 interface NewsEditModalProps {
   editingStory: {
@@ -26,6 +27,7 @@ export default function NewsEditModal({
   onSave,
   showToast,
 }: NewsEditModalProps) {
+  const adminFetch = useAdminFetch();
   const item = editingStory.item;
 
   const [formTitle, setFormTitle] = useState(item.title || "");
@@ -50,7 +52,7 @@ export default function NewsEditModal({
       const formData = new FormData();
       formData.append("file", file);
 
-      const res = await fetch("/api/admin/news/gallery", {
+      const res = await adminFetch("/api/admin/news/gallery", {
         method: "POST",
         body: formData,
       });
@@ -265,7 +267,7 @@ export default function NewsEditModal({
                     className="w-full h-full object-cover"
                     onError={(e) => {
                       (e.currentTarget as HTMLImageElement).src =
-                        "/uploads/live_news/apple_iphone16_hero.jpg";
+                        "/images/kc-news.webp";
                     }}
                   />
                 ) : (

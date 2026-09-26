@@ -2,10 +2,11 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import { subscribeLiveNews } from "@/lib/liveNewsClient";
 
-import { BrandWireItem, brandWires } from "./knowledgeCenterData";
+import { BrandWireItem, brandWires, BRAND_FALLBACK_IMAGES } from "./knowledgeCenterData";
 export type { BrandWireItem };
-export { brandWires };
+export { brandWires, BRAND_FALLBACK_IMAGES };
 
 function safeImageUrl(url: string | undefined, fallback: string): string {
   if (!url || typeof url !== "string") return fallback;
@@ -25,28 +26,33 @@ export default function BrandTechWires({ initialWires }: { initialWires?: BrandW
   const [activeBrandId, setActiveBrandId] = useState<string>("apple");
 
   useEffect(() => {
-    fetch(`/api/live-news?t=${Date.now()}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.brand_wires && typeof data.brand_wires === "object") {
-          setWires((prev) =>
-            prev.map((item) => {
-              const live = data.brand_wires[item.id];
-              if (!live) return item;
+    const unsubscribe = subscribeLiveNews((data) => {
+      if (data.brand_wires && typeof data.brand_wires === "object") {
+        setWires((prev) => {
+          let hasDiff = false;
+          const next = prev.map((item) => {
+            const live = data.brand_wires![item.id];
+            if (!live) return item;
+            const newImg = safeImageUrl(live.img, BRAND_FALLBACK_IMAGES[item.id] || "/images/kc-news.webp");
+            if (live.title !== item.title || newImg !== item.img || (live.link && live.link !== item.link)) {
+              hasDiff = true;
               return {
                 ...item,
                 title: live.title || item.title,
                 summary: live.desc || live.summary || item.summary,
                 date: live.date || item.date,
                 link: live.link || item.link,
-                img: safeImageUrl(live.img, item.img),
+                img: newImg,
                 cat: live.tag || live.category || item.cat,
               };
-            })
-          );
-        }
-      })
-      .catch(() => {});
+            }
+            return item;
+          });
+          return hasDiff ? next : prev;
+        });
+      }
+    });
+    return unsubscribe;
   }, []);
 
   return (
@@ -100,26 +106,21 @@ export default function BrandTechWires({ initialWires }: { initialWires?: BrandW
               >
                 {/* Visual Container */}
                 <div className="relative w-full aspect-[16/9] min-h-[240px] sm:min-h-[280px] rounded-xl overflow-hidden bg-[#0B1120]">
-                  {(() => {
-                    const defaultProviderImg = brandWires.find((b) => b.id === wire.id)?.img || wire.img;
-                    return (
-                      <Image
-                        src={safeImageUrl(wire.img, defaultProviderImg)}
-                        alt={wire.title}
-                        fill
-                        unoptimized
-                        sizes="(max-width: 1024px) 100vw, 45vw"
-                        className="object-cover object-center transition-all duration-300"
-                        priority={wire.id === "apple" || wire.id === "google"}
-                        onError={(e) => {
-                          const target = e.currentTarget as HTMLImageElement;
-                          if (defaultProviderImg && !target.src.endsWith(defaultProviderImg)) {
-                            target.src = defaultProviderImg;
-                          }
-                        }}
-                      />
-                    );
-                  })()}
+                  <Image
+                    src={safeImageUrl(wire.img, "/images/kc-news.webp")}
+                    alt={wire.title}
+                    fill
+                    unoptimized
+                    sizes="(max-width: 1024px) 100vw, 45vw"
+                    className="object-cover object-center transition-all duration-300"
+                    priority={wire.id === "apple" || wire.id === "google"}
+                    onError={(e) => {
+                      const target = e.currentTarget as HTMLImageElement;
+                      if (!target.src.endsWith("/images/kc-news.webp")) {
+                        target.src = "/images/kc-news.webp";
+                      }
+                    }}
+                  />
                   {/* Top right floating badge */}
                   <div className="absolute top-3 right-3 z-10">
                     <span className="inline-flex items-center gap-1.5 bg-white/95 backdrop-blur-md text-[#0F172A] text-[11px] font-semibold px-3 py-1 rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.25)]">

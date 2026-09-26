@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { AboutLeadershipMemberItem, AboutSettingsData } from "../types";
 import { uploadImageFile } from "@/lib/uploadHelper";
+import { useAdminFetch } from "@/lib/useAdminFetch";
 
 interface Props {
   data: AboutSettingsData;
@@ -10,6 +11,7 @@ interface Props {
 }
 
 export default function AboutLeadershipCard({ data, onChangeField }: Props) {
+  const adminFetch = useAdminFetch();
   const [uploadingIdx, setUploadingIdx] = useState<number | null>(null);
   const leadership = data.leadership || [];
 
@@ -32,7 +34,7 @@ export default function AboutLeadershipCard({ data, onChangeField }: Props) {
 
     setUploadingIdx(idx);
     try {
-      const url = await uploadImageFile(file);
+      const url = await uploadImageFile(file, adminFetch);
       if (url) {
         handleMemberChange(idx, "portraitUrl", url);
       }

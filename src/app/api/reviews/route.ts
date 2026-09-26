@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { query } from "@/lib/db";
+import { checkRateLimit } from "@/lib/rateLimit";
 
 export const dynamic = "force-dynamic";
 
@@ -22,14 +23,18 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({ success: true, reviews: res.rows });
   } catch (error: any) {
+    console.error("Reviews GET error:", error);
     return NextResponse.json(
-      { success: false, error: error.message || "Failed to fetch reviews" },
+      { success: false, error: "Something went wrong. Please try again." },
       { status: 500 }
     );
   }
 }
 
 export async function POST(req: NextRequest) {
+  const rateLimitError = checkRateLimit(req);
+  if (rateLimitError) return rateLimitError;
+
   try {
     const body = await req.json();
     const {
@@ -73,8 +78,9 @@ export async function POST(req: NextRequest) {
       review: res.rows[0],
     });
   } catch (error: any) {
+    console.error("Reviews POST error:", error);
     return NextResponse.json(
-      { success: false, error: error.message || "Failed to submit review" },
+      { success: false, error: "Something went wrong. Please try again." },
       { status: 500 }
     );
   }

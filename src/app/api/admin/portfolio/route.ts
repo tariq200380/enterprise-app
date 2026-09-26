@@ -14,7 +14,8 @@ export async function GET() {
     const res = await query("SELECT * FROM portfolio_projects ORDER BY id DESC");
     return NextResponse.json({ success: true, projects: res.rows, portfolio: res.rows });
   } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    console.error("Portfolio GET error:", error);
+    return NextResponse.json({ success: false, error: "Something went wrong. Please try again." }, { status: 500 });
   }
 }
 
@@ -43,7 +44,8 @@ export async function POST(req: Request) {
     );
     return NextResponse.json({ success: true, project: res.rows[0] });
   } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    console.error("Portfolio POST error:", error);
+    return NextResponse.json({ success: false, error: "Something went wrong. Please try again." }, { status: 500 });
   }
 }
 
@@ -80,7 +82,8 @@ export async function PUT(req: Request) {
     }
     return NextResponse.json({ success: true, project: res.rows[0] });
   } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    console.error("Portfolio PUT error:", error);
+    return NextResponse.json({ success: false, error: "Something went wrong. Please try again." }, { status: 500 });
   }
 }
 
@@ -99,6 +102,7 @@ export async function DELETE(req: Request) {
     await query("DELETE FROM portfolio_projects WHERE id = $1", [id]);
     return NextResponse.json({ success: true, message: `Project ${id} deleted` });
   } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    console.error("Portfolio DELETE error:", error);
+    return NextResponse.json({ success: false, error: "Something went wrong. Please try again." }, { status: 500 });
   }
 }

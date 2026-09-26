@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { PortfolioItem } from "@/types/admin";
 import AddPortfolioModal from "../modals/AddPortfolioModal";
+import { useAdminFetch } from "@/lib/useAdminFetch";
 
 interface PortfolioModuleProps {
   portfolioProjects?: PortfolioItem[];
@@ -21,13 +22,14 @@ export default function PortfolioModule({
   showToast,
   onRefresh,
 }: PortfolioModuleProps) {
+  const adminFetch = useAdminFetch();
   const [portfolioProjects, setPortfolioProjects] = useState<PortfolioItem[]>(propProjects || []);
   const [showAddModal, setShowAddModal] = useState(false);
   const [editingProject, setEditingProject] = useState<PortfolioItem | null>(null);
 
   const fetchPortfolio = async () => {
     try {
-      const res = await fetch("/api/admin/portfolio");
+      const res = await adminFetch("/api/admin/portfolio");
       const data = await res.json();
       const list = data.projects || data.portfolio || [];
       setPortfolioProjects(list);
@@ -47,7 +49,7 @@ export default function PortfolioModule({
   const handleDelete = async (id: number) => {
     if (!confirm(`Delete project #${id}?`)) return;
     try {
-      const res = await fetch(`/api/admin/portfolio?id=${id}`, { method: "DELETE" });
+      const res = await adminFetch(`/api/admin/portfolio?id=${id}`, { method: "DELETE" });
       if (res.ok) {
         setPortfolioProjects((prev) => prev.filter((p) => p.id !== id));
         showToast?.("Project deleted successfully");

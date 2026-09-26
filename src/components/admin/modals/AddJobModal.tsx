@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { JobOpening } from "@/types/admin";
+import { useAdminFetch } from "@/lib/useAdminFetch";
 
 interface AddJobModalProps {
   isOpen: boolean;
@@ -11,6 +12,7 @@ interface AddJobModalProps {
 }
 
 export default function AddJobModal({ isOpen, onClose, onJobCreated, showToast }: AddJobModalProps) {
+  const adminFetch = useAdminFetch();
   const [title, setTitle] = useState("");
   const [department, setDepartment] = useState("Cloud Architecture");
   const [location, setLocation] = useState("Remote / Global");
@@ -27,7 +29,7 @@ export default function AddJobModal({ isOpen, onClose, onJobCreated, showToast }
     try {
       setSaving(true);
       const tagsArray = tags.split(",").map((t) => t.trim()).filter(Boolean);
-      const res = await fetch("/api/admin/jobs", {
+      const res = await adminFetch("/api/admin/jobs", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

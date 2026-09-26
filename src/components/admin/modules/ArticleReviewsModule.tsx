@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { ArticleReview } from "@/types/admin";
+import { useAdminFetch } from "@/lib/useAdminFetch";
 
 interface ArticleReviewsModuleProps {
   articleReviews?: ArticleReview[];
@@ -20,12 +21,13 @@ export default function ArticleReviewsModule({
   showToast,
   onRefresh,
 }: ArticleReviewsModuleProps) {
+  const adminFetch = useAdminFetch();
   const [articleReviews, setArticleReviews] = useState<ArticleReview[]>(propReviews || []);
   const [filter, setFilter] = useState<"ALL" | "PENDING" | "APPROVED">("ALL");
 
   const fetchReviews = async () => {
     try {
-      const res = await fetch("/api/admin/reviews");
+      const res = await adminFetch("/api/admin/reviews");
       const data = await res.json();
       if (data.reviews) setArticleReviews(data.reviews);
     } catch (err) {
@@ -43,7 +45,7 @@ export default function ArticleReviewsModule({
 
   const handleUpdateStatusAction = async (id: number, status: "APPROVED" | "PENDING" | "REJECTED") => {
     try {
-      const res = await fetch("/api/admin/reviews", {
+      const res = await adminFetch("/api/admin/reviews", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id, status }),
@@ -67,7 +69,7 @@ export default function ArticleReviewsModule({
   const handleDeleteReviewAction = async (id: number) => {
     if (!confirm(`Delete review #${id}?`)) return;
     try {
-      const res = await fetch(`/api/admin/reviews?id=${id}`, { method: "DELETE" });
+      const res = await adminFetch(`/api/admin/reviews?id=${id}`, { method: "DELETE" });
       if (res.ok) {
         setArticleReviews((prev) => prev.filter((r) => r.id !== id));
         showToast?.("Review deleted");

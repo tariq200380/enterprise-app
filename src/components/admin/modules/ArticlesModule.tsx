@@ -3,6 +3,8 @@
 import React, { useState, useEffect } from "react";
 import { ArticleItem } from "@/types/admin";
 import ArticleStudioModal from "../modals/ArticleStudioModal";
+import { useAdminFetch } from "@/lib/useAdminFetch";
+import DOMPurify from "dompurify";
 
 interface ArticlesModuleProps {
   articles?: ArticleItem[];
@@ -27,6 +29,7 @@ export default function ArticlesModule({
   showToast,
   onRefresh,
 }: ArticlesModuleProps) {
+  const adminFetch = useAdminFetch();
   const [articles, setArticles] = useState<ArticleItem[]>(propArticles || []);
   const [subTab, setSubTab] = useState<"blueprints" | "news_drafts" | "all">("news_drafts");
   const [previewArticle, setPreviewArticle] = useState<ArticleItem | null>(null);
@@ -35,7 +38,7 @@ export default function ArticlesModule({
 
   const fetchArticles = async () => {
     try {
-      const res = await fetch("/api/admin/articles");
+      const res = await adminFetch("/api/admin/articles");
       const data = await res.json();
       if (data.articles) {
         setArticles(data.articles);
@@ -69,7 +72,7 @@ export default function ArticlesModule({
       prev.map((art) => (art.id === id ? { ...art, status: "PUBLISHED" } : art))
     );
     try {
-      const res = await fetch(`/api/admin/articles/${id}`, {
+      const res = await adminFetch(`/api/admin/articles/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: "PUBLISHED" }),
@@ -94,7 +97,7 @@ export default function ArticlesModule({
       prev.map((art) => (art.id === id ? { ...art, status: "DRAFT" } : art))
     );
     try {
-      const res = await fetch(`/api/admin/articles/${id}`, {
+      const res = await adminFetch(`/api/admin/articles/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: "DRAFT" }),
@@ -117,7 +120,7 @@ export default function ArticlesModule({
   const handleDelete = async (id: number) => {
     if (!confirm("Are you sure you want to delete this article?")) return;
     try {
-      const res = await fetch(`/api/admin/articles/${id}`, {
+      const res = await adminFetch(`/api/admin/articles/${id}`, {
         method: "DELETE",
       });
       if (res.ok) {
@@ -457,7 +460,7 @@ export default function ArticlesModule({
               <div
                 className="prose prose-invert max-w-none text-slate-300 text-sm leading-relaxed"
                 dangerouslySetInnerHTML={{
-                  __html: previewArticle.content || "<p>No content body available.</p>",
+                  __html: DOMPurify.sanitize(previewArticle.content || "<p>No content body available.</p>"),
                 }}
               />
             </div>

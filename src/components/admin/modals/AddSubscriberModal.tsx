@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { SubscriberItem } from "@/types/admin";
+import { useAdminFetch } from "@/lib/useAdminFetch";
 
 interface AddSubscriberModalProps {
   isOpen: boolean;
@@ -11,6 +12,7 @@ interface AddSubscriberModalProps {
 }
 
 export default function AddSubscriberModal({ isOpen, onClose, onSubscriberCreated, showToast }: AddSubscriberModalProps) {
+  const adminFetch = useAdminFetch();
   const [email, setEmail] = useState("");
   const [source, setSource] = useState("Admin Manual Entry");
   const [saving, setSaving] = useState(false);
@@ -22,7 +24,7 @@ export default function AddSubscriberModal({ isOpen, onClose, onSubscriberCreate
     if (!email) return;
     try {
       setSaving(true);
-      const res = await fetch("/api/admin/subscribers", {
+      const res = await adminFetch("/api/admin/subscribers", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, source }),

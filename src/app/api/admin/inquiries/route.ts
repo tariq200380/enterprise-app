@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { query } from "@/lib/db";
 import { verifyAdminAuth } from "@/lib/adminAuth";
+import { checkRateLimit } from "@/lib/rateLimit";
 
 export const dynamic = "force-dynamic";
 
@@ -14,12 +15,16 @@ export async function GET() {
     const res = await query("SELECT * FROM contact_inquiries ORDER BY id DESC");
     return NextResponse.json({ success: true, inquiries: res.rows });
   } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    console.error("Inquiries GET error:", error);
+    return NextResponse.json({ success: false, error: "Something went wrong. Please try again." }, { status: 500 });
   }
 }
 
 // PUBLIC SUBMISSION ENDPOINT: Preserved for public scoping & contact forms
 export async function POST(req: Request) {
+  const rateLimitError = checkRateLimit(req);
+  if (rateLimitError) return rateLimitError;
+
   try {
     const body = await req.json();
     const {
@@ -87,7 +92,8 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ success: true, inquiry: res.rows[0] });
   } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message || "Failed to process inquiry" }, { status: 500 });
+    console.error("Inquiries POST error:", error);
+    return NextResponse.json({ success: false, error: "Something went wrong. Please try again." }, { status: 500 });
   }
 }
 
@@ -106,7 +112,8 @@ export async function PATCH(req: Request) {
     );
     return NextResponse.json({ success: true, inquiry: res.rows[0] });
   } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    console.error("Inquiries PATCH error:", error);
+    return NextResponse.json({ success: false, error: "Something went wrong. Please try again." }, { status: 500 });
   }
 }
 
@@ -125,6 +132,7 @@ export async function DELETE(req: Request) {
     await query("DELETE FROM contact_inquiries WHERE id = $1", [id]);
     return NextResponse.json({ success: true, message: `Inquiry ${id} deleted` });
   } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    console.error("Inquiries DELETE error:", error);
+    return NextResponse.json({ success: false, error: "Something went wrong. Please try again." }, { status: 500 });
   }
 }

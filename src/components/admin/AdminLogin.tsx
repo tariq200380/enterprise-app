@@ -1,12 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
+import { useAdminFetch } from "@/lib/useAdminFetch";
 
 interface AdminLoginProps {
   onLogin: (email: string) => void;
 }
 
 export default function AdminLogin({ onLogin }: AdminLoginProps) {
+  const adminFetch = useAdminFetch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -25,7 +27,7 @@ export default function AdminLogin({ onLogin }: AdminLoginProps) {
     setLoading(true);
 
     try {
-      const res = await fetch("/api/admin/auth/login", {
+      const res = await adminFetch("/api/admin/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: email.trim(), password }),

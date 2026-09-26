@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { SecurityReport } from "@/types/admin";
+import { useAdminFetch } from "@/lib/useAdminFetch";
 
 interface SecurityReportsModuleProps {
   searchQuery?: string;
@@ -14,6 +15,7 @@ export default function SecurityReportsModule({
   showToast,
   onRefresh,
 }: SecurityReportsModuleProps) {
+  const adminFetch = useAdminFetch();
   const [reports, setReports] = useState<SecurityReport[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedReport, setSelectedReport] = useState<SecurityReport | null>(null);
@@ -23,7 +25,7 @@ export default function SecurityReportsModule({
   const fetchReports = async () => {
     try {
       setLoading(true);
-      const res = await fetch("/api/admin/security-reports");
+      const res = await adminFetch("/api/admin/security-reports");
       const data = await res.json();
       if (data.success && data.reports) {
         setReports(data.reports);
@@ -42,7 +44,7 @@ export default function SecurityReportsModule({
   const handleStatusChange = async (id: number, status: string) => {
     setReports((prev) => prev.map((r) => (r.id === id ? { ...r, status } : r)));
     try {
-      const res = await fetch("/api/admin/security-reports", {
+      const res = await adminFetch("/api/admin/security-reports", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id, status }),
@@ -62,7 +64,7 @@ export default function SecurityReportsModule({
   const handleDelete = async (id: number) => {
     if (!confirm(`Permanently delete security report #${id}?`)) return;
     try {
-      const res = await fetch(`/api/admin/security-reports?id=${id}`, { method: "DELETE" });
+      const res = await adminFetch(`/api/admin/security-reports?id=${id}`, { method: "DELETE" });
       if (res.ok) {
         setReports((prev) => prev.filter((r) => r.id !== id));
         if (selectedReport?.id === id) setSelectedReport(null);

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Inquiry } from "@/types/admin";
+import { useAdminFetch } from "@/lib/useAdminFetch";
 
 interface InquiryDetailsModalProps {
   inquiry: Inquiry | null;
@@ -16,6 +17,7 @@ export default function InquiryDetailsModal({
   onInquiryUpdated,
   showToast,
 }: InquiryDetailsModalProps) {
+  const adminFetch = useAdminFetch();
   const [viewMode, setViewMode] = useState<"details" | "reply" | "settings">("details");
 
   // Email Composer Form
@@ -68,7 +70,7 @@ Desk: contact@creed-tech.com`
 
   // Load existing SMTP settings
   useEffect(() => {
-    fetch("/api/admin/email/settings")
+    adminFetch("/api/admin/email/settings")
       .then((r) => r.json())
       .then((data) => {
         if (data.success && data.config) {
@@ -81,7 +83,7 @@ Desk: contact@creed-tech.com`
         }
       })
       .catch(() => {});
-  }, []);
+  }, [adminFetch]);
 
   if (!inquiry) return null;
 
@@ -149,7 +151,7 @@ Creed Tech Legal & Engineering Desk`
       setIsSending(true);
       setSendResultMsg(null);
 
-      const res = await fetch("/api/admin/email/send", {
+      const res = await adminFetch("/api/admin/email/send", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -197,7 +199,7 @@ Creed Tech Legal & Engineering Desk`
     window.open(gmailUrl, "_blank");
 
     if (autoUpdateStatus) {
-      fetch("/api/admin/inquiries", {
+      adminFetch("/api/admin/inquiries", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: inquiry.id, status: "RESPONDED" }),
@@ -214,7 +216,7 @@ Creed Tech Legal & Engineering Desk`
       setIsSavingSettings(true);
       setSmtpStatusMsg(null);
 
-      const res = await fetch("/api/admin/email/settings", {
+      const res = await adminFetch("/api/admin/email/settings", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -253,7 +255,7 @@ Creed Tech Legal & Engineering Desk`
       setIsTestingSmtp(true);
       setSmtpStatusMsg(null);
 
-      const res = await fetch("/api/admin/email/settings", {
+      const res = await adminFetch("/api/admin/email/settings", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

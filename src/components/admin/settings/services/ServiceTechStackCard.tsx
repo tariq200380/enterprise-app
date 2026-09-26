@@ -4,6 +4,7 @@ import React, { useState, useRef } from "react";
 import { ServiceExplorerItem, ServiceTechItem } from "../types";
 import { TECH_ICONS } from "@/components/services/servicesData";
 import { uploadImageFile } from "@/lib/uploadHelper";
+import { useAdminFetch } from "@/lib/useAdminFetch";
 
 interface Props {
   service: ServiceExplorerItem;
@@ -11,6 +12,7 @@ interface Props {
 }
 
 export default function ServiceTechStackCard({ service, onChange }: Props) {
+  const adminFetch = useAdminFetch();
   const [newName, setNewName] = useState("");
   const [newIconUrl, setNewIconUrl] = useState("");
   const [uploading, setUploading] = useState(false);
@@ -58,7 +60,7 @@ export default function ServiceTechStackCard({ service, onChange }: Props) {
 
     setUploading(true);
     try {
-      const url = await uploadImageFile(file);
+      const url = await uploadImageFile(file, adminFetch);
       if (url) {
         setNewIconUrl(url);
         if (!newName) {
@@ -79,7 +81,7 @@ export default function ServiceTechStackCard({ service, onChange }: Props) {
 
     setItemUploadingIdx(index);
     try {
-      const url = await uploadImageFile(file);
+      const url = await uploadImageFile(file, adminFetch);
       if (url) {
         const updated = [...items];
         updated[index] = {

@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { Testimonial } from "@/types/admin";
 import AddTestimonialModal from "../modals/AddTestimonialModal";
+import { useAdminFetch } from "@/lib/useAdminFetch";
 
 interface TestimonialsModuleProps {
   testimonials?: Testimonial[];
@@ -21,12 +22,13 @@ export default function TestimonialsModule({
   showToast,
   onRefresh,
 }: TestimonialsModuleProps) {
+  const adminFetch = useAdminFetch();
   const [testimonials, setTestimonials] = useState<Testimonial[]>(propTestimonials || []);
   const [showAddModal, setShowAddModal] = useState(false);
 
   const fetchTestimonials = async () => {
     try {
-      const res = await fetch("/api/admin/testimonials");
+      const res = await adminFetch("/api/admin/testimonials");
       const data = await res.json();
       if (data.testimonials) setTestimonials(data.testimonials);
     } catch (err) {
@@ -44,7 +46,7 @@ export default function TestimonialsModule({
 
   const handleToggleVerifiedAction = async (id: number, currentVal: boolean) => {
     try {
-      const res = await fetch("/api/admin/testimonials", {
+      const res = await adminFetch("/api/admin/testimonials", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id, verified: !currentVal }),
@@ -68,7 +70,7 @@ export default function TestimonialsModule({
   const handleDeleteAction = async (id: number) => {
     if (!confirm(`Delete testimonial #${id}?`)) return;
     try {
-      const res = await fetch(`/api/admin/testimonials?id=${id}`, { method: "DELETE" });
+      const res = await adminFetch(`/api/admin/testimonials?id=${id}`, { method: "DELETE" });
       if (res.ok) {
         setTestimonials((prev) => prev.filter((t) => t.id !== id));
         showToast?.("Testimonial deleted");

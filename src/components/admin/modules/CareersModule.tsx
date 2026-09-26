@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { Candidate, JobOpening } from "@/types/admin";
 import AddJobModal from "../modals/AddJobModal";
 import FounderProposalsModule from "./FounderProposalsModule";
+import { useAdminFetch } from "@/lib/useAdminFetch";
 
 interface CareersModuleProps {
   candidates?: Candidate[];
@@ -30,6 +31,7 @@ export default function CareersModule({
   showToast,
   onRefresh,
 }: CareersModuleProps) {
+  const adminFetch = useAdminFetch();
   const [candidates, setCandidates] = useState<Candidate[]>(propCandidates || []);
   const [jobs, setJobs] = useState<JobOpening[]>(propJobs || []);
   const [proposalsCount, setProposalsCount] = useState(0);
@@ -40,9 +42,9 @@ export default function CareersModule({
   const fetchCareersData = async () => {
     try {
       const [candRes, jobsRes, propRes] = await Promise.all([
-        fetch("/api/admin/candidates"),
-        fetch("/api/admin/jobs"),
-        fetch("/api/admin/founder-proposals"),
+        adminFetch("/api/admin/candidates"),
+        adminFetch("/api/admin/jobs"),
+        adminFetch("/api/admin/founder-proposals"),
       ]);
       const candData = await candRes.json();
       const jobsData = await jobsRes.json();
@@ -66,7 +68,7 @@ export default function CareersModule({
   const handleCandidateStatus = async (id: number, status: string) => {
     setCandidates((prev) => prev.map((c) => (c.id === id ? { ...c, status } : c)));
     try {
-      const res = await fetch("/api/admin/candidates", {
+      const res = await adminFetch("/api/admin/candidates", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id, status }),
@@ -87,7 +89,7 @@ export default function CareersModule({
   const handleDeleteCandidateAction = async (id: number) => {
     if (!confirm(`Delete candidate record #${id}?`)) return;
     try {
-      const res = await fetch(`/api/admin/candidates?id=${id}`, { method: "DELETE" });
+      const res = await adminFetch(`/api/admin/candidates?id=${id}`, { method: "DELETE" });
       if (res.ok) {
         setCandidates((prev) => prev.filter((c) => c.id !== id));
         showToast?.("Candidate deleted");
@@ -105,7 +107,7 @@ export default function CareersModule({
   const handleJobStatus = async (id: number, status: string) => {
     setJobs((prev) => prev.map((j) => (j.id === id ? { ...j, status } : j)));
     try {
-      const res = await fetch("/api/admin/jobs", {
+      const res = await adminFetch("/api/admin/jobs", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id, status }),
@@ -126,7 +128,7 @@ export default function CareersModule({
   const handleDeleteJobAction = async (id: number) => {
     if (!confirm(`Delete job opening #${id}?`)) return;
     try {
-      const res = await fetch(`/api/admin/jobs?id=${id}`, { method: "DELETE" });
+      const res = await adminFetch(`/api/admin/jobs?id=${id}`, { method: "DELETE" });
       if (res.ok) {
         setJobs((prev) => prev.filter((j) => j.id !== id));
         showToast?.("Job opening deleted");

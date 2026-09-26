@@ -2,6 +2,7 @@
 
 import React, { useState, useRef } from "react";
 import { PortfolioItem } from "@/types/admin";
+import { useAdminFetch } from "@/lib/useAdminFetch";
 
 interface AddPortfolioModalProps {
   isOpen: boolean;
@@ -18,6 +19,7 @@ export default function AddPortfolioModal({
   showToast,
   projectToEdit,
 }: AddPortfolioModalProps) {
+  const adminFetch = useAdminFetch();
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("CLOUD & ENTERPRISE");
   const [client, setClient] = useState("Global Enterprise");
@@ -84,7 +86,7 @@ export default function AddPortfolioModal({
       const formData = new FormData();
       formData.append("file", file);
 
-      const res = await fetch("/api/admin/upload", {
+      const res = await adminFetch("/api/admin/upload", {
         method: "POST",
         body: formData,
       });
@@ -111,7 +113,7 @@ export default function AddPortfolioModal({
     try {
       setSaving(true);
       const stackArr = stack.split(",").map((s) => s.trim()).filter(Boolean);
-      const res = await fetch("/api/admin/portfolio", {
+      const res = await adminFetch("/api/admin/portfolio", {
         method: isEdit ? "PUT" : "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

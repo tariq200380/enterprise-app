@@ -16,6 +16,10 @@ model article_reviews {
   details       String
   status        String?   @default("PENDING")
   submitted_at  DateTime? @default(now()) @db.Timestamp(6)
+  avatar        String?
+  review_title  String?
+  article_id    Int?      @default(1)
+  helpful       Int?      @default(1)
 }
 
 model articles {
@@ -35,6 +39,7 @@ model articles {
   views            Int?      @default(0)
   status           String?   @default("PUBLISHED") @db.VarChar(50)
   created_at       DateTime? @default(now()) @db.Timestamp(6)
+  source_news      String?
 }
 
 model candidates {
@@ -119,4 +124,42 @@ model website_settings {
   key        String    @id @db.VarChar(100)
   value      Json
   updated_at DateTime? @default(now()) @db.Timestamp(6)
+}
+
+model founder_proposals {
+  id                 Int     @id @default(autoincrement())
+  candidate_name     String  @db.VarChar(255)
+  email              String  @db.VarChar(255)
+  specialty_proposal String  @db.VarChar(500)
+  portfolio_link     String? @db.VarChar(500)
+  proposal_pitch     String?
+  status             String? @default("NEW") @db.VarChar(50)
+  created_at         String? @default(dbgenerated("to_char(now(), 'Mon DD, YYYY'::text)")) @db.VarChar(100)
+}
+
+model security_reports {
+  id            Int     @id @default(autoincrement())
+  reporter_name String  @db.VarChar(255)
+  email         String  @db.VarChar(255)
+  category      String  @db.VarChar(255)
+  severity      String? @default("Medium") @db.VarChar(50)
+  subject       String? @db.VarChar(300)
+  description   String
+  status        String? @default("NEW") @db.VarChar(50)
+  created_at    String? @default(dbgenerated("to_char(now(), 'Mon DD, YYYY'::text)")) @db.VarChar(100)
+}
+
+model LiveNewsItem {
+  id          Int       @id @default(autoincrement())
+  provider    String    @db.VarChar(100)
+  title       String    @db.VarChar(1000)
+  description String?   @db.Text
+  link        String    @db.VarChar(1000)
+  image       String?   @db.VarChar(1000)
+  category    String?   @db.VarChar(255)
+  publishedAt DateTime? @map("published_at") @db.Timestamp(6)
+  updatedAt   DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamp(6)
+
+  @@unique([provider, link])
+  @@map("live_news_items")
 }

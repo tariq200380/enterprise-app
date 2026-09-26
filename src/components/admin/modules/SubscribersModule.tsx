@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { SubscriberItem } from "@/types/admin";
 import AddSubscriberModal from "../modals/AddSubscriberModal";
+import { useAdminFetch } from "@/lib/useAdminFetch";
 
 interface SubscribersModuleProps {
   subscribers?: SubscriberItem[];
@@ -23,12 +24,13 @@ export default function SubscribersModule({
   showToast,
   onRefresh,
 }: SubscribersModuleProps) {
+  const adminFetch = useAdminFetch();
   const [subscribers, setSubscribers] = useState<SubscriberItem[]>(propSubscribers || []);
   const [showAddModal, setShowAddModal] = useState(false);
 
   const fetchSubscribers = async () => {
     try {
-      const res = await fetch("/api/admin/subscribers");
+      const res = await adminFetch("/api/admin/subscribers");
       const data = await res.json();
       if (data.subscribers) setSubscribers(data.subscribers);
     } catch (err) {
@@ -47,7 +49,7 @@ export default function SubscribersModule({
   const handleDelete = async (id: number) => {
     if (!confirm(`Delete subscriber #${id}?`)) return;
     try {
-      const res = await fetch(`/api/admin/subscribers?id=${id}`, { method: "DELETE" });
+      const res = await adminFetch(`/api/admin/subscribers?id=${id}`, { method: "DELETE" });
       if (res.ok) {
         setSubscribers((prev) => prev.filter((s) => s.id !== id));
         showToast?.("Subscriber removed");

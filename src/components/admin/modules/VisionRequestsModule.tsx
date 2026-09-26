@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Inquiry } from "@/types/admin";
 import InquiryDetailsModal from "../modals/InquiryDetailsModal";
+import { useAdminFetch } from "@/lib/useAdminFetch";
 
 interface VisionRequestsModuleProps {
   searchQuery?: string;
@@ -21,6 +22,7 @@ export default function VisionRequestsModule({
   showToast = () => {},
   onRefresh,
 }: VisionRequestsModuleProps) {
+  const adminFetch = useAdminFetch();
   const [internalItems, setInternalItems] = useState<Inquiry[]>([]);
   const [selectedInquiry, setSelectedInquiry] = useState<Inquiry | null>(null);
   const [isLoading, setIsLoading] = useState(!propInquiries);
@@ -28,7 +30,7 @@ export default function VisionRequestsModule({
   const fetchVisionRequests = useCallback(async () => {
     try {
       setIsLoading(true);
-      const res = await fetch("/api/admin/vision-requests", { cache: "no-store" });
+      const res = await adminFetch("/api/admin/vision-requests", { cache: "no-store" });
       const data = await res.json();
       if (data.success && data.inquiries) {
         setInternalItems(data.inquiries);
@@ -38,7 +40,7 @@ export default function VisionRequestsModule({
     } finally {
       setIsLoading(false);
     }
-  }, [showToast]);
+  }, [adminFetch, showToast]);
 
   useEffect(() => {
     if (propInquiries) {
@@ -64,7 +66,7 @@ export default function VisionRequestsModule({
     }
     if (!confirm(`Delete vision scoping request #${id}?`)) return;
     try {
-      const res = await fetch(`/api/admin/vision-requests?id=${id}`, { method: "DELETE" });
+      const res = await adminFetch(`/api/admin/vision-requests?id=${id}`, { method: "DELETE" });
       const data = await res.json();
       if (data.success) {
         showToast("✓ Vision request removed");

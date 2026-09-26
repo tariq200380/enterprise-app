@@ -65,7 +65,8 @@ export async function GET() {
       },
     });
   } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    console.error("System GET error:", error);
+    return NextResponse.json({ success: false, error: "Something went wrong. Please try again." }, { status: 500 });
   }
 }
 
@@ -115,6 +116,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ success: false, error: "Invalid action" }, { status: 400 });
   } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    console.error("System POST error:", error);
+    return NextResponse.json({ success: false, error: "Something went wrong. Please try again." }, { status: 500 });
   }
 }

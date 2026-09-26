@@ -398,7 +398,7 @@ export default function DynamicArticleReader({
                     >
                       <div className="w-11 h-11 rounded-md overflow-hidden bg-[#0B1120] shrink-0">
                         <img
-                          src={wire.img || "/uploads/live_news/apple_iphone16_hero.jpg"}
+                          src={wire.img || "/images/kc-news.webp"}
                           alt={wire.title}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                         />

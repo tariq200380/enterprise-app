@@ -2,6 +2,7 @@
 
 import React, { useState, useRef } from "react";
 import { PortfolioShowcaseSettings } from "../types";
+import { useAdminFetch } from "@/lib/useAdminFetch";
 
 interface PortfolioShowcaseCardProps {
   showcase: PortfolioShowcaseSettings;
@@ -12,6 +13,7 @@ export default function PortfolioShowcaseCard({
   showcase,
   onChange,
 }: PortfolioShowcaseCardProps) {
+  const adminFetch = useAdminFetch();
   const [isUploading, setIsUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [uploadSuccess, setUploadSuccess] = useState<string | null>(null);
@@ -35,7 +37,7 @@ export default function PortfolioShowcaseCard({
       const formData = new FormData();
       formData.append("file", file);
 
-      const res = await fetch("/api/admin/upload", {
+      const res = await adminFetch("/api/admin/upload", {
         method: "POST",
         body: formData,
       });

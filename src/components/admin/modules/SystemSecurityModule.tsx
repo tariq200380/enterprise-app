@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { TelemetryData } from "@/types/admin";
+import { useAdminFetch } from "@/lib/useAdminFetch";
 
 interface SystemSecurityModuleProps {
   telemetry?: TelemetryData | null;
@@ -16,11 +17,12 @@ export default function SystemSecurityModule({
   onExportBackup,
   showToast,
 }: SystemSecurityModuleProps) {
+  const adminFetch = useAdminFetch();
   const [telemetry, setTelemetry] = useState<TelemetryData | null>(propTelemetry || null);
 
   const fetchTelemetry = async () => {
     try {
-      const res = await fetch("/api/admin/system");
+      const res = await adminFetch("/api/admin/system");
       const data = await res.json();
       if (data.telemetry) setTelemetry(data.telemetry);
     } catch (err) {
@@ -42,7 +44,7 @@ export default function SystemSecurityModule({
       return;
     }
     try {
-      const res = await fetch("/api/admin/system", {
+      const res = await adminFetch("/api/admin/system", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ action: "flush_cache" }),

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { query } from "@/lib/db";
 import { verifyAdminAuth } from "@/lib/adminAuth";
+import { checkRateLimit } from "@/lib/rateLimit";
 
 export const dynamic = "force-dynamic";
 
@@ -14,12 +15,16 @@ export async function GET() {
     const res = await query("SELECT * FROM candidates ORDER BY id DESC");
     return NextResponse.json({ success: true, candidates: res.rows });
   } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    console.error("Candidates GET error:", error);
+    return NextResponse.json({ success: false, error: "Something went wrong. Please try again." }, { status: 500 });
   }
 }
 
 // PUBLIC SUBMISSION ENDPOINT: Preserved for public career applications
 export async function POST(req: Request) {
+  const rateLimitError = checkRateLimit(req);
+  if (rateLimitError) return rateLimitError;
+
   try {
     const body = await req.json();
     const { candidate_name, domain_specialty, email, portfolio_github } = body;
@@ -53,7 +58,8 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ success: true, candidate: res.rows[0] });
   } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    console.error("Candidates POST error:", error);
+    return NextResponse.json({ success: false, error: "Something went wrong. Please try again." }, { status: 500 });
   }
 }
 
@@ -72,7 +78,8 @@ export async function PATCH(req: Request) {
     );
     return NextResponse.json({ success: true, candidate: res.rows[0] });
   } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    console.error("Candidates PATCH error:", error);
+    return NextResponse.json({ success: false, error: "Something went wrong. Please try again." }, { status: 500 });
   }
 }
 
@@ -91,6 +98,7 @@ export async function DELETE(req: Request) {
     await query("DELETE FROM candidates WHERE id = $1", [id]);
     return NextResponse.json({ success: true, message: `Candidate ${id} deleted` });
   } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    console.error("Candidates DELETE error:", error);
+    return NextResponse.json({ success: false, error: "Something went wrong. Please try again." }, { status: 500 });
   }
 }

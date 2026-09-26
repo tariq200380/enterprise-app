@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { Testimonial } from "@/types/admin";
+import { useAdminFetch } from "@/lib/useAdminFetch";
 
 interface AddTestimonialModalProps {
   isOpen: boolean;
@@ -11,6 +12,7 @@ interface AddTestimonialModalProps {
 }
 
 export default function AddTestimonialModal({ isOpen, onClose, onTestimonialCreated, showToast }: AddTestimonialModalProps) {
+  const adminFetch = useAdminFetch();
   const [clientName, setClientName] = useState("");
   const [role, setRole] = useState("VP of Engineering");
   const [company, setCompany] = useState("Global Systems Corp");
@@ -27,7 +29,7 @@ export default function AddTestimonialModal({ isOpen, onClose, onTestimonialCrea
     if (!clientName || !quote) return;
     try {
       setSaving(true);
-      const res = await fetch("/api/admin/testimonials", {
+      const res = await adminFetch("/api/admin/testimonials", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { FounderProposal } from "@/types/admin";
+import { useAdminFetch } from "@/lib/useAdminFetch";
 
 interface FounderProposalsModuleProps {
   searchQuery?: string;
@@ -14,6 +15,7 @@ export default function FounderProposalsModule({
   showToast,
   onRefresh,
 }: FounderProposalsModuleProps) {
+  const adminFetch = useAdminFetch();
   const [proposals, setProposals] = useState<FounderProposal[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedProposal, setSelectedProposal] = useState<FounderProposal | null>(null);
@@ -21,7 +23,7 @@ export default function FounderProposalsModule({
   const fetchProposals = async () => {
     try {
       setLoading(true);
-      const res = await fetch("/api/admin/founder-proposals");
+      const res = await adminFetch("/api/admin/founder-proposals");
       const data = await res.json();
       if (data.success && data.proposals) {
         setProposals(data.proposals);
@@ -40,7 +42,7 @@ export default function FounderProposalsModule({
   const handleStatusChange = async (id: number, status: string) => {
     setProposals((prev) => prev.map((p) => (p.id === id ? { ...p, status } : p)));
     try {
-      const res = await fetch("/api/admin/founder-proposals", {
+      const res = await adminFetch("/api/admin/founder-proposals", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id, status }),
@@ -60,7 +62,7 @@ export default function FounderProposalsModule({
   const handleDelete = async (id: number) => {
     if (!confirm(`Delete proposal record #${id}?`)) return;
     try {
-      const res = await fetch(`/api/admin/founder-proposals?id=${id}`, { method: "DELETE" });
+      const res = await adminFetch(`/api/admin/founder-proposals?id=${id}`, { method: "DELETE" });
       if (res.ok) {
         setProposals((prev) => prev.filter((p) => p.id !== id));
         showToast?.("Proposal deleted");

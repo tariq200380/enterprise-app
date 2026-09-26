@@ -17,6 +17,25 @@ export async function POST(req: Request) {
       return NextResponse.json({ success: false, error: "No file provided" }, { status: 400 });
     }
 
+    const allowedExtensions = ["jpg", "jpeg", "png", "webp", "gif"];
+    const allowedMimeTypes = ["image/jpeg", "image/png", "image/webp", "image/gif"];
+    const ext = path.extname(file.name).toLowerCase().replace(".", "");
+
+    if (!allowedExtensions.includes(ext) || !allowedMimeTypes.includes(file.type?.toLowerCase())) {
+      return NextResponse.json(
+        { success: false, error: "Invalid file type. Only JPG, JPEG, PNG, WebP, and GIF files are allowed." },
+        { status: 400 }
+      );
+    }
+
+    const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+    if (file.size > MAX_FILE_SIZE) {
+      return NextResponse.json(
+        { success: false, error: "File size exceeds the 5MB limit." },
+        { status: 400 }
+      );
+    }
+
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 

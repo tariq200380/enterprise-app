@@ -87,7 +87,7 @@ export default function NewsBreakingTab({
           const pKey = (story.provider || "google").toLowerCase();
           const pColor = PROVIDER_COLORS[pKey] || "#0052FF";
           const storyId = story.external_id || story.id || story.provider;
-          const fallback = BRAND_FALLBACK_IMAGES[pKey] || "/uploads/live_news/apple_iphone16_hero.jpg";
+          const fallback = BRAND_FALLBACK_IMAGES[pKey] || "/images/kc-news.webp";
           const raw = (story.img || story.image || fallback).trim().replace(/&amp;/g, "&");
           const imgSrc = raw || fallback;
           const isSaved = savedTitles.has((story.title || "").trim().toLowerCase());

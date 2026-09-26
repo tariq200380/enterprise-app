@@ -2,12 +2,15 @@
  * Simple helper to upload an image/SVG file to /api/admin/upload,
  * with fallback to FileReader base64 Data URL.
  */
-export async function uploadImageFile(file: File): Promise<string> {
+export async function uploadImageFile(
+  file: File,
+  fetchFn: typeof fetch = fetch
+): Promise<string> {
   try {
     const formData = new FormData();
     formData.append("file", file);
 
-    const res = await fetch("/api/admin/upload", {
+    const res = await fetchFn("/api/admin/upload", {
       method: "POST",
       body: formData,
     });

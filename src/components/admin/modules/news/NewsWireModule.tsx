@@ -6,6 +6,7 @@ import NewsBreakingTab from "./NewsBreakingTab";
 import NewsBrandTab from "./NewsBrandTab";
 import NewsRegionalTab from "./NewsRegionalTab";
 import NewsEditModal from "./NewsEditModal";
+import { useAdminFetch } from "@/lib/useAdminFetch";
 
 interface NewsWireModuleProps {
   showToast: (msg: string) => void;
@@ -13,6 +14,7 @@ interface NewsWireModuleProps {
 }
 
 export default function NewsWireModule({ showToast, onDraftCreated }: NewsWireModuleProps) {
+  const adminFetch = useAdminFetch();
   const [activeTab, setActiveTab] = useState<"breaking" | "brand" | "regional">("breaking");
   const [breakingStories, setBreakingStories] = useState<StoryItem[]>([]);
   const [brandWires, setBrandWires] = useState<Record<string, StoryItem>>({});
@@ -35,12 +37,12 @@ export default function NewsWireModule({ showToast, onDraftCreated }: NewsWireMo
       try {
         if (triggerRefresh) {
           setIsRefreshing(true);
-          await fetch("/api/admin/news/refresh", { method: "POST" });
+          await adminFetch("/api/admin/news/refresh", { method: "POST" });
         }
 
         const [newsRes, galleryRes] = await Promise.all([
-          fetch("/api/admin/news?t=" + Date.now(), { cache: "no-store" }).then((r) => r.json()),
-          fetch("/api/admin/news/gallery?t=" + Date.now(), { cache: "no-store" }).then((r) => r.json()),
+          adminFetch("/api/admin/news?t=" + Date.now(), { cache: "no-store" }).then((r) => r.json()),
+          adminFetch("/api/admin/news/gallery?t=" + Date.now(), { cache: "no-store" }).then((r) => r.json()),
         ]);
 
         if (newsRes?.success) {
@@ -62,7 +64,7 @@ export default function NewsWireModule({ showToast, onDraftCreated }: NewsWireMo
         setIsRefreshing(false);
       }
     },
-    [showToast]
+    [adminFetch, showToast]
   );
 
   useEffect(() => {
@@ -77,7 +79,7 @@ export default function NewsWireModule({ showToast, onDraftCreated }: NewsWireMo
   // Fetch already saved articles from Database to display "Saved" badge
   const fetchSavedArticles = useCallback(async () => {
     try {
-      const res = await fetch("/api/admin/articles?t=" + Date.now(), { cache: "no-store" });
+      const res = await adminFetch("/api/admin/articles?t=" + Date.now(), { cache: "no-store" });
       const data = await res.json();
       if (data?.articles && Array.isArray(data.articles)) {
         const titles = new Set<string>();
@@ -97,7 +99,7 @@ export default function NewsWireModule({ showToast, onDraftCreated }: NewsWireMo
     } catch (err) {
       console.error("Failed to load saved articles list:", err);
     }
-  }, []);
+  }, [adminFetch]);
 
   useEffect(() => {
     fetchSavedArticles();
@@ -113,7 +115,7 @@ export default function NewsWireModule({ showToast, onDraftCreated }: NewsWireMo
 
     try {
       setSavingStoryId(wireTitle);
-      const res = await fetch("/api/admin/articles", {
+      const res = await adminFetch("/api/admin/articles", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -159,7 +161,7 @@ export default function NewsWireModule({ showToast, onDraftCreated }: NewsWireMo
     setBreakingStories(copy);
 
     try {
-      await fetch("/api/admin/news", {
+      await adminFetch("/api/admin/news", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ breaking_news: copy }),
@@ -182,7 +184,7 @@ export default function NewsWireModule({ showToast, onDraftCreated }: NewsWireMo
       item: updatedFields,
     };
 
-    const res = await fetch("/api/admin/news", {
+    const res = await adminFetch("/api/admin/news", {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),

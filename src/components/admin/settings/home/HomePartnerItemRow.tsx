@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { PartnerLogoItem } from "../types";
 import { uploadImageFile } from "@/lib/uploadHelper";
+import { useAdminFetch } from "@/lib/useAdminFetch";
 
 interface Props {
   partner: PartnerLogoItem;
@@ -12,6 +13,7 @@ interface Props {
 }
 
 export default function HomePartnerItemRow({ partner, index, onChange, onDelete }: Props) {
+  const adminFetch = useAdminFetch();
   const [uploading, setUploading] = useState(false);
   const num = String(index + 1).padStart(2, "0");
   const title = partner.name ? `LOGO ${num}: ${partner.name}` : `LOGO ${num}: New Partner`;
@@ -22,7 +24,7 @@ export default function HomePartnerItemRow({ partner, index, onChange, onDelete 
 
     setUploading(true);
     try {
-      const url = await uploadImageFile(file);
+      const url = await uploadImageFile(file, adminFetch);
       if (url) {
         onChange("logoUrl", url);
         if (!partner.name) {

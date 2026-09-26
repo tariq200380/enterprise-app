@@ -2,6 +2,7 @@
 
 import React, { useState, useRef } from "react";
 import { VideoItem } from "@/types/admin";
+import { useAdminFetch } from "@/lib/useAdminFetch";
 
 interface AddVideoModalProps {
   isOpen: boolean;
@@ -16,6 +17,7 @@ export default function AddVideoModal({
   onVideoCreated,
   showToast,
 }: AddVideoModalProps) {
+  const adminFetch = useAdminFetch();
   // Source Mode: "system" (upload from device) or "embed" (YouTube/Vimeo)
   const [sourceMode, setSourceMode] = useState<"system" | "embed">("system");
 
@@ -105,7 +107,7 @@ export default function AddVideoModal({
   const uploadFile = async (file: File): Promise<string> => {
     const formData = new FormData();
     formData.append("file", file);
-    const res = await fetch("/api/admin/upload", {
+    const res = await adminFetch("/api/admin/upload", {
       method: "POST",
       body: formData,
     });
@@ -162,7 +164,7 @@ export default function AddVideoModal({
 
       // 3. Save video record into database
       setUploadProgress("Saving video to library...");
-      const res = await fetch("/api/admin/videos", {
+      const res = await adminFetch("/api/admin/videos", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

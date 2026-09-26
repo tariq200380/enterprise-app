@@ -45,11 +45,13 @@ export async function verifyAdminAuth(): Promise<AdminAuthResult> {
       };
     }
 
-    // Check role in sessionClaims metadata or user metadata
+    // Check role in sessionClaims metadata, organization role, or user metadata
     let role =
       (sessionClaims?.metadata as any)?.role ||
       (sessionClaims?.publicMetadata as any)?.role ||
       (sessionClaims as any)?.role ||
+      (sessionClaims as any)?.o?.rol ||
+      ((sessionClaims as any)?.org_role === "org:admin" ? "admin" : undefined) ||
       (user.publicMetadata?.role as string) ||
       (user.privateMetadata?.role as string);
 

@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { ArticleItem, BuyButton, SpecItem, SubArticle } from "@/types/admin";
+import { useAdminFetch } from "@/lib/useAdminFetch";
+import DOMPurify from "dompurify";
 
 interface ArticleStudioModalProps {
   isOpen: boolean;
@@ -20,6 +22,7 @@ export default function ArticleStudioModal({
   onDeleteArticle,
   showToast,
 }: ArticleStudioModalProps) {
+  const adminFetch = useAdminFetch();
   // Form State
   const [articleTitle, setArticleTitle] = useState("");
   const [articleCategory, setArticleCategory] = useState("HARDWARE & AI WORKSTATIONS");
@@ -366,7 +369,7 @@ export default function ArticleStudioModal({
 
     try {
       if (editingArticle?.id) {
-        const res = await fetch(`/api/admin/articles/${editingArticle.id}`, {
+        const res = await adminFetch(`/api/admin/articles/${editingArticle.id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
@@ -389,7 +392,7 @@ export default function ArticleStudioModal({
           throw new Error(data.error || "Failed to update article");
         }
       } else {
-        const res = await fetch("/api/admin/articles", {
+        const res = await adminFetch("/api/admin/articles", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
@@ -427,7 +430,7 @@ export default function ArticleStudioModal({
         onDeleteArticle(editingArticle.id);
         onClose();
       } else {
-        const res = await fetch(`/api/admin/articles/${editingArticle.id}`, { method: "DELETE" });
+        const res = await adminFetch(`/api/admin/articles/${editingArticle.id}`, { method: "DELETE" });
         const data = await res.json();
         if (data.success) {
           onArticleSaved();
@@ -806,10 +809,10 @@ export default function ArticleStudioModal({
               suppressContentEditableWarning
               className="min-h-[260px] max-h-[460px] p-5 bg-white border-2 border-[#CBD5E1] rounded-lg overflow-y-auto leading-relaxed text-[15px] text-[#1E293B] outline-none focus:border-[#0052FF]"
               dangerouslySetInnerHTML={{
-                __html: `
+                __html: DOMPurify.sanitize(`
                   <p>The HP OmniBook 5 14 marks a seismic transition in the Windows laptop ecosystem. Built around Qualcomm's 4nm Oryon CPU architecture, it eliminates the historical compromise between high-performance computing and true all-day battery life. In our continuous developer workflow benchmark—which simulates running VS Code, simultaneous local Node.js development servers, 35 active browser tabs, and Slack in the background—the OmniBook 5 cruised through an astonishing 21 hours and 14 minutes before reaching zero percent.</p>
                   <p>The 45 TOPS Hexagon NPU is fully utilized by local AI coding copilot extensions like Continue.dev and Ollama, offloading embedding lookups and lightweight autocompletion from the CPU cores without causing any noticeable battery penalty.</p>
-                `,
+                `),
               }}
             />
           </div>
@@ -1192,7 +1195,7 @@ export default function ArticleStudioModal({
               <div
                 className="prose prose-invert max-w-none text-slate-300 text-sm leading-relaxed"
                 dangerouslySetInnerHTML={{
-                  __html: editorRef.current?.innerHTML || "<p>No content provided.</p>",
+                  __html: DOMPurify.sanitize(editorRef.current?.innerHTML || "<p>No content provided.</p>"),
                 }}
               />
 

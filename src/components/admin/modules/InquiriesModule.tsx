@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Inquiry } from "@/types/admin";
 import InquiryDetailsModal from "../modals/InquiryDetailsModal";
+import { useAdminFetch } from "@/lib/useAdminFetch";
 
 interface InquiriesModuleProps {
   searchQuery?: string;
@@ -26,6 +27,7 @@ export default function InquiriesModule({
   onDeleteInquiry: propOnDeleteInquiry,
   onRefresh,
 }: InquiriesModuleProps) {
+  const adminFetch = useAdminFetch();
   const [internalInquiries, setInternalInquiries] = useState<Inquiry[]>([]);
   const [filter, setFilter] = useState<InquiryFilter>("ALL");
   const [selectedInquiry, setSelectedInquiry] = useState<Inquiry | null>(null);
@@ -33,7 +35,7 @@ export default function InquiriesModule({
 
   const fetchInquiries = useCallback(async () => {
     try {
-      const res = await fetch("/api/admin/inquiries", { cache: "no-store" });
+      const res = await adminFetch("/api/admin/inquiries", { cache: "no-store" });
       const data = await res.json();
       if (data.success && data.inquiries) {
         setInternalInquiries(data.inquiries);
@@ -41,7 +43,7 @@ export default function InquiriesModule({
     } catch {
       showToast("Failed to fetch inquiries", "error");
     }
-  }, [showToast]);
+  }, [adminFetch, showToast]);
 
   useEffect(() => {
     if (propInquiries) {
@@ -61,7 +63,7 @@ export default function InquiriesModule({
       return;
     }
     try {
-      const res = await fetch("/api/admin/inquiries", {
+      const res = await adminFetch("/api/admin/inquiries", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id, status }),
@@ -83,7 +85,7 @@ export default function InquiriesModule({
     }
     if (!confirm(`Delete inquiry #${id}?`)) return;
     try {
-      const res = await fetch(`/api/admin/inquiries?id=${id}`, { method: "DELETE" });
+      const res = await adminFetch(`/api/admin/inquiries?id=${id}`, { method: "DELETE" });
       if (res.ok) {
         showToast("Inquiry deleted");
         if (onRefresh) onRefresh();
