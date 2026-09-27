@@ -1,6 +1,6 @@
 {
   "status": "success",
-  "timestamp": "2026-09-27T22:17:35.607Z",
+  "timestamp": "2026-09-27T23:12:23.638Z",
   "gate_status": "CENTRAL_GATE_ACTIVE",
   "provider_statuses": {},
   "counts": {
@@ -127,7 +127,7 @@
       "cat": "NEXT-GEN SILICON & SEMICONDUCTORS",
       "date": "Sun, 27 Sep 2026 12:22:58 GMT",
       "title": "Googlebook Launches with Intel Core Ultra Series 3 Processors",
-      "summary": "Googlebook Launches with Intel Core Ultra Series 3 Processors. Real-time intelligence and verified enterprise developments reported via intel.com.",
+      "summary": "Googlebook Launches with Intel Core Ultra Series 3 Processors. Real-time intelligence and verified enterprise developments reported via Intel.",
       "source": "Intel",
       "link": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxPRC1Edk83QjdDemRmenpkRzcwdWxmU0VoM1lDbXNqXzFvbG9IaFpNZ3pqRERzaFVtM3pXaElGSzlhM3dJcnUxeHlzQ1FRbVZBWlFhTFJ3RXo5WnljUzJhN2ZqeHkzQ2JIOUVmQUh0aXNoOFNGZlozRTFlNm02OEV1T2VJYUNwa3lmeldGU2ZQSUFrczBvOXBMYXNNVmsyekc1VVpDRnVMRVF2Q0hMMXZ5WDVERGtkWWtxZU0tdWR1Z2dWRnNLNFBRVWNHQktsVTRKMWww?oc=5",
       "img": "https://www.intel.com/content/dam/www/central-libraries/us/en/images/2026-09/newsroom-intel-googlebook-black.png?v=1790511778000",
@@ -276,6 +276,21 @@
       "type": "international"
     },
     {
+      "id": "Anthropic-CBMijwFBVV95cUxNR3kyT0JlSC1QNUhOT0RtQ0VZVzFRSF9IZVE1TlhmY3RMU012NENzcm9IVXdXM0NQMmZRVVRxV0d4QmgyUHBCWXRsQ1J3OGhCZ1JPUGhJOG1ZYTdXcTBLVG5PQ1NHUzB6WEVlZFl6U2tDcUdqVkYzSndmOGxlREwtd05Fb1VIUnZpT2d3bDhKWQ",
+      "source": "Anthropic",
+      "provider": "anthropic",
+      "providerLabel": "🧠 ANTHROPIC CLAUDE",
+      "title": "Anthropic launches Claude Opus 5.5: Benchmarks, pricing, safety",
+      "desc": "Anthropic launches Claude Opus 5.5: Benchmarks, pricing, safety. Real-time intelligence and verified enterprise developments reported via Mashable.",
+      "link": "https://news.google.com/rss/articles/CBMijwFBVV95cUxNR3kyT0JlSC1QNUhOT0RtQ0VZVzFRSF9IZVE1TlhmY3RMU012NENzcm9IVXdXM0NQMmZRVVRxV0d4QmgyUHBCWXRsQ1J3OGhCZ1JPUGhJOG1ZYTdXcTBLVG5PQ1NHUzB6WEVlZFl6U2tDcUdqVkYzSndmOGxlREwtd05Fb1VIUnZpT2d3bDhKWQ?oc=5",
+      "image": "/images/anthropic-opus-hero.jpg",
+      "img": "/images/anthropic-opus-hero.jpg",
+      "date": "Sun, 27 Sep 2026 18:20:44 GMT",
+      "timestamp": "2026-09-27T18:20:44.000Z",
+      "tag": "FRONTIER AI & SAFETY RESEARCH",
+      "type": "international"
+    },
+    {
       "id": "ProPakistani-https://propakistani.pk/?p=1088684",
       "source": "ProPakistani",
       "provider": "propakistani",
@@ -304,21 +319,6 @@
       "timestamp": "2026-09-27T17:21:14.000Z",
       "tag": "PAKISTAN TECH & SCIENCE",
       "type": "regional"
-    },
-    {
-      "id": "Anthropic-CBMijwFBVV95cUxNR3kyT0JlSC1QNUhOT0RtQ0VZVzFRSF9IZVE1TlhmY3RMU012NENzcm9IVXdXM0NQMmZRVVRxV0d4QmgyUHBCWXRsQ1J3OGhCZ1JPUGhJOG1ZYTdXcTBLVG5PQ1NHUzB6WEVlZFl6U2tDcUdqVkYzSndmOGxlREwtd05Fb1VIUnZpT2d3bDhKWQ",
-      "source": "Anthropic",
-      "provider": "anthropic",
-      "providerLabel": "🧠 ANTHROPIC CLAUDE",
-      "title": "Anthropic launches Claude Opus 5.5: Benchmarks, pricing, safety",
-      "desc": "Anthropic launches Claude Opus 5.5: Benchmarks, pricing, safety. Real-time intelligence and verified enterprise developments reported via Mashable.",
-      "link": "https://news.google.com/rss/articles/CBMijwFBVV95cUxNR3kyT0JlSC1QNUhOT0RtQ0VZVzFRSF9IZVE1TlhmY3RMU012NENzcm9IVXdXM0NQMmZRVVRxV0d4QmgyUHBCWXRsQ1J3OGhCZ1JPUGhJOG1ZYTdXcTBLVG5PQ1NHUzB6WEVlZFl6U2tDcUdqVkYzSndmOGxlREwtd05Fb1VIUnZpT2d3bDhKWQ?oc=5",
-      "image": "/images/anthropic-opus-hero.jpg",
-      "img": "/images/anthropic-opus-hero.jpg",
-      "date": "Sun, 27 Sep 2026 16:49:26 GMT",
-      "timestamp": "2026-09-27T16:49:26.000Z",
-      "tag": "FRONTIER AI & SAFETY RESEARCH",
-      "type": "international"
     },
     {
       "id": "Business Recorder-https://www.brecorder.com/news/40441466",
@@ -386,7 +386,7 @@
       "provider": "intel",
       "providerLabel": "🔷 INTEL",
       "title": "Googlebook Launches with Intel Core Ultra Series 3 Processors",
-      "desc": "Googlebook Launches with Intel Core Ultra Series 3 Processors. Real-time intelligence and verified enterprise developments reported via intel.com.",
+      "desc": "Googlebook Launches with Intel Core Ultra Series 3 Processors. Real-time intelligence and verified enterprise developments reported via Intel.",
       "link": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxPRC1Edk83QjdDemRmenpkRzcwdWxmU0VoM1lDbXNqXzFvbG9IaFpNZ3pqRERzaFVtM3pXaElGSzlhM3dJcnUxeHlzQ1FRbVZBWlFhTFJ3RXo5WnljUzJhN2ZqeHkzQ2JIOUVmQUh0aXNoOFNGZlozRTFlNm02OEV1T2VJYUNwa3lmeldGU2ZQSUFrczBvOXBMYXNNVmsyekc1VVpDRnVMRVF2Q0hMMXZ5WDVERGtkWWtxZU0tdWR1Z2dWRnNLNFBRVWNHQktsVTRKMWww?oc=5",
       "image": "https://www.intel.com/content/dam/www/central-libraries/us/en/images/2026-09/newsroom-intel-googlebook-black.png?v=1790511778000",
       "img": "https://www.intel.com/content/dam/www/central-libraries/us/en/images/2026-09/newsroom-intel-googlebook-black.png?v=1790511778000",
@@ -491,7 +491,7 @@
       "provider": "anthropic",
       "providerLabel": "🧠 ANTHROPIC CLAUDE",
       "title": "The Claude Sonnet 5.5 leak beating GPT-6 Sol is not what it looks like",
-      "desc": "The Claude Sonnet 5.5 leak beating GPT-6 Sol is not what it looks like. Real-time intelligence and verified enterprise developments reported via Startup Fortune.",
+      "desc": "The Claude Sonnet 5.5 leak beating GPT-6 Sol is not what it looks like. Real-time intelligence and verified enterprise developments reported via startupfortune.com.",
       "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxPWEJPSGNCNFo1cF9lbUZ6Qm00Njd6TVdUSFVuajcwTklsSEJIME9pVTIzN2tHRHFjMmhFNVdwQ3N3Qy1vZWQyLTBZTWlqZXB2ckhnWWJGeEVYdmVGZkNFcy01cExZNlhhTEdmWnZVVW4wQVRNd2FpUGdCZXNkT202d2h3SEZPNGMyZmhydVR0a3lUQjNUZkRYbGxnbDRMZw?oc=5",
       "image": "/images/anthropic-opus-hero.jpg",
       "img": "/images/anthropic-opus-hero.jpg",

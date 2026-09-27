@@ -31,11 +31,12 @@ export const FALLBACK_SEO: Record<string, PageSeoData> = {
   },
   home: {
     page_key: "home",
-    title: "CREED TECH | Enterprise IT Intelligence & Custom Software Engineering",
+    title: "Creed Tech | Enterprise Software, Cloud Infrastructure & AI Solutions",
     description:
-      "Enterprise IT solutions, custom software engineering, AI workflow orchestration, and resilient cloud infrastructure.",
-    keywords: "Enterprise Software, Cloud Modernization, AI Solutions, Custom Engineering",
-    og_image: "/images/hero-services-web-q90.webp",
+      "Creed Tech provides custom software engineering, robust cloud infrastructure, cybersecurity audits, and enterprise AI integrations. Accelerate your digital transformation.",
+    keywords:
+      "software development, cloud infrastructure, cybersecurity, AI solutions, Creed Tech, enterprise IT solutions, IT consulting Pakistan",
+    og_image: "/images/og-home.webp",
     canonical_url: "https://creed-tech.com",
     no_index: false,
     no_follow: false,

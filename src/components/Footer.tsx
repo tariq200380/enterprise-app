@@ -45,9 +45,9 @@ export default function Footer({
     siteName: initialGeneralInfo?.siteName || "Creed Tech",
     siteTagline: initialGeneralInfo?.siteTagline || "",
     contactEmail: initialGeneralInfo?.contactEmail || "info@creed-tech.com",
-    contactPhone: initialGeneralInfo?.contactPhone || "+92 309 8307115",
+    contactPhone: initialGeneralInfo?.contactPhone || "+92 321 9204488",
     officeAddress:
-      initialGeneralInfo?.officeAddress || "Office # 02, Main Shopping Center Sheikhupura.",
+      initialGeneralInfo?.officeAddress || "Office # 02, Main Shopping Center, Sheikhupura, Punjab, PK",
   });
 
   // Sync state if initial props change (e.g. during client navigation or RSC revalidation)
@@ -210,18 +210,18 @@ export default function Footer({
                   </div>
                   <div className="h-6 flex items-center">
                     <a
-                      href={`mailto:${generalInfo.contactEmail}`}
+                      href={`mailto:${(generalInfo.contactEmail || "info@creed-tech.com").trim()}`}
                       className="hover:text-white transition-colors"
                     >
-                      {generalInfo.contactEmail}
+                      {generalInfo.contactEmail || "info@creed-tech.com"}
                     </a>
                   </div>
                   <div className="h-6 flex items-center">
                     <a
-                      href={`tel:${generalInfo.contactPhone?.replace(/\s+/g, "")}`}
+                      href={`tel:${(generalInfo.contactPhone || "+923219204488").replace(/[^0-9+]/g, "") || "+923219204488"}`}
                       className="hover:text-white transition-colors"
                     >
-                      {generalInfo.contactPhone}
+                      {generalInfo.contactPhone || "+92 321 9204488"}
                     </a>
                   </div>
                 </div>

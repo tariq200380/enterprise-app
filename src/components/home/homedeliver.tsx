@@ -41,8 +41,8 @@ export default function Homedeliver() {
             <span className="w-1.5 h-1.5 rounded-full bg-[#FF6B00]" />
             ENGINEERING METHODOLOGY
           </Link>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-outfit font-bold tracking-tight text-white uppercase mb-3">
-            HOW WE DELIVER
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-outfit font-bold tracking-tight text-white mb-3">
+            Our 4-Phase Software Delivery &amp; Architecture Methodology
           </h2>
           <p className="text-xs sm:text-sm text-gray-400 font-normal leading-relaxed">
             A transparent, four-phase delivery methodology designed to eliminate surprises and keep projects on track.
