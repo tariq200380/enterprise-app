@@ -344,39 +344,38 @@ export default function WebsiteSettingsModule({ showToast, onNavigateTab }: Webs
         </button>
       </div>
 
-      {/* Clean Modular Form Content */}
-      <form onSubmit={handleSave} className="flex flex-col gap-6">
-        {subTab === "global" && (
-          <GlobalSettingsSection settings={settings} onChange={updateSetting} />
-        )}
-        {subTab === "home" && (
-          <HomeSettingsSection settings={settings} onChange={updateSetting} />
-        )}
-        {subTab === "services" && (
-          <ServicesSettingsSection settings={settings} onChange={updateSetting} />
-        )}
-        {subTab === "about" && (
-          <AboutSettingsSection settings={settings} onChange={updateSetting} />
-        )}
-        {subTab === "contact" && (
-          <ContactSettingsSection settings={settings} onChange={updateSetting} />
-        )}
-        {subTab === "portfolio" && (
-          <PortfolioSettingsSection
-            settings={settings}
-            onChange={updateSetting}
-            onNavigateTab={onNavigateTab}
-          />
-        )}
-        {subTab === "header_footer" && (
-          <HeaderFooterSection settings={settings} onChange={updateSetting} />
-        )}
-        {subTab === "seo" && (
-          <SeoSettingsSection showToast={showToast} />
-        )}
+      {/* Content Area */}
+      {subTab === "seo" ? (
+        <SeoSettingsSection showToast={showToast} />
+      ) : (
+        <form onSubmit={handleSave} className="flex flex-col gap-6">
+          {subTab === "global" && (
+            <GlobalSettingsSection settings={settings} onChange={updateSetting} />
+          )}
+          {subTab === "home" && (
+            <HomeSettingsSection settings={settings} onChange={updateSetting} />
+          )}
+          {subTab === "services" && (
+            <ServicesSettingsSection settings={settings} onChange={updateSetting} />
+          )}
+          {subTab === "about" && (
+            <AboutSettingsSection settings={settings} onChange={updateSetting} />
+          )}
+          {subTab === "contact" && (
+            <ContactSettingsSection settings={settings} onChange={updateSetting} />
+          )}
+          {subTab === "portfolio" && (
+            <PortfolioSettingsSection
+              settings={settings}
+              onChange={updateSetting}
+              onNavigateTab={onNavigateTab}
+            />
+          )}
+          {subTab === "header_footer" && (
+            <HeaderFooterSection settings={settings} onChange={updateSetting} />
+          )}
 
-        {/* Bottom Save / Reset Action Bar (isolated SEO section manages its own save) */}
-        {subTab !== "seo" && (
+          {/* Bottom Save / Reset Action Bar */}
           <div className="flex items-center justify-between border-t border-[#CBD5E1] pt-6">
             <button
               type="button"
@@ -393,8 +392,8 @@ export default function WebsiteSettingsModule({ showToast, onNavigateTab }: Webs
               <span>💾</span> <span>{saving ? "Saving..." : "Save All Website Settings"}</span>
             </button>
           </div>
-        )}
-      </form>
+        </form>
+      )}
     </div>
   );
 }

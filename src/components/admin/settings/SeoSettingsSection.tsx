@@ -162,8 +162,8 @@ export default function SeoSettingsSection({ showToast }: Props) {
         })}
       </div>
 
-      {/* 3. Main Editor Form */}
-      <form onSubmit={handleSaveCurrentPage} className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+      {/* 3. Main Editor Form Container */}
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
         {/* Left Column: Form Fields */}
         <div className="md:col-span-7 flex flex-col gap-5">
           {/* Card: Primary Meta Tags */}
@@ -378,7 +378,8 @@ export default function SeoSettingsSection({ showToast }: Props) {
           {/* Bottom Save Button */}
           <div className="pt-2 flex items-center justify-end">
             <button
-              type="submit"
+              type="button"
+              onClick={handleSaveCurrentPage}
               disabled={saving}
               className="px-6 py-2.5 bg-[#FF6B00] hover:bg-[#e05e00] text-white text-xs font-bold rounded-lg cursor-pointer transition-all shadow-[0_2px_8px_rgba(255,107,0,0.25)] hover:shadow-[0_4px_14px_rgba(255,107,0,0.35)] flex items-center gap-2 disabled:opacity-50"
             >
@@ -464,7 +465,7 @@ export default function SeoSettingsSection({ showToast }: Props) {
             </div>
           </div>
         </div>
-      </form>
+      </div>
     </div>
   );
 }
