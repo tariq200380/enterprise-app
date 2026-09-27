@@ -141,6 +141,7 @@ export default function PortfolioCtaSection() {
               onClick={closeModal}
               className="absolute top-4 right-4 text-slate-400 hover:text-slate-900 font-bold text-lg cursor-pointer leading-none p-1.5 rounded-md transition-colors"
               title="Close modal"
+              aria-label="Close modal"
             >
               ✕
             </button>

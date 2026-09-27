@@ -24,13 +24,13 @@ export default function PortfolioHeroSection() {
             FLAGSHIP CASE STUDIES &amp; PROVEN ARCHITECTURES
           </div>
           <div className="w-[60px] h-[2px] bg-[#FF6B00] opacity-80 mb-6" />
-          <h1 className="font-outfit text-[34px] sm:text-[46px] font-bold text-white leading-[1.1] mb-1 tracking-tight">
-            Architectural Mastery.
+          <h1 className="font-outfit text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-[1.15] mb-3 tracking-tight">
+            Enterprise Software Case Studies &amp; Engineering Portfolio
           </h1>
-          <h2 className="font-outfit text-[28px] sm:text-[38px] font-bold text-white leading-[1.2] mb-4 tracking-tight">
-            Proven Business Impact.
-          </h2>
-          <p className="text-base font-normal text-white/75 leading-[1.7] max-w-[520px]">
+          <p className="text-base sm:text-lg font-medium text-[#00F0FF]/90 mb-3 leading-snug">
+            Demonstrated technical excellence, robust architectural delivery, and measurable enterprise business outcomes across global markets.
+          </p>
+          <p className="text-sm sm:text-base font-normal text-white/75 leading-[1.7] max-w-[520px]">
             In-depth case studies documenting how Creed Tech engineers mission-critical infrastructure,
             multi-region database replication, private LLMs, and enterprise-grade security platforms —
             delivering measurable outcomes for global enterprises.

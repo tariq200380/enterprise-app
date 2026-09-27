@@ -55,11 +55,12 @@ export const FALLBACK_SEO: Record<string, PageSeoData> = {
   },
   portfolio: {
     page_key: "portfolio",
-    title: "Enterprise Case Studies & Delivered Systems | Creed Tech",
+    title: "Client Case Studies & Software Portfolio | Creed Tech",
     description:
-      "Explore real-world software architecture deployments, high-concurrency systems, and digital transformations delivered by Creed Tech.",
-    keywords: "Case Studies, Enterprise Software Deployments, Cloud Infrastructure, Architecture",
-    og_image: "/images/hero-services-web-q90.webp",
+      "Discover Creed Tech's proven enterprise delivery track record. Explore case studies in cloud architecture, custom web systems, mobile apps, and AI solutions.",
+    keywords:
+      "software portfolio, enterprise case studies, cloud modernization projects, AI case studies, custom web development portfolio, mobile app showcase, Creed Tech projects",
+    og_image: "/images/og-portfolio.webp",
     canonical_url: "https://creed-tech.com/portfolio",
     no_index: false,
     no_follow: false,

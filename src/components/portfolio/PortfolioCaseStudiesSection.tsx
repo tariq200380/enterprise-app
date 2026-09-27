@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {
   PortfolioProjectItem,
   DEFAULT_CASE_STUDIES,
@@ -10,6 +11,49 @@ interface PortfolioCaseStudiesSectionProps {
   projects?: PortfolioProjectItem[];
 }
 
+interface CategoryGroup {
+  id: string;
+  name: string;
+  h2Title: string;
+  description: string;
+  badge: string;
+}
+
+const CATEGORY_GROUPS: CategoryGroup[] = [
+  {
+    id: "fintech-banking",
+    name: "Fintech & Banking",
+    h2Title: "High-Concurrency Fintech, Clearing & Payment Processing Engines",
+    description:
+      "Ultra-low latency transaction clearing, distributed consistency, and sub-12ms financial messaging engineered across distributed zones.",
+    badge: "FINTECH & TRANSACTIONS",
+  },
+  {
+    id: "ai-automation",
+    name: "Enterprise AI & Orchestration",
+    h2Title: "Enterprise AI Solutions, LLMs & Autonomous Agent Pipelines",
+    description:
+      "Dense vector search, private RAG pipelines, and automated multi-agent diagnostic intelligence for regulated enterprise domains.",
+    badge: "AI & NEURAL ARCHITECTURE",
+  },
+  {
+    id: "cloud-devops",
+    name: "Cloud Infrastructure & DevOps",
+    h2Title: "Cloud Infrastructure, Kubernetes & DevOps Modernization",
+    description:
+      "Multi-cloud architectures, zero-trust container pipelines, automated GitOps meshes, and 99.99% uptime SLA engineering.",
+    badge: "CLOUD & RESILIENCE",
+  },
+  {
+    id: "cybersecurity",
+    name: "Cybersecurity & Governance",
+    h2Title: "Zero-Trust Cybersecurity, SOC 2 Compliance & Cryptographic Defense",
+    description:
+      "Continuous security telemetry, eBPF inspection, and automated cryptographic vulnerability mitigation meeting ISO 27001 standards.",
+    badge: "CYBERSECURITY & COMPLIANCE",
+  },
+];
+
 export default function PortfolioCaseStudiesSection({
   projects,
 }: PortfolioCaseStudiesSectionProps) {
@@ -17,7 +61,34 @@ export default function PortfolioCaseStudiesSection({
     Array.isArray(projects) && projects.length > 0 ? projects : DEFAULT_CASE_STUDIES;
 
   return (
-    <div className="w-full bg-[#F7F6F5] text-[#0F172A] font-sans">
+    <div id="portfolio-case-studies" className="w-full bg-[#F7F6F5] text-[#0F172A] font-sans">
+      
+      {/* Category Navigation Pills */}
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-14 pb-6">
+        <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-8">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-[#EFF6FF] border border-[#BFDBFE] text-[#0052FF] text-[11.5px] font-bold uppercase tracking-wider mb-3 rounded-full">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#EA580C]" />
+            <span>DISCIPLINE SHOWCASE</span>
+          </div>
+          <p className="text-sm sm:text-base text-slate-600 font-normal">
+            Jump to flagship case studies across our core engineering disciplines:
+          </p>
+        </div>
+
+        <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3" aria-label="Portfolio category quick navigation">
+          {CATEGORY_GROUPS.map((cat) => (
+            <a
+              key={cat.id}
+              href={`#${cat.id}`}
+              className="text-xs sm:text-sm font-semibold px-4 py-2 rounded-full bg-white text-slate-700 hover:text-[#0052FF] border border-[#E2E8F0] hover:border-blue-300 shadow-2xs transition-all duration-200"
+            >
+              {cat.name}
+            </a>
+          ))}
+        </div>
+      </div>
+
+      {/* Case Studies Rendered by Category Domain */}
       {displayProjects.map((proj, idx) => {
         const isEven = idx % 2 === 0;
         const isLast = idx === displayProjects.length - 1;
@@ -28,13 +99,50 @@ export default function PortfolioCaseStudiesSection({
           ? (proj.stack as string).split(",").map((s) => s.trim()).filter(Boolean)
           : [];
 
+        // Match category group for semantic H2 heading
+        const catGroup =
+          CATEGORY_GROUPS.find(
+            (g) =>
+              (proj.category || "").toLowerCase().includes(g.id.replace("-", " ")) ||
+              (proj.category || "").toLowerCase().includes(g.name.toLowerCase().split(" ")[0])
+          ) || {
+            id: `discipline-${idx + 1}`,
+            name: proj.category || "Enterprise Core",
+            h2Title: `${proj.category || "Enterprise Software"} Case Study & Architecture`,
+            description: "Mission-critical system engineering delivering verified resilience and business ROI.",
+            badge: "ENTERPRISE DELIVERY",
+          };
+
+        const caseAnchorId = `case-study-${proj.id || idx + 1}`;
+
         return (
-          <section
+          <article
             key={proj.id || idx}
-            className={`w-full py-16 sm:py-20 ${isLast ? "" : "border-b border-[#E2E8F0]"}`}
+            id={catGroup.id}
+            className={`w-full py-14 sm:py-18 scroll-mt-24 ${
+              isLast ? "" : "border-b border-[#E2E8F0]"
+            }`}
           >
             <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-center">
+              
+              {/* Category Domain H2 Banner */}
+              <div className="mb-8 pb-4 border-b border-[#E2E8F0]/70 flex flex-col md:flex-row md:items-end justify-between gap-3">
+                <div>
+                  <span className="text-[11px] font-bold text-[#EA580C] uppercase tracking-widest block mb-1">
+                    {catGroup.badge}
+                  </span>
+                  <h2 className="font-outfit text-2xl sm:text-3xl font-bold text-[#0F172A] tracking-tight leading-tight">
+                    {catGroup.h2Title}
+                  </h2>
+                </div>
+                <p className="text-xs sm:text-sm text-slate-500 max-w-md font-normal leading-normal">
+                  {catGroup.description}
+                </p>
+              </div>
+
+              {/* Project Card Content Grid */}
+              <div id={caseAnchorId} className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-center scroll-mt-24">
+                
                 {/* Visual Preview Card with Ambient Orange Glow */}
                 <div
                   className={`col-span-12 md:col-span-6 relative bg-[#0B1120] rounded-2xl border border-white/10 p-6 sm:p-8 flex flex-col justify-between overflow-hidden min-h-[340px] shadow-lg ${
@@ -62,14 +170,15 @@ export default function PortfolioCaseStudiesSection({
                     </span>
                   </div>
 
-                  {/* Project Image Preview if available */}
+                  {/* Project Image Preview with next/image */}
                   {proj.image_url && (
                     <div className="relative z-10 w-full h-44 sm:h-52 rounded-xl overflow-hidden border border-white/15 mb-4 group shadow-md bg-black/50">
-                      <img
+                      <Image
                         src={proj.image_url}
-                        alt={proj.title}
-                        loading="lazy"
-                        decoding="async"
+                        alt={`${proj.title} - ${proj.category} Enterprise Case Study by Creed Tech`}
+                        width={600}
+                        height={340}
+                        unoptimized={proj.image_url.startsWith("http")}
                         className="w-full h-full object-cover opacity-90 transition-transform duration-500 group-hover:scale-105"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
@@ -132,9 +241,15 @@ export default function PortfolioCaseStudiesSection({
                     {proj.category || "Enterprise Core"}
                   </span>
 
-                  <h3 className="font-outfit text-xl sm:text-2xl lg:text-[1.8rem] font-bold text-[#0F172A] tracking-tight leading-[1.25] mb-3">
+                  {/* Semantic H3 Heading for Case Study */}
+                  <h3 className="font-outfit text-xl sm:text-2xl lg:text-[1.8rem] font-bold text-[#0F172A] tracking-tight leading-[1.25] mb-2">
                     {proj.title}
                   </h3>
+
+                  {/* Industry / Client Context Subline */}
+                  <span className="text-xs sm:text-sm text-[#0052FF] font-semibold block mb-4">
+                    {proj.client || "Global Enterprise Deployment"}
+                  </span>
 
                   <p className="text-slate-600 text-sm leading-relaxed mb-6 font-normal">
                     {proj.summary}
@@ -171,20 +286,22 @@ export default function PortfolioCaseStudiesSection({
                     </div>
                   )}
 
-                  {/* Button */}
+                  {/* Action Link with Aria-label */}
                   <div>
                     <Link
                       href={proj.live_url || "/contact"}
+                      aria-label={`Explore case study: ${proj.title} - ${proj.client || proj.category}`}
                       className="inline-flex items-center gap-2 bg-[#0F172A] hover:bg-[#EA580C] text-white text-xs font-semibold px-5 py-3 rounded-lg shadow-sm transition-colors duration-200"
                     >
                       <span>Explore case study</span>
-                      <span>&rarr;</span>
+                      <span aria-hidden="true">&rarr;</span>
                     </Link>
                   </div>
                 </div>
+
               </div>
             </div>
-          </section>
+          </article>
         );
       })}
     </div>
