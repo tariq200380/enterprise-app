@@ -53,7 +53,7 @@ export default function ContactOnboardingStepsCard({ data, onChangeField }: Prop
         <button
           type="button"
           onClick={handleAddStep}
-          className="px-3.5 py-1.5 bg-[#0F172A] hover:bg-[#1E293B] text-white text-xs font-bold rounded cursor-pointer transition-colors shadow-sm flex items-center gap-1.5"
+          className="px-3.5 py-1.5 bg-[#FF6B00] hover:bg-[#e05e00] text-white text-xs font-bold rounded-lg cursor-pointer transition-all shadow-[0_2px_8px_rgba(255,107,0,0.25)] hover:shadow-[0_4px_14px_rgba(255,107,0,0.35)] flex items-center gap-1.5"
         >
           <span>＋</span>
           <span>Add Onboarding Step</span>

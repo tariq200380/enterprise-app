@@ -48,34 +48,48 @@ export default function AdminLogin({ onLogin }: AdminLoginProps) {
   };
 
   return (
-    <div className="min-h-screen bg-[#070C18] flex items-center justify-center p-4 relative overflow-hidden font-sans select-none">
-      {/* Background ambient glow */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-[#0052FF]/15 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-[#FF6B00]/10 rounded-full blur-3xl pointer-events-none" />
+    <div className="min-h-screen bg-[#0B1120] flex items-center justify-center p-4 relative overflow-hidden font-sans select-none">
+      {/* Ambient Orange Radial Glow matching main site */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(ellipse at 50% 30%, rgba(255, 107, 0, 0.18) 0%, rgba(255, 107, 0, 0.04) 50%, transparent 80%)",
+        }}
+      />
+      {/* Blueprint Grid Pattern */}
+      <div
+        className="absolute inset-0 opacity-[0.035] pointer-events-none"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, #FFFFFF 1px, transparent 1px), linear-gradient(to bottom, #FFFFFF 1px, transparent 1px)",
+          backgroundSize: "36px 36px",
+        }}
+      />
 
-      <div className="w-full max-w-md bg-[#0F172A]/90 border border-[#1E293B] rounded-2xl shadow-2xl p-8 relative z-10 backdrop-blur-md">
+      <div className="w-full max-w-md bg-[#0F172A]/95 border border-[#1E293B] rounded-3xl shadow-[0_0_50px_rgba(255,107,0,0.12)] p-8 relative z-10 backdrop-blur-md">
         {/* Header / Logo */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-2 mb-3">
-            <span className="text-2xl font-black tracking-wider text-white">
+            <span className="text-2xl font-black tracking-wider text-white font-outfit">
               CREED<span className="text-[#FF6B00]">TECH</span>
             </span>
           </div>
           <div className="flex items-center justify-center gap-2 mb-2">
-            <span className="h-2 w-2 rounded-full bg-[#38BDF8] animate-pulse" />
-            <span className="text-xs font-semibold tracking-wider text-[#38BDF8] uppercase">
+            <span className="h-2 w-2 rounded-full bg-[#FF6B00] shadow-[0_0_8px_rgba(255,107,0,0.8)] animate-pulse" />
+            <span className="text-xs font-semibold tracking-wider text-orange-400 uppercase font-outfit">
               Master CMS 2.0 Console
             </span>
           </div>
-          <h1 className="text-xl font-bold text-white tracking-tight">Admin Sign In</h1>
-          <p className="text-xs text-[#94A3B8] mt-1">
+          <h1 className="text-xl font-bold font-outfit text-white tracking-tight">Admin Sign In</h1>
+          <p className="text-xs text-slate-400 mt-1">
             Enter your credentials to access the enterprise control panel.
           </p>
         </div>
 
         {/* Error Alert */}
         {error && (
-          <div className="mb-5 p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-medium flex items-center gap-2">
+          <div className="mb-5 p-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-medium flex items-center gap-2">
             <span>⚠️</span>
             <span>{error}</span>
           </div>
@@ -83,7 +97,7 @@ export default function AdminLogin({ onLogin }: AdminLoginProps) {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold text-[#CBD5E1] mb-1.5">
+            <label className="block text-xs font-semibold text-slate-300 mb-1.5 font-outfit">
               Admin Email / Username
             </label>
             <div className="relative">
@@ -92,16 +106,16 @@ export default function AdminLogin({ onLogin }: AdminLoginProps) {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="admin@creed-tech.com"
-                className="w-full bg-[#1E293B] border border-[#334155] rounded-lg px-3.5 py-2.5 text-xs text-white placeholder-[#64748B] outline-none focus:border-[#0052FF] transition-all"
+                className="w-full bg-[#1E293B] border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 outline-none focus:border-[#FF6B00] focus:shadow-[0_0_12px_rgba(255,107,0,0.2)] transition-all"
                 autoFocus
               />
-              <span className="absolute right-3 top-2.5 text-[#64748B] text-xs">✉️</span>
+              <span className="absolute right-3 top-2.5 text-slate-500 text-xs">✉️</span>
             </div>
           </div>
 
           <div>
             <div className="mb-1.5">
-              <label className="block text-xs font-semibold text-[#CBD5E1]">
+              <label className="block text-xs font-semibold text-slate-300 font-outfit">
                 Security Password
               </label>
             </div>
@@ -111,12 +125,12 @@ export default function AdminLogin({ onLogin }: AdminLoginProps) {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••••••"
-                className="w-full bg-[#1E293B] border border-[#334155] rounded-lg px-3.5 py-2.5 text-xs text-white placeholder-[#64748B] outline-none focus:border-[#0052FF] transition-all pr-10"
+                className="w-full bg-[#1E293B] border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 outline-none focus:border-[#FF6B00] focus:shadow-[0_0_12px_rgba(255,107,0,0.2)] transition-all pr-10"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-2.5 text-[#64748B] hover:text-white text-xs"
+                className="absolute right-3 top-2.5 text-slate-400 hover:text-white text-xs cursor-pointer"
               >
                 {showPassword ? "👁️" : "🙈"}
               </button>
@@ -126,7 +140,7 @@ export default function AdminLogin({ onLogin }: AdminLoginProps) {
           <button
             type="submit"
             disabled={loading}
-            className="w-full mt-2 bg-[#0052FF] hover:bg-[#0042D0] active:scale-[0.99] text-white font-bold text-xs py-3 rounded-lg shadow-lg shadow-blue-500/20 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+            className="w-full mt-2 bg-[#FF6B00] hover:bg-[#e05d00] active:scale-[0.99] text-white font-bold text-xs py-3 rounded-xl shadow-[0_2px_14px_rgba(255,107,0,0.35)] hover:shadow-[0_4px_20px_rgba(255,107,0,0.45)] transition-all flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
           >
             {loading ? (
               <>

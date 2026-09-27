@@ -123,30 +123,30 @@ export default function InquiriesModule({
   });
 
   return (
-    <div>
-      <div className="flex items-center justify-between flex-wrap gap-4 mb-6">
+    <div className="space-y-6">
+      <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
-          <h1 className="text-[22px] font-bold text-[#0F172A]">Inbound Contact Inquiries</h1>
-          <p className="text-xs sm:text-[13px] text-[#64748B] mt-0.5">
+          <h1 className="text-2xl font-bold font-outfit text-[#0F172A] tracking-tight">Inbound Contact Inquiries</h1>
+          <p className="text-xs sm:text-[13px] text-slate-500 mt-0.5">
             Live client messages and scoping requests from the public contact forms.
           </p>
         </div>
-        <div className="flex gap-1.5 flex-wrap">
+        <div className="flex gap-2 flex-wrap items-center">
           {(["ALL", "NEW", "IN_REVIEW", "COMPLETED", "ARCHIVED"] as const).map((st) => (
             <button
               key={st}
               type="button"
               onClick={() => setFilter(st)}
-              className={`px-3 py-1 text-xs font-bold rounded cursor-pointer inline-flex items-center gap-1.5 transition-colors ${
+              className={`px-3.5 py-1.5 text-xs font-bold rounded-xl cursor-pointer inline-flex items-center gap-2 transition-all duration-200 ${
                 filter === st
-                  ? "bg-[#0052FF] text-white shadow-sm"
-                  : "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
+                  ? "bg-[#FF6B00] text-white shadow-[0_2px_14px_rgba(255,107,0,0.35)]"
+                  : "bg-white border border-[#E2E8F0] text-slate-700 hover:text-[#0F172A] hover:bg-[#F1F3F5] shadow-xs"
               }`}
             >
               <span>{st}</span>
               <span
                 className={`text-[10px] px-1.5 py-0.2 rounded-full font-semibold ${
-                  filter === st ? "bg-white/20 text-white" : "bg-gray-100 text-gray-600"
+                  filter === st ? "bg-white/20 text-white" : "bg-[#F1F3F5] text-slate-600"
                 }`}
               >
                 {getCount(st)}
@@ -163,7 +163,7 @@ export default function InquiriesModule({
               showToast("Inquiries refreshed", "success");
             }}
             disabled={isRefreshing}
-            className="px-3 py-1 text-xs font-bold rounded cursor-pointer inline-flex items-center gap-1.5 bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors disabled:opacity-60"
+            className="px-3.5 py-1.5 text-xs font-bold rounded-xl cursor-pointer inline-flex items-center gap-1.5 bg-white border border-[#E2E8F0] text-slate-700 hover:text-[#FF6B00] hover:border-orange-300 transition-all shadow-xs disabled:opacity-60"
             title="Refresh Inquiries"
           >
             <span className={isRefreshing ? "animate-spin inline-block" : ""}>🔄</span>
@@ -172,61 +172,61 @@ export default function InquiriesModule({
         </div>
       </div>
 
-      <div className="bg-white border border-[#E2E8F0] rounded-lg overflow-hidden shadow-sm">
-        <table className="w-full text-xs text-left border-collapse">
+      <div className="bg-white border border-[#E2E8F0] rounded-2xl overflow-hidden shadow-xs">
+        <table className="w-full text-xs text-left border-collapse font-sans">
           <thead>
-            <tr className="bg-[#F8FAFC] border-b border-[#E2E8F0] text-[#64748B] font-bold">
-              <th className="p-3.5">ID</th>
-              <th className="p-3.5">Client &amp; Company</th>
-              <th className="p-3.5">Requested Service</th>
-              <th className="p-3.5">Email / Phone</th>
-              <th className="p-3.5">Status</th>
-              <th className="p-3.5 text-right">Actions</th>
+            <tr className="bg-[#F8FAFC] border-b border-[#E2E8F0] text-slate-500 font-bold uppercase tracking-wider text-[11px] font-outfit">
+              <th className="p-4">ID</th>
+              <th className="p-4">Client &amp; Company</th>
+              <th className="p-4">Requested Service</th>
+              <th className="p-4">Email / Phone</th>
+              <th className="p-4">Status</th>
+              <th className="p-4 text-right">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-[#F1F5F9]">
+          <tbody className="divide-y divide-[#E2E8F0]/70">
             {filtered.map((inq) => (
-              <tr key={inq.id} className="hover:bg-[#F8FAFC]">
-                <td className="p-3.5 font-bold text-[#0F172A]">#{inq.id}</td>
-                <td className="p-3.5">
-                  <div className="font-bold text-[#0F172A]">{inq.client_name}</div>
-                  <div className="text-[11px] text-[#64748B]">{inq.company}</div>
+              <tr key={inq.id} className="hover:bg-[#F8FAFC] transition-colors">
+                <td className="p-4 font-bold text-[#0F172A] font-mono">#{inq.id}</td>
+                <td className="p-4">
+                  <div className="font-bold text-[#0F172A] text-[13px]">{inq.client_name}</div>
+                  <div className="text-[11px] text-slate-500">{inq.company}</div>
                 </td>
-                <td className="p-3.5">
-                  <span className="px-2 py-0.5 rounded bg-blue-50 text-[#0052FF] font-semibold border border-blue-200">
+                <td className="p-4">
+                  <span className="px-2.5 py-1 rounded-full bg-orange-50 text-[#FF6B00] font-semibold border border-orange-200 shadow-2xs">
                     {inq.service}
                   </span>
                 </td>
-                <td className="p-3.5 text-[#64748B]">
-                  <div>{inq.email || "N/A"}</div>
-                  <div className="text-[10px]">{inq.phone || ""}</div>
+                <td className="p-4 text-slate-700">
+                  <div className="font-medium text-[#0F172A]">{inq.email || "N/A"}</div>
+                  <div className="text-[11px] text-slate-500 font-mono">{inq.phone || ""}</div>
                 </td>
-                <td className="p-3.5">
+                <td className="p-4">
                   <select
                     value={inq.status === "PENDING" ? "NEW" : inq.status}
                     onChange={(e) => handleUpdateStatus(inq.id, e.target.value)}
-                    className="bg-white border border-gray-300 rounded px-2 py-1 font-semibold text-xs outline-none focus:border-[#0052FF] cursor-pointer"
+                    className="bg-white hover:bg-[#F8FAFC] border border-[#CBD5E1] focus:border-[#FF6B00] rounded-xl px-2.5 py-1 font-semibold text-xs text-[#0F172A] outline-none transition-all cursor-pointer shadow-2xs"
                   >
-                    <option value="NEW">NEW</option>
-                    <option value="IN_REVIEW">IN_REVIEW</option>
-                    <option value="RESPONDED">RESPONDED</option>
-                    <option value="COMPLETED">COMPLETED</option>
-                    <option value="ARCHIVED">ARCHIVED</option>
+                    <option value="NEW" className="bg-white text-slate-900">NEW</option>
+                    <option value="IN_REVIEW" className="bg-white text-slate-900">IN_REVIEW</option>
+                    <option value="RESPONDED" className="bg-white text-slate-900">RESPONDED</option>
+                    <option value="COMPLETED" className="bg-white text-slate-900">COMPLETED</option>
+                    <option value="ARCHIVED" className="bg-white text-slate-900">ARCHIVED</option>
                   </select>
                 </td>
-                <td className="p-3.5 text-right">
+                <td className="p-4 text-right">
                   <div className="flex justify-end gap-2">
                     <button
                       type="button"
                       onClick={() => handleSelect(inq)}
-                      className="px-2.5 py-1 bg-[#0052FF] text-white rounded font-bold hover:bg-[#0042D0] cursor-pointer"
+                      className="px-3.5 py-1.5 bg-[#FF6B00] text-white rounded-xl font-bold hover:bg-[#e05d00] cursor-pointer shadow-[0_2px_10px_rgba(255,107,0,0.25)] transition-all text-xs active:scale-95"
                     >
-                      Details &amp; Reply
+                      Reply
                     </button>
                     <button
                       type="button"
                       onClick={() => handleDelete(inq.id)}
-                      className="px-2.5 py-1 bg-red-50 text-red-600 border border-red-200 rounded font-bold hover:bg-red-100 cursor-pointer"
+                      className="px-3 py-1.5 bg-red-50 text-red-600 border border-red-200 rounded-xl font-semibold hover:bg-red-100 cursor-pointer transition-all text-xs"
                     >
                       Delete
                     </button>
@@ -236,7 +236,7 @@ export default function InquiriesModule({
             ))}
             {filtered.length === 0 && (
               <tr>
-                <td colSpan={6} className="p-8 text-center text-[#64748B]">
+                <td colSpan={6} className="p-10 text-center text-slate-500">
                   No inquiries found matching current filters.
                 </td>
               </tr>
@@ -254,6 +254,7 @@ export default function InquiriesModule({
           else fetchInquiries();
         }}
         showToast={showToast}
+        initialMode="reply"
       />
     </div>
   );

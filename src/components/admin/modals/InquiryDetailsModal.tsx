@@ -652,75 +652,75 @@ ${currentProfile.name}`
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4 overflow-hidden">
-      <div className={`bg-white text-[#111827] rounded-xl border border-gray-200 ${viewMode === "edit_profile" || viewMode === "reply" ? "max-w-5xl h-[92vh] max-h-[92vh] p-3 sm:p-4 pb-2" : "max-w-2xl max-h-[92vh] p-5 sm:p-6"} w-full shadow-2xl relative text-left my-auto flex flex-col overflow-hidden transition-all`}>
+    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4 overflow-hidden">
+      <div className={`bg-white text-[#0F172A] rounded-2xl border border-[#E2E8F0] shadow-2xl ${viewMode === "edit_profile" || viewMode === "reply" ? "max-w-5xl h-[92vh] max-h-[92vh] p-3 sm:p-4 pb-2" : "max-w-2xl max-h-[92vh] p-5 sm:p-6"} w-full relative text-left my-auto flex flex-col overflow-hidden transition-all`}>
         
         {/* ============================================================ */}
         {/* VIEW 1: INQUIRY DETAILS                                      */}
         {/* ============================================================ */}
         {viewMode === "details" && (
           <div>
-            <div className="flex items-center justify-between pb-3 border-b border-gray-100">
+            <div className="flex items-center justify-between pb-3 border-b border-[#E2E8F0]">
               <div>
-                <h3 className="text-base font-bold text-[#030712] mb-0.5">Inquiry Details</h3>
-                <span className="text-xs text-gray-500">ID #{inquiry.id} • {inquiry.created_at}</span>
+                <h3 className="text-base font-bold text-[#0F172A] mb-0.5 font-outfit">Inquiry Details</h3>
+                <span className="text-xs text-slate-500">ID #{inquiry.id} • {inquiry.created_at}</span>
               </div>
               <span
-                className={`text-[10px] font-bold px-2 py-0.5 rounded tracking-wider uppercase ${
+                className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full tracking-wider uppercase border ${
                   inquiry.status === "NEW"
-                    ? "bg-amber-100 text-amber-800"
+                    ? "bg-amber-50 text-amber-700 border-amber-200"
                     : inquiry.status === "RESPONDED"
-                    ? "bg-blue-100 text-blue-800"
-                    : "bg-emerald-100 text-emerald-800"
+                    ? "bg-blue-50 text-blue-700 border-blue-200"
+                    : "bg-emerald-50 text-emerald-700 border-emerald-200"
                 }`}
               >
                 {inquiry.status}
               </span>
             </div>
 
-            <div className="py-4 space-y-3.5 text-xs text-gray-600">
+            <div className="py-4 space-y-3.5 text-xs text-slate-600">
               <div>
-                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-0.5">Client</span>
-                <span className="font-semibold text-gray-900 text-sm">{inquiry.client_name}</span>
+                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-0.5">Client</span>
+                <span className="font-semibold text-[#0F172A] text-sm">{inquiry.client_name}</span>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-0.5">Email</span>
-                  <a href={`mailto:${inquiry.email}`} className="text-[#0052FF] hover:underline font-medium">
+                  <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-0.5">Email</span>
+                  <a href={`mailto:${inquiry.email}`} className="text-[#FF6B00] hover:underline font-medium">
                     {inquiry.email}
                   </a>
                 </div>
                 <div>
-                  <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-0.5">Phone</span>
-                  <span className="font-medium text-gray-800">{inquiry.phone || "Not specified"}</span>
+                  <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-0.5">Phone</span>
+                  <span className="font-medium text-[#0F172A]">{inquiry.phone || "Not specified"}</span>
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-0.5">Service</span>
-                  <span className="inline-block px-2 py-0.5 bg-gray-100 rounded text-gray-800 font-medium text-[11px]">
+                  <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-0.5">Service</span>
+                  <span className="inline-block px-2.5 py-0.5 bg-orange-50 border border-orange-200 rounded-full text-[#FF6B00] font-semibold text-[11px]">
                     {inquiry.service}
                   </span>
                 </div>
                 <div>
-                  <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-0.5">Company</span>
-                  <span className="font-medium text-gray-800">{inquiry.company || "Direct Enterprise"}</span>
+                  <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-0.5">Company</span>
+                  <span className="font-medium text-[#0F172A]">{inquiry.company || "Direct Enterprise"}</span>
                 </div>
               </div>
               <div>
-                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-0.5">Project Scope</span>
-                <p className="mt-1 p-3 bg-gray-50 border border-gray-100 rounded text-gray-700 leading-relaxed font-normal whitespace-pre-wrap max-h-40 overflow-y-auto">
+                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-0.5">Project Scope</span>
+                <p className="mt-1 p-3 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl text-slate-700 leading-relaxed font-normal whitespace-pre-wrap max-h-40 overflow-y-auto custom-scrollbar">
                   {inquiry.project_details}
                 </p>
               </div>
             </div>
 
-            <div className="pt-3 border-t border-gray-100 flex items-center justify-between">
+            <div className="pt-3 border-t border-[#E2E8F0] flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <button
                   type="button"
                   onClick={() => setViewMode("reply")}
-                  className="px-4 py-2 text-xs font-bold text-white bg-[#0052FF] hover:bg-[#0042D0] rounded-md shadow-xs cursor-pointer flex items-center gap-1.5 transition-colors"
+                  className="px-4 py-2 text-xs font-bold text-white bg-[#FF6B00] hover:bg-[#e05d00] rounded-xl shadow-[0_2px_12px_rgba(255,107,0,0.25)] cursor-pointer flex items-center gap-1.5 transition-all active:scale-95"
                 >
                   <span>Reply to Client</span>
                   <span>✉</span>
@@ -742,7 +742,7 @@ ${currentProfile.name}`
                     }
                     setViewMode("edit_profile");
                   }}
-                  className="px-3.5 py-2 text-xs font-bold text-[#0052FF] hover:bg-blue-50 border border-blue-200 rounded-md shadow-2xs cursor-pointer flex items-center gap-1.5 transition-colors"
+                  className="px-3.5 py-2 text-xs font-bold text-slate-700 bg-[#F1F3F5] hover:bg-[#EBECEF] border border-[#E2E8F0] rounded-xl shadow-xs cursor-pointer flex items-center gap-1.5 transition-all"
                   title="Open the complete 5-section format design form"
                 >
                   <span>🎨 Full Format Form</span>
@@ -752,7 +752,7 @@ ${currentProfile.name}`
               <button
                 type="button"
                 onClick={onClose}
-                className="px-4 py-2 text-xs font-semibold bg-gray-100 rounded-md hover:bg-gray-200 cursor-pointer transition-colors"
+                className="px-4 py-2 text-xs font-semibold bg-[#F1F3F5] text-slate-700 hover:text-[#0F172A] hover:bg-[#EBECEF] rounded-xl cursor-pointer transition-colors border border-[#E2E8F0]"
               >
                 Close
               </button>
@@ -766,7 +766,7 @@ ${currentProfile.name}`
         {viewMode === "reply" && (
           <div className="flex flex-col h-full overflow-hidden">
             {/* Header */}
-            <div className="flex items-center justify-between pb-2.5 border-b border-gray-200 shrink-0">
+            <div className="flex items-center justify-between pb-2.5 border-b border-[#E2E8F0] shrink-0">
               <div className="flex items-center gap-2">
                 <span
                   className="w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold text-white shadow-xs shrink-0"
@@ -775,10 +775,10 @@ ${currentProfile.name}`
                   ✉
                 </span>
                 <div>
-                  <h3 className="text-sm font-bold text-[#0F172A] m-0">
+                  <h3 className="text-sm font-bold text-[#0F172A] m-0 font-outfit">
                     Reply to {inquiry.client_name}
                   </h3>
-                  <span className="text-[11px] text-[#64748B]">
+                  <span className="text-[11px] text-slate-500">
                     Inquiry #{inquiry.id} • {inquiry.service}
                   </span>
                 </div>
@@ -801,7 +801,7 @@ ${currentProfile.name}`
                     }
                     setViewMode("edit_profile");
                   }}
-                  className="text-xs font-bold text-[#0052FF] hover:bg-blue-50 border border-blue-200 px-2.5 py-1 rounded-md transition-colors flex items-center gap-1 cursor-pointer shadow-2xs"
+                  className="text-xs font-bold text-slate-700 bg-[#F1F3F5] hover:bg-[#EBECEF] border border-[#E2E8F0] px-2.5 py-1 rounded-xl transition-all flex items-center gap-1 cursor-pointer shadow-xs"
                   title="Open the complete 5-section format design form"
                 >
                   <span>🎨 Full Format Form</span>
@@ -810,7 +810,7 @@ ${currentProfile.name}`
                 <button
                   type="button"
                   onClick={() => setViewMode("manage_profiles")}
-                  className="text-[11px] font-semibold text-gray-700 hover:text-[#0052FF] flex items-center gap-1 cursor-pointer bg-gray-100 hover:bg-gray-200 px-2 py-1 rounded"
+                  className="text-[11px] font-semibold text-slate-700 hover:text-[#0F172A] flex items-center gap-1 cursor-pointer bg-[#F1F3F5] hover:bg-[#EBECEF] px-2.5 py-1 rounded-xl transition-colors border border-[#E2E8F0]"
                   title="Add, edit or delete business email profiles"
                 >
                   <span>⚙️ Profiles</span>
@@ -819,17 +819,17 @@ ${currentProfile.name}`
                 <button
                   type="button"
                   onClick={() => setViewMode("settings")}
-                  className="text-[11px] font-semibold text-[#0052FF] hover:underline flex items-center gap-1 cursor-pointer"
+                  className="text-[11px] font-semibold text-[#FF6B00] hover:underline flex items-center gap-1 cursor-pointer"
                   title="Configure SMTP Server connection"
                 >
                   <span>SMTP</span>
-                  {isConfigured && <span className="w-2 h-2 rounded-full bg-green-500 inline-block" title="SMTP Connected"></span>}
+                  {isConfigured && <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block shadow-[0_0_6px_rgba(52,211,153,0.8)]" title="SMTP Connected"></span>}
                 </button>
 
                 <button
                   type="button"
                   onClick={onClose}
-                  className="text-xs font-semibold text-gray-400 hover:text-gray-700 px-1.5 py-0.5 rounded cursor-pointer ml-1"
+                  className="text-xs font-semibold text-slate-400 hover:text-[#0F172A] px-1.5 py-0.5 rounded cursor-pointer ml-1"
                   title="Close modal"
                 >
                   ✕
@@ -840,10 +840,10 @@ ${currentProfile.name}`
             {/* Notification Banner */}
             {sendResultMsg && (
               <div
-                className={`p-2.5 text-xs rounded-md border font-medium ${
+                className={`p-2.5 text-xs rounded-xl border font-medium ${
                   sendResultMsg.isError
                     ? "bg-red-50 text-red-700 border-red-200"
-                    : "bg-emerald-50 text-emerald-800 border-emerald-200"
+                    : "bg-emerald-50 text-emerald-700 border-emerald-200"
                 }`}
               >
                 {sendResultMsg.text}
@@ -851,12 +851,12 @@ ${currentProfile.name}`
             )}
 
             {/* Department / Business Email Selector */}
-            <div className="bg-gray-50 border border-gray-200 rounded-lg p-2.5">
+            <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl p-2.5">
               <div className="flex items-center justify-between mb-1.5">
-                <span className="text-[11px] font-bold text-gray-600 uppercase tracking-wider flex items-center gap-1">
+                <span className="text-[11px] font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1">
                   <span>🏢 Send As (Business Email Profile):</span>
                 </span>
-                <span className="text-[10px] text-gray-500 font-mono">
+                <span className="text-[10px] text-slate-500 font-mono">
                   {currentProfile.email}
                 </span>
               </div>
@@ -869,14 +869,14 @@ ${currentProfile.name}`
                       key={p.id}
                       type="button"
                       onClick={() => handleSelectProfile(p.id)}
-                      className={`px-2.5 py-1 text-xs rounded-md font-semibold cursor-pointer transition-all flex items-center gap-1.5 border ${
+                      className={`px-2.5 py-1 text-xs rounded-xl font-semibold cursor-pointer transition-all flex items-center gap-1.5 border ${
                         isSelected
-                          ? "bg-white text-gray-900 border-gray-400 shadow-xs ring-1"
-                          : "bg-gray-100 text-gray-600 border-transparent hover:bg-gray-200 hover:text-gray-900"
+                          ? "bg-white text-[#FF6B00] border-orange-300 shadow-[0_2px_8px_rgba(255,107,0,0.15)] ring-1 ring-[#FF6B00]"
+                          : "bg-white text-slate-700 border-[#E2E8F0] hover:bg-[#F1F3F5]"
                       }`}
                       style={{
                         borderColor: isSelected ? p.accentColor : undefined,
-                        boxShadow: isSelected ? `0 0 0 2px ${p.accentColor}33` : undefined,
+                        boxShadow: isSelected ? `0 2px 8px ${p.accentColor}33` : undefined,
                       }}
                     >
                       <span
@@ -893,7 +893,7 @@ ${currentProfile.name}`
                 <button
                   type="button"
                   onClick={handleAddNewEmailProfile}
-                  className="px-2.5 py-1 text-xs rounded-md font-bold bg-[#0052FF] hover:bg-[#0042D0] text-white cursor-pointer transition-all flex items-center gap-1 shadow-xs ml-1"
+                  className="px-2.5 py-1 text-xs rounded-xl font-bold bg-[#FF6B00] hover:bg-[#e05d00] text-white cursor-pointer transition-all flex items-center gap-1 shadow-[0_2px_8px_rgba(255,107,0,0.25)] ml-1 active:scale-95"
                   title="Add a new business email identity and design format"
                 >
                   <span>➕ Add Email</span>
@@ -916,7 +916,7 @@ ${currentProfile.name}`
                     }
                     setViewMode("edit_profile");
                   }}
-                  className="px-2.5 py-1 text-xs rounded-md font-semibold bg-white hover:bg-gray-100 text-gray-800 border border-gray-300 cursor-pointer transition-all flex items-center gap-1 shadow-xs"
+                  className="px-2.5 py-1 text-xs rounded-xl font-semibold bg-white hover:bg-[#F1F3F5] text-slate-700 border border-[#E2E8F0] cursor-pointer transition-all flex items-center gap-1 shadow-xs"
                   title="Edit format design, pictures, address and video demo for this email"
                 >
                   <span>✏️ Edit Format &amp; Design</span>
@@ -927,7 +927,7 @@ ${currentProfile.name}`
                   <button
                     type="button"
                     onClick={() => handleDeleteProfile(currentProfile.id)}
-                    className="px-2 py-1 text-xs rounded-md font-semibold bg-white hover:bg-red-50 text-red-600 border border-red-200 cursor-pointer transition-all flex items-center gap-1"
+                    className="px-2 py-1 text-xs rounded-xl font-semibold bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 cursor-pointer transition-all flex items-center gap-1"
                     title={`Delete ${currentProfile.name}`}
                   >
                     <span>🗑️ Delete</span>
@@ -937,15 +937,15 @@ ${currentProfile.name}`
             </div>
 
             {/* View Mode Toggle: Form Composer vs Live Branded HTML Preview */}
-            <div className="flex items-center justify-between border-b border-gray-200 pb-1 shrink-0 mb-1.5">
+            <div className="flex items-center justify-between border-b border-[#E2E8F0] pb-1 shrink-0 mb-1.5">
               <div className="flex gap-2">
                 <button
                   type="button"
                   onClick={() => setActiveReplyTab("edit")}
                   className={`text-xs font-bold pb-1 px-1 border-b-2 transition-colors cursor-pointer ${
                     activeReplyTab === "edit"
-                      ? "text-[#0052FF] border-[#0052FF]"
-                      : "text-gray-500 border-transparent hover:text-gray-800"
+                      ? "text-[#FF6B00] border-[#FF6B00]"
+                      : "text-slate-500 border-transparent hover:text-[#0F172A]"
                   }`}
                 >
                   ✍️ Compose Message
@@ -955,8 +955,8 @@ ${currentProfile.name}`
                   onClick={() => setActiveReplyTab("preview")}
                   className={`text-xs font-bold pb-1 px-1 border-b-2 transition-colors cursor-pointer ${
                     activeReplyTab === "preview"
-                      ? "text-[#0052FF] border-[#0052FF]"
-                      : "text-gray-500 border-transparent hover:text-gray-800"
+                      ? "text-[#FF6B00] border-[#FF6B00]"
+                      : "text-slate-500 border-transparent hover:text-[#0F172A]"
                   }`}
                 >
                   👁️ Live Branded Preview
@@ -970,7 +970,7 @@ ${currentProfile.name}`
                     <button
                       type="button"
                       onClick={() => applyTemplate("confirm")}
-                      className="px-2 py-0.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-[10px] font-medium rounded cursor-pointer"
+                      className="px-2 py-1 bg-[#F1F3F5] hover:bg-[#EBECEF] text-slate-700 border border-[#E2E8F0] text-[10px] font-medium rounded-lg cursor-pointer transition-colors"
                       title="Insert Discovery Confirmation"
                     >
                       📅 Confirm Call
@@ -978,7 +978,7 @@ ${currentProfile.name}`
                     <button
                       type="button"
                       onClick={() => applyTemplate("scoping")}
-                      className="px-2 py-0.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-[10px] font-medium rounded cursor-pointer"
+                      className="px-2 py-1 bg-[#F1F3F5] hover:bg-[#EBECEF] text-slate-700 border border-[#E2E8F0] text-[10px] font-medium rounded-lg cursor-pointer transition-colors"
                       title="Insert Scoping Questionnaire"
                     >
                       📋 Scope
@@ -986,7 +986,7 @@ ${currentProfile.name}`
                     <button
                       type="button"
                       onClick={() => applyTemplate("nda")}
-                      className="px-2 py-0.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-[10px] font-medium rounded cursor-pointer"
+                      className="px-2 py-1 bg-[#F1F3F5] hover:bg-[#EBECEF] text-slate-700 border border-[#E2E8F0] text-[10px] font-medium rounded-lg cursor-pointer transition-colors"
                       title="Insert NDA"
                     >
                       📄 NDA
@@ -1009,7 +1009,7 @@ ${currentProfile.name}`
                       }
                       setViewMode("edit_profile");
                     }}
-                    className="text-xs font-bold text-[#0052FF] bg-blue-50 hover:bg-blue-100 border border-blue-200 px-3 py-1 rounded-md transition-all flex items-center gap-1.5 cursor-pointer shadow-2xs"
+                    className="text-xs font-bold text-slate-700 bg-[#F1F3F5] hover:bg-[#EBECEF] border border-[#E2E8F0] px-3 py-1 rounded-xl transition-all flex items-center gap-1.5 cursor-pointer shadow-xs"
                     title="Open the full 5-section format customizer form"
                   >
                     <span>🎨</span>
@@ -1020,53 +1020,53 @@ ${currentProfile.name}`
             </div>
 
             {/* SCROLLABLE MAIN CONTENT AREA */}
-            <div className="flex-1 overflow-y-auto min-h-0 pr-1 pb-2">
+            <div className="flex-1 overflow-y-auto min-h-0 pr-1 pb-2 custom-scrollbar">
             {activeReplyTab === "edit" && (
               <div className="flex flex-col gap-2.5">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   <div>
-                    <label className="block text-[11px] font-semibold text-gray-700 mb-0.5">To Recipient Email *</label>
+                    <label className="block text-[11px] font-semibold text-slate-700 mb-0.5">To Recipient Email *</label>
                     <input
                       type="email"
                       value={toEmail}
                       onChange={(e) => setToEmail(e.target.value)}
-                      className="w-full px-2.5 py-1 text-xs border border-gray-300 rounded outline-none focus:border-[#0052FF] font-medium"
+                      className="w-full px-2.5 py-1.5 text-xs bg-[#F8FAFC] border border-[#E2E8F0] focus:border-[#FF6B00] text-[#0F172A] placeholder-slate-400 rounded-xl outline-none font-medium focus:shadow-[0_0_12px_rgba(255,107,0,0.15)] transition-all"
                       placeholder="client@example.com"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-[11px] font-semibold text-gray-700 mb-0.5">Subject Line *</label>
+                    <label className="block text-[11px] font-semibold text-slate-700 mb-0.5">Subject Line *</label>
                     <input
                       type="text"
                       value={emailSubject}
                       onChange={(e) => setEmailSubject(e.target.value)}
-                      className="w-full px-2.5 py-1 text-xs border border-gray-300 rounded outline-none focus:border-[#0052FF] font-bold text-[#0F172A]"
+                      className="w-full px-2.5 py-1.5 text-xs bg-[#F8FAFC] border border-[#E2E8F0] focus:border-[#FF6B00] text-[#0F172A] placeholder-slate-400 rounded-xl outline-none font-bold focus:shadow-[0_0_12px_rgba(255,107,0,0.15)] transition-all"
                       placeholder="Re: Project Inquiry..."
                     />
                   </div>
                 </div>
 
                 {/* Reference Number Control (Editable & Optional) */}
-                <div className="bg-blue-50/70 border border-blue-200/80 rounded-lg p-2.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div className="bg-orange-50 border border-orange-200 rounded-xl p-2.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
-                    <label className="flex items-center gap-2 text-xs font-bold text-blue-950 cursor-pointer select-none">
+                    <label className="flex items-center gap-2 text-xs font-bold text-orange-900 cursor-pointer select-none">
                       <input
                         type="checkbox"
                         checked={showReferenceBadge}
                         onChange={(e) => setShowReferenceBadge(e.target.checked)}
-                        className="rounded text-[#0052FF] focus:ring-0 w-3.5 h-3.5 cursor-pointer"
+                        className="rounded text-[#FF6B00] focus:ring-0 w-3.5 h-3.5 cursor-pointer accent-[#FF6B00]"
                       />
                       <span>Header Reference Badge</span>
                     </label>
-                    <span className="text-[10px] text-blue-700/80 font-normal">
+                    <span className="text-[10px] text-slate-500 font-normal">
                       (Optional - uncheck to hide badge completely)
                     </span>
                   </div>
 
                   {showReferenceBadge && (
                     <div className="flex items-center gap-1.5 self-end sm:self-auto">
-                      <label className="text-[11px] font-semibold text-gray-700 whitespace-nowrap">
+                      <label className="text-[11px] font-semibold text-slate-700 whitespace-nowrap">
                         Edit Badge Text:
                       </label>
                       <input
@@ -1074,7 +1074,7 @@ ${currentProfile.name}`
                         value={referenceNumber}
                         onChange={(e) => setReferenceNumber(e.target.value)}
                         placeholder={`REF #${inquiry.id}`}
-                        className="px-2.5 py-1 text-xs border border-blue-300 rounded font-bold text-[#0052FF] bg-white outline-none focus:ring-2 focus:ring-blue-400 w-36 shadow-2xs"
+                        className="px-2.5 py-1 text-xs border border-orange-300 rounded-xl font-bold text-[#0F172A] bg-white outline-none focus:ring-2 focus:ring-[#FF6B00] w-36 shadow-xs"
                       />
                     </div>
                   )}
@@ -1082,8 +1082,8 @@ ${currentProfile.name}`
 
                 <div>
                   <div className="flex items-center justify-between mb-0.5">
-                    <label className="text-[11px] font-semibold text-gray-700">Email Message Body *</label>
-                    <span className="text-[10px] text-gray-400">
+                    <label className="text-[11px] font-semibold text-slate-700">Email Message Body *</label>
+                    <span className="text-[10px] text-slate-500">
                       Header banner, logo, video card &amp; footer are attached automatically
                     </span>
                   </div>
@@ -1091,19 +1091,19 @@ ${currentProfile.name}`
                     rows={7}
                     value={emailBody}
                     onChange={(e) => setEmailBody(e.target.value)}
-                    className="w-full p-2.5 text-xs border border-gray-300 rounded outline-none focus:border-[#0052FF] font-mono leading-relaxed resize-vertical bg-gray-50/50"
+                    className="w-full p-2.5 text-xs bg-[#F8FAFC] border border-[#E2E8F0] focus:border-[#FF6B00] text-[#0F172A] placeholder-slate-400 rounded-xl outline-none font-mono leading-relaxed resize-vertical focus:shadow-[0_0_12px_rgba(255,107,0,0.15)] custom-scrollbar"
                     placeholder="Type your reply message here..."
                   />
                 </div>
 
-                <label className="flex items-center gap-2 text-xs text-gray-700 cursor-pointer select-none">
+                <label className="flex items-center gap-2 text-xs text-slate-600 cursor-pointer select-none">
                   <input
                     type="checkbox"
                     checked={autoUpdateStatus}
                     onChange={(e) => setAutoUpdateStatus(e.target.checked)}
-                    className="rounded text-[#0052FF] focus:ring-0"
+                    className="rounded text-[#FF6B00] focus:ring-0 accent-[#FF6B00]"
                   />
-                  <span>Automatically mark inquiry status as <strong>RESPONDED</strong> upon sending</span>
+                  <span>Automatically mark inquiry status as <strong className="text-white">RESPONDED</strong> upon sending</span>
                 </label>
               </div>
             )}
@@ -1497,11 +1497,11 @@ Desk: ${currentProfile.email}`)
           </div>
 
           {/* PINNED BOTTOM ACTION FOOTER BAR */}
-          <div className="shrink-0 pt-2.5 pb-1 border-t border-gray-200 bg-white flex items-center justify-between flex-wrap gap-2 z-10">
+          <div className="shrink-0 pt-2.5 pb-1 border-t border-[#E2E8F0] bg-white flex items-center justify-between flex-wrap gap-2 z-10">
             <button
               type="button"
               onClick={() => setViewMode("details")}
-              className="px-3.5 py-1.5 text-xs font-semibold text-gray-600 hover:text-gray-900 bg-gray-100 rounded-md cursor-pointer transition-colors"
+              className="px-3.5 py-1.5 text-xs font-semibold text-slate-700 hover:text-[#0F172A] bg-[#F1F3F5] hover:bg-[#EBECEF] border border-[#E2E8F0] rounded-xl cursor-pointer transition-colors"
             >
               ← Back
             </button>
@@ -1524,7 +1524,7 @@ Desk: ${currentProfile.email}`)
                   }
                   setViewMode("edit_profile");
                 }}
-                className="px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-[#0052FF] text-xs font-bold rounded-md cursor-pointer transition-colors flex items-center gap-1 border border-blue-200 shadow-2xs"
+                className="px-3 py-1.5 bg-[#F1F3F5] hover:bg-[#EBECEF] text-slate-700 text-xs font-bold rounded-xl cursor-pointer transition-colors flex items-center gap-1 border border-[#E2E8F0] shadow-xs"
                 title="Open the complete 5-section format design form"
               >
                 <span>🎨</span>
@@ -1535,7 +1535,7 @@ Desk: ${currentProfile.email}`)
               <button
                 type="button"
                 onClick={handleCopyStyledHtml}
-                className="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-800 text-xs font-bold rounded cursor-pointer transition-colors flex items-center gap-1 border border-gray-300"
+                className="px-3 py-1.5 bg-[#F1F3F5] hover:bg-[#EBECEF] text-slate-700 text-xs font-bold rounded-xl cursor-pointer transition-colors flex items-center gap-1 border border-[#E2E8F0] shadow-xs"
                 title="Copies complete styled format with logo, video card & footer to clipboard"
               >
                 <span>📋</span>
@@ -1546,7 +1546,7 @@ Desk: ${currentProfile.email}`)
               <button
                 type="button"
                 onClick={handleOpenGmailWeb}
-                className="px-3.5 py-1.5 bg-[#EA4335] hover:bg-[#D93025] text-white text-xs font-bold rounded shadow-xs cursor-pointer transition-colors flex items-center gap-1.5"
+                className="px-3.5 py-1.5 bg-[#EA4335] hover:bg-[#D93025] text-white text-xs font-bold rounded-xl shadow-[0_2px_8px_rgba(234,67,53,0.25)] cursor-pointer transition-colors flex items-center gap-1.5"
                 title="Opens Google Mail pre-filled and copies rich format to clipboard"
               >
                 <span>Open in Gmail</span>
@@ -1558,10 +1558,7 @@ Desk: ${currentProfile.email}`)
                 type="button"
                 disabled={isSending}
                 onClick={handleSendServerEmail}
-                className="px-4 py-1.5 text-white text-xs font-bold rounded shadow-xs cursor-pointer transition-colors flex items-center gap-1.5 disabled:opacity-50"
-                style={{
-                  backgroundColor: currentProfile.accentColor || "#0052FF",
-                }}
+                className="px-4 py-1.5 text-white text-xs font-bold rounded-xl shadow-[0_2px_12px_rgba(255,107,0,0.25)] cursor-pointer transition-all flex items-center gap-1.5 disabled:opacity-50 bg-[#FF6B00] hover:bg-[#e05d00] active:scale-95"
               >
                 <span>{isSending ? "Sending..." : `Send as ${currentProfile.email.split("@")[0]}`}</span>
                 <span>📤</span>

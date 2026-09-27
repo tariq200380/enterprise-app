@@ -121,8 +121,18 @@ export default function AdminPage() {
 
   if (!authChecked) {
     return (
-      <div className="h-screen bg-[#070C18] flex items-center justify-center">
-        <div className="w-6 h-6 border-2 border-[#0052FF] border-t-transparent rounded-full animate-spin" />
+      <div className="h-screen bg-[#0B1120] flex flex-col items-center justify-center relative overflow-hidden">
+        {/* Ambient Orange Glow */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: "radial-gradient(circle at 50% 50%, rgba(255, 107, 0, 0.15) 0%, rgba(255, 107, 0, 0.03) 45%, transparent 70%)",
+          }}
+        />
+        <div className="relative z-10 flex flex-col items-center gap-3">
+          <div className="w-8 h-8 border-2 border-[#FF6B00] border-t-transparent rounded-full animate-spin shadow-[0_0_15px_rgba(255,107,0,0.4)]" />
+          <span className="text-xs font-medium text-slate-400 tracking-wider uppercase font-outfit">Loading Master CMS...</span>
+        </div>
       </div>
     );
   }
@@ -131,29 +141,44 @@ export default function AdminPage() {
   if (isAuthenticated && !isAuthorized) {
     const is2FAMissing = forbiddenError?.includes("Two-factor authentication") || forbiddenError?.includes("2FA");
     return (
-      <div className="min-h-screen bg-[#070C18] flex items-center justify-center p-4 relative overflow-hidden font-sans">
-        <div className={`w-full max-w-md bg-[#0F172A] border ${is2FAMissing ? "border-amber-500/30" : "border-red-500/30"} rounded-2xl p-8 text-center text-white shadow-2xl backdrop-blur-md`}>
-          <div className={`w-14 h-14 rounded-full ${is2FAMissing ? "bg-amber-500/20 text-amber-400" : "bg-red-500/20 text-red-400"} flex items-center justify-center mx-auto mb-4 text-2xl font-bold`}>
+      <div className="min-h-screen bg-[#0B1120] flex items-center justify-center p-4 relative overflow-hidden font-sans">
+        {/* Ambient Orange Radial Glow matching How We Deliver */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: "radial-gradient(circle at 50% 30%, rgba(255, 107, 0, 0.16) 0%, rgba(255, 107, 0, 0.04) 50%, transparent 75%)",
+          }}
+        />
+        {/* Blueprint Grid Pattern */}
+        <div
+          className="absolute inset-0 opacity-[0.035] pointer-events-none"
+          style={{
+            backgroundImage: "linear-gradient(to right, #FFFFFF 1px, transparent 1px), linear-gradient(to bottom, #FFFFFF 1px, transparent 1px)",
+            backgroundSize: "36px 36px",
+          }}
+        />
+        <div className={`w-full max-w-md bg-[#0F172A]/95 border ${is2FAMissing ? "border-amber-500/30 shadow-[0_0_35px_rgba(245,158,11,0.15)]" : "border-red-500/30 shadow-[0_0_35px_rgba(239,68,68,0.15)]"} rounded-2xl p-8 text-center text-white shadow-2xl backdrop-blur-md relative z-10`}>
+          <div className={`w-14 h-14 rounded-2xl ${is2FAMissing ? "bg-amber-500/10 text-amber-400 border border-amber-500/20" : "bg-red-500/10 text-red-400 border border-red-500/20"} flex items-center justify-center mx-auto mb-4 text-2xl font-bold`}>
             {is2FAMissing ? "🔐" : "🚫"}
           </div>
-          <h1 className="text-xl font-bold text-white tracking-tight mb-2">
+          <h1 className="text-xl font-bold font-outfit text-white tracking-tight mb-2">
             {is2FAMissing ? "2FA Setup Required" : "Access Denied (403)"}
           </h1>
-          <p className="text-xs text-[#94A3B8] mb-6">
+          <p className="text-xs text-slate-400 mb-6 leading-relaxed">
             {forbiddenError || "Your account does not possess administrator privileges ('admin' or 'super_admin' role required)."}
           </p>
           <div className="flex flex-col gap-2.5">
             {is2FAMissing && (
               <a
                 href="/setup-2fa"
-                className="w-full bg-[#0052FF] hover:bg-[#0042D0] text-white font-semibold text-xs py-2.5 rounded-lg transition-all"
+                className="w-full bg-[#FF6B00] hover:bg-[#e05d00] text-white font-semibold text-xs py-2.5 rounded-xl transition-all shadow-[0_2px_12px_rgba(255,107,0,0.35)]"
               >
                 Set Up Two-Factor Authentication &rarr;
               </a>
             )}
             <button
               onClick={handleLogout}
-              className="w-full bg-[#1E293B] hover:bg-[#334155] text-white font-semibold text-xs py-2.5 rounded-lg border border-[#334155] transition-all"
+              className="w-full bg-[#1E293B] hover:bg-[#2A374D] text-white font-semibold text-xs py-2.5 rounded-xl border border-slate-700 transition-all cursor-pointer"
             >
               Sign Out & Switch Account
             </button>
@@ -166,25 +191,38 @@ export default function AdminPage() {
   // 401 Unauthorized: Not signed in via Clerk
   if (!isAuthenticated || !isAuthorized) {
     return (
-      <div className="min-h-screen bg-[#070C18] flex items-center justify-center p-4 relative overflow-hidden font-sans select-none">
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-[#0052FF]/15 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-[#FF6B00]/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="min-h-screen bg-[#0B1120] flex items-center justify-center p-4 relative overflow-hidden font-sans select-none">
+        {/* Ambient Orange Glow matching main site */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: "radial-gradient(ellipse at 50% 30%, rgba(255, 107, 0, 0.16) 0%, rgba(255, 107, 0, 0.04) 50%, rgba(11, 17, 32, 0) 80%)",
+          }}
+        />
+        {/* Blueprint Grid Pattern */}
+        <div
+          className="absolute inset-0 opacity-[0.035] pointer-events-none"
+          style={{
+            backgroundImage: "linear-gradient(to right, #FFFFFF 1px, transparent 1px), linear-gradient(to bottom, #FFFFFF 1px, transparent 1px)",
+            backgroundSize: "36px 36px",
+          }}
+        />
 
-        <div className="w-full max-w-md bg-[#0F172A]/90 border border-[#1E293B] rounded-2xl shadow-2xl p-8 relative z-10 backdrop-blur-md">
+        <div className="w-full max-w-md bg-[#0F172A]/95 border border-[#1E293B] rounded-3xl shadow-[0_0_50px_rgba(255,107,0,0.1)] p-8 relative z-10 backdrop-blur-md">
           <div className="text-center mb-6">
             <div className="inline-flex items-center gap-2 mb-3">
-              <span className="text-2xl font-black tracking-wider text-white">
+              <span className="text-2xl font-black tracking-wider text-white font-outfit">
                 CREED<span className="text-[#FF6B00]">TECH</span>
               </span>
             </div>
             <div className="flex items-center justify-center gap-2 mb-2">
-              <span className="h-2 w-2 rounded-full bg-[#38BDF8] animate-pulse" />
-              <span className="text-xs font-semibold tracking-wider text-[#38BDF8] uppercase">
+              <span className="h-2 w-2 rounded-full bg-[#FF6B00] shadow-[0_0_8px_rgba(255,107,0,0.8)] animate-pulse" />
+              <span className="text-xs font-semibold tracking-wider text-orange-400 uppercase font-outfit">
                 Enterprise Admin Portal
               </span>
             </div>
-            <h1 className="text-xl font-bold text-white tracking-tight">Admin Authentication</h1>
-            <p className="text-xs text-[#94A3B8] mt-1">
+            <h1 className="text-xl font-bold font-outfit text-white tracking-tight">Admin Authentication</h1>
+            <p className="text-xs text-slate-400 mt-1">
               Protected by Clerk server-side authentication boundary.
             </p>
           </div>
@@ -198,17 +236,18 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="flex h-screen bg-[#F8FAFC] text-[#0F172A] font-sans antialiased overflow-hidden">
+    <div className="flex h-screen bg-[#F7F6F5] text-[#0F172A] font-sans antialiased overflow-hidden selection:bg-[#FF6B00]/20 selection:text-[#FF6B00]">
       {/* Toast Notification */}
       {toast && (
         <div
-          className={`fixed bottom-6 right-6 z-50 px-4 py-3 rounded-lg shadow-xl text-xs font-bold transition-all transform translate-y-0 ${
+          className={`fixed bottom-6 right-6 z-50 px-4 py-3 rounded-xl shadow-2xl text-xs font-bold transition-all duration-300 transform translate-y-0 backdrop-blur-md flex items-center gap-2.5 ${
             toast.type === "error"
-              ? "bg-red-600 text-white shadow-red-500/20"
-              : "bg-[#0052FF] text-white shadow-blue-500/20"
+              ? "bg-[#0F172A] text-red-300 border border-red-500/30 shadow-[0_4px_25px_rgba(239,68,68,0.25)]"
+              : "bg-[#0F172A] text-white border border-[#FF6B00]/40 shadow-[0_4px_25px_rgba(255,107,0,0.28)]"
           }`}
         >
-          {toast.message}
+          <span className="w-2 h-2 rounded-full bg-[#FF6B00] animate-pulse" />
+          <span>{toast.message}</span>
         </div>
       )}
 
@@ -230,7 +269,16 @@ export default function AdminPage() {
         telemetry={telemetry}
       />
 
-      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
+        {/* Soft Orange Ambient Glow on Right Content Area */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              "radial-gradient(circle at 85% 15%, rgba(255, 107, 0, 0.05) 0%, rgba(255, 107, 0, 0.01) 40%, transparent 70%)",
+          }}
+        />
+
         {/* Header */}
         <AdminHeader
           searchQuery={searchQuery}
@@ -241,7 +289,7 @@ export default function AdminPage() {
         />
 
         {/* Dynamic Module Content */}
-        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 bg-[#F8FAFC]">
+        <main className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-8 bg-[#F7F6F5] text-[#0F172A] relative z-10">
           {activeTab === "dashboard" && (
             <DashboardModule
               setActiveTab={setActiveTab}

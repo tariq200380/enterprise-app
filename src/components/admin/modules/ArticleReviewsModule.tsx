@@ -174,7 +174,7 @@ export default function ArticleReviewsModule({
             onClick={() => setFilter("ALL")}
             className={`px-3.5 py-1.5 text-[11px] font-bold rounded cursor-pointer transition-all ${
               filter === "ALL"
-                ? "bg-[#0F172A] text-white shadow-sm"
+                ? "bg-[#FF6B00] text-white shadow-xs"
                 : "bg-white text-[#475569] border border-[#CBD5E1] hover:bg-slate-50"
             }`}
           >

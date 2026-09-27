@@ -406,18 +406,27 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
   return (
     <div className="space-y-6">
       {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[#0F172A] border border-[#1E293B] rounded-xl p-5 text-white">
-        <div>
-          <h2 className="text-xl font-bold tracking-tight m-0 flex items-center gap-2">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white border border-[#E2E8F0] rounded-2xl p-5 sm:p-6 text-[#0F172A] shadow-xs relative overflow-hidden select-none">
+        {/* Ambient Orange Radial Glow matching main site */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              "radial-gradient(circle at 85% 25%, rgba(255, 107, 0, 0.1) 0%, rgba(255, 107, 0, 0.02) 50%, transparent 75%)",
+          }}
+        />
+
+        <div className="relative z-10">
+          <h2 className="text-xl font-bold tracking-tight m-0 flex items-center gap-2 text-[#0F172A] font-outfit">
             <span>✉️</span>
             <span>Enterprise Email Management &amp; Operations</span>
           </h2>
-          <p className="text-xs text-gray-400 mt-1 max-w-2xl leading-relaxed">
+          <p className="text-xs text-slate-500 mt-1 max-w-2xl leading-relaxed">
             Centralized operations hub to manage multi-department business emails (support@, security@, solutions@, desk5@), custom branded HTML formats, SMTP connection, and replying to client inquiries.
           </p>
         </div>
 
-        <div className="flex items-center gap-2.5 flex-wrap">
+        <div className="relative z-10 flex items-center gap-2.5 flex-wrap">
           {/* Main Action Button for replying to inquiries */}
           <button
             type="button"
@@ -428,13 +437,13 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                 setSelectedInquiryForReply(pending);
               }
             }}
-            className="px-4 py-2 bg-gradient-to-r from-[#0052FF] to-blue-600 hover:from-[#0042D0] hover:to-blue-700 text-white text-xs font-bold rounded-lg cursor-pointer transition-all flex items-center gap-2 shadow-md shrink-0 ring-1 ring-blue-400/40"
+            className="px-4 py-2 bg-[#FF6B00] hover:bg-[#e05d00] text-white text-xs font-bold rounded-xl cursor-pointer transition-all flex items-center gap-2 shadow-[0_2px_12px_rgba(255,107,0,0.25)] shrink-0 active:scale-95"
             title="Open incoming client inquiries to send branded replies"
           >
             <span>💬</span>
             <span>Reply to Inquiries</span>
             {inquiries.filter((i) => i.status === "NEW" || i.status === "PENDING").length > 0 && (
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-amber-400 text-amber-950 shadow-xs animate-pulse">
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-white text-[#FF6B00] shadow-xs">
                 {inquiries.filter((i) => i.status === "NEW" || i.status === "PENDING").length} New
               </span>
             )}
@@ -468,7 +477,7 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                 defaultMessageTemplate: `Dear {client_name},\n\nThank you for reaching out to Creed Tech regarding "{service}".\n\nBest regards,\nCreed Tech Team`,
               });
             }}
-            className="px-3.5 py-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs font-bold rounded-lg cursor-pointer transition-all flex items-center gap-1.5 shrink-0"
+            className="px-3.5 py-2 bg-[#F1F3F5] hover:bg-[#EBECEF] border border-[#E2E8F0] text-slate-700 text-xs font-bold rounded-xl cursor-pointer transition-all flex items-center gap-1.5 shrink-0 shadow-xs"
           >
             <span>➕</span>
             <span>Add Business Email</span>
@@ -480,34 +489,34 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         <div
           onClick={() => setActiveSubTab("desks")}
-          className={`p-3.5 rounded-xl border transition-all cursor-pointer ${
+          className={`p-4 rounded-2xl border transition-all cursor-pointer ${
             activeSubTab === "desks"
-              ? "bg-[#0052FF]/10 border-[#0052FF] shadow-xs"
-              : "bg-[#0F172A] border-[#1E293B] hover:border-gray-600"
+              ? "bg-white border-orange-300 shadow-[0_2px_12px_rgba(255,107,0,0.15)] ring-1 ring-[#FF6B00]"
+              : "bg-white border-[#E2E8F0] hover:border-orange-200 shadow-xs"
           }`}
         >
-          <div className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1 flex items-center gap-1">
+          <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1 flex items-center gap-1">
             <span>🏢</span>
             <span>Business Desks</span>
           </div>
-          <div className="text-xl font-black text-white">{profiles.length}</div>
-          <div className="text-[10px] text-gray-400 mt-0.5 font-medium">Configured Email Profiles</div>
+          <div className="text-2xl font-black text-[#0F172A] font-outfit">{profiles.length}</div>
+          <div className="text-[10px] text-slate-500 mt-0.5 font-medium">Configured Email Profiles</div>
         </div>
 
         <div
           onClick={() => setActiveSubTab("inquiries")}
-          className={`p-3.5 rounded-xl border transition-all cursor-pointer ${
+          className={`p-4 rounded-2xl border transition-all cursor-pointer ${
             activeSubTab === "inquiries"
-              ? "bg-[#0052FF]/10 border-[#0052FF] shadow-xs"
-              : "bg-[#0F172A] border-[#1E293B] hover:border-gray-600"
+              ? "bg-white border-orange-300 shadow-[0_2px_12px_rgba(255,107,0,0.15)] ring-1 ring-[#FF6B00]"
+              : "bg-white border-[#E2E8F0] hover:border-orange-200 shadow-xs"
           }`}
         >
-          <div className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1 flex items-center gap-1">
+          <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1 flex items-center gap-1">
             <span>💬</span>
             <span>Client Inquiries</span>
           </div>
-          <div className="text-xl font-black text-white">{inquiries.length}</div>
-          <div className="text-[10px] text-gray-400 mt-0.5 font-medium">Total Inbound Leads</div>
+          <div className="text-2xl font-black text-[#0F172A] font-outfit">{inquiries.length}</div>
+          <div className="text-[10px] text-slate-500 mt-0.5 font-medium">Total Inbound Leads</div>
         </div>
 
         <div
@@ -515,57 +524,57 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
             setActiveSubTab("inquiries");
             setInquiryFilter("NEW");
           }}
-          className={`p-3.5 rounded-xl border transition-all cursor-pointer ${
+          className={`p-4 rounded-2xl border transition-all cursor-pointer ${
             inquiries.filter((i) => i.status === "NEW" || i.status === "PENDING").length > 0
-              ? "bg-amber-950/30 border-amber-500/40 hover:border-amber-400"
-              : "bg-[#0F172A] border-[#1E293B] hover:border-gray-600"
+              ? "bg-amber-50/70 border-amber-300 hover:border-amber-400 shadow-xs"
+              : "bg-white border-[#E2E8F0] hover:border-orange-200 shadow-xs"
           }`}
         >
-          <div className="text-[10px] font-bold text-amber-400 uppercase tracking-wider mb-1 flex items-center gap-1">
+          <div className="text-[10px] font-bold text-amber-700 uppercase tracking-wider mb-1 flex items-center gap-1">
             <span>⏳</span>
             <span>Pending Replies</span>
           </div>
-          <div className="text-xl font-black text-amber-300">
+          <div className="text-2xl font-black text-amber-700 font-outfit">
             {inquiries.filter((i) => i.status === "NEW" || i.status === "PENDING").length}
           </div>
-          <div className="text-[10px] text-amber-300/80 mt-0.5 font-medium">Ready for immediate response</div>
+          <div className="text-[10px] text-amber-600 mt-0.5 font-medium">Ready for immediate response</div>
         </div>
 
         <div
           onClick={() => setActiveSubTab("smtp")}
-          className={`p-3.5 rounded-xl border transition-all cursor-pointer ${
+          className={`p-4 rounded-2xl border transition-all cursor-pointer ${
             activeSubTab === "smtp"
-              ? "bg-[#0052FF]/10 border-[#0052FF] shadow-xs"
-              : "bg-[#0F172A] border-[#1E293B] hover:border-gray-600"
+              ? "bg-white border-orange-300 shadow-[0_2px_12px_rgba(255,107,0,0.15)] ring-1 ring-[#FF6B00]"
+              : "bg-white border-[#E2E8F0] hover:border-orange-200 shadow-xs"
           }`}
         >
-          <div className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1 flex items-center gap-1">
+          <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1 flex items-center gap-1">
             <span>⚙️</span>
             <span>SMTP Server</span>
           </div>
-          <div className="text-sm font-bold flex items-center gap-1.5 mt-1 text-white">
+          <div className="text-sm font-bold flex items-center gap-1.5 mt-1 text-[#0F172A]">
             <span
               className={`w-2.5 h-2.5 rounded-full inline-block ${
-                isSmtpConfigured ? "bg-emerald-400" : "bg-amber-400"
+                isSmtpConfigured ? "bg-emerald-500" : "bg-amber-500"
               }`}
             />
             <span>{isSmtpConfigured ? "Connected" : "Local Mode"}</span>
           </div>
-          <div className="text-[10px] text-gray-400 mt-1 font-medium font-mono truncate">
+          <div className="text-[10px] text-slate-500 mt-1 font-medium font-mono truncate">
             {smtpHost || "mail.server"}
           </div>
         </div>
       </div>
 
       {/* Sub-Navigation Tabs */}
-      <div className="flex items-center gap-2 bg-[#0F172A] border border-[#1E293B] p-2 rounded-xl text-xs font-semibold overflow-x-auto">
+      <div className="flex items-center gap-2 bg-white border border-[#E2E8F0] p-1.5 rounded-2xl text-xs font-semibold overflow-x-auto shadow-xs">
         <button
           type="button"
           onClick={() => setActiveSubTab("desks")}
-          className={`px-4 py-2 rounded-lg transition-all cursor-pointer flex items-center gap-2 ${
+          className={`px-4 py-2 rounded-xl transition-all cursor-pointer flex items-center gap-2 ${
             activeSubTab === "desks"
-              ? "bg-[#0052FF] text-white font-bold shadow-xs"
-              : "text-gray-400 hover:text-white hover:bg-white/5"
+              ? "bg-[#FF6B00] text-white font-bold shadow-[0_2px_10px_rgba(255,107,0,0.25)]"
+              : "text-slate-600 hover:text-[#0F172A] hover:bg-[#F1F3F5]"
           }`}
         >
           <span>🏢</span>
@@ -575,10 +584,10 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
         <button
           type="button"
           onClick={() => setActiveSubTab("inquiries")}
-          className={`px-4 py-2 rounded-lg transition-all cursor-pointer flex items-center gap-2 ${
+          className={`px-4 py-2 rounded-xl transition-all cursor-pointer flex items-center gap-2 ${
             activeSubTab === "inquiries"
-              ? "bg-[#0052FF] text-white font-bold shadow-xs"
-              : "text-gray-400 hover:text-white hover:bg-white/5"
+              ? "bg-[#FF6B00] text-white font-bold shadow-[0_2px_10px_rgba(255,107,0,0.25)]"
+              : "text-slate-600 hover:text-[#0F172A] hover:bg-[#F1F3F5]"
           }`}
         >
           <span>💬</span>
@@ -588,7 +597,7 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
               {inquiries.filter((i) => i.status === "NEW" || i.status === "PENDING").length} New
             </span>
           ) : (
-            <span className="px-1.5 py-0.2 rounded-full text-[10px] font-medium bg-gray-800 text-gray-400">
+            <span className="px-1.5 py-0.2 rounded-full text-[10px] font-medium bg-[#EBECEF] text-slate-600">
               {inquiries.length}
             </span>
           )}
@@ -597,17 +606,17 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
         <button
           type="button"
           onClick={() => setActiveSubTab("smtp")}
-          className={`px-4 py-2 rounded-lg transition-all cursor-pointer flex items-center gap-2 ${
+          className={`px-4 py-2 rounded-xl transition-all cursor-pointer flex items-center gap-2 ${
             activeSubTab === "smtp"
-              ? "bg-[#0052FF] text-white font-bold shadow-xs"
-              : "text-gray-400 hover:text-white hover:bg-white/5"
+              ? "bg-[#FF6B00] text-white font-bold shadow-[0_2px_10px_rgba(255,107,0,0.25)]"
+              : "text-slate-600 hover:text-[#0F172A] hover:bg-[#F1F3F5]"
           }`}
         >
           <span>⚙️</span>
           <span>SMTP Server Settings</span>
           <span
             className={`w-2 h-2 rounded-full inline-block ${
-              isSmtpConfigured ? "bg-emerald-400" : "bg-amber-400"
+              isSmtpConfigured ? "bg-emerald-500" : "bg-amber-500"
             }`}
             title={isSmtpConfigured ? "SMTP Connected" : "Local Mode"}
           />
@@ -1462,7 +1471,7 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
           {/* Left Side: Profiles Cards (5 Cols) */}
           <div className="md:col-span-5 flex flex-col gap-3">
-          <div className="text-xs font-bold uppercase tracking-wider text-gray-400">
+          <div className="text-xs font-bold uppercase tracking-wider text-slate-500 font-outfit">
             Active Email Profiles ({profiles.length})
           </div>
 
@@ -1473,10 +1482,10 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                 <div
                   key={p.id}
                   onClick={() => setSelectedProfileId(p.id)}
-                  className={`p-4 rounded-xl border transition-all cursor-pointer ${
+                  className={`p-4 rounded-2xl border transition-all cursor-pointer ${
                     isSelected
-                      ? "bg-white text-gray-900 border-gray-400 shadow-md ring-2 ring-[#0052FF]"
-                      : "bg-[#0F172A] text-gray-200 border-[#1E293B] hover:border-gray-600 hover:bg-[#131C31]"
+                      ? "bg-white text-[#0F172A] border-orange-300 shadow-[0_4px_16px_rgba(255,107,0,0.15)] ring-1 ring-[#FF6B00]"
+                      : "bg-white text-[#0F172A] border-[#E2E8F0] hover:border-orange-200 hover:shadow-xs shadow-xs"
                   }`}
                 >
                   <div className="flex items-center justify-between gap-3">
@@ -1489,7 +1498,7 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                       </div>
                       <div>
                         <div className="flex items-center gap-2">
-                          <span className={`font-bold text-sm ${isSelected ? 'text-gray-900' : 'text-white'}`}>
+                          <span className="font-bold text-sm text-[#0F172A] font-outfit">
                             {p.name}
                           </span>
                           <span
@@ -1499,7 +1508,7 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                             {p.department}
                           </span>
                         </div>
-                        <div className={`font-mono text-xs mt-0.5 ${isSelected ? 'text-gray-600' : 'text-gray-400'}`}>
+                        <div className="font-mono text-xs mt-0.5 text-slate-500">
                           {p.email}
                         </div>
                       </div>
@@ -1509,7 +1518,7 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                       <button
                         type="button"
                         onClick={() => setEditingProfile(p)}
-                        className="px-2.5 py-1 bg-white hover:bg-gray-100 text-gray-800 border border-gray-300 rounded font-semibold text-xs cursor-pointer shadow-xs"
+                        className="px-2.5 py-1 bg-[#F1F3F5] hover:bg-[#EBECEF] text-slate-700 border border-[#E2E8F0] rounded-xl font-semibold text-xs cursor-pointer shadow-xs transition-colors"
                         title="Edit design format, images & address"
                       >
                         ✏️ Edit
@@ -1518,7 +1527,7 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                         <button
                           type="button"
                           onClick={() => handleDeleteProfile(p.id)}
-                          className="px-2.5 py-1 bg-white hover:bg-red-50 text-red-600 border border-red-200 rounded font-semibold text-xs cursor-pointer"
+                          className="px-2.5 py-1 bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 rounded-xl font-semibold text-xs cursor-pointer transition-colors"
                           title="Delete profile"
                         >
                           🗑️
@@ -1527,7 +1536,7 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                     </div>
                   </div>
 
-                  <div className={`mt-2 pt-2 border-t text-[11px] flex items-center justify-between ${isSelected ? 'border-gray-200 text-gray-500' : 'border-[#1E293B] text-gray-400'}`}>
+                  <div className="mt-2 pt-2 border-t border-[#E2E8F0] text-[11px] text-slate-500 flex items-center justify-between">
                     <span>{p.phone || "No direct phone"}</span>
                     <span>{p.videoThumbnail ? "🎬 Has Video Demo" : "No Media"}</span>
                   </div>
@@ -1539,26 +1548,28 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
 
         {/* Right Side: Active Profile Detailed View & Test (7 Cols) */}
         <div className="md:col-span-7 flex flex-col gap-4">
-          <div className="flex items-center justify-between">
-            <div className="text-xs font-bold uppercase tracking-wider text-gray-400 flex items-center gap-2">
+          <div className="flex items-center justify-between flex-wrap gap-2">
+            <div className="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-2 font-outfit">
               <span>Live Preview &amp; Actions for:</span>
-              <strong className="text-white normal-case font-bold">{activeProfile.name}</strong>
+              <strong className="text-[#0F172A] normal-case font-bold">{activeProfile.name}</strong>
             </div>
 
             <div className="flex items-center gap-2">
               <button
                 type="button"
                 onClick={() => setEditingProfile(activeProfile)}
-                className="px-3 py-1 bg-[#0052FF] hover:bg-[#0042D0] text-white text-xs font-bold rounded cursor-pointer transition-colors flex items-center gap-1 shadow-xs"
+                className="px-3.5 py-1.5 bg-[#FF6B00] hover:bg-[#e05d00] text-white text-xs font-bold rounded-xl cursor-pointer transition-all flex items-center gap-1.5 shadow-[0_2px_10px_rgba(255,107,0,0.25)] active:scale-95"
               >
-                <span>✏️ Edit Format &amp; Design</span>
+                <span>✏️</span>
+                <span>Edit Format &amp; Design</span>
               </button>
               <button
                 type="button"
                 onClick={() => handleCopyStyledHtml(activeProfile)}
-                className="px-3 py-1 bg-gray-800 hover:bg-gray-700 text-white text-xs font-bold rounded cursor-pointer transition-colors flex items-center gap-1 border border-gray-600"
+                className="px-3.5 py-1.5 bg-[#F1F3F5] hover:bg-[#EBECEF] text-slate-700 text-xs font-bold rounded-xl cursor-pointer transition-all flex items-center gap-1.5 border border-[#E2E8F0] shadow-xs"
               >
-                <span>📋 Copy Styled Format</span>
+                <span>📋</span>
+                <span>Copy Styled Format</span>
               </button>
             </div>
           </div>
@@ -1842,8 +1853,8 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
           </div>
 
           {/* Test Email Broadcast Box */}
-          <div className="bg-[#0F172A] border border-[#1E293B] rounded-xl p-4 text-white">
-            <span className="text-xs font-bold text-gray-300 block mb-2">
+          <div className="bg-white border border-[#E2E8F0] rounded-xl p-4 shadow-xs">
+            <span className="text-xs font-bold text-[#0F172A] block mb-2">
               🧪 Test Live Email Delivery for {activeProfile.name}
             </span>
             <div className="flex gap-2">
@@ -1852,13 +1863,13 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                 value={testEmailRecipient}
                 onChange={(e) => setTestEmailRecipient(e.target.value)}
                 placeholder="Enter recipient email (e.g. your-email@gmail.com)"
-                className="flex-1 px-3 py-1.5 text-xs bg-black/40 border border-gray-700 rounded-md text-white outline-none focus:border-[#0052FF]"
+                className="flex-1 px-3 py-1.5 text-xs bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg text-[#0F172A] placeholder-slate-400 outline-none focus:border-[#FF6B00] focus:ring-1 focus:ring-[#FF6B00]/30 transition-all"
               />
               <button
                 type="button"
                 disabled={isSendingTest}
                 onClick={handleSendTestEmail}
-                className="px-4 py-1.5 bg-[#0052FF] hover:bg-[#0042D0] text-white text-xs font-bold rounded-md cursor-pointer transition-colors disabled:opacity-50 shrink-0"
+                className="px-4 py-1.5 bg-[#FF6B00] hover:bg-[#e05e00] text-white text-xs font-bold rounded-lg cursor-pointer transition-all shadow-[0_2px_8px_rgba(255,107,0,0.25)] hover:shadow-[0_4px_14px_rgba(255,107,0,0.35)] disabled:opacity-50 shrink-0"
               >
                 {isSendingTest ? "Sending..." : "Send Test Email"}
               </button>
@@ -1872,9 +1883,9 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
       {activeSubTab === "inquiries" && (
         <div className="space-y-4">
           {/* Controls Bar: Search & Status Filters */}
-          <div className="bg-[#0F172A] border border-[#1E293B] rounded-xl p-4 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
+          <div className="bg-white border border-[#E2E8F0] rounded-xl p-4 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 shadow-xs">
             <div className="relative flex-1">
-              <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400 text-xs">
+              <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 text-xs">
                 🔍
               </span>
               <input
@@ -1882,13 +1893,13 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                 value={inquirySearch}
                 onChange={(e) => setInquirySearch(e.target.value)}
                 placeholder="Search by client name, email, company, service, message, or ID..."
-                className="w-full pl-8 pr-4 py-2 bg-black/40 border border-gray-700 rounded-lg text-xs text-white placeholder-gray-500 focus:outline-none focus:border-[#0052FF]"
+                className="w-full pl-8 pr-4 py-2 bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg text-xs text-[#0F172A] placeholder-slate-400 focus:outline-none focus:border-[#FF6B00] focus:ring-1 focus:ring-[#FF6B00]/30 transition-all"
               />
               {inquirySearch && (
                 <button
                   type="button"
                   onClick={() => setInquirySearch("")}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-white text-xs cursor-pointer"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-700 text-xs cursor-pointer"
                 >
                   ✕
                 </button>
@@ -1896,14 +1907,14 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
             </div>
 
             <div className="flex items-center gap-2 flex-wrap">
-              <div className="flex bg-black/40 p-0.5 rounded-lg border border-gray-800 text-xs">
+              <div className="flex bg-[#F1F3F5] p-0.5 rounded-lg border border-[#E2E8F0] text-xs">
                 <button
                   type="button"
                   onClick={() => setInquiryFilter("ALL")}
                   className={`px-3 py-1.5 rounded-md font-semibold transition-all cursor-pointer ${
                     inquiryFilter === "ALL"
-                      ? "bg-[#0052FF] text-white"
-                      : "text-gray-400 hover:text-white"
+                      ? "bg-[#FF6B00] text-white shadow-xs"
+                      : "text-slate-600 hover:text-[#0F172A]"
                   }`}
                 >
                   All ({inquiries.length})
@@ -1913,12 +1924,12 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                   onClick={() => setInquiryFilter("NEW")}
                   className={`px-3 py-1.5 rounded-md font-semibold transition-all cursor-pointer flex items-center gap-1.5 ${
                     inquiryFilter === "NEW"
-                      ? "bg-amber-500 text-black font-bold"
-                      : "text-gray-400 hover:text-white"
+                      ? "bg-amber-500 text-white font-bold shadow-xs"
+                      : "text-slate-600 hover:text-[#0F172A]"
                   }`}
                 >
                   <span>Pending / New</span>
-                  <span className="px-1.5 py-0.2 rounded-full text-[10px] bg-black/30">
+                  <span className="px-1.5 py-0.2 rounded-full text-[10px] bg-black/20 text-white">
                     {inquiries.filter((i) => i.status === "NEW" || i.status === "PENDING").length}
                   </span>
                 </button>
@@ -1927,8 +1938,8 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                   onClick={() => setInquiryFilter("RESPONDED")}
                   className={`px-3 py-1.5 rounded-md font-semibold transition-all cursor-pointer ${
                     inquiryFilter === "RESPONDED"
-                      ? "bg-emerald-600 text-white font-bold"
-                      : "text-gray-400 hover:text-white"
+                      ? "bg-emerald-600 text-white font-bold shadow-xs"
+                      : "text-slate-600 hover:text-[#0F172A]"
                   }`}
                 >
                   Responded ({inquiries.filter((i) => i.status === "RESPONDED" || i.status === "RESOLVED").length})
@@ -1938,7 +1949,7 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
               <button
                 type="button"
                 onClick={() => fetchInquiries()}
-                className="px-3 py-1.5 bg-white/5 hover:bg-white/10 border border-gray-700 text-gray-300 hover:text-white rounded-lg text-xs font-semibold cursor-pointer transition-all flex items-center gap-1.5"
+                className="px-3 py-1.5 bg-[#F1F3F5] hover:bg-[#E2E8F0] border border-[#E2E8F0] text-slate-700 hover:text-[#0F172A] rounded-lg text-xs font-semibold cursor-pointer transition-all flex items-center gap-1.5"
                 title="Refresh inquiries"
               >
                 <span>🔄</span>
@@ -1949,15 +1960,15 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
 
           {/* Inquiries Content Area */}
           {isLoadingInquiries ? (
-            <div className="bg-[#0F172A] border border-[#1E293B] rounded-xl p-12 text-center text-gray-400">
-              <div className="inline-block w-8 h-8 border-2 border-[#0052FF] border-t-transparent rounded-full animate-spin mb-3" />
+            <div className="bg-white border border-[#E2E8F0] rounded-xl p-12 text-center text-slate-500 shadow-xs">
+              <div className="inline-block w-8 h-8 border-2 border-[#FF6B00] border-t-transparent rounded-full animate-spin mb-3" />
               <div className="text-xs font-semibold">Loading client inquiries...</div>
             </div>
           ) : filteredInquiries.length === 0 ? (
-            <div className="bg-[#0F172A] border border-[#1E293B] rounded-xl p-12 text-center">
+            <div className="bg-white border border-[#E2E8F0] rounded-xl p-12 text-center shadow-xs">
               <div className="text-4xl mb-3">📬</div>
-              <h4 className="text-base font-bold text-white mb-1">No Inquiries Found</h4>
-              <p className="text-xs text-gray-400 max-w-md mx-auto mb-4">
+              <h4 className="text-base font-bold text-[#0F172A] mb-1">No Inquiries Found</h4>
+              <p className="text-xs text-slate-500 max-w-md mx-auto mb-4">
                 {inquirySearch || inquiryFilter !== "ALL"
                   ? "No client inquiries match the current search keyword or status filter."
                   : "No client inquiries have been submitted yet. Once visitors submit the contact form, their inquiries will appear here ready for branded reply."}
@@ -1969,7 +1980,7 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                     setInquirySearch("");
                     setInquiryFilter("ALL");
                   }}
-                  className="px-4 py-1.5 bg-[#0052FF] hover:bg-[#0042D0] text-white text-xs font-bold rounded-lg cursor-pointer transition-colors"
+                  className="px-4 py-1.5 bg-[#FF6B00] hover:bg-[#e05e00] text-white text-xs font-bold rounded-lg cursor-pointer transition-colors shadow-xs"
                 >
                   Reset Filter &amp; View All
                 </button>
@@ -1985,57 +1996,57 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                 return (
                   <div
                     key={inq.id}
-                    className={`bg-[#0F172A] border rounded-xl p-4 transition-all hover:border-gray-600 ${
+                    className={`bg-white border rounded-xl p-4 transition-all hover:border-[#CBD5E1] shadow-xs ${
                       isPending
-                        ? "border-amber-500/40 ring-1 ring-amber-500/20 bg-gradient-to-r from-[#0F172A] to-amber-950/10"
-                        : "border-[#1E293B]"
+                        ? "border-amber-300 ring-1 ring-amber-400/20 bg-gradient-to-r from-white to-amber-50/30"
+                        : "border-[#E2E8F0]"
                     }`}
                   >
-                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-3 border-b border-white/5">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-3 border-b border-[#F1F5F9]">
                       <div className="flex items-center gap-2 flex-wrap">
                         {/* Status Badge */}
                         <span
                           className={`px-2.5 py-1 rounded-full text-[10px] font-bold flex items-center gap-1.5 ${
                             isPending
-                              ? "bg-amber-400/20 text-amber-300 border border-amber-400/40"
+                              ? "bg-amber-100 text-amber-800 border border-amber-300"
                               : isResponded
-                              ? "bg-emerald-400/20 text-emerald-300 border border-emerald-400/40"
+                              ? "bg-emerald-100 text-emerald-800 border border-emerald-300"
                               : isResolved
-                              ? "bg-indigo-400/20 text-indigo-300 border border-indigo-400/40"
-                              : "bg-gray-800 text-gray-400 border border-gray-700"
+                              ? "bg-indigo-100 text-indigo-800 border border-indigo-300"
+                              : "bg-slate-100 text-slate-600 border border-slate-200"
                           }`}
                         >
-                          {isPending && <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping" />}
+                          {isPending && <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-ping" />}
                           <span>{inq.status || "NEW"}</span>
                         </span>
 
                         {/* Reference Badge */}
-                        <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-white/5 border border-white/10 text-gray-300">
+                        <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-[#F8FAFC] border border-[#E2E8F0] text-slate-700">
                           REF #{inq.id}
                         </span>
 
                         {/* Service Tag */}
                         {inq.service && (
-                          <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-[#0052FF]/20 text-blue-300 border border-[#0052FF]/40">
+                          <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-orange-50 text-[#FF6B00] border border-orange-200">
                             {inq.service}
                           </span>
                         )}
 
-                        <span className="text-[11px] text-gray-400">
+                        <span className="text-[11px] text-slate-500">
                           {inq.created_at ? new Date(inq.created_at).toLocaleString() : "Recently"}
                         </span>
                       </div>
 
-                      {/* Primary Reply Button requested by User */}
+                      {/* Primary Reply Button */}
                       <div className="flex items-center gap-2 shrink-0">
                         <button
                           type="button"
                           onClick={() => setSelectedInquiryForReply(inq)}
-                          className="px-4 py-2 bg-[#0052FF] hover:bg-[#0042D0] text-white text-xs font-bold rounded-lg cursor-pointer transition-all flex items-center gap-1.5 shadow-md hover:shadow-blue-500/20"
+                          className="px-4 py-2 bg-[#FF6B00] hover:bg-[#e05e00] text-white text-xs font-bold rounded-lg cursor-pointer transition-all flex items-center gap-1.5 shadow-[0_2px_8px_rgba(255,107,0,0.25)] hover:shadow-[0_4px_14px_rgba(255,107,0,0.35)]"
                           title="Open Branded Email Reply Composer"
                         >
                           <span>💬</span>
-                          <span>Reply to Client</span>
+                          <span>Reply</span>
                         </button>
                       </div>
                     </div>
@@ -2043,30 +2054,30 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                     {/* Inquiry Body & Client Details */}
                     <div className="mt-3 grid grid-cols-1 md:grid-cols-12 gap-3 items-start">
                       <div className="md:col-span-4 space-y-1">
-                        <div className="text-sm font-bold text-white flex items-center gap-1.5">
+                        <div className="text-sm font-bold text-[#0F172A] flex items-center gap-1.5">
                           <span>{inq.client_name || "Anonymous Client"}</span>
                           {inq.company && (
-                            <span className="text-xs font-normal text-gray-400">
+                            <span className="text-xs font-normal text-slate-500">
                               • {inq.company}
                             </span>
                           )}
                         </div>
-                        <div className="text-xs font-mono text-blue-400">
+                        <div className="text-xs font-mono text-[#FF6B00]">
                           <a href={`mailto:${inq.email}`} className="hover:underline">
                             {inq.email}
                           </a>
                         </div>
                         {inq.phone && (
-                          <div className="text-xs text-gray-400 font-mono">
+                          <div className="text-xs text-slate-500 font-mono">
                             ☎ {inq.phone}
                           </div>
                         )}
                       </div>
 
                       <div className="md:col-span-8">
-                        <div className="bg-black/30 border border-white/5 rounded-lg p-3 text-xs text-gray-200 leading-relaxed font-sans whitespace-pre-wrap max-h-36 overflow-y-auto">
+                        <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg p-3 text-xs text-slate-700 leading-relaxed font-sans whitespace-pre-wrap max-h-36 overflow-y-auto">
                           {inq.project_details || (
-                            <span className="text-gray-500 italic">No message provided.</span>
+                            <span className="text-slate-400 italic">No message provided.</span>
                           )}
                         </div>
                       </div>
@@ -2082,14 +2093,14 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
       {/* SMTP SERVER SETTINGS SUB-TAB */}
       {activeSubTab === "smtp" && (
         <div className="space-y-6">
-          <div className="bg-[#0F172A] border border-[#1E293B] rounded-xl p-5 text-white">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-[#1E293B]">
+          <div className="bg-white border border-[#E2E8F0] rounded-xl p-5 text-[#0F172A] shadow-xs">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-[#F1F5F9]">
               <div>
-                <h3 className="text-base font-bold text-white m-0 flex items-center gap-2">
+                <h3 className="text-base font-bold text-[#0F172A] m-0 flex items-center gap-2">
                   <span>⚙️</span>
                   <span>Outgoing SMTP Mail Server Configuration</span>
                 </h3>
-                <p className="text-xs text-gray-400 mt-0.5">
+                <p className="text-xs text-slate-500 mt-0.5">
                   Configure real mail delivery credentials for enterprise broadcast and automated branded client replies.
                 </p>
               </div>
@@ -2098,13 +2109,13 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                 <span
                   className={`px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1.5 ${
                     isSmtpConfigured
-                      ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30"
-                      : "bg-amber-500/20 text-amber-300 border border-amber-500/30"
+                      ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                      : "bg-amber-50 text-amber-700 border border-amber-200"
                   }`}
                 >
                   <span
                     className={`w-2 h-2 rounded-full ${
-                      isSmtpConfigured ? "bg-emerald-400" : "bg-amber-400 animate-pulse"
+                      isSmtpConfigured ? "bg-emerald-500" : "bg-amber-500 animate-pulse"
                     }`}
                   />
                   <span>{isSmtpConfigured ? "Active & Configured" : "Local Mode (No SMTP)"}</span>
@@ -2115,7 +2126,7 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
             <form onSubmit={handleSaveSmtp} className="mt-5 space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-gray-300 mb-1">
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
                     SMTP Host (Mail Server)
                   </label>
                   <input
@@ -2123,15 +2134,15 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                     value={smtpHost}
                     onChange={(e) => setSmtpHost(e.target.value)}
                     placeholder="e.g. smtp.gmail.com or mail.creed-tech.com"
-                    className="w-full px-3 py-2 text-xs bg-black/40 border border-gray-700 rounded-lg text-white font-mono focus:outline-none focus:border-[#0052FF]"
+                    className="w-full px-3 py-2 text-xs bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg text-[#0F172A] font-mono focus:outline-none focus:border-[#FF6B00] focus:ring-1 focus:ring-[#FF6B00]/30 transition-all"
                   />
-                  <span className="text-[10px] text-gray-400 mt-1 block">
-                    Use <strong className="text-gray-300">smtp.gmail.com</strong> for Google Workspace or personal Gmail.
+                  <span className="text-[10px] text-slate-500 mt-1 block">
+                    Use <strong className="text-slate-700">smtp.gmail.com</strong> for Google Workspace or personal Gmail.
                   </span>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-gray-300 mb-1">
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
                     SMTP Port &amp; Encryption
                   </label>
                   <div className="flex gap-2">
@@ -2140,25 +2151,25 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                       value={smtpPort}
                       onChange={(e) => setSmtpPort(Number(e.target.value))}
                       placeholder="465 or 587"
-                      className="w-28 px-3 py-2 text-xs bg-black/40 border border-gray-700 rounded-lg text-white font-mono focus:outline-none focus:border-[#0052FF]"
+                      className="w-28 px-3 py-2 text-xs bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg text-[#0F172A] font-mono focus:outline-none focus:border-[#FF6B00] focus:ring-1 focus:ring-[#FF6B00]/30 transition-all"
                     />
-                    <label className="flex items-center gap-2 px-3 py-2 bg-black/30 border border-gray-700 rounded-lg text-xs text-gray-300 cursor-pointer select-none flex-1">
+                    <label className="flex items-center gap-2 px-3 py-2 bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg text-xs text-slate-700 cursor-pointer select-none flex-1">
                       <input
                         type="checkbox"
                         checked={smtpSecure}
                         onChange={(e) => setSmtpSecure(e.target.checked)}
-                        className="rounded text-[#0052FF] focus:ring-0"
+                        className="rounded text-[#FF6B00] focus:ring-[#FF6B00]"
                       />
                       <span>SSL / TLS (Port 465)</span>
                     </label>
                   </div>
-                  <span className="text-[10px] text-gray-400 mt-1 block">
+                  <span className="text-[10px] text-slate-500 mt-1 block">
                     Port 465 requires SSL enabled; Port 587 uses STARTTLS (uncheck SSL).
                   </span>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-gray-300 mb-1">
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
                     SMTP Username / Email
                   </label>
                   <input
@@ -2166,12 +2177,12 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                     value={smtpUser}
                     onChange={(e) => setSmtpUser(e.target.value)}
                     placeholder="your-account@gmail.com"
-                    className="w-full px-3 py-2 text-xs bg-black/40 border border-gray-700 rounded-lg text-white font-mono focus:outline-none focus:border-[#0052FF]"
+                    className="w-full px-3 py-2 text-xs bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg text-[#0F172A] font-mono focus:outline-none focus:border-[#FF6B00] focus:ring-1 focus:ring-[#FF6B00]/30 transition-all"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-gray-300 mb-1">
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
                     SMTP Password / App Password
                   </label>
                   <input
@@ -2179,15 +2190,15 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                     value={smtpPass}
                     onChange={(e) => setSmtpPass(e.target.value)}
                     placeholder="16-character Google App Password or SMTP key"
-                    className="w-full px-3 py-2 text-xs bg-black/40 border border-gray-700 rounded-lg text-white font-mono focus:outline-none focus:border-[#0052FF]"
+                    className="w-full px-3 py-2 text-xs bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg text-[#0F172A] font-mono focus:outline-none focus:border-[#FF6B00] focus:ring-1 focus:ring-[#FF6B00]/30 transition-all"
                   />
-                  <span className="text-[10px] text-gray-400 mt-1 block">
-                    For Gmail, generate an <strong>App Password</strong> in Google Account &gt; Security.
+                  <span className="text-[10px] text-slate-500 mt-1 block">
+                    For Gmail, generate an <strong className="text-slate-700">App Password</strong> in Google Account &gt; Security.
                   </span>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-gray-300 mb-1">
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
                     Default &quot;From&quot; Sender Name
                   </label>
                   <input
@@ -2195,12 +2206,12 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                     value={smtpFromName}
                     onChange={(e) => setSmtpFromName(e.target.value)}
                     placeholder="e.g. Creed Tech Executive Desk"
-                    className="w-full px-3 py-2 text-xs bg-black/40 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-[#0052FF]"
+                    className="w-full px-3 py-2 text-xs bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg text-[#0F172A] focus:outline-none focus:border-[#FF6B00] focus:ring-1 focus:ring-[#FF6B00]/30 transition-all"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-gray-300 mb-1">
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
                     Default &quot;From&quot; Sender Email Address
                   </label>
                   <input
@@ -2208,13 +2219,13 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                     value={smtpFromEmail}
                     onChange={(e) => setSmtpFromEmail(e.target.value)}
                     placeholder="contact@creed-tech.com or your-verified-sender@domain.com"
-                    className="w-full px-3 py-2 text-xs bg-black/40 border border-gray-700 rounded-lg text-white font-mono focus:outline-none focus:border-[#0052FF]"
+                    className="w-full px-3 py-2 text-xs bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg text-[#0F172A] font-mono focus:outline-none focus:border-[#FF6B00] focus:ring-1 focus:ring-[#FF6B00]/30 transition-all"
                   />
                 </div>
               </div>
 
-              <div className="pt-3 border-t border-[#1E293B] flex items-center justify-between gap-3 flex-wrap">
-                <div className="text-xs text-gray-400">
+              <div className="pt-3 border-t border-[#F1F5F9] flex items-center justify-between gap-3 flex-wrap">
+                <div className="text-xs text-slate-500">
                   {isSmtpConfigured
                     ? "✓ SMTP credentials are valid and active."
                     : "ℹ Enter valid credentials to send emails without local simulation."}
@@ -2225,7 +2236,7 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                     type="button"
                     disabled={isTestingSmtp}
                     onClick={handleTestSmtp}
-                    className="px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs font-bold rounded-lg cursor-pointer transition-all flex items-center gap-1.5 disabled:opacity-50"
+                    className="px-4 py-2 bg-[#F1F3F5] hover:bg-[#E2E8F0] border border-[#E2E8F0] text-slate-700 text-xs font-bold rounded-lg cursor-pointer transition-all flex items-center gap-1.5 disabled:opacity-50"
                   >
                     <span>⚡</span>
                     <span>{isTestingSmtp ? "Testing..." : "Test Connection"}</span>
@@ -2234,7 +2245,7 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                   <button
                     type="submit"
                     disabled={isSavingSmtp}
-                    className="px-5 py-2 bg-[#0052FF] hover:bg-[#0042D0] text-white text-xs font-bold rounded-lg cursor-pointer transition-all flex items-center gap-1.5 shadow-md disabled:opacity-50"
+                    className="px-5 py-2 bg-[#FF6B00] hover:bg-[#e05e00] text-white text-xs font-bold rounded-lg cursor-pointer transition-all flex items-center gap-1.5 shadow-[0_2px_8px_rgba(255,107,0,0.25)] hover:shadow-[0_4px_14px_rgba(255,107,0,0.35)] disabled:opacity-50"
                   >
                     <span>💾</span>
                     <span>{isSavingSmtp ? "Saving..." : "Save SMTP Settings"}</span>
@@ -2245,22 +2256,22 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
           </div>
 
           {/* Quick Guide Card */}
-          <div className="bg-[#0F172A] border border-[#1E293B] rounded-xl p-5 text-white">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-gray-300 mb-3 flex items-center gap-2">
+          <div className="bg-white border border-[#E2E8F0] rounded-xl p-5 text-[#0F172A] shadow-xs">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700 mb-3 flex items-center gap-2">
               <span>💡</span>
               <span>Quick Guide: Configuring Gmail / Google Workspace</span>
             </h4>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs text-gray-300">
-              <div className="bg-black/30 border border-white/5 p-3 rounded-lg">
-                <strong className="text-white block mb-1">1. Enable 2-Step Verification</strong>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs text-slate-600">
+              <div className="bg-[#F8FAFC] border border-[#E2E8F0] p-3 rounded-lg">
+                <strong className="text-[#0F172A] block mb-1">1. Enable 2-Step Verification</strong>
                 Go to your Google Account &gt; Security, and turn on 2-Step Verification if it is not already enabled.
               </div>
-              <div className="bg-black/30 border border-white/5 p-3 rounded-lg">
-                <strong className="text-white block mb-1">2. Generate App Password</strong>
+              <div className="bg-[#F8FAFC] border border-[#E2E8F0] p-3 rounded-lg">
+                <strong className="text-[#0F172A] block mb-1">2. Generate App Password</strong>
                 Search for &quot;App Passwords&quot; in Google Account settings. Select App: Mail, Device: Other, and click Generate.
               </div>
-              <div className="bg-black/30 border border-white/5 p-3 rounded-lg">
-                <strong className="text-white block mb-1">3. Enter 16-Character Key</strong>
+              <div className="bg-[#F8FAFC] border border-[#E2E8F0] p-3 rounded-lg">
+                <strong className="text-[#0F172A] block mb-1">3. Enter 16-Character Key</strong>
                 Paste the generated 16-character code directly into the SMTP Password field above with Port 465 (SSL checked).
               </div>
             </div>

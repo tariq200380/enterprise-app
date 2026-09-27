@@ -86,8 +86,8 @@ export default function VisionRequestsModule({
     <div>
       <div className="flex items-center justify-between flex-wrap gap-4 mb-6">
         <div>
-          <h1 className="text-[22px] font-bold text-[#0F172A]">Vision Scoping Requests</h1>
-          <p className="text-xs sm:text-[13px] text-[#64748B] mt-0.5">
+          <h1 className="text-2xl font-bold font-outfit text-[#0F172A]">Vision Scoping Requests</h1>
+          <p className="text-xs sm:text-[13px] text-slate-500 mt-0.5">
             Dedicated engineering pod engagements and custom high-throughput project architectures.
           </p>
         </div>
@@ -99,7 +99,7 @@ export default function VisionRequestsModule({
             showToast("Vision requests refreshed", "success");
           }}
           disabled={isLoading}
-          className="px-3 py-1.5 text-xs font-bold rounded cursor-pointer inline-flex items-center gap-1.5 bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors disabled:opacity-60"
+          className="px-3.5 py-1.5 text-xs font-bold rounded-xl cursor-pointer inline-flex items-center gap-1.5 bg-white border border-[#E2E8F0] text-slate-700 hover:text-[#FF6B00] hover:border-orange-300 transition-all shadow-xs disabled:opacity-60"
           title="Refresh Vision Requests"
         >
           <span className={isLoading ? "animate-spin inline-block" : ""}>🔄</span>
@@ -108,11 +108,11 @@ export default function VisionRequestsModule({
       </div>
 
       {isLoading && internalItems.length === 0 ? (
-        <div className="p-12 text-center bg-white border border-[#E2E8F0] rounded-xl text-[#64748B] text-xs">
+        <div className="p-12 text-center bg-white border border-[#E2E8F0] rounded-2xl text-slate-500 text-xs shadow-xs">
           Loading vision scoping requests...
         </div>
       ) : internalItems.length === 0 ? (
-        <div className="p-12 text-center bg-white border border-[#E2E8F0] rounded-xl text-[#64748B] text-xs">
+        <div className="p-12 text-center bg-white border border-[#E2E8F0] rounded-2xl text-slate-500 text-xs shadow-xs">
           No dedicated vision scoping requests at this time.
         </div>
       ) : (
@@ -120,41 +120,42 @@ export default function VisionRequestsModule({
           {internalItems.map((inq) => (
             <div
               key={inq.id}
-              className="bg-white border border-[#E2E8F0] rounded-lg p-5 shadow-sm flex flex-col justify-between"
+              className="bg-white border border-[#E2E8F0] rounded-2xl p-5 shadow-xs flex flex-col justify-between hover:border-orange-300 hover:shadow-[0_4px_20px_rgba(255,107,0,0.12)] transition-all"
             >
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-bold text-[#0052FF] bg-blue-50 px-2.5 py-0.5 rounded border border-blue-200">
+                  <span className="text-xs font-bold text-[#FF6B00] bg-orange-50 px-2.5 py-0.5 rounded-full border border-orange-200">
                     {inq.service}
                   </span>
-                  <span className="text-[11px] text-[#64748B]">
+                  <span className="text-[11px] text-slate-400 font-mono">
                     #{inq.id} • {inq.created_at?.slice(0, 10)}
                   </span>
                 </div>
-                <h3 className="text-sm font-bold text-[#0F172A]">
+                <h3 className="text-sm font-bold text-[#0F172A] font-outfit">
                   {inq.client_name} ({inq.company})
                 </h3>
-                <p className="text-xs text-[#64748B] mt-2 p-3 bg-gray-50 rounded border border-gray-200 leading-relaxed font-mono">
+                <p className="text-xs text-slate-600 mt-2 p-3 bg-[#F8FAFC] rounded-xl border border-[#E2E8F0] leading-relaxed font-sans">
                   {inq.project_details ||
                     "Full-lifecycle enterprise architecture migration and sovereign intelligence pod."}
                 </p>
               </div>
-              <div className="flex justify-between items-center mt-4 pt-3 border-t border-gray-100">
-                <span className="text-xs font-semibold text-emerald-700">
-                  Status: {inq.status}
+              <div className="flex justify-between items-center mt-4 pt-3 border-t border-[#E2E8F0]">
+                <span className="text-xs font-semibold text-emerald-600 flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_6px_rgba(52,211,153,0.8)]" />
+                  <span>Status: {inq.status}</span>
                 </span>
                 <div className="flex gap-2">
                   <button
                     type="button"
                     onClick={() => handleSelect(inq)}
-                    className="px-3 py-1 text-xs font-bold bg-[#0052FF] text-white rounded hover:bg-[#0042D0] cursor-pointer"
+                    className="px-3.5 py-1.5 text-xs font-bold bg-[#FF6B00] hover:bg-[#e05d00] text-white rounded-xl shadow-[0_2px_10px_rgba(255,107,0,0.25)] cursor-pointer transition-all active:scale-95"
                   >
-                    View Scope
+                    Reply
                   </button>
                   <button
                     type="button"
                     onClick={() => handleDelete(inq.id)}
-                    className="px-2.5 py-1 text-xs font-bold text-red-600 bg-red-50 border border-red-200 rounded cursor-pointer"
+                    className="px-3 py-1.5 text-xs font-bold text-red-600 bg-red-50 hover:bg-red-100 border border-red-200 rounded-xl cursor-pointer transition-colors"
                   >
                     Delete
                   </button>
@@ -171,6 +172,7 @@ export default function VisionRequestsModule({
         onClose={() => setSelectedInquiry(null)}
         onInquiryUpdated={fetchVisionRequests}
         showToast={showToast}
+        initialMode="reply"
       />
     </div>
   );
