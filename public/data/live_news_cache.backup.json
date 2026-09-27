@@ -1,6 +1,6 @@
 {
   "status": "success",
-  "timestamp": "2026-09-27T23:12:23.638Z",
+  "timestamp": "2026-09-27T23:42:23.026Z",
   "gate_status": "CENTRAL_GATE_ACTIVE",
   "provider_statuses": {},
   "counts": {
@@ -156,15 +156,15 @@
       "name": "Business Recorder",
       "brandBadge": "🇵🇰 B-RECORDER",
       "category": "PAKISTAN FINTECH & BUSINESS",
-      "date": "Sun, 27 Sep 2026 21:27:32 +0500",
-      "title": "Bill Gates joins calls for AI safeguards, including legislation",
-      "summary": "WASHINGTON: AI requires safeguards that go beyond self-regulation, Microsoft co-founder Bill Gates said in an interview that aired on Sunday, calling for legislation to be passed in Congress. “You need law enforcement and the politicians...",
+      "date": "Mon, 28 Sep 2026 04:13:47 +0500",
+      "title": "World Context hosts robotics hackathon at UC Berkeley",
+      "summary": "KARACHI: Pakistani robotics data company World Context hosted its first-ever robotics hackathon at the University of California, Berkeley, bringing together 13 teams as part of its efforts to expand artificial intelligence and technology...",
       "sourceName": "Business Recorder",
-      "sourceUrl": "https://www.brecorder.com/news/40441466/bill-gates-joins-calls-for-ai-safeguards-including-legislation",
-      "link": "https://www.brecorder.com/news/40441466/bill-gates-joins-calls-for-ai-safeguards-including-legislation",
-      "image": "https://i.brecorder.com/thumbnail/2026/09/2721270240349fb.webp?v=1790526452000",
-      "img": "https://i.brecorder.com/thumbnail/2026/09/2721270240349fb.webp?v=1790526452000",
-      "provider_published_at": "2026-09-27T16:27:32.000Z"
+      "sourceUrl": "https://www.brecorder.com/news/40441546/world-context-hosts-robotics-hackathon-at-uc-berkeley",
+      "link": "https://www.brecorder.com/news/40441546/world-context-hosts-robotics-hackathon-at-uc-berkeley",
+      "image": "https://i.brecorder.com/thumbnail/2026/09/28032159be79773.webp?v=1790550827000",
+      "img": "https://i.brecorder.com/thumbnail/2026/09/28032159be79773.webp?v=1790550827000",
+      "provider_published_at": "2026-09-27T23:13:47.000Z"
     },
     "propakistani": {
       "id": "propakistani",
@@ -218,15 +218,15 @@
       "name": "Business Recorder",
       "brandBadge": "🇵🇰 B-RECORDER",
       "category": "PAKISTAN FINTECH & BUSINESS",
-      "date": "Sun, 27 Sep 2026 21:27:32 +0500",
-      "title": "Bill Gates joins calls for AI safeguards, including legislation",
-      "summary": "WASHINGTON: AI requires safeguards that go beyond self-regulation, Microsoft co-founder Bill Gates said in an interview that aired on Sunday, calling for legislation to be passed in Congress. “You need law enforcement and the politicians...",
+      "date": "Mon, 28 Sep 2026 04:13:47 +0500",
+      "title": "World Context hosts robotics hackathon at UC Berkeley",
+      "summary": "KARACHI: Pakistani robotics data company World Context hosted its first-ever robotics hackathon at the University of California, Berkeley, bringing together 13 teams as part of its efforts to expand artificial intelligence and technology...",
       "sourceName": "Business Recorder",
-      "sourceUrl": "https://www.brecorder.com/news/40441466/bill-gates-joins-calls-for-ai-safeguards-including-legislation",
-      "link": "https://www.brecorder.com/news/40441466/bill-gates-joins-calls-for-ai-safeguards-including-legislation",
-      "image": "https://i.brecorder.com/thumbnail/2026/09/2721270240349fb.webp?v=1790526452000",
-      "img": "https://i.brecorder.com/thumbnail/2026/09/2721270240349fb.webp?v=1790526452000",
-      "provider_published_at": "2026-09-27T16:27:32.000Z"
+      "sourceUrl": "https://www.brecorder.com/news/40441546/world-context-hosts-robotics-hackathon-at-uc-berkeley",
+      "link": "https://www.brecorder.com/news/40441546/world-context-hosts-robotics-hackathon-at-uc-berkeley",
+      "image": "https://i.brecorder.com/thumbnail/2026/09/28032159be79773.webp?v=1790550827000",
+      "img": "https://i.brecorder.com/thumbnail/2026/09/28032159be79773.webp?v=1790550827000",
+      "provider_published_at": "2026-09-27T23:13:47.000Z"
     },
     {
       "id": "propakistani",
@@ -260,6 +260,21 @@
     }
   ],
   "breaking_news": [
+    {
+      "id": "Business Recorder-https://www.brecorder.com/news/40441546",
+      "source": "Business Recorder",
+      "provider": "brecorder",
+      "providerLabel": "🇵🇰 B-RECORDER",
+      "title": "World Context hosts robotics hackathon at UC Berkeley",
+      "desc": "KARACHI: Pakistani robotics data company World Context hosted its first-ever robotics hackathon at the University of California, Berkeley, bringing together 13 teams as part of its efforts to expand artificial intelligence and technology...",
+      "link": "https://www.brecorder.com/news/40441546/world-context-hosts-robotics-hackathon-at-uc-berkeley",
+      "image": "https://i.brecorder.com/thumbnail/2026/09/28032159be79773.webp?v=1790550827000",
+      "img": "https://i.brecorder.com/thumbnail/2026/09/28032159be79773.webp?v=1790550827000",
+      "date": "Mon, 28 Sep 2026 04:13:47 +0500",
+      "timestamp": "2026-09-27T23:13:47.000Z",
+      "tag": "PAKISTAN FINTECH & BUSINESS",
+      "type": "regional"
+    },
     {
       "id": "Anthropic-CBMihAFBVV95cUxQZzNJRkZUdEJ2S1AzSEQ2NlVCT2JwNl9ZLU5reFVZT19CVEIxa1JLY3Fud2NaVEg4b3RYbnFJd2VIdmhGamxUSzd5WHFMTUlaVDV5VURvbUxHVDFSa215U1ZlYjRIYkdiUXpxQjNkdHNNQWhyeG12RXZzQm9ySnczYWdpdGo",
       "source": "Anthropic",
@@ -491,7 +506,7 @@
       "provider": "anthropic",
       "providerLabel": "🧠 ANTHROPIC CLAUDE",
       "title": "The Claude Sonnet 5.5 leak beating GPT-6 Sol is not what it looks like",
-      "desc": "The Claude Sonnet 5.5 leak beating GPT-6 Sol is not what it looks like. Real-time intelligence and verified enterprise developments reported via startupfortune.com.",
+      "desc": "The Claude Sonnet 5.5 leak beating GPT-6 Sol is not what it looks like. Real-time intelligence and verified enterprise developments reported via Startup Fortune.",
       "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxPWEJPSGNCNFo1cF9lbUZ6Qm00Njd6TVdUSFVuajcwTklsSEJIME9pVTIzN2tHRHFjMmhFNVdwQ3N3Qy1vZWQyLTBZTWlqZXB2ckhnWWJGeEVYdmVGZkNFcy01cExZNlhhTEdmWnZVVW4wQVRNd2FpUGdCZXNkT202d2h3SEZPNGMyZmhydVR0a3lUQjNUZkRYbGxnbDRMZw?oc=5",
       "image": "/images/anthropic-opus-hero.jpg",
       "img": "/images/anthropic-opus-hero.jpg",
@@ -632,21 +647,6 @@
       "img": "https://i.brecorder.com/thumbnail/2026/09/2514390140e84a2.webp?v=1790329621000",
       "date": "Fri, 25 Sep 2026 14:47:01 +0500",
       "timestamp": "2026-09-25T09:47:01.000Z",
-      "tag": "PAKISTAN FINTECH & BUSINESS",
-      "type": "regional"
-    },
-    {
-      "id": "Business Recorder-https://www.brecorder.com/news/40441107",
-      "source": "Business Recorder",
-      "provider": "brecorder",
-      "providerLabel": "🇵🇰 B-RECORDER",
-      "title": "Huawei’s repair centre inaugurated in Islamabad",
-      "desc": "ISLAMABAD: Federal Minister for IT and Telecommunication Shaza Fatima Khawaja on Thursday inaugurated Huawei’s national-level Spare Parts Repair Centre in Islamabad to build local repair capacity, reduce reliance on overseas services, an...",
-      "link": "https://www.brecorder.com/news/40441107/huaweis-repair-centre-inaugurated-in-islamabad",
-      "image": "https://i.brecorder.com/thumbnail/2026/09/25113005432d9b6.webp?v=1790297116000",
-      "img": "https://i.brecorder.com/thumbnail/2026/09/25113005432d9b6.webp?v=1790297116000",
-      "date": "Fri, 25 Sep 2026 05:45:16 +0500",
-      "timestamp": "2026-09-25T00:45:16.000Z",
       "tag": "PAKISTAN FINTECH & BUSINESS",
       "type": "regional"
     },

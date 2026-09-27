@@ -43,11 +43,12 @@ export const FALLBACK_SEO: Record<string, PageSeoData> = {
   },
   services: {
     page_key: "services",
-    title: "Enterprise Services & Engineering Solutions | Creed Tech",
+    title: "Enterprise Software & Cloud Engineering Services | Creed Tech",
     description:
-      "End-to-end cloud infrastructure, bespoke software engineering, AI automation, and cybersecurity engineered for unprecedented enterprise scale.",
-    keywords: "Cloud Architecture, Software Engineering, AI Automation, Enterprise Cybersecurity",
-    og_image: "/images/hero-services-web-q90.webp",
+      "Explore Creed Tech's end-to-end technology services: custom enterprise software, cloud infrastructure, autonomous AI agents, database architecture, and cybersecurity audits.",
+    keywords:
+      "enterprise software development, cloud infrastructure, AI solutions, LLM integration, database management, cybersecurity audit, web applications, mobile app development, Creed Tech services",
+    og_image: "/images/og-services.webp",
     canonical_url: "https://creed-tech.com/services",
     no_index: false,
     no_follow: false,

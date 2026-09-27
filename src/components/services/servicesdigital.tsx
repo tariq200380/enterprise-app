@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { ServicesExplorerSettingsData, ServiceTechItem } from "@/components/admin/settings/types";
 import { ORDERED_SVCS, SVCS, TECH_ICONS, ORDERED_SUBTABS, type SubTabId } from "./servicesData";
@@ -133,6 +133,39 @@ export default function ServicesDigital({ data }: Props) {
   const [activeSvcId, setActiveSvcId] = useState<string>("software-development");
   const [activeSubTab, setActiveSubTab] = useState<SubTabId>("overview");
 
+  // Sync active service tab when page hash changes (e.g. /services#cloud-infrastructure or /services#ai)
+  useEffect(() => {
+    const handleHash = () => {
+      if (typeof window === "undefined") return;
+      const hash = window.location.hash.replace("#", "").toLowerCase();
+      if (!hash) return;
+
+      const HASH_MAP: Record<string, string> = {
+        "software-development": "software-development",
+        "cloud-infrastructure": "cloud-infrastructure",
+        "ai": "ai-automation",
+        "ai-automation": "ai-automation",
+        "database-management": "database-management",
+        "web-development": "web-development",
+        "ui-ux": "ui-ux-design",
+        "ui-ux-design": "ui-ux-design",
+        "cybersecurity": "software-development",
+        "marketing": "digital-growth",
+        "digital-growth": "digital-growth",
+        "mobile-applications": "mobile-application",
+        "mobile-application": "mobile-application",
+      };
+
+      if (HASH_MAP[hash]) {
+        setActiveSvcId(HASH_MAP[hash]);
+      }
+    };
+
+    handleHash();
+    window.addEventListener("hashchange", handleHash);
+    return () => window.removeEventListener("hashchange", handleHash);
+  }, []);
+
   // Available services list (8 items)
   const availableServices =
     data?.services && data.services.length > 0
@@ -213,7 +246,7 @@ export default function ServicesDigital({ data }: Props) {
   };
 
   return (
-    <section id="what-we-provide" className="relative w-full py-12 lg:py-16 bg-[#F7F6F5] border-b border-[#E2E8F0] overflow-hidden">
+    <section id="what-we-provide" className="relative w-full py-12 lg:py-16 bg-[#F7F6F5] border-b border-[#E2E8F0] overflow-hidden scroll-mt-24">
       {/* Background blueprint grid pattern overlay - Pure Tailwind CSS */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.035] bg-[linear-gradient(to_right,rgba(0,82,255,0.7)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,82,255,0.7)_1px,transparent_1px)] bg-[size:44px_44px]" />
 
@@ -436,6 +469,7 @@ export default function ServicesDigital({ data }: Props) {
                 </p>
                 <Link
                   href={svc.cta.link || "/contact"}
+                  aria-label={`Start consultation for ${svc.name}`}
                   className="bg-[#1E3A8A] text-white font-medium px-5 py-2.5 rounded-lg hover:bg-blue-800 transition-colors w-full inline-flex items-center justify-center gap-1.5"
                 >
                   <span>{svc.cta.btn}</span>
@@ -612,7 +646,7 @@ export default function ServicesDigital({ data }: Props) {
                     {tech.iconUrl ? (
                       <img
                         src={tech.iconUrl}
-                        alt={tech.name}
+                        alt={`${tech.name} Technology Framework`}
                         width={36}
                         height={36}
                         loading="lazy"

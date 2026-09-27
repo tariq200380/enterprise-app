@@ -129,6 +129,7 @@ export default function ServicesVision() {
 
               <Link
                 href="/contact"
+                aria-label="Contact Creed Tech for Custom Project Inquiries"
                 className="w-full sm:w-[230px] max-w-[320px] sm:max-w-none h-[52px] px-5 text-[16px] font-semibold rounded-[10px] inline-flex items-center justify-center whitespace-nowrap leading-none bg-white text-[#0F172A] border border-[#E2E8F0] shadow-[0_1px_3px_rgba(15,23,42,0.04)] hover:bg-[#EFECE6] hover:border-[#CBD5E1] hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(15,23,42,0.08)] transition-all duration-200"
               >
                 <span>Contact Us</span>
