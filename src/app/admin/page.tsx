@@ -20,6 +20,7 @@ import SubscribersModule from "@/components/admin/modules/SubscribersModule";
 import PortfolioModule from "@/components/admin/modules/PortfolioModule";
 import EmailTemplatesModule from "@/components/admin/modules/EmailTemplatesModule";
 import WebsiteSettingsModule from "@/components/admin/modules/WebsiteSettingsModule";
+import SeoSettingsSection from "@/components/admin/settings/SeoSettingsSection";
 import SystemSecurityModule from "@/components/admin/modules/SystemSecurityModule";
 import { useUser, useClerk, SignIn } from "@clerk/nextjs";
 import { useAdminFetch } from "@/lib/useAdminFetch";
@@ -395,6 +396,10 @@ export default function AdminPage() {
 
           {(activeTab === "email_templates" || activeTab === "email_management") && (
             <EmailTemplatesModule showToast={showToast} onNavigateTab={setActiveTab} />
+          )}
+
+          {(activeTab === "seo_settings" || activeTab === "seo") && (
+            <SeoSettingsSection showToast={showToast} />
           )}
 
           {activeTab === "website_settings" && (

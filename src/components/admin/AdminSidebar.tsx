@@ -56,6 +56,7 @@ export default function AdminSidebar({
     { id: "founder_proposals", label: "Founder Proposals", icon: "🔥", count: founderProposalsCount, badgeColor: "bg-orange-50 text-[#FF6B00] border border-orange-200" },
     { id: "subscribers", label: "Newsletter Leads", icon: "📧", count: subscribersCount, badgeColor: "bg-emerald-50 text-emerald-700 border border-emerald-200" },
     { id: "email_templates", label: "Email Management", icon: "✉️" },
+    { id: "seo_settings", label: "SEO & Search Engine", icon: "🔍" },
     { id: "website_settings", label: "Website Settings", icon: "🌐" },
     { id: "settings", label: "System & Security", icon: "⚙️" },
   ];
