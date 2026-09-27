@@ -1,1 +1,1 @@
-export { default, metadata } from "@/app/security-pci-dss/page";
+export { default, generateMetadata } from "@/app/security-pci-dss/page";

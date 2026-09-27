@@ -6,20 +6,29 @@ import IsoAnnexA from "@/components/security-iso-27001/isoannexa";
 import IsoIncidentTable from "@/components/security-iso-27001/isoincidenttable";
 import IsoCta from "@/components/security-iso-27001/isocta";
 
-export const metadata: Metadata = {
-  title: "ISO/IEC 27001:2022 ISMS Architecture | Creed Tech Security",
-  description:
-    "The International Organization for Standardization (ISO, Geneva) defines the premier global framework for information security management. Explore our 93-control Annex A implementation, 4-tier policy hierarchy, and client code protection models.",
-  alternates: {
-    canonical: "/security-iso-27001",
-  },
-  openGraph: {
-    title: "ISO/IEC 27001:2022 ISMS Architecture | Creed Tech Security",
-    description:
-      "Explore our 93-control Annex A implementation, 4-tier policy hierarchy, and client code protection models.",
-    url: "https://creed-tech.com/security-iso-27001",
-  },
-};
+import { getSeoForPage } from "@/lib/seoHelper";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getSeoForPage("security_iso_27001");
+  return {
+    title: seo.title ? { absolute: seo.title } : undefined,
+    description: seo.description,
+    keywords: seo.keywords,
+    alternates: {
+      canonical: seo.canonical_url || "/security-iso-27001",
+    },
+    openGraph: {
+      title: seo.title,
+      description: seo.description,
+      url: seo.canonical_url || "https://creed-tech.com/security-iso-27001",
+      images: seo.og_image ? [{ url: seo.og_image }] : undefined,
+    },
+    robots: {
+      index: !seo.no_index,
+      follow: !seo.no_follow,
+    },
+  };
+}
 
 export default function SecurityIso27001Page() {
   return (

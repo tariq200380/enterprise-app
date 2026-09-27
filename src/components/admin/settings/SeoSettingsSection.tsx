@@ -9,14 +9,27 @@ interface Props {
 }
 
 const PAGE_LIST = [
+  // 1. Core Pages
   { id: "global", label: "Global & Webmaster", icon: "🌐", route: "Default fallback for all pages" },
   { id: "home", label: "Home", icon: "🏠", route: "https://creed-tech.com/" },
   { id: "services", label: "Services", icon: "⚡", route: "https://creed-tech.com/services" },
   { id: "portfolio", label: "Portfolio", icon: "💼", route: "https://creed-tech.com/portfolio" },
-  { id: "knowledge_center", label: "Knowledge Center", icon: "📚", route: "https://creed-tech.com/knowledge-center" },
   { id: "about", label: "About Us", icon: "🏢", route: "https://creed-tech.com/about" },
   { id: "contact", label: "Contact", icon: "✉️", route: "https://creed-tech.com/contact" },
   { id: "careers", label: "Careers", icon: "👥", route: "https://creed-tech.com/careers" },
+
+  // 2. Knowledge & Articles
+  { id: "knowledge_center", label: "Knowledge Center", icon: "📚", route: "https://creed-tech.com/knowledge-center" },
+  { id: "articles", label: "Knowledge Articles & News", icon: "📰", route: "https://creed-tech.com/knowledge-center#articles" },
+
+  // 3. Security & Legal Standards (7 Pages)
+  { id: "security", label: "Security Center", icon: "🛡️", route: "https://creed-tech.com/security" },
+  { id: "security_soc_2", label: "SOC 2 Type II", icon: "🔒", route: "https://creed-tech.com/security-soc-2" },
+  { id: "security_iso_27001", label: "ISO 27001 ISMS", icon: "📜", route: "https://creed-tech.com/security-iso-27001" },
+  { id: "security_pci_dss", label: "PCI DSS v4.0", icon: "💳", route: "https://creed-tech.com/security-pci-dss" },
+  { id: "security_gdpr", label: "GDPR Sovereign", icon: "🇪🇺", route: "https://creed-tech.com/security-gdpr" },
+  { id: "privacy_policy", label: "Privacy Policy", icon: "📋", route: "https://creed-tech.com/privacy-policy" },
+  { id: "terms", label: "Terms & Conditions", icon: "⚖️", route: "https://creed-tech.com/terms" },
 ];
 
 export default function SeoSettingsSection({ showToast }: Props) {

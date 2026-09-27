@@ -55,6 +55,7 @@ export async function PUT(
       specs,
       status,
       source_news,
+      keywords,
     } = body;
 
     const res = await query(
@@ -63,8 +64,9 @@ export async function PUT(
         cover_photo_url = $5, video_embed_url = $6, audio_stream_url = $7,
         editor_note = $8, content = $9, pros = $10, cons = $11, specs = $12,
         status = COALESCE($13, status),
-        source_news = COALESCE($14, source_news)
-       WHERE id = $15 RETURNING *`,
+        source_news = COALESCE($14, source_news),
+        keywords = COALESCE($15, keywords)
+       WHERE id = $16 RETURNING *`,
       [
         title,
         category,
@@ -80,6 +82,7 @@ export async function PUT(
         JSON.stringify(specs || []),
         status || null,
         source_news !== undefined ? source_news : null,
+        keywords !== undefined ? keywords : null,
         id,
       ]
     );
@@ -167,6 +170,10 @@ export async function PATCH(
     if (fields.source_news !== undefined) {
       setClauses.push(`source_news = $${paramIndex++}`);
       values.push(fields.source_news);
+    }
+    if (fields.keywords !== undefined) {
+      setClauses.push(`keywords = $${paramIndex++}`);
+      values.push(fields.keywords);
     }
 
     if (setClauses.length === 0) {

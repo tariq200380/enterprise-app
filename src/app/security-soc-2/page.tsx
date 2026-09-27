@@ -6,20 +6,29 @@ import Soc2Criteria from "@/components/security-soc-2/soc2criteria";
 import Soc2EvidenceTable from "@/components/security-soc-2/soc2evidencetable";
 import Soc2Cta from "@/components/security-soc-2/soc2cta";
 
-export const metadata: Metadata = {
-  title: "AICPA SOC 2 Type II Security Controls | Creed Tech",
-  description:
-    "The American Institute of CPAs (AICPA, USA) establishes the definitive benchmark for SaaS security. Creed Tech engineers systems aligned with continuous operational controls across Security, Availability, and Confidentiality.",
-  alternates: {
-    canonical: "/security-soc-2",
-  },
-  openGraph: {
-    title: "AICPA SOC 2 Type II Security Controls | Creed Tech",
-    description:
-      "Creed Tech engineers systems aligned with continuous operational controls across Security, Availability, and Confidentiality.",
-    url: "https://creed-tech.com/security-soc-2",
-  },
-};
+import { getSeoForPage } from "@/lib/seoHelper";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getSeoForPage("security_soc_2");
+  return {
+    title: seo.title ? { absolute: seo.title } : undefined,
+    description: seo.description,
+    keywords: seo.keywords,
+    alternates: {
+      canonical: seo.canonical_url || "/security-soc-2",
+    },
+    openGraph: {
+      title: seo.title,
+      description: seo.description,
+      url: seo.canonical_url || "https://creed-tech.com/security-soc-2",
+      images: seo.og_image ? [{ url: seo.og_image }] : undefined,
+    },
+    robots: {
+      index: !seo.no_index,
+      follow: !seo.no_follow,
+    },
+  };
+}
 
 export default function SecuritySoc2Page() {
   return (

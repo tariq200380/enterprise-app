@@ -12,20 +12,29 @@ import PrivacyMinors from "@/components/privacy/privacyminors";
 import PrivacyUpdates from "@/components/privacy/privacyupdates";
 import PrivacyContacts from "@/components/privacy/privacycontacts";
 
-export const metadata: Metadata = {
-  title: "Privacy Policy | Creed Tech",
-  description:
-    "Transparent principles governing how Creed Tech respects, processes, and secures information submitted through our website and engineering communication channels.",
-  alternates: {
-    canonical: "/privacy-policy",
-  },
-  openGraph: {
-    title: "Privacy Policy | Creed Tech",
-    description:
-      "Transparent principles governing how Creed Tech respects, processes, and secures information submitted through our website.",
-    url: "https://creed-tech.com/privacy-policy",
-  },
-};
+import { getSeoForPage } from "@/lib/seoHelper";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getSeoForPage("privacy_policy");
+  return {
+    title: seo.title ? { absolute: seo.title } : undefined,
+    description: seo.description,
+    keywords: seo.keywords,
+    alternates: {
+      canonical: seo.canonical_url || "/privacy-policy",
+    },
+    openGraph: {
+      title: seo.title,
+      description: seo.description,
+      url: seo.canonical_url || "https://creed-tech.com/privacy-policy",
+      images: seo.og_image ? [{ url: seo.og_image }] : undefined,
+    },
+    robots: {
+      index: !seo.no_index,
+      follow: !seo.no_follow,
+    },
+  };
+}
 
 export default function PrivacyPolicyPage() {
   return (

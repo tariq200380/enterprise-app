@@ -43,12 +43,13 @@ export async function POST(req: Request) {
       specs,
       status,
       source_news,
+      keywords,
     } = body;
 
     const res = await query(
       `INSERT INTO articles 
-       (title, category, author, read_time, cover_photo_url, video_embed_url, audio_stream_url, editor_note, content, pros, cons, specs, status, source_news)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
+       (title, category, author, read_time, cover_photo_url, video_embed_url, audio_stream_url, editor_note, content, pros, cons, specs, status, source_news, keywords)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
        RETURNING *`,
       [
         title || "Untitled Article",
@@ -65,6 +66,7 @@ export async function POST(req: Request) {
         JSON.stringify(specs || []),
         status || "DRAFT",
         source_news || "",
+        keywords || "",
       ]
     );
 
@@ -152,6 +154,10 @@ export async function PATCH(req: Request) {
     if (fields.source_news !== undefined) {
       setClauses.push(`source_news = $${paramIndex++}`);
       values.push(fields.source_news);
+    }
+    if (fields.keywords !== undefined) {
+      setClauses.push(`keywords = $${paramIndex++}`);
+      values.push(fields.keywords);
     }
 
     if (setClauses.length === 0) {

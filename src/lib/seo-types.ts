@@ -106,4 +106,93 @@ export const FALLBACK_SEO: Record<string, PageSeoData> = {
     no_index: false,
     no_follow: false,
   },
+  articles: {
+    page_key: "articles",
+    title: "Technical Articles & Deep Engineering Blueprints | Creed Tech",
+    description:
+      "Explore peer-reviewed systems architecture blueprints, hardware benchmark teardowns, high-concurrency patterns, and engineering insights from Creed Tech.",
+    keywords: "Technical Articles, Engineering Blueprints, Hardware Benchmarks, Architecture Patterns, Software Engineering",
+    og_image: "/images/hero-services-web-q90.webp",
+    canonical_url: "https://creed-tech.com/knowledge-center#articles",
+    no_index: false,
+    no_follow: false,
+  },
+  security: {
+    page_key: "security",
+    title: "Trust, Engineered Into Every Layer | Enterprise Security Center",
+    description:
+      "Security at Creed Tech is built into our infrastructure, development lifecycle, and governance. Explore the architecture, controls, and audited standards behind every engagement.",
+    keywords: "Enterprise Security, Information Security, Secure Software Lifecycle, Data Governance, Cloud Architecture",
+    og_image: "/images/hero-services-web-q90.webp",
+    canonical_url: "https://creed-tech.com/security",
+    no_index: false,
+    no_follow: false,
+  },
+  security_soc_2: {
+    page_key: "security_soc_2",
+    title: "AICPA SOC 2 Type II Security Controls | Creed Tech",
+    description:
+      "The American Institute of CPAs benchmark for SaaS security. Creed Tech engineers systems aligned with continuous operational controls across Security, Availability, and Confidentiality.",
+    keywords: "SOC 2 Type II, AICPA Compliance, Enterprise SaaS Security, Operational Controls, Audit Evidence",
+    og_image: "/images/hero-services-web-q90.webp",
+    canonical_url: "https://creed-tech.com/security-soc-2",
+    no_index: false,
+    no_follow: false,
+  },
+  security_iso_27001: {
+    page_key: "security_iso_27001",
+    title: "ISO/IEC 27001:2022 ISMS Architecture | Creed Tech Security",
+    description:
+      "Explore our 93-control Annex A implementation, 4-tier policy hierarchy, and client code protection models under the ISO/IEC 27001 standard.",
+    keywords: "ISO 27001, Information Security Management System, ISMS, Annex A Controls, Security Certification",
+    og_image: "/images/hero-services-web-q90.webp",
+    canonical_url: "https://creed-tech.com/security-iso-27001",
+    no_index: false,
+    no_follow: false,
+  },
+  security_pci_dss: {
+    page_key: "security_pci_dss",
+    title: "PCI-DSS v4.0 Payment Architecture | Creed Tech",
+    description:
+      "Creed Tech architects client-side tokenization flows that isolate cardholder data and streamline PCI assessment scope across financial software applications.",
+    keywords: "PCI DSS v4.0, Payment Card Security, Tokenization, FinTech Architecture, Secure Payment Gateways",
+    og_image: "/images/hero-services-web-q90.webp",
+    canonical_url: "https://creed-tech.com/security-pci-dss",
+    no_index: false,
+    no_follow: false,
+  },
+  security_gdpr: {
+    page_key: "security_gdpr",
+    title: "EU GDPR Regulation (EU) 2016/679 Privacy Architecture | Creed Tech",
+    description:
+      "Enacted by the European Parliament, the GDPR mandates sovereign privacy by design. Creed Tech provides structured Article 28 DPA templates and European sovereign cloud infrastructure.",
+    keywords: "GDPR Compliance, EU Data Privacy, Sovereign Cloud, Data Processing Agreement, Article 28 DPA",
+    og_image: "/images/hero-services-web-q90.webp",
+    canonical_url: "https://creed-tech.com/security-gdpr",
+    no_index: false,
+    no_follow: false,
+  },
+  privacy_policy: {
+    page_key: "privacy_policy",
+    title: "Privacy Policy | Creed Tech",
+    description:
+      "Transparent principles governing how Creed Tech respects, processes, and secures information submitted through our website and engineering communication channels.",
+    keywords: "Privacy Policy, Data Protection, User Privacy, Information Security, Creed Tech",
+    og_image: "/images/hero-services-web-q90.webp",
+    canonical_url: "https://creed-tech.com/privacy-policy",
+    no_index: false,
+    no_follow: false,
+  },
+  terms: {
+    page_key: "terms",
+    title: "Terms & Conditions | Creed Tech",
+    description:
+      "Please read these Terms and Conditions carefully before using Creed Tech's website, platforms, and online communication channels.",
+    keywords: "Terms of Service, Terms and Conditions, Legal Agreement, Usage Policy, Creed Tech",
+    og_image: "/images/hero-services-web-q90.webp",
+    canonical_url: "https://creed-tech.com/terms",
+    no_index: false,
+    no_follow: false,
+  },
 };
+

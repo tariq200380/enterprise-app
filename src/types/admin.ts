@@ -155,6 +155,7 @@ export interface ArticleItem {
   sub_articles?: any;
   status?: "DRAFT" | "PUBLISHED" | string;
   source_news?: string;
+  keywords?: string;
   created_at?: string;
 }
 

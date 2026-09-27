@@ -34,6 +34,7 @@ export default function ArticleStudioModal({
   const [articleNote, setArticleNote] = useState("");
   const [articleStatus, setArticleStatus] = useState<"DRAFT" | "PUBLISHED">("DRAFT");
   const [sourceNews, setSourceNews] = useState<string>("");
+  const [articleKeywords, setArticleKeywords] = useState<string>("");
   const [showPreviewModal, setShowPreviewModal] = useState<boolean>(false);
 
   const [pros, setPros] = useState<string[]>([
@@ -77,6 +78,7 @@ export default function ArticleStudioModal({
       setArticleNote(editingArticle.editor_note || "");
       setArticleStatus(editingArticle.status === "PUBLISHED" ? "PUBLISHED" : "DRAFT");
       setSourceNews(editingArticle.source_news || "");
+      setArticleKeywords(editingArticle.keywords || "");
       try {
         setPros(typeof editingArticle.pros === "string" ? JSON.parse(editingArticle.pros) : editingArticle.pros || []);
         setCons(typeof editingArticle.cons === "string" ? JSON.parse(editingArticle.cons) : editingArticle.cons || []);
@@ -99,6 +101,7 @@ export default function ArticleStudioModal({
       setArticleNote("");
       setArticleStatus("DRAFT");
       setSourceNews("");
+      setArticleKeywords("");
       setPros([
         "Field-leading battery endurance (21+ hours continuous development)",
         "Vivid 2.8K OLED 120Hz display with 100% DCI-P3 color gamut",
@@ -365,6 +368,7 @@ export default function ArticleStudioModal({
       sub_articles: subArticles,
       status: targetStatus,
       source_news: sourceNews,
+      keywords: articleKeywords.trim(),
     };
 
     try {
@@ -567,6 +571,18 @@ export default function ArticleStudioModal({
                   className="w-full px-3.5 py-2 text-xs border border-gray-300 rounded outline-none focus:border-[#0052FF]"
                 />
               </div>
+            </div>
+            <div>
+              <label className="block text-[11px] font-semibold text-gray-700 mb-1">
+                🏷️ Article SEO Keywords &amp; Tags (comma separated)
+              </label>
+              <input
+                type="text"
+                placeholder="e.g. Next.js, Cloud Architecture, AI Workstations, Enterprise Benchmarks"
+                value={articleKeywords}
+                onChange={(e) => setArticleKeywords(e.target.value)}
+                className="w-full px-3.5 py-2 text-xs border border-gray-300 rounded outline-none focus:border-[#0052FF]"
+              />
             </div>
           </div>
 

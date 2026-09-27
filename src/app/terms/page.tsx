@@ -13,20 +13,29 @@ import TermsLiability from "@/components/terms/termsliability";
 import TermsModifications from "@/components/terms/termsmodifications";
 import TermsLegal from "@/components/terms/termslegal";
 
-export const metadata: Metadata = {
-  title: "Terms & Conditions | Creed Tech",
-  description:
-    "Please read these Terms and Conditions carefully before using Creed Tech's website and online communication channels.",
-  alternates: {
-    canonical: "/terms",
-  },
-  openGraph: {
-    title: "Terms & Conditions | Creed Tech",
-    description:
-      "Please read these Terms and Conditions carefully before using Creed Tech's website and online communication channels.",
-    url: "https://creed-tech.com/terms",
-  },
-};
+import { getSeoForPage } from "@/lib/seoHelper";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getSeoForPage("terms");
+  return {
+    title: seo.title ? { absolute: seo.title } : undefined,
+    description: seo.description,
+    keywords: seo.keywords,
+    alternates: {
+      canonical: seo.canonical_url || "/terms",
+    },
+    openGraph: {
+      title: seo.title,
+      description: seo.description,
+      url: seo.canonical_url || "https://creed-tech.com/terms",
+      images: seo.og_image ? [{ url: seo.og_image }] : undefined,
+    },
+    robots: {
+      index: !seo.no_index,
+      follow: !seo.no_follow,
+    },
+  };
+}
 
 export default function TermsPage() {
   return (

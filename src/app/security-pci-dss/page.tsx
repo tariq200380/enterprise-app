@@ -6,20 +6,29 @@ import PciRequirements from "@/components/security-pci-dss/pcirequirements";
 import PciSaqTable from "@/components/security-pci-dss/pcisaqtable";
 import PciCta from "@/components/security-pci-dss/pcicta";
 
-export const metadata: Metadata = {
-  title: "PCI-DSS v4.0 Payment Architecture | Creed Tech",
-  description:
-    "Founded by major payment brands, the PCI SSC establishes global payment card security standards. Creed Tech architects client-side tokenization flows that isolate cardholder data and streamline PCI assessment scope.",
-  alternates: {
-    canonical: "/security-pci-dss",
-  },
-  openGraph: {
-    title: "PCI-DSS v4.0 Payment Architecture | Creed Tech",
-    description:
-      "Creed Tech architects client-side tokenization flows that isolate cardholder data and streamline PCI assessment scope.",
-    url: "https://creed-tech.com/security-pci-dss",
-  },
-};
+import { getSeoForPage } from "@/lib/seoHelper";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getSeoForPage("security_pci_dss");
+  return {
+    title: seo.title ? { absolute: seo.title } : undefined,
+    description: seo.description,
+    keywords: seo.keywords,
+    alternates: {
+      canonical: seo.canonical_url || "/security-pci-dss",
+    },
+    openGraph: {
+      title: seo.title,
+      description: seo.description,
+      url: seo.canonical_url || "https://creed-tech.com/security-pci-dss",
+      images: seo.og_image ? [{ url: seo.og_image }] : undefined,
+    },
+    robots: {
+      index: !seo.no_index,
+      follow: !seo.no_follow,
+    },
+  };
+}
 
 export default function SecurityPciDssPage() {
   return (

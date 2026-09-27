@@ -6,20 +6,29 @@ import GdprRights from "@/components/security-gdpr/gdprrights";
 import GdprDpaTable from "@/components/security-gdpr/gdprdpatable";
 import GdprCta from "@/components/security-gdpr/gdprcta";
 
-export const metadata: Metadata = {
-  title: "EU GDPR Regulation (EU) 2016/679 Privacy Architecture | Creed Tech",
-  description:
-    "Enacted by the European Parliament, the GDPR mandates sovereign privacy by design. Creed Tech provides structured Article 28 Data Processing Agreement (DPA) templates and architects dedicated European cloud infrastructure with sovereign data residency.",
-  alternates: {
-    canonical: "/security-gdpr",
-  },
-  openGraph: {
-    title: "EU GDPR Regulation (EU) 2016/679 Privacy Architecture | Creed Tech",
-    description:
-      "Enacted by the European Parliament, the GDPR mandates sovereign privacy by design. Creed Tech provides structured Article 28 Data Processing Agreement (DPA) templates and architects dedicated European cloud infrastructure.",
-    url: "https://creed-tech.com/security-gdpr",
-  },
-};
+import { getSeoForPage } from "@/lib/seoHelper";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getSeoForPage("security_gdpr");
+  return {
+    title: seo.title ? { absolute: seo.title } : undefined,
+    description: seo.description,
+    keywords: seo.keywords,
+    alternates: {
+      canonical: seo.canonical_url || "/security-gdpr",
+    },
+    openGraph: {
+      title: seo.title,
+      description: seo.description,
+      url: seo.canonical_url || "https://creed-tech.com/security-gdpr",
+      images: seo.og_image ? [{ url: seo.og_image }] : undefined,
+    },
+    robots: {
+      index: !seo.no_index,
+      follow: !seo.no_follow,
+    },
+  };
+}
 
 export default function SecurityGdprPage() {
   return (

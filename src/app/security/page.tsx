@@ -6,20 +6,29 @@ import SecurityArchitecture from "@/components/security/securityarchitecture";
 import SecurityProcessors from "@/components/security/securityprocessors";
 import SecurityFooter from "@/components/security/securityfooter";
 
-export const metadata: Metadata = {
-  title: "Trust, Engineered Into Every Layer | Enterprise Security Center",
-  description:
-    "Security at Creed Tech isn't a layer we add — it's built into our infrastructure, our development lifecycle, and how we govern the company. Explore the architecture, controls, and audited standards behind every engagement.",
-  alternates: {
-    canonical: "/security",
-  },
-  openGraph: {
-    title: "Trust, Engineered Into Every Layer | Enterprise Security Center",
-    description:
-      "Security at Creed Tech isn't a layer we add — it's built into our infrastructure, our development lifecycle, and how we govern the company. Explore the architecture, controls, and audited standards behind every engagement.",
-    url: "https://creed-tech.com/security",
-  },
-};
+import { getSeoForPage } from "@/lib/seoHelper";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getSeoForPage("security");
+  return {
+    title: seo.title ? { absolute: seo.title } : undefined,
+    description: seo.description,
+    keywords: seo.keywords,
+    alternates: {
+      canonical: seo.canonical_url || "/security",
+    },
+    openGraph: {
+      title: seo.title,
+      description: seo.description,
+      url: seo.canonical_url || "https://creed-tech.com/security",
+      images: seo.og_image ? [{ url: seo.og_image }] : undefined,
+    },
+    robots: {
+      index: !seo.no_index,
+      follow: !seo.no_follow,
+    },
+  };
+}
 
 export default function SecurityPage() {
   return (
