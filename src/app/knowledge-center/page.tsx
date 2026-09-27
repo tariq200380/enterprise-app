@@ -24,20 +24,29 @@ import RegionalTechEcosystem from "@/components/knowledge-center/RegionalTechEco
 import KnowledgeOverviewGrid from "@/components/knowledge-center/KnowledgeOverviewGrid";
 import Testimonial3DDeck from "@/components/knowledge-center/Testimonial3DDeck";
 
-export const metadata: Metadata = {
-  title: "Enterprise Knowledge Center & Tech Intelligence | Creed Tech",
-  description:
-    "Curated technical research, engineering blueprints, system architecture patterns, and enterprise technology analysis from Creed Tech.",
-  alternates: {
-    canonical: "/knowledge-center",
-  },
-  openGraph: {
-    title: "Enterprise Knowledge Center & Tech Intelligence | Creed Tech",
-    description:
-      "Curated technical research, engineering blueprints, system architecture patterns, and enterprise technology analysis from Creed Tech.",
-    url: "https://creed-tech.com/knowledge-center",
-  },
-};
+import { getSeoForPage } from "@/lib/seoHelper";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getSeoForPage("knowledge_center");
+  return {
+    title: seo.title ? { absolute: seo.title } : undefined,
+    description: seo.description,
+    keywords: seo.keywords,
+    alternates: {
+      canonical: seo.canonical_url || "/knowledge-center",
+    },
+    openGraph: {
+      title: seo.title,
+      description: seo.description,
+      url: seo.canonical_url || "https://creed-tech.com/knowledge-center",
+      images: seo.og_image ? [{ url: seo.og_image }] : undefined,
+    },
+    robots: {
+      index: !seo.no_index,
+      follow: !seo.no_follow,
+    },
+  };
+}
 
 // Force dynamic SSR so live news and original images are always 100% fresh on reopen
 export const dynamic = "force-dynamic";

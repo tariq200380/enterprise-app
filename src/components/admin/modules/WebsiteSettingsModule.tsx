@@ -9,6 +9,7 @@ import AboutSettingsSection from "../settings/AboutSettingsSection";
 import ContactSettingsSection from "../settings/ContactSettingsSection";
 import PortfolioSettingsSection from "../settings/PortfolioSettingsSection";
 import ServicesSettingsSection from "../settings/ServicesSettingsSection";
+import SeoSettingsSection from "../settings/SeoSettingsSection";
 import { useAdminFetch } from "@/lib/useAdminFetch";
 
 interface WebsiteSettingsModuleProps {
@@ -16,7 +17,7 @@ interface WebsiteSettingsModuleProps {
   onNavigateTab?: (tab: string) => void;
 }
 
-type SubTabType = "global" | "home" | "services" | "about" | "contact" | "portfolio" | "header_footer";
+type SubTabType = "global" | "home" | "services" | "about" | "contact" | "portfolio" | "header_footer" | "seo";
 
 export default function WebsiteSettingsModule({ showToast, onNavigateTab }: WebsiteSettingsModuleProps) {
   const adminFetch = useAdminFetch();
@@ -330,6 +331,17 @@ export default function WebsiteSettingsModule({ showToast, onNavigateTab }: Webs
         >
           <span>🎨</span> <span>Header &amp; Footer</span>
         </button>
+        <button
+          type="button"
+          onClick={() => setSubTab("seo")}
+          className={`px-4 py-2 text-xs font-bold rounded-md flex items-center gap-1.5 transition-colors cursor-pointer ${
+            subTab === "seo"
+              ? "bg-[#FF6B00] text-white shadow-xs"
+              : "bg-[#F1F5F9] text-[#475569] border border-[#CBD5E1] hover:bg-[#E2E8F0]"
+          }`}
+        >
+          <span>🔍</span> <span>SEO &amp; Search Optimization</span>
+        </button>
       </div>
 
       {/* Clean Modular Form Content */}
@@ -359,24 +371,29 @@ export default function WebsiteSettingsModule({ showToast, onNavigateTab }: Webs
         {subTab === "header_footer" && (
           <HeaderFooterSection settings={settings} onChange={updateSetting} />
         )}
+        {subTab === "seo" && (
+          <SeoSettingsSection showToast={showToast} />
+        )}
 
-        {/* Bottom Save / Reset Action Bar */}
-        <div className="flex items-center justify-between border-t border-[#CBD5E1] pt-6">
-          <button
-            type="button"
-            onClick={handleReset}
-            className="px-5 py-2.5 bg-[#F1F5F9] hover:bg-[#E2E8F0] border border-[#CBD5E1] text-[#334155] text-xs font-bold rounded cursor-pointer"
-          >
-            Reset to Saved
-          </button>
-          <button
-            type="submit"
-            disabled={saving}
-            className="px-7 py-2.5 bg-[#0052FF] hover:bg-[#0042D0] text-white text-xs font-bold rounded shadow cursor-pointer flex items-center gap-2 disabled:opacity-50"
-          >
-            <span>💾</span> <span>{saving ? "Saving..." : "Save All Website Settings"}</span>
-          </button>
-        </div>
+        {/* Bottom Save / Reset Action Bar (isolated SEO section manages its own save) */}
+        {subTab !== "seo" && (
+          <div className="flex items-center justify-between border-t border-[#CBD5E1] pt-6">
+            <button
+              type="button"
+              onClick={handleReset}
+              className="px-5 py-2.5 bg-[#F1F5F9] hover:bg-[#E2E8F0] border border-[#CBD5E1] text-[#334155] text-xs font-bold rounded cursor-pointer"
+            >
+              Reset to Saved
+            </button>
+            <button
+              type="submit"
+              disabled={saving}
+              className="px-7 py-2.5 bg-[#0052FF] hover:bg-[#0042D0] text-white text-xs font-bold rounded shadow cursor-pointer flex items-center gap-2 disabled:opacity-50"
+            >
+              <span>💾</span> <span>{saving ? "Saving..." : "Save All Website Settings"}</span>
+            </button>
+          </div>
+        )}
       </form>
     </div>
   );

@@ -9,23 +9,32 @@ import ServicesDelivery from "@/components/services/servicesdelivery";
 import ServicesIndustries from "@/components/services/servicesindustries";
 import ServicesVision from "@/components/services/servicesvision";
 
+import { getSeoForPage } from "@/lib/seoHelper";
+
 // Step 3: Short cache for Services category page (5 minutes / 300 seconds ISR)
 export const revalidate = 300;
 
-export const metadata: Metadata = {
-  title: "Enterprise Services & Engineering Solutions | Creed Tech",
-  description:
-    "End-to-end cloud infrastructure, bespoke software engineering, AI automation, and cybersecurity engineered for unprecedented enterprise scale.",
-  alternates: {
-    canonical: "/services",
-  },
-  openGraph: {
-    title: "Enterprise Services & Engineering Solutions | Creed Tech",
-    description:
-      "End-to-end cloud infrastructure, bespoke software engineering, AI automation, and cybersecurity engineered for unprecedented enterprise scale.",
-    url: "https://creed-tech.com/services",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getSeoForPage("services");
+  return {
+    title: seo.title ? { absolute: seo.title } : undefined,
+    description: seo.description,
+    keywords: seo.keywords,
+    alternates: {
+      canonical: seo.canonical_url || "/services",
+    },
+    openGraph: {
+      title: seo.title,
+      description: seo.description,
+      url: seo.canonical_url || "https://creed-tech.com/services",
+      images: seo.og_image ? [{ url: seo.og_image }] : undefined,
+    },
+    robots: {
+      index: !seo.no_index,
+      follow: !seo.no_follow,
+    },
+  };
+}
 
 async function getServicesData() {
   let explorer = DEFAULT_WEBSITE_SETTINGS.servicesExplorer;
