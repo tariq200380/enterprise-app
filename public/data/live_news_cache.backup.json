@@ -1,6 +1,6 @@
 {
   "status": "success",
-  "timestamp": "2026-09-27T20:20:35.126Z",
+  "timestamp": "2026-09-27T22:17:35.607Z",
   "gate_status": "CENTRAL_GATE_ACTIVE",
   "provider_statuses": {},
   "counts": {
@@ -111,14 +111,14 @@
       "brandBadge": "🧠 ANTHROPIC CLAUDE",
       "captionTag": "ANTHROPIC OFFICIAL WIRE",
       "cat": "FRONTIER AI & SAFETY RESEARCH",
-      "date": "Sun, 27 Sep 2026 16:49:26 GMT",
-      "title": "Anthropic launches Claude Opus 5.5: Benchmarks, pricing, safety",
-      "summary": "Anthropic launches Claude Opus 5.5: Benchmarks, pricing, safety. Real-time intelligence and verified enterprise developments reported via Mashable.",
+      "date": "Sun, 27 Sep 2026 21:50:07 GMT",
+      "title": "Anthropic may release Claude Sonnet 5.5 within days",
+      "summary": "Anthropic may release Claude Sonnet 5.5 within days. Real-time intelligence and verified enterprise developments reported via TestingCatalog AI News.",
       "source": "Anthropic",
-      "link": "https://news.google.com/rss/articles/CBMijwFBVV95cUxNR3kyT0JlSC1QNUhOT0RtQ0VZVzFRSF9IZVE1TlhmY3RMU012NENzcm9IVXdXM0NQMmZRVVRxV0d4QmgyUHBCWXRsQ1J3OGhCZ1JPUGhJOG1ZYTdXcTBLVG5PQ1NHUzB6WEVlZFl6U2tDcUdqVkYzSndmOGxlREwtd05Fb1VIUnZpT2d3bDhKWQ?oc=5",
+      "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxQZzNJRkZUdEJ2S1AzSEQ2NlVCT2JwNl9ZLU5reFVZT19CVEIxa1JLY3Fud2NaVEg4b3RYbnFJd2VIdmhGamxUSzd5WHFMTUlaVDV5VURvbUxHVDFSa215U1ZlYjRIYkdiUXpxQjNkdHNNQWhyeG12RXZzQm9ySnczYWdpdGo?oc=5",
       "img": "/images/anthropic-opus-hero.jpg",
-      "caption": "📷 Anthropic launches Claude Opus 5.5: Benchmarks, pricing, safety",
-      "provider_published_at": "2026-09-27T16:49:26.000Z"
+      "caption": "📷 Anthropic may release Claude Sonnet 5.5 within days",
+      "provider_published_at": "2026-09-27T21:50:07.000Z"
     },
     "intel": {
       "id": "intel",
@@ -127,7 +127,7 @@
       "cat": "NEXT-GEN SILICON & SEMICONDUCTORS",
       "date": "Sun, 27 Sep 2026 12:22:58 GMT",
       "title": "Googlebook Launches with Intel Core Ultra Series 3 Processors",
-      "summary": "Googlebook Launches with Intel Core Ultra Series 3 Processors. Real-time intelligence and verified enterprise developments reported via Intel.",
+      "summary": "Googlebook Launches with Intel Core Ultra Series 3 Processors. Real-time intelligence and verified enterprise developments reported via intel.com.",
       "source": "Intel",
       "link": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxPRC1Edk83QjdDemRmenpkRzcwdWxmU0VoM1lDbXNqXzFvbG9IaFpNZ3pqRERzaFVtM3pXaElGSzlhM3dJcnUxeHlzQ1FRbVZBWlFhTFJ3RXo5WnljUzJhN2ZqeHkzQ2JIOUVmQUh0aXNoOFNGZlozRTFlNm02OEV1T2VJYUNwa3lmeldGU2ZQSUFrczBvOXBMYXNNVmsyekc1VVpDRnVMRVF2Q0hMMXZ5WDVERGtkWWtxZU0tdWR1Z2dWRnNLNFBRVWNHQktsVTRKMWww?oc=5",
       "img": "https://www.intel.com/content/dam/www/central-libraries/us/en/images/2026-09/newsroom-intel-googlebook-black.png?v=1790511778000",
@@ -261,6 +261,21 @@
   ],
   "breaking_news": [
     {
+      "id": "Anthropic-CBMihAFBVV95cUxQZzNJRkZUdEJ2S1AzSEQ2NlVCT2JwNl9ZLU5reFVZT19CVEIxa1JLY3Fud2NaVEg4b3RYbnFJd2VIdmhGamxUSzd5WHFMTUlaVDV5VURvbUxHVDFSa215U1ZlYjRIYkdiUXpxQjNkdHNNQWhyeG12RXZzQm9ySnczYWdpdGo",
+      "source": "Anthropic",
+      "provider": "anthropic",
+      "providerLabel": "🧠 ANTHROPIC CLAUDE",
+      "title": "Anthropic may release Claude Sonnet 5.5 within days",
+      "desc": "Anthropic may release Claude Sonnet 5.5 within days. Real-time intelligence and verified enterprise developments reported via TestingCatalog AI News.",
+      "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxQZzNJRkZUdEJ2S1AzSEQ2NlVCT2JwNl9ZLU5reFVZT19CVEIxa1JLY3Fud2NaVEg4b3RYbnFJd2VIdmhGamxUSzd5WHFMTUlaVDV5VURvbUxHVDFSa215U1ZlYjRIYkdiUXpxQjNkdHNNQWhyeG12RXZzQm9ySnczYWdpdGo?oc=5",
+      "image": "/images/anthropic-opus-hero.jpg",
+      "img": "/images/anthropic-opus-hero.jpg",
+      "date": "Sun, 27 Sep 2026 21:50:07 GMT",
+      "timestamp": "2026-09-27T21:50:07.000Z",
+      "tag": "FRONTIER AI & SAFETY RESEARCH",
+      "type": "international"
+    },
+    {
       "id": "ProPakistani-https://propakistani.pk/?p=1088684",
       "source": "ProPakistani",
       "provider": "propakistani",
@@ -371,7 +386,7 @@
       "provider": "intel",
       "providerLabel": "🔷 INTEL",
       "title": "Googlebook Launches with Intel Core Ultra Series 3 Processors",
-      "desc": "Googlebook Launches with Intel Core Ultra Series 3 Processors. Real-time intelligence and verified enterprise developments reported via Intel.",
+      "desc": "Googlebook Launches with Intel Core Ultra Series 3 Processors. Real-time intelligence and verified enterprise developments reported via intel.com.",
       "link": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxPRC1Edk83QjdDemRmenpkRzcwdWxmU0VoM1lDbXNqXzFvbG9IaFpNZ3pqRERzaFVtM3pXaElGSzlhM3dJcnUxeHlzQ1FRbVZBWlFhTFJ3RXo5WnljUzJhN2ZqeHkzQ2JIOUVmQUh0aXNoOFNGZlozRTFlNm02OEV1T2VJYUNwa3lmeldGU2ZQSUFrczBvOXBMYXNNVmsyekc1VVpDRnVMRVF2Q0hMMXZ5WDVERGtkWWtxZU0tdWR1Z2dWRnNLNFBRVWNHQktsVTRKMWww?oc=5",
       "image": "https://www.intel.com/content/dam/www/central-libraries/us/en/images/2026-09/newsroom-intel-googlebook-black.png?v=1790511778000",
       "img": "https://www.intel.com/content/dam/www/central-libraries/us/en/images/2026-09/newsroom-intel-googlebook-black.png?v=1790511778000",
@@ -441,21 +456,6 @@
       "type": "regional"
     },
     {
-      "id": "Anthropic-CBMiowFBVV95cUxNMVAzUnhFY09WOU1oUDE4REd4ZXk3OHljTFZNQU9Hal9Rb2lqWExOMWFBeDlNQXhXMjBQUVgtWFQxaWc1Qld2aGZPeEMyQ2pmN3hVbkRNb1VSNGV2WEZEVU9wMkI2eDd2SEJjcURaZ2hLMS0zbzNkR3U2STExbHFiR3hyTVJRamo2S01EX3F4QmJsTVlPcHV2Vm04b2JiREhVMFU0",
-      "source": "Anthropic",
-      "provider": "anthropic",
-      "providerLabel": "🧠 ANTHROPIC CLAUDE",
-      "title": "Claude Sonnet 5.5 leak claims a last minute upgrade before a Monday launch",
-      "desc": "Claude Sonnet 5.5 leak claims a last minute upgrade before a Monday launch. Real-time intelligence and verified enterprise developments reported via Startup Fortune.",
-      "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNMVAzUnhFY09WOU1oUDE4REd4ZXk3OHljTFZNQU9Hal9Rb2lqWExOMWFBeDlNQXhXMjBQUVgtWFQxaWc1Qld2aGZPeEMyQ2pmN3hVbkRNb1VSNGV2WEZEVU9wMkI2eDd2SEJjcURaZ2hLMS0zbzNkR3U2STExbHFiR3hyTVJRamo2S01EX3F4QmJsTVlPcHV2Vm04b2JiREhVMFU0?oc=5",
-      "image": "/images/anthropic-opus-hero.jpg",
-      "img": "/images/anthropic-opus-hero.jpg",
-      "date": "Sun, 27 Sep 2026 03:30:28 GMT",
-      "timestamp": "2026-09-27T03:30:28.000Z",
-      "tag": "FRONTIER AI & SAFETY RESEARCH",
-      "type": "international"
-    },
-    {
       "id": "Dawn Sci-Tech-https://www.dawn.com/news/2032979",
       "source": "Dawn Sci-Tech",
       "provider": "dawn",
@@ -484,6 +484,21 @@
       "timestamp": "2026-09-27T03:06:00.000Z",
       "tag": "PAKISTAN AEROSPACE & TECH",
       "type": "regional"
+    },
+    {
+      "id": "Anthropic-CBMingFBVV95cUxPWEJPSGNCNFo1cF9lbUZ6Qm00Njd6TVdUSFVuajcwTklsSEJIME9pVTIzN2tHRHFjMmhFNVdwQ3N3Qy1vZWQyLTBZTWlqZXB2ckhnWWJGeEVYdmVGZkNFcy01cExZNlhhTEdmWnZVVW4wQVRNd2FpUGdCZXNkT202d2h3SEZPNGMyZmhydVR0a3lUQjNUZkRYbGxnbDRMZw",
+      "source": "Anthropic",
+      "provider": "anthropic",
+      "providerLabel": "🧠 ANTHROPIC CLAUDE",
+      "title": "The Claude Sonnet 5.5 leak beating GPT-6 Sol is not what it looks like",
+      "desc": "The Claude Sonnet 5.5 leak beating GPT-6 Sol is not what it looks like. Real-time intelligence and verified enterprise developments reported via Startup Fortune.",
+      "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxPWEJPSGNCNFo1cF9lbUZ6Qm00Njd6TVdUSFVuajcwTklsSEJIME9pVTIzN2tHRHFjMmhFNVdwQ3N3Qy1vZWQyLTBZTWlqZXB2ckhnWWJGeEVYdmVGZkNFcy01cExZNlhhTEdmWnZVVW4wQVRNd2FpUGdCZXNkT202d2h3SEZPNGMyZmhydVR0a3lUQjNUZkRYbGxnbDRMZw?oc=5",
+      "image": "/images/anthropic-opus-hero.jpg",
+      "img": "/images/anthropic-opus-hero.jpg",
+      "date": "Sat, 26 Sep 2026 22:56:35 GMT",
+      "timestamp": "2026-09-26T22:56:35.000Z",
+      "tag": "FRONTIER AI & SAFETY RESEARCH",
+      "type": "international"
     },
     {
       "id": "Dawn Sci-Tech-https://www.dawn.com/news/2032836",
@@ -662,21 +677,6 @@
       "img": "https://iprsoftwaremedia.com/219/files/202609/306cbf129044501629326e0a7a1e125d/6ab52d223d63321fe4743d17_AF-0000000212056767-master-black-background-842x450/AF-0000000212056767-master-black-background-842x450_thmb.jpg?v=c4bfe338-2832-4d7f-957b-9d6c1481f447",
       "date": "Thu, 24 Sep 2026 14:00:50 GMT",
       "timestamp": "2026-09-24T14:00:50.000Z",
-      "tag": "ACCELERATED COMPUTING & AI",
-      "type": "international"
-    },
-    {
-      "id": "NVIDIA-https://blogs.nvidia.com/blog/geforce-now-thursday-control-resonant/",
-      "source": "NVIDIA",
-      "provider": "nvidia",
-      "providerLabel": "⚡ NVIDIA",
-      "title": "Contain the Chaos: ‘CONTROL Resonant’ Launches on GeForce NOW",
-      "desc": "A warped Manhattan is waiting in the cloud this week. Remedy Entertainment’s CONTROL Resonant brings Dylan Faden’s extraordinary abilities and a paranatural crisis to GeForce NOW at launch. With the release comes the final days of the CO...",
-      "link": "https://blogs.nvidia.com/blog/geforce-now-thursday-control-resonant/",
-      "image": "https://iprsoftwaremedia.com/219/files/202609/0b15ae55e16ccbb9e314fbb0a8099bf0/6ab51f673d6332dc40f10210_GFN_Thursday-Sept_24-842x450/GFN_Thursday-Sept_24-842x450_thmb.jpg?v=c68b34f2-b4fa-465b-8750-180eeac5275d",
-      "img": "https://iprsoftwaremedia.com/219/files/202609/0b15ae55e16ccbb9e314fbb0a8099bf0/6ab51f673d6332dc40f10210_GFN_Thursday-Sept_24-842x450/GFN_Thursday-Sept_24-842x450_thmb.jpg?v=c68b34f2-b4fa-465b-8750-180eeac5275d",
-      "date": "Thu, 24 Sep 2026 13:00:36 GMT",
-      "timestamp": "2026-09-24T13:00:36.000Z",
       "tag": "ACCELERATED COMPUTING & AI",
       "type": "international"
     }
