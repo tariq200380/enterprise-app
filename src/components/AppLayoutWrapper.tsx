@@ -1,11 +1,12 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import TopBanner, { AnnouncementSettings } from "@/components/TopBanner";
 import Navbar, { HeaderSettings } from "@/components/Navbar";
 import NewsletterStrip from "@/components/NewsletterStrip";
 import Footer, { GeneralSiteInfo } from "@/components/Footer";
+import HomeLogic from "@/components/home/homelogic";
 
 export default function AppLayoutWrapper({
   children,
@@ -25,6 +26,21 @@ export default function AppLayoutWrapper({
   const pathname = usePathname();
   const isAdmin = pathname?.startsWith("/admin");
 
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.location.hostname.includes("ngrok")) {
+      const origFetch = window.fetch;
+      window.fetch = function (input: RequestInfo | URL, init?: RequestInit) {
+        init = init || {};
+        const headers = new Headers(init.headers || {});
+        if (!headers.has("ngrok-skip-browser-warning")) {
+          headers.set("ngrok-skip-browser-warning", "69420");
+        }
+        init.headers = headers;
+        return origFetch.call(this, input, init);
+      };
+    }
+  }, []);
+
   if (isAdmin) {
     return <>{children}</>;
   }
@@ -42,6 +58,7 @@ export default function AppLayoutWrapper({
         initialCopyrightText={copyrightText}
         initialGeneralInfo={generalInfo}
       />
+      <HomeLogic />
     </>
   );
 }

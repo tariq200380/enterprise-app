@@ -18,6 +18,7 @@ import FounderProposalsModule from "@/components/admin/modules/FounderProposalsM
 import SecurityReportsModule from "@/components/admin/modules/SecurityReportsModule";
 import SubscribersModule from "@/components/admin/modules/SubscribersModule";
 import PortfolioModule from "@/components/admin/modules/PortfolioModule";
+import EmailTemplatesModule from "@/components/admin/modules/EmailTemplatesModule";
 import WebsiteSettingsModule from "@/components/admin/modules/WebsiteSettingsModule";
 import SystemSecurityModule from "@/components/admin/modules/SystemSecurityModule";
 import { useUser, useClerk, SignIn } from "@clerk/nextjs";
@@ -342,6 +343,10 @@ export default function AdminPage() {
               showToast={showToast}
               onRefresh={fetchTelemetry}
             />
+          )}
+
+          {(activeTab === "email_templates" || activeTab === "email_management") && (
+            <EmailTemplatesModule showToast={showToast} onNavigateTab={setActiveTab} />
           )}
 
           {activeTab === "website_settings" && (

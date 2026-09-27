@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { sendEmail, getSmtpConfig } from "@/lib/mailer";
 import { query } from "@/lib/db";
 import { verifyAdminAuth } from "@/lib/adminAuth";
+import { getEmailProfiles, generateEmailHtml, EmailDepartmentProfile } from "@/lib/email-profiles";
 
 export const dynamic = "force-dynamic";
 
@@ -13,7 +14,20 @@ export async function POST(req: Request) {
 
   try {
     const body = await req.json();
-    const { inquiryId, to, subject, message, updateStatus = true } = body;
+    const {
+      inquiryId,
+      to,
+      subject,
+      message,
+      updateStatus = true,
+      profileId,
+      fromEmail,
+      fromName,
+      clientName,
+      service,
+      referenceBadge,
+      showReferenceBadge,
+    } = body;
 
     if (!to || !to.includes("@")) {
       return NextResponse.json(
@@ -39,34 +53,54 @@ export async function POST(req: Request) {
     const config = await getSmtpConfig();
     const isConfigured = Boolean(config.user && config.pass);
 
+    // Resolve Department Profile for branded layout
+    const allProfiles = await getEmailProfiles();
+    let selectedProfile: EmailDepartmentProfile | undefined = allProfiles.find(
+      (p) => p.id === profileId || p.email.toLowerCase() === (fromEmail || "").toLowerCase()
+    );
+
+    if (!selectedProfile) {
+      selectedProfile = allProfiles.find((p) => p.isDefault) || allProfiles[0] || {
+        id: "default",
+        name: fromName || config.from_name || "Creed Tech Enterprise",
+        email: fromEmail || config.from_email || "contact@creed-tech.com",
+        department: "Enterprise Solutions",
+        accentColor: "#FF6B00",
+      };
+    }
+
+    // Override profile sender if custom fromEmail / fromName explicitly supplied
+    if (fromEmail) {
+      selectedProfile = {
+        ...selectedProfile,
+        email: fromEmail,
+        name: fromName || selectedProfile.name,
+      };
+    }
+
     let emailSent = false;
     let sendResult: any = null;
 
     if (isConfigured) {
-      // Send real email via SMTP
-      const formattedHtml = `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #1e293b; line-height: 1.6;">
-          <div style="background: #0b1120; padding: 20px; border-radius: 8px 8px 0 0; text-align: left;">
-            <h2 style="color: #ffffff; margin: 0; font-size: 18px; font-weight: 800; letter-spacing: 0.05em;">CREED TECH</h2>
-            <span style="color: #94a3b8; font-size: 12px;">Enterprise Systems & Architecture Engineering</span>
-          </div>
-          <div style="background: #ffffff; padding: 24px; border: 1px solid #e2e8f0; border-top: none; border-radius: 0 0 8px 8px;">
-            ${message.replace(/\n/g, "<br/>")}
-            <hr style="border: none; border-top: 1px solid #f1f5f9; margin: 24px 0 16px;" />
-            <div style="font-size: 11px; color: #64748b;">
-              <strong>Creed Tech Enterprise Systems</strong><br />
-              Direct Support & Scoping Desk<br />
-              <a href="https://creed-tech.com" style="color: #0052ff; text-decoration: none;">https://creed-tech.com</a>
-            </div>
-          </div>
-        </div>
-      `;
+      // Generate rich responsive HTML with department branding, address, video card and footer
+      const formattedHtml = generateEmailHtml(selectedProfile, {
+        clientName: clientName || "Valued Client",
+        message,
+        subject,
+        inquiryId,
+        service,
+        referenceBadge,
+        showReferenceBadge,
+      });
 
       sendResult = await sendEmail({
         to,
         subject,
         html: formattedHtml,
         text: message,
+        fromEmail: selectedProfile.email,
+        fromName: selectedProfile.name,
+        replyTo: selectedProfile.email,
       });
 
       emailSent = sendResult.success;

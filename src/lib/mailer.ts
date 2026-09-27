@@ -71,11 +71,17 @@ export async function sendEmail({
   subject,
   html,
   text,
+  fromEmail,
+  fromName,
+  replyTo,
 }: {
   to: string;
   subject: string;
   html: string;
   text?: string;
+  fromEmail?: string;
+  fromName?: string;
+  replyTo?: string;
 }): Promise<{ success: boolean; message: string; needConfig?: boolean }> {
   const config = await getSmtpConfig();
 
@@ -173,7 +179,8 @@ export async function sendEmail({
         // Step 4: Auth Success 235
         else if (step === 4 && code === 235) {
           step = 5;
-          socket.write(`MAIL FROM:<${config.from_email || config.user}>\r\n`);
+          const envelopeSender = config.user || fromEmail || config.from_email;
+          socket.write(`MAIL FROM:<${envelopeSender}>\r\n`);
         }
         // Step 5: MAIL FROM OK 250
         else if (step === 5 && code === 250) {
@@ -189,9 +196,13 @@ export async function sendEmail({
         else if (step === 7 && code === 354) {
           step = 8;
           const dateStr = new Date().toUTCString();
-          const fromHeader = `"${config.from_name || 'Creed Tech'}" <${config.from_email || config.user}>`;
+          const effectiveSenderEmail = fromEmail || config.from_email || config.user;
+          const effectiveSenderName = fromName || config.from_name || "Creed Tech";
+          const effectiveReplyTo = replyTo || fromEmail || config.from_email || config.user;
+          const fromHeader = `"${effectiveSenderName}" <${effectiveSenderEmail}>`;
           const emailData = [
             `From: ${fromHeader}`,
+            `Reply-To: <${effectiveReplyTo}>`,
             `To: <${to}>`,
             `Subject: ${subject}`,
             `Date: ${dateStr}`,

@@ -55,7 +55,7 @@ export default function AdminSidebar({
     { id: "applicants", label: "Talent Pool / Careers", icon: "💼", count: candidatesCount, badgeColor: "bg-indigo-950 text-indigo-300" },
     { id: "founder_proposals", label: "Founder Proposals", icon: "🔥", count: founderProposalsCount, badgeColor: "bg-orange-950 text-[#FF6B00]" },
     { id: "subscribers", label: "Newsletter Leads", icon: "📧", count: subscribersCount, badgeColor: "bg-emerald-950 text-emerald-300" },
-    { id: "portfolio", label: "Portfolio Projects", icon: "💼", count: portfolioCount, badgeColor: "bg-purple-950 text-purple-300" },
+    { id: "email_templates", label: "Email Management", icon: "✉️" },
     { id: "website_settings", label: "Website Settings", icon: "🌐" },
     { id: "settings", label: "System & Security", icon: "⚙️" },
   ];

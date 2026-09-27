@@ -60,7 +60,10 @@ export default function HomeLogic() {
     try {
       const res = await fetch(isProject ? "/api/inquiries" : "/api/testimonials", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "ngrok-skip-browser-warning": "69420",
+        },
         body: JSON.stringify(data),
       });
 
@@ -86,7 +89,7 @@ export default function HomeLogic() {
 
   return (
     <div className="fixed inset-0 bg-black/75 z-50 flex items-center justify-center p-4 select-none">
-      <div className="bg-white rounded-xl max-w-lg w-full p-6 relative border border-slate-200 text-left shadow-2xl">
+      <div className="bg-white rounded-xl max-w-lg w-full p-6 relative border border-slate-200 text-left shadow-2xl max-h-[90vh] overflow-y-auto">
         
         {/* Cross Close Button */}
         <button
@@ -207,7 +210,7 @@ export default function HomeLogic() {
               {/* NDA checkbox for Project */}
               {modal === "project" && (
                 <label className="flex items-center gap-2 text-xs text-slate-600 cursor-pointer">
-                  <input name="nda" type="checkbox" defaultChecked className="w-3.5 h-3.5 rounded text-[#0052FF]" />
+                  <input name="nda" type="checkbox" defaultChecked className="w-3.5 h-3.5 rounded text-[#FF6B00] accent-[#FF6B00]" />
                   Execute standard Non-Disclosure Agreement (NDA)
                 </label>
               )}
@@ -223,7 +226,7 @@ export default function HomeLogic() {
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 bg-[#0052FF] hover:bg-[#0042D0] text-white text-xs font-semibold rounded cursor-pointer"
+                  className="px-5 py-2 bg-[#FF6B00] hover:bg-[#e05d00] text-white text-xs font-semibold rounded cursor-pointer transition-colors shadow-sm"
                 >
                   {modal === "project" ? "Submit Project Inquiry" : "Submit Review ★"}
                 </button>
