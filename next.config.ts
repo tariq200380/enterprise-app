@@ -2,13 +2,15 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   turbopack: {},
-  // Allow ngrok domain to connect to dev server, HMR, WebSockets, and static chunks
+  // Allow ngrok and cloudflare domains to connect to dev server, HMR, WebSockets, and static chunks
   allowedDevOrigins: [
     "runt-royal-reps.ngrok-free.dev",
     "*.ngrok-free.dev",
     "*.ngrok-free.app",
     "*.ngrok.app",
     "*.ngrok.io",
+    "double-controller-democratic-they.trycloudflare.com",
+    "*.trycloudflare.com",
     "localhost:3001",
     "0.0.0.0",
   ],
@@ -20,6 +22,8 @@ const nextConfig: NextConfig = {
         "*.ngrok-free.app",
         "*.ngrok.app",
         "*.ngrok.io",
+        "double-controller-democratic-they.trycloudflare.com",
+        "*.trycloudflare.com",
         "localhost:3001",
       ],
     },
@@ -135,13 +139,13 @@ const nextConfig: NextConfig = {
             key: "Content-Security-Policy",
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.clerk.accounts.dev https://clerk.com https://challenges.cloudflare.com blob:",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.clerk.accounts.dev https://clerk.com https://challenges.cloudflare.com https://*.trycloudflare.com https://static.cloudflareinsights.com blob:",
               "worker-src 'self' blob:",
               "style-src 'self' 'unsafe-inline'",
-              "img-src 'self' data: blob: https://images.unsplash.com https://img.freepik.com https://img.clerk.com https://images.clerk.dev https://*.apple.com https://*.dawn.com https://*.brecorder.com https://*.tribune.com.pk https://propakistani.pk https://*.propakistani.pk https://*.google.com https://storage.googleapis.com https://*.googleapis.com https://*.nvidia.com https://*.microsoft.com https://*.intel.com https://about.fb.com https://*.fb.com https://images.ctfassets.net https://*.openai.com https://*.anthropic.com https://iprsoftwaremedia.com https://*.iprsoftwaremedia.com",
+              "img-src 'self' data: blob: https://images.unsplash.com https://img.freepik.com https://img.clerk.com https://images.clerk.dev https://*.apple.com https://*.dawn.com https://*.brecorder.com https://*.tribune.com.pk https://propakistani.pk https://*.propakistani.pk https://*.google.com https://storage.googleapis.com https://*.googleapis.com https://*.nvidia.com https://*.microsoft.com https://*.intel.com https://about.fb.com https://*.fb.com https://images.ctfassets.net https://*.openai.com https://*.anthropic.com https://iprsoftwaremedia.com https://*.iprsoftwaremedia.com https://*.trycloudflare.com",
               "font-src 'self' data:",
-              "connect-src 'self' https://*.clerk.accounts.dev https://api.clerk.com https://clerk.com wss://*.clerk.accounts.dev https://*.ngrok-free.dev https://*.ngrok-free.app wss://*.ngrok-free.dev wss://*.ngrok-free.app https://*.ngrok.app wss://*.ngrok.app wss: ws:",
-              "frame-src 'self' https://challenges.cloudflare.com https://www.youtube.com https://player.vimeo.com",
+              "connect-src 'self' https://*.clerk.accounts.dev https://api.clerk.com https://clerk.com wss://*.clerk.accounts.dev https://*.ngrok-free.dev https://*.ngrok-free.app wss://*.ngrok-free.dev wss://*.ngrok-free.app https://*.ngrok.app wss://*.ngrok.app https://*.trycloudflare.com wss://*.trycloudflare.com https://*.cloudflare.com https://*.cloudflareinsights.com wss: ws:",
+              "frame-src 'self' https://challenges.cloudflare.com https://www.youtube.com https://player.vimeo.com https://*.trycloudflare.com",
               "media-src 'self' https: data: blob:",
               "object-src 'none'",
               "base-uri 'self'",
