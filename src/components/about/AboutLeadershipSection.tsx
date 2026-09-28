@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { AboutLeadershipMemberItem } from "@/components/admin/settings/types";
 
 const DEFAULT_LEADERS: AboutLeadershipMemberItem[] = [
@@ -75,16 +76,16 @@ export default function AboutLeadershipSection({
   return (
     <section className="w-full py-10 sm:py-12 border-b border-[#E2E8F0] bg-[#F7F6F5]">
       <div className="max-w-[1240px] mx-auto px-6 sm:px-10">
-        <div className="max-w-[640px] mx-auto mb-10 sm:mb-12 text-center">
+        <div className="max-w-[760px] mx-auto mb-10 sm:mb-12 text-center">
           <div className="text-[11px] text-[#FF5A1F] font-semibold uppercase tracking-wider mb-3">
-            {badgeTag || "THE PEOPLE BEHIND THE CODE"}
+            {badgeTag || "EXECUTIVE STEWARDSHIP • TECHNICAL CUSTODIANS"}
           </div>
           <h2 className="font-outfit text-2xl sm:text-4xl font-bold text-[#0F172A] tracking-tight leading-[1.15] mb-4">
-            {headline || "Executive leadership and technical custodians"}
+            {headline || "Leadership & Global Delivery Infrastructure"}
           </h2>
           <p className="text-[#5B6472] text-[15.5px] leading-[1.7] font-normal">
             {description ||
-              "Meet the founders and principal architects who guide our engineering vision and mentor our senior pods across three global centers."}
+              "Meet the principal architects and technical custodians who guide our engineering vision and mentor our dedicated senior pods across three global delivery centers."}
           </p>
         </div>
 
@@ -99,14 +100,15 @@ export default function AboutLeadershipSection({
                 key={member.id || `leader-${idx}`}
                 className="bg-white border border-[#E2E8F0] rounded-2xl p-6 sm:p-7 grid grid-cols-1 sm:grid-cols-[180px_1fr] gap-6 items-center shadow-xs hover:shadow-md hover:border-[#3D6BFF]/40 transition-all"
               >
-                {/* Portrait container: image if available, else stylish initial box */}
+                {/* Portrait container: Image with Next.js next/image if available, else stylish initial box */}
                 <div className="aspect-[4/5] w-full max-w-[200px] mx-auto sm:max-w-none sm:w-[180px] self-center bg-gradient-to-br from-[#1B3A8C] to-[#0B1120] rounded-xl border border-white/10 flex items-center justify-center relative overflow-hidden shadow-sm">
                   {member.portraitUrl ? (
-                    <img
+                    <Image
                       src={member.portraitUrl}
-                      alt={member.name || "Leader Portrait"}
-                      loading="lazy"
-                      decoding="async"
+                      alt={`${member.name} - ${member.role} at Creed Tech`}
+                      width={180}
+                      height={225}
+                      unoptimized={member.portraitUrl.startsWith("http")}
                       className="w-full h-full object-cover object-center"
                     />
                   ) : (
@@ -142,6 +144,7 @@ export default function AboutLeadershipSection({
                   </div>
                   <Link
                     href={connectUrl}
+                    aria-label={`Connect with ${member.name} for enterprise software engineering consultation`}
                     className="text-[12.5px] font-semibold text-[#3D6BFF] hover:underline"
                   >
                     {connectText}

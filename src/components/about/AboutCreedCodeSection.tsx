@@ -15,16 +15,16 @@ export default function AboutCreedCodeSection() {
       />
 
       <div className="max-w-[1240px] mx-auto px-6 sm:px-10 relative z-10">
-        <div className="max-w-[680px] mx-auto mb-10 sm:mb-14 text-center">
+        <div className="max-w-[760px] mx-auto mb-10 sm:mb-14 text-center">
           <div className="text-xs font-semibold uppercase tracking-wider text-[#EA580C] mb-3">
-            THE CREED CODE
+            THE CREED CODE &bull; ARCHITECTURAL GOVERNANCE
           </div>
           <h2 className="font-outfit text-2xl sm:text-4xl font-bold text-white tracking-tight leading-[1.15] mb-4">
-            Our four pillars of uncompromising engineering
+            Security-First Architecture &amp; Zero-Trust Compliance
           </h2>
           <p className="text-white/70 text-[15.5px] leading-[1.7] font-normal">
-            The fundamental principles that govern every technical decision, sprint review, and
-            architectural deployment at Creed Tech.
+            The four foundational pillars that govern every technical decision, cryptographic protocol, and
+            enterprise cloud deployment engineered by Creed Tech.
           </p>
         </div>
 

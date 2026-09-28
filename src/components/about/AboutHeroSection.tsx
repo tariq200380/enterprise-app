@@ -51,14 +51,14 @@ export default function AboutHeroSection({
             </div>
             <div className="w-[60px] h-[2px] bg-[#FF6B00] opacity-80 mb-6" />
 
-            <h1 className="font-outfit text-[34px] sm:text-[46px] lg:text-[52px] font-bold text-white leading-[1.1] mb-2 tracking-tight">
-              Architects &amp; Builders of
+            <h1 className="font-outfit text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-[1.15] mb-3 tracking-tight">
+              Engineering Resilient Enterprise Software &amp; Cloud Infrastructure
             </h1>
-            <h2 className="font-outfit text-[28px] sm:text-[38px] lg:text-[44px] font-bold text-white leading-[1.2] mb-5 tracking-tight">
-              Critical Digital Infrastructure.
-            </h2>
+            <p className="text-base sm:text-lg font-medium text-[#00F0FF]/90 mb-4 leading-snug">
+              Verified senior engineers, mathematical architectural rigor, and 99.99% high-availability reliability for global enterprises.
+            </p>
 
-            <p className="text-base font-normal text-white/75 leading-[1.7] max-w-[540px] mb-8">
+            <p className="text-sm sm:text-base font-normal text-white/75 leading-[1.7] max-w-[540px] mb-8">
               Founded on the belief that mission-critical enterprise software should be engineered like bridges and power grids — with <strong className="text-white font-semibold">mathematical precision</strong>, <strong className="text-white font-semibold">zero-compromise security</strong>, and <strong className="text-white font-semibold">enduring architectural resilience</strong>.
             </p>
 
@@ -66,18 +66,20 @@ export default function AboutHeroSection({
               <button
                 type="button"
                 onClick={() => onOpenModal?.("Enterprise Architecture & Systems")}
+                aria-label="Start an enterprise architecture consultation conversation"
                 className="inline-flex items-center justify-center gap-1.5 bg-[#EA580C] hover:bg-orange-600 text-white font-semibold h-11 w-full sm:w-[230px] rounded-lg text-xs tracking-wider uppercase border border-transparent transition-colors shadow-xs cursor-pointer"
               >
                 <span>Start a Conversation</span>
-                <span>&rarr;</span>
+                <span aria-hidden="true">&rarr;</span>
               </button>
               <button
                 type="button"
                 onClick={handleScrollToJourney}
+                aria-label="Scroll down to explore our engineering philosophy and journey"
                 className="inline-flex items-center justify-center gap-1.5 bg-black hover:bg-[#EA580C] hover:border-[#EA580C] text-white font-semibold h-11 w-full sm:w-[230px] rounded-lg text-xs tracking-wider uppercase border border-white/20 transition-colors shadow-xs cursor-pointer"
               >
                 <span>Explore Our Journey</span>
-                <span>&darr;</span>
+                <span aria-hidden="true">&darr;</span>
               </button>
             </div>
           </div>

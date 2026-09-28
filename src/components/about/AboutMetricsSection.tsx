@@ -5,16 +5,16 @@ export default function AboutMetricsSection() {
   return (
     <section className="w-full py-10 sm:py-12 text-center border-b border-[#E2E8F0] bg-[#F7F6F5]">
       <div className="max-w-[1240px] mx-auto px-6 sm:px-10">
-        <div className="max-w-[640px] mx-auto mb-10 sm:mb-12 text-center">
+        <div className="max-w-[760px] mx-auto mb-10 sm:mb-12 text-center">
           <div className="text-[11px] text-[#3D6BFF] font-semibold uppercase tracking-wider mb-3">
             DATA DRIVEN &bull; PROVEN RESULTS
           </div>
           <h2 className="font-outfit text-2xl sm:text-4xl font-bold text-[#0F172A] tracking-tight leading-[1.15] mb-4">
-            Leading you to digital growth
+            Verified Delivery Telemetry &amp; Enterprise Growth
           </h2>
           <p className="text-[#5B6472] text-[15.5px] leading-[1.7] font-normal">
-            Our proven expertise and cutting-edge technology have driven measurable success —
-            see the numbers that showcase our impact.
+            Our proven expertise and high-scale architecture have driven measurable enterprise success —
+            grounded in verifiable telemetry and 99.99% uptime.
           </p>
         </div>
 

@@ -10,11 +10,11 @@ export default function AboutPhilosophySection() {
             ENGINEERING ETHOS &bull; OUR PHILOSOPHY
           </div>
           <h2 className="font-outfit text-3xl sm:text-4xl lg:text-[44px] font-bold text-[#0F172A] tracking-tight leading-[1.15] mb-5">
-            Discipline over hype. Architecture over shortcuts.
+            Our Engineering Philosophy &amp; High-Availability Standards
           </h2>
           <p className="text-[#5B6472] text-base sm:text-lg leading-[1.7] font-normal">
-            We build mission-critical enterprise systems with{" "}
-            <strong className="text-[#0F172A] font-semibold">mathematical rigor</strong> — eliminating technical debt while bridging deep computer science with real-world enterprise velocity.
+            Discipline over hype. Architecture over shortcuts. We build mission-critical enterprise systems with{" "}
+            <strong className="text-[#0F172A] font-semibold">mathematical rigor</strong> — eliminating technical debt while ensuring 99.99% high availability and enterprise scalability.
           </p>
         </div>
 

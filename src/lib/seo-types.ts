@@ -78,11 +78,12 @@ export const FALLBACK_SEO: Record<string, PageSeoData> = {
   },
   about: {
     page_key: "about",
-    title: "About Creed Tech | Engineering Principles & Leadership",
+    title: "About Creed Tech | Enterprise Software & Cloud Specialists",
     description:
-      "Learn about Creed Tech's engineering principles, distributed architecture hubs, and commitment to sovereign enterprise software.",
-    keywords: "About Creed Tech, Leadership, Engineering Principles, Enterprise Software",
-    og_image: "/images/hero-services-web-q90.webp",
+      "Learn about Creed Tech: our mission, dedicated senior engineering pods, enterprise cloud standards, zero-trust security practices, and proven track record.",
+    keywords:
+      "about Creed Tech, enterprise software engineers, cloud architects, dedicated engineering pods, software delivery methodology, IT consulting company",
+    og_image: "/images/og-about.webp",
     canonical_url: "https://creed-tech.com/about",
     no_index: false,
     no_follow: false,

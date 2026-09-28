@@ -9,15 +9,15 @@ export default function AboutServicesSection({ onOpenModal }: AboutServicesSecti
   return (
     <section className="w-full py-10 sm:py-12 border-b border-[#E2E8F0] bg-[#F7F6F5]">
       <div className="max-w-[1240px] mx-auto px-6 sm:px-10">
-        <div className="max-w-[640px] mx-auto mb-10 sm:mb-12 text-center">
+        <div className="max-w-[760px] mx-auto mb-10 sm:mb-12 text-center">
           <div className="text-[11px] text-[#3D6BFF] font-semibold uppercase tracking-wider mb-3">
-            SERVICES AND EXPERTISE
+            DEDICATED SENIOR PODS &bull; FULL LIFECYCLE DELIVERY
           </div>
           <h2 className="font-outfit text-2xl sm:text-4xl font-bold text-[#0F172A] tracking-tight leading-[1.15] mb-4">
-            What we do
+            Dedicated Engineering Pods vs. Rotating Contractors
           </h2>
           <p className="text-[#5B6472] text-[15.5px] leading-[1.7] font-normal">
-            We help businesses turn technology into their biggest competitive advantage.
+            We replace fragmented, rotating freelance contractors with cohesive, dedicated senior engineering pods deeply embedded in your architecture, guaranteeing accountability and velocity.
           </p>
         </div>
 
@@ -32,7 +32,7 @@ export default function AboutServicesSection({ onOpenModal }: AboutServicesSecti
                 </svg>
               </div>
               <h3 className="font-outfit text-[19px] font-bold mb-2.5 text-[#0F172A] tracking-tight">
-                Software development
+                Custom Enterprise Software &amp; Cloud Platforms
               </h3>
               <p className="text-[#5B6472] text-sm leading-[1.65] mb-7 font-normal">
                 Scalable, high-performance web, cloud, and enterprise software tailored to accelerate
@@ -42,6 +42,7 @@ export default function AboutServicesSection({ onOpenModal }: AboutServicesSecti
             <button
               type="button"
               onClick={() => onOpenModal?.("Scalable Web & Mobile Engineering")}
+              aria-label="Submit quick inquiry for custom enterprise software development"
               className="self-start inline-flex items-center justify-center min-w-[185px] text-[13px] font-semibold text-[#F7F6F5] bg-[#0F172A] hover:bg-[#1B3A8C] px-5 py-2.5 rounded-[4px] transition-colors cursor-pointer text-center whitespace-nowrap"
             >
               Quick Inquiry
@@ -73,7 +74,7 @@ export default function AboutServicesSection({ onOpenModal }: AboutServicesSecti
               </div>
               <div className="flex items-center gap-2 mb-1">
                 <h3 className="font-outfit text-[19px] font-bold text-white tracking-tight">
-                  AI solutions
+                  Autonomous AI Solutions &amp; Machine Learning
                 </h3>
                 <span className="text-[10px] font-semibold tracking-wider px-2 py-0.5 rounded bg-orange-500/20 text-orange-400 border border-orange-500/30">
                   FEATURED
@@ -86,6 +87,7 @@ export default function AboutServicesSection({ onOpenModal }: AboutServicesSecti
             </div>
             <Link
               href="/services#what-we-provide"
+              aria-label="View all enterprise technology services and solutions"
               className="relative z-10 self-start inline-flex items-center justify-center gap-1.5 min-w-[185px] text-[13px] font-semibold text-white bg-[#EA580C] hover:bg-orange-600 px-5 py-2.5 rounded-[4px] transition-colors cursor-pointer text-center whitespace-nowrap shadow-sm"
             >
               <span>View All Services</span>
@@ -103,7 +105,7 @@ export default function AboutServicesSection({ onOpenModal }: AboutServicesSecti
                 </svg>
               </div>
               <h3 className="font-outfit text-[19px] font-bold mb-2.5 text-[#0F172A] tracking-tight">
-                Digital growth
+                Data-Driven Digital Growth &amp; Scalability
               </h3>
               <p className="text-[#5B6472] text-sm leading-[1.65] mb-7 font-normal">
                 Data-driven SEO strategies, conversion rate optimization, and multi-channel brand
@@ -112,6 +114,7 @@ export default function AboutServicesSection({ onOpenModal }: AboutServicesSecti
             </div>
             <Link
               href="/contact"
+              aria-label="Contact our engineering team for a technical consultation"
               className="self-start inline-flex items-center justify-center gap-1.5 min-w-[185px] text-[13px] font-semibold text-[#F7F6F5] bg-[#0F172A] hover:bg-[#1B3A8C] px-5 py-2.5 rounded-[4px] transition-colors cursor-pointer text-center whitespace-nowrap"
             >
               <span>Contact Our Team</span>
