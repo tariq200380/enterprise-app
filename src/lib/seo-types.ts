@@ -67,11 +67,24 @@ export const FALLBACK_SEO: Record<string, PageSeoData> = {
   },
   knowledge_center: {
     page_key: "knowledge_center",
-    title: "Enterprise Knowledge Center & Tech Intelligence | Creed Tech",
+    title: "Enterprise Tech Insights & Architecture Blueprints | Creed Tech",
     description:
-      "Curated technical research, engineering blueprints, system architecture patterns, and enterprise technology analysis from Creed Tech.",
-    keywords: "Tech Intelligence, System Architecture, Engineering Blueprints, Knowledge Center",
-    og_image: "/images/hero-services-web-q90.webp",
+      "Explore deep technical whitepapers, architectural blueprints, database migration guides, and enterprise software engineering insights from Creed Tech.",
+    keywords:
+      "software engineering blog, cloud architecture blueprints, database migration checklist, enterprise software scaling, tech insights, Creed Tech knowledge center",
+    og_image: "https://creed-tech.com/images/og-knowledge-center.webp",
+    canonical_url: "https://creed-tech.com/knowledge-center",
+    no_index: false,
+    no_follow: false,
+  },
+  "knowledge-center": {
+    page_key: "knowledge-center",
+    title: "Enterprise Tech Insights & Architecture Blueprints | Creed Tech",
+    description:
+      "Explore deep technical whitepapers, architectural blueprints, database migration guides, and enterprise software engineering insights from Creed Tech.",
+    keywords:
+      "software engineering blog, cloud architecture blueprints, database migration checklist, enterprise software scaling, tech insights, Creed Tech knowledge center",
+    og_image: "https://creed-tech.com/images/og-knowledge-center.webp",
     canonical_url: "https://creed-tech.com/knowledge-center",
     no_index: false,
     no_follow: false,
@@ -90,11 +103,12 @@ export const FALLBACK_SEO: Record<string, PageSeoData> = {
   },
   contact: {
     page_key: "contact",
-    title: "Contact Solutions Architecture & Engineering | Creed Tech",
+    title: "Contact Creed Tech | Enterprise Software & Cloud Engineering Consultation",
     description:
-      "Schedule a technical consultation with Creed Tech's principal solutions architects. Direct engineering scoping and zero-obligation NDA protection.",
-    keywords: "Contact Creed Tech, Technical Consultation, Solutions Architecture, Enterprise Inquiries",
-    og_image: "/images/hero-services-web-q90.webp",
+      "Get in touch with Creed Tech's senior engineering team. Schedule an architectural consultation for custom software, cloud infrastructure, AI, or cybersecurity.",
+    keywords:
+      "contact Creed Tech, hire enterprise engineers, software consultation, cloud architecture inquiry, IT consulting Pakistan, hire dedicated software pods",
+    og_image: "/images/og-contact.webp",
     canonical_url: "https://creed-tech.com/contact",
     no_index: false,
     no_follow: false,

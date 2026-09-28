@@ -35,6 +35,7 @@ export default function AdminPage() {
   const [telemetry, setTelemetry] = useState<TelemetryData | null>(null);
 
   // Clerk hooks
+
   const { isSignedIn, user } = useUser();
   const { signOut } = useClerk();
 
@@ -53,7 +54,7 @@ export default function AdminPage() {
         await signOut({ redirectUrl: "/sign-in" });
       }
       await adminFetch("/api/admin/auth/logout", { method: "POST" });
-    } catch {}
+    } catch { }
     localStorage.removeItem("creed_admin_authenticated");
     localStorage.removeItem("creed_admin_user_email");
     window.location.href = "/sign-in";
@@ -241,11 +242,10 @@ export default function AdminPage() {
       {/* Toast Notification */}
       {toast && (
         <div
-          className={`fixed bottom-6 right-6 z-50 px-4 py-3 rounded-xl shadow-2xl text-xs font-bold transition-all duration-300 transform translate-y-0 backdrop-blur-md flex items-center gap-2.5 ${
-            toast.type === "error"
+          className={`fixed bottom-6 right-6 z-50 px-4 py-3 rounded-xl shadow-2xl text-xs font-bold transition-all duration-300 transform translate-y-0 backdrop-blur-md flex items-center gap-2.5 ${toast.type === "error"
               ? "bg-[#0F172A] text-red-300 border border-red-500/30 shadow-[0_4px_25px_rgba(239,68,68,0.25)]"
               : "bg-[#0F172A] text-white border border-[#FF6B00]/40 shadow-[0_4px_25px_rgba(255,107,0,0.28)]"
-          }`}
+            }`}
         >
           <span className="w-2 h-2 rounded-full bg-[#FF6B00] animate-pulse" />
           <span>{toast.message}</span>

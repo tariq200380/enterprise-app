@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
+import Image from "next/image";
 import { subscribeLiveNews, fetchSharedLiveNews, seedLiveNewsCache } from "@/lib/liveNewsClient";
 
 import { LiveNewsItem, INITIAL_STORIES, FALLBACK_IMAGE, BRAND_FALLBACK_IMAGES } from "./knowledgeCenterData";
@@ -177,14 +178,16 @@ export default function LatestTechNews({ initialStories }: { initialStories?: Li
             <div className="bg-white border border-[#E2E8F0] rounded-2xl overflow-hidden shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05)] flex flex-col w-full transition-all duration-300">
               {/* Visual Container with True 16:9 Landscape Proportion */}
               <div className="relative w-full aspect-[16/9] bg-[#0B1120] overflow-hidden group">
-                <img
+                <Image
                   src={getStoryImage(activeStory)}
-                  alt={activeStory.title}
-                  loading="lazy"
-                  decoding="async"
+                  alt={activeStory.title ? `${activeStory.title} - Enterprise Tech News Wire` : "Enterprise Tech News Wire"}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 65vw"
+                  priority
+                  unoptimized
                   className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
                   onError={(e) => {
-                    const target = e.currentTarget;
+                    const target = e.currentTarget as HTMLImageElement;
                     const fallback = BRAND_FALLBACK_IMAGES[activeStory?.provider?.toLowerCase()] || FALLBACK_IMAGE;
                     if (target.src !== fallback) {
                       target.src = fallback;
@@ -264,14 +267,15 @@ export default function LatestTechNews({ initialStories }: { initialStories?: Li
                   <div className="flex items-center gap-3">
                     {/* Live Original Picture Thumbnail */}
                     <div className="w-[60px] h-[60px] rounded-[6px] overflow-hidden bg-[#0B1120] shrink-0 relative">
-                      <img
+                      <Image
                         src={getStoryImage(story)}
-                        alt={story.title}
-                        loading="lazy"
-                        decoding="async"
+                        alt={story.title ? `${story.title} - News Wire Preview` : "Tech News Story Thumbnail"}
+                        width={60}
+                        height={60}
+                        unoptimized
                         className="w-full h-full object-cover"
                         onError={(e) => {
-                          const target = e.currentTarget;
+                          const target = e.currentTarget as HTMLImageElement;
                           const fallback = BRAND_FALLBACK_IMAGES[story.provider?.toLowerCase()] || FALLBACK_IMAGE;
                           if (target.src !== fallback) {
                             target.src = fallback;
@@ -286,9 +290,9 @@ export default function LatestTechNews({ initialStories }: { initialStories?: Li
                       >
                         {story.providerLabel}
                       </span>
-                      <h4 className="font-outfit font-bold text-[13px] text-[#0F172A] leading-[1.3] mb-1 line-clamp-2">
+                      <h3 className="font-outfit font-bold text-[13px] text-[#0F172A] leading-[1.3] mb-1 line-clamp-2">
                         {story.title}
-                      </h4>
+                      </h3>
                       <span className="text-[10px] text-[#64748B] block">
                         {story.date}
                       </span>

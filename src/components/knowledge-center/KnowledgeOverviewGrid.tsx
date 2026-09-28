@@ -233,9 +233,9 @@ export default function KnowledgeOverviewGrid() {
                 {/* 1. DON'T MISS SECTION */}
                 <div>
                   <div className="border-b-2 border-[#0F172A] pb-2 mb-6 inline-block">
-                    <h3 className="font-outfit text-[1.35rem] font-bold text-[#0F172A] tracking-tight m-0">
+                    <h2 className="font-outfit text-[1.35rem] font-bold text-[#0F172A] tracking-tight m-0">
                       Don&apos;t Miss
-                    </h3>
+                    </h2>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -255,9 +255,9 @@ export default function KnowledgeOverviewGrid() {
                         </div>
                       </div>
                       <div className="p-5">
-                        <h4 className="font-outfit text-[0.95rem] sm:text-base font-bold text-[#0F172A] group-hover:text-[#0052FF] leading-[1.4] tracking-tight m-0 transition-colors">
+                        <h3 className="font-outfit text-[0.95rem] sm:text-base font-bold text-[#0F172A] group-hover:text-[#0052FF] leading-[1.4] tracking-tight m-0 transition-colors">
                           Artificial Intelligence Development from 1950 to 1965: The Foundation of Modern AI Research
-                        </h4>
+                        </h3>
                       </div>
                     </div>
 
@@ -277,9 +277,9 @@ export default function KnowledgeOverviewGrid() {
                         </div>
                       </div>
                       <div className="p-5">
-                        <h4 className="font-outfit text-[0.95rem] sm:text-base font-bold text-[#0F172A] group-hover:text-[#0052FF] leading-[1.4] tracking-tight m-0 transition-colors">
+                        <h3 className="font-outfit text-[0.95rem] sm:text-base font-bold text-[#0F172A] group-hover:text-[#0052FF] leading-[1.4] tracking-tight m-0 transition-colors">
                           Cloud Native Microservices Architecture: A Deep Dive into Kubernetes Orchestration
-                        </h4>
+                        </h3>
                       </div>
                     </div>
                   </div>
@@ -292,9 +292,9 @@ export default function KnowledgeOverviewGrid() {
                       <span className="text-[10.5px] font-semibold text-[#0052FF] uppercase tracking-wider block mb-0.5">
                         CATEGORY DIRECTORY
                       </span>
-                      <h3 className="font-outfit text-xl font-bold text-[#0F172A] tracking-tight m-0">
+                      <h2 className="font-outfit text-xl font-bold text-[#0F172A] tracking-tight m-0">
                         Discover Articles by Topic
-                      </h3>
+                      </h2>
                     </div>
 
                     {/* Filter Pills */}
@@ -333,9 +333,9 @@ export default function KnowledgeOverviewGrid() {
                           </span>
                         </div>
                         <div className="p-4">
-                          <h5 className="font-outfit text-[13.5px] font-bold text-[#0F172A] group-hover:text-[#0052FF] leading-[1.4] tracking-tight m-0 line-clamp-2 transition-colors">
+                          <h3 className="font-outfit text-[13.5px] font-bold text-[#0F172A] group-hover:text-[#0052FF] leading-[1.4] tracking-tight m-0 line-clamp-2 transition-colors">
                             {card.title}
-                          </h5>
+                          </h3>
                         </div>
                       </div>
                     ))}
@@ -349,9 +349,9 @@ export default function KnowledgeOverviewGrid() {
                       <span className="text-[10.5px] font-semibold text-[#EF4444] uppercase tracking-wider block mb-0.5">
                         🔥 VIRAL INTELLIGENCE
                       </span>
-                      <h3 className="font-outfit text-xl font-bold text-[#0F172A] tracking-tight m-0">
+                      <h2 className="font-outfit text-xl font-bold text-[#0F172A] tracking-tight m-0">
                         What&apos;s Trending Across Labs
-                      </h3>
+                      </h2>
                     </div>
                     <span className="text-[11.5px] text-[#64748B] font-semibold tracking-wider">
                       UPDATED HOURLY
@@ -395,9 +395,9 @@ export default function KnowledgeOverviewGrid() {
                               TRENDING
                             </span>
                           )}
-                          <h5 className="font-outfit text-[13.5px] font-bold text-[#0F172A] group-hover:text-[#0052FF] leading-[1.4] tracking-tight m-0 line-clamp-2 transition-colors">
+                          <h3 className="font-outfit text-[13.5px] font-bold text-[#0F172A] group-hover:text-[#0052FF] leading-[1.4] tracking-tight m-0 line-clamp-2 transition-colors">
                             {card.title}
-                          </h5>
+                          </h3>
                         </div>
                       </div>
                     ))}

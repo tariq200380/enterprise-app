@@ -7,10 +7,18 @@ interface ContactHeroSectionProps {
 
 export default function ContactHeroSection({ settings }: ContactHeroSectionProps) {
   const badge = settings?.heroBadge || "DIRECT SOLUTIONS ARCHITECTURE & ENGINEERING";
-  const headline = settings?.heroHeadline || "Let's Architect Your Next Critical Platform.";
+  const headline =
+    settings?.heroHeadline &&
+    !settings.heroHeadline.includes("Let's Build Something") &&
+    !settings.heroHeadline.includes("Let's Architect")
+      ? settings.heroHeadline
+      : "Schedule an Enterprise Engineering & Architecture Consultation";
   const description =
-    settings?.heroDescription ||
-    "Connect directly with our senior principal software architects. Skip the sales pitch — receive an actionable architectural scoping blueprint, SLA guarantee, and zero-obligation mutual NDA protection within 2 to 4 hours.";
+    settings?.heroDescription &&
+    !settings.heroDescription.includes("Connect directly with senior systems architects") &&
+    !settings.heroDescription.includes("Connect directly with our senior principal")
+      ? settings.heroDescription
+      : "Discuss your technical roadmap, infrastructure scaling, or dedicated engineering pod requirements directly with our principal architects.";
 
   const m1Label = settings?.metric1Label || "RESPONSE GUARANTEE";
   const m1Value = settings?.metric1Value || "< 2 Hours";
@@ -41,16 +49,7 @@ export default function ContactHeroSection({ settings }: ContactHeroSectionProps
           <div className="w-[60px] h-[2px] bg-[#FF6B00] opacity-80 mb-6" />
 
           <h1 className="text-[32px] sm:text-[44px] font-outfit font-bold text-white leading-[1.15] mb-4 tracking-tight">
-            {headline.includes(".") ? (
-              <>
-                <span>{headline.split(".")[0]}.</span>
-                {headline.split(".")[1] && (
-                  <span className="block text-white/90">{headline.split(".").slice(1).join(".")}</span>
-                )}
-              </>
-            ) : (
-              headline
-            )}
+            {headline}
           </h1>
 
           <p className="text-base font-normal text-white/75 leading-[1.7] max-w-[520px]">
@@ -58,12 +57,12 @@ export default function ContactHeroSection({ settings }: ContactHeroSectionProps
           </p>
         </div>
 
-        {/* Right Column: 4 Stat Metrics (Clean, direct JSX) */}
+        {/* Right Column: 4 Stat Metrics with Semantic H3 Headings */}
         <div className="w-full md:w-1/2 grid grid-cols-2 gap-y-8 gap-x-6 sm:gap-x-10 text-left">
           <div>
-            <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">
+            <h3 className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block m-0">
               {m1Label}
-            </span>
+            </h3>
             <div className="text-2xl sm:text-3xl font-outfit font-bold text-white mt-1.5 mb-1 tracking-tight">
               {m1Value}
             </div>
@@ -73,9 +72,9 @@ export default function ContactHeroSection({ settings }: ContactHeroSectionProps
           </div>
 
           <div>
-            <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">
+            <h3 className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block m-0">
               {m2Label}
-            </span>
+            </h3>
             <div className="text-2xl sm:text-3xl font-outfit font-bold text-white mt-1.5 mb-1 tracking-tight">
               {m2Value}
             </div>
@@ -85,9 +84,9 @@ export default function ContactHeroSection({ settings }: ContactHeroSectionProps
           </div>
 
           <div>
-            <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">
+            <h3 className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block m-0">
               {m3Label}
-            </span>
+            </h3>
             <div className="text-2xl sm:text-3xl font-outfit font-bold text-white mt-1.5 mb-1 tracking-tight">
               {m3Value}
             </div>
@@ -97,9 +96,9 @@ export default function ContactHeroSection({ settings }: ContactHeroSectionProps
           </div>
 
           <div>
-            <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">
+            <h3 className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block m-0">
               DELIVERY COMMITMENT
-            </span>
+            </h3>
             <div className="text-2xl sm:text-3xl font-outfit font-bold text-white mt-1.5 mb-1 tracking-tight">
               99.99% SLA
             </div>

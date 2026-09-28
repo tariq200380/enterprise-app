@@ -89,7 +89,7 @@ export default function ContactScopingForm() {
           PROJECT SPECIFICATION &amp; SCOPING
         </span>
         <h2 className="text-2xl sm:text-3xl font-outfit font-bold text-[#0F172A] tracking-tight">
-          Scope Your Engineering Initiative
+          Request Project Scoping &amp; Architectural Estimate
         </h2>
         <p className="text-xs sm:text-sm text-slate-500 mt-1.5 font-normal leading-relaxed">
           Fill out the parameters below to receive an architectural estimate, technology matrix,
@@ -130,21 +130,23 @@ export default function ContactScopingForm() {
       <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-6">
         {/* 1. Required Capability */}
         <div>
-          <label className="block text-xs font-bold text-[#0F172A] uppercase tracking-wider mb-2.5">
+          <label id="service-select-label" className="block text-xs font-bold text-[#0F172A] uppercase tracking-wider mb-2.5">
             1. Select the primary capability needed
           </label>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+          <div role="radiogroup" aria-labelledby="service-select-label" className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
             {CAPABILITIES.map((cap) => {
               const isSelected = selectedService === cap.value;
               return (
-                <label key={cap.id} className="cursor-pointer select-none">
+                <label key={cap.id} htmlFor={`service-${cap.id}`} className="cursor-pointer select-none">
                   <input
                     type="radio"
+                    id={`service-${cap.id}`}
                     name="service"
                     value={cap.value}
                     checked={isSelected}
                     onChange={() => setSelectedService(cap.value)}
                     disabled={status === "loading"}
+                    aria-label={`Select ${cap.label}`}
                     className="peer sr-only"
                   />
                   <span
@@ -170,13 +172,15 @@ export default function ContactScopingForm() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-medium text-slate-700 mb-1.5">
+              <label htmlFor="client-name" className="block text-xs font-medium text-slate-700 mb-1.5">
                 Full Name <span className="text-[#EA580C]">*</span>
               </label>
               <input
                 type="text"
+                id="client-name"
                 name="name"
                 required
+                aria-label="Full Name"
                 disabled={status === "loading"}
                 placeholder="e.g. John Doe"
                 className="w-full px-3.5 py-2.5 text-sm bg-white border border-[#E2E8F0] rounded-lg focus:outline-none focus:border-[#EA580C] focus:ring-1 focus:ring-[#EA580C] transition-all disabled:opacity-50"
@@ -184,13 +188,15 @@ export default function ContactScopingForm() {
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-slate-700 mb-1.5">
+              <label htmlFor="client-email" className="block text-xs font-medium text-slate-700 mb-1.5">
                 Work Email <span className="text-[#EA580C]">*</span>
               </label>
               <input
                 type="email"
+                id="client-email"
                 name="email"
                 required
+                aria-label="Work Email Address"
                 disabled={status === "loading"}
                 placeholder="john@company.com"
                 className="w-full px-3.5 py-2.5 text-sm bg-white border border-[#E2E8F0] rounded-lg focus:outline-none focus:border-[#EA580C] focus:ring-1 focus:ring-[#EA580C] transition-all disabled:opacity-50"
@@ -200,12 +206,14 @@ export default function ContactScopingForm() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-medium text-slate-700 mb-1.5">
+              <label htmlFor="client-company" className="block text-xs font-medium text-slate-700 mb-1.5">
                 Company / Organization
               </label>
               <input
                 type="text"
+                id="client-company"
                 name="company"
+                aria-label="Company or Organization Name"
                 disabled={status === "loading"}
                 placeholder="e.g. Acme Corp"
                 className="w-full px-3.5 py-2.5 text-sm bg-white border border-[#E2E8F0] rounded-lg focus:outline-none focus:border-[#EA580C] focus:ring-1 focus:ring-[#EA580C] transition-all disabled:opacity-50"
@@ -213,11 +221,13 @@ export default function ContactScopingForm() {
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-slate-700 mb-1.5">
+              <label htmlFor="client-timeline" className="block text-xs font-medium text-slate-700 mb-1.5">
                 Target Timeline
               </label>
               <select
+                id="client-timeline"
                 name="timeline"
+                aria-label="Target Project Timeline"
                 disabled={status === "loading"}
                 className="w-full px-3.5 py-2.5 text-sm bg-white border border-[#E2E8F0] rounded-lg focus:outline-none focus:border-[#EA580C] focus:ring-1 focus:ring-[#EA580C] transition-all cursor-pointer disabled:opacity-50"
               >
@@ -232,12 +242,14 @@ export default function ContactScopingForm() {
 
         {/* 3. Requirements Overview */}
         <div>
-          <label className="block text-xs font-bold text-[#0F172A] uppercase tracking-wider mb-2">
+          <label htmlFor="client-message" className="block text-xs font-bold text-[#0F172A] uppercase tracking-wider mb-2">
             3. Technical Architecture Overview <span className="text-[#EA580C]">*</span>
           </label>
           <textarea
+            id="client-message"
             name="message"
             required
+            aria-label="Technical Architecture Overview and Requirements"
             rows={4}
             disabled={status === "loading"}
             placeholder="Describe your architectural challenge, current tech stack, scale targets, or mission-critical objectives..."

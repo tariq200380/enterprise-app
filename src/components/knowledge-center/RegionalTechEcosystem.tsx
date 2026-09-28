@@ -104,17 +104,18 @@ export default function RegionalTechEcosystem({ initialWires }: { initialWires?:
         {activeWire && (
           <div className="bg-white border border-[#E2E8F0] rounded-2xl overflow-hidden shadow-xs grid grid-cols-1 md:grid-cols-12 gap-6 p-6 sm:p-8 items-center">
             <div className="md:col-span-5 aspect-[16/10] bg-[#0B1120] rounded-xl overflow-hidden relative">
-              <img
+              <Image
                 src={activeWire.image}
-                alt={activeWire.title}
-                loading="lazy"
-                decoding="async"
+                alt={activeWire.title ? `${activeWire.title} - Pakistan Regional Tech Wire` : "Pakistan Regional Tech Wire"}
+                fill
+                sizes="(max-width: 768px) 100vw, 42vw"
+                unoptimized
                 className="w-full h-full object-cover"
                 onError={(e) => {
                   (e.currentTarget as HTMLImageElement).src = "/images/kc-news.webp";
                 }}
               />
-              <span className="absolute top-3 left-3 bg-[#059669] text-white text-[10px] font-semibold tracking-wider px-2.5 py-1 rounded shadow-sm uppercase">
+              <span className="absolute top-3 left-3 bg-[#059669] text-white text-[10px] font-semibold tracking-wider px-2.5 py-1 rounded shadow-sm uppercase z-10">
                 {activeWire.brandBadge}
               </span>
             </div>

@@ -25,25 +25,61 @@ import KnowledgeOverviewGrid from "@/components/knowledge-center/KnowledgeOvervi
 import Testimonial3DDeck from "@/components/knowledge-center/Testimonial3DDeck";
 
 import { getSeoForPage } from "@/lib/seoHelper";
+import { ARTICLES_STORE } from "@/components/knowledge-center/knowledgeArticlesData";
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getSeoForPage("knowledge_center");
+  const title =
+    seo.title || "Enterprise Tech Insights & Architecture Blueprints | Creed Tech";
+  const description =
+    seo.description ||
+    "Explore deep technical whitepapers, architectural blueprints, database migration guides, and enterprise software engineering insights from Creed Tech.";
+  const canonicalUrl =
+    seo.canonical_url || "https://creed-tech.com/knowledge-center";
+  const ogImage = seo.og_image || "/images/og-knowledge-center.webp";
+
   return {
-    title: seo.title ? { absolute: seo.title } : undefined,
-    description: seo.description,
-    keywords: seo.keywords,
+    title: { absolute: title },
+    description,
+    keywords:
+      seo.keywords ||
+      "software engineering blog, cloud architecture blueprints, database migration checklist, enterprise software scaling, tech insights, Creed Tech knowledge center",
     alternates: {
-      canonical: seo.canonical_url || "/knowledge-center",
+      canonical: canonicalUrl,
     },
     openGraph: {
-      title: seo.title,
-      description: seo.description,
-      url: seo.canonical_url || "https://creed-tech.com/knowledge-center",
-      images: seo.og_image ? [{ url: seo.og_image }] : undefined,
+      type: "website",
+      title,
+      description,
+      url: canonicalUrl,
+      siteName: "Creed Tech",
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: "Creed Tech Knowledge Center - Enterprise Tech Insights & Architecture Blueprints",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      site: "@CreedtechHq",
+      creator: "@CreedtechHq",
+      images: [ogImage],
     },
     robots: {
       index: !seo.no_index,
       follow: !seo.no_follow,
+      googleBot: {
+        index: !seo.no_index,
+        follow: !seo.no_follow,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
     },
   };
 }
@@ -341,8 +377,80 @@ async function getInitialNewsData() {
 export default async function KnowledgeCenterPage() {
   const { brandWiresList, breakingNews, regionalWiresList } = await getInitialNewsData();
 
+  const knowledgeCenterJsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://creed-tech.com/knowledge-center/#breadcrumb",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: "https://creed-tech.com",
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Knowledge Center",
+            item: "https://creed-tech.com/knowledge-center",
+          },
+        ],
+      },
+      {
+        "@type": ["CollectionPage", "Blog"],
+        "@id": "https://creed-tech.com/knowledge-center/#blog",
+        url: "https://creed-tech.com/knowledge-center",
+        name: "Enterprise Tech Insights & Architecture Blueprints | Creed Tech",
+        description:
+          "Explore deep technical whitepapers, architectural blueprints, database migration guides, and enterprise software engineering insights from Creed Tech.",
+        publisher: {
+          "@id": "https://creed-tech.com/#organization",
+        },
+        inLanguage: "en-US",
+        blogPost: ARTICLES_STORE.map((article) => {
+          const dateStr = article.date || "Aug 16, 2026";
+          const parsedDate = new Date(dateStr);
+          const isoDate = !isNaN(parsedDate.getTime())
+            ? parsedDate.toISOString()
+            : "2026-08-16T00:00:00.000Z";
+
+          return {
+            "@type": "BlogPosting",
+            "@id": `https://creed-tech.com/knowledge-center/#article-${article.id}`,
+            headline: article.title,
+            name: article.title,
+            description:
+              article.intro_paragraphs?.[0] ||
+              article.editors_note ||
+              "Enterprise software engineering blueprint and technical analysis from Creed Tech.",
+            datePublished: isoDate,
+            dateModified: isoDate,
+            author: {
+              "@type": "Person",
+              name: article.author,
+              jobTitle: article.author_role || "Principal Systems Architect",
+            },
+            publisher: {
+              "@id": "https://creed-tech.com/#organization",
+            },
+            mainEntityOfPage: `https://creed-tech.com/knowledge-center#article-${article.id}`,
+            articleSection: article.category,
+            image: "https://creed-tech.com/images/og-knowledge-center.webp",
+            inLanguage: "en-US",
+          };
+        }),
+      },
+    ],
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(knowledgeCenterJsonLd) }}
+      />
       <KnowledgeHero />
       <div className="w-full bg-[#F7F6F5] text-[#0F172A] font-sans">
         <LatestTechNews initialStories={breakingNews} />

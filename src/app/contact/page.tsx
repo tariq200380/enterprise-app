@@ -9,22 +9,57 @@ export const revalidate = 300;
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getSeoForPage("contact");
+  const title =
+    seo.title ||
+    "Contact Creed Tech | Enterprise Software & Cloud Engineering Consultation";
+  const description =
+    seo.description ||
+    "Get in touch with Creed Tech's senior engineering team. Schedule an architectural consultation for custom software, cloud infrastructure, AI, or cybersecurity.";
+  const canonicalUrl = seo.canonical_url || "https://creed-tech.com/contact";
+  const ogImage = seo.og_image || "/images/og-contact.webp";
+
   return {
-    title: seo.title ? { absolute: seo.title } : undefined,
-    description: seo.description,
-    keywords: seo.keywords,
+    title: { absolute: title },
+    description,
+    keywords:
+      seo.keywords ||
+      "contact Creed Tech, hire enterprise engineers, software consultation, cloud architecture inquiry, IT consulting Pakistan, hire dedicated software pods",
     alternates: {
-      canonical: seo.canonical_url || "/contact",
+      canonical: canonicalUrl,
     },
     openGraph: {
-      title: seo.title,
-      description: seo.description,
-      url: seo.canonical_url || "https://creed-tech.com/contact",
-      images: seo.og_image ? [{ url: seo.og_image }] : undefined,
+      type: "website",
+      title,
+      description,
+      url: canonicalUrl,
+      siteName: "Creed Tech",
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: "Contact Creed Tech - Enterprise Software & Cloud Engineering Consultation",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      site: "@CreedtechHq",
+      creator: "@CreedtechHq",
+      images: [ogImage],
     },
     robots: {
       index: !seo.no_index,
       follow: !seo.no_follow,
+      googleBot: {
+        index: !seo.no_index,
+        follow: !seo.no_follow,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
     },
   };
 }
@@ -32,5 +67,71 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function ContactPage() {
   const settings = await getContactSettings();
 
-  return <ContactPageClient settings={settings} />;
+  const contactJsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://creed-tech.com/contact/#breadcrumb",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: "https://creed-tech.com",
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Contact Us",
+            item: "https://creed-tech.com/contact",
+          },
+        ],
+      },
+      {
+        "@type": "ContactPage",
+        "@id": "https://creed-tech.com/contact/#contactpage",
+        url: "https://creed-tech.com/contact",
+        name: "Contact Creed Tech | Enterprise Software & Cloud Engineering Consultation",
+        description:
+          "Get in touch with Creed Tech's senior engineering team. Schedule an architectural consultation for custom software, cloud infrastructure, AI, or cybersecurity.",
+        mainEntity: {
+          "@type": "LocalBusiness",
+          "@id": "https://creed-tech.com/#organization",
+          name: "Creed Tech",
+          telephone: "+923219204488",
+          email: "info@creed-tech.com",
+          url: "https://creed-tech.com",
+          image: "https://creed-tech.com/images/og-contact.webp",
+          priceRange: "$$$$",
+          address: {
+            "@type": "PostalAddress",
+            streetAddress: "Office # 02, Main Shopping Center",
+            addressLocality: "Sheikhupura",
+            addressRegion: "Punjab",
+            postalCode: "39350",
+            addressCountry: "PK",
+          },
+          openingHoursSpecification: [
+            {
+              "@type": "OpeningHoursSpecification",
+              dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+              opens: "09:00",
+              closes: "18:00",
+            },
+          ],
+        },
+      },
+    ],
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(contactJsonLd) }}
+      />
+      <ContactPageClient settings={settings} />
+    </>
+  );
 }

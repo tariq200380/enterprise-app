@@ -122,26 +122,35 @@ export default function KnowledgeHero() {
 
             {/* Page H1 Title */}
             <h1 className="font-outfit text-2xl sm:text-3xl lg:text-[2.25rem] font-bold text-white tracking-tight leading-[1.2] m-0">
-              Enterprise Knowledge Center &amp; Tech Intelligence
+              Enterprise Technology Insights, Architecture &amp; Engineering Blueprints
             </h1>
+
+            {/* Subline explaining value */}
+            <p className="text-sm sm:text-[15px] text-white/80 leading-relaxed font-normal m-0">
+              Practical playbooks, architectural post-mortems, and technology benchmarks authored by Creed Tech&apos;s senior engineering staff.
+            </p>
 
             {/* Featured Articles List */}
             <div className="flex flex-col gap-3.5 sm:gap-4">
               <div>
                 <Link
                   href="/knowledge-center#article-1"
-                  className="font-outfit text-lg sm:text-xl lg:text-[1.5rem] font-bold text-white tracking-tight leading-snug hover:underline transition-colors duration-200 block"
+                  className="group block"
                 >
-                  The 7 Best Enterprise AI &amp; Cloud Laptops for Senior Engineers &amp; Architects
+                  <h3 className="font-outfit text-lg sm:text-xl lg:text-[1.5rem] font-bold text-white tracking-tight leading-snug group-hover:underline transition-colors duration-200 m-0">
+                    The 7 Best Enterprise AI &amp; Cloud Laptops for Senior Engineers &amp; Architects
+                  </h3>
                 </Link>
               </div>
 
               <div className="pt-3 border-t border-white/[0.12]">
                 <Link
                   href="/knowledge-center#article-2"
-                  className="font-outfit text-[15px] sm:text-[17px] font-bold text-white tracking-tight leading-relaxed hover:underline transition-colors duration-200 block"
+                  className="group block"
                 >
-                  Artificial Intelligence Development from 1950 to 1965: The Foundation of Modern AI
+                  <h3 className="font-outfit text-[15px] sm:text-[17px] font-bold text-white tracking-tight leading-relaxed group-hover:underline transition-colors duration-200 m-0">
+                    Artificial Intelligence Development from 1950 to 1965: The Foundation of Modern AI
+                  </h3>
                 </Link>
               </div>
             </div>
