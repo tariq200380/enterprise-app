@@ -1,98 +1,68 @@
-import type { MetadataRoute } from "next";
-import { getAllSeoSettings } from "@/lib/seoHelper";
+import { MetadataRoute } from 'next';
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = "https://creed-tech.com";
-  const seo = await getAllSeoSettings();
-  const defaultDate = new Date("2026-09-28T00:00:00Z");
-
-  const getDate = (key: string) =>
-    seo[key]?.updated_at ? new Date(seo[key].updated_at!) : defaultDate;
+export default function sitemap(): MetadataRoute.Sitemap {
+  const baseUrl = 'https://creed-tech.com';
 
   return [
     {
-      url: `${baseUrl}/`,
-      lastModified: getDate("home"),
-      changeFrequency: "daily",
+      url: baseUrl,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
       priority: 1.0,
     },
     {
       url: `${baseUrl}/services`,
-      lastModified: getDate("services"),
-      changeFrequency: "weekly",
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
       priority: 0.9,
     },
     {
       url: `${baseUrl}/portfolio`,
-      lastModified: getDate("portfolio"),
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/knowledge-center`,
-      lastModified: getDate("knowledge_center"),
-      changeFrequency: "daily",
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/careers`,
-      lastModified: getDate("careers"),
-      changeFrequency: "weekly",
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
       priority: 0.8,
     },
     {
       url: `${baseUrl}/about`,
-      lastModified: getDate("about"),
-      changeFrequency: "monthly",
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/knowledge-center`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
       priority: 0.8,
     },
     {
       url: `${baseUrl}/contact`,
-      lastModified: getDate("contact"),
-      changeFrequency: "monthly",
-      priority: 0.8,
+      lastModified: new Date(),
+      changeFrequency: 'yearly',
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/careers`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.7,
     },
     {
       url: `${baseUrl}/security`,
-      lastModified: getDate("security"),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/security-gdpr`,
-      lastModified: getDate("security_gdpr"),
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/security-iso-27001`,
-      lastModified: getDate("security_iso_27001"),
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/security-soc-2`,
-      lastModified: getDate("security_soc_2"),
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/security-pci-dss`,
-      lastModified: getDate("security_pci_dss"),
-      changeFrequency: "monthly",
-      priority: 0.7,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.6,
     },
     {
       url: `${baseUrl}/privacy-policy`,
-      lastModified: getDate("privacy_policy"),
-      changeFrequency: "yearly",
-      priority: 0.5,
+      lastModified: new Date(),
+      changeFrequency: 'yearly',
+      priority: 0.3,
     },
     {
       url: `${baseUrl}/terms`,
-      lastModified: getDate("terms"),
-      changeFrequency: "yearly",
-      priority: 0.5,
+      lastModified: new Date(),
+      changeFrequency: 'yearly',
+      priority: 0.3,
     },
   ];
 }
