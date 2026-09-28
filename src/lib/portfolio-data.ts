@@ -240,3 +240,26 @@ export async function getPortfolioShowcase(): Promise<PortfolioShowcaseData> {
   }
   return showcase;
 }
+
+export { type CategoryGroup, DEFAULT_CATEGORY_GROUPS } from "./portfolio-types";
+import { type CategoryGroup, DEFAULT_CATEGORY_GROUPS } from "./portfolio-types";
+
+export async function getPortfolioCategories(): Promise<CategoryGroup[]> {
+  try {
+    const res = await query(
+      "SELECT value FROM website_settings WHERE key = 'portfolio_category_groups' LIMIT 1"
+    );
+    if (res.rows.length > 0 && res.rows[0].value) {
+      const val =
+        typeof res.rows[0].value === "string"
+          ? JSON.parse(res.rows[0].value)
+          : res.rows[0].value;
+      if (Array.isArray(val) && val.length > 0) {
+        return val;
+      }
+    }
+  } catch (err) {
+    console.error("Failed to load portfolio categories:", err);
+  }
+  return DEFAULT_CATEGORY_GROUPS;
+}

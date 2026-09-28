@@ -1,3 +1,17 @@
+export interface EmailMediaItem {
+  id: string;
+  type?: "image" | "video";
+  title?: string;
+  mediaUrl?: string; // image or video URL
+  thumbnailUrl?: string;
+  year?: string;
+  condition?: string;
+  specs?: string;
+  details?: string;
+  linkUrl?: string;
+  galleryUrls?: string[]; // multiple pictures for this machine offer
+}
+
 export interface EmailDepartmentProfile {
   id: string;
   name: string;
@@ -15,6 +29,12 @@ export interface EmailDepartmentProfile {
   isDefault?: boolean;
   mediaPosition?: "top" | "center" | "bottom";
   mediaAlignment?: "left" | "center" | "right";
+  mediaType?: "video" | "image";
+  mediaYear?: string;
+  mediaCondition?: string;
+  mediaSpecs?: string;
+  mediaDetails?: string;
+  mediaItems?: EmailMediaItem[];
   headerStyle?: "dark" | "light" | "centered";
   headerAlignment?: "left" | "center" | "right";
   contentAlignment?: "left" | "center" | "right";
@@ -22,6 +42,128 @@ export interface EmailDepartmentProfile {
   backgroundColor?: string;
   showReferenceBadge?: boolean;
   referenceBadgeText?: string;
+}
+
+/**
+ * Generate public viewer URL for a specific media item.
+ */
+export function buildItemViewerUrl(
+  item: Partial<EmailMediaItem>,
+  profile: Partial<EmailDepartmentProfile>,
+  baseUrl?: string
+): string {
+  if (item.linkUrl && item.linkUrl.trim() && !item.linkUrl.includes("/uploads/")) {
+    return item.linkUrl.trim();
+  }
+
+  const defaultBase =
+    typeof window !== "undefined" && window.location.origin
+      ? window.location.origin
+      : (process.env.NEXT_PUBLIC_APP_URL || "https://creed-tech.com");
+  const effectiveBaseUrl = (baseUrl && baseUrl.trim()) || defaultBase;
+
+  const isVideo =
+    item.type === "video" ||
+    Boolean(
+      item.mediaUrl &&
+        (item.mediaUrl.includes("youtu") ||
+          item.mediaUrl.includes("vimeo") ||
+          item.mediaUrl.endsWith(".mp4") ||
+          item.mediaUrl.endsWith(".webm"))
+    );
+  const type = isVideo ? "video" : "image";
+  const rawSrc = isVideo
+    ? item.mediaUrl || item.thumbnailUrl || ""
+    : item.thumbnailUrl || item.mediaUrl || "";
+  const rawThumb = item.thumbnailUrl || "";
+
+  // Normalize relative paths like /uploads/...
+  const normalize = (u: string) => {
+    if (!u) return "";
+    if (u.startsWith("/uploads/")) {
+      return `${effectiveBaseUrl}${u}`;
+    }
+    return u;
+  };
+
+  const src = normalize(rawSrc);
+  const thumb = normalize(rawThumb);
+
+  const params = new URLSearchParams();
+  params.set("type", type);
+  if (src) params.set("src", src);
+  if (thumb) params.set("thumb", thumb);
+  if (item.title) params.set("title", item.title);
+  if (item.year) params.set("year", item.year);
+  if (item.condition) params.set("condition", item.condition);
+  if (item.specs) params.set("specs", item.specs);
+  if (item.details) params.set("desc", item.details);
+  if (profile.department) params.set("desk", profile.department);
+  if (profile.email) params.set("email", profile.email);
+  if (profile.phone) params.set("phone", profile.phone);
+  if (Array.isArray(item.galleryUrls) && item.galleryUrls.length > 0) {
+    params.set("gallery", item.galleryUrls.map(normalize).join(","));
+  }
+
+  return `${effectiveBaseUrl}/view/media?${params.toString()}`;
+}
+
+/**
+ * Generate public viewer URL for email media/offer clicks.
+ * When clicked from email:
+ * - If video: opens player and starts playing the video.
+ * - If image: opens high-res picture and equipment/solution specifications card.
+ */
+export function buildMediaViewerUrl(
+  profile: Partial<EmailDepartmentProfile>,
+  baseUrl?: string
+): string {
+  const defaultBase =
+    typeof window !== "undefined" && window.location.origin
+      ? window.location.origin
+      : (process.env.NEXT_PUBLIC_APP_URL || "https://creed-tech.com");
+  const effectiveBaseUrl = (baseUrl && baseUrl.trim()) || defaultBase;
+
+  const isVideo =
+    profile.mediaType === "video" ||
+    Boolean(
+      profile.videoUrl &&
+        (profile.videoUrl.includes("youtu") ||
+          profile.videoUrl.includes("vimeo") ||
+          profile.videoUrl.endsWith(".mp4") ||
+          profile.videoUrl.endsWith(".webm"))
+    );
+  const type = isVideo ? "video" : "image";
+  const rawMediaSrc = isVideo
+    ? profile.videoUrl || profile.videoThumbnail || ""
+    : profile.videoThumbnail || profile.videoUrl || "";
+  const rawThumb = profile.videoThumbnail || "";
+
+  const normalize = (u: string) => {
+    if (!u) return "";
+    if (u.startsWith("/uploads/")) {
+      return `${effectiveBaseUrl}${u}`;
+    }
+    return u;
+  };
+
+  const mediaSrc = normalize(rawMediaSrc);
+  const thumb = normalize(rawThumb);
+
+  const params = new URLSearchParams();
+  params.set("type", type);
+  if (mediaSrc) params.set("src", mediaSrc);
+  if (thumb) params.set("thumb", thumb);
+  if (profile.videoTitle) params.set("title", profile.videoTitle);
+  if (profile.mediaYear) params.set("year", profile.mediaYear);
+  if (profile.mediaCondition) params.set("condition", profile.mediaCondition);
+  if (profile.mediaSpecs) params.set("specs", profile.mediaSpecs);
+  if (profile.mediaDetails) params.set("desc", profile.mediaDetails);
+  if (profile.department) params.set("desk", profile.department);
+  if (profile.email) params.set("email", profile.email);
+  if (profile.phone) params.set("phone", profile.phone);
+
+  return `${effectiveBaseUrl}/view/media?${params.toString()}`;
 }
 
 export const ACCENT_COLOR_PRESETS = [
@@ -258,25 +400,170 @@ export function generateEmailHtml(
       ? "margin: 22px 0 22px auto; max-width: 520px;"
       : "margin: 24px auto; max-width: 100%;";
 
-  const videoCardHtml =
-    profile.videoUrl && profile.videoThumbnail
-      ? `
-      <div style="${alignMargin} background: #0f172a; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0; text-align: left;">
-        <a href="${profile.videoUrl}" target="_blank" rel="noopener noreferrer" style="display: block; text-decoration: none; position: relative;">
-          <div style="position: relative; background: #000000; text-align: center;">
-            <img src="${profile.videoThumbnail}" alt="${profile.videoTitle || 'Watch Video'}" style="width: 100%; max-height: 220px; object-fit: cover; display: block; opacity: 0.85;" />
-            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 56px; height: 56px; background: ${accent}; border-radius: 50%; box-shadow: 0 4px 14px rgba(0,0,0,0.4); text-align: center; line-height: 56px;">
-              <span style="color: #ffffff; font-size: 22px; margin-left: 3px;">▶</span>
+  // Support multiple items (catalog grid) or fallback to single media
+  let items: EmailMediaItem[] = [];
+  if (Array.isArray(profile.mediaItems) && profile.mediaItems.length > 0) {
+    items = profile.mediaItems;
+  } else if (profile.videoThumbnail || profile.videoUrl) {
+    items = [
+      {
+        id: "item-default",
+        type: profile.mediaType || "image",
+        title: profile.videoTitle || "Featured Equipment / Overview",
+        mediaUrl: profile.videoUrl,
+        thumbnailUrl: profile.videoThumbnail || profile.videoUrl,
+        year: profile.mediaYear,
+        condition: profile.mediaCondition,
+        specs: profile.mediaSpecs,
+        details: profile.mediaDetails,
+        linkUrl: profile.videoUrl,
+      },
+    ];
+  }
+
+  let mediaCardHtml = "";
+
+  if (items.length === 1) {
+    const single = items[0];
+    const isSingleVideo = single.type === "video";
+    const singleImg = single.thumbnailUrl || single.mediaUrl || "";
+    const destinationUrl = buildItemViewerUrl(single, profile);
+
+    if (singleImg) {
+      if (!isSingleVideo) {
+        // Machinez.de single catalog/offer card
+        mediaCardHtml = `
+        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="${alignMargin} background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 14px rgba(0,0,0,0.06); text-align: left;">
+          <tr>
+            <td style="padding: 0; background-color: #f8fafc; text-align: center;">
+              <a href="${destinationUrl}" target="_blank" rel="noopener noreferrer" style="display: block; text-decoration: none;">
+                <img src="${singleImg}" alt="${single.title || 'Offer Equipment'}" style="width: 100%; max-height: 260px; object-fit: cover; display: block;" />
+              </a>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 16px 20px; background-color: #ffffff;">
+              <a href="${destinationUrl}" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: #0f172a;">
+                <div style="font-size: 16px; font-weight: 800; color: #0f172a; margin-bottom: 6px;">
+                  ${single.title || 'Featured Specification & Equipment'}
+                </div>
+              </a>
+              <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 10px;">
+                <tr>
+                  ${single.year ? `<td style="font-size: 12px; color: #64748b; padding-right: 16px;"><strong>Year:</strong> <span style="color: #0f172a; font-weight: 700;">${single.year}</span></td>` : ''}
+                  ${single.condition ? `<td style="font-size: 12px; color: #64748b;"><strong>Condition:</strong> <span style="color: #f59e0b; font-weight: 700;">${single.condition}</span></td>` : ''}
+                </tr>
+              </table>
+              ${single.specs ? `
+                <div style="font-size: 11px; color: #475569; background-color: #f1f5f9; padding: 8px 12px; border-radius: 6px; margin-bottom: 12px; line-height: 1.5; font-family: monospace;">
+                  ${single.specs}
+                </div>
+              ` : ''}
+              <div style="text-align: right; padding-top: 8px; border-top: 1px solid #f1f5f9;">
+                <a href="${destinationUrl}" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 7px 16px; background-color: ${accent}; color: #ffffff; font-size: 12px; font-weight: 700; text-decoration: none; border-radius: 6px;">
+                  View Picture &amp; Details ↗
+                </a>
+              </div>
+            </td>
+          </tr>
+        </table>
+        `;
+      } else {
+        // Playable Video presentation card with Play button overlay
+        mediaCardHtml = `
+        <div style="${alignMargin} background: #0f172a; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0; text-align: left;">
+          <a href="${destinationUrl}" target="_blank" rel="noopener noreferrer" style="display: block; text-decoration: none; position: relative;">
+            <div style="position: relative; background: #000000; text-align: center;">
+              <img src="${singleImg}" alt="${single.title || 'Watch Video'}" style="width: 100%; max-height: 220px; object-fit: cover; display: block; opacity: 0.85;" />
+              <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 56px; height: 56px; background: ${accent}; border-radius: 50%; box-shadow: 0 4px 14px rgba(0,0,0,0.4); text-align: center; line-height: 56px;">
+                <span style="color: #ffffff; font-size: 22px; margin-left: 3px; line-height: 56px; display: inline-block;">▶</span>
+              </div>
             </div>
-          </div>
-          <div style="padding: 12px 16px; background: #0b1120; color: #f8fafc; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: space-between;">
-            <span>${profile.videoTitle || 'Watch Video Presentation'}</span>
-            <span style="color: ${accent}; font-size: 12px;">Watch Video ↗</span>
-          </div>
-        </a>
-      </div>
-    `
-      : "";
+            <div style="padding: 12px 16px; background: #0b1120; color: #f8fafc; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: space-between;">
+              <span>${single.title || 'Watch Video Presentation'}</span>
+              <span style="color: ${accent}; font-size: 12px; font-weight: 700;">▶ Play Video (Autoplays) ↗</span>
+            </div>
+          </a>
+        </div>
+        `;
+      }
+    }
+  } else if (items.length > 1) {
+    // Machinez.de style multi-item card grid (2 columns table for maximum email client reliability)
+    const renderGridCell = (item: EmailMediaItem) => {
+      const isItemVideo = item.type === "video";
+      const itemImg = item.thumbnailUrl || item.mediaUrl || "";
+      const itemUrl = buildItemViewerUrl(item, profile);
+
+      return `
+      <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.04); text-align: left; height: 100%;">
+        <tr>
+          <td style="padding: 0; background-color: #f8fafc; text-align: center; position: relative;">
+            <a href="${itemUrl}" target="_blank" rel="noopener noreferrer" style="display: block; text-decoration: none; position: relative;">
+              <img src="${itemImg}" alt="${item.title || 'Offer'}" style="width: 100%; height: 130px; object-fit: cover; display: block;" />
+              ${
+                Array.isArray(item.galleryUrls) && item.galleryUrls.length > 1
+                  ? `<div style="position: absolute; top: 6px; right: 6px; background-color: rgba(15, 23, 42, 0.85); color: #ffffff; font-size: 9px; font-weight: bold; padding: 2px 6px; border-radius: 4px; letter-spacing: 0.3px;">📷 ${item.galleryUrls.length} Photos</div>`
+                  : ""
+              }
+              ${
+                isItemVideo
+                  ? `<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 38px; height: 38px; background: ${accent}; border-radius: 50%; text-align: center; line-height: 38px; color: #ffffff; font-size: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.4);">▶</div>`
+                  : ""
+              }
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 10px 12px; background-color: #ffffff; vertical-align: top;">
+            <a href="${itemUrl}" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: #0f172a; display: block;">
+              <div style="font-size: 13px; font-weight: 800; color: #0f172a; margin-bottom: 4px; line-height: 1.3;">
+                ${item.title || 'Equipment Offer'}
+              </div>
+            </a>
+            <div style="font-size: 11px; color: #64748b; margin-bottom: 4px;">
+              ${item.year ? `<strong>Year:</strong> <span style="color: #0f172a; font-weight: 700;">${item.year}</span>&nbsp;&nbsp;` : ''}
+              ${item.condition ? `<span style="color: #f59e0b; font-weight: 700;">${item.condition}</span>` : ''}
+            </div>
+            ${
+              item.specs
+                ? `<div style="font-size: 10px; color: #475569; background: #f8fafc; padding: 4px 6px; border-radius: 4px; margin-bottom: 6px; line-height: 1.3; font-family: monospace;">${item.specs}</div>`
+                : ""
+            }
+            <div style="text-align: right; padding-top: 6px; border-top: 1px solid #f8fafc;">
+              <a href="${itemUrl}" target="_blank" rel="noopener noreferrer" style="color: ${accent}; font-size: 11px; font-weight: 700; text-decoration: none;">
+                ${isItemVideo ? '▶ Play Video ↗' : 'View Details ↗'}
+              </a>
+            </div>
+          </td>
+        </tr>
+      </table>
+      `;
+    };
+
+    const rows: string[] = [];
+    for (let i = 0; i < items.length; i += 2) {
+      const item1 = items[i];
+      const item2 = items[i + 1];
+
+      rows.push(`
+        <tr>
+          <td width="50%" valign="top" style="padding: 5px;">
+            ${renderGridCell(item1)}
+          </td>
+          <td width="50%" valign="top" style="padding: 5px;">
+            ${item2 ? renderGridCell(item2) : '&nbsp;'}
+          </td>
+        </tr>
+      `);
+    }
+
+    mediaCardHtml = `
+      <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="${alignMargin} margin-top: 16px; margin-bottom: 16px;">
+        ${rows.join("")}
+      </table>
+    `;
+  }
 
   const isLightHeader = headerStyle === "light";
   const headerBg = isLightHeader ? "#ffffff" : "#090d16";
@@ -393,7 +680,7 @@ export function generateEmailHtml(
   let middleSectionHtml = "";
   if (mediaPos === "top") {
     middleSectionHtml = `
-      ${videoCardHtml}
+      ${mediaCardHtml}
       ${headingHtml}
       ${formattedBody}
       ${signatureHtml}
@@ -403,14 +690,14 @@ export function generateEmailHtml(
       ${headingHtml}
       ${formattedBody}
       ${signatureHtml}
-      ${videoCardHtml}
+      ${mediaCardHtml}
     `;
   } else {
     // Default "center"
     middleSectionHtml = `
       ${headingHtml}
       ${formattedBody}
-      ${videoCardHtml}
+      ${mediaCardHtml}
       ${signatureHtml}
     `;
   }

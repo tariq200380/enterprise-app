@@ -2,7 +2,18 @@ import { execSync } from "child_process";
 
 const PG_BIN_READY = "/usr/lib/postgresql/18/bin/pg_isready";
 const PG_BIN_CTL = "/usr/lib/postgresql/18/bin/pg_ctl";
-const PG_DATA_DIR = "/home/tariq/.gemini/antigravity/scratch/pgdata";
+const PG_DATA_DIR =
+  process.env.PGDATA ||
+  (() => {
+    try {
+      if (process.env.DATABASE_URL) {
+        const u = new URL(process.env.DATABASE_URL.replace("postgresql://", "http://"));
+        const hostParam = u.searchParams.get("host");
+        if (hostParam) return hostParam;
+      }
+    } catch {}
+    return "/home/tariq/.gemini/antigravity/scratch/enterprise-app/.pgdata";
+  })();
 const PG_PORT = "5433";
 
 /**

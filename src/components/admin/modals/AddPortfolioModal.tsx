@@ -10,6 +10,7 @@ interface AddPortfolioModalProps {
   onPortfolioCreated: (project: PortfolioItem) => void;
   showToast: (msg: string, type?: "success" | "error") => void;
   projectToEdit?: PortfolioItem | null;
+  onOpenCategoriesModal?: () => void;
 }
 
 export default function AddPortfolioModal({
@@ -18,6 +19,7 @@ export default function AddPortfolioModal({
   onPortfolioCreated,
   showToast,
   projectToEdit,
+  onOpenCategoriesModal,
 }: AddPortfolioModalProps) {
   const adminFetch = useAdminFetch();
   const [title, setTitle] = useState("");
@@ -264,14 +266,37 @@ export default function AddPortfolioModal({
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block font-semibold mb-1">Category</label>
+              <div className="flex items-center justify-between mb-1">
+                <label className="block font-semibold">Category</label>
+                {onOpenCategoriesModal && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      onClose();
+                      onOpenCategoriesModal();
+                    }}
+                    className="text-[10.5px] text-[#0052FF] hover:underline font-semibold cursor-pointer"
+                    title="Edit the upper section banner heading for this category"
+                  >
+                    🏷️ Edit Section Headings ↗
+                  </button>
+                )}
+              </div>
               <input
                 type="text"
+                list="portfolio-category-list"
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                placeholder="e.g. CLOUD & ENTERPRISE"
+                placeholder="e.g. Fintech & Banking, Cloud Infrastructure..."
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg outline-none focus:border-[#0052FF]"
               />
+              <datalist id="portfolio-category-list">
+                <option value="Fintech & Banking" />
+                <option value="Enterprise AI & Orchestration" />
+                <option value="Cloud Infrastructure & DevOps" />
+                <option value="Cybersecurity & Governance" />
+                <option value="CLOUD & ENTERPRISE" />
+              </datalist>
             </div>
             <div>
               <label className="block font-semibold mb-1">Client Name</label>

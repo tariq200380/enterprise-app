@@ -17,21 +17,36 @@ export async function POST(req: Request) {
       return NextResponse.json({ success: false, error: "No file provided" }, { status: 400 });
     }
 
-    const allowedExtensions = ["jpg", "jpeg", "png", "webp", "gif"];
-    const allowedMimeTypes = ["image/jpeg", "image/png", "image/webp", "image/gif"];
-    const ext = path.extname(file.name).toLowerCase().replace(".", "");
+    const imageExtensions = ["jpg", "jpeg", "png", "webp", "gif", "svg"];
+    const imageMimeTypes = ["image/jpeg", "image/png", "image/webp", "image/gif", "image/svg+xml"];
+    const videoExtensions = ["mp4", "webm", "mov", "m4v", "ogg"];
+    const videoMimeTypes = ["video/mp4", "video/webm", "video/quicktime", "video/x-m4v", "video/ogg"];
 
-    if (!allowedExtensions.includes(ext) || !allowedMimeTypes.includes(file.type?.toLowerCase())) {
+    const ext = path.extname(file.name).toLowerCase().replace(".", "");
+    const mime = (file.type || "").toLowerCase();
+
+    const isImage = imageExtensions.includes(ext) || imageMimeTypes.includes(mime);
+    const isVideo = videoExtensions.includes(ext) || videoMimeTypes.includes(mime);
+
+    if (!isImage && !isVideo) {
       return NextResponse.json(
-        { success: false, error: "Invalid file type. Only JPG, JPEG, PNG, WebP, and GIF files are allowed." },
+        { success: false, error: "Invalid file type. Allowed: JPG, PNG, WebP, GIF, SVG, MP4, WebM, MOV." },
         { status: 400 }
       );
     }
 
-    const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
-    if (file.size > MAX_FILE_SIZE) {
+    const MAX_IMAGE_SIZE = 10 * 1024 * 1024; // 10MB
+    const MAX_VIDEO_SIZE = 50 * 1024 * 1024; // 50MB
+    const maxAllowed = isVideo ? MAX_VIDEO_SIZE : MAX_IMAGE_SIZE;
+
+    if (file.size > maxAllowed) {
       return NextResponse.json(
-        { success: false, error: "File size exceeds the 5MB limit." },
+        {
+          success: false,
+          error: isVideo
+            ? "Video file size exceeds the 50MB limit."
+            : "Image file size exceeds the 10MB limit.",
+        },
         { status: 400 }
       );
     }
@@ -53,7 +68,12 @@ export async function POST(req: Request) {
     await writeFile(filePath, buffer);
 
     const publicUrl = withCacheBuster(`/uploads/${fileName}`, timestamp);
-    return NextResponse.json({ success: true, url: publicUrl, filename: fileName });
+    return NextResponse.json({
+      success: true,
+      url: publicUrl,
+      filename: fileName,
+      mediaType: isVideo ? "video" : "image",
+    });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }

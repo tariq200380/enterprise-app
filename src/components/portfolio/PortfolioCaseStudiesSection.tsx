@@ -6,59 +6,23 @@ import {
   DEFAULT_CASE_STUDIES,
   getTelemetryPreset,
 } from "@/lib/portfolio-data";
+import { CategoryGroup, DEFAULT_CATEGORY_GROUPS } from "@/lib/portfolio-types";
 
 interface PortfolioCaseStudiesSectionProps {
   projects?: PortfolioProjectItem[];
+  categoryGroups?: CategoryGroup[];
 }
-
-interface CategoryGroup {
-  id: string;
-  name: string;
-  h2Title: string;
-  description: string;
-  badge: string;
-}
-
-const CATEGORY_GROUPS: CategoryGroup[] = [
-  {
-    id: "fintech-banking",
-    name: "Fintech & Banking",
-    h2Title: "High-Concurrency Fintech, Clearing & Payment Processing Engines",
-    description:
-      "Ultra-low latency transaction clearing, distributed consistency, and sub-12ms financial messaging engineered across distributed zones.",
-    badge: "FINTECH & TRANSACTIONS",
-  },
-  {
-    id: "ai-automation",
-    name: "Enterprise AI & Orchestration",
-    h2Title: "Enterprise AI Solutions, LLMs & Autonomous Agent Pipelines",
-    description:
-      "Dense vector search, private RAG pipelines, and automated multi-agent diagnostic intelligence for regulated enterprise domains.",
-    badge: "AI & NEURAL ARCHITECTURE",
-  },
-  {
-    id: "cloud-devops",
-    name: "Cloud Infrastructure & DevOps",
-    h2Title: "Cloud Infrastructure, Kubernetes & DevOps Modernization",
-    description:
-      "Multi-cloud architectures, zero-trust container pipelines, automated GitOps meshes, and 99.99% uptime SLA engineering.",
-    badge: "CLOUD & RESILIENCE",
-  },
-  {
-    id: "cybersecurity",
-    name: "Cybersecurity & Governance",
-    h2Title: "Zero-Trust Cybersecurity, SOC 2 Compliance & Cryptographic Defense",
-    description:
-      "Continuous security telemetry, eBPF inspection, and automated cryptographic vulnerability mitigation meeting ISO 27001 standards.",
-    badge: "CYBERSECURITY & COMPLIANCE",
-  },
-];
 
 export default function PortfolioCaseStudiesSection({
   projects,
+  categoryGroups,
 }: PortfolioCaseStudiesSectionProps) {
   const displayProjects =
     Array.isArray(projects) && projects.length > 0 ? projects : DEFAULT_CASE_STUDIES;
+  const activeCategoryGroups =
+    Array.isArray(categoryGroups) && categoryGroups.length > 0
+      ? categoryGroups
+      : DEFAULT_CATEGORY_GROUPS;
 
   return (
     <div id="portfolio-case-studies" className="w-full bg-[#F7F6F5] text-[#0F172A] font-sans">
@@ -76,7 +40,7 @@ export default function PortfolioCaseStudiesSection({
         </div>
 
         <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3" aria-label="Portfolio category quick navigation">
-          {CATEGORY_GROUPS.map((cat) => (
+          {activeCategoryGroups.map((cat) => (
             <a
               key={cat.id}
               href={`#${cat.id}`}
@@ -100,16 +64,55 @@ export default function PortfolioCaseStudiesSection({
           : [];
 
         // Match category group for semantic H2 heading
+        const catNorm = (proj.category || "").toLowerCase();
         const catGroup =
-          CATEGORY_GROUPS.find(
+          activeCategoryGroups.find(
+            (g) => g.id === catNorm || g.name.toLowerCase() === catNorm
+          ) ||
+          activeCategoryGroups.find((g) => {
+            if (
+              g.id === "fintech-banking" &&
+              (catNorm.includes("fintech") ||
+                catNorm.includes("banking") ||
+                catNorm.includes("payment"))
+            )
+              return true;
+            if (
+              g.id === "cloud-devops" &&
+              (catNorm.includes("cloud") ||
+                catNorm.includes("devops") ||
+                catNorm.includes("kubernetes"))
+            )
+              return true;
+            if (
+              g.id === "cybersecurity" &&
+              (catNorm.includes("cyber") ||
+                catNorm.includes("security") ||
+                catNorm.includes("soc"))
+            )
+              return true;
+            if (
+              g.id === "ai-automation" &&
+              (catNorm.includes("ai") ||
+                catNorm.includes("neural") ||
+                catNorm.includes("llm") ||
+                catNorm.includes("orchestration") ||
+                catNorm.includes("agent"))
+            )
+              return true;
+            return false;
+          }) ||
+          activeCategoryGroups.find(
             (g) =>
-              (proj.category || "").toLowerCase().includes(g.id.replace("-", " ")) ||
-              (proj.category || "").toLowerCase().includes(g.name.toLowerCase().split(" ")[0])
-          ) || {
+              catNorm.includes(g.id.replace("-", " ")) ||
+              (g.name.length > 2 && catNorm.includes(g.name.toLowerCase()))
+          ) ||
+          activeCategoryGroups[idx % activeCategoryGroups.length] || {
             id: `discipline-${idx + 1}`,
             name: proj.category || "Enterprise Core",
             h2Title: `${proj.category || "Enterprise Software"} Case Study & Architecture`,
-            description: "Mission-critical system engineering delivering verified resilience and business ROI.",
+            description:
+              "Mission-critical system engineering delivering verified resilience and business ROI.",
             badge: "ENTERPRISE DELIVERY",
           };
 

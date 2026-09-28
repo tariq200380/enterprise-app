@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { query } from "@/lib/db";
 import { verifyAdminAuth } from "@/lib/adminAuth";
 
@@ -42,6 +43,9 @@ export async function POST(req: Request) {
         image_url || "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=600&auto=format&fit=crop",
       ]
     );
+    try {
+      revalidatePath("/portfolio");
+    } catch {}
     return NextResponse.json({ success: true, project: res.rows[0] });
   } catch (error: any) {
     console.error("Portfolio POST error:", error);
@@ -80,6 +84,9 @@ export async function PUT(req: Request) {
     if (res.rows.length === 0) {
       return NextResponse.json({ success: false, error: "Project not found" }, { status: 404 });
     }
+    try {
+      revalidatePath("/portfolio");
+    } catch {}
     return NextResponse.json({ success: true, project: res.rows[0] });
   } catch (error: any) {
     console.error("Portfolio PUT error:", error);
@@ -100,6 +107,9 @@ export async function DELETE(req: Request) {
       return NextResponse.json({ success: false, error: "Missing project id" }, { status: 400 });
     }
     await query("DELETE FROM portfolio_projects WHERE id = $1", [id]);
+    try {
+      revalidatePath("/portfolio");
+    } catch {}
     return NextResponse.json({ success: true, message: `Project ${id} deleted` });
   } catch (error: any) {
     console.error("Portfolio DELETE error:", error);

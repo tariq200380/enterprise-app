@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
-import { getPortfolioProjects, getPortfolioShowcase } from "@/lib/portfolio-data";
+import {
+  getPortfolioProjects,
+  getPortfolioShowcase,
+  getPortfolioCategories,
+} from "@/lib/portfolio-data";
 import PortfolioHeroSection from "@/components/portfolio/PortfolioHeroSection";
 import PortfolioStandardsSection from "@/components/portfolio/PortfolioStandardsSection";
 import PortfolioCaseStudiesSection from "@/components/portfolio/PortfolioCaseStudiesSection";
@@ -7,8 +11,9 @@ import PortfolioCtaSection from "@/components/portfolio/PortfolioCtaSection";
 
 import { getSeoForPage } from "@/lib/seoHelper";
 
-// Step 3: Short cache for Portfolio page (5 minutes / 300 seconds ISR)
-export const revalidate = 300;
+// Force dynamic rendering so admin changes reflect immediately without caching
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getSeoForPage("portfolio");
@@ -69,9 +74,10 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function PortfolioPage() {
-  const [projects, showcase] = await Promise.all([
+  const [projects, showcase, categories] = await Promise.all([
     getPortfolioProjects(),
     getPortfolioShowcase(),
+    getPortfolioCategories(),
   ]);
 
   const portfolioJsonLd = {
@@ -134,7 +140,10 @@ export default async function PortfolioPage() {
       />
       <PortfolioHeroSection />
       <PortfolioStandardsSection showcase={showcase} />
-      <PortfolioCaseStudiesSection projects={projects} />
+      <PortfolioCaseStudiesSection
+        projects={projects}
+        categoryGroups={categories}
+      />
       <PortfolioCtaSection />
     </div>
   );

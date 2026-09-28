@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { PortfolioItem } from "@/types/admin";
 import AddPortfolioModal from "../modals/AddPortfolioModal";
+import EditPortfolioCategoriesModal from "../modals/EditPortfolioCategoriesModal";
 import { useAdminFetch } from "@/lib/useAdminFetch";
 
 interface PortfolioModuleProps {
@@ -25,6 +26,7 @@ export default function PortfolioModule({
   const adminFetch = useAdminFetch();
   const [portfolioProjects, setPortfolioProjects] = useState<PortfolioItem[]>(propProjects || []);
   const [showAddModal, setShowAddModal] = useState(false);
+  const [showCategoriesModal, setShowCategoriesModal] = useState(false);
   const [editingProject, setEditingProject] = useState<PortfolioItem | null>(null);
 
   const fetchPortfolio = async () => {
@@ -96,16 +98,25 @@ export default function PortfolioModule({
             Showcase enterprise deployments, distributed system builds, and client proofs.
           </p>
         </div>
-        <button
-          onClick={() => {
-            setEditingProject(null);
-            if (onOpenAddModal) onOpenAddModal();
-            else setShowAddModal(true);
-          }}
-          className="px-5 py-2 bg-[#0052FF] hover:bg-[#0042D0] text-white text-xs font-bold rounded shadow cursor-pointer"
-        >
-          + Add Portfolio Project
-        </button>
+        <div className="flex items-center gap-2.5">
+          <button
+            type="button"
+            onClick={() => setShowCategoriesModal(true)}
+            className="px-4 py-2 bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 text-xs font-bold rounded shadow-2xs cursor-pointer flex items-center gap-1.5 transition-colors"
+          >
+            <span>🏷️</span> Edit Section Headings (Banners)
+          </button>
+          <button
+            onClick={() => {
+              setEditingProject(null);
+              if (onOpenAddModal) onOpenAddModal();
+              else setShowAddModal(true);
+            }}
+            className="px-5 py-2 bg-[#0052FF] hover:bg-[#0042D0] text-white text-xs font-bold rounded shadow cursor-pointer transition-colors"
+          >
+            + Add Portfolio Project
+          </button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -197,6 +208,18 @@ export default function PortfolioModule({
         onPortfolioCreated={handleCreated}
         showToast={showToast || (() => {})}
         projectToEdit={editingProject}
+        onOpenCategoriesModal={() => setShowCategoriesModal(true)}
+      />
+
+      {/* Edit Category Section Headings & Banners Modal */}
+      <EditPortfolioCategoriesModal
+        isOpen={showCategoriesModal}
+        onClose={() => setShowCategoriesModal(false)}
+        showToast={showToast || (() => {})}
+        onSaved={() => {
+          onRefresh?.();
+          fetchPortfolio();
+        }}
       />
     </div>
   );
