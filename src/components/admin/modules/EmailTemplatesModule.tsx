@@ -58,6 +58,14 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
   const mainPicInputRef = useRef<HTMLInputElement>(null);
   const [isUploadingMainPic, setIsUploadingMainPic] = useState(false);
 
+  // Format 2: Multi-Picture & Same/Different Content States
+  const [format2ContentMode, setFormat2ContentMode] = useState<"separate" | "same">("separate");
+  const [format2MasterText, setFormat2MasterText] = useState("");
+  const [isUploadingFormat2Gallery, setIsUploadingFormat2Gallery] = useState(false);
+  const [uploadingFormat2RowItem, setUploadingFormat2RowItem] = useState<{ rowId: string; itemId: string } | null>(null);
+  const format2MultiFileInputRef = useRef<HTMLInputElement>(null);
+  const format2SingleItemFileInputRef = useRef<HTMLInputElement>(null);
+
   const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file || !editingProfile) return;
@@ -213,6 +221,20 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
   const handleUpdateRowItem = (rowId: string, itemId: string, updates: Partial<GalleryRowItem>) => {
     if (!editingProfile) return;
     const currentRows = editingProfile.galleryRows || [];
+
+    // If updating text and in 'same' mode, sync to all items
+    if (updates.text !== undefined && format2ContentMode === "same") {
+      setFormat2MasterText(updates.text);
+      setEditingProfile({
+        ...editingProfile,
+        galleryRows: currentRows.map((r) => ({
+          ...r,
+          items: r.items.map((it) => ({ ...it, text: updates.text! })),
+        })),
+      });
+      return;
+    }
+
     setEditingProfile({
       ...editingProfile,
       galleryRows: currentRows.map((r) => {
@@ -238,6 +260,134 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
         };
       }),
     });
+  };
+
+  // Format 2: Batch upload multi-pictures from computer
+  const handleFormat2BatchUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const fileList = e.target.files;
+    if (!fileList || fileList.length === 0 || !editingProfile) return;
+    const files = Array.from(fileList);
+
+    try {
+      setIsUploadingFormat2Gallery(true);
+      if (showToast) showToast(`Uploading ${files.length} pictures concurrently from computer for gallery...`);
+      const results = await uploadMultipleMediaFiles(files, adminFetch);
+      if (results && results.length > 0) {
+        let currentRows = editingProfile.galleryRows && editingProfile.galleryRows.length > 0
+          ? [...editingProfile.galleryRows]
+          : [];
+
+        // If currently only default unsplash placeholder, replace it cleanly
+        const isPlaceholderOnly =
+          currentRows.length === 1 &&
+          currentRows[0].items.length > 0 &&
+          currentRows[0].items[0].imageUrl.includes("photo-1581092160607");
+        if (isPlaceholderOnly) {
+          currentRows = [];
+        }
+
+        const newItems: GalleryRowItem[] = results.map((res, i) => {
+          const rawName = (res.filename || `Item #${i + 1}`)
+            .replace(/\.[^/.]+$/, "")
+            .replace(/[-_]+/g, " ");
+          const cleanTitle = rawName.charAt(0).toUpperCase() + rawName.slice(1);
+          return {
+            id: `item-${Date.now()}-${i}-${Math.random().toString(36).substring(2, 6)}`,
+            imageUrl: res.url,
+            text:
+              format2ContentMode === "same" && format2MasterText.trim()
+                ? format2MasterText.trim()
+                : cleanTitle,
+            title: cleanTitle,
+          };
+        });
+
+        // Combine existing items + new items, and chunk into rows of max 7
+        const allItems = currentRows.flatMap((r) => r.items).concat(newItems);
+        const newRows: GalleryRow[] = [];
+        for (let i = 0; i < allItems.length; i += 7) {
+          const chunk = allItems.slice(i, i + 7);
+          newRows.push({
+            id: `row-${Math.floor(i / 7) + 1}-${Date.now()}`,
+            items: chunk,
+          });
+        }
+
+        setEditingProfile({
+          ...editingProfile,
+          galleryRows: newRows,
+        });
+
+        if (showToast) {
+          showToast(
+            `✓ Successfully uploaded ${results.length} pictures! Distributed across ${newRows.length} row(s) (max 7 per row).`
+          );
+        }
+      }
+    } catch (err: any) {
+      if (showToast) showToast(`Batch upload failed: ${err.message}`, "error");
+    } finally {
+      setIsUploadingFormat2Gallery(false);
+      if (format2MultiFileInputRef.current) format2MultiFileInputRef.current.value = "";
+    }
+  };
+
+  // Format 2: Single item picture change / upload from computer
+  const handleFormat2SingleItemUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !editingProfile || !uploadingFormat2RowItem) return;
+
+    try {
+      setIsUploadingFormat2Gallery(true);
+      const res = await uploadMediaFile(file, adminFetch);
+      if (res && res.url) {
+        const { rowId, itemId } = uploadingFormat2RowItem;
+        handleUpdateRowItem(rowId, itemId, { imageUrl: res.url });
+        if (showToast) showToast("✓ Picture updated for this card!");
+      }
+    } catch (err: any) {
+      if (showToast) showToast(`Failed to upload picture: ${err.message}`, "error");
+    } finally {
+      setIsUploadingFormat2Gallery(false);
+      setUploadingFormat2RowItem(null);
+      if (format2SingleItemFileInputRef.current) format2SingleItemFileInputRef.current.value = "";
+    }
+  };
+
+  // Format 2: Apply same text to all cards
+  const handleApplyFormat2TextToAll = (overrideText?: string) => {
+    if (!editingProfile) return;
+    const currentRows = editingProfile.galleryRows || [];
+    const firstItem = currentRows[0]?.items[0];
+    const targetText = overrideText !== undefined ? overrideText : (firstItem?.text || "");
+
+    const updatedRows = currentRows.map((r) => ({
+      ...r,
+      items: r.items.map((it) => ({ ...it, text: targetText })),
+    }));
+
+    setEditingProfile({
+      ...editingProfile,
+      galleryRows: updatedRows,
+    });
+    setFormat2MasterText(targetText);
+    if (showToast) showToast(`✓ Synced text "${targetText}" across all gallery cards!`);
+  };
+
+  // Format 2: Master text change
+  const handleFormat2MasterTextChange = (newText: string) => {
+    setFormat2MasterText(newText);
+    if (format2ContentMode === "same" && editingProfile) {
+      const currentRows = editingProfile.galleryRows || [];
+      const updatedRows = currentRows.map((r) => ({
+        ...r,
+        items: r.items.map((it) => ({ ...it, text: newText })),
+      }));
+      setEditingProfile({
+        ...editingProfile,
+        galleryRows: updatedRows,
+      });
+    }
   };
 
   // Email Management Sub-Tabs & Inquiries State
@@ -2819,28 +2969,135 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                     </div>
 
                     {/* PART 3: GALLERY ROWS (MAX 7 PER ROW, CENTER ADJUSTED, ADD/DEL ROWS & IMAGES) */}
-                    <div className="bg-white border border-slate-200 rounded-xl p-3 space-y-3">
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 border-b border-slate-100 pb-2">
+                    <div className="bg-white border border-slate-200 rounded-xl p-3.5 space-y-3.5">
+                      {/* Hidden File Inputs for Format 2 Gallery */}
+                      <input
+                        type="file"
+                        ref={format2MultiFileInputRef}
+                        accept="image/*"
+                        multiple
+                        className="hidden"
+                        onChange={handleFormat2BatchUpload}
+                      />
+                      <input
+                        type="file"
+                        ref={format2SingleItemFileInputRef}
+                        accept="image/*"
+                        className="hidden"
+                        onChange={handleFormat2SingleItemUpload}
+                      />
+
+                      {/* Header with Title and Primary Actions */}
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-2.5">
                         <div>
-                          <span className="text-[11px] font-bold text-slate-800 flex items-center gap-1.5">
-                            <span>🔲 Multi-Row Image Gallery (Max 7 Images Per Row)</span>
-                          </span>
-                          <span className="text-[10px] text-slate-400">
-                            Aik row mein max 7 images hongi. Agar kam hon gi tou center se adjustment hogi. Rows add aur del ki ja sakti hain.
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                              <span>🔲 Multi-Row Image Gallery (Max 7 Images Per Row)</span>
+                            </span>
+                            <span className="text-[10px] font-mono px-2 py-0.5 rounded-full font-bold bg-blue-100 text-blue-800 border border-blue-200">
+                              {(editingProfile.galleryRows || []).length || 1} Row(s) • {(editingProfile.galleryRows || []).reduce((acc, r) => acc + (r.items || []).length, 0)} Images
+                            </span>
+                          </div>
+                          <span className="text-[10px] text-slate-400 block mt-0.5">
+                            Aik row mein max 7 images hongi. Agar kam hon gi tou center se adjustment hogi. Multi-picture upload aur content sync options dastiyab hain.
                           </span>
                         </div>
-                        <button
-                          type="button"
-                          onClick={handleAddGalleryRow}
-                          className="px-3 py-1 bg-[#0052FF] hover:bg-blue-700 text-white rounded-lg text-xs font-bold cursor-pointer transition-colors flex items-center gap-1.5 shadow-xs shrink-0"
-                        >
-                          <span>➕</span>
-                          <span>Add New Row</span>
-                        </button>
+
+                        <div className="flex items-center gap-2 shrink-0">
+                          <button
+                            type="button"
+                            disabled={isUploadingFormat2Gallery}
+                            onClick={() => format2MultiFileInputRef.current?.click()}
+                            className="px-3 py-1.5 bg-[#FF6B00] hover:bg-[#E05E00] text-white rounded-lg text-xs font-bold cursor-pointer transition-all flex items-center gap-1.5 shadow-xs disabled:opacity-50"
+                            title="Select multiple pictures from your computer at once"
+                          >
+                            <span>📁</span>
+                            <span>{isUploadingFormat2Gallery ? "Uploading..." : "Multi-Picture Select (Computer)"}</span>
+                          </button>
+                          <button
+                            type="button"
+                            onClick={handleAddGalleryRow}
+                            className="px-3 py-1.5 bg-[#0052FF] hover:bg-blue-700 text-white rounded-lg text-xs font-bold cursor-pointer transition-colors flex items-center gap-1.5 shadow-xs"
+                          >
+                            <span>➕</span>
+                            <span>Add Row</span>
+                          </button>
+                        </div>
                       </div>
 
+                      {/* Content / Caption Mode Toggle (Format 1 Style: Same vs Different Content) */}
+                      <div className="bg-slate-50 border border-slate-200 rounded-xl p-2.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                        <div className="flex items-center gap-2">
+                          <span className="text-[11px] font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1">
+                            <span>📝 Caption / Text Mode:</span>
+                          </span>
+                          <div className="inline-flex rounded-lg border border-slate-200 bg-white p-0.5 shadow-2xs">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setFormat2ContentMode("separate");
+                                if (showToast) showToast("Switched to Different Content per Picture");
+                              }}
+                              className={`px-2.5 py-1 text-[11px] font-bold rounded-md transition-all cursor-pointer ${
+                                format2ContentMode === "separate"
+                                  ? "bg-[#0052FF] text-white shadow-2xs"
+                                  : "text-slate-600 hover:text-slate-900"
+                              }`}
+                            >
+                              📝 Different Text per Pic
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setFormat2ContentMode("same");
+                                handleApplyFormat2TextToAll();
+                                if (showToast) showToast("Switched to Same Text for All Pictures! Synced across all cards.");
+                              }}
+                              className={`px-2.5 py-1 text-[11px] font-bold rounded-md transition-all cursor-pointer ${
+                                format2ContentMode === "same"
+                                  ? "bg-[#0052FF] text-white shadow-2xs"
+                                  : "text-slate-600 hover:text-slate-900"
+                              }`}
+                            >
+                              🔗 Same Text for All
+                            </button>
+                          </div>
+                        </div>
+
+                        {((editingProfile.galleryRows || []).reduce((acc, r) => acc + (r.items || []).length, 0)) > 1 && (
+                          <button
+                            type="button"
+                            onClick={() => handleApplyFormat2TextToAll()}
+                            className="px-2.5 py-1 bg-white hover:bg-blue-50 text-blue-700 border border-blue-300 rounded-md text-[11px] font-bold cursor-pointer transition-colors shadow-2xs flex items-center gap-1"
+                            title="Copy text from Card #1 to all cards"
+                          >
+                            <span>📋 Copy Card #1 Text to All</span>
+                          </button>
+                        )}
+                      </div>
+
+                      {/* Master Text Input Bar when in 'Same' Mode */}
+                      {format2ContentMode === "same" && (
+                        <div className="bg-blue-50/90 border border-blue-200 rounded-xl p-3 space-y-1.5 shadow-2xs">
+                          <div className="flex items-center justify-between">
+                            <span className="text-[11px] font-bold text-blue-900 flex items-center gap-1.5">
+                              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                              <span>🔗 Master Content Under All Pictures (Editing updates all cards in real-time)</span>
+                            </span>
+                            <span className="text-[9px] font-mono text-blue-700 font-bold">Auto-sync active</span>
+                          </div>
+                          <input
+                            type="text"
+                            value={format2MasterText}
+                            onChange={(e) => handleFormat2MasterTextChange(e.target.value)}
+                            placeholder="Type shared caption / text under all pictures..."
+                            className="w-full px-3 py-1.5 text-xs border border-blue-300 rounded-lg bg-white text-slate-800 font-medium shadow-2xs focus:ring-2 focus:ring-blue-400 outline-none"
+                          />
+                        </div>
+                      )}
+
                       {/* Rows Container */}
-                      <div className="space-y-3">
+                      <div className="space-y-3.5">
                         {(editingProfile.galleryRows && editingProfile.galleryRows.length > 0
                           ? editingProfile.galleryRows
                           : [
@@ -2862,7 +3119,7 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                           return (
                             <div key={row.id || rIdx} className="bg-slate-50 border border-slate-200 rounded-xl p-3 space-y-2.5">
                               {/* Row Header */}
-                              <div className="flex items-center justify-between border-b border-slate-200 pb-1.5">
+                              <div className="flex items-center justify-between border-b border-slate-200 pb-2">
                                 <div className="flex items-center gap-2">
                                   <span className="text-xs font-bold text-slate-800">
                                     Row #{rIdx + 1}
@@ -2876,52 +3133,78 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                                     type="button"
                                     disabled={itemsCount >= 7}
                                     onClick={() => handleAddItemToRow(row.id)}
-                                    className="px-2 py-0.5 bg-blue-600 hover:bg-blue-700 text-white rounded text-[10px] font-bold cursor-pointer transition-colors disabled:opacity-40"
+                                    className="px-2.5 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded text-[10px] font-bold cursor-pointer transition-colors disabled:opacity-40 flex items-center gap-1 shadow-2xs"
                                   >
-                                    ➕ Add Image ({itemsCount}/7)
+                                    <span>➕ Add Card</span>
+                                    <span>({itemsCount}/7)</span>
                                   </button>
                                   <button
                                     type="button"
                                     onClick={() => handleDeleteGalleryRow(row.id)}
-                                    className="px-2 py-0.5 bg-red-100 hover:bg-red-200 text-red-700 rounded text-[10px] font-bold cursor-pointer transition-colors"
+                                    className="px-2.5 py-1 bg-red-100 hover:bg-red-200 text-red-700 rounded text-[10px] font-bold cursor-pointer transition-colors"
                                   >
-                                    🗑️ Delete Row
+                                    🗑️ Del Row
                                   </button>
                                 </div>
                               </div>
 
                               {/* Items in this row */}
-                              <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2">
+                              <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2.5">
                                 {(row.items || []).map((it, itIdx) => (
                                   <div
                                     key={it.id || itIdx}
-                                    className="bg-white p-2 rounded-lg border border-slate-200 shadow-2xs space-y-1.5 flex flex-col justify-between"
+                                    className="bg-white p-2 rounded-xl border border-slate-200 shadow-xs space-y-1.5 flex flex-col justify-between hover:border-blue-300 transition-colors"
                                   >
-                                    <div className="w-full h-16 rounded overflow-hidden bg-slate-100 border border-slate-200 relative group">
-                                      <img src={it.imageUrl} alt={it.text} className="w-full h-full object-cover" />
+                                    {/* Thumbnail Preview with Delete and Change Buttons */}
+                                    <div className="w-full h-20 rounded-lg overflow-hidden bg-slate-100 border border-slate-200 relative group">
+                                      <img
+                                        src={it.imageUrl}
+                                        alt={it.text}
+                                        className="w-full h-full object-cover cursor-pointer"
+                                        onClick={() => setEnlargedMediaPopup({ imageUrl: it.imageUrl, title: it.title || it.text, text: it.text })}
+                                        title="Click to enlarge 🔍"
+                                      />
+                                      {/* Top Delete button */}
                                       <button
                                         type="button"
                                         onClick={() => handleDeleteRowItem(row.id, it.id)}
-                                        className="absolute top-1 right-1 w-5 h-5 bg-red-600 hover:bg-red-700 text-white rounded-full text-[10px] flex items-center justify-center cursor-pointer shadow-xs"
-                                        title="Delete image"
+                                        className="absolute top-1 right-1 w-5 h-5 bg-red-600 hover:bg-red-700 text-white rounded-full text-[10px] flex items-center justify-center cursor-pointer shadow-xs z-10"
+                                        title="Delete image card"
                                       >
                                         ✕
                                       </button>
+                                      {/* Change Picture Overlay Button */}
+                                      <button
+                                        type="button"
+                                        onClick={() => {
+                                          setUploadingFormat2RowItem({ rowId: row.id, itemId: it.id });
+                                          format2SingleItemFileInputRef.current?.click();
+                                        }}
+                                        className="absolute bottom-1 inset-x-1 py-0.5 bg-black/75 hover:bg-black text-white text-[9px] font-bold rounded flex items-center justify-center gap-1 cursor-pointer transition-colors"
+                                        title="Pick a different picture from computer for this card"
+                                      >
+                                        <span>📷</span>
+                                        <span>Change Pic</span>
+                                      </button>
                                     </div>
-                                    <input
-                                      type="text"
-                                      value={it.text}
-                                      onChange={(e) => handleUpdateRowItem(row.id, it.id, { text: e.target.value })}
-                                      placeholder="Caption"
-                                      className="w-full px-1.5 py-0.5 text-[10px] border border-slate-300 rounded font-medium text-slate-800"
-                                    />
-                                    <input
-                                      type="text"
-                                      value={it.imageUrl}
-                                      onChange={(e) => handleUpdateRowItem(row.id, it.id, { imageUrl: e.target.value })}
-                                      placeholder="Img URL"
-                                      className="w-full px-1.5 py-0.5 text-[9px] border border-slate-200 rounded font-mono text-slate-500 truncate"
-                                    />
+
+                                    {/* Content beneath picture */}
+                                    <div className="space-y-1">
+                                      <label className="block text-[8px] font-bold text-slate-500 uppercase tracking-wider">
+                                        Text Under Picture
+                                      </label>
+                                      <input
+                                        type="text"
+                                        value={it.text}
+                                        onChange={(e) => handleUpdateRowItem(row.id, it.id, { text: e.target.value })}
+                                        placeholder="Caption / Specs"
+                                        className={`w-full px-1.5 py-1 text-[10px] border rounded font-medium text-slate-800 ${
+                                          format2ContentMode === "same"
+                                            ? "border-blue-300 bg-blue-50/50"
+                                            : "border-slate-300 bg-white"
+                                        }`}
+                                      />
+                                    </div>
                                   </div>
                                 ))}
                               </div>
