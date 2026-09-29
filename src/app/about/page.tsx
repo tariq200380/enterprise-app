@@ -1,6 +1,14 @@
 import type { Metadata } from "next";
 import { getAboutData, getPartnerReviewLinks } from "@/lib/about-data";
-import AboutPageClient from "@/components/about/AboutPageClient";
+import AboutHeroSection from "@/components/about/AboutHeroSection";
+import AboutPhilosophySection from "@/components/about/AboutPhilosophySection";
+import AboutServicesSection from "@/components/about/AboutServicesSection";
+import AboutCreedCodeSection from "@/components/about/AboutCreedCodeSection";
+import AboutGlobalCentersSection from "@/components/about/AboutGlobalCentersSection";
+import AboutLeadershipSection from "@/components/about/AboutLeadershipSection";
+import AboutMetricsSection from "@/components/about/AboutMetricsSection";
+import AboutManifestoSection from "@/components/about/AboutManifestoSection";
+import AboutModalHost from "@/components/about/AboutModalHost";
 import { getSeoForPage } from "@/lib/seoHelper";
 
 // Short cache for About page (5 minutes / 300 seconds ISR)
@@ -127,10 +135,44 @@ export default async function AboutPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutJsonLd) }}
       />
-      <AboutPageClient
-        partnerLinks={partnerLinks}
-        aboutSettings={settings.aboutSettings}
-      />
+      <div className="w-full min-h-screen bg-[#F7F6F5] text-[#0F172A] font-sans antialiased text-left selection:bg-[#EA580C] selection:text-white">
+        {/* 1. Hero: Sovereign Platform Matrix Console */}
+        <AboutHeroSection partnerLinks={partnerLinks} />
+
+        {/* 2. Philosophy: Engineering Ethos (6 Minimalist Pillars) */}
+        <AboutPhilosophySection />
+
+        {/* 3. Services: What We Do */}
+        <AboutServicesSection />
+
+        {/* 4. Creed Code: Four Pillars of Uncompromising Engineering */}
+        <AboutCreedCodeSection />
+
+        {/* 5. Global Centers: Three Specialized Engineering Centers */}
+        <AboutGlobalCentersSection
+          badgeTag={settings.aboutSettings?.hubsBadgeTag}
+          headline={settings.aboutSettings?.hubsHeadline}
+          description={settings.aboutSettings?.hubsDescription}
+          hubs={settings.aboutSettings?.hubs}
+        />
+
+        {/* 6. Leadership: Executive Leadership & Technical Custodians */}
+        <AboutLeadershipSection
+          badgeTag={settings.aboutSettings?.leadershipBadgeTag}
+          headline={settings.aboutSettings?.leadershipHeadline}
+          description={settings.aboutSettings?.leadershipDescription}
+          members={settings.aboutSettings?.leadership}
+        />
+
+        {/* 7. Metrics: Data Driven & Digital Growth */}
+        <AboutMetricsSection />
+
+        {/* 8. Manifesto: Sovereign Architectural Imperative & Seal */}
+        <AboutManifestoSection />
+
+        {/* 9. Interactive Modal Host (Loaded on Demand) */}
+        <AboutModalHost />
+      </div>
     </>
   );
 }

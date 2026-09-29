@@ -15,52 +15,129 @@ import TermsLegal from "@/components/terms/termslegal";
 
 import { getSeoForPage } from "@/lib/seoHelper";
 
+export const revalidate = 300;
+
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getSeoForPage("terms");
+  const title = "Terms of Service & Enterprise Master Agreement | Creed Tech";
+  const description =
+    "Review Creed Tech's enterprise master service agreement, intellectual property terms, SLA frameworks, and client engagement conditions.";
+  const canonicalUrl = "https://creed-tech.com/terms";
+  const ogImage = "/images/og-home.webp";
+  const keywords =
+    "Creed Tech terms of service, enterprise software agreement, IT service level agreement, intellectual property terms, engineering master agreement";
+
   return {
-    title: seo.title ? { absolute: seo.title } : undefined,
-    description: seo.description,
-    keywords: seo.keywords,
+    title: { absolute: title },
+    description,
+    keywords,
     alternates: {
-      canonical: seo.canonical_url || "/terms",
+      canonical: canonicalUrl,
     },
     openGraph: {
-      title: seo.title,
-      description: seo.description,
-      url: seo.canonical_url || "https://creed-tech.com/terms",
-      images: seo.og_image ? [{ url: seo.og_image }] : undefined,
+      type: "website",
+      title,
+      description:
+        "Review Creed Tech's terms of service, intellectual property standards, and enterprise client engagement frameworks.",
+      url: canonicalUrl,
+      siteName: "Creed Tech",
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: "Creed Tech Terms of Service",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description:
+        "Review Creed Tech's terms of service, intellectual property standards, and enterprise client engagement frameworks.",
+      site: "@CreedtechHq",
+      creator: "@CreedtechHq",
+      images: [ogImage],
     },
     robots: {
       index: !seo.no_index,
       follow: !seo.no_follow,
+      googleBot: {
+        index: !seo.no_index,
+        follow: !seo.no_follow,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
     },
   };
 }
 
+const termsJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://creed-tech.com/terms/#breadcrumb",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://creed-tech.com",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Terms of Service",
+          item: "https://creed-tech.com/terms",
+        },
+      ],
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://creed-tech.com/terms/#webpage",
+      url: "https://creed-tech.com/terms",
+      name: "Terms of Service & Enterprise Master Agreement",
+      description:
+        "Master service agreement, SLA guidelines, and legal terms governing Creed Tech engineering engagements.",
+      publisher: {
+        "@id": "https://creed-tech.com/#organization",
+      },
+    },
+  ],
+};
+
 export default function TermsPage() {
   return (
-    <div className="w-full bg-[#F7F6F5] min-h-screen text-[#0F172A] font-sans antialiased selection:bg-[#FF6B00] selection:text-white">
-      <TermsHero />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(termsJsonLd) }}
+      />
+      <div className="w-full bg-[#F7F6F5] min-h-screen text-[#0F172A] font-sans antialiased selection:bg-[#FF6B00] selection:text-white">
+        <TermsHero />
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-        <div className="flex flex-col lg:flex-row items-start gap-10 lg:gap-12">
-          <TermsSidebar />
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+          <div className="flex flex-col md:flex-row items-start gap-8 md:gap-10 lg:gap-12">
+            <TermsSidebar />
 
-          <main className="flex-1 max-w-3xl w-full space-y-6 sm:space-y-8">
-            <TermsAcceptance />
-            <TermsAgreements />
-            <TermsInformational />
-            <TermsForms />
-            <TermsIntellectual />
-            <TermsThirdParty />
-            <TermsProhibited />
-            <TermsWarranties />
-            <TermsLiability />
-            <TermsModifications />
-            <TermsLegal />
-          </main>
+            <div className="flex-1 max-w-3xl w-full space-y-6 sm:space-y-8">
+              <TermsAcceptance />
+              <TermsAgreements />
+              <TermsInformational />
+              <TermsForms />
+              <TermsIntellectual />
+              <TermsThirdParty />
+              <TermsProhibited />
+              <TermsWarranties />
+              <TermsLiability />
+              <TermsModifications />
+              <TermsLegal />
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

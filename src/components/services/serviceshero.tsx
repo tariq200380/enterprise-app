@@ -1,8 +1,18 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function ServicesHero() {
   return (
-    <section className="relative w-full overflow-hidden bg-[#F8F5F0] bg-[url('/images/services-hero-bg.webp')] bg-cover bg-no-repeat bg-[right_center] py-14 sm:py-16 lg:py-20 border-b border-[#E8E2D9]">
+    <section className="relative isolate w-full overflow-hidden bg-[#F8F5F0] py-14 sm:py-16 lg:py-20 border-b border-[#E8E2D9]">
+      <Image
+        src="/images/services-hero-bg.webp"
+        alt=""
+        aria-hidden="true"
+        priority={true}
+        fill
+        sizes="100vw"
+        className="object-cover object-right -z-10 select-none pointer-events-none"
+      />
       {/* Soft white gradient overlay on the left to guarantee optimal text contrast */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.97)_0%,rgba(255,255,255,0.93)_45%,rgba(255,255,255,0.8)_75%,rgba(255,255,255,0.5)_100%)] pointer-events-none" />
 

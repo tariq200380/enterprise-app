@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import Image from "next/image";
 import { subscribeLiveNews, fetchSharedLiveNews, seedLiveNewsCache } from "@/lib/liveNewsClient";
 
@@ -95,7 +95,7 @@ export default function LatestTechNews({ initialStories }: { initialStories?: Li
   };
 
   // Strictly curate 6 stories: 4 International (from diverse providers) and 2 Regional
-  const curatedStories = React.useMemo(() => {
+  const curatedStories = useMemo(() => {
     const seenProviders = new Set<string>();
     const intl: LiveNewsItem[] = [];
 
@@ -163,6 +163,7 @@ export default function LatestTechNews({ initialStories }: { initialStories?: Li
               onClick={() => fetchLiveNews(true)}
               disabled={isRefreshing}
               title="Refresh Live Feeds"
+              aria-label="Refresh live wire news feeds"
               className="inline-flex items-center gap-1.5 text-[11.5px] font-bold text-[#0052FF] bg-white hover:bg-[#F0F7FF] active:scale-95 px-3.5 py-1.5 rounded-md border border-[#E2E8F0] transition-all cursor-pointer disabled:opacity-50 shadow-2xs"
             >
               <span className={`text-xs ${isRefreshing ? "animate-spin" : ""}`}>🔄</span>
@@ -258,6 +259,8 @@ export default function LatestTechNews({ initialStories }: { initialStories?: Li
                   key={story.id || story.title}
                   type="button"
                   onClick={() => setSelectedStoryId(story.id)}
+                  aria-pressed={isSelected}
+                  aria-label={`Preview article: ${story.title}`}
                   className={`text-left bg-white border rounded-[10px] p-3 cursor-pointer transition-all duration-200 w-full box-border block select-none ${
                     isSelected
                       ? "border-[#0052FF] bg-[#F0F7FF] shadow-[0_0_0_2px_rgba(0,82,255,0.2)] -translate-y-[1px]"

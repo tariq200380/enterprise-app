@@ -11,9 +11,8 @@ import PortfolioCtaSection from "@/components/portfolio/PortfolioCtaSection";
 
 import { getSeoForPage } from "@/lib/seoHelper";
 
-// Force dynamic rendering so admin changes reflect immediately without caching
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+// Cache Portfolio page with 5-minute (300s) Incremental Static Regeneration (ISR)
+export const revalidate = 300;
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getSeoForPage("portfolio");

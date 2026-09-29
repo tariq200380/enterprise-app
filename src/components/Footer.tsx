@@ -1,6 +1,3 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import Link from "next/link";
 
 interface SocialLink {
@@ -35,42 +32,21 @@ export default function Footer({
   initialCopyrightText?: string;
   initialGeneralInfo?: GeneralSiteInfo;
 }) {
-  const [socialLinks, setSocialLinks] = useState<SocialLink[]>(
-    initialSocialLinks && initialSocialLinks.length > 0 ? initialSocialLinks : DEFAULT_LINKS
-  );
-  const [copyright, setCopyright] = useState<string>(
-    initialCopyrightText || "© 2026 Creed Tech. All rights reserved."
-  );
-  const [generalInfo, setGeneralInfo] = useState<GeneralSiteInfo>({
+  const socialLinks =
+    initialSocialLinks && initialSocialLinks.length > 0
+      ? initialSocialLinks.filter((l: SocialLink) => l.url && l.url.trim() !== "")
+      : DEFAULT_LINKS;
+
+  const copyright = initialCopyrightText || "© 2026 Creed Tech. All rights reserved.";
+
+  const generalInfo: GeneralSiteInfo = {
     siteName: initialGeneralInfo?.siteName || "Creed Tech",
     siteTagline: initialGeneralInfo?.siteTagline || "",
     contactEmail: initialGeneralInfo?.contactEmail || "info@creed-tech.com",
     contactPhone: initialGeneralInfo?.contactPhone || "+92 321 9204488",
     officeAddress:
       initialGeneralInfo?.officeAddress || "Office # 02, Main Shopping Center, Sheikhupura, Punjab, PK",
-  });
-
-  // Sync state if initial props change (e.g. during client navigation or RSC revalidation)
-  useEffect(() => {
-    if (initialSocialLinks && initialSocialLinks.length > 0) {
-      const valid = initialSocialLinks.filter((l: SocialLink) => l.url && l.url.trim() !== "");
-      if (valid.length > 0) {
-        setSocialLinks(valid);
-      }
-    }
-    if (initialCopyrightText) {
-      setCopyright(initialCopyrightText);
-    }
-    if (initialGeneralInfo) {
-      setGeneralInfo((prev) => ({
-        siteName: initialGeneralInfo.siteName || prev.siteName,
-        siteTagline: initialGeneralInfo.siteTagline || prev.siteTagline,
-        contactEmail: initialGeneralInfo.contactEmail || prev.contactEmail,
-        contactPhone: initialGeneralInfo.contactPhone || prev.contactPhone,
-        officeAddress: initialGeneralInfo.officeAddress || prev.officeAddress,
-      }));
-    }
-  }, [initialSocialLinks, initialCopyrightText, initialGeneralInfo]);
+  };
   return (
     <footer className="bg-[#1A1A1A] text-[#F4F6F8] pt-16 pb-8 mt-auto w-full">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

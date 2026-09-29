@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { subscribeLiveNews } from "@/lib/liveNewsClient";
 import {
@@ -79,12 +79,20 @@ export default function RegionalTechEcosystem({ initialWires }: { initialWires?:
         </div>
 
         {/* Regional Provider Selector */}
-        <div className="flex items-center justify-center flex-wrap gap-2.5 mb-8">
+        <div
+          role="tablist"
+          aria-label="Pakistan Regional Tech Providers"
+          className="flex items-center justify-center flex-wrap gap-2.5 mb-8"
+        >
           {wires.map((wire) => {
             const isSelected = wire.id === activeWireId;
             return (
               <button
                 key={wire.id}
+                id={`regional-tab-${wire.id}`}
+                role="tab"
+                aria-selected={isSelected}
+                aria-controls={`regional-panel-${wire.id}`}
                 type="button"
                 onClick={() => setActiveWireId(wire.id)}
                 className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold transition-all duration-200 cursor-pointer select-none ${
@@ -102,7 +110,12 @@ export default function RegionalTechEcosystem({ initialWires }: { initialWires?:
 
         {/* Active Regional Card */}
         {activeWire && (
-          <div className="bg-white border border-[#E2E8F0] rounded-2xl overflow-hidden shadow-xs grid grid-cols-1 md:grid-cols-12 gap-6 p-6 sm:p-8 items-center">
+          <div
+            id={`regional-panel-${activeWire.id}`}
+            role="tabpanel"
+            aria-labelledby={`regional-tab-${activeWire.id}`}
+            className="bg-white border border-[#E2E8F0] rounded-2xl overflow-hidden shadow-xs grid grid-cols-1 md:grid-cols-12 gap-6 p-6 sm:p-8 items-center"
+          >
             <div className="md:col-span-5 aspect-[16/10] bg-[#0B1120] rounded-xl overflow-hidden relative">
               <Image
                 src={activeWire.image}

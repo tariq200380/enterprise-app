@@ -34,9 +34,8 @@ export default function Soc2Hero() {
 
             {/* Headline */}
             <h1 className="font-outfit text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight leading-[1.12] mb-4">
-              SOC 2 Type II <br className="hidden sm:inline" />
-              Trust Services Criteria &amp; <br className="hidden sm:inline" />
-              Continuous Operational Rigor
+              SOC 2 Type II Compliance &amp; <br className="hidden sm:inline" />
+              AICPA Trust Services Criteria
             </h1>
 
             {/* Description */}

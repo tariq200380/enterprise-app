@@ -3,7 +3,7 @@ export default function SecurityProcessors() {
     <section className="w-full py-10 sm:py-12 px-4 sm:px-6 lg:px-8 bg-[#F7F6F5] border-t border-[#E6E4DF]">
       <div className="max-w-7xl mx-auto">
         {/* Section Header Split */}
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-8 sm:pb-10 border-b border-[#E6E4DF] mb-8">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-8 sm:pb-10 border-b border-[#E6E4DF] mb-8">
           <div>
             <span className="text-[11px] font-bold text-[#FF6B00] tracking-[0.16em] uppercase block mb-2">
               SUPPLIER GOVERNANCE
@@ -13,7 +13,7 @@ export default function SecurityProcessors() {
               sub-processors
             </h2>
           </div>
-          <p className="text-slate-600 text-xs sm:text-sm max-w-md leading-relaxed font-normal lg:text-left">
+          <p className="text-slate-600 text-xs sm:text-sm max-w-md leading-relaxed font-normal md:text-left">
             Following ISO 27001 (A.5.19) and GDPR (Article 28) supplier governance guidelines, all infrastructure sub-processors undergo rigorous security evaluation.
           </p>
         </div>

@@ -1,8 +1,6 @@
-import React from "react";
-
 export default function AboutPhilosophySection() {
   return (
-    <section className="w-full py-10 sm:py-12 bg-[#F7F6F5] scroll-mt-24 border-b border-[#E2E8F0]" id="journey">
+    <section className="w-full py-10 sm:py-12 bg-[#F7F6F5] scroll-mt-28 border-b border-[#E2E8F0]" id="journey">
       <div className="max-w-[1240px] mx-auto px-6 sm:px-10">
         {/* Simple, Elegant Header */}
         <div className="max-w-3xl mb-10 sm:mb-12 text-left sm:text-center sm:mx-auto">

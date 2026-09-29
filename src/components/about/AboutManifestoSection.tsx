@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function AboutManifestoSection() {
   return (
     <section className="bg-[#0B1120] text-white py-10 sm:py-12 border-t border-white/10 relative overflow-hidden text-left">

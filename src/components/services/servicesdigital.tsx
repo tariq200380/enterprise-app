@@ -3,8 +3,8 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ServicesExplorerSettingsData, ServiceTechItem } from "@/components/admin/settings/types";
-import { ORDERED_SVCS, SVCS, TECH_ICONS, ORDERED_SUBTABS, type SubTabId, type ServiceDetail } from "./servicesData";
+import type { ServicesExplorerSettingsData, ServiceTechItem } from "@/components/admin/settings/types";
+import { SVCS, TECH_ICONS, ORDERED_SUBTABS, type SubTabId, type ServiceDetail } from "./servicesData";
 
 interface Props {
   data?: ServicesExplorerSettingsData;
@@ -746,7 +746,7 @@ export default function ServicesDigital({ data }: Props) {
                   role="tab"
                   aria-selected={isActive}
                   aria-label={`Explore ${serviceItem.h2Title}`}
-                  className={`group relative bg-white rounded-xl py-3 px-1.5 flex flex-col items-center text-center gap-1.5 cursor-pointer outline-none transition-all duration-300 ease-out active:scale-95 scroll-mt-20 ${
+                  className={`group relative bg-white rounded-xl py-3 px-1.5 flex flex-col items-center text-center gap-1.5 cursor-pointer outline-none transition-all duration-300 ease-out active:scale-95 scroll-mt-28 ${
                     isActive
                       ? "border-2 border-[#0052FF] shadow-[0_12px_28px_-4px_rgba(0,82,255,0.25)] -translate-y-1.5"
                       : "border border-[#E2E8F0] shadow-[0_2px_8px_rgba(15,23,42,0.04)] hover:-translate-y-1 hover:border-[#0052FF] hover:shadow-[0_10px_24px_-4px_rgba(15,23,42,0.1)]"
@@ -754,7 +754,7 @@ export default function ServicesDigital({ data }: Props) {
                 >
                   {/* Anchor alias target for legacy or alternate links */}
                   {serviceItem.dbId !== serviceItem.canonicalId && (
-                    <span id={serviceItem.dbId} className="scroll-mt-20 absolute top-0" aria-hidden="true" />
+                    <span id={serviceItem.dbId} className="scroll-mt-28 absolute top-0" aria-hidden="true" />
                   )}
 
                   {/* Top Orange Accent */}

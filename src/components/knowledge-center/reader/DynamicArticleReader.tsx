@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { uploadImageFile } from "@/lib/uploadHelper";
 import {
   KnowledgeArticle,
@@ -57,6 +58,24 @@ export default function DynamicArticleReader({
   const [revAvatarFileName, setRevAvatarFileName] = useState<string>("");
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [helpfulClicked, setHelpfulClicked] = useState<Record<number, boolean>>({});
+
+  // Handle escape key and body scroll lock for review modal
+  useEffect(() => {
+    if (!isReviewModalOpen) return;
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setIsReviewModalOpen(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isReviewModalOpen]);
 
   // Live tech news from API
   const [liveNews, setLiveNews] = useState<any[]>([]);
@@ -330,6 +349,8 @@ export default function DynamicArticleReader({
               📚 ALL ARTICLES &amp; BLUEPRINTS
             </div>
             <input
+              id="kc-search-input"
+              aria-label="Search articles"
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -396,10 +417,13 @@ export default function DynamicArticleReader({
                       rel="noopener noreferrer"
                       className="p-2 rounded-lg hover:bg-[#F0F7FF] border border-transparent hover:border-[#BFDBFE] cursor-pointer transition-all flex items-center gap-2.5 text-left group"
                     >
-                      <div className="w-11 h-11 rounded-md overflow-hidden bg-[#0B1120] shrink-0">
-                        <img
+                      <div className="w-11 h-11 rounded-md overflow-hidden bg-[#0B1120] shrink-0 relative">
+                        <Image
                           src={wire.img || "/images/kc-news.webp"}
-                          alt={wire.title}
+                          alt={wire.title || "Tech Wire"}
+                          width={44}
+                          height={44}
+                          unoptimized
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                         />
                       </div>
@@ -565,9 +589,12 @@ export default function DynamicArticleReader({
                   {/* Visual + Title Grid */}
                   <div className="grid grid-cols-1 md:grid-cols-[1fr_1.3fr] gap-5 mb-5 items-center">
                     <div className="h-48 rounded-lg overflow-hidden bg-[#0B1120] relative">
-                      <img
+                      <Image
                         src={prod.image}
                         alt={prod.name}
+                        fill
+                        unoptimized
+                        sizes="(max-width: 768px) 100vw, 40vw"
                         className="w-full h-full object-cover"
                       />
                     </div>
@@ -741,12 +768,15 @@ export default function DynamicArticleReader({
                     >
                       <div className="flex items-start justify-between flex-wrap gap-2.5 mb-2.5">
                         <div className="flex items-center gap-3">
-                          <img
+                          <Image
                             src={
                               rev.avatar ||
                               "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=180&auto=format&fit=crop&q=80"
                             }
                             alt={rev.name}
+                            width={40}
+                            height={40}
+                            unoptimized
                             className="w-10 h-10 rounded-full object-cover border-2 border-[#E2E8F0]"
                           />
                           <div>
@@ -1002,11 +1032,17 @@ export default function DynamicArticleReader({
 
       {/* 3. ADD REVIEW MODAL */}
       {isReviewModalOpen && (
-        <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4 backdrop-blur-xs">
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="review-modal-title"
+          className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4 backdrop-blur-xs"
+        >
           <div className="bg-white border border-[#E2E8F0] max-w-lg w-full p-6 sm:p-7 rounded-2xl relative shadow-2xl text-left">
             <button
               type="button"
               onClick={() => setIsReviewModalOpen(false)}
+              aria-label="Close review modal"
               className="absolute top-4 right-4 w-8 h-8 rounded-full bg-[#F1F5F9] hover:bg-[#E2E8F0] text-gray-600 flex items-center justify-center font-bold text-sm cursor-pointer"
             >
               ✕
@@ -1016,7 +1052,7 @@ export default function DynamicArticleReader({
               <span className="text-[10px] font-semibold text-[#0052FF] uppercase tracking-wider block mb-0.5">
                 COMMUNITY FEEDBACK
               </span>
-              <h3 className="font-outfit text-xl font-bold text-[#0F172A] tracking-tight m-0">
+              <h3 id="review-modal-title" className="font-outfit text-xl font-bold text-[#0F172A] tracking-tight m-0">
                 Write a Verified Peer Review
               </h3>
               <p className="text-xs text-[#64748B] mt-1 m-0 truncate">
@@ -1062,9 +1098,11 @@ export default function DynamicArticleReader({
                 <div className="flex items-center gap-3 p-2.5 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl">
                   <div className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-white shadow-xs shrink-0 bg-[#E2E8F0] flex items-center justify-center">
                     {revAvatarPreview ? (
-                      <img
+                      <Image
                         src={revAvatarPreview}
                         alt="Preview"
+                        fill
+                        unoptimized
                         className="w-full h-full object-cover"
                       />
                     ) : (

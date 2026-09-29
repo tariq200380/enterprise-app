@@ -1,12 +1,16 @@
 "use client";
 
 import React, { useEffect } from "react";
+import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 import TopBanner, { AnnouncementSettings } from "@/components/TopBanner";
 import Navbar, { HeaderSettings } from "@/components/Navbar";
 import NewsletterStrip from "@/components/NewsletterStrip";
 import Footer, { GeneralSiteInfo } from "@/components/Footer";
-import HomeLogic from "@/components/home/homelogic";
+
+const HomeLogic = dynamic(() => import("@/components/home/homelogic"), {
+  ssr: false,
+});
 
 export default function AppLayoutWrapper({
   children,
@@ -27,7 +31,11 @@ export default function AppLayoutWrapper({
   const isAdmin = pathname?.startsWith("/admin");
 
   useEffect(() => {
-    if (typeof window !== "undefined" && window.location.hostname.includes("ngrok")) {
+    if (
+      process.env.NODE_ENV === "development" &&
+      typeof window !== "undefined" &&
+      window.location.hostname.includes("ngrok")
+    ) {
       const origFetch = window.fetch;
       window.fetch = function (input: RequestInfo | URL, init?: RequestInit) {
         init = init || {};

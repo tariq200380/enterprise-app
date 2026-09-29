@@ -7,6 +7,7 @@ import {
   AggregatedArticle,
 } from "@/lib/newsSync";
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import { withCacheBuster } from "@/lib/cacheBuster";
 import KnowledgeHero from "@/components/knowledge-center/KnowledgeHero";
 import LatestTechNews from "@/components/knowledge-center/LatestTechNews";
@@ -22,7 +23,10 @@ import {
 } from "@/components/knowledge-center/knowledgeCenterData";
 import RegionalTechEcosystem from "@/components/knowledge-center/RegionalTechEcosystem";
 import KnowledgeOverviewGrid from "@/components/knowledge-center/KnowledgeOverviewGrid";
-import Testimonial3DDeck from "@/components/knowledge-center/Testimonial3DDeck";
+
+const Testimonial3DDeck = dynamic(
+  () => import("@/components/knowledge-center/Testimonial3DDeck")
+);
 
 import { getSeoForPage } from "@/lib/seoHelper";
 import { ARTICLES_STORE } from "@/components/knowledge-center/knowledgeArticlesData";
@@ -84,9 +88,8 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-// Force dynamic SSR so live news and original images are always 100% fresh on reopen
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+// 5-minute Incremental Static Regeneration (ISR) with edge caching & client live subscriptions
+export const revalidate = 300;
 
 function formatDynamicRelativeTime(timestamp?: string, rawDateStr?: string, defaultSource = "Live Wire"): string {
   let sourceSuffix = defaultSource;

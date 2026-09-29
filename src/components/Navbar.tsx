@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { HeaderNavLinkItem } from "./admin/settings/types";
+import type { HeaderNavLinkItem } from "./admin/settings/types";
 
 export interface HeaderSettings {
   logoUrl?: string;
@@ -31,46 +31,15 @@ export default function Navbar({
   headerSettings?: HeaderSettings;
 }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [hoveredId, setHoveredId] = useState<string | null>(null);
-  const mousePosRef = useRef<{ x: number; y: number } | null>(null);
   const pathname = usePathname();
 
   // Route change hone par mobile menu automatically close ho jaye
   useEffect(() => {
     setIsOpen(false);
-    setHoveredId(null);
   }, [pathname]);
 
   const closeMenu = () => {
     setIsOpen(false);
-    setHoveredId(null);
-  };
-
-  // Jab mouse scroll kare ya move kare to cursor ke neeche wali option ka color change karein
-  const updateHoverFromPoint = (clientX?: number, clientY?: number) => {
-    const x = clientX ?? mousePosRef.current?.x;
-    const y = clientY ?? mousePosRef.current?.y;
-    if (x === undefined || y === undefined) return;
-    const el = document.elementFromPoint(x, y);
-    const item = el?.closest<HTMLElement>("[data-nav-id]");
-    if (item && item.dataset.navId) {
-      setHoveredId(item.dataset.navId);
-    } else {
-      setHoveredId(null);
-    }
-  };
-
-  const handlePointerMove = (e: React.PointerEvent) => {
-    mousePosRef.current = { x: e.clientX, y: e.clientY };
-  };
-
-  const handleWheel = (e: React.WheelEvent) => {
-    mousePosRef.current = { x: e.clientX, y: e.clientY };
-    requestAnimationFrame(() => updateHoverFromPoint(e.clientX, e.clientY));
-  };
-
-  const handleScroll = () => {
-    requestAnimationFrame(() => updateHoverFromPoint());
   };
 
   const logoUrl = headerSettings?.logoUrl?.trim() || "/images/logo.webp";
@@ -111,18 +80,14 @@ export default function Navbar({
         <div className="hidden md:flex items-center gap-5 lg:gap-8 text-sm font-medium">
           {links.map((link) => {
             const isActive = pathname === link.url;
-            const isHovered = hoveredId === link.id;
             return (
               <Link
                 key={link.id}
                 href={link.url}
-                data-nav-id={link.id}
-                onPointerEnter={() => setHoveredId(link.id)}
-                onPointerLeave={() => setHoveredId(null)}
                 target={link.openInNewTab ? "_blank" : undefined}
                 rel={link.openInNewTab ? "noopener noreferrer" : undefined}
                 className={`py-1 border-b-2 transition-all duration-200 ease-in-out cursor-pointer ${
-                  isHovered || isActive
+                  isActive
                     ? "text-[#FF6B00] border-[#FF6B00] font-semibold"
                     : "text-gray-700 hover:text-[#FF6B00] border-transparent hover:border-[#FF6B00]"
                 }`}
@@ -139,9 +104,6 @@ export default function Navbar({
             <button
               type="button"
               data-modal="project"
-              data-nav-id="nav-cta-desktop"
-              onPointerEnter={() => setHoveredId("nav-cta-desktop")}
-              onPointerLeave={() => setHoveredId(null)}
               className="hidden md:inline-flex bg-[#FF6B00] hover:bg-[#e05d00] text-white text-xs sm:text-sm font-semibold px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-md transition-all duration-300 ease-in-out shadow-sm hover:shadow-md cursor-pointer"
             >
               {ctaText}
@@ -178,44 +140,27 @@ export default function Navbar({
         }`}
       >
         <div className="overflow-hidden min-h-0">
-          <div
-            className="px-4 py-4 max-h-[80vh] overflow-y-auto"
-            onPointerMove={handlePointerMove}
-            onWheel={handleWheel}
-            onScroll={handleScroll}
-          >
+          <div className="px-4 py-4 max-h-[80vh] overflow-y-auto">
             <ul className="flex flex-col space-y-2 mb-4">
               {links.map((link) => {
                 const isActive = pathname === link.url;
-                const isHovered = hoveredId === link.id;
                 return (
                   <li key={link.id}>
                     <Link
                       href={link.url}
                       onClick={closeMenu}
-                      data-nav-id={link.id}
-                      onPointerEnter={() => setHoveredId(link.id)}
-                      onPointerLeave={() => setHoveredId(null)}
                       target={link.openInNewTab ? "_blank" : undefined}
                       rel={link.openInNewTab ? "noopener noreferrer" : undefined}
                       className={`mobile-nav-link group flex items-center justify-between px-4 py-3 rounded-lg text-sm font-medium border-l-4 transition-all duration-200 ease-in-out cursor-pointer ${
-                        isHovered
-                          ? "bg-[#FF6B00] text-white border-l-[#FF5805] shadow-md shadow-orange-500/20 translate-x-1.5 is-active-hover"
-                          : isActive
+                        isActive
                           ? "bg-orange-50/80 text-[#FF6B00] border-l-[#FF6B00] font-semibold"
-                          : "text-gray-800 bg-white/80 border-l-transparent hover:border-[#FF6B00] hover:bg-[#FF6B00] hover:text-white hover:shadow-md hover:shadow-orange-500/20 hover:translate-x-1.5"
+                          : "text-gray-800 bg-white/80 border-l-transparent hover:border-l-[#FF5805] hover:bg-[#FF6B00] hover:text-white hover:shadow-md hover:shadow-orange-500/20 hover:translate-x-1.5"
                       }`}
                     >
-                      <span className={`transition-colors duration-200 ease-in-out ${isHovered ? "text-white" : ""}`}>
+                      <span className="transition-colors duration-200 ease-in-out">
                         {link.label}
                       </span>
-                      <span
-                        className={`nav-arrow text-sm font-bold transition-all duration-200 ease-in-out ${
-                          isHovered
-                            ? "text-white translate-x-1"
-                            : "text-gray-400 group-hover:text-white group-hover:translate-x-1"
-                        }`}
-                      >
+                      <span className="nav-arrow text-sm font-bold transition-all duration-200 ease-in-out text-gray-400 group-hover:text-white group-hover:translate-x-1">
                         &rarr;
                       </span>
                     </Link>
@@ -231,21 +176,10 @@ export default function Navbar({
                   type="button"
                   data-modal="project"
                   onClick={closeMenu}
-                  data-nav-id="nav-cta"
-                  onPointerEnter={() => setHoveredId("nav-cta")}
-                  onPointerLeave={() => setHoveredId(null)}
-                  className={`group w-full flex items-center justify-center gap-2 text-white text-sm font-semibold py-3 px-4 rounded-lg shadow-sm transition-all duration-200 ease-in-out text-center cursor-pointer ${
-                    hoveredId === "nav-cta"
-                      ? "bg-[#e05d00] shadow-lg shadow-orange-500/30 scale-[1.01]"
-                      : "bg-[#FF6B00] hover:bg-[#e05d00] hover:shadow-lg hover:shadow-orange-500/30 active:scale-[0.99]"
-                  }`}
+                  className="group w-full flex items-center justify-center gap-2 text-white text-sm font-semibold py-3 px-4 rounded-lg shadow-sm transition-all duration-200 ease-in-out text-center cursor-pointer bg-[#FF6B00] hover:bg-[#e05d00] hover:shadow-lg hover:shadow-orange-500/30 active:scale-[0.99]"
                 >
                   <span>{ctaText}</span>
-                  <span
-                    className={`text-sm font-bold transition-transform duration-200 ease-in-out ${
-                      hoveredId === "nav-cta" ? "translate-x-1.5" : "group-hover:translate-x-1.5"
-                    }`}
-                  >
+                  <span className="text-sm font-bold transition-transform duration-200 ease-in-out group-hover:translate-x-1.5">
                     &rarr;
                   </span>
                 </button>

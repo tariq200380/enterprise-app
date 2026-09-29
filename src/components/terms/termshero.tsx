@@ -13,7 +13,7 @@ export default function TermsHero() {
 
         {/* Page Title */}
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-outfit font-bold text-[#1C1917] tracking-tight mb-4">
-          Terms &amp; Conditions
+          Terms of Service &amp; Master Agreement
         </h1>
 
         {/* Subtitle */}

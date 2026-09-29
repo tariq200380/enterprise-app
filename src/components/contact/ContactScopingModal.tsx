@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface ContactScopingModalProps {
   isOpen: boolean;
@@ -14,13 +14,33 @@ export default function ContactScopingModal({
   const [scopingStatus, setScopingStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [scopingError, setScopingError] = useState("");
 
-  if (!isOpen) return null;
-
   const handleClose = () => {
     setScopingStatus("idle");
     setScopingError("");
     onClose();
   };
+
+  // Keyboard accessibility (Escape key) & Body scroll lock
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        handleClose();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = originalOverflow || "unset";
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOpen]);
+
+  if (!isOpen) return null;
 
   const handleScopingSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -84,6 +104,7 @@ export default function ContactScopingModal({
     <div
       role="dialog"
       aria-modal="true"
+      aria-labelledby="scoping-modal-title"
       className="fixed inset-0 bg-black/75 z-50 flex items-center justify-center p-4 backdrop-blur-xs animate-in fade-in duration-200 overflow-y-auto"
       onClick={(e) => {
         if (e.target === e.currentTarget) handleClose();
@@ -93,6 +114,7 @@ export default function ContactScopingModal({
         <button
           type="button"
           onClick={handleClose}
+          aria-label="Close modal"
           className="absolute top-4 right-4 text-slate-400 hover:text-slate-900 font-bold text-lg cursor-pointer leading-none p-1.5 rounded-md transition-colors"
           title="Close modal"
         >
@@ -103,7 +125,7 @@ export default function ContactScopingModal({
         <span className="text-[10.5px] font-semibold text-[#EA580C] uppercase tracking-wider block mb-1">
           ⚡ DIRECT TECHNICAL CONSULTATION
         </span>
-        <h3 className="text-xl sm:text-2xl font-outfit font-bold text-[#0F172A] mb-1.5 tracking-tight">
+        <h3 id="scoping-modal-title" className="text-xl sm:text-2xl font-outfit font-bold text-[#0F172A] mb-1.5 tracking-tight">
           Direct Contact with Lead Architect
         </h3>
         <p className="text-xs text-slate-500 mb-4 leading-relaxed">
@@ -134,10 +156,11 @@ export default function ContactScopingModal({
           <form onSubmit={handleScopingSubmit} noValidate className="flex flex-col gap-3.5">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block text-[11px] font-semibold text-slate-700 mb-1">
+                <label htmlFor="scoping-full-name" className="block text-[11px] font-semibold text-slate-700 mb-1">
                   Full Name <span className="text-[#EA580C]">*</span>
                 </label>
                 <input
+                  id="scoping-full-name"
                   name="fullName"
                   required
                   autoComplete="name"
@@ -147,10 +170,11 @@ export default function ContactScopingModal({
                 />
               </div>
               <div>
-                <label className="block text-[11px] font-semibold text-slate-700 mb-1">
+                <label htmlFor="scoping-work-email" className="block text-[11px] font-semibold text-slate-700 mb-1">
                   Work Email <span className="text-[#EA580C]">*</span>
                 </label>
                 <input
+                  id="scoping-work-email"
                   name="workEmail"
                   type="email"
                   required
@@ -164,10 +188,11 @@ export default function ContactScopingModal({
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block text-[11px] font-semibold text-slate-700 mb-1">
+                <label htmlFor="scoping-phone" className="block text-[11px] font-semibold text-slate-700 mb-1">
                   Phone / WhatsApp
                 </label>
                 <input
+                  id="scoping-phone"
                   name="phone"
                   type="tel"
                   autoComplete="tel"
@@ -177,10 +202,11 @@ export default function ContactScopingModal({
                 />
               </div>
               <div>
-                <label className="block text-[11px] font-semibold text-slate-700 mb-1">
+                <label htmlFor="scoping-contact-method" className="block text-[11px] font-semibold text-slate-700 mb-1">
                   Preferred Contact Channel
                 </label>
                 <select
+                  id="scoping-contact-method"
                   name="contactMethod"
                   disabled={scopingStatus === "loading"}
                   className="w-full px-2.5 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs outline-none focus:border-[#EA580C] focus:bg-white cursor-pointer disabled:opacity-50 transition-all"
@@ -194,10 +220,11 @@ export default function ContactScopingModal({
             </div>
 
             <div>
-              <label className="block text-[11px] font-semibold text-slate-700 mb-1">
+              <label htmlFor="scoping-architecture-notes" className="block text-[11px] font-semibold text-slate-700 mb-1">
                 System Architecture Challenge / Tech Scope
               </label>
               <textarea
+                id="scoping-architecture-notes"
                 name="architectureNotes"
                 rows={3}
                 disabled={scopingStatus === "loading"}

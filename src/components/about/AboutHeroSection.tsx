@@ -1,6 +1,6 @@
-import React from "react";
 import { PartnerReviewLinks } from "@/lib/about-data";
 import { ReviewPlatformItem } from "@/components/admin/settings/types";
+import AboutModalTrigger from "./AboutModalTrigger";
 
 interface AboutHeroSectionProps {
   partnerLinks?: PartnerReviewLinks;
@@ -19,13 +19,6 @@ export default function AboutHeroSection({
   partnerLinks,
   onOpenModal,
 }: AboutHeroSectionProps) {
-  const handleScrollToJourney = () => {
-    const el = document.getElementById("journey");
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
   const sectionTitle = partnerLinks?.sectionTitle || "Reviewed & Recommended On";
   const platforms = partnerLinks?.platforms?.filter((p) => p.enabled !== false) || [];
 
@@ -63,24 +56,22 @@ export default function AboutHeroSection({
             </p>
 
             <div className="flex items-center gap-3.5 flex-wrap">
-              <button
-                type="button"
-                onClick={() => onOpenModal?.("Enterprise Architecture & Systems")}
-                aria-label="Start an enterprise architecture consultation conversation"
+              <AboutModalTrigger
+                topic="Enterprise Architecture & Systems"
+                ariaLabel="Start an enterprise architecture consultation conversation"
                 className="inline-flex items-center justify-center gap-1.5 bg-[#EA580C] hover:bg-orange-600 text-white font-semibold h-11 w-full sm:w-[230px] rounded-lg text-xs tracking-wider uppercase border border-transparent transition-colors shadow-xs cursor-pointer"
               >
                 <span>Start a Conversation</span>
                 <span aria-hidden="true">&rarr;</span>
-              </button>
-              <button
-                type="button"
-                onClick={handleScrollToJourney}
+              </AboutModalTrigger>
+              <a
+                href="#journey"
                 aria-label="Scroll down to explore our engineering philosophy and journey"
                 className="inline-flex items-center justify-center gap-1.5 bg-black hover:bg-[#EA580C] hover:border-[#EA580C] text-white font-semibold h-11 w-full sm:w-[230px] rounded-lg text-xs tracking-wider uppercase border border-white/20 transition-colors shadow-xs cursor-pointer"
               >
                 <span>Explore Our Journey</span>
                 <span aria-hidden="true">&darr;</span>
-              </button>
+              </a>
             </div>
           </div>
 

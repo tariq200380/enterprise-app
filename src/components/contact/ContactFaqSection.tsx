@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function ContactFaqSection() {
   return (
     <section className="w-full py-10 sm:py-12 border-b border-[#E2E8F0] bg-[#F7F6F5]">

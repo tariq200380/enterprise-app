@@ -1,5 +1,5 @@
-import React from "react";
 import Link from "next/link";
+import AboutModalTrigger from "./AboutModalTrigger";
 
 interface AboutServicesSectionProps {
   onOpenModal?: (topic?: string) => void;
@@ -39,14 +39,13 @@ export default function AboutServicesSection({ onOpenModal }: AboutServicesSecti
                 your business goals.
               </p>
             </div>
-            <button
-              type="button"
-              onClick={() => onOpenModal?.("Scalable Web & Mobile Engineering")}
-              aria-label="Submit quick inquiry for custom enterprise software development"
+            <AboutModalTrigger
+              topic="Scalable Web & Mobile Engineering"
+              ariaLabel="Submit quick inquiry for custom enterprise software development"
               className="self-start inline-flex items-center justify-center min-w-[185px] text-[13px] font-semibold text-[#F7F6F5] bg-[#0F172A] hover:bg-[#1B3A8C] px-5 py-2.5 rounded-[4px] transition-colors cursor-pointer text-center whitespace-nowrap"
             >
               Quick Inquiry
-            </button>
+            </AboutModalTrigger>
           </div>
 
           {/* Service 2: AI solutions (High-Tech Dark Card with Ambient Glow) */}

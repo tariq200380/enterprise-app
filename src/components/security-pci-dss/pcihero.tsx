@@ -29,8 +29,7 @@ export default function PciHero() {
             {/* Headline */}
             <h1 className="font-outfit text-3xl sm:text-4xl md:text-5xl font-bold text-[#1C1917] tracking-tight leading-[1.12] mb-4">
               PCI-DSS v4.0 <br className="hidden sm:inline" />
-              FinTech &amp; Tokenized Payment <br className="hidden sm:inline" />
-              Architecture
+              Payment Security &amp; Architecture Standards
             </h1>
 
             {/* Description */}

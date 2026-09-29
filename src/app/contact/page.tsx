@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { getContactSettings } from "@/lib/contact-data";
 import ContactPageClient from "@/components/contact/ContactPageClient";
+import ContactHeroSection from "@/components/contact/ContactHeroSection";
+import ContactOnboardingSection from "@/components/contact/ContactOnboardingSection";
+import ContactFaqSection from "@/components/contact/ContactFaqSection";
 
 import { getSeoForPage } from "@/lib/seoHelper";
 
@@ -131,7 +134,19 @@ export default async function ContactPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(contactJsonLd) }}
       />
-      <ContactPageClient settings={settings} />
+      <div className="w-full bg-[#F7F6F5] text-[#0F172A] font-sans antialiased text-left">
+        {/* 1. Hero Section (Pure RSC) */}
+        <ContactHeroSection settings={settings} />
+
+        {/* 2. Interactive Scoping & Direct Channels Hub (Client Island) */}
+        <ContactPageClient settings={settings}>
+          {/* 3. Transparent 4-Step Onboarding Protocol (Pure RSC) */}
+          <ContactOnboardingSection settings={settings} />
+
+          {/* 4. Enterprise Technical FAQ (Pure RSC) */}
+          <ContactFaqSection />
+        </ContactPageClient>
+      </div>
     </>
   );
 }

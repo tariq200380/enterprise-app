@@ -14,12 +14,15 @@ const TOC_ITEMS = [
 
 export default function TermsSidebar() {
   return (
-    <aside className="hidden lg:block w-72 shrink-0 sticky top-28 self-start space-y-5">
+    <aside className="hidden md:block w-56 lg:w-72 shrink-0 sticky top-28 self-start space-y-5">
       <div className="bg-white border border-[#E6E4DF] rounded-2xl p-5 shadow-2xs">
         <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-4 pb-2 border-b border-[#F0EEEA]">
           Navigation Index
         </p>
-        <nav className="flex flex-col space-y-1.5 text-xs">
+        <nav
+          aria-label="Terms of Service table of contents"
+          className="flex flex-col space-y-1.5 text-xs"
+        >
           {TOC_ITEMS.map((item) => (
             <a
               key={item.id}

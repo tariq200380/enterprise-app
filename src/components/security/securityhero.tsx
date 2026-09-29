@@ -10,6 +10,7 @@ export default function SecurityHero() {
           className="w-full h-full"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
         >
           <circle cx="420" cy="0" r="140" stroke="#FF6B00" strokeWidth="1" strokeOpacity="0.22" />
           <circle cx="420" cy="0" r="220" stroke="#FF6B00" strokeWidth="1" strokeOpacity="0.16" />
@@ -18,9 +19,9 @@ export default function SecurityHero() {
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12 items-center">
           {/* Left Column: Headline, Narrative */}
-          <div className="lg:col-span-7">
+          <div className="md:col-span-7">
             <div className="text-xs sm:text-[12px] font-bold text-[#FF6B00] tracking-[0.2em] uppercase mb-4">
               ENTERPRISE TRUST, GOVERNANCE &amp; ZERO-TRUST
             </div>
@@ -37,7 +38,7 @@ export default function SecurityHero() {
           </div>
 
           {/* Right Column: 4-Row Metrics Box with Clean White Card Style */}
-          <div className="lg:col-span-5">
+          <div className="md:col-span-5">
             <div className="bg-white border border-[#E6E4DF] rounded-2xl p-6 sm:p-7 shadow-xs">
               <div className="divide-y divide-[#E6E4DF]">
                 {/* Row 1 */}

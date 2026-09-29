@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 
 const CAPABILITIES = [
   { id: "software-dev", label: "Software Dev", value: "Software Development" },
@@ -119,6 +119,7 @@ export default function ContactScopingForm() {
           <button
             type="button"
             onClick={() => setStatus("idle")}
+            aria-label="Dismiss success message"
             className="text-emerald-700 hover:text-emerald-950 font-bold shrink-0 cursor-pointer p-1 leading-none text-base"
             title="Dismiss"
           >

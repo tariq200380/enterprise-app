@@ -1,8 +1,24 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import type React from "react";
 import Link from "next/link";
-import DynamicArticleReader from "./reader/DynamicArticleReader";
+import dynamic from "next/dynamic";
+
+const DynamicArticleReader = dynamic(
+  () => import("./reader/DynamicArticleReader"),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-full py-24 flex items-center justify-center">
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-8 h-8 border-2 border-[#0052FF] border-t-transparent rounded-full animate-spin" />
+          <span className="text-xs font-semibold text-[#5B6472]">Loading Research Blueprint...</span>
+        </div>
+      </div>
+    ),
+  }
+);
 
 interface TopicCard {
   topic: string;
@@ -198,6 +214,13 @@ export default function KnowledgeOverviewGrid() {
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent, id: number) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      handleOpenArticle(id);
+    }
+  };
+
   return (
     <section
       id="knowledge-overview-container"
@@ -241,8 +264,11 @@ export default function KnowledgeOverviewGrid() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     {/* Don't Miss Card 1 */}
                     <div
+                      role="button"
+                      tabIndex={0}
                       onClick={() => handleOpenArticle(2)}
-                      className="bg-white rounded-xl border border-[#E2E8F0] overflow-hidden shadow-[0_1px_3px_rgba(0,0,0,0.05)] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1)] hover:-translate-y-1 transition-all duration-200 block cursor-pointer group"
+                      onKeyDown={(e) => handleKeyDown(e, 2)}
+                      className="bg-white rounded-xl border border-[#E2E8F0] overflow-hidden shadow-[0_1px_3px_rgba(0,0,0,0.05)] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1)] hover:-translate-y-1 transition-all duration-200 block cursor-pointer group focus:outline-none focus:ring-2 focus:ring-[#0052FF]"
                     >
                       <div className="w-full h-48 sm:h-52 bg-[linear-gradient(135deg,#111827,#1E293B,#000)] flex items-center justify-center p-4 text-center">
                         <div>
@@ -263,8 +289,11 @@ export default function KnowledgeOverviewGrid() {
 
                     {/* Don't Miss Card 2 */}
                     <div
+                      role="button"
+                      tabIndex={0}
                       onClick={() => handleOpenArticle(3)}
-                      className="bg-white rounded-xl border border-[#E2E8F0] overflow-hidden shadow-[0_1px_3px_rgba(0,0,0,0.05)] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1)] hover:-translate-y-1 transition-all duration-200 block cursor-pointer group"
+                      onKeyDown={(e) => handleKeyDown(e, 3)}
+                      className="bg-white rounded-xl border border-[#E2E8F0] overflow-hidden shadow-[0_1px_3px_rgba(0,0,0,0.05)] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1)] hover:-translate-y-1 transition-all duration-200 block cursor-pointer group focus:outline-none focus:ring-2 focus:ring-[#0052FF]"
                     >
                       <div className="w-full h-48 sm:h-52 bg-[linear-gradient(135deg,#064E3B,#134E4A,#0F172A)] flex items-center justify-center p-4 text-center">
                         <div>
@@ -316,10 +345,13 @@ export default function KnowledgeOverviewGrid() {
                     {topicCards.map((card, idx) => (
                       <div
                         key={`${card.title}-${idx}`}
+                        role="button"
+                        tabIndex={0}
                         onClick={() => handleOpenArticle(card.articleId)}
+                        onKeyDown={(e) => handleKeyDown(e, card.articleId)}
                         className={`hidden card-topic-all card-topic-${getTopicKey(
                           card.topic
-                        )} bg-white rounded-xl border border-[#E2E8F0] overflow-hidden shadow-[0_1px_3px_rgba(0,0,0,0.04)] hover:-translate-y-1 hover:shadow-md transition-all duration-200 cursor-pointer group`}
+                        )} bg-white rounded-xl border border-[#E2E8F0] overflow-hidden shadow-[0_1px_3px_rgba(0,0,0,0.04)] hover:-translate-y-1 hover:shadow-md transition-all duration-200 cursor-pointer group focus:outline-none focus:ring-2 focus:ring-[#0052FF]`}
                       >
                         <div
                           className="w-full h-36 flex items-center justify-center p-3 text-center"
@@ -362,8 +394,11 @@ export default function KnowledgeOverviewGrid() {
                     {trendingCards.map((card, idx) => (
                       <div
                         key={idx}
+                        role="button"
+                        tabIndex={0}
                         onClick={() => handleOpenArticle(card.articleId)}
-                        className="bg-white rounded-xl border border-[#E2E8F0] overflow-hidden shadow-[0_1px_3px_rgba(0,0,0,0.04)] hover:-translate-y-1 hover:shadow-md transition-all duration-200 flex flex-col cursor-pointer group"
+                        onKeyDown={(e) => handleKeyDown(e, card.articleId)}
+                        className="bg-white rounded-xl border border-[#E2E8F0] overflow-hidden shadow-[0_1px_3px_rgba(0,0,0,0.04)] hover:-translate-y-1 hover:shadow-md transition-all duration-200 flex flex-col cursor-pointer group focus:outline-none focus:ring-2 focus:ring-[#0052FF]"
                       >
                         <div
                           className="w-full h-36 flex items-center justify-center p-3 text-center border-b border-[#E2E8F0]"
@@ -413,26 +448,15 @@ export default function KnowledgeOverviewGrid() {
                     <h4 className="font-outfit text-[13px] font-bold text-[#0F172A] uppercase m-0 tracking-wider">
                       Top Stories
                     </h4>
-                    <div className="flex items-center gap-1.5">
-                      <button
-                        type="button"
-                        className="w-6 h-6 bg-[#F7F6F5] border border-[#E2E8F0] rounded flex items-center justify-center text-xs font-semibold text-[#0F172A] hover:bg-[#EFECE6] transition-colors"
-                      >
-                        ‹
-                      </button>
-                      <button
-                        type="button"
-                        className="w-6 h-6 bg-[#F7F6F5] border border-[#E2E8F0] rounded flex items-center justify-center text-xs font-semibold text-[#0F172A] hover:bg-[#EFECE6] transition-colors"
-                      >
-                        ›
-                      </button>
-                    </div>
                   </div>
 
                   <div className="flex flex-col gap-3.5">
                     <div
+                      role="button"
+                      tabIndex={0}
                       onClick={() => handleOpenArticle(1)}
-                      className="flex items-center gap-3 group cursor-pointer"
+                      onKeyDown={(e) => handleKeyDown(e, 1)}
+                      className="flex items-center gap-3 group cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#0052FF] rounded-lg p-1"
                     >
                       <div className="w-14 h-14 rounded-lg bg-[#1E293B] shrink-0 flex items-center justify-center text-xl group-hover:scale-105 transition-transform">
                         💻
@@ -448,8 +472,11 @@ export default function KnowledgeOverviewGrid() {
                     </div>
 
                     <div
+                      role="button"
+                      tabIndex={0}
                       onClick={() => handleOpenArticle(2)}
-                      className="flex items-center gap-3 pt-3 border-t border-[#F1F5F9] group cursor-pointer"
+                      onKeyDown={(e) => handleKeyDown(e, 2)}
+                      className="flex items-center gap-3 pt-3 border-t border-[#F1F5F9] group cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#0052FF] rounded-lg p-1"
                     >
                       <div className="w-14 h-14 rounded-lg bg-[#312E81] shrink-0 flex items-center justify-center text-xl group-hover:scale-105 transition-transform">
                         🤖
@@ -465,8 +492,11 @@ export default function KnowledgeOverviewGrid() {
                     </div>
 
                     <div
+                      role="button"
+                      tabIndex={0}
                       onClick={() => handleOpenArticle(3)}
-                      className="flex items-center gap-3 pt-3 border-t border-[#F1F5F9] group cursor-pointer"
+                      onKeyDown={(e) => handleKeyDown(e, 3)}
+                      className="flex items-center gap-3 pt-3 border-t border-[#F1F5F9] group cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#0052FF] rounded-lg p-1"
                     >
                       <div className="w-14 h-14 rounded-lg bg-[#0F766E] shrink-0 flex items-center justify-center text-xl group-hover:scale-105 transition-transform">
                         📈
@@ -506,20 +536,6 @@ export default function KnowledgeOverviewGrid() {
                     <h4 className="font-outfit text-[13px] font-bold text-[#0F172A] uppercase m-0 tracking-wider">
                       Newest Videos
                     </h4>
-                    <div className="flex items-center gap-1.5">
-                      <button
-                        type="button"
-                        className="w-6 h-6 bg-[#F7F6F5] border border-[#E2E8F0] rounded flex items-center justify-center text-xs font-semibold text-[#0F172A] hover:bg-[#EFECE6] transition-colors"
-                      >
-                        ‹
-                      </button>
-                      <button
-                        type="button"
-                        className="w-6 h-6 bg-[#F7F6F5] border border-[#E2E8F0] rounded flex items-center justify-center text-xs font-semibold text-[#0F172A] hover:bg-[#EFECE6] transition-colors"
-                      >
-                        ›
-                      </button>
-                    </div>
                   </div>
 
                   <div className="flex flex-col gap-3.5">
@@ -590,20 +606,6 @@ export default function KnowledgeOverviewGrid() {
                     <h4 className="font-outfit text-[13px] font-bold text-[#0F172A] uppercase m-0 tracking-wider">
                       Upcoming Events
                     </h4>
-                    <div className="flex items-center gap-1.5">
-                      <button
-                        type="button"
-                        className="w-6 h-6 bg-[#F7F6F5] border border-[#E2E8F0] rounded flex items-center justify-center text-xs font-semibold text-[#0F172A] hover:bg-[#EFECE6] transition-colors"
-                      >
-                        ‹
-                      </button>
-                      <button
-                        type="button"
-                        className="w-6 h-6 bg-[#F7F6F5] border border-[#E2E8F0] rounded flex items-center justify-center text-xs font-semibold text-[#0F172A] hover:bg-[#EFECE6] transition-colors"
-                      >
-                        ›
-                      </button>
-                    </div>
                   </div>
 
                   <div className="flex flex-col gap-3.5">

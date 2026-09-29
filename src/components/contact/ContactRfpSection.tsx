@@ -1,4 +1,3 @@
-import React from "react";
 import { ContactSettingsData } from "@/components/admin/settings/types";
 
 interface ContactRfpSectionProps {

@@ -1,4 +1,3 @@
-import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { AboutLeadershipMemberItem } from "@/components/admin/settings/types";
@@ -108,7 +107,7 @@ export default function AboutLeadershipSection({
                       alt={`${member.name} - ${member.role} at Creed Tech`}
                       width={180}
                       height={225}
-                      unoptimized={member.portraitUrl.startsWith("http")}
+                      sizes="(max-width: 640px) 200px, 180px"
                       className="w-full h-full object-cover object-center"
                     />
                   ) : (

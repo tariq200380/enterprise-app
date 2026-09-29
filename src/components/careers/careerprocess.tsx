@@ -1,6 +1,6 @@
 export default function CareerProcess() {
   return (
-    <section className="w-full bg-[#F4F3F1] border-b border-[#E6E4DF] py-16 sm:py-24">
+    <section id="hiring-process" className="w-full bg-[#F4F3F1] border-b border-[#E6E4DF] py-16 sm:py-24 scroll-mt-28">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <span className="text-[11px] sm:text-xs font-bold text-[#FF6B00] tracking-widest uppercase block mb-3">
           TRANSPARENT &amp; COMPENSATED

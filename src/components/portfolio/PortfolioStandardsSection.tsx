@@ -1,4 +1,3 @@
-import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { PortfolioShowcaseData } from "@/lib/portfolio-data";
@@ -43,7 +42,7 @@ export default function PortfolioStandardsSection({
                   alt={showcase?.headline || "Enterprise Engineering Culture & Rigorous Standards | Creed Tech"}
                   width={480}
                   height={200}
-                  unoptimized={showcase.showcasePictureUrl.startsWith("http")}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
                   className="w-full h-full object-cover opacity-90 transition-transform duration-500 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />

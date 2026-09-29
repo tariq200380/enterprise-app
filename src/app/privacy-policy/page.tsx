@@ -14,51 +14,129 @@ import PrivacyContacts from "@/components/privacy/privacycontacts";
 
 import { getSeoForPage } from "@/lib/seoHelper";
 
+// 5-minute Incremental Static Regeneration (ISR) edge caching
+export const revalidate = 300;
+
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getSeoForPage("privacy_policy");
+  const title = "Privacy Policy & Data Protection Standards | Creed Tech";
+  const description =
+    "Review Creed Tech's enterprise privacy policy, GDPR compliance protocols, cryptographic data encryption standards, and client data protection practices.";
+  const canonicalUrl = "https://creed-tech.com/privacy-policy";
+  const ogImage = "/images/og-home.webp";
+  const keywords =
+    "Creed Tech privacy policy, enterprise data protection, GDPR compliance IT, client data confidentiality, secure software engineering privacy";
+
   return {
-    title: seo.title ? { absolute: seo.title } : undefined,
-    description: seo.description,
-    keywords: seo.keywords,
+    title: { absolute: title },
+    description,
+    keywords,
     alternates: {
-      canonical: seo.canonical_url || "/privacy-policy",
+      canonical: canonicalUrl,
     },
     openGraph: {
-      title: seo.title,
-      description: seo.description,
-      url: seo.canonical_url || "https://creed-tech.com/privacy-policy",
-      images: seo.og_image ? [{ url: seo.og_image }] : undefined,
+      type: "website",
+      title,
+      description:
+        "Review Creed Tech's enterprise privacy policy, GDPR compliance protocols, and data protection standards.",
+      url: canonicalUrl,
+      siteName: "Creed Tech",
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: "Creed Tech Privacy Policy",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description:
+        "Review Creed Tech's enterprise privacy policy, GDPR compliance protocols, and data protection standards.",
+      site: "@CreedtechHq",
+      creator: "@CreedtechHq",
+      images: [ogImage],
     },
     robots: {
       index: !seo.no_index,
       follow: !seo.no_follow,
+      googleBot: {
+        index: !seo.no_index,
+        follow: !seo.no_follow,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
     },
   };
 }
 
+const privacyPolicyJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://creed-tech.com/privacy-policy/#breadcrumb",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://creed-tech.com",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Privacy Policy",
+          item: "https://creed-tech.com/privacy-policy",
+        },
+      ],
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://creed-tech.com/privacy-policy/#webpage",
+      url: "https://creed-tech.com/privacy-policy",
+      name: "Privacy Policy & Data Protection Standards",
+      description:
+        "Official enterprise privacy policy and data governance practices enforced by Creed Tech.",
+      publisher: {
+        "@id": "https://creed-tech.com/#organization",
+      },
+    },
+  ],
+};
+
 export default function PrivacyPolicyPage() {
   return (
-    <div className="w-full bg-[#FAF9F6] min-h-screen text-[#0F172A]">
-      <PrivacyHero />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(privacyPolicyJsonLd) }}
+      />
+      <div className="w-full bg-[#FAF9F6] min-h-screen text-[#0F172A]">
+        <PrivacyHero />
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-        <div className="flex flex-col lg:flex-row items-start gap-12 lg:gap-16">
-          <PrivacySidebar />
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+          <div className="flex flex-col md:flex-row items-start gap-8 md:gap-10 lg:gap-16">
+            <PrivacySidebar />
 
-          <main className="flex-1 max-w-3xl w-full">
-            <PrivacyOverview />
-            <PrivacyVoluntary />
-            <PrivacySecurity />
-            <PrivacyUsage />
-            <PrivacyStorage />
-            <PrivacyRights />
-            <PrivacyThirdParty />
-            <PrivacyMinors />
-            <PrivacyUpdates />
-            <PrivacyContacts />
-          </main>
+            <div className="flex-1 max-w-3xl w-full">
+              <PrivacyOverview />
+              <PrivacyVoluntary />
+              <PrivacySecurity />
+              <PrivacyUsage />
+              <PrivacyStorage />
+              <PrivacyRights />
+              <PrivacyThirdParty />
+              <PrivacyMinors />
+              <PrivacyUpdates />
+              <PrivacyContacts />
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

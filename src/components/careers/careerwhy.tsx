@@ -1,6 +1,6 @@
 export default function CareerWhy() {
   return (
-    <section className="w-full bg-[#F7F6F5] border-b border-[#E6E4DF] py-12 sm:py-16">
+    <section id="benefits" className="w-full bg-[#F7F6F5] border-b border-[#E6E4DF] py-12 sm:py-16 scroll-mt-28">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Creed Tech Hiring Guarantee Banner */}
         <div className="bg-[#F4F3F1] border border-[#E6E4DF] rounded-2xl p-4 sm:p-5 sm:px-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs mb-12 sm:mb-16">
@@ -12,7 +12,7 @@ export default function CareerWhy() {
               </svg>
             </div>
             <div>
-              <h4 className="text-sm sm:text-base font-outfit font-bold text-slate-900 tracking-tight">The Creed Tech Hiring Guarantee</h4>
+              <div className="text-sm sm:text-base font-outfit font-bold text-slate-900 tracking-tight">The Creed Tech Hiring Guarantee</div>
               <p className="text-xs sm:text-[13px] text-slate-500 mt-0.5 font-normal">
                 Every candidate receives personalized feedback from a Principal Architect within 24 hours of every interview stage.
               </p>

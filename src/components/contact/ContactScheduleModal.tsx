@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface ContactScheduleModalProps {
   isOpen: boolean;
@@ -15,14 +15,34 @@ export default function ContactScheduleModal({
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
 
-  if (!isOpen) return null;
-
   const handleClose = () => {
     setStatus("idle");
     setErrorMessage("");
     setIsCustom(false);
     onClose();
   };
+
+  // Keyboard accessibility (Escape key) & Body scroll lock
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        handleClose();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = originalOverflow || "unset";
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOpen]);
+
+  if (!isOpen) return null;
 
   const handleScheduleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -89,6 +109,7 @@ export default function ContactScheduleModal({
     <div
       role="dialog"
       aria-modal="true"
+      aria-labelledby="schedule-modal-title"
       className="fixed inset-0 bg-black/75 z-50 flex items-center justify-center p-4 backdrop-blur-xs animate-in fade-in duration-200"
       onClick={(e) => {
         if (e.target === e.currentTarget) handleClose();
@@ -98,6 +119,7 @@ export default function ContactScheduleModal({
         <button
           type="button"
           onClick={handleClose}
+          aria-label="Close modal"
           className="absolute top-4 right-4 text-slate-400 hover:text-slate-900 font-bold text-lg cursor-pointer leading-none p-1.5 rounded-md transition-colors"
           title="Close modal"
         >
@@ -107,7 +129,7 @@ export default function ContactScheduleModal({
         <span className="text-[10.5px] font-semibold text-[#EA580C] uppercase tracking-wider block mb-1">
           ⚡ DIRECT ARCHITECTURAL DISCOVERY
         </span>
-        <h3 className="text-lg sm:text-xl font-outfit font-bold text-[#0F172A] mb-1">
+        <h3 id="schedule-modal-title" className="text-lg sm:text-xl font-outfit font-bold text-[#0F172A] mb-1">
           Schedule 30-Min Discovery Call
         </h3>
         <p className="text-xs text-slate-500 mb-5 leading-relaxed">
@@ -122,10 +144,11 @@ export default function ContactScheduleModal({
           <form onSubmit={handleScheduleSubmit} noValidate className="flex flex-col gap-3.5">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block text-[11px] font-semibold text-slate-700 mb-1">
+                <label htmlFor="schedule-full-name" className="block text-[11px] font-semibold text-slate-700 mb-1">
                   Full Name <span className="text-[#EA580C]">*</span>
                 </label>
                 <input
+                  id="schedule-full-name"
                   name="fullName"
                   required
                   autoComplete="name"
@@ -135,10 +158,11 @@ export default function ContactScheduleModal({
                 />
               </div>
               <div>
-                <label className="block text-[11px] font-semibold text-slate-700 mb-1">
+                <label htmlFor="schedule-work-email" className="block text-[11px] font-semibold text-slate-700 mb-1">
                   Work Email <span className="text-[#EA580C]">*</span>
                 </label>
                 <input
+                  id="schedule-work-email"
                   name="workEmail"
                   type="email"
                   required
@@ -152,10 +176,11 @@ export default function ContactScheduleModal({
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block text-[11px] font-semibold text-slate-700 mb-1">
+                <label htmlFor="schedule-phone" className="block text-[11px] font-semibold text-slate-700 mb-1">
                   Phone / WhatsApp
                 </label>
                 <input
+                  id="schedule-phone"
                   name="phone"
                   type="tel"
                   autoComplete="tel"
@@ -165,10 +190,11 @@ export default function ContactScheduleModal({
                 />
               </div>
               <div>
-                <label className="block text-[11px] font-semibold text-slate-700 mb-1">
+                <label htmlFor="schedule-slot" className="block text-[11px] font-semibold text-slate-700 mb-1">
                   Preferred Time Slot
                 </label>
                 <select
+                  id="schedule-slot"
                   name="slot"
                   disabled={status === "loading"}
                   onChange={(e) => setIsCustom(e.target.value === "Custom")}
@@ -185,10 +211,11 @@ export default function ContactScheduleModal({
             {isCustom && (
               <div className="grid grid-cols-2 gap-3 p-3 bg-orange-50/70 border border-orange-200 rounded-xl">
                 <div>
-                  <label className="block text-[10.5px] font-semibold text-orange-950 mb-1">
+                  <label htmlFor="schedule-custom-date" className="block text-[10.5px] font-semibold text-orange-950 mb-1">
                     Select Date
                   </label>
                   <input
+                    id="schedule-custom-date"
                     type="date"
                     name="customDate"
                     required
@@ -199,10 +226,11 @@ export default function ContactScheduleModal({
                   />
                 </div>
                 <div>
-                  <label className="block text-[10.5px] font-semibold text-orange-950 mb-1">
+                  <label htmlFor="schedule-custom-time" className="block text-[10.5px] font-semibold text-orange-950 mb-1">
                     Select Time
                   </label>
                   <input
+                    id="schedule-custom-time"
                     type="time"
                     name="customTime"
                     disabled={status === "loading"}

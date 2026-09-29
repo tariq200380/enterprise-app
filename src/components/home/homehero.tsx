@@ -3,13 +3,18 @@ import Image from "next/image";
 
 export default function Homehero() {
   return (
-    <section
-      className="w-full pt-8 pb-8 lg:pt-12 lg:pb-12 m-0 border-b border-gray-100 overflow-hidden bg-cover bg-center bg-no-repeat"
-      style={{
-        backgroundImage: "url('/images/microsoft-hero-bg.webp')",
-      }}
-    >
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col md:flex-row items-center justify-between gap-8 md:gap-10 lg:gap-16">
+    <section className="relative w-full pt-8 pb-8 lg:pt-12 lg:pb-12 m-0 border-b border-gray-100 overflow-hidden">
+      {/* Optimized Preloaded Background Image with priority */}
+      <Image
+        src="/images/microsoft-hero-bg.webp"
+        alt=""
+        aria-hidden="true"
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover object-center -z-10 select-none pointer-events-none"
+      />
+      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 flex flex-col md:flex-row items-center justify-between gap-8 md:gap-10 lg:gap-16">
         
         {/* LEFT — Text & CTA */}
         <div className="w-full md:w-1/2 flex flex-col items-center md:items-start text-center md:text-left shrink-0">

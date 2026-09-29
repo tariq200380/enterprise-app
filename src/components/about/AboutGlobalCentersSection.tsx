@@ -1,4 +1,3 @@
-import React from "react";
 import { AboutEngineeringHubItem } from "@/components/admin/settings/types";
 
 interface AboutGlobalCentersSectionProps {

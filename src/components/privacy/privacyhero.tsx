@@ -7,7 +7,7 @@ export default function PrivacyHero() {
         </span>
 
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-outfit font-bold text-[#1C1917] tracking-tight mb-4">
-          Privacy Policy
+          Privacy Policy &amp; Data Protection Standards
         </h1>
 
         <p className="text-slate-600 text-xs sm:text-sm sm:leading-relaxed max-w-2xl font-normal mb-6">

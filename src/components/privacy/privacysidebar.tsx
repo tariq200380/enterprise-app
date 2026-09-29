@@ -74,11 +74,11 @@ export default function PrivacySidebar() {
   };
 
   return (
-    <aside className="hidden lg:block w-64 shrink-0 sticky top-28 self-start">
+    <aside className="hidden md:block w-56 lg:w-64 shrink-0 sticky top-28 self-start">
       <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-5 pl-5">
         On this page
       </p>
-      <nav className="flex flex-col space-y-3 text-xs border-l border-[#EFECE6] pl-5">
+      <nav aria-label="Privacy policy table of contents" className="flex flex-col space-y-3 text-xs border-l border-[#EFECE6] pl-5">
         {TOC_ITEMS.map((item) => {
           const isActive = activeId === item.id;
           return (
@@ -86,6 +86,7 @@ export default function PrivacySidebar() {
               key={item.id}
               href={`#${item.id}`}
               onClick={(e) => handleClick(e, item.id)}
+              aria-current={isActive ? "true" : undefined}
               className={`flex items-baseline gap-2.5 transition-colors relative ${
                 isActive
                   ? "text-[#FF6B00] font-semibold -ml-[21px] pl-5 border-l-2 border-[#FF6B00]"

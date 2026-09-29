@@ -2,10 +2,10 @@ import Link from "next/link";
 
 export default function SecurityCompliance() {
   return (
-    <section id="frameworks" className="w-full py-10 sm:py-12 px-4 sm:px-6 lg:px-8 bg-[#F7F6F5] scroll-mt-10">
+    <section id="frameworks" className="w-full py-10 sm:py-12 px-4 sm:px-6 lg:px-8 bg-[#F7F6F5] scroll-mt-28">
       <div className="max-w-7xl mx-auto">
         {/* Section Header Split */}
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-8 sm:pb-10 border-b border-[#E6E4DF] mb-8 sm:mb-10">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-8 sm:pb-10 border-b border-[#E6E4DF] mb-8 sm:mb-10">
           <div>
             <span className="text-[11px] font-bold text-[#FF6B00] tracking-[0.16em] uppercase block mb-2">
               STANDARDS &amp; AUDITS
@@ -15,7 +15,7 @@ export default function SecurityCompliance() {
               {" "}security frameworks
             </h2>
           </div>
-          <p className="text-slate-600 text-xs sm:text-sm max-w-md leading-relaxed font-normal lg:text-left">
+          <p className="text-slate-600 text-xs sm:text-sm max-w-md leading-relaxed font-normal md:text-left">
             Each framework below links to the governing authority, statutory requirement, and Creed Tech&apos;s client-facing implementation architecture.
           </p>
         </div>
@@ -31,6 +31,7 @@ export default function SecurityCompliance() {
                 </span>
                 <Link
                   href="/security-iso-27001"
+                  aria-label="Peer architecture for ISO/IEC 27001:2022"
                   className="text-[11px] font-semibold text-[#FF6B00] hover:text-[#e05d00] inline-flex items-center gap-1 transition-colors"
                 >
                   <span>Peer architecture</span>
@@ -56,6 +57,7 @@ export default function SecurityCompliance() {
               </span>
               <Link
                 href="/security-iso-27001"
+                aria-label="Explore full breakdown of ISO/IEC 27001:2022 security governance"
                 className="font-semibold text-[#0F172A] hover:text-[#FF6B00] transition-colors inline-flex items-center gap-1"
               >
                 <span>Explore full breakdown</span>
@@ -73,6 +75,7 @@ export default function SecurityCompliance() {
                 </span>
                 <Link
                   href="/security-gdpr"
+                  aria-label="Peer architecture for EU GDPR Regulation"
                   className="text-[11px] font-semibold text-[#FF6B00] hover:text-[#e05d00] inline-flex items-center gap-1 transition-colors"
                 >
                   <span>Peer architecture</span>
@@ -98,6 +101,7 @@ export default function SecurityCompliance() {
               </span>
               <Link
                 href="/security-gdpr"
+                aria-label="Explore full breakdown of EU GDPR Regulation compliance"
                 className="font-semibold text-[#0F172A] hover:text-[#FF6B00] transition-colors inline-flex items-center gap-1"
               >
                 <span>Explore full breakdown</span>
@@ -115,6 +119,7 @@ export default function SecurityCompliance() {
                 </span>
                 <Link
                   href="/security-soc-2"
+                  aria-label="Peer architecture for AICPA SOC 2 Type II"
                   className="text-[11px] font-semibold text-[#FF6B00] hover:text-[#e05d00] inline-flex items-center gap-1 transition-colors"
                 >
                   <span>Peer architecture</span>
@@ -140,6 +145,7 @@ export default function SecurityCompliance() {
               </span>
               <Link
                 href="/security-soc-2"
+                aria-label="Explore full breakdown of AICPA SOC 2 Type II compliance"
                 className="font-semibold text-[#0F172A] hover:text-[#FF6B00] transition-colors inline-flex items-center gap-1"
               >
                 <span>Explore full breakdown</span>
@@ -157,6 +163,7 @@ export default function SecurityCompliance() {
                 </span>
                 <Link
                   href="/security-pci-dss"
+                  aria-label="Peer architecture for PCI-DSS Version 4.0"
                   className="text-[11px] font-semibold text-[#FF6B00] hover:text-[#e05d00] inline-flex items-center gap-1 transition-colors"
                 >
                   <span>Peer architecture</span>
@@ -182,6 +189,7 @@ export default function SecurityCompliance() {
               </span>
               <Link
                 href="/security-pci-dss"
+                aria-label="Explore full breakdown of PCI-DSS Version 4.0 compliance"
                 className="font-semibold text-[#0F172A] hover:text-[#FF6B00] transition-colors inline-flex items-center gap-1"
               >
                 <span>Explore full breakdown</span>

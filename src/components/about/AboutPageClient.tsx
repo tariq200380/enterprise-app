@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import dynamic from "next/dynamic";
 import { PartnerReviewLinks } from "@/lib/about-data";
 import { AboutSettingsData } from "@/components/admin/settings/types";

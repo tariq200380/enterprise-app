@@ -28,9 +28,8 @@ export default function GdprHero() {
 
             {/* Headline */}
             <h1 className="font-outfit text-3xl sm:text-4xl md:text-5xl font-bold text-[#1C1917] tracking-tight leading-[1.12] mb-4">
-              European Union GDPR <br className="hidden sm:inline" />
-              Data Privacy &amp; Governance <br className="hidden sm:inline" />
-              Architecture
+              GDPR Compliance &amp; <br className="hidden sm:inline" />
+              EU Data Sovereignty Framework
             </h1>
 
             {/* Description */}

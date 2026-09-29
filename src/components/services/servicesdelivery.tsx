@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function ServicesDelivery() {
   return (
     <section id="delivery-commitment" className="relative w-full py-12 lg:py-16 bg-[#F7F6F5] border-b border-[#E2E8F0]">

@@ -42,8 +42,8 @@ export default function IsoHero() {
 
             {/* Main Headline */}
             <h1 className="text-4xl sm:text-5xl lg:text-[54px] font-outfit font-bold text-[#1C1917] tracking-tight leading-[1.08] mb-5">
-              ISO/IEC 27001:2022<br />
-              Standard &amp; <span className="text-[#FF6B00]">ISMS Architecture</span>
+              ISO/IEC 27001 Information Security<br />
+              <span className="text-[#FF6B00]">Management System (ISMS)</span>
             </h1>
 
             {/* Narrative Paragraph */}

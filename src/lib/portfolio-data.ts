@@ -241,8 +241,8 @@ export async function getPortfolioShowcase(): Promise<PortfolioShowcaseData> {
   return showcase;
 }
 
-export { type CategoryGroup, DEFAULT_CATEGORY_GROUPS } from "./portfolio-types";
 import { type CategoryGroup, DEFAULT_CATEGORY_GROUPS } from "./portfolio-types";
+export { type CategoryGroup, DEFAULT_CATEGORY_GROUPS };
 
 export async function getPortfolioCategories(): Promise<CategoryGroup[]> {
   try {

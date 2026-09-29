@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 
 interface Testimonial {
@@ -345,6 +345,7 @@ export default function Testimonial3DDeck() {
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={(e) => e.stopPropagation()}
+                      aria-label={`View ${item.author}'s LinkedIn profile`}
                       className="w-[34px] h-[34px] rounded-lg bg-[#F7F6F5] hover:bg-[#EFECE6] border border-[#E2E8F0] flex items-center justify-center text-[#0A66C2] font-extrabold text-sm transition-colors"
                     >
                       in
@@ -360,6 +361,7 @@ export default function Testimonial3DDeck() {
             <button
               type="button"
               onClick={prevCard}
+              aria-label="Previous testimonial"
               className="w-9 h-9 rounded-full bg-white border border-[#E2E8F0] text-[#0F172A] font-bold text-base flex items-center justify-center shadow-[0_2px_5px_rgba(0,0,0,0.06)] hover:bg-[#EFECE6] transition-all cursor-pointer"
             >
               ‹
@@ -373,6 +375,8 @@ export default function Testimonial3DDeck() {
                     key={i}
                     type="button"
                     onClick={(e) => jumpToCard(i, e)}
+                    aria-label={`Go to slide ${i + 1} of ${total}`}
+                    aria-current={isActive ? "true" : undefined}
                     className={`inline-block h-1 rounded-full transition-all duration-300 cursor-pointer ${
                       isActive ? "w-6 bg-[#0F172A]" : "w-2 bg-[#CBD5E1] hover:bg-[#94A3B8]"
                     }`}
@@ -384,6 +388,7 @@ export default function Testimonial3DDeck() {
             <button
               type="button"
               onClick={() => nextCard()}
+              aria-label="Next testimonial"
               className="w-9 h-9 rounded-full bg-white border border-[#E2E8F0] text-[#0F172A] font-bold text-base flex items-center justify-center shadow-[0_2px_5px_rgba(0,0,0,0.06)] hover:bg-[#EFECE6] transition-all cursor-pointer"
             >
               ›

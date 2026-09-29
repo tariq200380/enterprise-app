@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, useRef, type FormEvent } from "react";
 
 interface AboutConversationModalProps {
   isOpen: boolean;
@@ -16,16 +16,50 @@ export default function AboutConversationModal({
   const [selectedTopic, setSelectedTopic] = useState(defaultTopic);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
+  // Sync topic when defaultTopic changes
   useEffect(() => {
     if (defaultTopic) {
       setSelectedTopic(defaultTopic);
     }
   }, [defaultTopic]);
 
+  // Clean up auto-close timer on unmount
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+    };
+  }, []);
+
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isOpen]);
+
+  // Handle escape key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isOpen) {
+        onClose();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const fullName = formData.get("fullName") as string;
@@ -70,7 +104,8 @@ export default function AboutConversationModal({
 
       if (res.ok && data.success) {
         setStatus("success");
-        setTimeout(() => {
+        if (timerRef.current) clearTimeout(timerRef.current);
+        timerRef.current = setTimeout(() => {
           onClose();
           setStatus("idle");
         }, 2500);
@@ -100,6 +135,7 @@ export default function AboutConversationModal({
           onClick={onClose}
           className="absolute top-4 right-4 text-slate-400 hover:text-slate-900 font-bold text-lg cursor-pointer leading-none p-1.5 rounded-md transition-colors"
           title="Close modal"
+          aria-label="Close modal"
         >
           ✕
         </button>
@@ -122,10 +158,11 @@ export default function AboutConversationModal({
           <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-3.5">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block text-[11px] font-semibold text-slate-700 mb-1">
+                <label htmlFor="about-modal-fullName" className="block text-[11px] font-semibold text-slate-700 mb-1">
                   Full Name <span className="text-[#EA580C]">*</span>
                 </label>
                 <input
+                  id="about-modal-fullName"
                   name="fullName"
                   required
                   autoComplete="name"
@@ -135,10 +172,11 @@ export default function AboutConversationModal({
                 />
               </div>
               <div>
-                <label className="block text-[11px] font-semibold text-slate-700 mb-1">
+                <label htmlFor="about-modal-email" className="block text-[11px] font-semibold text-slate-700 mb-1">
                   Work Email <span className="text-[#EA580C]">*</span>
                 </label>
                 <input
+                  id="about-modal-email"
                   name="email"
                   type="email"
                   required
@@ -152,10 +190,11 @@ export default function AboutConversationModal({
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block text-[11px] font-semibold text-slate-700 mb-1">
+                <label htmlFor="about-modal-company" className="block text-[11px] font-semibold text-slate-700 mb-1">
                   Organization / Company
                 </label>
                 <input
+                  id="about-modal-company"
                   name="company"
                   disabled={status === "loading"}
                   placeholder="Company Name"
@@ -163,10 +202,11 @@ export default function AboutConversationModal({
                 />
               </div>
               <div>
-                <label className="block text-[11px] font-semibold text-slate-700 mb-1">
+                <label htmlFor="about-modal-phone" className="block text-[11px] font-semibold text-slate-700 mb-1">
                   Phone / WhatsApp
                 </label>
                 <input
+                  id="about-modal-phone"
                   name="phone"
                   type="tel"
                   autoComplete="tel"
@@ -178,10 +218,11 @@ export default function AboutConversationModal({
             </div>
 
             <div>
-              <label className="block text-[11px] font-semibold text-slate-700 mb-1">
+              <label htmlFor="about-modal-topic" className="block text-[11px] font-semibold text-slate-700 mb-1">
                 Primary Topic of Interest
               </label>
               <select
+                id="about-modal-topic"
                 name="topic"
                 value={selectedTopic}
                 onChange={(e) => setSelectedTopic(e.target.value)}
@@ -198,10 +239,11 @@ export default function AboutConversationModal({
             </div>
 
             <div>
-              <label className="block text-[11px] font-semibold text-slate-700 mb-1">
+              <label htmlFor="about-modal-message" className="block text-[11px] font-semibold text-slate-700 mb-1">
                 Message / Project Context <span className="text-[#EA580C]">*</span>
               </label>
               <textarea
+                id="about-modal-message"
                 name="message"
                 required
                 rows={3}
@@ -211,8 +253,9 @@ export default function AboutConversationModal({
               />
             </div>
 
-            <label className="flex items-center gap-2 cursor-pointer pt-0.5">
+            <label htmlFor="about-modal-needNda" className="flex items-center gap-2 cursor-pointer pt-0.5">
               <input
+                id="about-modal-needNda"
                 type="checkbox"
                 name="needNda"
                 disabled={status === "loading"}

@@ -1,4 +1,3 @@
-import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -53,98 +52,105 @@ export default function PortfolioCaseStudiesSection({
       </div>
 
       {/* Case Studies Rendered by Category Domain */}
-      {displayProjects.map((proj, idx) => {
-        const isEven = idx % 2 === 0;
-        const isLast = idx === displayProjects.length - 1;
-        const telemetry = getTelemetryPreset(idx, proj);
-        const stackList = Array.isArray(proj.stack)
-          ? proj.stack
-          : typeof proj.stack === "string"
-          ? (proj.stack as string).split(",").map((s) => s.trim()).filter(Boolean)
-          : [];
+      {(() => {
+        const seenCategories = new Set<string>();
+        return displayProjects.map((proj, idx) => {
+          const isEven = idx % 2 === 0;
+          const isLast = idx === displayProjects.length - 1;
+          const telemetry = getTelemetryPreset(idx, proj);
+          const stackList = Array.isArray(proj.stack)
+            ? proj.stack
+            : typeof proj.stack === "string"
+            ? (proj.stack as string).split(",").map((s) => s.trim()).filter(Boolean)
+            : [];
 
-        // Match category group for semantic H2 heading
-        const catNorm = (proj.category || "").toLowerCase();
-        const catGroup =
-          activeCategoryGroups.find(
-            (g) => g.id === catNorm || g.name.toLowerCase() === catNorm
-          ) ||
-          activeCategoryGroups.find((g) => {
-            if (
-              g.id === "fintech-banking" &&
-              (catNorm.includes("fintech") ||
-                catNorm.includes("banking") ||
-                catNorm.includes("payment"))
-            )
-              return true;
-            if (
-              g.id === "cloud-devops" &&
-              (catNorm.includes("cloud") ||
-                catNorm.includes("devops") ||
-                catNorm.includes("kubernetes"))
-            )
-              return true;
-            if (
-              g.id === "cybersecurity" &&
-              (catNorm.includes("cyber") ||
-                catNorm.includes("security") ||
-                catNorm.includes("soc"))
-            )
-              return true;
-            if (
-              g.id === "ai-automation" &&
-              (catNorm.includes("ai") ||
-                catNorm.includes("neural") ||
-                catNorm.includes("llm") ||
-                catNorm.includes("orchestration") ||
-                catNorm.includes("agent"))
-            )
-              return true;
-            return false;
-          }) ||
-          activeCategoryGroups.find(
-            (g) =>
-              catNorm.includes(g.id.replace("-", " ")) ||
-              (g.name.length > 2 && catNorm.includes(g.name.toLowerCase()))
-          ) ||
-          activeCategoryGroups[idx % activeCategoryGroups.length] || {
-            id: `discipline-${idx + 1}`,
-            name: proj.category || "Enterprise Core",
-            h2Title: `${proj.category || "Enterprise Software"} Case Study & Architecture`,
-            description:
-              "Mission-critical system engineering delivering verified resilience and business ROI.",
-            badge: "ENTERPRISE DELIVERY",
-          };
+          // Match category group for semantic H2 heading
+          const catNorm = (proj.category || "").toLowerCase();
+          const catGroup =
+            activeCategoryGroups.find(
+              (g) => g.id === catNorm || g.name.toLowerCase() === catNorm
+            ) ||
+            activeCategoryGroups.find((g) => {
+              if (
+                g.id === "fintech-banking" &&
+                (catNorm.includes("fintech") ||
+                  catNorm.includes("banking") ||
+                  catNorm.includes("payment"))
+              )
+                return true;
+              if (
+                g.id === "cloud-devops" &&
+                (catNorm.includes("cloud") ||
+                  catNorm.includes("devops") ||
+                  catNorm.includes("kubernetes"))
+              )
+                return true;
+              if (
+                g.id === "cybersecurity" &&
+                (catNorm.includes("cyber") ||
+                  catNorm.includes("security") ||
+                  catNorm.includes("soc"))
+              )
+                return true;
+              if (
+                g.id === "ai-automation" &&
+                (catNorm.includes("ai") ||
+                  catNorm.includes("neural") ||
+                  catNorm.includes("llm") ||
+                  catNorm.includes("orchestration") ||
+                  catNorm.includes("agent"))
+              )
+                return true;
+              return false;
+            }) ||
+            activeCategoryGroups.find(
+              (g) =>
+                catNorm.includes(g.id.replace("-", " ")) ||
+                (g.name.length > 2 && catNorm.includes(g.name.toLowerCase()))
+            ) ||
+            activeCategoryGroups[idx % activeCategoryGroups.length] || {
+              id: `discipline-${idx + 1}`,
+              name: proj.category || "Enterprise Core",
+              h2Title: `${proj.category || "Enterprise Software"} Case Study & Architecture`,
+              description:
+                "Mission-critical system engineering delivering verified resilience and business ROI.",
+              badge: "ENTERPRISE DELIVERY",
+            };
 
-        const caseAnchorId = `case-study-${proj.id || idx + 1}`;
+          const isFirstOfCategory = !seenCategories.has(catGroup.id);
+          if (isFirstOfCategory) {
+            seenCategories.add(catGroup.id);
+          }
 
-        return (
-          <article
-            key={proj.id || idx}
-            id={catGroup.id}
-            className={`w-full py-14 sm:py-18 scroll-mt-24 ${
-              isLast ? "" : "border-b border-[#E2E8F0]"
-            }`}
-          >
-            <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
-              
-              {/* Category Domain H2 Banner */}
-              <div className="mb-8 pb-4 border-b border-[#E2E8F0]/70 flex flex-col md:flex-row md:items-end justify-between gap-3">
-                <div>
-                  <span className="text-[11px] font-bold text-[#EA580C] uppercase tracking-widest block mb-1">
-                    {catGroup.badge}
-                  </span>
-                  <h2 className="font-outfit text-2xl sm:text-3xl font-bold text-[#0F172A] tracking-tight leading-tight">
-                    {catGroup.h2Title}
-                  </h2>
+          const caseAnchorId = `case-study-${proj.id || idx + 1}`;
+
+          return (
+            <article
+              key={proj.id || idx}
+              {...(isFirstOfCategory ? { id: catGroup.id } : {})}
+              className={`w-full py-14 sm:py-18 scroll-mt-28 ${
+                isLast ? "" : "border-b border-[#E2E8F0]"
+              }`}
+            >
+              <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
+                
+                {/* Category Domain H2 Banner */}
+                <div className="mb-8 pb-4 border-b border-[#E2E8F0]/70 flex flex-col md:flex-row md:items-end justify-between gap-3">
+                  <div>
+                    <span className="text-[11px] font-bold text-[#EA580C] uppercase tracking-widest block mb-1">
+                      {catGroup.badge}
+                    </span>
+                    <h2 className="font-outfit text-2xl sm:text-3xl font-bold text-[#0F172A] tracking-tight leading-tight">
+                      {catGroup.h2Title}
+                    </h2>
+                  </div>
+                  <p className="text-xs sm:text-sm text-slate-500 max-w-md font-normal leading-normal">
+                    {catGroup.description}
+                  </p>
                 </div>
-                <p className="text-xs sm:text-sm text-slate-500 max-w-md font-normal leading-normal">
-                  {catGroup.description}
-                </p>
-              </div>
 
-              {/* Project Card Content Grid */}
-              <div id={caseAnchorId} className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-center scroll-mt-24">
+                {/* Project Card Content Grid */}
+                <div id={caseAnchorId} className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-center scroll-mt-28">
                 
                 {/* Visual Preview Card with Ambient Orange Glow */}
                 <div
@@ -181,7 +187,7 @@ export default function PortfolioCaseStudiesSection({
                         alt={`${proj.title} - ${proj.category} Enterprise Case Study by Creed Tech`}
                         width={600}
                         height={340}
-                        unoptimized={proj.image_url.startsWith("http")}
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
                         className="w-full h-full object-cover opacity-90 transition-transform duration-500 group-hover:scale-105"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
@@ -306,7 +312,8 @@ export default function PortfolioCaseStudiesSection({
             </div>
           </article>
         );
-      })}
+      });
+    })()}
     </div>
   );
 }
