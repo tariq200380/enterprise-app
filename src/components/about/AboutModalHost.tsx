@@ -13,6 +13,11 @@ export default function AboutModalHost() {
   const [topic, setTopic] = useState("Enterprise Architecture & Systems");
 
   useEffect(() => {
+    const timer = setTimeout(() => { void import("./AboutConversationModal"); }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
     const handleOpen = (e: Event) => {
       const customEvent = e as CustomEvent<{ topic?: string }>;
       if (customEvent.detail?.topic) {

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Outfit, Plus_Jakarta_Sans } from "next/font/google";
+import { unstable_cache } from "next/cache";
 import "./globals.css";
 import AppLayoutWrapper from "@/components/AppLayoutWrapper";
 import { query } from "@/lib/db";
@@ -165,6 +166,17 @@ const jsonLd = {
   ],
 };
 
+const getCachedGlobalConfig = unstable_cache(
+  async () => {
+    return query("SELECT value FROM website_settings WHERE key = 'global_config'");
+  },
+  ["global-website-config"],
+  {
+    revalidate: 300,
+    tags: ["global_config"],
+  }
+);
+
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -176,7 +188,7 @@ export default async function RootLayout({
   let generalInfo = undefined;
   let headerSettings = undefined;
   try {
-    const res = await query("SELECT value FROM website_settings WHERE key = 'global_config'");
+    const res = await getCachedGlobalConfig();
     if (res.rows.length > 0) {
       const val = res.rows[0].value;
       if (Array.isArray(val?.socialLinks)) {

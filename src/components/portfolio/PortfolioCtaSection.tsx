@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 
 const PortfolioScopingModal = dynamic(() => import("./PortfolioScopingModal"), {
@@ -9,6 +9,11 @@ const PortfolioScopingModal = dynamic(() => import("./PortfolioScopingModal"), {
 
 export default function PortfolioCtaSection() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => { void import("./PortfolioScopingModal"); }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <>

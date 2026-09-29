@@ -1,6 +1,6 @@
 {
   "status": "success",
-  "timestamp": "2026-09-29T21:47:31.861Z",
+  "timestamp": "2026-09-29T23:11:05.097Z",
   "gate_status": "CENTRAL_GATE_ACTIVE",
   "provider_statuses": {},
   "counts": {
@@ -125,14 +125,14 @@
       "brandBadge": "🔷 INTEL",
       "captionTag": "INTEL OFFICIAL WIRE",
       "cat": "NEXT-GEN SILICON & SEMICONDUCTORS",
-      "date": "Tue, 29 Sep 2026 17:00:00 GMT",
-      "title": "New Spectre v2 Variant Exposes Intel, AMD, Arm CPUs to Data Leaks",
-      "summary": "New Spectre v2 Variant Exposes Intel, AMD, Arm CPUs to Data Leaks. Real-time intelligence and verified enterprise developments reported via securityweek.com.",
+      "date": "Tue, 29 Sep 2026 18:19:45 GMT",
+      "title": "GIGABYTE Intros Three DDR4 Motherboards For AMD And Intel Processors In Japan",
+      "summary": "GIGABYTE Intros Three DDR4 Motherboards For AMD And Intel Processors In Japan. Real-time intelligence and verified enterprise developments reported via wccftech.com.",
       "source": "Intel",
-      "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPSzJLY21kN0cwLTIwM0RpMTVIYzlUU3RITk5OdFFrZzFVZGJya1M2R2F6dWloeFd0OXEtZjVxSUVSdGJ0eUtFcnowdERzZEZPdGVzSUxNeUl5eGFacVk1elZxa3FlMWIxSXNQVzBEWFFRTU5YbWdmcUZ5em9HaFVudzY1eU94ZkgyS3VHTHE5a1RGcS12Z1lSb9IBngFBVV95cUxOM2d6ZXY0N2N3a0FSME41TGFfZWlFUmowUXhYREVZQ2pweFdpX2VWb2dhZ1JKNjJUWlp4X2pPZUlLZlJMYmRTU3NVdlNMOEI5WDBIQnFoUUtIU2QyblBmSnNDSVczdnh2LWVodzE2Zll6T3lnTGxvVFUzUS1NRUFGbE03ekItal9aRS1xLVZGazFPa3hScEtuemV0RjdNdw?oc=5",
-      "img": "https://www.intel.com/content/dam/www/central-libraries/us/en/images/2026-09/newsroom-intel-googlebook-black.png?v=1790701200000",
-      "caption": "📷 New Spectre v2 Variant Exposes Intel, AMD, Arm CPUs to Data Leaks",
-      "provider_published_at": "2026-09-29T17:00:00.000Z"
+      "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxNUHRZdGRfN1k2UzVHcFFRUHNOVVhvbEhyRV93UzkyZkUtZGdsMEt1THJBd0pibU5QR0FNeG5GeEhzRk1RYlRYRXdodE9ScmJzYndJNDYtV1U3N3p4S3IxSE1USWVFV0xEUEp0Y1F6SF95V19JSUlORWppdTFQRkpnRHpUSFY1emprVzVOeHZMVnUzWmR2eld5aHhYVjVyOXNt0gGmAUFVX3lxTFBsWUxubThyemVtZmRmcWZmalc1NXZvMDRTZ212REZrOF92bmR4QnRNQ2VFanRjUHVIX3V3Y1hyMzEtdDhGZmxQVTVpZWFFMjFISU9lZGF5NzdlZ2VyQXVrT2RGcThKR29NQk53cTc2ZkZyLVFJNldsdnNzcTlqc1lTU0xXejVVaXdUQkhFMzdrZW1qYk9TNTJmZG1xUE9idmVVZ3QybHc?oc=5",
+      "img": "https://www.intel.com/content/dam/www/central-libraries/us/en/images/2026-09/newsroom-intel-googlebook-black.png?v=1790705985000",
+      "caption": "📷 GIGABYTE Intros Three DDR4 Motherboards For AMD And Intel Processors In Japan",
+      "provider_published_at": "2026-09-29T18:19:45.000Z"
     }
   },
   "regional_wires": {
@@ -261,6 +261,21 @@
   ],
   "breaking_news": [
     {
+      "id": "Intel-CBMioAFBVV95cUxNUHRZdGRfN1k2UzVHcFFRUHNOVVhvbEhyRV93UzkyZkUtZGdsMEt1THJBd0pibU5QR0FNeG5GeEhzRk1RYlRYRXdodE9ScmJzYndJNDYtV1U3N3p4S3IxSE1USWVFV0xEUEp0Y1F6SF95V19JSUlORWppdTFQRkpnRHpUSFY1emprVzVOeHZMVnUzWmR2eld5aHhYVjVyOXNt0gGmAUFVX3lxTFBsWUxubThyemVtZmRmcWZmalc1NXZvMDRTZ212REZrOF92bmR4QnRNQ2VFanRjUHVIX3V3Y1hyMzEtdDhGZmxQVTVpZWFFMjFISU9lZGF5NzdlZ2VyQXVrT2RGcThKR29NQk53cTc2ZkZyLVFJNldsdnNzcTlqc1lTU0xXejVVaXdUQkhFMzdrZW1qYk9TNTJmZG1xUE9idmVVZ3QybHc",
+      "source": "Intel",
+      "provider": "intel",
+      "providerLabel": "🔷 INTEL",
+      "title": "GIGABYTE Intros Three DDR4 Motherboards For AMD And Intel Processors In Japan",
+      "desc": "GIGABYTE Intros Three DDR4 Motherboards For AMD And Intel Processors In Japan. Real-time intelligence and verified enterprise developments reported via wccftech.com.",
+      "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxNUHRZdGRfN1k2UzVHcFFRUHNOVVhvbEhyRV93UzkyZkUtZGdsMEt1THJBd0pibU5QR0FNeG5GeEhzRk1RYlRYRXdodE9ScmJzYndJNDYtV1U3N3p4S3IxSE1USWVFV0xEUEp0Y1F6SF95V19JSUlORWppdTFQRkpnRHpUSFY1emprVzVOeHZMVnUzWmR2eld5aHhYVjVyOXNt0gGmAUFVX3lxTFBsWUxubThyemVtZmRmcWZmalc1NXZvMDRTZ212REZrOF92bmR4QnRNQ2VFanRjUHVIX3V3Y1hyMzEtdDhGZmxQVTVpZWFFMjFISU9lZGF5NzdlZ2VyQXVrT2RGcThKR29NQk53cTc2ZkZyLVFJNldsdnNzcTlqc1lTU0xXejVVaXdUQkhFMzdrZW1qYk9TNTJmZG1xUE9idmVVZ3QybHc?oc=5",
+      "image": "https://www.intel.com/content/dam/www/central-libraries/us/en/images/2026-09/newsroom-intel-googlebook-black.png?v=1790705985000",
+      "img": "https://www.intel.com/content/dam/www/central-libraries/us/en/images/2026-09/newsroom-intel-googlebook-black.png?v=1790705985000",
+      "date": "Tue, 29 Sep 2026 18:19:45 GMT",
+      "timestamp": "2026-09-29T18:19:45.000Z",
+      "tag": "NEXT-GEN SILICON & SEMICONDUCTORS",
+      "type": "international"
+    },
+    {
       "id": "Dawn Sci-Tech-https://www.dawn.com/news/2033564",
       "source": "Dawn Sci-Tech",
       "provider": "dawn",
@@ -303,21 +318,6 @@
       "date": "2026-09-29T17:00:02.643Z",
       "timestamp": "2026-09-29T17:00:02.643Z",
       "tag": "HARDWARE & SILICON",
-      "type": "international"
-    },
-    {
-      "id": "Intel-CBMimAFBVV95cUxPSzJLY21kN0cwLTIwM0RpMTVIYzlUU3RITk5OdFFrZzFVZGJya1M2R2F6dWloeFd0OXEtZjVxSUVSdGJ0eUtFcnowdERzZEZPdGVzSUxNeUl5eGFacVk1elZxa3FlMWIxSXNQVzBEWFFRTU5YbWdmcUZ5em9HaFVudzY1eU94ZkgyS3VHTHE5a1RGcS12Z1lSb9IBngFBVV95cUxOM2d6ZXY0N2N3a0FSME41TGFfZWlFUmowUXhYREVZQ2pweFdpX2VWb2dhZ1JKNjJUWlp4X2pPZUlLZlJMYmRTU3NVdlNMOEI5WDBIQnFoUUtIU2QyblBmSnNDSVczdnh2LWVodzE2Zll6T3lnTGxvVFUzUS1NRUFGbE03ekItal9aRS1xLVZGazFPa3hScEtuemV0RjdNdw",
-      "source": "Intel",
-      "provider": "intel",
-      "providerLabel": "🔷 INTEL",
-      "title": "New Spectre v2 Variant Exposes Intel, AMD, Arm CPUs to Data Leaks",
-      "desc": "New Spectre v2 Variant Exposes Intel, AMD, Arm CPUs to Data Leaks. Real-time intelligence and verified enterprise developments reported via securityweek.com.",
-      "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPSzJLY21kN0cwLTIwM0RpMTVIYzlUU3RITk5OdFFrZzFVZGJya1M2R2F6dWloeFd0OXEtZjVxSUVSdGJ0eUtFcnowdERzZEZPdGVzSUxNeUl5eGFacVk1elZxa3FlMWIxSXNQVzBEWFFRTU5YbWdmcUZ5em9HaFVudzY1eU94ZkgyS3VHTHE5a1RGcS12Z1lSb9IBngFBVV95cUxOM2d6ZXY0N2N3a0FSME41TGFfZWlFUmowUXhYREVZQ2pweFdpX2VWb2dhZ1JKNjJUWlp4X2pPZUlLZlJMYmRTU3NVdlNMOEI5WDBIQnFoUUtIU2QyblBmSnNDSVczdnh2LWVodzE2Zll6T3lnTGxvVFUzUS1NRUFGbE03ekItal9aRS1xLVZGazFPa3hScEtuemV0RjdNdw?oc=5",
-      "image": "https://www.intel.com/content/dam/www/central-libraries/us/en/images/2026-09/newsroom-intel-googlebook-black.png?v=1790701200000",
-      "img": "https://www.intel.com/content/dam/www/central-libraries/us/en/images/2026-09/newsroom-intel-googlebook-black.png?v=1790701200000",
-      "date": "Tue, 29 Sep 2026 17:00:00 GMT",
-      "timestamp": "2026-09-29T17:00:00.000Z",
-      "tag": "NEXT-GEN SILICON & SEMICONDUCTORS",
       "type": "international"
     },
     {

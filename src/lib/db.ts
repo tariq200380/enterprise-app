@@ -1,31 +1,7 @@
 import { Pool } from "pg";
-import { execSync } from "child_process";
-
-const PG_BIN_READY = "/usr/lib/postgresql/18/bin/pg_isready";
-const PG_BIN_CTL = "/usr/lib/postgresql/18/bin/pg_ctl";
-const PG_DATA_DIR =
-  process.env.PGDATA ||
-  (() => {
-    try {
-      if (process.env.DATABASE_URL) {
-        const u = new URL(process.env.DATABASE_URL.replace("postgresql://", "http://"));
-        const hostParam = u.searchParams.get("host");
-        if (hostParam) return hostParam;
-      }
-    } catch {}
-    return "/home/tariq/.gemini/antigravity/scratch/enterprise-app/.pgdata";
-  })();
-const PG_PORT = "5433";
 
 function tryAutoStartDb(): void {
-  try {
-    try {
-      execSync(`${PG_BIN_READY} -p ${PG_PORT} -h ${PG_DATA_DIR}`, { stdio: "ignore" });
-    } catch {
-      console.log("[db.ts] Auto-starting local PostgreSQL database...");
-      execSync(`${PG_BIN_CTL} -D ${PG_DATA_DIR} -l ${PG_DATA_DIR}/pg.log -o "-p ${PG_PORT} -k ${PG_DATA_DIR}" -w start`, { stdio: "ignore" });
-    }
-  } catch {}
+  // Bypassed: synchronous execSync process spawning is disabled to prevent freezing the Node.js event loop
 }
 
 const globalForDb = globalThis as unknown as {

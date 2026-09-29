@@ -7,7 +7,6 @@ import {
   AggregatedArticle,
 } from "@/lib/newsSync";
 import type { Metadata } from "next";
-import dynamic from "next/dynamic";
 import { withCacheBuster } from "@/lib/cacheBuster";
 import KnowledgeHero from "@/components/knowledge-center/KnowledgeHero";
 import LatestTechNews from "@/components/knowledge-center/LatestTechNews";
@@ -23,10 +22,7 @@ import {
 } from "@/components/knowledge-center/knowledgeCenterData";
 import RegionalTechEcosystem from "@/components/knowledge-center/RegionalTechEcosystem";
 import KnowledgeOverviewGrid from "@/components/knowledge-center/KnowledgeOverviewGrid";
-
-const Testimonial3DDeck = dynamic(
-  () => import("@/components/knowledge-center/Testimonial3DDeck")
-);
+import Testimonial3DDeck from "@/components/knowledge-center/Testimonial3DDeck";
 
 import { getSeoForPage } from "@/lib/seoHelper";
 import { ARTICLES_STORE } from "@/components/knowledge-center/knowledgeArticlesData";

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useState, useEffect, type ReactNode } from "react";
 import dynamic from "next/dynamic";
 import { ContactSettingsData } from "@/components/admin/settings/types";
 import ContactScopingForm from "./ContactScopingForm";
@@ -26,6 +26,14 @@ interface ContactPageClientProps {
 export default function ContactPageClient({ settings, children }: ContactPageClientProps) {
   const [isScheduleModalOpen, setIsScheduleModalOpen] = useState(false);
   const [isScopingModalOpen, setIsScopingModalOpen] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      void import("./ContactScheduleModal");
+      void import("./ContactScopingModal");
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <>
