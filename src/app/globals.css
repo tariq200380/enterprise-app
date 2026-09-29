@@ -82,30 +82,45 @@ body {
 }
 
 @keyframes infinitePartnerScroll {
-  0% { transform: translate3d(0, 0, 0); }
-  100% { transform: translate3d(-50%, 0, 0); }
+  0% {
+    transform: translate3d(0, 0, 0);
+    -webkit-transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+    -webkit-transform: translate3d(-50%, 0, 0);
+  }
 }
 
 .partner-marquee-track {
   display: flex;
   width: max-content;
   animation: infinitePartnerScroll 25s linear infinite;
+  -webkit-animation: infinitePartnerScroll 25s linear infinite;
   will-change: transform;
-}
-
-.partner-marquee-track:hover {
-  animation-play-state: paused;
 }
 
 /* Continuous Vertical Reviews Marquee: Left Col DOWN, Right Col UP */
 @keyframes scrollDownContinuous {
-  0% { transform: translate3d(0, -50%, 0); }
-  100% { transform: translate3d(0, 0%, 0); }
+  0% {
+    transform: translate3d(0, -50%, 0);
+    -webkit-transform: translate3d(0, -50%, 0);
+  }
+  100% {
+    transform: translate3d(0, 0%, 0);
+    -webkit-transform: translate3d(0, 0%, 0);
+  }
 }
 
 @keyframes scrollUpContinuous {
-  0% { transform: translate3d(0, 0%, 0); }
-  100% { transform: translate3d(0, -50%, 0); }
+  0% {
+    transform: translate3d(0, 0%, 0);
+    -webkit-transform: translate3d(0, 0%, 0);
+  }
+  100% {
+    transform: translate3d(0, -50%, 0);
+    -webkit-transform: translate3d(0, -50%, 0);
+  }
 }
 
 .reviews-col-down {
@@ -113,7 +128,9 @@ body {
   flex-direction: column;
   gap: 16px;
   animation: scrollDownContinuous 22s linear infinite;
+  -webkit-animation: scrollDownContinuous 22s linear infinite;
   will-change: transform;
+  touch-action: pan-y;
 }
 
 .reviews-col-up {
@@ -121,12 +138,18 @@ body {
   flex-direction: column;
   gap: 16px;
   animation: scrollUpContinuous 22s linear infinite;
+  -webkit-animation: scrollUpContinuous 22s linear infinite;
   will-change: transform;
+  touch-action: pan-y;
 }
 
-.reviews-col-down:hover,
-.reviews-col-up:hover {
-  animation-play-state: paused;
+/* Pause marquee ONLY on fine pointer (desktop mouse), preventing sticky touch hover freezes on mobile */
+@media (hover: hover) and (pointer: fine) {
+  .partner-marquee-track:hover,
+  .reviews-col-down:hover,
+  .reviews-col-up:hover {
+    animation-play-state: paused;
+  }
 }
 
 /* How We Deliver: Pure CSS interactive tabs without useState */
@@ -360,6 +383,43 @@ body {
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 107, 0, 0.5);
 }
+
+/* Interactive Card Lift, Scale & Glow (Smooth on both Mobile Touch & Desktop Hover) */
+.card-lift-glow {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease !important;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.card-lift-glow:hover,
+.card-lift-glow:active,
+.card-lift-glow:focus-visible {
+  transform: translateY(-4px) scale(1.01) !important;
+  border-color: #93C5FD !important;
+  box-shadow: 0 14px 28px -4px rgba(0, 82, 255, 0.12), 0 6px 12px -2px rgba(0, 82, 255, 0.06) !important;
+}
+
+.card-lift-glow:hover .card-top-bar,
+.card-lift-glow:active .card-top-bar,
+.card-lift-glow:focus-visible .card-top-bar {
+  opacity: 1 !important;
+}
+
+/* Orange accent variant for orange feature cards */
+.card-lift-glow-orange {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease !important;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.card-lift-glow-orange:hover,
+.card-lift-glow-orange:active,
+.card-lift-glow-orange:focus-visible {
+  transform: translateY(-4px) scale(1.01) !important;
+  border-color: #FDBA74 !important;
+  box-shadow: 0 14px 28px -4px rgba(255, 107, 0, 0.14), 0 6px 12px -2px rgba(255, 107, 0, 0.06) !important;
+}
+
 
 
 

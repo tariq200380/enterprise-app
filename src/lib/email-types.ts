@@ -12,12 +12,127 @@ export interface EmailMediaItem {
   galleryUrls?: string[]; // multiple pictures for this machine offer
 }
 
+export type EmailFormatType =
+  | "format-catalog"
+  | "format-executive-signature"
+  | "format-announcement"
+  | "format-minimal"
+  | "format-custom";
+
+export interface EmailFormatMetadata {
+  id: EmailFormatType;
+  formatNumber: number;
+  title: string;
+  subtitle: string;
+  badge: string;
+  icon: string;
+  status: "ACTIVE" | "RESERVED";
+  description: string;
+}
+
+export interface EmailSocialLink {
+  id: string;
+  platform: "facebook" | "linkedin" | "whatsapp" | "instagram" | "twitter" | "youtube" | "website" | "other";
+  url: string;
+  label?: string;
+}
+
+export interface GalleryRowItem {
+  id: string;
+  imageUrl: string;
+  text: string;
+  title?: string;
+  linkUrl?: string;
+}
+
+export interface GalleryRow {
+  id: string;
+  items: GalleryRowItem[];
+}
+
+export const DEFAULT_FORMAT2_SOCIAL_LINKS: EmailSocialLink[] = [
+  { id: "soc-fb", platform: "facebook", url: "https://facebook.com", label: "Facebook" },
+  { id: "soc-li", platform: "linkedin", url: "https://linkedin.com", label: "LinkedIn" },
+  { id: "soc-wa", platform: "whatsapp", url: "https://wa.me/15550192834", label: "WhatsApp" },
+  { id: "soc-ig", platform: "instagram", url: "https://instagram.com", label: "Instagram" },
+];
+
+export const DEFAULT_FORMAT2_GALLERY_ROWS: GalleryRow[] = [
+  {
+    id: "row-1",
+    items: [
+      { id: "item-1-1", imageUrl: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=400&auto=format&fit=crop", text: "CNC Miller 5X", title: "CNC Miller 5X High Precision" },
+      { id: "item-1-2", imageUrl: "https://images.unsplash.com/photo-1581092335397-9583fe92d232?q=80&w=400&auto=format&fit=crop", text: "Laser Cutter", title: "Fiber Laser Cutting System" },
+      { id: "item-1-3", imageUrl: "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?q=80&w=400&auto=format&fit=crop", text: "Hydraulic Press", title: "Heavy Duty 200T Hydraulic Press" },
+      { id: "item-1-4", imageUrl: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?q=80&w=400&auto=format&fit=crop", text: "Automated Robot", title: "6-Axis Robotic Arm" },
+      { id: "item-1-5", imageUrl: "https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?q=80&w=400&auto=format&fit=crop", text: "Injection Mold", title: "Electric Injection Molding Machine" },
+      { id: "item-1-6", imageUrl: "https://images.unsplash.com/photo-1581093588401-fbb62a02f120?q=80&w=400&auto=format&fit=crop", text: "Rotary Lathe", title: "Precision Metal Turning Lathe" },
+      { id: "item-1-7", imageUrl: "https://images.unsplash.com/photo-1581093806997-124204d9fa9d?q=80&w=400&auto=format&fit=crop", text: "Quality Scanner", title: "3D Optical CMM Scanner" },
+    ],
+  },
+];
+
+
+export const EMAIL_FORMATS_METADATA: EmailFormatMetadata[] = [
+  {
+    id: "format-catalog",
+    formatNumber: 1,
+    title: "Format 1: Catalog & Equipment Cards",
+    subtitle: "Multi-Picture Cards, Specs & Details",
+    badge: "Catalog Offers",
+    icon: "🖼️",
+    status: "ACTIVE",
+    description: "2-Column Machine & Equipment offer cards with pictures, technical specifications, year, condition, and full gallery viewer.",
+  },
+  {
+    id: "format-executive-signature",
+    formatNumber: 2,
+    title: "Format 2: Sidebar Dashboard & 7-Item Rows",
+    subtitle: "Left Info Bar, Social Icons, Top Pic & Gallery",
+    badge: "Dashboard & Gallery",
+    icon: "📊",
+    status: "ACTIVE",
+    description: "Left sidebar with logo, heading, address, phone & social links + Main top pic and multi-row 7-item image gallery with enlarge popup modal.",
+  },
+  {
+    id: "format-announcement",
+    formatNumber: 3,
+    title: "Format 3: [Slot 3 Reserved]",
+    subtitle: "Pending your design specifications",
+    badge: "Slot Reserved",
+    icon: "✨",
+    status: "RESERVED",
+    description: "Slot reserved for Format 3. Once you provide the format design/image, this template will be activated.",
+  },
+  {
+    id: "format-minimal",
+    formatNumber: 4,
+    title: "Format 4: [Slot 4 Reserved]",
+    subtitle: "Pending your design specifications",
+    badge: "Slot Reserved",
+    icon: "📋",
+    status: "RESERVED",
+    description: "Slot reserved for Format 4. Once you provide the format design/image, this template will be activated.",
+  },
+  {
+    id: "format-custom",
+    formatNumber: 5,
+    title: "Format 5: [Slot 5 Reserved]",
+    subtitle: "Pending your design specifications",
+    badge: "Slot Reserved",
+    icon: "🎯",
+    status: "RESERVED",
+    description: "Slot reserved for Format 5. Once you provide the format design/image, this template will be activated.",
+  },
+];
+
 export interface EmailDepartmentProfile {
   id: string;
   name: string;
   email: string;
   department: string;
   accentColor: string;
+  formatType?: EmailFormatType;
   phone?: string;
   address?: string;
   videoUrl?: string;
@@ -42,6 +157,22 @@ export interface EmailDepartmentProfile {
   backgroundColor?: string;
   showReferenceBadge?: boolean;
   referenceBadgeText?: string;
+  // Modern Shutterstock-style email signature fields
+  signatureStyle?: "modern-curved" | "dark-luxury" | "minimal-pill" | "classic-corporate";
+  signatureRole?: string;
+  signatureAvatar?: string;
+  signatureCompany?: string;
+  signatureTagline?: string;
+  signatureWebsite?: string;
+  // Format 2: Sidebar Dashboard & 7-Item Grid Fields
+  sidebarLogo?: string;
+  sidebarHeading?: string;
+  sidebarAddress?: string;
+  sidebarPhone?: string;
+  sidebarSocialLinks?: EmailSocialLink[];
+  featuredMainPicUrl?: string;
+  featuredMainPicText?: string;
+  galleryRows?: GalleryRow[];
 }
 
 /**
@@ -207,38 +338,128 @@ export const BG_COLOR_PRESETS = [
   { label: "Pitch Black", color: "#000000" },
 ];
 
+export const SIGNATURE_STYLE_PRESETS = [
+  { id: "modern-curved", label: "🌊 Modern Wave", description: "Curved accent ribbon, dual-ring avatar & logo badge" },
+  { id: "dark-luxury", label: "⬛ Dark Enterprise", description: "Deep executive obsidian card with glowing accent ring" },
+  { id: "minimal-pill", label: "✨ Minimalist Card", description: "Crisp white card with accent side-strip & compact grid" },
+  { id: "classic-corporate", label: "🏢 Corporate Banner", description: "Two-tone executive header with brand crest & credentials" },
+] as const;
+
 export const DEFAULT_EMAIL_PROFILES: EmailDepartmentProfile[] = [
   {
     id: "sales",
-    name: "Creed Tech Enterprise Sales",
-    email: "sales@creed-tech.com",
-    department: "Enterprise Sales & Growth",
+    formatType: "format-catalog",
+    name: "Creed Tech Equipment & Solutions",
+    email: "catalog@creed-tech.com",
+    department: "Machinery & Equipment Catalog Desk",
     accentColor: "#FF6B00",
     phone: "+1 (888) 492-7333",
     address: "Creed Tech Enterprise HQ, 450 Innovation Parkway, Suite 500, San Francisco, CA 94105",
     videoUrl: "https://creed-tech.com/portfolio",
-    videoThumbnail: "https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=800&auto=format&fit=crop",
-    videoTitle: "Watch: Creed Tech Enterprise Architecture Overview (2 Mins)",
-    footerDisclaimer: "This communication is confidential and intended solely for the recipient. Any unauthorized dissemination or duplication is strictly prohibited.",
-    defaultSubjectTemplate: "Re: Creed Tech Enterprise Scoping & Solutions - {service} [Inquiry #{id}]",
+    videoThumbnail: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=800&auto=format&fit=crop",
+    videoTitle: "Heidelberg Speedmaster CD102-6+LX (2001)",
+    mediaType: "image",
+    mediaYear: "2001",
+    mediaCondition: "★★★★☆ Very Good",
+    mediaSpecs: "6 Colors, Coater, 15,000 SPH, Autoplate, Preset Plus",
+    mediaDetails: "Direct factory serviced unit with full documentation and production readiness warranty.",
+    mediaItems: [
+      {
+        id: "item-1",
+        type: "image",
+        title: "Heidelberg Speedmaster CD102-6+LX",
+        thumbnailUrl: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=800&auto=format&fit=crop",
+        mediaUrl: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=800&auto=format&fit=crop",
+        year: "2001",
+        condition: "★★★★☆ Very Good",
+        specs: "6 Colors, Coater, 15,000 SPH, Autoplate",
+        details: "Top tier production machine inspected and ready for global shipment.",
+      },
+      {
+        id: "item-2",
+        type: "image",
+        title: "Komori Lithrone GL-640+C (H-UV)",
+        thumbnailUrl: "https://images.unsplash.com/photo-1504917599217-d4dc5ebe6122?q=80&w=800&auto=format&fit=crop",
+        mediaUrl: "https://images.unsplash.com/photo-1504917599217-d4dc5ebe6122?q=80&w=800&auto=format&fit=crop",
+        year: "2016",
+        condition: "★★★★★ Excellent",
+        specs: "6 Colors + Coater, H-UV Instant Curing, PQC-S",
+        details: "Low impression count, impeccably maintained in climate-controlled plant.",
+      },
+    ],
+    footerDisclaimer: "This offer is subject to prior sale. Technical specifications are provided based on manufacturer standards.",
+    defaultSubjectTemplate: "Official Offer & Equipment Catalog - {service} [Inquiry #{id}]",
     defaultMessageTemplate: `Dear {client_name},
 
-Thank you for your interest in Creed Tech's {service}.
+Thank you for your interest in Creed Tech Machinery & Enterprise Solutions.
 
-We have reviewed your project parameters and our solutions architecture team is prepared to present an enterprise engineering roadmap tailored to your workload specifications.
+We have reviewed your inquiry regarding "{service}" and are pleased to present our available equipment portfolio matching your production criteria.
 
-Attached to this correspondence is our capability overview. Please let us know your team's availability for a 25-minute technical discovery call this week.
+Below you will find the verified specifications, high-resolution pictures, and equipment details for your review. Please let us know if you require technical inspection reports or freight estimates.
 
 Best regards,
 
-Enterprise Sales & Strategy Desk
-Creed Tech
+Creed Tech Equipment & Solutions Desk
 Website: https://creed-tech.com`,
     isDefault: true,
     mediaPosition: "center",
     mediaAlignment: "center",
     headerStyle: "dark",
     contentAlignment: "left",
+  },
+  {
+    id: "executive-desk",
+    formatType: "format-executive-signature",
+    name: "Tariq Mahmood",
+    email: "executive@creed-tech.com",
+    department: "Executive Management & Direct Desk",
+    accentColor: "#0052FF",
+    phone: "+1 (888) 492-7330",
+    address: "Creed Tech Global Headquarters, 450 Innovation Parkway, Suite 500, San Francisco, CA 94105",
+    footerDisclaimer: "CONFIDENTIALITY NOTICE: This transmission is intended solely for the designated recipient and may contain proprietary executive business information.",
+    defaultSubjectTemplate: "Executive Correspondence: Scoping & Discovery for {service} [Inquiry #{id}]",
+    defaultMessageTemplate: `Dear {client_name},
+
+Thank you for contacting Creed Tech Executive Management.
+
+We have evaluated your business objectives regarding "{service}". Our executive architecture team is prepared to schedule a direct discovery consultation to explore operational alignment, project roadmaps, and delivery milestones.
+
+Please let us know your availability for a 20-minute discussion this week.
+
+Warm regards,
+
+Tariq Mahmood
+Executive Management Desk`,
+    isDefault: false,
+    headerStyle: "dark",
+    contentAlignment: "left",
+    signatureStyle: "modern-curved",
+    signatureRole: "Managing Director & Solutions Lead",
+    signatureAvatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop",
+    signatureCompany: "CREED TECH",
+    signatureTagline: "Enterprise Software & Cloud Systems",
+    signatureWebsite: "https://creed-tech.com",
+    sidebarHeading: "CREED TECH",
+    sidebarLogo: "https://creed-tech.com/icons/icon-192x192.png",
+    sidebarAddress: "Creed Tech Global Headquarters, 450 Innovation Parkway, Suite 500, San Francisco, CA 94105",
+    sidebarPhone: "+1 (888) 492-7330",
+    sidebarSocialLinks: DEFAULT_FORMAT2_SOCIAL_LINKS,
+    featuredMainPicUrl: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=800&auto=format&fit=crop",
+    featuredMainPicText: "Next-Generation Industrial Machinery & Enterprise Engineering Solutions",
+    galleryRows: [
+      {
+        id: "row-1",
+        items: [
+          { id: "item-1-1", imageUrl: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=400&auto=format&fit=crop", text: "CNC Miller 5X", title: "CNC Miller 5X High Precision" },
+          { id: "item-1-2", imageUrl: "https://images.unsplash.com/photo-1581092335397-9583fe92d232?q=80&w=400&auto=format&fit=crop", text: "Laser Cutter", title: "Fiber Laser Cutting System" },
+          { id: "item-1-3", imageUrl: "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?q=80&w=400&auto=format&fit=crop", text: "Hydraulic Press", title: "Heavy Duty 200T Hydraulic Press" },
+          { id: "item-1-4", imageUrl: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?q=80&w=400&auto=format&fit=crop", text: "Automated Robot", title: "6-Axis Robotic Arm" },
+          { id: "item-1-5", imageUrl: "https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?q=80&w=400&auto=format&fit=crop", text: "Injection Mold", title: "Electric Injection Molding Machine" },
+          { id: "item-1-6", imageUrl: "https://images.unsplash.com/photo-1581093588401-fbb62a02f120?q=80&w=400&auto=format&fit=crop", text: "Rotary Lathe", title: "Precision Metal Turning Lathe" },
+          { id: "item-1-7", imageUrl: "https://images.unsplash.com/photo-1581093806997-124204d9fa9d?q=80&w=400&auto=format&fit=crop", text: "Quality Scanner", title: "3D Optical CMM Scanner" },
+        ],
+      },
+    ],
   },
   {
     id: "support",
@@ -336,10 +557,504 @@ https://creed-tech.com`,
 ];
 
 /**
+ * Generate a modern, rich Shutterstock-style email signature card.
+ * Supports 4 professional styles: Modern Wave, Dark Enterprise, Minimalist Pill, and Corporate Banner.
+ */
+export function generateEmailSignatureHtml(profile: Partial<EmailDepartmentProfile>): string {
+  const accent = profile.accentColor || "#0052FF";
+  const name = profile.name || "Enterprise Representative";
+  const role = profile.signatureRole || profile.department || "Enterprise Solutions Director";
+  const company = profile.signatureCompany || "CREED TECH";
+  const tagline = profile.signatureTagline || "Enterprise Systems & Cloud Infrastructure";
+  const email = profile.email || "desk@creed-tech.com";
+  const phone = profile.phone || "+1 (888) 492-7330";
+  const website = profile.signatureWebsite || "https://creed-tech.com";
+  const address = profile.address || "San Francisco, CA";
+  const avatar =
+    profile.signatureAvatar ||
+    "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop";
+  const style = profile.signatureStyle || "modern-curved";
+  const websiteDisplay = website.replace(/^https?:\/\//i, "").replace(/\/$/, "");
+
+  if (style === "dark-luxury") {
+    return `
+    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top: 24px; background: #0B1120; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 12px; overflow: hidden; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);">
+      <tr>
+        <td style="padding: 16px 20px;">
+          <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+            <tr>
+              <td width="76" valign="middle" align="center" style="padding-right: 16px;">
+                <div style="width: 68px; height: 68px; border-radius: 50%; border: 3px solid ${accent}; overflow: hidden; box-shadow: 0 0 14px ${accent}40; background: #000000; text-align: center;">
+                  <img src="${avatar}" alt="${name}" width="68" height="68" style="width: 68px; height: 68px; object-fit: cover; display: block; border-radius: 50%;" />
+                </div>
+              </td>
+              <td valign="middle" style="line-height: 1.4;">
+                <div style="font-size: 15px; font-weight: 800; color: #FFFFFF; text-transform: uppercase; letter-spacing: 0.04em;">
+                  ${name}
+                </div>
+                <div style="font-size: 11px; font-weight: 700; color: ${accent}; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2px;">
+                  ${role}
+                </div>
+                <div style="font-size: 10px; color: #94A3B8; margin-top: 2px; margin-bottom: 8px;">
+                  ${tagline}
+                </div>
+                <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="font-size: 11px; color: #CBD5E1;">
+                  <tr>
+                    <td style="padding: 2px 14px 2px 0;">
+                      <span style="color: ${accent}; font-weight: bold; margin-right: 4px;">📞</span>
+                      <a href="tel:${phone}" style="color: #CBD5E1; text-decoration: none;">${phone}</a>
+                    </td>
+                    <td style="padding: 2px 0;">
+                      <span style="color: ${accent}; font-weight: bold; margin-right: 4px;">✉️</span>
+                      <a href="mailto:${email}" style="color: #38BDF8; text-decoration: none;">${email}</a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 2px 14px 2px 0;">
+                      <span style="color: ${accent}; font-weight: bold; margin-right: 4px;">🌐</span>
+                      <a href="${website}" target="_blank" style="color: #38BDF8; text-decoration: none;">${websiteDisplay}</a>
+                    </td>
+                    <td style="padding: 2px 0;">
+                      <span style="color: ${accent}; font-weight: bold; margin-right: 4px;">📍</span>
+                      <span style="color: #94A3B8;">${address}</span>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+              <td width="110" valign="middle" align="right" style="padding-left: 12px; border-left: 1px solid rgba(255, 255, 255, 0.1);">
+                <div style="text-align: center;">
+                  <div style="font-size: 13px; font-weight: 900; color: #FFFFFF; letter-spacing: 0.08em;">
+                    CREED<span style="color: ${accent};">TECH</span>
+                  </div>
+                  <div style="font-size: 8px; font-weight: 700; color: #94A3B8; text-transform: uppercase; letter-spacing: 0.15em; margin-top: 2px;">
+                    ENTERPRISE
+                  </div>
+                  <div style="margin-top: 6px;">
+                    <span style="display: inline-block; padding: 2px 8px; border-radius: 12px; background: ${accent}25; border: 1px solid ${accent}60; color: #FFFFFF; font-size: 9px; font-weight: 700;">
+                      ● VERIFIED
+                    </span>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+    `;
+  }
+
+  if (style === "minimal-pill") {
+    return `
+    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top: 24px; background: #FFFFFF; border: 1px solid #E2E8F0; border-left: 5px solid ${accent}; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);">
+      <tr>
+        <td style="padding: 14px 18px;">
+          <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+            <tr>
+              <td width="64" valign="middle" align="center" style="padding-right: 14px;">
+                <div style="width: 58px; height: 58px; border-radius: 50%; border: 2px solid ${accent}; overflow: hidden; background: #F8FAFC;">
+                  <img src="${avatar}" alt="${name}" width="58" height="58" style="width: 58px; height: 58px; object-fit: cover; display: block; border-radius: 50%;" />
+                </div>
+              </td>
+              <td valign="middle" style="line-height: 1.35;">
+                <div style="font-size: 14px; font-weight: 800; color: #0F172A; letter-spacing: 0.02em;">
+                  ${name}
+                </div>
+                <div style="font-size: 11px; font-weight: 700; color: ${accent}; text-transform: uppercase; margin-top: 1px;">
+                  ${role} • <span style="color: #64748B; font-weight: 600;">${company}</span>
+                </div>
+                <div style="font-size: 11px; color: #475569; margin-top: 6px;">
+                  <span>📞 <a href="tel:${phone}" style="color: #475569; text-decoration: none; font-weight: 600;">${phone}</a></span>
+                  &nbsp;&nbsp;•&nbsp;&nbsp;
+                  <span>✉️ <a href="mailto:${email}" style="color: ${accent}; text-decoration: none; font-weight: 600;">${email}</a></span>
+                  &nbsp;&nbsp;•&nbsp;&nbsp;
+                  <span>🌐 <a href="${website}" target="_blank" style="color: ${accent}; text-decoration: none;">${websiteDisplay}</a></span>
+                </div>
+                ${address ? `<div style="font-size: 10px; color: #94A3B8; margin-top: 3px;">📍 ${address}</div>` : ""}
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+    `;
+  }
+
+  if (style === "classic-corporate") {
+    return `
+    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top: 24px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);">
+      <tr>
+        <td style="background: ${accent}; height: 6px; font-size: 1px; line-height: 1px;">&nbsp;</td>
+      </tr>
+      <tr>
+        <td style="padding: 16px 20px;">
+          <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+            <tr>
+              <td width="72" valign="middle" align="center" style="padding-right: 16px;">
+                <div style="width: 64px; height: 64px; border-radius: 50%; border: 3px solid #FFFFFF; box-shadow: 0 2px 8px rgba(0,0,0,0.15); overflow: hidden; background: #FFFFFF;">
+                  <img src="${avatar}" alt="${name}" width="64" height="64" style="width: 64px; height: 64px; object-fit: cover; display: block; border-radius: 50%;" />
+                </div>
+              </td>
+              <td valign="middle" style="line-height: 1.4;">
+                <div style="font-size: 15px; font-weight: 800; color: #0F172A; text-transform: uppercase;">
+                  ${name}
+                </div>
+                <div style="font-size: 11px; font-weight: 700; color: ${accent}; text-transform: uppercase;">
+                  ${role}
+                </div>
+                <div style="font-size: 10px; color: #64748B; margin-top: 2px; margin-bottom: 6px;">
+                  ${company} • ${tagline}
+                </div>
+                <div style="font-size: 11px; color: #334155;">
+                  <strong>Tel:</strong> <a href="tel:${phone}" style="color: #334155; text-decoration: none;">${phone}</a>
+                  &nbsp;•&nbsp;
+                  <strong>Email:</strong> <a href="mailto:${email}" style="color: ${accent}; text-decoration: none; font-weight: 600;">${email}</a>
+                  &nbsp;•&nbsp;
+                  <strong>Web:</strong> <a href="${website}" target="_blank" style="color: ${accent}; text-decoration: none;">${websiteDisplay}</a>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+    `;
+  }
+
+  // Default: "modern-curved" (Primary Shutterstock wave signature)
+  return `
+  <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top: 24px; background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);">
+    <tr>
+      <td style="padding: 16px 20px; background: linear-gradient(to right, #FFFFFF 68%, #F8FAFC 100%);">
+        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+          <tr>
+            <td width="78" valign="middle" align="center" style="padding-right: 16px;">
+              <div style="position: relative; width: 68px; height: 68px; border-radius: 50%; padding: 3px; background: linear-gradient(135deg, ${accent}, #0F172A); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);">
+                <div style="width: 100%; height: 100%; border-radius: 50%; overflow: hidden; background: #FFFFFF;">
+                  <img src="${avatar}" alt="${name}" width="68" height="68" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 50%;" />
+                </div>
+              </div>
+            </td>
+            <td valign="middle" style="line-height: 1.4;">
+              <div style="font-size: 15px; font-weight: 800; color: #0F172A; text-transform: uppercase; letter-spacing: 0.04em;">
+                ${name}
+              </div>
+              <div style="font-size: 11px; font-weight: 700; color: ${accent}; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 1px;">
+                ${role}
+              </div>
+              <div style="font-size: 10px; color: #64748B; margin-top: 2px; margin-bottom: 8px;">
+                ${tagline}
+              </div>
+              <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="font-size: 11px; color: #334155;">
+                <tr>
+                  <td style="padding: 2px 14px 2px 0;">
+                    <span style="color: ${accent}; font-weight: bold; margin-right: 3px;">📞</span>
+                    <a href="tel:${phone}" style="color: #1E293B; text-decoration: none; font-weight: 600;">${phone}</a>
+                  </td>
+                  <td style="padding: 2px 0;">
+                    <span style="color: ${accent}; font-weight: bold; margin-right: 3px;">✉️</span>
+                    <a href="mailto:${email}" style="color: ${accent}; text-decoration: none; font-weight: 600;">${email}</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 2px 14px 2px 0;">
+                    <span style="color: ${accent}; font-weight: bold; margin-right: 3px;">🌐</span>
+                    <a href="${website}" target="_blank" style="color: #0284C7; text-decoration: none; font-weight: 600;">${websiteDisplay}</a>
+                  </td>
+                  <td style="padding: 2px 0;">
+                    <span style="color: ${accent}; font-weight: bold; margin-right: 3px;">📍</span>
+                    <span style="color: #64748B;">${address}</span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+            <td width="112" valign="middle" align="right" style="padding-left: 12px; border-left: 1px solid #F1F5F9;">
+              <div style="background: linear-gradient(135deg, ${accent}, #0F172A); color: #FFFFFF; padding: 12px 10px; border-radius: 10px; text-align: center; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+                <div style="font-size: 12px; font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase;">
+                  ${company}
+                </div>
+                <div style="font-size: 8px; font-weight: 700; opacity: 0.9; text-transform: uppercase; letter-spacing: 0.14em; margin-top: 2px;">
+                  OFFICIAL
+                </div>
+                <div style="margin-top: 6px; font-size: 8px; background: rgba(255,255,255,0.2); padding: 1.5px 6px; border-radius: 8px; display: inline-block;">
+                  VERIFIED
+                </div>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+  `;
+}
+
+/**
  * Generate full responsive branded HTML email layout for a department profile.
  * Supports configurable media position (top/center/bottom), alignment (left/center/right),
  * header style (dark/light/centered), and content alignment.
  */
+/**
+ * Generate Format 2: Sidebar Dashboard & 7-Item Grid Email Layout.
+ * Features:
+ * - Left Sidebar: Upper part has Company Logo & Heading; Lower part has Address, Phone & Dynamic Social Links (Facebook, LinkedIn, WhatsApp, Instagram).
+ * - Main Area: Top featured main picture with text; Lower rows of images (up to 7 images per row, centered if fewer), with text under each.
+ * - Clicking any image links to the enlarged viewer URL.
+ */
+export function generateFormat2Html(
+  profile: EmailDepartmentProfile,
+  content: {
+    clientName?: string;
+    message: string;
+    subject?: string;
+    inquiryId?: number | string;
+    referenceBadge?: string | null;
+    showReferenceBadge?: boolean;
+  }
+): string {
+  const accent = profile.accentColor || "#0052FF";
+  const logo = profile.sidebarLogo || "https://creed-tech.com/icons/icon-192x192.png";
+  const heading = profile.sidebarHeading || profile.name || "CREED TECH";
+  const address = profile.sidebarAddress || profile.address || "Karachi, Pakistan";
+  const phone = profile.sidebarPhone || profile.phone || "+92 300 1234567";
+  const socials =
+    profile.sidebarSocialLinks && profile.sidebarSocialLinks.length > 0
+      ? profile.sidebarSocialLinks
+      : DEFAULT_FORMAT2_SOCIAL_LINKS;
+
+  const mainPic =
+    profile.featuredMainPicUrl ||
+    (profile.mediaItems && profile.mediaItems[0]?.mediaUrl) ||
+    profile.videoThumbnail ||
+    "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=800&auto=format&fit=crop";
+  const mainPicText =
+    profile.featuredMainPicText ||
+    "Next-Generation Industrial Machinery & Enterprise Engineering Solutions";
+
+  const rows =
+    profile.galleryRows && profile.galleryRows.length > 0
+      ? profile.galleryRows
+      : [
+          {
+            id: "row-1",
+            items: [
+              {
+                id: "item-1-1",
+                imageUrl: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=400&auto=format&fit=crop",
+                text: "CNC Miller 5X",
+                title: "CNC Miller 5X High Precision",
+              },
+              {
+                id: "item-1-2",
+                imageUrl: "https://images.unsplash.com/photo-1581092335397-9583fe92d232?q=80&w=400&auto=format&fit=crop",
+                text: "Laser Cutter",
+                title: "Fiber Laser Cutting System",
+              },
+              {
+                id: "item-1-3",
+                imageUrl: "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?q=80&w=400&auto=format&fit=crop",
+                text: "Hydraulic Press",
+                title: "Heavy Duty 200T Hydraulic Press",
+              },
+              {
+                id: "item-1-4",
+                imageUrl: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?q=80&w=400&auto=format&fit=crop",
+                text: "Automated Robot",
+                title: "6-Axis Robotic Arm",
+              },
+              {
+                id: "item-1-5",
+                imageUrl: "https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?q=80&w=400&auto=format&fit=crop",
+                text: "Injection Mold",
+                title: "Electric Injection Molding Machine",
+              },
+              {
+                id: "item-1-6",
+                imageUrl: "https://images.unsplash.com/photo-1581093588401-fbb62a02f120?q=80&w=400&auto=format&fit=crop",
+                text: "Rotary Lathe",
+                title: "Precision Metal Turning Lathe",
+              },
+              {
+                id: "item-1-7",
+                imageUrl: "https://images.unsplash.com/photo-1581093806997-124204d9fa9d?q=80&w=400&auto=format&fit=crop",
+                text: "Quality Scanner",
+                title: "3D Optical CMM Scanner",
+              },
+            ],
+          },
+        ];
+
+  const getPlatformIcon = (platform: string) => {
+    switch (platform.toLowerCase()) {
+      case "facebook": return "📘";
+      case "linkedin": return "💼";
+      case "whatsapp": return "💬";
+      case "instagram": return "📷";
+      case "twitter": return "🐦";
+      case "youtube": return "▶️";
+      case "website": return "🌐";
+      default: return "🔗";
+    }
+  };
+
+  const socialLinksHtml = socials
+    .map(
+      (soc) => `
+    <tr>
+      <td style="padding: 4px 0;">
+        <a href="${soc.url}" target="_blank" rel="noopener noreferrer" style="display: block; text-decoration: none; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.14); padding: 6px 10px; border-radius: 8px; color: #ffffff; font-size: 11px; font-weight: 600;">
+          <span style="display: inline-block; width: 18px; text-align: center; margin-right: 6px;">${getPlatformIcon(soc.platform)}</span>
+          <span style="color: #f1f5f9;">${soc.label || soc.platform.toUpperCase()}</span>
+          <span style="float: right; color: #94a3b8; font-size: 10px;">↗</span>
+        </a>
+      </td>
+    </tr>`
+    )
+    .join("");
+
+  const formattedBody = content.message
+    .split("\n")
+    .map((line) =>
+      line.trim() === ""
+        ? "<br/>"
+        : `<p style="margin: 0 0 12px 0; line-height: 1.6; color: #334155; font-size: 14px;">${line}</p>`
+    )
+    .join("");
+
+  const mainPicViewerUrl = buildItemViewerUrl(
+    { mediaUrl: mainPic, title: mainPicText, details: mainPicText },
+    profile
+  );
+
+  const galleryRowsHtml = rows
+    .map((row) => {
+      const itemsInRow = (row.items || []).slice(0, 7);
+      if (itemsInRow.length === 0) return "";
+
+      const cells = itemsInRow
+        .map((it) => {
+          const itViewerUrl = buildItemViewerUrl(
+            { mediaUrl: it.imageUrl, title: it.title || it.text, details: it.text },
+            profile
+          );
+          return `
+          <td align="center" valign="top" style="padding: 4px 3px; width: 72px;">
+            <a href="${itViewerUrl}" target="_blank" rel="noopener noreferrer" style="text-decoration: none; display: block; text-align: center;">
+              <div style="width: 66px; height: 66px; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0; background: #f8fafc; margin: 0 auto; box-shadow: 0 2px 5px rgba(0,0,0,0.04);">
+                <img src="${it.imageUrl}" alt="${it.text || 'Gallery item'}" style="width: 100%; height: 100%; object-fit: cover; display: block;" />
+              </div>
+              <div style="font-size: 9px; font-weight: 700; color: #1e293b; line-height: 1.25; margin-top: 4px; max-width: 68px; word-break: break-word;">
+                ${it.text}
+              </div>
+            </a>
+          </td>`;
+        })
+        .join("");
+
+      return `
+      <table role="presentation" border="0" cellpadding="0" cellspacing="0" align="center" style="margin: 0 auto 12px auto;">
+        <tr>
+          ${cells}
+        </tr>
+      </table>`;
+    })
+    .join("");
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${content.subject || heading}</title>
+</head>
+<body style="margin: 0; padding: 20px 10px; background-color: #f1f5f9; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased;">
+  <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 820px; margin: 0 auto; background: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.06); border: 1px solid #e2e8f0;">
+    <tr>
+      <!-- LEFT SIDEBAR -->
+      <td width="230" valign="top" style="width: 230px; min-width: 210px; background-color: #0b1120; color: #ffffff; padding: 24px 18px; border-right: 1px solid #1e293b;">
+        <!-- Upper part: Logo and Heading -->
+        <div style="text-align: center; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.12);">
+          ${logo ? `<img src="${logo}" alt="${heading}" style="max-height: 52px; max-width: 170px; object-fit: contain; margin: 0 auto 10px auto; display: block;" />` : ''}
+          <div style="font-size: 16px; font-weight: 900; letter-spacing: 0.05em; color: #ffffff; text-transform: uppercase;">
+            ${heading}
+          </div>
+          <div style="font-size: 10px; font-weight: 700; color: ${accent}; letter-spacing: 0.12em; text-transform: uppercase; margin-top: 3px;">
+            ${profile.department || "Enterprise Division"}
+          </div>
+        </div>
+
+        <!-- Lower part: Address, Phone, Social Links -->
+        <div style="padding-top: 20px;">
+          ${address ? `
+            <div style="margin-bottom: 16px; font-size: 11px; color: #cbd5e1; line-height: 1.5;">
+              <div style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; color: #94a3b8; font-weight: 800; margin-bottom: 3px;">📍 Address</div>
+              ${address}
+            </div>
+          ` : ''}
+
+          ${phone ? `
+            <div style="margin-bottom: 18px; font-size: 11px; color: #cbd5e1;">
+              <div style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; color: #94a3b8; font-weight: 800; margin-bottom: 3px;">📞 Phone / Direct</div>
+              <a href="tel:${phone}" style="color: #60a5fa; text-decoration: none; font-weight: 700;">${phone}</a>
+            </div>
+          ` : ''}
+
+          <!-- Social Links -->
+          <div style="margin-top: 20px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.1);">
+            <div style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; color: #94a3b8; font-weight: 800; margin-bottom: 8px;">🌐 Connect / Social</div>
+            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+              ${socialLinksHtml}
+            </table>
+          </div>
+        </div>
+      </td>
+
+      <!-- RIGHT / MAIN AREA -->
+      <td valign="top" style="padding: 24px 28px; background-color: #ffffff;">
+        <!-- Header / Subject -->
+        ${content.subject ? `
+          <div style="font-size: 16px; font-weight: 800; color: #0f172a; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 2px solid ${accent};">
+            ${content.subject}
+          </div>
+        ` : ''}
+
+        <!-- Message Body -->
+        <div style="margin-bottom: 22px;">
+          ${formattedBody}
+        </div>
+
+        <!-- CENTER / TOP MAIN PICTURE WITH TEXT -->
+        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 20px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 14px rgba(0,0,0,0.04);">
+          <tr>
+            <td style="padding: 0; text-align: center; background: #000000;">
+              <a href="${mainPicViewerUrl}" target="_blank" rel="noopener noreferrer" style="display: block; text-decoration: none;">
+                <img src="${mainPic}" alt="${mainPicText}" style="width: 100%; max-height: 260px; object-fit: cover; display: block;" />
+              </a>
+            </td>
+          </tr>
+          ${mainPicText ? `
+          <tr>
+            <td style="padding: 12px 18px; font-size: 13px; color: #1e293b; font-weight: 700; line-height: 1.5; background: #ffffff; border-top: 1px solid #f1f5f9;">
+              ${mainPicText}
+            </td>
+          </tr>
+          ` : ''}
+        </table>
+
+        <!-- LOWER GALLERY ROWS (UP TO 7 ITEMS PER ROW, CENTER ADJUSTED) -->
+        <div style="margin-top: 16px; padding-top: 14px; border-top: 1px dashed #cbd5e1;">
+          <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #64748b; margin-bottom: 12px; text-align: center;">
+            Featured Highlights &amp; Equipment (Click to Enlarge)
+          </div>
+          ${galleryRowsHtml}
+        </div>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`;
+}
+
 export function generateEmailHtml(
   profile: EmailDepartmentProfile,
   content: {
@@ -352,6 +1067,16 @@ export function generateEmailHtml(
     showReferenceBadge?: boolean;
   }
 ): string {
+  // Determine template format
+  const format: EmailFormatType =
+    profile.formatType ||
+    (profile.sidebarLogo || profile.galleryRows || profile.sidebarSocialLinks
+      ? "format-executive-signature"
+      : "format-catalog");
+
+  if (format === "format-executive-signature") {
+    return generateFormat2Html(profile, content);
+  }
   const accent = profile.accentColor || "#FF6B00";
   const textColor = profile.textColor || "#1e293b";
   const bgColor = profile.backgroundColor || "#ffffff";
@@ -657,50 +1382,58 @@ export function generateEmailHtml(
   const footerText = isDarkBg ? "#94a3b8" : "#64748b";
   const footerBorder = isDarkBg ? "rgba(255,255,255,0.1)" : "#e2e8f0";
 
-  const signatureHtml = `
-    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top: 24px; padding-top: 20px; border-top: 1px solid ${footerBorder};">
-      <tr>
-        <td align="${contentAlign === 'center' ? 'center' : contentAlign === 'right' ? 'right' : 'left'}" style="${textAlignStyle}" valign="middle">
-          <div style="font-size: 14px; font-weight: 800; color: ${textColor};">
-            ${profile.name}
-          </div>
-          <div style="font-size: 12px; color: ${accent}; font-weight: 600; margin-top: 2px;">
-            Direct: <a href="mailto:${profile.email}" style="color: ${accent}; text-decoration: none;">${profile.email}</a>
-            ${profile.phone ? ` • Tel: <a href="tel:${profile.phone}" style="color: ${footerText}; text-decoration: none;">${profile.phone}</a>` : ''}
-          </div>
-          <div style="font-size: 11px; color: ${footerText}; margin-top: 4px;">
-            Enterprise Systems &amp; High-Reliability Architecture
-          </div>
-        </td>
-      </tr>
-    </table>
-  `;
-
-  // Position body and media card according to user's layout choice (Top, Center, Bottom)
+  // FORMAT 1: CATALOG & EQUIPMENT OFFER CARDS
+  // Renders 2-column machine/card catalog + clean corporate sign-off.
+  // DOES NOT render large executive avatar signature card.
   let middleSectionHtml = "";
-  if (mediaPos === "top") {
-    middleSectionHtml = `
-      ${mediaCardHtml}
-      ${headingHtml}
-      ${formattedBody}
-      ${signatureHtml}
+    const cleanCatalogSignoff = `
+      <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top: 24px; padding-top: 14px; border-top: 1px solid #e2e8f0;">
+        <tr>
+          <td style="font-size: 13px; font-weight: 800; color: #0f172a; text-transform: uppercase; letter-spacing: 0.03em;">
+            ${profile.name}
+          </td>
+        </tr>
+        <tr>
+          <td style="font-size: 11px; font-weight: 700; color: ${accent}; padding-top: 2px;">
+            ${profile.department}
+          </td>
+        </tr>
+        ${
+          profile.phone
+            ? `<tr><td style="font-size: 11px; color: #64748b; padding-top: 4px;"><strong>Direct:</strong> <a href="tel:${profile.phone}" style="color: #334155; text-decoration: none;">${profile.phone}</a></td></tr>`
+            : ""
+        }
+        <tr>
+          <td style="font-size: 11px; color: #64748b; padding-top: 2px;">
+            <strong>Email:</strong> <a href="mailto:${profile.email}" style="color: ${accent}; text-decoration: none; font-weight: 600;">${profile.email}</a>
+          </td>
+        </tr>
+      </table>
     `;
-  } else if (mediaPos === "bottom") {
-    middleSectionHtml = `
-      ${headingHtml}
-      ${formattedBody}
-      ${signatureHtml}
-      ${mediaCardHtml}
-    `;
-  } else {
-    // Default "center"
-    middleSectionHtml = `
-      ${headingHtml}
-      ${formattedBody}
-      ${mediaCardHtml}
-      ${signatureHtml}
-    `;
-  }
+
+    if (mediaPos === "top") {
+      middleSectionHtml = `
+        ${mediaCardHtml}
+        ${headingHtml}
+        ${formattedBody}
+        ${cleanCatalogSignoff}
+      `;
+    } else if (mediaPos === "bottom") {
+      middleSectionHtml = `
+        ${headingHtml}
+        ${formattedBody}
+        ${cleanCatalogSignoff}
+        ${mediaCardHtml}
+      `;
+    } else {
+      // Default "center"
+      middleSectionHtml = `
+        ${headingHtml}
+        ${formattedBody}
+        ${mediaCardHtml}
+        ${cleanCatalogSignoff}
+      `;
+    }
 
   return `<!DOCTYPE html>
 <html lang="en">

@@ -3,7 +3,6 @@ import { query } from "@/lib/db";
 import { DEFAULT_WEBSITE_SETTINGS } from "@/components/admin/settings/types";
 import ServicesHero from "@/components/services/serviceshero";
 import ServicesProject from "@/components/services/servicesproject";
-import ServicesCatalog from "@/components/services/servicescatalog";
 import ServicesDigital from "@/components/services/servicesdigital";
 import ServicesSolution from "@/components/services/servicessolution";
 import ServicesDelivery from "@/components/services/servicesdelivery";
@@ -289,9 +288,8 @@ export default async function ServicesPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(servicesJsonLd) }}
       />
       <ServicesHero />
-      <ServicesProject />
-      <ServicesCatalog />
       <ServicesDigital data={explorer} />
+      <ServicesProject />
       <ServicesSolution />
       <ServicesDelivery />
       <ServicesIndustries />

@@ -13,6 +13,14 @@ import {
   ACCENT_COLOR_PRESETS,
   TEXT_COLOR_PRESETS,
   BG_COLOR_PRESETS,
+  SIGNATURE_STYLE_PRESETS,
+  EMAIL_FORMATS_METADATA,
+  EmailFormatType,
+  EmailSocialLink,
+  GalleryRow,
+  GalleryRowItem,
+  DEFAULT_FORMAT2_SOCIAL_LINKS,
+  DEFAULT_FORMAT2_GALLERY_ROWS,
 } from "@/lib/email-types";
 import { Inquiry } from "@/types/admin";
 import InquiryDetailsModal from "../modals/InquiryDetailsModal";
@@ -32,12 +40,205 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
   const [testEmailRecipient, setTestEmailRecipient] = useState("");
   const [isSendingTest, setIsSendingTest] = useState(false);
   const [isUploadingMedia, setIsUploadingMedia] = useState(false);
+  const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
   const [uploadingItemIndex, setUploadingItemIndex] = useState<number | null>(null);
   const [specsMode, setSpecsMode] = useState<"separate" | "same">("separate");
   const [previewDetailItem, setPreviewDetailItem] = useState<EmailMediaItem | null>(null);
+  const [enlargedMediaPopup, setEnlargedMediaPopup] = useState<{
+    imageUrl: string;
+    title?: string;
+    text?: string;
+  } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const itemFileInputRef = useRef<HTMLInputElement>(null);
   const multiFileInputRef = useRef<HTMLInputElement>(null);
+  const avatarFileInputRef = useRef<HTMLInputElement>(null);
+  const sidebarLogoInputRef = useRef<HTMLInputElement>(null);
+  const [isUploadingSidebarLogo, setIsUploadingSidebarLogo] = useState(false);
+  const mainPicInputRef = useRef<HTMLInputElement>(null);
+  const [isUploadingMainPic, setIsUploadingMainPic] = useState(false);
+
+  const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !editingProfile) return;
+    setIsUploadingAvatar(true);
+    try {
+      const url = await uploadImageFile(file, adminFetch);
+      setEditingProfile({ ...editingProfile, signatureAvatar: url });
+      if (showToast) showToast("Signature photo uploaded successfully!");
+    } catch (err: any) {
+      if (showToast) showToast(err.message || "Failed to upload signature photo", "error");
+    } finally {
+      setIsUploadingAvatar(false);
+      if (avatarFileInputRef.current) avatarFileInputRef.current.value = "";
+    }
+  };
+
+  const handleSidebarLogoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !editingProfile) return;
+    setIsUploadingSidebarLogo(true);
+    try {
+      const url = await uploadImageFile(file, adminFetch);
+      setEditingProfile({ ...editingProfile, sidebarLogo: url });
+      if (showToast) showToast("Sidebar company logo uploaded successfully!");
+    } catch (err: any) {
+      if (showToast) showToast(err.message || "Failed to upload sidebar logo", "error");
+    } finally {
+      setIsUploadingSidebarLogo(false);
+      if (sidebarLogoInputRef.current) sidebarLogoInputRef.current.value = "";
+    }
+  };
+
+  const handleMainPicUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !editingProfile) return;
+    setIsUploadingMainPic(true);
+    try {
+      const url = await uploadImageFile(file, adminFetch);
+      setEditingProfile({ ...editingProfile, featuredMainPicUrl: url });
+      if (showToast) showToast("Main featured picture uploaded successfully!");
+    } catch (err: any) {
+      if (showToast) showToast(err.message || "Failed to upload main picture", "error");
+    } finally {
+      setIsUploadingMainPic(false);
+      if (mainPicInputRef.current) mainPicInputRef.current.value = "";
+    }
+  };
+
+  const handleAddSocialLink = () => {
+    if (!editingProfile) return;
+    const current = editingProfile.sidebarSocialLinks || DEFAULT_FORMAT2_SOCIAL_LINKS;
+    const newLink: EmailSocialLink = {
+      id: `soc-${Date.now()}`,
+      platform: "website",
+      url: "https://",
+      label: "Website",
+    };
+    setEditingProfile({
+      ...editingProfile,
+      sidebarSocialLinks: [...current, newLink],
+    });
+  };
+
+  const handleUpdateSocialLink = (id: string, updates: Partial<EmailSocialLink>) => {
+    if (!editingProfile) return;
+    const current = editingProfile.sidebarSocialLinks || DEFAULT_FORMAT2_SOCIAL_LINKS;
+    setEditingProfile({
+      ...editingProfile,
+      sidebarSocialLinks: current.map((s) => (s.id === id ? { ...s, ...updates } : s)),
+    });
+  };
+
+  const handleDeleteSocialLink = (id: string) => {
+    if (!editingProfile) return;
+    const current = editingProfile.sidebarSocialLinks || DEFAULT_FORMAT2_SOCIAL_LINKS;
+    setEditingProfile({
+      ...editingProfile,
+      sidebarSocialLinks: current.filter((s) => s.id !== id),
+    });
+  };
+
+  const handleAddGalleryRow = () => {
+    if (!editingProfile) return;
+    const currentRows = editingProfile.galleryRows && editingProfile.galleryRows.length > 0
+      ? editingProfile.galleryRows
+      : [
+          {
+            id: "row-1",
+            items: [
+              { id: "item-1-1", imageUrl: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=400&auto=format&fit=crop", text: "CNC Miller 5X", title: "CNC Miller 5X High Precision" },
+              { id: "item-1-2", imageUrl: "https://images.unsplash.com/photo-1581092335397-9583fe92d232?q=80&w=400&auto=format&fit=crop", text: "Laser Cutter", title: "Fiber Laser Cutting System" },
+            ],
+          },
+        ];
+    const newRow: GalleryRow = {
+      id: `row-${Date.now()}`,
+      items: [
+        {
+          id: `item-${Date.now()}-1`,
+          imageUrl: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=400&auto=format&fit=crop",
+          text: "Sample Item",
+          title: "New Equipment",
+        },
+      ],
+    };
+    setEditingProfile({
+      ...editingProfile,
+      galleryRows: [...currentRows, newRow],
+    });
+  };
+
+  const handleDeleteGalleryRow = (rowId: string) => {
+    if (!editingProfile) return;
+    const currentRows = editingProfile.galleryRows || [];
+    setEditingProfile({
+      ...editingProfile,
+      galleryRows: currentRows.filter((r) => r.id !== rowId),
+    });
+  };
+
+  const handleAddItemToRow = (rowId: string) => {
+    if (!editingProfile) return;
+    const currentRows = editingProfile.galleryRows && editingProfile.galleryRows.length > 0
+      ? editingProfile.galleryRows
+      : [
+          {
+            id: rowId,
+            items: [],
+          },
+        ];
+    setEditingProfile({
+      ...editingProfile,
+      galleryRows: currentRows.map((r) => {
+        if (r.id !== rowId) return r;
+        if (r.items.length >= 7) {
+          if (showToast) showToast("Maximum 7 images allowed per row", "error");
+          return r;
+        }
+        const newItem: GalleryRowItem = {
+          id: `item-${Date.now()}-${r.items.length + 1}`,
+          imageUrl: "https://images.unsplash.com/photo-1581092335397-9583fe92d232?q=80&w=400&auto=format&fit=crop",
+          text: `Item ${r.items.length + 1}`,
+          title: `Item ${r.items.length + 1} Title`,
+        };
+        return {
+          ...r,
+          items: [...r.items, newItem],
+        };
+      }),
+    });
+  };
+
+  const handleUpdateRowItem = (rowId: string, itemId: string, updates: Partial<GalleryRowItem>) => {
+    if (!editingProfile) return;
+    const currentRows = editingProfile.galleryRows || [];
+    setEditingProfile({
+      ...editingProfile,
+      galleryRows: currentRows.map((r) => {
+        if (r.id !== rowId) return r;
+        return {
+          ...r,
+          items: r.items.map((it) => (it.id === itemId ? { ...it, ...updates } : it)),
+        };
+      }),
+    });
+  };
+
+  const handleDeleteRowItem = (rowId: string, itemId: string) => {
+    if (!editingProfile) return;
+    const currentRows = editingProfile.galleryRows || [];
+    setEditingProfile({
+      ...editingProfile,
+      galleryRows: currentRows.map((r) => {
+        if (r.id !== rowId) return r;
+        return {
+          ...r,
+          items: r.items.filter((it) => it.id !== itemId),
+        };
+      }),
+    });
+  };
 
   // Email Management Sub-Tabs & Inquiries State
   const [activeSubTab, setActiveSubTab] = useState<"desks" | "inquiries" | "smtp">("desks");
@@ -547,6 +748,11 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
               uniqueList.push(p);
             }
           }
+          // Ensure default Format 2 profile (executive-desk) is available if not in DB
+          const defaultDesk2 = DEFAULT_EMAIL_PROFILES.find((p) => p.id === "executive-desk");
+          if (defaultDesk2 && !seenIds.has(defaultDesk2.id) && !seenEmails.has((defaultDesk2.email || "").toLowerCase())) {
+            uniqueList.push(defaultDesk2);
+          }
           const finalProfiles = uniqueList.length > 0 ? uniqueList : data.profiles;
           setProfiles(finalProfiles);
           if (!finalProfiles.some((p: EmailDepartmentProfile) => p.id === selectedProfileId)) {
@@ -666,7 +872,11 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
     profiles.find((p) => p.id === selectedProfileId) || profiles[0] || DEFAULT_EMAIL_PROFILES[0];
 
   // Save / Update profile with strict duplicate prevention
-  const handleSaveProfile = async (profileToSave: EmailDepartmentProfile) => {
+  const handleSaveProfile = async (
+    profileToSave: EmailDepartmentProfile,
+    stayInEditor = false,
+    suppressToast = false
+  ) => {
     try {
       setIsSaving(true);
 
@@ -713,13 +923,17 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
       if (data.success) {
         setProfiles(data.profiles || updatedList);
         setSelectedProfileId(profileToSave.id);
-        setEditingProfile(null);
-        if (showToast) showToast(`✓ Email profile "${profileToSave.name}" saved successfully!`);
+        if (!stayInEditor) {
+          setEditingProfile(null);
+        }
+        if (!suppressToast && showToast) {
+          showToast(`✓ Email profile "${profileToSave.name}" saved successfully!`);
+        }
       } else {
         throw new Error(data.error || "Failed to save profile");
       }
     } catch (err: any) {
-      if (showToast) showToast(`Error: ${err.message}`, "error");
+      if (!suppressToast && showToast) showToast(`Error: ${err.message}`, "error");
     } finally {
       setIsSaving(false);
     }
@@ -960,6 +1174,336 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
     );
   };
 
+  const renderSignaturePreview = (profile: EmailDepartmentProfile, isSmall = false) => {
+    const sigStyle = profile.signatureStyle || "modern-curved";
+    const sigName = profile.name || "Enterprise Representative";
+    const sigRole = profile.signatureRole || profile.department || "Enterprise Solutions Director";
+    const sigCompany = profile.signatureCompany || "CREED TECH";
+    const sigTagline = profile.signatureTagline || "Enterprise Systems & Cloud Infrastructure";
+    const sigPhone = profile.phone || "+1 (888) 492-7330";
+    const sigEmail = profile.email || "desk@creed-tech.com";
+    const sigWeb = profile.signatureWebsite || "https://creed-tech.com";
+    const sigWebDisplay = sigWeb.replace(/^https?:\/\//i, "").replace(/\/$/, "");
+    const sigAddress = profile.address || "San Francisco, CA";
+    const sigAvatar =
+      profile.signatureAvatar ||
+      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop";
+    const accent = profile.accentColor || "#0052FF";
+
+    if (sigStyle === "dark-luxury") {
+      return (
+        <div className={`mt-4 ${isSmall ? "p-3" : "p-3.5"} rounded-xl border border-white/10 bg-[#0B1120] text-slate-100 shadow-md`}>
+          <div className="flex items-center gap-3">
+            <div className="relative shrink-0 w-14 h-14 rounded-full p-0.5" style={{ background: accent }}>
+              <img src={sigAvatar} alt={sigName} className="w-full h-full object-cover rounded-full bg-slate-900" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="text-xs font-black uppercase tracking-wider text-white truncate">{sigName}</div>
+              <div className="text-[10px] font-bold uppercase tracking-wider mt-0.5 truncate" style={{ color: accent }}>{sigRole}</div>
+              <div className="text-[9px] text-slate-400 truncate mb-1.5">{sigTagline}</div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-2 gap-y-0.5 text-[9px] text-slate-300">
+                <div className="flex items-center gap-1 truncate"><span style={{ color: accent }}>📞</span><span>{sigPhone}</span></div>
+                <div className="flex items-center gap-1 truncate"><span style={{ color: accent }}>✉️</span><span className="text-sky-400">{sigEmail}</span></div>
+                <div className="flex items-center gap-1 truncate"><span style={{ color: accent }}>🌐</span><span className="text-sky-400">{sigWebDisplay}</span></div>
+                <div className="flex items-center gap-1 truncate text-slate-400"><span style={{ color: accent }}>📍</span><span className="truncate">{sigAddress}</span></div>
+              </div>
+            </div>
+            <div className="hidden sm:flex flex-col items-center justify-center p-2 rounded-lg border border-white/10 text-center shrink-0" style={{ background: `${accent}18` }}>
+              <div className="text-[11px] font-black tracking-wider text-white">{sigCompany}</div>
+              <span className="text-[7px] font-extrabold uppercase tracking-widest text-slate-400 mt-0.5">OFFICIAL</span>
+              <span className="mt-1 px-1.5 py-0.2 rounded-full text-[7px] font-bold text-white bg-white/20">● VERIFIED</span>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    if (sigStyle === "minimal-pill") {
+      return (
+        <div className={`mt-4 ${isSmall ? "p-2.5" : "p-3"} rounded-lg border border-slate-200 bg-white shadow-2xs`} style={{ borderLeft: `4px solid ${accent}` }}>
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 rounded-full shrink-0 overflow-hidden border-2" style={{ borderColor: accent }}>
+              <img src={sigAvatar} alt={sigName} className="w-full h-full object-cover" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="text-xs font-black text-slate-900 tracking-tight">{sigName}</div>
+              <div className="text-[10px] font-bold uppercase tracking-wider" style={{ color: accent }}>
+                {sigRole} • <span className="text-slate-500 font-semibold">{sigCompany}</span>
+              </div>
+              <div className="flex flex-wrap items-center gap-x-2.5 gap-y-0.5 text-[9px] text-slate-600 mt-1">
+                <span>📞 {sigPhone}</span>
+                <span>•</span>
+                <span style={{ color: accent }}>✉️ {sigEmail}</span>
+                <span>•</span>
+                <span>🌐 {sigWebDisplay}</span>
+              </div>
+              {sigAddress && <div className="text-[8px] text-slate-400 mt-0.5">📍 {sigAddress}</div>}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    if (sigStyle === "classic-corporate") {
+      return (
+        <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50 overflow-hidden shadow-2xs">
+          <div className="h-1.5 w-full" style={{ background: accent }} />
+          <div className="p-3 flex items-center gap-3">
+            <div className="w-12 h-12 rounded-full shrink-0 overflow-hidden border-2 border-white shadow-xs">
+              <img src={sigAvatar} alt={sigName} className="w-full h-full object-cover" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="text-xs font-black text-slate-900 uppercase">{sigName}</div>
+              <div className="text-[10px] font-bold uppercase tracking-wider" style={{ color: accent }}>{sigRole}</div>
+              <div className="text-[9px] text-slate-500">{sigCompany} • {sigTagline}</div>
+              <div className="flex flex-wrap items-center gap-x-2 text-[9px] text-slate-700 mt-1">
+                <span><strong>Tel:</strong> {sigPhone}</span>
+                <span>•</span>
+                <span style={{ color: accent }}><strong>Email:</strong> {sigEmail}</span>
+                <span>•</span>
+                <span><strong>Web:</strong> {sigWebDisplay}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // Default: modern-curved (Primary Shutterstock wave style)
+    return (
+      <div className={`mt-4 ${isSmall ? "p-3" : "p-3.5"} rounded-xl border border-slate-200 bg-gradient-to-r from-white via-slate-50 to-blue-50/30 shadow-xs`}>
+        <div className="flex items-center gap-3">
+          <div className="relative shrink-0 w-14 h-14 rounded-full p-0.5 shadow-sm" style={{ background: `linear-gradient(135deg, ${accent}, #0F172A)` }}>
+            <img src={sigAvatar} alt={sigName} className="w-full h-full object-cover rounded-full bg-white" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <div className="text-xs font-black uppercase tracking-wider text-slate-900 truncate">{sigName}</div>
+            <div className="text-[10px] font-bold uppercase tracking-wider mt-0.5 truncate" style={{ color: accent }}>{sigRole}</div>
+            <div className="text-[9px] text-slate-500 truncate mb-1.5">{sigTagline}</div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-2 gap-y-0.5 text-[9px] text-slate-700">
+              <div className="flex items-center gap-1 truncate"><span style={{ color: accent }}>📞</span><span>{sigPhone}</span></div>
+              <div className="flex items-center gap-1 truncate"><span style={{ color: accent }}>✉️</span><span style={{ color: accent }}>{sigEmail}</span></div>
+              <div className="flex items-center gap-1 truncate"><span style={{ color: accent }}>🌐</span><span className="text-sky-600">{sigWebDisplay}</span></div>
+              <div className="flex items-center gap-1 truncate text-slate-500"><span style={{ color: accent }}>📍</span><span className="truncate">{sigAddress}</span></div>
+            </div>
+          </div>
+          <div
+            className="hidden sm:flex flex-col items-center justify-center p-2 rounded-xl text-white text-center shrink-0 shadow-xs"
+            style={{ background: `linear-gradient(135deg, ${accent}, #0F172A)` }}
+          >
+            <div className="text-[11px] font-black tracking-wider uppercase">{sigCompany}</div>
+            <span className="text-[7px] font-extrabold uppercase tracking-widest opacity-90 mt-0.5">OFFICIAL</span>
+            <span className="mt-1 px-1.5 py-0.2 rounded-full text-[7px] font-bold bg-white/20">VERIFIED</span>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const renderFormat2Preview = (profile: EmailDepartmentProfile, isSmall = false) => {
+    const accent = profile.accentColor || "#0052FF";
+    const logo = profile.sidebarLogo || "https://creed-tech.com/icons/icon-192x192.png";
+    const heading = profile.sidebarHeading || profile.name || "CREED TECH";
+    const address = profile.sidebarAddress || profile.address || "Industrial Area Phase 2, Karachi";
+    const phone = profile.sidebarPhone || profile.phone || "+92 300 1234567";
+    const socials =
+      profile.sidebarSocialLinks && profile.sidebarSocialLinks.length > 0
+        ? profile.sidebarSocialLinks
+        : DEFAULT_FORMAT2_SOCIAL_LINKS;
+
+    const mainPic =
+      profile.featuredMainPicUrl ||
+      (profile.mediaItems && profile.mediaItems[0]?.mediaUrl) ||
+      profile.videoThumbnail ||
+      "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=800&auto=format&fit=crop";
+    const mainPicText =
+      profile.featuredMainPicText ||
+      "Next-Generation Industrial Machinery & Enterprise Engineering Solutions";
+
+    const rows =
+      profile.galleryRows && profile.galleryRows.length > 0
+        ? profile.galleryRows
+        : [
+            {
+              id: "row-1",
+              items: [
+                { id: "item-1-1", imageUrl: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=400&auto=format&fit=crop", text: "CNC Miller 5X", title: "CNC Miller 5X High Precision" },
+                { id: "item-1-2", imageUrl: "https://images.unsplash.com/photo-1581092335397-9583fe92d232?q=80&w=400&auto=format&fit=crop", text: "Laser Cutter", title: "Fiber Laser Cutting System" },
+                { id: "item-1-3", imageUrl: "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?q=80&w=400&auto=format&fit=crop", text: "Hydraulic Press", title: "Heavy Duty 200T Hydraulic Press" },
+                { id: "item-1-4", imageUrl: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?q=80&w=400&auto=format&fit=crop", text: "Automated Robot", title: "6-Axis Robotic Arm" },
+                { id: "item-1-5", imageUrl: "https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?q=80&w=400&auto=format&fit=crop", text: "Injection Mold", title: "Electric Injection Molding Machine" },
+                { id: "item-1-6", imageUrl: "https://images.unsplash.com/photo-1581093588401-fbb62a02f120?q=80&w=400&auto=format&fit=crop", text: "Rotary Lathe", title: "Precision Metal Turning Lathe" },
+                { id: "item-1-7", imageUrl: "https://images.unsplash.com/photo-1581093806997-124204d9fa9d?q=80&w=400&auto=format&fit=crop", text: "Quality Scanner", title: "3D Optical CMM Scanner" },
+              ],
+            },
+          ];
+
+    const getPlatformIcon = (platform: string) => {
+      switch (platform.toLowerCase()) {
+        case "facebook": return "📘";
+        case "linkedin": return "💼";
+        case "whatsapp": return "💬";
+        case "instagram": return "📷";
+        case "twitter": return "🐦";
+        case "youtube": return "▶️";
+        case "website": return "🌐";
+        default: return "🔗";
+      }
+    };
+
+    return (
+      <div className="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-md flex flex-col md:flex-row text-slate-800 my-3">
+        {/* LEFT SIDEBAR BAR */}
+        <div className={`${isSmall ? "w-full md:w-44" : "w-full md:w-56"} bg-[#0B1120] text-white p-3 flex flex-col justify-between shrink-0 border-r border-slate-800`}>
+          {/* Upper: Logo & Heading */}
+          <div className="text-center pb-3 border-b border-white/10">
+            {logo && (
+              <img src={logo} alt={heading} className="max-h-10 max-w-[120px] object-contain mx-auto mb-1.5" />
+            )}
+            <div className="text-xs font-black tracking-wide uppercase text-white truncate">
+              {heading}
+            </div>
+            <div className="text-[9px] font-bold uppercase tracking-wider mt-0.5" style={{ color: accent }}>
+              {profile.department || "Enterprise Division"}
+            </div>
+          </div>
+
+          {/* Lower: Address, Phone, Social Links */}
+          <div className="pt-2.5 space-y-2">
+            {address && (
+              <div>
+                <div className="text-[8px] font-black uppercase tracking-wider text-slate-400">📍 Address</div>
+                <div className="text-[10px] text-slate-300 leading-snug line-clamp-2 mt-0.5">{address}</div>
+              </div>
+            )}
+
+            {phone && (
+              <div>
+                <div className="text-[8px] font-black uppercase tracking-wider text-slate-400">📞 Phone</div>
+                <div className="text-[10px] font-bold text-sky-400 mt-0.5 font-mono">{phone}</div>
+              </div>
+            )}
+
+            {/* Dynamic Social Links */}
+            <div className="pt-2 border-t border-white/10">
+              <div className="text-[8px] font-black uppercase tracking-wider text-slate-400 mb-1 flex items-center justify-between">
+                <span>🌐 Social Links</span>
+                <span className="text-[7px] text-slate-500">({socials.length})</span>
+              </div>
+              <div className="space-y-1">
+                {socials.map((soc) => (
+                  <a
+                    key={soc.id}
+                    href={soc.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between px-2 py-0.5 rounded bg-white/5 hover:bg-white/10 border border-white/10 text-[9px] text-slate-200 transition-colors"
+                  >
+                    <div className="flex items-center gap-1.5 truncate">
+                      <span className="text-[10px]">{getPlatformIcon(soc.platform)}</span>
+                      <span className="truncate capitalize">{soc.label || soc.platform}</span>
+                    </div>
+                    <span className="text-[7px] text-slate-400">↗</span>
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* RIGHT / MAIN CONTENT AREA */}
+        <div className="flex-1 p-3 bg-slate-50/50 flex flex-col justify-between overflow-x-auto">
+          <div>
+            {/* Top Featured Main Picture with Text */}
+            <div
+              onClick={() => setEnlargedMediaPopup({ imageUrl: mainPic, title: heading, text: mainPicText })}
+              className="rounded-xl overflow-hidden border border-slate-200 bg-white shadow-xs group cursor-pointer relative mb-3 hover:border-blue-400 hover:shadow-md transition-all"
+              title="Click to Enlarge Picture & Text"
+            >
+              <div className="relative bg-slate-900 overflow-hidden">
+                <img
+                  src={mainPic}
+                  alt="Main"
+                  className="w-full h-32 sm:h-40 object-cover group-hover:scale-102 transition-transform duration-300"
+                />
+                <div className="absolute top-2 right-2 bg-black/75 backdrop-blur-xs text-white text-[9px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1 shadow-xs">
+                  <span>🔍</span>
+                  <span>Click to Enlarge</span>
+                </div>
+              </div>
+              {mainPicText && (
+                <div className="p-2 bg-white text-[11px] font-bold text-slate-800 border-t border-slate-100 flex items-center justify-between">
+                  <span className="line-clamp-2">{mainPicText}</span>
+                  <span className="text-blue-600 text-xs shrink-0 ml-1.5">↗</span>
+                </div>
+              )}
+            </div>
+
+            {/* LOWER GALLERY ROWS (MAX 7 ITEMS PER ROW, CENTER ADJUSTED) */}
+            <div className="pt-2 border-t border-dashed border-slate-300">
+              <div className="flex items-center justify-between mb-1.5">
+                <span className="text-[9px] font-bold uppercase tracking-wider text-slate-500">
+                  Featured Gallery ({rows.length} {rows.length === 1 ? "Row" : "Rows"})
+                </span>
+                <span className="text-[8px] text-blue-600 font-bold">
+                  Click thumbnail to enlarge 🔍
+                </span>
+              </div>
+
+              <div className="space-y-2">
+                {rows.map((row, rIdx) => {
+                  const itemsInRow = (row.items || []).slice(0, 7);
+                  return (
+                    <div key={row.id || rIdx} className="bg-white p-1.5 rounded-xl border border-slate-200 shadow-2xs">
+                      {/* Centered when fewer than 7 */}
+                      <div className="flex flex-wrap items-start justify-center gap-1.5">
+                        {itemsInRow.map((it, itIdx) => (
+                          <div
+                            key={it.id || itIdx}
+                            onClick={() => setEnlargedMediaPopup({ imageUrl: it.imageUrl, title: it.title || it.text, text: it.text })}
+                            className="w-[66px] shrink-0 text-center cursor-pointer group/card hover:-translate-y-0.5 transition-transform"
+                            title="Click to open enlarged popup"
+                          >
+                            <div className="w-[64px] h-[64px] rounded-lg overflow-hidden border border-slate-200 bg-slate-100 mx-auto shadow-2xs relative group-hover/card:border-blue-500">
+                              <img
+                                src={it.imageUrl}
+                                alt={it.text}
+                                className="w-full h-full object-cover group-hover/card:scale-105 transition-transform"
+                              />
+                              <div className="absolute inset-0 bg-black/0 group-hover/card:bg-black/20 flex items-center justify-center transition-colors">
+                                <span className="opacity-0 group-hover/card:opacity-100 text-white text-xs">🔍</span>
+                              </div>
+                            </div>
+                            <div className="text-[8px] font-bold text-slate-700 leading-tight mt-1 line-clamp-2 group-hover/card:text-blue-600 transition-colors">
+                              {it.text}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const activeModalFormat: EmailFormatType = editingProfile
+    ? (editingProfile.formatType ||
+      (editingProfile.sidebarLogo || editingProfile.galleryRows || editingProfile.sidebarSocialLinks
+        ? "format-executive-signature"
+        : "format-catalog"))
+    : "format-catalog";
+
+  const activeProfileFormat: EmailFormatType =
+    activeProfile.formatType ||
+    (activeProfile.sidebarLogo || activeProfile.galleryRows || activeProfile.sidebarSocialLinks
+      ? "format-executive-signature"
+      : "format-catalog");
+
   return (
     <div className="space-y-6">
       {/* Top Header */}
@@ -1192,7 +1736,7 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                     : "Design New Business Email Profile"}
                 </h3>
                 <span className="text-xs text-gray-500">
-                  Customize colors, picture banners, video demo, address, and live preview.
+                  Select 1 of 5 distinct formats, customize colors, layout &amp; live preview.
                 </span>
               </div>
               <button
@@ -1202,6 +1746,95 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
               >
                 ✕
               </button>
+            </div>
+
+            {/* FORMAT SELECTOR BAR (5 DISTINCT FORMAT SLOTS) */}
+            <div className="pt-2.5 pb-2 border-b border-gray-100">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-[11px] font-bold text-gray-700 uppercase tracking-wider flex items-center gap-1.5">
+                  <span>🎨 Email Template Format:</span>
+                  <span className="text-gray-400 font-normal text-[10px]">(5 Format Architecture)</span>
+                </span>
+                <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200">
+                  Active: {activeModalFormat === "format-executive-signature" ? "Format 2 (Executive Desk)" : "Format 1 (Catalog Cards)"}
+                </span>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
+                {EMAIL_FORMATS_METADATA.map((fmt) => {
+                  const isSelected = activeModalFormat === fmt.id;
+                  const isReserved = fmt.status === "RESERVED";
+                  return (
+                    <button
+                      key={fmt.id}
+                      type="button"
+                      disabled={isReserved}
+                      onClick={() => {
+                        if (!isReserved) {
+                          setEditingProfile({
+                            ...editingProfile,
+                            formatType: fmt.id,
+                            ...(fmt.id === "format-executive-signature"
+                              ? {
+                                  sidebarHeading: editingProfile.sidebarHeading || editingProfile.name || "CREED TECH",
+                                  sidebarLogo: editingProfile.sidebarLogo || "https://creed-tech.com/icons/icon-192x192.png",
+                                  sidebarAddress: editingProfile.sidebarAddress || editingProfile.address || "Industrial Area Phase 2, Karachi",
+                                  sidebarPhone: editingProfile.sidebarPhone || editingProfile.phone || "+92 300 1234567",
+                                  sidebarSocialLinks:
+                                    editingProfile.sidebarSocialLinks && editingProfile.sidebarSocialLinks.length > 0
+                                      ? editingProfile.sidebarSocialLinks
+                                      : DEFAULT_FORMAT2_SOCIAL_LINKS,
+                                  featuredMainPicUrl:
+                                    editingProfile.featuredMainPicUrl ||
+                                    (editingProfile.mediaItems && editingProfile.mediaItems[0]?.mediaUrl) ||
+                                    editingProfile.videoThumbnail ||
+                                    "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=800&auto=format&fit=crop",
+                                  featuredMainPicText:
+                                    editingProfile.featuredMainPicText ||
+                                    "Next-Generation Industrial Machinery & Enterprise Engineering Solutions",
+                                  galleryRows:
+                                    editingProfile.galleryRows && editingProfile.galleryRows.length > 0
+                                      ? editingProfile.galleryRows
+                                      : DEFAULT_FORMAT2_GALLERY_ROWS,
+                                }
+                              : {}),
+                          });
+                          if (showToast) {
+                            showToast(`Template layout switched to: ${fmt.title}`);
+                          }
+                        }
+                      }}
+                      className={`p-2 rounded-lg border text-left transition-all relative ${
+                        isReserved
+                          ? "bg-gray-50/70 border-dashed border-gray-300 opacity-60 cursor-not-allowed"
+                          : isSelected
+                          ? "bg-blue-50/90 border-[#0052FF] ring-2 ring-blue-400 shadow-xs cursor-pointer"
+                          : "bg-white border-gray-200 hover:border-gray-300 hover:bg-gray-50 cursor-pointer"
+                      }`}
+                    >
+                      <div className="flex items-center justify-between gap-1 mb-1">
+                        <span className="text-xs">{fmt.icon}</span>
+                        <span
+                          className={`text-[8px] font-extrabold uppercase px-1.5 py-0.2 rounded-full ${
+                            isReserved
+                              ? "bg-gray-200 text-gray-600"
+                              : isSelected
+                              ? "bg-[#0052FF] text-white"
+                              : "bg-emerald-100 text-emerald-800"
+                          }`}
+                        >
+                          {isReserved ? "Reserved" : isSelected ? "Selected" : "Live"}
+                        </span>
+                      </div>
+                      <div className="text-[11px] font-bold text-gray-900 truncate">
+                        Format {fmt.formatNumber}
+                      </div>
+                      <div className="text-[9px] text-gray-500 truncate leading-tight">
+                        {fmt.badge}
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
 
             {/* Split Screen Designer */}
@@ -1374,6 +2007,8 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                   </div>
                 </div>
 
+                {/* FORMAT 1: MACHINE OFFERS & CATALOG CARDS */}
+                {activeModalFormat === "format-catalog" && (
                 <div className="bg-gray-50 border border-gray-200 rounded-xl p-3.5 space-y-3">
                   <div className="flex flex-wrap items-center justify-between gap-2 border-b border-gray-200 pb-2.5">
                     <div>
@@ -1409,6 +2044,13 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                     accept="image/*,video/mp4,video/webm,video/quicktime"
                     className="hidden"
                     onChange={handleItemFileUpload}
+                  />
+                  <input
+                    type="file"
+                    ref={avatarFileInputRef}
+                    accept="image/*"
+                    className="hidden"
+                    onChange={handleAvatarUpload}
                   />
 
                   {/* PROMINENT MULTI-PICTURE BATCH UPLOAD HERO CARD */}
@@ -1911,7 +2553,7 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                     <span className="font-semibold flex items-center gap-1.5">
                       <span>💡</span>
                       <span>
-                        Multi-Row Layout Active: All cards are automatically displayed in 2-column rows (Row 1, Row 2, Row 3...) in the email center.
+                        Multi-Row Layout Active: Cards are automatically arranged in 2-column rows in email center.
                       </span>
                     </span>
                     <span className="text-[10px] font-mono font-bold bg-white px-2 py-0.5 rounded border border-blue-300 shrink-0">
@@ -1919,6 +2561,377 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                     </span>
                   </div>
                 </div>
+                )}
+
+                {/* FORMAT 2 CONTROLS: Left Sidebar Dashboard & 7-Item Multi-Row Gallery */}
+                {activeModalFormat === "format-executive-signature" && (
+                  <div className="bg-gradient-to-r from-slate-50 via-blue-50/20 to-indigo-50/20 border border-blue-200 rounded-xl p-3.5 space-y-4 shadow-xs">
+                    <div className="flex items-center justify-between border-b border-blue-100 pb-2">
+                      <div>
+                        <span className="text-xs font-bold text-slate-900 uppercase tracking-wider block flex items-center gap-1.5">
+                          <span>📊 2. Format 2: Left Sidebar Bar &amp; 7-Item Multi-Row Gallery</span>
+                        </span>
+                        <span className="text-[11px] text-slate-500">
+                          Left bar with logo, heading, address, phone &amp; dynamic social links + Main top pic &amp; 7-item image gallery with enlarge popup modal.
+                        </span>
+                      </div>
+                      <span className="text-[10px] font-mono font-bold bg-blue-100 text-blue-800 px-2.5 py-1 rounded-full border border-blue-200">
+                        Format 2 Active
+                      </span>
+                    </div>
+
+                    {/* PART 1: LEFT SIDEBAR CONFIGURATION */}
+                    <div className="bg-white border border-slate-200 rounded-xl p-3 space-y-3">
+                      <div className="flex items-center justify-between border-b border-slate-100 pb-1.5">
+                        <span className="text-[11px] font-bold text-slate-800 flex items-center gap-1.5">
+                          <span>📌 Left Sidebar Bar Configuration</span>
+                        </span>
+                        <span className="text-[10px] text-slate-400">Upper: Logo &amp; Heading | Lower: Address, Phone &amp; Social Links</span>
+                      </div>
+
+                      {/* Upper Part: Logo & Heading */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        {/* Logo input & upload */}
+                        <div className="space-y-1.5">
+                          <label className="block text-[10px] font-bold text-slate-700 uppercase tracking-wider">
+                            Company Logo (Upper Part)
+                          </label>
+                          <div className="flex items-center gap-2">
+                            <input
+                              type="file"
+                              ref={sidebarLogoInputRef}
+                              accept="image/*"
+                              className="hidden"
+                              onChange={handleSidebarLogoUpload}
+                            />
+                            <button
+                              type="button"
+                              disabled={isUploadingSidebarLogo}
+                              onClick={() => sidebarLogoInputRef.current?.click()}
+                              className="px-2.5 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded text-[10px] font-bold cursor-pointer transition-colors shadow-2xs flex items-center gap-1 disabled:opacity-50"
+                            >
+                              <span>📷</span>
+                              <span>{isUploadingSidebarLogo ? "Uploading..." : "Upload Logo"}</span>
+                            </button>
+                            <input
+                              type="text"
+                              value={editingProfile.sidebarLogo || ""}
+                              onChange={(e) => setEditingProfile({ ...editingProfile, sidebarLogo: e.target.value })}
+                              placeholder="Or paste Logo URL"
+                              className="flex-1 px-2 py-1 text-[10px] border border-slate-300 rounded font-mono text-slate-700 bg-white"
+                            />
+                          </div>
+                          {editingProfile.sidebarLogo && (
+                            <div className="p-1.5 bg-slate-900 rounded-md w-fit inline-flex items-center gap-2 mt-1">
+                              <img src={editingProfile.sidebarLogo} alt="Logo" className="max-h-6 object-contain" />
+                              <span className="text-[9px] text-slate-300">Logo preview</span>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Heading & Subtitle */}
+                        <div className="space-y-1.5">
+                          <label className="block text-[10px] font-bold text-slate-700 uppercase tracking-wider">
+                            Company Heading (Upper Part)
+                          </label>
+                          <input
+                            type="text"
+                            value={editingProfile.sidebarHeading || ""}
+                            onChange={(e) => setEditingProfile({ ...editingProfile, sidebarHeading: e.target.value })}
+                            placeholder="e.g. LOADLOGIC or CREED TECH"
+                            className="w-full px-2.5 py-1 text-xs border border-slate-300 rounded font-bold text-slate-800 bg-white"
+                          />
+                          <div className="text-[10px] text-slate-500">
+                            Subtitle: <span className="font-semibold">{editingProfile.department || "Enterprise Division"}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Lower Part: Address & Phone */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-slate-100">
+                        <div>
+                          <label className="block text-[10px] font-bold text-slate-700 uppercase tracking-wider mb-1">
+                            📍 Address (Lower Part)
+                          </label>
+                          <input
+                            type="text"
+                            value={editingProfile.sidebarAddress || ""}
+                            onChange={(e) => setEditingProfile({ ...editingProfile, sidebarAddress: e.target.value })}
+                            placeholder="e.g. Industrial Area Phase 2, Karachi"
+                            className="w-full px-2.5 py-1 text-xs border border-slate-300 rounded text-slate-800 bg-white"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-[10px] font-bold text-slate-700 uppercase tracking-wider mb-1">
+                            📞 Phone Number (Lower Part)
+                          </label>
+                          <input
+                            type="text"
+                            value={editingProfile.sidebarPhone || ""}
+                            onChange={(e) => setEditingProfile({ ...editingProfile, sidebarPhone: e.target.value })}
+                            placeholder="e.g. +92 300 1234567"
+                            className="w-full px-2.5 py-1 text-xs border border-slate-300 rounded font-mono text-slate-800 bg-white"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Lower Part: Social Links (Facebook, LinkedIn, WhatsApp, Instagram, Add / Delete) */}
+                      <div className="pt-2 border-t border-slate-100 space-y-2">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <label className="block text-[10px] font-bold text-slate-700 uppercase tracking-wider">
+                              🌐 Social Links (Facebook, LinkedIn, WhatsApp, Instagram &amp; more)
+                            </label>
+                            <span className="text-[10px] text-slate-400">
+                              Aap naye social links add kar saktay hain aur delete bi kar saktay hain
+                            </span>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={handleAddSocialLink}
+                            className="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded text-[10px] font-bold cursor-pointer transition-colors flex items-center gap-1 shadow-2xs"
+                          >
+                            <span>➕</span>
+                            <span>Add Social Link</span>
+                          </button>
+                        </div>
+
+                        <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1 custom-scrollbar">
+                          {(editingProfile.sidebarSocialLinks && editingProfile.sidebarSocialLinks.length > 0
+                            ? editingProfile.sidebarSocialLinks
+                            : DEFAULT_FORMAT2_SOCIAL_LINKS
+                          ).map((soc, sIdx) => (
+                            <div
+                              key={soc.id || sIdx}
+                              className="flex items-center gap-2 bg-slate-50 p-1.5 rounded-lg border border-slate-200"
+                            >
+                              <select
+                                value={soc.platform}
+                                onChange={(e) =>
+                                  handleUpdateSocialLink(soc.id, {
+                                    platform: e.target.value as any,
+                                    label: e.target.value.toUpperCase(),
+                                  })
+                                }
+                                className="text-[11px] font-bold bg-white border border-slate-300 rounded px-2 py-1 text-slate-700 outline-none"
+                              >
+                                <option value="facebook">📘 Facebook</option>
+                                <option value="linkedin">💼 LinkedIn</option>
+                                <option value="whatsapp">💬 WhatsApp</option>
+                                <option value="instagram">📷 Instagram</option>
+                                <option value="twitter">🐦 Twitter / X</option>
+                                <option value="youtube">▶️ YouTube</option>
+                                <option value="website">🌐 Website</option>
+                                <option value="other">🔗 Other</option>
+                              </select>
+
+                              <input
+                                type="text"
+                                value={soc.label || ""}
+                                onChange={(e) => handleUpdateSocialLink(soc.id, { label: e.target.value })}
+                                placeholder="Label"
+                                className="w-24 px-2 py-1 text-[11px] border border-slate-300 rounded bg-white font-medium"
+                              />
+
+                              <input
+                                type="text"
+                                value={soc.url}
+                                onChange={(e) => handleUpdateSocialLink(soc.id, { url: e.target.value })}
+                                placeholder="https://..."
+                                className="flex-1 px-2 py-1 text-[11px] border border-slate-300 rounded bg-white font-mono text-slate-700"
+                              />
+
+                              <button
+                                type="button"
+                                onClick={() => handleDeleteSocialLink(soc.id)}
+                                className="p-1 text-red-500 hover:text-red-700 hover:bg-red-50 rounded transition-colors cursor-pointer"
+                                title="Delete social link"
+                              >
+                                🗑️
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* PART 2: MAIN AREA - TOP FEATURED PICTURE WITH TEXT */}
+                    <div className="bg-white border border-slate-200 rounded-xl p-3 space-y-2">
+                      <div className="flex items-center justify-between border-b border-slate-100 pb-1.5">
+                        <span className="text-[11px] font-bold text-slate-800 flex items-center gap-1.5">
+                          <span>🖼️ Main Center Picture With Text (Top Banner)</span>
+                        </span>
+                        <span className="text-[10px] text-slate-400">Clicking in preview enlarges picture and text</span>
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div className="space-y-1.5">
+                          <label className="block text-[10px] font-bold text-slate-700 uppercase tracking-wider">
+                            Main Picture
+                          </label>
+                          <div className="flex items-center gap-2">
+                            <input
+                              type="file"
+                              ref={mainPicInputRef}
+                              accept="image/*"
+                              className="hidden"
+                              onChange={handleMainPicUpload}
+                            />
+                            <button
+                              type="button"
+                              disabled={isUploadingMainPic}
+                              onClick={() => mainPicInputRef.current?.click()}
+                              className="px-2.5 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded text-[10px] font-bold cursor-pointer transition-colors shadow-2xs flex items-center gap-1 disabled:opacity-50"
+                            >
+                              <span>📁</span>
+                              <span>{isUploadingMainPic ? "Uploading..." : "Upload Main Pic"}</span>
+                            </button>
+                            <input
+                              type="text"
+                              value={editingProfile.featuredMainPicUrl || ""}
+                              onChange={(e) => setEditingProfile({ ...editingProfile, featuredMainPicUrl: e.target.value })}
+                              placeholder="Or paste image URL"
+                              className="flex-1 px-2 py-1 text-[10px] border border-slate-300 rounded font-mono bg-white"
+                            />
+                          </div>
+                          {editingProfile.featuredMainPicUrl && (
+                            <img
+                              src={editingProfile.featuredMainPicUrl}
+                              alt="Main preview"
+                              className="h-20 w-full object-cover rounded-md border border-slate-200 mt-1"
+                            />
+                          )}
+                        </div>
+
+                        <div className="space-y-1.5">
+                          <label className="block text-[10px] font-bold text-slate-700 uppercase tracking-wider">
+                            Main Picture Caption / Text
+                          </label>
+                          <textarea
+                            rows={3}
+                            value={editingProfile.featuredMainPicText || ""}
+                            onChange={(e) => setEditingProfile({ ...editingProfile, featuredMainPicText: e.target.value })}
+                            placeholder="e.g. Next-Generation Industrial Machinery & Enterprise Engineering Solutions..."
+                            className="w-full p-2 text-xs border border-slate-300 rounded bg-white text-slate-800"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* PART 3: GALLERY ROWS (MAX 7 PER ROW, CENTER ADJUSTED, ADD/DEL ROWS & IMAGES) */}
+                    <div className="bg-white border border-slate-200 rounded-xl p-3 space-y-3">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 border-b border-slate-100 pb-2">
+                        <div>
+                          <span className="text-[11px] font-bold text-slate-800 flex items-center gap-1.5">
+                            <span>🔲 Multi-Row Image Gallery (Max 7 Images Per Row)</span>
+                          </span>
+                          <span className="text-[10px] text-slate-400">
+                            Aik row mein max 7 images hongi. Agar kam hon gi tou center se adjustment hogi. Rows add aur del ki ja sakti hain.
+                          </span>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={handleAddGalleryRow}
+                          className="px-3 py-1 bg-[#0052FF] hover:bg-blue-700 text-white rounded-lg text-xs font-bold cursor-pointer transition-colors flex items-center gap-1.5 shadow-xs shrink-0"
+                        >
+                          <span>➕</span>
+                          <span>Add New Row</span>
+                        </button>
+                      </div>
+
+                      {/* Rows Container */}
+                      <div className="space-y-3">
+                        {(editingProfile.galleryRows && editingProfile.galleryRows.length > 0
+                          ? editingProfile.galleryRows
+                          : [
+                              {
+                                id: "row-1",
+                                items: [
+                                  { id: "item-1-1", imageUrl: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=400&auto=format&fit=crop", text: "CNC Miller 5X", title: "CNC Miller 5X High Precision" },
+                                  { id: "item-1-2", imageUrl: "https://images.unsplash.com/photo-1581092335397-9583fe92d232?q=80&w=400&auto=format&fit=crop", text: "Laser Cutter", title: "Fiber Laser Cutting System" },
+                                  { id: "item-1-3", imageUrl: "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?q=80&w=400&auto=format&fit=crop", text: "Hydraulic Press", title: "Heavy Duty 200T Hydraulic Press" },
+                                  { id: "item-1-4", imageUrl: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?q=80&w=400&auto=format&fit=crop", text: "Automated Robot", title: "6-Axis Robotic Arm" },
+                                  { id: "item-1-5", imageUrl: "https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?q=80&w=400&auto=format&fit=crop", text: "Injection Mold", title: "Electric Injection Molding Machine" },
+                                  { id: "item-1-6", imageUrl: "https://images.unsplash.com/photo-1581093588401-fbb62a02f120?q=80&w=400&auto=format&fit=crop", text: "Rotary Lathe", title: "Precision Metal Turning Lathe" },
+                                  { id: "item-1-7", imageUrl: "https://images.unsplash.com/photo-1581093806997-124204d9fa9d?q=80&w=400&auto=format&fit=crop", text: "Quality Scanner", title: "3D Optical CMM Scanner" },
+                                ],
+                              },
+                            ]
+                        ).map((row, rIdx) => {
+                          const itemsCount = (row.items || []).length;
+                          return (
+                            <div key={row.id || rIdx} className="bg-slate-50 border border-slate-200 rounded-xl p-3 space-y-2.5">
+                              {/* Row Header */}
+                              <div className="flex items-center justify-between border-b border-slate-200 pb-1.5">
+                                <div className="flex items-center gap-2">
+                                  <span className="text-xs font-bold text-slate-800">
+                                    Row #{rIdx + 1}
+                                  </span>
+                                  <span className="text-[10px] font-mono px-2 py-0.5 rounded-full font-bold bg-blue-100 text-blue-800">
+                                    {itemsCount} / 7 Images ({itemsCount < 7 ? "Center Adjusted" : "Full Row"})
+                                  </span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                  <button
+                                    type="button"
+                                    disabled={itemsCount >= 7}
+                                    onClick={() => handleAddItemToRow(row.id)}
+                                    className="px-2 py-0.5 bg-blue-600 hover:bg-blue-700 text-white rounded text-[10px] font-bold cursor-pointer transition-colors disabled:opacity-40"
+                                  >
+                                    ➕ Add Image ({itemsCount}/7)
+                                  </button>
+                                  <button
+                                    type="button"
+                                    onClick={() => handleDeleteGalleryRow(row.id)}
+                                    className="px-2 py-0.5 bg-red-100 hover:bg-red-200 text-red-700 rounded text-[10px] font-bold cursor-pointer transition-colors"
+                                  >
+                                    🗑️ Delete Row
+                                  </button>
+                                </div>
+                              </div>
+
+                              {/* Items in this row */}
+                              <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2">
+                                {(row.items || []).map((it, itIdx) => (
+                                  <div
+                                    key={it.id || itIdx}
+                                    className="bg-white p-2 rounded-lg border border-slate-200 shadow-2xs space-y-1.5 flex flex-col justify-between"
+                                  >
+                                    <div className="w-full h-16 rounded overflow-hidden bg-slate-100 border border-slate-200 relative group">
+                                      <img src={it.imageUrl} alt={it.text} className="w-full h-full object-cover" />
+                                      <button
+                                        type="button"
+                                        onClick={() => handleDeleteRowItem(row.id, it.id)}
+                                        className="absolute top-1 right-1 w-5 h-5 bg-red-600 hover:bg-red-700 text-white rounded-full text-[10px] flex items-center justify-center cursor-pointer shadow-xs"
+                                        title="Delete image"
+                                      >
+                                        ✕
+                                      </button>
+                                    </div>
+                                    <input
+                                      type="text"
+                                      value={it.text}
+                                      onChange={(e) => handleUpdateRowItem(row.id, it.id, { text: e.target.value })}
+                                      placeholder="Caption"
+                                      className="w-full px-1.5 py-0.5 text-[10px] border border-slate-300 rounded font-medium text-slate-800"
+                                    />
+                                    <input
+                                      type="text"
+                                      value={it.imageUrl}
+                                      onChange={(e) => handleUpdateRowItem(row.id, it.id, { imageUrl: e.target.value })}
+                                      placeholder="Img URL"
+                                      className="w-full px-1.5 py-0.5 text-[9px] border border-slate-200 rounded font-mono text-slate-500 truncate"
+                                    />
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                )}
 
                 {/* SECTION 3: LAYOUT POSITION & ALIGNMENT */}
                 <div className="bg-gray-50 border border-gray-200 rounded-lg p-3">
@@ -1967,59 +2980,34 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                       </div>
                     </div>
 
-                    {/* Media / Video Position */}
-                    <div>
-                      <label className="block text-[10px] font-semibold text-gray-600 mb-1">
-                        Banner / Video Position (Oper, Center, Nechy)
-                      </label>
-                      <div className="flex gap-1.5">
-                        {[
-                          { id: "top", label: "⬆️ Oper (Top)" },
-                          { id: "center", label: "↔️ Center" },
-                          { id: "bottom", label: "⬇️ Nechy (Bottom)" },
-                        ].map((item) => (
-                          <button
-                            key={item.id}
-                            type="button"
-                            onClick={() => setEditingProfile({ ...editingProfile, mediaPosition: item.id as any })}
-                            className={`flex-1 py-1 px-1.5 text-[10px] rounded font-semibold border cursor-pointer transition-colors ${
-                              (editingProfile.mediaPosition || "center") === item.id
-                                ? "bg-[#0052FF] text-white border-[#0052FF] shadow-xs"
-                                : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
-                            }`}
-                          >
-                            {item.label}
-                          </button>
-                        ))}
+                    {/* Media / Video Position (Only for Format 1 Catalog) */}
+                    {activeModalFormat === "format-catalog" && (
+                      <div>
+                        <label className="block text-[10px] font-semibold text-gray-600 mb-1">
+                          Catalog Cards Position (Oper, Center, Nechy)
+                        </label>
+                        <div className="flex gap-1.5">
+                          {[
+                            { id: "top", label: "⬆️ Oper (Top)" },
+                            { id: "center", label: "↔️ Center" },
+                            { id: "bottom", label: "⬇️ Nechy (Bottom)" },
+                          ].map((item) => (
+                            <button
+                              key={item.id}
+                              type="button"
+                              onClick={() => setEditingProfile({ ...editingProfile, mediaPosition: item.id as any })}
+                              className={`flex-1 py-1 px-1.5 text-[10px] rounded font-semibold border cursor-pointer transition-colors ${
+                                (editingProfile.mediaPosition || "center") === item.id
+                                  ? "bg-[#0052FF] text-white border-[#0052FF] shadow-xs"
+                                  : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
+                              }`}
+                            >
+                              {item.label}
+                            </button>
+                          ))}
+                        </div>
                       </div>
-                    </div>
-
-                    {/* Media Alignment */}
-                    <div>
-                      <label className="block text-[10px] font-semibold text-gray-600 mb-1">
-                        Banner Alignment (Left, Center, Right)
-                      </label>
-                      <div className="flex gap-1.5">
-                        {[
-                          { id: "left", label: "⬅️ Left Side" },
-                          { id: "center", label: "⏺️ Center" },
-                          { id: "right", label: "➡️ Right Side" },
-                        ].map((item) => (
-                          <button
-                            key={item.id}
-                            type="button"
-                            onClick={() => setEditingProfile({ ...editingProfile, mediaAlignment: item.id as any })}
-                            className={`flex-1 py-1 px-1.5 text-[10px] rounded font-semibold border cursor-pointer transition-colors ${
-                              (editingProfile.mediaAlignment || "center") === item.id
-                                ? "bg-[#0052FF] text-white border-[#0052FF] shadow-xs"
-                                : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
-                            }`}
-                          >
-                            {item.label}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
+                    )}
 
                     {/* Logo & Header Alignment */}
                     <div>
@@ -2056,7 +3044,7 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                     {/* Headings & Text Alignment */}
                     <div>
                       <label className="block text-[10px] font-semibold text-gray-600 mb-1">
-                        Headings &amp; Body Text Alignment (Left, Center, Right)
+                        Headings &amp; Body Text Alignment
                       </label>
                       <div className="flex gap-1.5">
                         {[
@@ -2109,19 +3097,54 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                   </div>
                 </div>
 
+                {/* SECTION 4: DEFAULT SUBJECT & MESSAGE TEMPLATE */}
+                <div className="bg-gray-50 border border-gray-200 rounded-lg p-3">
+                  <span className="text-[11px] font-bold text-gray-700 uppercase tracking-wider block mb-2">
+                    4. Default Subject &amp; Message Template
+                  </span>
+                  <div className="flex flex-col gap-2 text-xs">
+                    <div>
+                      <label className="block text-[10px] font-semibold text-gray-600 mb-0.5">Subject Template (uses &#123;service&#125; &amp; &#123;id&#125;)</label>
+                      <input
+                        type="text"
+                        value={editingProfile.defaultSubjectTemplate || ""}
+                        onChange={(e) => setEditingProfile({ ...editingProfile, defaultSubjectTemplate: e.target.value })}
+                        className="w-full px-2.5 py-1 text-xs border border-gray-300 rounded outline-none font-medium bg-white"
+                        placeholder="Re: Creed Tech Discovery - {service} [Inquiry #{id}]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-semibold text-gray-600 mb-0.5">Message Template Body</label>
+                      <textarea
+                        rows={3}
+                        value={editingProfile.defaultMessageTemplate || ""}
+                        onChange={(e) => setEditingProfile({ ...editingProfile, defaultMessageTemplate: e.target.value })}
+                        className="w-full p-2 text-xs border border-gray-300 rounded font-mono outline-none bg-white"
+                        placeholder="Dear {client_name}, ..."
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              {/* Right Column: Live Preview & Templates (6 Cols) */}
+              {/* Right Column: Dedicated Real-time Email Preview (6 Cols) */}
               <div className="md:col-span-6 flex flex-col gap-3">
                 <span className="text-[11px] font-bold text-gray-700 uppercase tracking-wider flex items-center justify-between">
                   <span className="flex items-center gap-1.5">
                     <span>👁️ Real-time Email Preview</span>
                     <span className="text-[10px] text-emerald-600 font-medium">● Live</span>
                   </span>
-                  <span className="text-[10px] text-gray-400">Position: {editingProfile.mediaPosition || "center"}</span>
+                  <span className="text-[10px] font-mono text-blue-600 font-bold bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-200">
+                    {activeModalFormat === "format-executive-signature" ? "Format 2: Sidebar Dashboard" : "Format 1: Catalog Cards"}
+                  </span>
                 </span>
 
-                <div className="border border-gray-200 rounded-lg overflow-hidden bg-gray-50 shadow-sm">
+                {activeModalFormat === "format-executive-signature" ? (
+                  <div className="sticky top-1">
+                    {renderFormat2Preview(editingProfile, true)}
+                  </div>
+                ) : (
+                <div className="border border-gray-200 rounded-lg overflow-hidden bg-gray-50 shadow-sm sticky top-1">
                   {/* Dynamic Header Style & Alignment */}
                   {(() => {
                     const isLight = editingProfile.headerStyle === "light";
@@ -2235,8 +3258,8 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                         : "Re: Inquiry"}
                     </p>
 
-                    {/* TOP POSITION MEDIA */}
-                    {editingProfile.mediaPosition === "top" && renderMediaPreview(editingProfile, true)}
+                    {/* TOP POSITION MEDIA - FORMAT 1 ONLY */}
+                    {activeModalFormat === "format-catalog" && editingProfile.mediaPosition === "top" && renderMediaPreview(editingProfile, true)}
 
                     {/* Message Body */}
                     <div
@@ -2256,22 +3279,34 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                         .replace("{service}", "Enterprise Solutions")}
                     </div>
 
-                    {/* CENTER POSITION MEDIA (DEFAULT) */}
-                    {(editingProfile.mediaPosition || "center") === "center" && renderMediaPreview(editingProfile, true)}
+                    {/* CENTER POSITION MEDIA - FORMAT 1 ONLY */}
+                    {activeModalFormat === "format-catalog" && (editingProfile.mediaPosition || "center") === "center" && renderMediaPreview(editingProfile, true)}
 
-                    {/* Signature */}
-                    <div className="mt-3 pt-2.5 border-t border-gray-100 text-[11px]">
-                      <div className="font-bold" style={{ color: editingProfile.textColor || "#1E293B" }}>{editingProfile.name}</div>
-                      <div className="text-[10px] text-gray-500 font-medium mt-0.5">
-                        <span style={{ color: editingProfile.accentColor }}>{editingProfile.email}</span>
-                        {editingProfile.phone && ` • Tel: ${editingProfile.phone}`}
+                    {/* FORMAT 1: CLEAN CORPORATE TEXT SIGNOFF */}
+                    {activeModalFormat === "format-catalog" && (
+                      <div className="mt-4 pt-3 border-t border-gray-200 text-xs">
+                        <div className="font-bold text-xs uppercase" style={{ color: editingProfile.textColor || "#1E293B" }}>
+                          {editingProfile.name}
+                        </div>
+                        <div className="text-[10px] font-semibold mt-0.5" style={{ color: editingProfile.accentColor || "#FF6B00" }}>
+                          {editingProfile.department}
+                        </div>
+                        {editingProfile.phone && (
+                          <div className="text-[9px] text-gray-500 mt-0.5">
+                            <strong>Direct:</strong> {editingProfile.phone}
+                          </div>
+                        )}
+                        <div className="text-[9px] text-gray-500 mt-0.5">
+                          <strong>Email:</strong> {editingProfile.email}
+                        </div>
                       </div>
-                    </div>
+                    )}
 
-                    {/* BOTTOM POSITION MEDIA */}
-                    {editingProfile.mediaPosition === "bottom" && renderMediaPreview(editingProfile, true)}
+                    {/* BOTTOM POSITION MEDIA - FORMAT 1 ONLY */}
+                    {activeModalFormat === "format-catalog" && editingProfile.mediaPosition === "bottom" && renderMediaPreview(editingProfile, true)}
                   </div>
 
+                  {/* Preview Footer */}
                   <div
                     className={`bg-gray-50 p-3 border-t border-gray-200 text-[9px] text-gray-500 leading-relaxed ${
                       editingProfile.contentAlignment === "center"
@@ -2296,74 +3331,7 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                     )}
                   </div>
                 </div>
-
-                {/* SECTION 4: ADDRESS, PHONE & LEGAL (RIGHT SIDE UNDER IMAGE / PREVIEW) */}
-                <div className="bg-gray-50 border border-gray-200 rounded-lg p-3">
-                  <span className="text-[11px] font-bold text-gray-700 uppercase tracking-wider block mb-2">
-                    4. Address, Phone &amp; Legal
-                  </span>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-                    <div>
-                      <label className="block text-[10px] font-semibold text-gray-600 mb-0.5">Direct Phone</label>
-                      <input
-                        type="text"
-                        value={editingProfile.phone || ""}
-                        onChange={(e) => setEditingProfile({ ...editingProfile, phone: e.target.value })}
-                        className="w-full px-2.5 py-1 text-xs border border-gray-300 rounded outline-none bg-white"
-                        placeholder="+1 (888) 492-7330"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-[10px] font-semibold text-gray-600 mb-0.5">Office Address</label>
-                      <input
-                        type="text"
-                        value={editingProfile.address || ""}
-                        onChange={(e) => setEditingProfile({ ...editingProfile, address: e.target.value })}
-                        className="w-full px-2.5 py-1 text-xs border border-gray-300 rounded outline-none bg-white"
-                        placeholder="San Francisco, CA"
-                      />
-                    </div>
-                    <div className="sm:col-span-2">
-                      <label className="block text-[10px] font-semibold text-gray-600 mb-0.5">Footer Disclaimer</label>
-                      <input
-                        type="text"
-                        value={editingProfile.footerDisclaimer || ""}
-                        onChange={(e) => setEditingProfile({ ...editingProfile, footerDisclaimer: e.target.value })}
-                        className="w-full px-2.5 py-1 text-xs border border-gray-300 rounded outline-none bg-white"
-                        placeholder="This communication is confidential..."
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                {/* SECTION 5: DEFAULT SUBJECT & MESSAGE TEMPLATE (RIGHT SIDE UNDER IMAGE / PREVIEW) */}
-                <div className="bg-gray-50 border border-gray-200 rounded-lg p-3">
-                  <span className="text-[11px] font-bold text-gray-700 uppercase tracking-wider block mb-2">
-                    5. Default Subject &amp; Message Template
-                  </span>
-                  <div className="flex flex-col gap-2 text-xs">
-                    <div>
-                      <label className="block text-[10px] font-semibold text-gray-600 mb-0.5">Subject Template (uses &#123;service&#125; &amp; &#123;id&#125;)</label>
-                      <input
-                        type="text"
-                        value={editingProfile.defaultSubjectTemplate || ""}
-                        onChange={(e) => setEditingProfile({ ...editingProfile, defaultSubjectTemplate: e.target.value })}
-                        className="w-full px-2.5 py-1 text-xs border border-gray-300 rounded outline-none font-medium bg-white"
-                        placeholder="Re: Creed Tech Discovery - {service} [Inquiry #{id}]"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-[10px] font-semibold text-gray-600 mb-0.5">Message Template Body</label>
-                      <textarea
-                        rows={3}
-                        value={editingProfile.defaultMessageTemplate || ""}
-                        onChange={(e) => setEditingProfile({ ...editingProfile, defaultMessageTemplate: e.target.value })}
-                        className="w-full p-2 text-xs border border-gray-300 rounded font-mono outline-none bg-white"
-                        placeholder="Dear {client_name}, ..."
-                      />
-                    </div>
-                  </div>
-                </div>
+                )}
               </div>
             </div>
 
@@ -2390,9 +3358,155 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
 
       {/* Main Grid: Profiles List on Left (5 Cols), Active Profile Preview & Test on Right (7 Cols) */}
       {activeSubTab === "desks" && (
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-          {/* Left Side: Profiles Cards (5 Cols) */}
-          <div className="md:col-span-5 flex flex-col gap-3">
+        <div className="space-y-6">
+          {/* 5 EMAIL TEMPLATE FORMATS SHOWCASE (VISIBLE IN FRONT / SMNY NAZAR AYE) */}
+          <div className="bg-white border border-[#E2E8F0] rounded-2xl p-5 shadow-xs">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 mb-3 border-b border-slate-100">
+              <div>
+                <span className="text-xs font-bold text-[#0F172A] uppercase tracking-wider block font-outfit flex items-center gap-1.5">
+                  <span>🎨 5 Email Template Formats Architecture</span>
+                  <span className="text-[10px] font-mono bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full border border-blue-200">
+                    2 Active Formats • 3 Reserved Slots
+                  </span>
+                </span>
+                <span className="text-[11px] text-slate-500">
+                  Har format alag aur independent hai. Select a format card to preview and customize its content:
+                </span>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3">
+              {EMAIL_FORMATS_METADATA.map((fmt) => {
+                const isFormatActive = activeProfileFormat === fmt.id;
+                const isReserved = fmt.status === "RESERVED";
+
+                return (
+                  <div
+                    key={fmt.id}
+                    onClick={() => {
+                      if (!isReserved) {
+                        const updatedProfile: EmailDepartmentProfile = {
+                          ...activeProfile,
+                          formatType: fmt.id,
+                          ...(fmt.id === "format-executive-signature"
+                            ? {
+                                sidebarHeading: activeProfile.sidebarHeading || activeProfile.name || "CREED TECH",
+                                sidebarLogo: activeProfile.sidebarLogo || "https://creed-tech.com/icons/icon-192x192.png",
+                                sidebarAddress: activeProfile.sidebarAddress || activeProfile.address || "Industrial Area Phase 2, Karachi",
+                                sidebarPhone: activeProfile.sidebarPhone || activeProfile.phone || "+92 300 1234567",
+                                sidebarSocialLinks:
+                                  activeProfile.sidebarSocialLinks && activeProfile.sidebarSocialLinks.length > 0
+                                    ? activeProfile.sidebarSocialLinks
+                                    : DEFAULT_FORMAT2_SOCIAL_LINKS,
+                                featuredMainPicUrl:
+                                  activeProfile.featuredMainPicUrl ||
+                                  (activeProfile.mediaItems && activeProfile.mediaItems[0]?.mediaUrl) ||
+                                  activeProfile.videoThumbnail ||
+                                  "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=800&auto=format&fit=crop",
+                                featuredMainPicText:
+                                  activeProfile.featuredMainPicText ||
+                                  "Next-Generation Industrial Machinery & Enterprise Engineering Solutions",
+                                galleryRows:
+                                  activeProfile.galleryRows && activeProfile.galleryRows.length > 0
+                                    ? activeProfile.galleryRows
+                                    : DEFAULT_FORMAT2_GALLERY_ROWS,
+                              }
+                            : {}),
+                        };
+
+                        const updatedList = profiles.map((p) =>
+                          p.id === activeProfile.id ? updatedProfile : p
+                        );
+                        setProfiles(updatedList);
+                        handleSaveProfile(updatedProfile, true, true);
+                        if (showToast) showToast(`✓ Switched layout to ${fmt.title}`);
+                      }
+                    }}
+                    className={`p-3.5 rounded-xl border transition-all flex flex-col justify-between ${
+                      isReserved
+                        ? "bg-slate-50/70 border-dashed border-slate-300 opacity-60 cursor-not-allowed"
+                        : isFormatActive
+                        ? "bg-blue-50/90 border-[#0052FF] ring-2 ring-blue-400 shadow-xs cursor-pointer"
+                        : "bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50 cursor-pointer shadow-xs"
+                    }`}
+                  >
+                    <div>
+                      <div className="flex items-center justify-between gap-1 mb-2">
+                        <span className="text-base">{fmt.icon}</span>
+                        <span
+                          className={`text-[8px] font-extrabold uppercase px-1.5 py-0.2 rounded-full ${
+                            isReserved
+                              ? "bg-slate-200 text-slate-600"
+                              : isFormatActive
+                              ? "bg-[#0052FF] text-white"
+                              : "bg-emerald-100 text-emerald-800"
+                          }`}
+                        >
+                          {isReserved ? "Reserved Slot" : isFormatActive ? "Selected" : "Live"}
+                        </span>
+                      </div>
+                      <div className="text-xs font-bold text-slate-900 leading-tight">
+                        {fmt.title}
+                      </div>
+                      <div className="text-[10px] text-slate-500 mt-1 leading-snug">
+                        {fmt.description}
+                      </div>
+                    </div>
+
+                    <div className="pt-2 mt-2 border-t border-slate-100 flex items-center justify-between">
+                      <span className="text-[9px] font-semibold text-slate-400">
+                        {isReserved ? "Pending design" : fmt.badge}
+                      </span>
+                      {!isReserved && (
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            const updatedTarget: EmailDepartmentProfile = {
+                              ...activeProfile,
+                              formatType: fmt.id,
+                              ...(fmt.id === "format-executive-signature"
+                                ? {
+                                    sidebarHeading: activeProfile.sidebarHeading || activeProfile.name || "CREED TECH",
+                                    sidebarLogo: activeProfile.sidebarLogo || "https://creed-tech.com/icons/icon-192x192.png",
+                                    sidebarAddress: activeProfile.sidebarAddress || activeProfile.address || "Industrial Area Phase 2, Karachi",
+                                    sidebarPhone: activeProfile.sidebarPhone || activeProfile.phone || "+92 300 1234567",
+                                    sidebarSocialLinks:
+                                      activeProfile.sidebarSocialLinks && activeProfile.sidebarSocialLinks.length > 0
+                                        ? activeProfile.sidebarSocialLinks
+                                        : DEFAULT_FORMAT2_SOCIAL_LINKS,
+                                    featuredMainPicUrl:
+                                      activeProfile.featuredMainPicUrl ||
+                                      (activeProfile.mediaItems && activeProfile.mediaItems[0]?.mediaUrl) ||
+                                      activeProfile.videoThumbnail ||
+                                      "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=800&auto=format&fit=crop",
+                                    featuredMainPicText:
+                                      activeProfile.featuredMainPicText ||
+                                      "Next-Generation Industrial Machinery & Enterprise Engineering Solutions",
+                                    galleryRows:
+                                      activeProfile.galleryRows && activeProfile.galleryRows.length > 0
+                                        ? activeProfile.galleryRows
+                                        : DEFAULT_FORMAT2_GALLERY_ROWS,
+                                  }
+                                : {}),
+                            };
+                            setEditingProfile(updatedTarget);
+                          }}
+                          className="text-[9px] font-bold text-blue-600 hover:text-blue-800 cursor-pointer hover:underline"
+                        >
+                          Design ↗
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+            {/* Left Side: Profiles Cards (5 Cols) */}
+            <div className="md:col-span-5 flex flex-col gap-3">
           <div className="text-xs font-bold uppercase tracking-wider text-slate-500 font-outfit">
             Active Email Profiles ({profiles.length})
           </div>
@@ -2503,6 +3617,9 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
           </div>
 
           {/* Real-time Email Render Box */}
+          {activeProfileFormat === "format-executive-signature" ? (
+            renderFormat2Preview(activeProfile, false)
+          ) : (
           <div className="bg-white rounded-xl border border-gray-300 shadow-xl overflow-hidden text-left">
             {/* Branded Header */}
             {(() => {
@@ -2618,8 +3735,8 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                   : "Re: Inquiry"}
               </p>
 
-              {/* TOP POSITION MEDIA */}
-              {activeProfile.mediaPosition === "top" && renderMediaPreview(activeProfile, false)}
+              {/* TOP POSITION MEDIA - FORMAT 1 ONLY */}
+              {activeProfileFormat === "format-catalog" && activeProfile.mediaPosition === "top" && renderMediaPreview(activeProfile, false)}
 
               <div
                 className="whitespace-pre-wrap font-sans text-xs leading-relaxed p-3 rounded border"
@@ -2639,23 +3756,25 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                   .replace("{id}", "101")}
               </div>
 
-              {/* CENTER POSITION MEDIA (DEFAULT) */}
-              {(activeProfile.mediaPosition || "center") === "center" && renderMediaPreview(activeProfile, false)}
+              {/* CENTER POSITION MEDIA - FORMAT 1 ONLY */}
+              {activeProfileFormat === "format-catalog" && (activeProfile.mediaPosition || "center") === "center" && renderMediaPreview(activeProfile, false)}
 
-              {/* Signature */}
-              <div className="mt-4 pt-3 border-t border-gray-100 text-xs">
-                <div className="font-bold text-sm" style={{ color: activeProfile.textColor || "#1E293B" }}>{activeProfile.name}</div>
-                <div className="text-gray-600 font-medium mt-0.5">
-                  <span style={{ color: activeProfile.accentColor }}>{activeProfile.email}</span>
-                  {activeProfile.phone && ` • Tel: ${activeProfile.phone}`}
+              {/* FORMAT 1: CLEAN CORPORATE SIGN-OFF */}
+              {activeProfileFormat === "format-catalog" && (
+                <div className="mt-4 pt-3 border-t border-gray-100 text-xs">
+                  <div className="font-bold text-sm" style={{ color: activeProfile.textColor || "#1E293B" }}>{activeProfile.name}</div>
+                  <div className="text-gray-600 font-medium mt-0.5">
+                    <span style={{ color: activeProfile.accentColor }}>{activeProfile.email}</span>
+                    {activeProfile.phone && ` • Tel: ${activeProfile.phone}`}
+                  </div>
+                  <div className="text-gray-400 text-[11px] mt-0.5">
+                    {activeProfile.department}
+                  </div>
                 </div>
-                <div className="text-gray-400 text-[11px] mt-0.5">
-                  Enterprise Systems &amp; High-Reliability Architecture
-                </div>
-              </div>
+              )}
 
-              {/* BOTTOM POSITION MEDIA */}
-              {activeProfile.mediaPosition === "bottom" && renderMediaPreview(activeProfile, false)}
+              {/* BOTTOM POSITION MEDIA - FORMAT 1 ONLY */}
+              {activeProfileFormat === "format-catalog" && activeProfile.mediaPosition === "bottom" && renderMediaPreview(activeProfile, false)}
             </div>
 
             {/* Footer */}
@@ -2683,6 +3802,7 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
               )}
             </div>
           </div>
+          )}
 
           {/* Test Email Broadcast Box */}
           <div className="bg-white border border-[#E2E8F0] rounded-xl p-4 shadow-xs">
@@ -2709,6 +3829,7 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
           </div>
         </div>
       </div>
+    </div>
     )}
 
       {/* INQUIRIES SUB-TAB */}
@@ -3132,6 +4253,68 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
         item={previewDetailItem}
         profile={editingProfile}
       />
+
+      {/* FORMAT 2 ENLARGED MEDIA POPUP MODAL ("img py click pop menu open ho ga or img or txt bra ho jy ga") */}
+      {enlargedMediaPopup && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-in fade-in duration-200"
+          onClick={() => setEnlargedMediaPopup(null)}
+        >
+          <div
+            className="bg-slate-900 border border-slate-700 rounded-2xl max-w-2xl w-full overflow-hidden shadow-2xl relative text-white"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header bar */}
+            <div className="flex items-center justify-between px-4 py-3 border-b border-slate-800 bg-slate-950/70">
+              <div className="flex items-center gap-2">
+                <span className="text-base">🖼️</span>
+                <span className="text-sm font-bold text-white truncate">
+                  {enlargedMediaPopup.title || enlargedMediaPopup.text || "Enlarged Image & Details"}
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setEnlargedMediaPopup(null)}
+                className="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center text-sm font-bold cursor-pointer transition-colors"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Enlarged Image Display */}
+            <div className="bg-black flex items-center justify-center max-h-[60vh] p-2 overflow-hidden">
+              <img
+                src={enlargedMediaPopup.imageUrl}
+                alt={enlargedMediaPopup.title || "Enlarged view"}
+                className="max-h-[58vh] max-w-full object-contain rounded-lg"
+              />
+            </div>
+
+            {/* Enlarged Text Display */}
+            <div className="p-4 bg-slate-900 border-t border-slate-800">
+              {enlargedMediaPopup.title && (
+                <h3 className="text-base font-bold text-white mb-1">
+                  {enlargedMediaPopup.title}
+                </h3>
+              )}
+              {enlargedMediaPopup.text && (
+                <p className="text-sm text-slate-300 leading-relaxed font-sans">
+                  {enlargedMediaPopup.text}
+                </p>
+              )}
+              <div className="mt-3 flex justify-end">
+                <button
+                  type="button"
+                  onClick={() => setEnlargedMediaPopup(null)}
+                  className="px-4 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold cursor-pointer transition-colors"
+                >
+                  Close View
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

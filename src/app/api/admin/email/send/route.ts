@@ -27,6 +27,21 @@ export async function POST(req: Request) {
       service,
       referenceBadge,
       showReferenceBadge,
+      formatType,
+      mediaItems,
+      signatureRole,
+      signatureAvatar,
+      signatureCompany,
+      signatureBadge,
+      signatureStyle,
+      sidebarLogo,
+      sidebarHeading,
+      sidebarAddress,
+      sidebarPhone,
+      sidebarSocialLinks,
+      featuredMainPicUrl,
+      featuredMainPicText,
+      galleryRows,
     } = body;
 
     if (!to || !to.includes("@")) {
@@ -75,6 +90,58 @@ export async function POST(req: Request) {
         ...selectedProfile,
         email: fromEmail,
         name: fromName || selectedProfile.name,
+      };
+    }
+
+    // Override format type if explicitly selected for this email
+    if (formatType) {
+      selectedProfile = {
+        ...selectedProfile,
+        formatType,
+      };
+    }
+
+    // Override media cards if explicitly attached to this email
+    if (Array.isArray(mediaItems)) {
+      selectedProfile = {
+        ...selectedProfile,
+        mediaItems,
+      };
+    }
+
+    // Override executive signature parameters if explicitly customized
+    if (signatureRole !== undefined || signatureAvatar !== undefined) {
+      selectedProfile = {
+        ...selectedProfile,
+        ...(signatureRole !== undefined ? { signatureRole } : {}),
+        ...(signatureAvatar !== undefined ? { signatureAvatar } : {}),
+        ...(signatureCompany !== undefined ? { signatureCompany } : {}),
+        ...(signatureBadge !== undefined ? { signatureBadge } : {}),
+        ...(signatureStyle !== undefined ? { signatureStyle } : {}),
+      };
+    }
+
+    // Override Format 2 Sidebar Dashboard parameters if explicitly customized
+    if (
+      sidebarLogo !== undefined ||
+      sidebarHeading !== undefined ||
+      sidebarAddress !== undefined ||
+      sidebarPhone !== undefined ||
+      sidebarSocialLinks !== undefined ||
+      featuredMainPicUrl !== undefined ||
+      featuredMainPicText !== undefined ||
+      galleryRows !== undefined
+    ) {
+      selectedProfile = {
+        ...selectedProfile,
+        ...(sidebarLogo !== undefined ? { sidebarLogo } : {}),
+        ...(sidebarHeading !== undefined ? { sidebarHeading } : {}),
+        ...(sidebarAddress !== undefined ? { sidebarAddress } : {}),
+        ...(sidebarPhone !== undefined ? { sidebarPhone } : {}),
+        ...(sidebarSocialLinks !== undefined ? { sidebarSocialLinks } : {}),
+        ...(featuredMainPicUrl !== undefined ? { featuredMainPicUrl } : {}),
+        ...(featuredMainPicText !== undefined ? { featuredMainPicText } : {}),
+        ...(galleryRows !== undefined ? { galleryRows } : {}),
       };
     }
 

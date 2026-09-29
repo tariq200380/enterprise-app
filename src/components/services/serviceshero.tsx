@@ -38,7 +38,7 @@ export default function ServicesHero() {
               Schedule Consultation
             </Link>
             <Link
-              href="#services-catalog"
+              href="#software-development"
               aria-label="Explore Creed Tech Core Enterprise Services"
               className="inline-flex items-center justify-center bg-white hover:bg-gray-50 border-2 border-[#0052FF] text-[#0052FF] hover:text-[#0043D6] font-semibold text-xs sm:text-sm h-10 sm:h-11 px-3 sm:px-5 rounded-md shadow-sm transition-all duration-200 text-center whitespace-nowrap"
             >

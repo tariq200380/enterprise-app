@@ -75,6 +75,8 @@ export default function Testimonial3DDeck() {
   const [outgoingIdx, setOutgoingIdx] = useState<number | null>(null);
   const [isHovered, setIsHovered] = useState(false);
   const busyRef = useRef(false);
+  const touchStartXRef = useRef<number | null>(null);
+  const touchStartYRef = useRef<number | null>(null);
 
   const total = testimonials.length;
 
@@ -123,6 +125,40 @@ export default function Testimonial3DDeck() {
     setTimeout(() => {
       busyRef.current = false;
     }, 700);
+  };
+
+  const handleMouseEnter = () => {
+    // Only pause on real desktop mouse hover, preventing mobile touch from locking autoplay
+    if (typeof window !== "undefined" && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+      setIsHovered(true);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartXRef.current = e.touches[0].clientX;
+    touchStartYRef.current = e.touches[0].clientY;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartXRef.current === null || touchStartYRef.current === null) return;
+    const diffX = touchStartXRef.current - e.changedTouches[0].clientX;
+    const diffY = touchStartYRef.current - e.changedTouches[0].clientY;
+    
+    // Only trigger horizontal card navigation if gesture is primarily horizontal
+    if (Math.abs(diffX) > 35 && Math.abs(diffX) > Math.abs(diffY)) {
+      if (diffX > 0) {
+        nextCard();
+      } else {
+        prevCard();
+      }
+    }
+    touchStartXRef.current = null;
+    touchStartYRef.current = null;
+    setIsHovered(false);
   };
 
   // Autoplay rotation every 4.2 seconds when not hovered
@@ -233,8 +269,10 @@ export default function Testimonial3DDeck() {
         <div
           className="relative max-w-[820px] mx-auto pt-6"
           style={{ perspective: "1400px" }}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
         >
           {/* Top Lanyard Badge Clip Strap Holder */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-[46px] bg-gradient-to-b from-[#E2E8F0] to-[#CBD5E1] rounded-t-[10px] shadow-[0_4px_10px_rgba(0,0,0,0.08)] z-30 flex flex-col items-center justify-center pointer-events-none">
@@ -244,9 +282,12 @@ export default function Testimonial3DDeck() {
 
           {/* The 3D Stacked Cards Deck Container */}
           <div
-            className="relative w-full h-[370px] sm:h-[340px] md:h-[320px] cursor-pointer"
+            className="relative w-full h-[370px] sm:h-[340px] md:h-[320px] cursor-pointer touch-pan-y"
             style={{ transformStyle: "preserve-3d" }}
-            onClick={() => nextCard()}
+            onClick={() => {
+              setIsHovered(false);
+              nextCard();
+            }}
             title="Click to view next review"
           >
             {testimonials.map((item, idx) => {

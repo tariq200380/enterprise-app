@@ -94,8 +94,8 @@ export default function Homeprovide() {
           <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-6">
             
             {/* Card 1: Software Development */}
-            <div className="relative flex items-start gap-4 sm:gap-5 bg-white border border-[#E2E8F0] rounded-xl p-6 sm:p-7 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-blue-300 hover:shadow-md group overflow-hidden">
-              <div className="absolute top-0 left-0 right-0 h-[2.5px] bg-gradient-to-r from-[#0052FF] via-[#38BDF8] to-[#FF6B00] opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+            <div className="card-lift-glow relative flex items-start gap-4 sm:gap-5 bg-white border border-[#E2E8F0] rounded-xl p-6 sm:p-7 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-blue-300 hover:shadow-md active:-translate-y-1 active:border-blue-400 active:shadow-md group overflow-hidden">
+              <div className="card-top-bar absolute top-0 left-0 right-0 h-[2.5px] bg-gradient-to-r from-[#0052FF] via-[#38BDF8] to-[#FF6B00] opacity-0 group-hover:opacity-100 group-active:opacity-100 transition-opacity duration-200" />
               <div className="flex items-center justify-center w-11 h-11 shrink-0 rounded-lg bg-[#F0F5FF] border border-[#D6E4FF] shadow-xs overflow-hidden p-1.5">
                 <svg className="w-5 h-5 text-[#0052FF]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="16 18 22 12 16 6" />
@@ -120,8 +120,8 @@ export default function Homeprovide() {
             </div>
 
             {/* Card 2: UI/UX Design */}
-            <div className="relative flex items-start gap-4 sm:gap-5 bg-white border border-[#E2E8F0] rounded-xl p-6 sm:p-7 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-blue-300 hover:shadow-md group overflow-hidden">
-              <div className="absolute top-0 left-0 right-0 h-[2.5px] bg-gradient-to-r from-[#0052FF] via-[#38BDF8] to-[#FF6B00] opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+            <div className="card-lift-glow relative flex items-start gap-4 sm:gap-5 bg-white border border-[#E2E8F0] rounded-xl p-6 sm:p-7 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-blue-300 hover:shadow-md active:-translate-y-1 active:border-blue-400 active:shadow-md group overflow-hidden">
+              <div className="card-top-bar absolute top-0 left-0 right-0 h-[2.5px] bg-gradient-to-r from-[#0052FF] via-[#38BDF8] to-[#FF6B00] opacity-0 group-hover:opacity-100 group-active:opacity-100 transition-opacity duration-200" />
               <div className="flex items-center justify-center w-11 h-11 shrink-0 rounded-lg bg-[#F0F5FF] border border-[#D6E4FF] shadow-xs overflow-hidden p-1.5">
                 <svg className="w-5 h-5 text-[#0052FF]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="12" cy="12" r="10" />
@@ -147,8 +147,8 @@ export default function Homeprovide() {
             </div>
 
             {/* Card 3: Mobile Applications */}
-            <div className="relative flex items-start gap-4 sm:gap-5 bg-white border border-[#E2E8F0] rounded-xl p-6 sm:p-7 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-blue-300 hover:shadow-md group overflow-hidden">
-              <div className="absolute top-0 left-0 right-0 h-[2.5px] bg-gradient-to-r from-[#0052FF] via-[#38BDF8] to-[#FF6B00] opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+            <div className="card-lift-glow relative flex items-start gap-4 sm:gap-5 bg-white border border-[#E2E8F0] rounded-xl p-6 sm:p-7 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-blue-300 hover:shadow-md active:-translate-y-1 active:border-blue-400 active:shadow-md group overflow-hidden">
+              <div className="card-top-bar absolute top-0 left-0 right-0 h-[2.5px] bg-gradient-to-r from-[#0052FF] via-[#38BDF8] to-[#FF6B00] opacity-0 group-hover:opacity-100 group-active:opacity-100 transition-opacity duration-200" />
               <div className="flex items-center justify-center w-11 h-11 shrink-0 rounded-lg bg-[#F0F5FF] border border-[#D6E4FF] shadow-xs overflow-hidden p-1.5">
                 <svg className="w-5 h-5 text-[#0052FF]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
@@ -173,8 +173,8 @@ export default function Homeprovide() {
             </div>
 
             {/* Card 4: Cloud Infrastructure */}
-            <div className="relative flex items-start gap-4 sm:gap-5 bg-white border border-[#E2E8F0] rounded-xl p-6 sm:p-7 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-blue-300 hover:shadow-md group overflow-hidden">
-              <div className="absolute top-0 left-0 right-0 h-[2.5px] bg-gradient-to-r from-[#0052FF] via-[#38BDF8] to-[#FF6B00] opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+            <div className="card-lift-glow relative flex items-start gap-4 sm:gap-5 bg-white border border-[#E2E8F0] rounded-xl p-6 sm:p-7 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-blue-300 hover:shadow-md active:-translate-y-1 active:border-blue-400 active:shadow-md group overflow-hidden">
+              <div className="card-top-bar absolute top-0 left-0 right-0 h-[2.5px] bg-gradient-to-r from-[#0052FF] via-[#38BDF8] to-[#FF6B00] opacity-0 group-hover:opacity-100 group-active:opacity-100 transition-opacity duration-200" />
               <div className="flex items-center justify-center w-11 h-11 shrink-0 rounded-lg bg-[#F0F5FF] border border-[#D6E4FF] shadow-xs overflow-hidden p-1.5">
                 <svg className="w-5 h-5 text-[#0052FF]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" />
@@ -198,8 +198,8 @@ export default function Homeprovide() {
             </div>
 
             {/* Card 5: Database Management */}
-            <div className="relative flex items-start gap-4 sm:gap-5 bg-white border border-[#E2E8F0] rounded-xl p-6 sm:p-7 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-blue-300 hover:shadow-md group overflow-hidden">
-              <div className="absolute top-0 left-0 right-0 h-[2.5px] bg-gradient-to-r from-[#0052FF] via-[#38BDF8] to-[#FF6B00] opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+            <div className="card-lift-glow relative flex items-start gap-4 sm:gap-5 bg-white border border-[#E2E8F0] rounded-xl p-6 sm:p-7 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-blue-300 hover:shadow-md active:-translate-y-1 active:border-blue-400 active:shadow-md group overflow-hidden">
+              <div className="card-top-bar absolute top-0 left-0 right-0 h-[2.5px] bg-gradient-to-r from-[#0052FF] via-[#38BDF8] to-[#FF6B00] opacity-0 group-hover:opacity-100 group-active:opacity-100 transition-opacity duration-200" />
               <div className="flex items-center justify-center w-11 h-11 shrink-0 rounded-lg bg-[#F0F5FF] border border-[#D6E4FF] shadow-xs overflow-hidden p-1.5">
                 <svg className="w-5 h-5 text-[#0052FF]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <ellipse cx="12" cy="5" rx="9" ry="3" />
@@ -225,8 +225,8 @@ export default function Homeprovide() {
             </div>
 
             {/* Card 6: Cybersecurity & QA */}
-            <div className="relative flex items-start gap-4 sm:gap-5 bg-white border border-[#E2E8F0] rounded-xl p-6 sm:p-7 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-blue-300 hover:shadow-md group overflow-hidden">
-              <div className="absolute top-0 left-0 right-0 h-[2.5px] bg-gradient-to-r from-[#0052FF] via-[#38BDF8] to-[#FF6B00] opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+            <div className="card-lift-glow relative flex items-start gap-4 sm:gap-5 bg-white border border-[#E2E8F0] rounded-xl p-6 sm:p-7 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-blue-300 hover:shadow-md active:-translate-y-1 active:border-blue-400 active:shadow-md group overflow-hidden">
+              <div className="card-top-bar absolute top-0 left-0 right-0 h-[2.5px] bg-gradient-to-r from-[#0052FF] via-[#38BDF8] to-[#FF6B00] opacity-0 group-hover:opacity-100 group-active:opacity-100 transition-opacity duration-200" />
               <div className="flex items-center justify-center w-11 h-11 shrink-0 rounded-lg bg-[#F0F5FF] border border-[#D6E4FF] shadow-xs overflow-hidden p-1.5">
                 <svg className="w-5 h-5 text-[#0052FF]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10" />
@@ -250,8 +250,8 @@ export default function Homeprovide() {
             </div>
 
             {/* Card 7: Artificial Intelligence (AI) */}
-            <div className="relative flex items-start gap-4 sm:gap-5 bg-white border border-[#E2E8F0] rounded-xl p-6 sm:p-7 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-blue-300 hover:shadow-md group overflow-hidden">
-              <div className="absolute top-0 left-0 right-0 h-[2.5px] bg-gradient-to-r from-[#0052FF] via-[#38BDF8] to-[#FF6B00] opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+            <div className="card-lift-glow relative flex items-start gap-4 sm:gap-5 bg-white border border-[#E2E8F0] rounded-xl p-6 sm:p-7 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-blue-300 hover:shadow-md active:-translate-y-1 active:border-blue-400 active:shadow-md group overflow-hidden">
+              <div className="card-top-bar absolute top-0 left-0 right-0 h-[2.5px] bg-gradient-to-r from-[#0052FF] via-[#38BDF8] to-[#FF6B00] opacity-0 group-hover:opacity-100 group-active:opacity-100 transition-opacity duration-200" />
               <div className="flex items-center justify-center w-11 h-11 shrink-0 rounded-lg bg-[#F0F5FF] border border-[#D6E4FF] shadow-xs overflow-hidden p-1.5">
                 <svg className="w-5 h-5 text-[#0052FF]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M12 2a4 4 0 0 0-4 4v1H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2V6a4 4 0 0 0-4-4z" />
@@ -277,8 +277,8 @@ export default function Homeprovide() {
             </div>
 
             {/* Card 8: Digital Marketing & Branding */}
-            <div className="relative flex items-start gap-4 sm:gap-5 bg-white border border-[#E2E8F0] rounded-xl p-6 sm:p-7 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-blue-300 hover:shadow-md group overflow-hidden">
-              <div className="absolute top-0 left-0 right-0 h-[2.5px] bg-gradient-to-r from-[#0052FF] via-[#38BDF8] to-[#FF6B00] opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+            <div className="card-lift-glow relative flex items-start gap-4 sm:gap-5 bg-white border border-[#E2E8F0] rounded-xl p-6 sm:p-7 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-blue-300 hover:shadow-md active:-translate-y-1 active:border-blue-400 active:shadow-md group overflow-hidden">
+              <div className="card-top-bar absolute top-0 left-0 right-0 h-[2.5px] bg-gradient-to-r from-[#0052FF] via-[#38BDF8] to-[#FF6B00] opacity-0 group-hover:opacity-100 group-active:opacity-100 transition-opacity duration-200" />
               <div className="flex items-center justify-center w-11 h-11 shrink-0 rounded-lg bg-[#F0F5FF] border border-[#D6E4FF] shadow-xs overflow-hidden p-1.5">
                 <svg className="w-5 h-5 text-[#0052FF]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M3 3v18h18" />

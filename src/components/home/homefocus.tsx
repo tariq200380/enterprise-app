@@ -27,7 +27,7 @@ export default function Homefocus() {
         {/* Right Column: 2x2 Feature Cards Grid */}
         <div className="w-full md:w-[52%] grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
           {/* Card 1: Risk Free */}
-          <div className="bg-white border border-[#E2E8F0] rounded-2xl p-6 sm:p-7 flex flex-col justify-between shadow-sm hover:shadow-md hover:border-blue-200 transition-all duration-200 h-full">
+          <div className="card-lift-glow bg-white border border-[#E2E8F0] rounded-2xl p-6 sm:p-7 flex flex-col justify-between shadow-sm hover:shadow-md hover:border-blue-200 active:border-blue-300 active:shadow-md transition-all duration-200 h-full">
             <div>
               <div className="w-11 h-11 rounded-xl bg-blue-50 text-[#0052FF] flex items-center justify-center mb-5 shrink-0">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -43,7 +43,7 @@ export default function Homefocus() {
           </div>
 
           {/* Card 2: Cost */}
-          <div className="bg-white border border-[#E2E8F0] rounded-2xl p-6 sm:p-7 flex flex-col justify-between shadow-sm hover:shadow-md hover:border-orange-200 transition-all duration-200 h-full">
+          <div className="card-lift-glow-orange bg-white border border-[#E2E8F0] rounded-2xl p-6 sm:p-7 flex flex-col justify-between shadow-sm hover:shadow-md hover:border-orange-200 active:border-orange-300 active:shadow-md transition-all duration-200 h-full">
             <div>
               <div className="w-11 h-11 rounded-xl bg-orange-50 text-[#FF6B00] flex items-center justify-center mb-5 shrink-0">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -59,7 +59,7 @@ export default function Homefocus() {
           </div>
 
           {/* Card 3: Flexibility */}
-          <div className="bg-white border border-[#E2E8F0] rounded-2xl p-6 sm:p-7 flex flex-col justify-between shadow-sm hover:shadow-md hover:border-orange-200 transition-all duration-200 h-full">
+          <div className="card-lift-glow-orange bg-white border border-[#E2E8F0] rounded-2xl p-6 sm:p-7 flex flex-col justify-between shadow-sm hover:shadow-md hover:border-orange-200 active:border-orange-300 active:shadow-md transition-all duration-200 h-full">
             <div>
               <div className="w-11 h-11 rounded-xl bg-orange-50 text-[#FF6B00] flex items-center justify-center mb-5 shrink-0">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -82,7 +82,7 @@ export default function Homefocus() {
           </div>
 
           {/* Card 4: Dedicated Delivery */}
-          <div className="bg-white border border-[#E2E8F0] rounded-2xl p-6 sm:p-7 flex flex-col justify-between shadow-sm hover:shadow-md hover:border-blue-200 transition-all duration-200 h-full">
+          <div className="card-lift-glow bg-white border border-[#E2E8F0] rounded-2xl p-6 sm:p-7 flex flex-col justify-between shadow-sm hover:shadow-md hover:border-blue-200 active:border-blue-300 active:shadow-md transition-all duration-200 h-full">
             <div>
               <div className="w-11 h-11 rounded-xl bg-blue-50 text-[#0052FF] flex items-center justify-center mb-5 shrink-0">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

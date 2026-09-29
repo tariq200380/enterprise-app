@@ -29,6 +29,11 @@ export async function getEmailProfiles(): Promise<EmailDepartmentProfile[]> {
             unique.push(p);
           }
         }
+        // Ensure default Format 2 profile (executive-desk) is available
+        const defaultDesk2 = DEFAULT_EMAIL_PROFILES.find((p) => p.id === "executive-desk");
+        if (defaultDesk2 && !seenIds.has(defaultDesk2.id) && !seenEmails.has((defaultDesk2.email || "").toLowerCase())) {
+          unique.push(defaultDesk2);
+        }
         return unique.length > 0 ? unique : stored;
       }
     }
