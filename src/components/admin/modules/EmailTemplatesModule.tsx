@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
+import { createPortal } from "react-dom";
 import { useAdminFetch } from "@/lib/useAdminFetch";
 import { uploadImageFile, uploadMediaFile, uploadMultipleMediaFiles } from "@/lib/uploadHelper";
 import {
@@ -25,6 +26,9 @@ import {
 import { Inquiry } from "@/types/admin";
 import InquiryDetailsModal from "../modals/InquiryDetailsModal";
 import EquipmentOfferDetailModal from "../modals/EquipmentOfferDetailModal";
+
+const DEFAULT_IMAGE_FALLBACK =
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect fill='%230f172a' width='400' height='300'/%3E%3Cpath fill='%23334155' d='M160 120a20 20 0 1 1-40 0 20 20 0 0 1 40 0zm-80 90l60-80 50 60 40-50 70 70H80z'/%3E%3Ctext x='50%25' y='82%25' font-family='system-ui,sans-serif' font-weight='bold' font-size='13' fill='%2394a3b8' text-anchor='middle'%3ECREED TECH%3C/text%3E%3C/svg%3E";
 
 interface EmailTemplatesModuleProps {
   showToast?: (msg: string, type?: "success" | "error") => void;
@@ -57,6 +61,27 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
   const [isUploadingSidebarLogo, setIsUploadingSidebarLogo] = useState(false);
   const mainPicInputRef = useRef<HTMLInputElement>(null);
   const [isUploadingMainPic, setIsUploadingMainPic] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        if (enlargedMediaPopup) {
+          setEnlargedMediaPopup(null);
+        } else if (previewDetailItem) {
+          setPreviewDetailItem(null);
+        } else if (editingProfile) {
+          setEditingProfile(null);
+        }
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [enlargedMediaPopup, previewDetailItem, editingProfile]);
 
   // Format 2: Multi-Picture & Same/Different Content States
   const [format2ContentMode, setFormat2ContentMode] = useState<"separate" | "same">("separate");
@@ -1501,15 +1526,53 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
       }
     };
 
+    const sampleMessage = profile.defaultMessageTemplate || 
+`Dear Client,
+
+Thank you for reaching out to Creed Tech regarding your enterprise engineering inquiry. We have received your technical specifications and our team is prepared to present an architectural roadmap tailored to your workload.
+
+Please let us know your preferred availability for a technical discovery call this week.
+
+Best regards,
+${profile.name || "Executive Management Desk"}`;
+
     return (
-      <div className="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-md flex flex-col md:flex-row text-slate-800 my-3">
-        {/* LEFT SIDEBAR BAR */}
-        <div className={`${isSmall ? "w-full md:w-44" : "w-full md:w-56"} bg-[#0B1120] text-white p-3 flex flex-col justify-between shrink-0 border-r border-slate-800`}>
+      <div className="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-md flex flex-col text-slate-800 my-3 divide-y divide-slate-200">
+        {/* 1. TOP EMAIL MESSAGE SECTION (ALAG SE UPAR) */}
+        <div className="p-3.5 sm:p-4 bg-white">
+          <div className="flex items-center justify-between mb-2 pb-1.5 border-b border-slate-100">
+            <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 font-mono flex items-center gap-1.5">
+              <span>✉️</span>
+              <span>Email Message (Body Text Above Format 2)</span>
+            </span>
+            <span className="text-[9px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-200">
+              Message Content
+            </span>
+          </div>
+          <div className="text-xs font-bold text-slate-900 mb-1.5" style={{ color: profile.textColor || "#0f172a" }}>
+            Re: Enterprise Consultation &amp; Technical Scope
+          </div>
+          <div className="text-[11px] text-slate-600 leading-relaxed whitespace-pre-line font-sans">
+            {sampleMessage}
+          </div>
+        </div>
+
+        {/* 2. FORMAT 2: EXECUTIVE SIGNATURE & PRODUCT SHOWCASE CARD (NEECHE) */}
+        <div className="flex flex-col md:flex-row">
+          {/* LEFT SIDEBAR BAR */}
+          <div className={`${isSmall ? "w-full md:w-44" : "w-full md:w-56"} bg-[#0B1120] text-white p-3 flex flex-col justify-between shrink-0 border-r border-slate-800`}>
           {/* Upper: Logo & Heading */}
           <div className="text-center pb-3 border-b border-white/10">
-            {logo && (
-              <img src={logo} alt={heading} className="max-h-10 max-w-[120px] object-contain mx-auto mb-1.5" />
-            )}
+            {logo ? (
+              <img
+                src={logo}
+                alt={heading}
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).style.display = "none";
+                }}
+                className="max-h-10 max-w-[120px] object-contain mx-auto mb-1.5"
+              />
+            ) : null}
             <div className="text-xs font-black tracking-wide uppercase text-white truncate">
               {heading}
             </div>
@@ -1574,6 +1637,10 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                 <img
                   src={mainPic}
                   alt="Main"
+                  onError={(e) => {
+                    const t = e.currentTarget;
+                    if (t.src !== DEFAULT_IMAGE_FALLBACK) t.src = DEFAULT_IMAGE_FALLBACK;
+                  }}
                   className="w-full h-32 sm:h-40 object-cover group-hover:scale-102 transition-transform duration-300"
                 />
                 <div className="absolute top-2 right-2 bg-black/75 backdrop-blur-xs text-white text-[9px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1 shadow-xs">
@@ -1617,14 +1684,18 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                             <div className="w-[64px] h-[64px] rounded-lg overflow-hidden border border-slate-200 bg-slate-100 mx-auto shadow-2xs relative group-hover/card:border-blue-500">
                               <img
                                 src={it.imageUrl}
-                                alt={it.text}
+                                alt={it.text || `Item ${itIdx + 1}`}
+                                onError={(e) => {
+                                  const t = e.currentTarget;
+                                  if (t.src !== DEFAULT_IMAGE_FALLBACK) t.src = DEFAULT_IMAGE_FALLBACK;
+                                }}
                                 className="w-full h-full object-cover group-hover/card:scale-105 transition-transform"
                               />
                               <div className="absolute inset-0 bg-black/0 group-hover/card:bg-black/20 flex items-center justify-center transition-colors">
                                 <span className="opacity-0 group-hover/card:opacity-100 text-white text-xs">🔍</span>
                               </div>
                             </div>
-                            <div className="text-[8px] font-bold text-slate-700 leading-tight mt-1 line-clamp-2 group-hover/card:text-blue-600 transition-colors">
+                            <div className="text-[8px] font-bold text-slate-700 leading-tight mt-1 line-clamp-2 group-hover/card:text-blue-600 transition-colors break-words">
                               {it.text}
                             </div>
                           </div>
@@ -1636,6 +1707,626 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+  const renderFormat3Preview = (profile: EmailDepartmentProfile, isSmall = false, customMessage?: string) => {
+    const accent = profile.accentColor || "#5c95a2";
+    const textColor = profile.textColor || "#1e293b";
+    const bgColor = profile.backgroundColor || "#ffffff";
+    const heading = profile.name || "CREED TECH";
+
+    const items: EmailMediaItem[] = getEditingMediaItems(profile);
+    const heroItem = items[0];
+    const secondaryItem = items[1];
+    const extraItems = items.slice(2);
+
+    const topHeroStagingImage =
+      profile.featuredMainPicUrl ||
+      "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=1200&auto=format&fit=crop";
+
+    const productCutoutImage =
+      heroItem?.thumbnailUrl ||
+      heroItem?.mediaUrl ||
+      "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?q=80&w=800&auto=format&fit=crop";
+
+    const productStagingImage =
+      secondaryItem?.thumbnailUrl ||
+      secondaryItem?.mediaUrl ||
+      "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?q=80&w=800&auto=format&fit=crop";
+
+    const panoramicStagingImage =
+      extraItems[0]?.thumbnailUrl ||
+      "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=1200&auto=format&fit=crop";
+
+    const fbUrl =
+      profile.sidebarSocialLinks?.find((s) => s.platform === "facebook")?.url ||
+      "https://facebook.com/creedtechnology";
+    const liUrl =
+      profile.sidebarSocialLinks?.find((s) => s.platform === "linkedin")?.url ||
+      "https://linkedin.com/company/creedtech";
+    const waUrl =
+      profile.sidebarSocialLinks?.find((s) => s.platform === "whatsapp")?.url ||
+      (profile.phone
+        ? `https://wa.me/${profile.phone.replace(/[^0-9]/g, "")}`
+        : "https://wa.me/923219204488");
+    const igUrl =
+      profile.sidebarSocialLinks?.find((s) => s.platform === "instagram")?.url ||
+      "https://instagram.com/creed.technologiess";
+
+    const sampleMessage =
+      customMessage ||
+      profile.defaultMessageTemplate ||
+`Dear Client,
+
+Thank you for reaching out to Creed Tech regarding your enterprise machinery and workspace specifications. We have received your project details and our team is prepared to present verified solutions matching your exact parameters.
+
+Please review our featured studio collection below and let us know your team's availability for a technical discovery consultation.
+
+Best regards,
+${profile.name || "Executive Design & Operations Desk"}`;
+
+    return (
+      <div className="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-md flex flex-col text-slate-800 my-3">
+        {/* 1. TOP EMAIL MESSAGE SECTION (SB SY OPER - ALAG SE) */}
+        <div className="p-4 sm:p-5 bg-white border-b-2 border-dashed border-slate-200">
+          <div className="flex items-center justify-between mb-2 pb-1.5 border-b border-slate-100">
+            <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 font-mono flex items-center gap-1.5">
+              <span>✉️</span>
+              <span>Direct Email Message (Above Template)</span>
+            </span>
+            <span className="text-[9px] font-bold text-sky-700 bg-sky-50 px-2.5 py-0.5 rounded-full border border-sky-200">
+              Priority Dispatch
+            </span>
+          </div>
+          <div className="text-xs font-bold text-slate-900 mb-1.5 font-outfit" style={{ color: textColor }}>
+            {profile.defaultSubjectTemplate?.replace("{service}", "Executive Studio Collection")?.replace("{id}", "308") || "Re: Technical Discovery & Architecture Showcase"}
+          </div>
+          <div className="text-[11.5px] text-slate-600 leading-relaxed whitespace-pre-line font-sans">
+            {sampleMessage}
+          </div>
+        </div>
+
+        {/* 2. SECTION 1: HERO BANNER (SOFT TEAL STUDIO SCENE) */}
+        <div className="bg-gradient-to-b from-[#6c9fa9] to-[#5a909d] p-5 sm:p-7 text-center text-white">
+          <div className="text-[9px] font-extrabold uppercase tracking-widest text-white/80 mb-2">
+            {profile.department || "CREED TECH ENTERPRISE STUDIO"}
+          </div>
+          <h3 className="font-serif text-lg sm:text-2xl font-bold leading-tight text-white mb-2.5 max-w-md mx-auto">
+            {heroItem?.title || "Ac's office dits book I love To lijch"}
+          </h3>
+          <p className="text-[11.5px] text-white/90 leading-relaxed max-w-sm mx-auto mb-4 font-sans">
+            {profile.defaultMessageTemplate ? profile.defaultMessageTemplate.slice(0, 120) + "..." : "Refined architectural aesthetics and certified high-durability performance engineered for enterprise environments."}
+          </p>
+          <div className="mb-4">
+            <button
+              type="button"
+              className="bg-[#1a2a32] hover:bg-slate-900 text-white font-bold text-[11px] px-6 py-2 rounded-full tracking-wide shadow-md transition-all cursor-pointer"
+            >
+              Discover Series
+            </button>
+          </div>
+
+          {/* Staging Photo */}
+          <div
+            onClick={() =>
+              setEnlargedMediaPopup({
+                imageUrl: topHeroStagingImage,
+                title: heroItem?.title || "Studio Scene",
+                text: "Refined Scandinavian Studio Staging & Architectural Composition",
+              })
+            }
+            className="rounded-xl overflow-hidden shadow-lg border border-white/20 relative group cursor-pointer"
+            title="Click to Enlarge Visual"
+          >
+            <img
+              src={topHeroStagingImage}
+              alt="Studio Staging"
+              onError={(e) => {
+                const t = e.currentTarget;
+                if (t.src !== DEFAULT_IMAGE_FALLBACK) t.src = DEFAULT_IMAGE_FALLBACK;
+              }}
+              className="w-full h-44 sm:h-56 object-cover group-hover:scale-103 transition-transform duration-300"
+            />
+            <div className="absolute top-2 right-2 bg-black/60 backdrop-blur-xs text-white text-[8px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1">
+              <span>🔍</span>
+              <span>Enlarge</span>
+            </div>
+          </div>
+        </div>
+
+        {/* 3. SECTION 2: SPLIT FEATURE 1 (WHITE BG: TEXT LEFT, PRODUCT RIGHT) */}
+        <div className="p-5 sm:p-7 bg-white">
+          <div className="flex flex-col sm:flex-row items-center gap-5">
+            <div className="w-full sm:w-1/2 text-left">
+              <h4 className="font-serif text-base sm:text-xl font-bold text-[#1a2a32] leading-snug mb-2">
+                {heroItem?.title || "Get out arows well styler it pieces."}
+              </h4>
+              <p className="text-[11px] text-slate-500 leading-relaxed mb-4">
+                {heroItem?.specs || heroItem?.details || "Masterfully designed with precision contours, verified load endurance, and minimalist elegance suited for high-tier operations."}
+              </p>
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  className="bg-[#1a2a32] hover:bg-slate-900 text-white font-bold text-[10px] px-5 py-2 rounded-full tracking-wide shadow-xs cursor-pointer"
+                >
+                  View Unit
+                </button>
+                <span className="text-[10px] font-semibold text-slate-400 flex items-center gap-1">
+                  <span className="text-amber-500">◆</span> Verified
+                </span>
+              </div>
+            </div>
+
+            <div
+              onClick={() =>
+                setEnlargedMediaPopup({
+                  imageUrl: productCutoutImage,
+                  title: heroItem?.title || "Product Cutout",
+                  text: heroItem?.specs || "",
+                })
+              }
+              className="w-full sm:w-1/2 h-36 sm:h-44 flex items-center justify-center relative group cursor-pointer p-2"
+              title="Click to Enlarge Picture"
+            >
+              <img
+                src={productCutoutImage}
+                alt="Product 1"
+                onError={(e) => {
+                  const t = e.currentTarget;
+                  if (t.src !== DEFAULT_IMAGE_FALLBACK) t.src = DEFAULT_IMAGE_FALLBACK;
+                }}
+                className="max-h-full max-w-full object-contain drop-shadow-md group-hover:scale-105 transition-transform duration-300"
+              />
+              <div className="absolute top-1 right-1 bg-black/60 backdrop-blur-xs text-white text-[7px] font-bold px-1.5 py-0.5 rounded-full">
+                <span>🔍</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* 4. SECTION 3: SPLIT FEATURE 2 (ZIG-ZAG FLIPPED: PRODUCT LEFT ON TEAL BACKDROP, TEXT RIGHT) */}
+        <div className="p-5 sm:p-7 bg-white border-t border-slate-100">
+          <div className="flex flex-col sm:flex-row items-center gap-5">
+            <div
+              onClick={() =>
+                setEnlargedMediaPopup({
+                  imageUrl: productStagingImage,
+                  title: secondaryItem?.title || "Product Staging",
+                  text: secondaryItem?.specs || "",
+                })
+              }
+              className="w-full sm:w-1/2 h-36 sm:h-44 rounded-xl overflow-hidden shadow-md relative group cursor-pointer"
+              title="Click to Enlarge Picture"
+            >
+              <img
+                src={productStagingImage}
+                alt="Product 2"
+                onError={(e) => {
+                  const t = e.currentTarget;
+                  if (t.src !== DEFAULT_IMAGE_FALLBACK) t.src = DEFAULT_IMAGE_FALLBACK;
+                }}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+              <div className="absolute top-1.5 right-1.5 bg-black/60 backdrop-blur-xs text-white text-[7px] font-bold px-1.5 py-0.5 rounded-full">
+                <span>🔍</span>
+              </div>
+            </div>
+
+            <div className="w-full sm:w-1/2 text-left">
+              <div className="text-[9px] font-extrabold uppercase tracking-widest text-slate-400 mb-1">
+                MODERN COLLECTION
+              </div>
+              <h4 className="font-serif text-base sm:text-xl font-bold text-[#1a2a32] leading-snug mb-2">
+                {secondaryItem?.title || "Peluct oend now"}
+              </h4>
+              <p className="text-[11px] text-slate-500 leading-relaxed mb-4">
+                {secondaryItem?.specs || secondaryItem?.details || "Tailored ergonomic contours engineered with premium-grade alloy finish for seamless performance in mission-critical facilities."}
+              </p>
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  className="bg-[#1a2a32] hover:bg-slate-900 text-white font-bold text-[10px] px-5 py-2 rounded-full tracking-wide shadow-xs cursor-pointer"
+                >
+                  See Specs
+                </button>
+                <span className="text-[10px] font-semibold text-slate-400 flex items-center gap-1">
+                  <span className="text-emerald-500">●</span> Ready
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* 5. SECTION 4: PANORAMIC BOTTOM SHOWCASE BANNER */}
+        <div className="bg-gradient-to-b from-[#6c9fa9] to-[#5a909d] p-5 sm:p-7 text-center text-white">
+          <h4 className="font-serif text-base sm:text-xl font-bold text-white mb-2 max-w-sm mx-auto leading-tight">
+            {profile.signatureTagline || "Premium Engineering Solutions For Modern High-Performance Workspaces"}
+          </h4>
+          <p className="text-[11px] text-white/90 mb-3.5 max-w-xs mx-auto">
+            Direct enterprise inventory verified under ISO 9001 and strict operational benchmarks.
+          </p>
+          <div className="mb-4">
+            <button
+              type="button"
+              className="bg-white hover:bg-slate-100 text-[#1a2a32] font-extrabold text-[10.5px] px-6 py-2 rounded-full tracking-wide shadow-md transition-all cursor-pointer"
+            >
+              Explore All Units →
+            </button>
+          </div>
+
+          {/* Panoramic Strip */}
+          <div
+            onClick={() =>
+              setEnlargedMediaPopup({
+                imageUrl: panoramicStagingImage,
+                title: "Panoramic Collection",
+                text: "Complete Architecture & Equipment Staging",
+              })
+            }
+            className="rounded-xl overflow-hidden shadow-lg border border-white/20 relative group cursor-pointer"
+          >
+            <img
+              src={panoramicStagingImage}
+              alt="Panoramic Collection"
+              onError={(e) => {
+                const t = e.currentTarget;
+                if (t.src !== DEFAULT_IMAGE_FALLBACK) t.src = DEFAULT_IMAGE_FALLBACK;
+              }}
+              className="w-full h-32 sm:h-44 object-cover group-hover:scale-103 transition-transform duration-300"
+            />
+            <div className="absolute top-2 right-2 bg-black/60 backdrop-blur-xs text-white text-[8px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1">
+              <span>🔍</span>
+            </div>
+          </div>
+        </div>
+
+        {/* 6. SECTION 5: 4-COLUMN EDITORIAL FOOTER (MATCHING REFERENCE) */}
+        <div className="bg-white p-5 sm:p-6 border-t border-slate-200 text-left">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pb-4 border-b border-slate-100">
+            <div>
+              <div className="font-serif font-bold text-xs text-[#1a2a32] mb-1">
+                CREED TECH
+              </div>
+              <div className="text-[9.5px] text-slate-500 leading-tight">
+                We to your rich dispatches. Tailored enterprise engineering.
+              </div>
+            </div>
+            <div>
+              <div className="font-bold text-[9.5px] text-[#1a2a32] uppercase mb-1">
+                Directory
+              </div>
+              <div className="text-[9px] text-slate-500 space-y-0.5">
+                <div>Equipment</div>
+                <div>Catalog</div>
+                <div>Warranty</div>
+              </div>
+            </div>
+            <div>
+              <div className="font-bold text-[9.5px] text-[#1a2a32] uppercase mb-1">
+                Compliance
+              </div>
+              <div className="text-[9px] text-slate-500 leading-tight">
+                Certified standard under stringent industrial tolerance.
+              </div>
+            </div>
+            <div className="text-left sm:text-right">
+              <div className="font-bold text-[9.5px] text-[#1a2a32] uppercase mb-1">
+                Direct Desk
+              </div>
+              <div className="text-[9px] text-slate-500 mb-1.5 truncate">
+                {profile.email}
+              </div>
+              <button
+                type="button"
+                className="bg-[#1a2a32] text-white text-[9px] font-bold px-3 py-1 rounded-full cursor-pointer hover:bg-slate-900"
+              >
+                Contact Desk →
+              </button>
+            </div>
+          </div>
+
+          <div className="pt-3 flex flex-col sm:flex-row items-center justify-between gap-2 text-[8.5px] text-slate-400 border-t border-slate-100">
+            <span>&copy; {new Date().getFullYear()} Creed Tech Enterprise Solutions. All rights reserved.</span>
+            <div className="flex items-center gap-1.5 shrink-0">
+              <a
+                href={fbUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Facebook"
+                className="w-5 h-5 rounded-full bg-[#1a2a32] text-white flex items-center justify-center hover:bg-[#1877F2] transition-all hover:scale-110 shadow-2xs"
+              >
+                <svg className="w-2.5 h-2.5 fill-current" viewBox="0 0 24 24">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                </svg>
+              </a>
+              <a
+                href={liUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="LinkedIn"
+                className="w-5 h-5 rounded-full bg-[#1a2a32] text-white flex items-center justify-center hover:bg-[#0A66C2] transition-all hover:scale-110 shadow-2xs"
+              >
+                <svg className="w-2.5 h-2.5 fill-current" viewBox="0 0 24 24">
+                  <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                </svg>
+              </a>
+              <a
+                href={waUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="WhatsApp"
+                className="w-5 h-5 rounded-full bg-[#1a2a32] text-white flex items-center justify-center hover:bg-[#25D366] transition-all hover:scale-110 shadow-2xs"
+              >
+                <svg className="w-2.5 h-2.5 fill-current" viewBox="0 0 24 24">
+                  <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z" />
+                </svg>
+              </a>
+              <a
+                href={igUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Instagram"
+                className="w-5 h-5 rounded-full bg-[#1a2a32] text-white flex items-center justify-center hover:bg-[#E4405F] transition-all hover:scale-110 shadow-2xs"
+              >
+                <svg className="w-2.5 h-2.5 fill-current" viewBox="0 0 24 24">
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const renderFormat4Preview = (profile: EmailDepartmentProfile, isSmall = false, customMessage?: string) => {
+    const accent = profile.accentColor || "#0052FF";
+    const name = profile.signatureName || profile.name || "Tariq Mahmood";
+    const role = profile.signatureRole || profile.department || "Chief Technical Director";
+    const company = profile.signatureCompany || "CREED TECH";
+    const tagline = profile.signatureTagline || "Enterprise Engineering & Industrial Systems";
+    const phone = profile.phone || "+92 321 9204488";
+    const email = profile.email || "solutions@creed-tech.com";
+    const website = profile.signatureWebsite || "https://creed-tech.com";
+    const websiteDisplay = website.replace(/^https?:\/\//i, "").replace(/\/$/, "");
+    const address = profile.address || "Office #02, Main Shopping Center, Sheikhupura, PK";
+    const avatar =
+      profile.signatureAvatar ||
+      profile.sidebarLogo ||
+      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop";
+    const companyLogo = profile.sidebarLogo || profile.signatureCompanyLogo || "https://creed-tech.com/icons/icon-192x192.png";
+
+    const fbUrl =
+      profile.sidebarSocialLinks?.find((s) => s.platform === "facebook")?.url ||
+      "https://facebook.com/creedtechnology";
+    const liUrl =
+      profile.sidebarSocialLinks?.find((s) => s.platform === "linkedin")?.url ||
+      "https://linkedin.com/company/creedtech";
+    const waUrl =
+      profile.sidebarSocialLinks?.find((s) => s.platform === "whatsapp")?.url ||
+      (profile.phone
+        ? `https://wa.me/${profile.phone.replace(/[^0-9]/g, "")}`
+        : "https://wa.me/923219204488");
+    const igUrl =
+      profile.sidebarSocialLinks?.find((s) => s.platform === "instagram")?.url ||
+      "https://instagram.com/creed.technologiess";
+
+    const sampleMessage =
+      customMessage ||
+      (profile.defaultMessageTemplate ||
+`Dear Client,
+
+Thank you for contacting Creed Tech. We have received your technical specifications and our engineering department has curated the following verified units for your project.
+
+Please review the attached machinery offers below with full technical specifications and direct inspection records.
+
+Best regards,
+${name}`)
+        .replace("{client_name}", "Valued Client")
+        .replace("{service}", "Enterprise Solutions")
+        .replace("{id}", "308");
+
+    return (
+      <div className="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-md flex flex-col text-slate-800 my-3">
+        {/* 1. TOP BRANDED HEADER (NAVY & ACCENT) */}
+        <div className="bg-[#0A192F] p-4 sm:p-5 flex items-center justify-between border-b-2" style={{ borderBottomColor: accent }}>
+          <div>
+            <div className="text-base sm:text-lg font-black tracking-wider text-white">
+              CREED <span style={{ color: accent }}>TECH</span>
+            </div>
+            <div className="text-[9.5px] uppercase tracking-widest text-slate-300 font-semibold mt-0.5">
+              {profile.department || "Enterprise Operations Desk"}
+            </div>
+          </div>
+          <span className="px-3 py-1 rounded-full text-[10px] font-mono font-bold bg-white/10 text-sky-200 border border-white/20">
+            REF #34 &bull; PRIORITY
+          </span>
+        </div>
+
+        {/* 2. DIRECT EMAIL MESSAGE BODY */}
+        <div className="p-4 sm:p-5 bg-white border-b border-slate-100">
+          <div className="text-xs font-bold text-slate-900 mb-1.5 font-outfit">
+            {profile.defaultSubjectTemplate?.replace("{service}", "Enterprise Machinery Catalog")?.replace("{id}", "308") || "Re: Technical Discovery & Machinery Dispatch"}
+          </div>
+          <div className="text-[11.5px] text-slate-600 leading-relaxed whitespace-pre-line font-sans">
+            {sampleMessage}
+          </div>
+        </div>
+
+        {/* 3. FORMAT 1 MACHINERY CATALOG CARDS */}
+        <div className="p-4 sm:p-5 bg-slate-50/70 border-b border-slate-200">
+          <div className="flex items-center justify-between mb-2.5 pb-1 border-b border-slate-200">
+            <span className="text-[10.5px] font-extrabold uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
+              <span>⚙️</span>
+              <span>Attached Equipment Offers (Format 1 Catalog Cards)</span>
+            </span>
+            <span className="text-[9.5px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-200">
+              Verified Units
+            </span>
+          </div>
+          {renderMediaPreview(profile, isSmall)}
+        </div>
+
+        {/* 4. MODERN GEOMETRIC EXECUTIVE SIGNATURE BANNER (MATCHING REFERENCE IMAGE) */}
+        <div className="p-4 sm:p-5 bg-white">
+          <div className="rounded-2xl overflow-hidden border border-slate-200 shadow-sm bg-white">
+            {/* Top Horizon Accent Bar */}
+            <div className="bg-gradient-to-r from-[#0A192F] via-[#0052FF] to-[#00A3FF] px-4 py-2 flex items-center justify-between text-white">
+              <span className="text-[9px] font-extrabold uppercase tracking-widest text-white/90">
+                ★ Official Executive Transmission &bull; Direct Desk
+              </span>
+              <span className="text-[9px] font-mono font-bold text-sky-200">
+                {profile.department}
+              </span>
+            </div>
+
+            {/* Banner Content Grid */}
+            <div className="p-4 sm:p-5 flex flex-col md:flex-row items-center gap-4 sm:gap-5">
+              {/* Left: Avatar with Crescent Accent Arc and Dashed Orbit Ring */}
+              <div className="relative shrink-0 flex items-center justify-center">
+                <div className="relative w-20 h-20 sm:w-22 sm:h-22 rounded-full p-1 bg-gradient-to-tr from-[#0052FF] via-[#0A192F] to-[#00A3FF] shadow-lg flex items-center justify-center">
+                  <div className="absolute inset-0 rounded-full border-2 border-dashed border-[#00A3FF] animate-spin-slow pointer-events-none opacity-80" />
+                  <img
+                    src={avatar}
+                    alt={name}
+                    onError={(e) => {
+                      const t = e.currentTarget;
+                      if (t.src !== DEFAULT_IMAGE_FALLBACK) t.src = DEFAULT_IMAGE_FALLBACK;
+                    }}
+                    className="w-full h-full object-cover rounded-full border-2 border-white relative z-10"
+                  />
+                  <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-emerald-500 border-2 border-white flex items-center justify-center text-[10px] text-white font-black shadow-xs z-20">
+                    ✓
+                  </div>
+                </div>
+              </div>
+
+              {/* Center: Executive Name, Job Title, Tagline Pill & 2x2 Contact Details */}
+              <div className="flex-1 text-center md:text-left min-w-0">
+                <div className="text-sm sm:text-base font-extrabold uppercase tracking-wide text-slate-900 font-outfit truncate">
+                  {name}
+                </div>
+                <div className="text-[11px] font-bold uppercase tracking-wider text-[#0052FF] mt-0.5 truncate">
+                  {role}
+                </div>
+                <div className="mt-1.5 mb-2.5">
+                  <span className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-blue-50 border border-blue-200 rounded-full text-[9.5px] font-bold text-blue-800">
+                    <span>✈</span>
+                    <span className="truncate">{tagline}</span>
+                  </span>
+                </div>
+
+                {/* 2x2 Contacts Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-[10.5px] text-slate-600">
+                  <div className="flex items-center gap-1.5 truncate">
+                    <span className="text-[#0052FF] font-bold text-xs shrink-0">📞</span>
+                    <a href={`tel:${phone}`} className="hover:text-blue-600 transition-colors font-semibold text-slate-800 truncate">
+                      {phone}
+                    </a>
+                  </div>
+                  <div className="flex items-center gap-1.5 truncate">
+                    <span className="text-[#0052FF] font-bold text-xs shrink-0">✉️</span>
+                    <a href={`mailto:${email}`} className="hover:text-blue-600 transition-colors font-semibold text-[#0052FF] truncate">
+                      {email}
+                    </a>
+                  </div>
+                  <div className="flex items-center gap-1.5 truncate">
+                    <span className="text-[#0052FF] font-bold text-xs shrink-0">🌐</span>
+                    <a href={website} target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 transition-colors font-semibold text-slate-800 truncate">
+                      {websiteDisplay}
+                    </a>
+                  </div>
+                  <div className="flex items-center gap-1.5 truncate">
+                    <span className="text-[#0052FF] font-bold text-xs shrink-0">📍</span>
+                    <span className="text-slate-500 truncate" title={address}>
+                      {address}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right: Company Logo & 4 Circular Social Badges */}
+              <div className="shrink-0 flex flex-col items-center md:items-end justify-center md:border-l md:border-slate-100 md:pl-5 pt-3 md:pt-0 w-full md:w-auto">
+                <div className="flex items-center gap-2 mb-2">
+                  <img
+                    src={companyLogo}
+                    alt={company}
+                    onError={(e) => {
+                      const t = e.currentTarget;
+                      if (t.src !== DEFAULT_IMAGE_FALLBACK) t.src = DEFAULT_IMAGE_FALLBACK;
+                    }}
+                    className="w-8 h-8 rounded-lg object-contain shadow-2xs border border-slate-100 bg-white p-0.5"
+                  />
+                  <div className="text-left">
+                    <div className="text-xs font-black tracking-wider text-slate-900 leading-tight">
+                      CREED <span style={{ color: accent }}>TECH</span>
+                    </div>
+                    <div className="text-[8px] uppercase tracking-widest text-slate-400 font-bold">
+                      ENTERPRISE
+                    </div>
+                  </div>
+                </div>
+
+                {/* 4 Circular Social Badges: FB, LI, WA, IG */}
+                <div className="flex items-center gap-1.5 mt-1">
+                  <a
+                    href={fbUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="Facebook"
+                    className="w-6 h-6 rounded-full bg-[#0A192F] text-white flex items-center justify-center hover:bg-[#1877F2] transition-all hover:scale-110 shadow-2xs"
+                  >
+                    <svg className="w-3 h-3 fill-current" viewBox="0 0 24 24">
+                      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                    </svg>
+                  </a>
+                  <a
+                    href={liUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="LinkedIn"
+                    className="w-6 h-6 rounded-full bg-[#0A192F] text-white flex items-center justify-center hover:bg-[#0A66C2] transition-all hover:scale-110 shadow-2xs"
+                  >
+                    <svg className="w-3 h-3 fill-current" viewBox="0 0 24 24">
+                      <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                    </svg>
+                  </a>
+                  <a
+                    href={waUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="WhatsApp"
+                    className="w-6 h-6 rounded-full bg-[#0A192F] text-white flex items-center justify-center hover:bg-[#25D366] transition-all hover:scale-110 shadow-2xs"
+                  >
+                    <svg className="w-3 h-3 fill-current" viewBox="0 0 24 24">
+                      <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z" />
+                    </svg>
+                  </a>
+                  <a
+                    href={igUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="Instagram"
+                    className="w-6 h-6 rounded-full bg-[#0A192F] text-white flex items-center justify-center hover:bg-[#E4405F] transition-all hover:scale-110 shadow-2xs"
+                  >
+                    <svg className="w-3 h-3 fill-current" viewBox="0 0 24 24">
+                      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* 5. SUB-FOOTER */}
+        <div className="bg-slate-50 px-5 py-3 border-t border-slate-200 text-[9px] text-slate-400 flex flex-col sm:flex-row items-center justify-between gap-1.5">
+          <span>&copy; {new Date().getFullYear()} Creed Tech Enterprise Solutions. All rights reserved.</span>
+          <span>Certified Standard Industrial Communications</span>
         </div>
       </div>
     );
@@ -1657,27 +2348,31 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
   return (
     <div className="space-y-6">
       {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white border border-[#E2E8F0] rounded-2xl p-5 sm:p-6 text-[#0F172A] shadow-xs relative overflow-hidden select-none">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white border border-slate-200/90 rounded-2xl p-5 sm:p-6 text-slate-900 shadow-xs relative overflow-hidden select-none">
         {/* Ambient Orange Radial Glow matching main site */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
             background:
-              "radial-gradient(circle at 85% 25%, rgba(255, 107, 0, 0.1) 0%, rgba(255, 107, 0, 0.02) 50%, transparent 75%)",
+              "radial-gradient(circle at 85% 25%, rgba(255, 107, 0, 0.08) 0%, rgba(255, 107, 0, 0.015) 50%, transparent 75%)",
           }}
         />
 
-        <div className="relative z-10">
-          <h2 className="text-xl font-bold tracking-tight m-0 flex items-center gap-2 text-[#0F172A] font-outfit">
-            <span>✉️</span>
-            <span>Enterprise Email Management &amp; Operations</span>
-          </h2>
-          <p className="text-xs text-slate-500 mt-1 max-w-2xl leading-relaxed">
-            Centralized operations hub to manage multi-department business emails (support@, security@, solutions@, desk5@), custom branded HTML formats, SMTP connection, and replying to client inquiries.
-          </p>
+        <div className="relative z-10 flex items-start sm:items-center gap-3.5">
+          <div className="w-12 h-12 rounded-2xl bg-orange-50 border border-orange-200/80 text-orange-600 flex items-center justify-center text-2xl shadow-xs shrink-0">
+            ✉️
+          </div>
+          <div>
+            <h2 className="text-xl sm:text-2xl font-black tracking-tight m-0 text-slate-900 font-outfit flex items-center gap-2">
+              <span>Enterprise Email Management &amp; Operations</span>
+            </h2>
+            <p className="text-xs sm:text-[13px] text-slate-600 mt-1 max-w-2xl leading-relaxed font-normal">
+              Centralized operations hub to manage multi-department business emails (support@, security@, solutions@, desk5@), custom branded HTML formats, SMTP connection, and replying to client inquiries.
+            </p>
+          </div>
         </div>
 
-        <div className="relative z-10 flex items-center gap-2.5 flex-wrap">
+        <div className="relative z-10 flex items-center gap-2.5 flex-wrap shrink-0">
           {/* Main Action Button for replying to inquiries */}
           <button
             type="button"
@@ -1688,7 +2383,7 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                 setSelectedInquiryForReply(pending);
               }
             }}
-            className="px-4 py-2 bg-[#FF6B00] hover:bg-[#e05d00] text-white text-xs font-bold rounded-xl cursor-pointer transition-all flex items-center gap-2 shadow-[0_2px_12px_rgba(255,107,0,0.25)] shrink-0 active:scale-95"
+            className="px-4 py-2.5 bg-[#FF6B00] hover:bg-[#e05d00] text-white text-xs font-bold rounded-xl cursor-pointer transition-all flex items-center gap-2 shadow-[0_2px_12px_rgba(255,107,0,0.28)] shrink-0 active:scale-95"
             title="Open incoming client inquiries to send branded replies"
           >
             <span>💬</span>
@@ -1728,9 +2423,9 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                 defaultMessageTemplate: `Dear {client_name},\n\nThank you for reaching out to Creed Tech regarding "{service}".\n\nBest regards,\nCreed Tech Team`,
               });
             }}
-            className="px-3.5 py-2 bg-[#F1F3F5] hover:bg-[#EBECEF] border border-[#E2E8F0] text-slate-700 text-xs font-bold rounded-xl cursor-pointer transition-all flex items-center gap-1.5 shrink-0 shadow-xs"
+            className="px-4 py-2.5 bg-white hover:bg-slate-50 border border-slate-200 hover:border-slate-300 text-slate-800 text-xs font-bold rounded-xl cursor-pointer transition-all flex items-center gap-1.5 shrink-0 shadow-xs"
           >
-            <span>➕</span>
+            <span className="text-orange-600 font-black">➕</span>
             <span>Add Business Email</span>
           </button>
         </div>
@@ -1740,34 +2435,44 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         <div
           onClick={() => setActiveSubTab("desks")}
-          className={`p-4 rounded-2xl border transition-all cursor-pointer ${
+          className={`p-4 rounded-2xl border transition-all cursor-pointer select-none ${
             activeSubTab === "desks"
-              ? "bg-white border-orange-300 shadow-[0_2px_12px_rgba(255,107,0,0.15)] ring-1 ring-[#FF6B00]"
-              : "bg-white border-[#E2E8F0] hover:border-orange-200 shadow-xs"
+              ? "bg-white border-orange-400 shadow-[0_4px_16px_rgba(255,107,0,0.15)] ring-2 ring-orange-400/20"
+              : "bg-white border-slate-200 hover:border-orange-300 shadow-xs hover:shadow-sm"
           }`}
         >
-          <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1 flex items-center gap-1">
-            <span>🏢</span>
-            <span>Business Desks</span>
+          <div className="text-[11px] font-extrabold text-slate-600 uppercase tracking-wider mb-1.5 flex items-center justify-between">
+            <span className="flex items-center gap-1.5">
+              <span className="w-5 h-5 rounded-md bg-slate-100 flex items-center justify-center text-xs">🏢</span>
+              <span>Business Desks</span>
+            </span>
+            {activeSubTab === "desks" && (
+              <span className="w-2 h-2 rounded-full bg-[#FF6B00]" />
+            )}
           </div>
-          <div className="text-2xl font-black text-[#0F172A] font-outfit">{profiles.length}</div>
-          <div className="text-[10px] text-slate-500 mt-0.5 font-medium">Configured Email Profiles</div>
+          <div className="text-2xl sm:text-3xl font-black text-slate-900 font-outfit">{profiles.length}</div>
+          <div className="text-xs text-slate-500 mt-1 font-medium">Configured Email Profiles</div>
         </div>
 
         <div
           onClick={() => setActiveSubTab("inquiries")}
-          className={`p-4 rounded-2xl border transition-all cursor-pointer ${
+          className={`p-4 rounded-2xl border transition-all cursor-pointer select-none ${
             activeSubTab === "inquiries"
-              ? "bg-white border-orange-300 shadow-[0_2px_12px_rgba(255,107,0,0.15)] ring-1 ring-[#FF6B00]"
-              : "bg-white border-[#E2E8F0] hover:border-orange-200 shadow-xs"
+              ? "bg-white border-orange-400 shadow-[0_4px_16px_rgba(255,107,0,0.15)] ring-2 ring-orange-400/20"
+              : "bg-white border-slate-200 hover:border-orange-300 shadow-xs hover:shadow-sm"
           }`}
         >
-          <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1 flex items-center gap-1">
-            <span>💬</span>
-            <span>Client Inquiries</span>
+          <div className="text-[11px] font-extrabold text-slate-600 uppercase tracking-wider mb-1.5 flex items-center justify-between">
+            <span className="flex items-center gap-1.5">
+              <span className="w-5 h-5 rounded-md bg-slate-100 flex items-center justify-center text-xs">💬</span>
+              <span>Client Inquiries</span>
+            </span>
+            {activeSubTab === "inquiries" && (
+              <span className="w-2 h-2 rounded-full bg-[#FF6B00]" />
+            )}
           </div>
-          <div className="text-2xl font-black text-[#0F172A] font-outfit">{inquiries.length}</div>
-          <div className="text-[10px] text-slate-500 mt-0.5 font-medium">Total Inbound Leads</div>
+          <div className="text-2xl sm:text-3xl font-black text-slate-900 font-outfit">{inquiries.length}</div>
+          <div className="text-xs text-slate-500 mt-1 font-medium">Total Inbound Leads</div>
         </div>
 
         <div
@@ -1775,57 +2480,67 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
             setActiveSubTab("inquiries");
             setInquiryFilter("NEW");
           }}
-          className={`p-4 rounded-2xl border transition-all cursor-pointer ${
+          className={`p-4 rounded-2xl border transition-all cursor-pointer select-none ${
             inquiries.filter((i) => i.status === "NEW" || i.status === "PENDING").length > 0
-              ? "bg-amber-50/70 border-amber-300 hover:border-amber-400 shadow-xs"
-              : "bg-white border-[#E2E8F0] hover:border-orange-200 shadow-xs"
+              ? "bg-gradient-to-br from-amber-50 to-orange-50/60 border-amber-300 hover:border-amber-400 shadow-xs ring-1 ring-amber-400/20"
+              : "bg-white border-slate-200 hover:border-orange-300 shadow-xs hover:shadow-sm"
           }`}
         >
-          <div className="text-[10px] font-bold text-amber-700 uppercase tracking-wider mb-1 flex items-center gap-1">
-            <span>⏳</span>
-            <span>Pending Replies</span>
+          <div className="text-[11px] font-extrabold text-amber-800 uppercase tracking-wider mb-1.5 flex items-center justify-between">
+            <span className="flex items-center gap-1.5">
+              <span className="w-5 h-5 rounded-md bg-amber-100/80 flex items-center justify-center text-xs">⏳</span>
+              <span>Pending Replies</span>
+            </span>
+            {inquiries.filter((i) => i.status === "NEW" || i.status === "PENDING").length > 0 && (
+              <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+            )}
           </div>
-          <div className="text-2xl font-black text-amber-700 font-outfit">
+          <div className="text-2xl sm:text-3xl font-black text-amber-900 font-outfit">
             {inquiries.filter((i) => i.status === "NEW" || i.status === "PENDING").length}
           </div>
-          <div className="text-[10px] text-amber-600 mt-0.5 font-medium">Ready for immediate response</div>
+          <div className="text-xs text-amber-700 mt-1 font-medium">Ready for immediate response</div>
         </div>
 
         <div
           onClick={() => setActiveSubTab("smtp")}
-          className={`p-4 rounded-2xl border transition-all cursor-pointer ${
+          className={`p-4 rounded-2xl border transition-all cursor-pointer select-none ${
             activeSubTab === "smtp"
-              ? "bg-white border-orange-300 shadow-[0_2px_12px_rgba(255,107,0,0.15)] ring-1 ring-[#FF6B00]"
-              : "bg-white border-[#E2E8F0] hover:border-orange-200 shadow-xs"
+              ? "bg-white border-orange-400 shadow-[0_4px_16px_rgba(255,107,0,0.15)] ring-2 ring-orange-400/20"
+              : "bg-white border-slate-200 hover:border-orange-300 shadow-xs hover:shadow-sm"
           }`}
         >
-          <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1 flex items-center gap-1">
-            <span>⚙️</span>
-            <span>SMTP Server</span>
+          <div className="text-[11px] font-extrabold text-slate-600 uppercase tracking-wider mb-1.5 flex items-center justify-between">
+            <span className="flex items-center gap-1.5">
+              <span className="w-5 h-5 rounded-md bg-slate-100 flex items-center justify-center text-xs">⚙️</span>
+              <span>SMTP Server</span>
+            </span>
+            {activeSubTab === "smtp" && (
+              <span className="w-2 h-2 rounded-full bg-[#FF6B00]" />
+            )}
           </div>
-          <div className="text-sm font-bold flex items-center gap-1.5 mt-1 text-[#0F172A]">
+          <div className="text-sm font-bold flex items-center gap-2 mt-1 text-slate-900">
             <span
               className={`w-2.5 h-2.5 rounded-full inline-block ${
                 isSmtpConfigured ? "bg-emerald-500" : "bg-amber-500"
               }`}
             />
-            <span>{isSmtpConfigured ? "Connected" : "Local Mode"}</span>
+            <span className="font-outfit">{isSmtpConfigured ? "Connected & Active" : "Local Simulation"}</span>
           </div>
-          <div className="text-[10px] text-slate-500 mt-1 font-medium font-mono truncate">
+          <div className="text-xs text-slate-500 mt-1 font-medium font-mono truncate">
             {smtpHost || "mail.server"}
           </div>
         </div>
       </div>
 
       {/* Sub-Navigation Tabs */}
-      <div className="flex items-center gap-2 bg-white border border-[#E2E8F0] p-1.5 rounded-2xl text-xs font-semibold overflow-x-auto shadow-xs">
+      <div className="flex items-center gap-2 bg-slate-100/80 border border-slate-200 p-1.5 rounded-2xl text-xs font-semibold overflow-x-auto shadow-2xs">
         <button
           type="button"
           onClick={() => setActiveSubTab("desks")}
-          className={`px-4 py-2 rounded-xl transition-all cursor-pointer flex items-center gap-2 ${
+          className={`px-4 py-2.5 rounded-xl transition-all cursor-pointer flex items-center gap-2 ${
             activeSubTab === "desks"
-              ? "bg-[#FF6B00] text-white font-bold shadow-[0_2px_10px_rgba(255,107,0,0.25)]"
-              : "text-slate-600 hover:text-[#0F172A] hover:bg-[#F1F3F5]"
+              ? "bg-[#FF6B00] text-white font-bold shadow-[0_2px_12px_rgba(255,107,0,0.3)]"
+              : "text-slate-600 hover:text-slate-900 hover:bg-white/90"
           }`}
         >
           <span>🏢</span>
@@ -1835,20 +2550,20 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
         <button
           type="button"
           onClick={() => setActiveSubTab("inquiries")}
-          className={`px-4 py-2 rounded-xl transition-all cursor-pointer flex items-center gap-2 ${
+          className={`px-4 py-2.5 rounded-xl transition-all cursor-pointer flex items-center gap-2 ${
             activeSubTab === "inquiries"
-              ? "bg-[#FF6B00] text-white font-bold shadow-[0_2px_10px_rgba(255,107,0,0.25)]"
-              : "text-slate-600 hover:text-[#0F172A] hover:bg-[#F1F3F5]"
+              ? "bg-[#FF6B00] text-white font-bold shadow-[0_2px_12px_rgba(255,107,0,0.3)]"
+              : "text-slate-600 hover:text-slate-900 hover:bg-white/90"
           }`}
         >
           <span>💬</span>
           <span>Client Inquiries &amp; Quick Reply</span>
           {inquiries.filter((i) => i.status === "NEW" || i.status === "PENDING").length > 0 ? (
-            <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-amber-400 text-amber-950">
+            <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-amber-400 text-amber-950 shadow-2xs">
               {inquiries.filter((i) => i.status === "NEW" || i.status === "PENDING").length} New
             </span>
           ) : (
-            <span className="px-1.5 py-0.2 rounded-full text-[10px] font-medium bg-[#EBECEF] text-slate-600">
+            <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-slate-200/80 text-slate-700">
               {inquiries.length}
             </span>
           )}
@@ -1857,10 +2572,10 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
         <button
           type="button"
           onClick={() => setActiveSubTab("smtp")}
-          className={`px-4 py-2 rounded-xl transition-all cursor-pointer flex items-center gap-2 ${
+          className={`px-4 py-2.5 rounded-xl transition-all cursor-pointer flex items-center gap-2 ${
             activeSubTab === "smtp"
-              ? "bg-[#FF6B00] text-white font-bold shadow-[0_2px_10px_rgba(255,107,0,0.25)]"
-              : "text-slate-600 hover:text-[#0F172A] hover:bg-[#F1F3F5]"
+              ? "bg-[#FF6B00] text-white font-bold shadow-[0_2px_12px_rgba(255,107,0,0.3)]"
+              : "text-slate-600 hover:text-slate-900 hover:bg-white/90"
           }`}
         >
           <span>⚙️</span>
@@ -1874,42 +2589,84 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
         </button>
       </div>
 
-      {/* MODAL: VISUAL DESIGNER FOR ADD / EDIT */}
-      {editingProfile && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-white text-[#111827] rounded-xl border border-gray-200 max-w-6xl w-full p-5 sm:p-6 shadow-2xl relative text-left my-8 max-h-[92vh] flex flex-col justify-between">
-            <div className="flex items-center justify-between pb-3 border-b border-gray-200">
-              <div>
-                <h3 className="text-base font-bold text-gray-900 m-0">
-                  {profiles.some((p) => p.id === editingProfile.id)
-                    ? `Visual Designer: ${editingProfile.name}`
-                    : "Design New Business Email Profile"}
-                </h3>
-                <span className="text-xs text-gray-500">
-                  Select 1 of 5 distinct formats, customize colors, layout &amp; live preview.
-                </span>
+      {/* MODAL: VISUAL DESIGNER FOR ADD / EDIT (PORTALED TO DOCUMENT BODY) */}
+      {mounted && editingProfile && createPortal(
+        <div 
+          className="fixed inset-0 z-[99999] bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-2 sm:p-4 md:p-6 overflow-hidden animate-in fade-in duration-200"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              setEditingProfile(null);
+            }
+          }}
+        >
+          <div 
+            className="bg-white text-slate-900 rounded-2xl sm:rounded-3xl border border-slate-200/90 w-[98vw] sm:w-[96vw] max-w-[1560px] h-[95vh] sm:h-[92vh] max-h-[960px] shadow-[0_25px_70px_rgba(0,0,0,0.45)] relative text-left flex flex-col justify-between overflow-hidden animate-in zoom-in-95 duration-200 ring-1 ring-black/5"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Top Brand Accent Line */}
+            <div className="h-1.5 w-full bg-gradient-to-r from-blue-600 via-indigo-600 to-[#FF6B00] shrink-0" />
+
+            {/* Modal Top Header */}
+            <div className="flex items-center justify-between px-4 sm:px-8 py-3.5 sm:py-4 border-b border-slate-200/90 bg-white/95 backdrop-blur-md z-30 shrink-0">
+              <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 text-white flex items-center justify-center text-xl sm:text-2xl shadow-md shadow-blue-500/25 ring-4 ring-blue-50 shrink-0">
+                  🎨
+                </div>
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2 sm:gap-2.5 flex-wrap">
+                    <h3 className="text-base sm:text-lg md:text-xl font-black text-slate-900 m-0 font-outfit tracking-tight truncate">
+                      {profiles.some((p) => p.id === editingProfile.id)
+                        ? `Visual Designer: ${editingProfile.name}`
+                        : "Design New Business Email Profile"}
+                    </h3>
+                    <span className="text-[10px] sm:text-[11px] font-bold px-2 sm:px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200 font-mono shrink-0">
+                      {editingProfile.department || "Profile Editor"}
+                    </span>
+                  </div>
+                  <div className="text-[11px] sm:text-xs text-slate-500 font-medium mt-0.5 flex items-center gap-2 truncate">
+                    <span>Select 1 of 5 distinct formats, customize colors, layout &amp; live preview.</span>
+                    <span className="hidden md:inline text-slate-300">•</span>
+                    <span className="hidden md:inline text-slate-400 font-mono text-[11px]">ID: {editingProfile.id}</span>
+                  </div>
+                </div>
               </div>
-              <button
-                type="button"
-                onClick={() => setEditingProfile(null)}
-                className="text-sm font-bold text-gray-400 hover:text-gray-900 cursor-pointer"
-              >
-                ✕
-              </button>
+
+              {/* Top Right Controls & Prominent Close Button */}
+              <div className="flex items-center gap-2 sm:gap-3 shrink-0 ml-3">
+                <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-600">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                  <span>Live Canvas</span>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setEditingProfile(null)}
+                  className="group flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-xl bg-slate-100 hover:bg-red-50 text-slate-700 hover:text-red-600 border border-slate-200 hover:border-red-200 font-bold text-xs sm:text-sm cursor-pointer transition-all duration-150 shadow-xs hover:shadow-sm"
+                  title="Close Designer (Esc)"
+                  aria-label="Close Designer"
+                >
+                  <span className="text-base font-black transition-transform group-hover:scale-110 leading-none">✕</span>
+                  <span className="font-bold hidden sm:inline text-xs">Close</span>
+                  <kbd className="hidden md:inline text-[10px] font-mono font-medium px-1.5 py-0.5 rounded-md bg-white border border-slate-200 text-slate-400 group-hover:text-red-500 group-hover:border-red-200">
+                    Esc
+                  </kbd>
+                </button>
+              </div>
             </div>
 
             {/* FORMAT SELECTOR BAR (5 DISTINCT FORMAT SLOTS) */}
-            <div className="pt-2.5 pb-2 border-b border-gray-100">
+            <div className="px-4 sm:px-8 py-3 border-b border-slate-200 bg-slate-50/80 shrink-0">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-[11px] font-bold text-gray-700 uppercase tracking-wider flex items-center gap-1.5">
-                  <span>🎨 Email Template Format:</span>
-                  <span className="text-gray-400 font-normal text-[10px]">(5 Format Architecture)</span>
+                <span className="text-xs font-extrabold text-slate-800 uppercase tracking-wider flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-blue-600 animate-pulse"></span>
+                  <span>Email Template Format:</span>
+                  <span className="text-slate-500 font-semibold text-[11px]">(5 Format Architecture)</span>
                 </span>
-                <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200">
-                  Active: {activeModalFormat === "format-executive-signature" ? "Format 2 (Executive Desk)" : "Format 1 (Catalog Cards)"}
+                <span className="text-[11px] font-mono font-bold px-3 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200 shadow-2xs">
+                  Active: {activeModalFormat === "format-executive-signature" ? "Format 2 (Executive Desk)" : activeModalFormat === "format-announcement" ? "Format 3 (Brand Hero & Promo)" : activeModalFormat === "format-minimal" ? "Format 4 (Executive Signature Banner)" : "Format 1 (Catalog Cards)"}
                 </span>
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
+              <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
                 {EMAIL_FORMATS_METADATA.map((fmt) => {
                   const isSelected = activeModalFormat === fmt.id;
                   const isReserved = fmt.status === "RESERVED";
@@ -1946,6 +2703,22 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                                       ? editingProfile.galleryRows
                                       : DEFAULT_FORMAT2_GALLERY_ROWS,
                                 }
+                              : fmt.id === "format-minimal"
+                              ? {
+                                  signatureName: editingProfile.signatureName || editingProfile.name || "Tariq Mahmood",
+                                  signatureRole: editingProfile.signatureRole || editingProfile.department || "Chief Technical Director",
+                                  signatureTagline: editingProfile.signatureTagline || "Enterprise Engineering & Industrial Systems",
+                                  signatureAvatar:
+                                    editingProfile.signatureAvatar ||
+                                    "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop",
+                                  sidebarLogo:
+                                    editingProfile.sidebarLogo ||
+                                    "https://creed-tech.com/icons/icon-192x192.png",
+                                  sidebarSocialLinks:
+                                    editingProfile.sidebarSocialLinks && editingProfile.sidebarSocialLinks.length > 0
+                                      ? editingProfile.sidebarSocialLinks
+                                      : DEFAULT_FORMAT2_SOCIAL_LINKS,
+                                }
                               : {}),
                           });
                           if (showToast) {
@@ -1953,32 +2726,32 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                           }
                         }
                       }}
-                      className={`p-2 rounded-lg border text-left transition-all relative ${
+                      className={`p-2.5 rounded-xl border text-left transition-all relative ${
                         isReserved
-                          ? "bg-gray-50/70 border-dashed border-gray-300 opacity-60 cursor-not-allowed"
+                          ? "bg-slate-50/70 border-dashed border-slate-300 opacity-60 cursor-not-allowed"
                           : isSelected
-                          ? "bg-blue-50/90 border-[#0052FF] ring-2 ring-blue-400 shadow-xs cursor-pointer"
-                          : "bg-white border-gray-200 hover:border-gray-300 hover:bg-gray-50 cursor-pointer"
+                          ? "bg-blue-50/95 border-[#0052FF] ring-2 ring-blue-500/30 shadow-xs cursor-pointer"
+                          : "bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50 cursor-pointer shadow-2xs"
                       }`}
                     >
-                      <div className="flex items-center justify-between gap-1 mb-1">
-                        <span className="text-xs">{fmt.icon}</span>
+                      <div className="flex items-center justify-between gap-1 mb-1.5">
+                        <span className="text-base">{fmt.icon}</span>
                         <span
-                          className={`text-[8px] font-extrabold uppercase px-1.5 py-0.2 rounded-full ${
+                          className={`text-[9px] font-black uppercase px-2 py-0.5 rounded-full ${
                             isReserved
-                              ? "bg-gray-200 text-gray-600"
+                              ? "bg-slate-200 text-slate-600"
                               : isSelected
-                              ? "bg-[#0052FF] text-white"
+                              ? "bg-[#0052FF] text-white shadow-2xs"
                               : "bg-emerald-100 text-emerald-800"
                           }`}
                         >
                           {isReserved ? "Reserved" : isSelected ? "Selected" : "Live"}
                         </span>
                       </div>
-                      <div className="text-[11px] font-bold text-gray-900 truncate">
+                      <div className="text-xs font-bold text-slate-900 truncate">
                         Format {fmt.formatNumber}
                       </div>
-                      <div className="text-[9px] text-gray-500 truncate leading-tight">
+                      <div className="text-[10px] text-slate-500 truncate leading-tight mt-0.5">
                         {fmt.badge}
                       </div>
                     </button>
@@ -1988,69 +2761,73 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
             </div>
 
             {/* Split Screen Designer */}
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-5 my-4 max-h-[calc(90vh-130px)] overflow-y-auto pr-2">
-              {/* Controls (6 Cols) */}
-              <div className="md:col-span-6 flex flex-col gap-3">
-                <div className="bg-gray-50 border border-gray-200 rounded-lg p-3">
-                  <span className="text-[11px] font-bold text-gray-700 uppercase tracking-wider block mb-2">
-                    1. Identity &amp; Colors
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-6 p-5 sm:p-6 overflow-y-auto flex-1 custom-scrollbar">
+              {/* Controls (7 Cols on MD+ for wide, clear, comfortable editing) */}
+              <div className="md:col-span-7 flex flex-col gap-4">
+                <div className="bg-slate-50/70 border border-slate-200/90 rounded-2xl p-4 sm:p-5 space-y-4 shadow-2xs">
+                  <span className="text-xs font-extrabold text-slate-800 uppercase tracking-wider block flex items-center gap-2">
+                    <span>👤</span>
+                    <span>1. Profile Identity &amp; Color Scheme</span>
                   </span>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs">
                     <div>
-                      <label className="block text-[10px] font-semibold text-gray-600 mb-0.5">Profile Name *</label>
+                      <label className="block text-xs font-bold text-slate-700 mb-1">Profile Name *</label>
                       <input
                         type="text"
                         value={editingProfile.name}
                         onChange={(e) => setEditingProfile({ ...editingProfile, name: e.target.value })}
-                        className="w-full px-2.5 py-1 text-xs border border-gray-300 rounded font-medium outline-none focus:border-[#0052FF] bg-white"
+                        className="w-full px-3 py-2 text-xs sm:text-[13px] border border-slate-300 rounded-xl font-medium outline-none focus:border-[#FF6B00] focus:ring-2 focus:ring-[#FF6B00]/20 bg-white text-slate-900 transition-all"
+                        placeholder="e.g. Sales Desk"
                       />
                     </div>
                     <div>
-                      <label className="block text-[10px] font-semibold text-gray-600 mb-0.5">Department Tag *</label>
+                      <label className="block text-xs font-bold text-slate-700 mb-1">Department Tag *</label>
                       <input
                         type="text"
                         value={editingProfile.department}
                         onChange={(e) => setEditingProfile({ ...editingProfile, department: e.target.value })}
-                        className="w-full px-2.5 py-1 text-xs border border-gray-300 rounded font-medium outline-none focus:border-[#0052FF] bg-white"
+                        className="w-full px-3 py-2 text-xs sm:text-[13px] border border-slate-300 rounded-xl font-medium outline-none focus:border-[#FF6B00] focus:ring-2 focus:ring-[#FF6B00]/20 bg-white text-slate-900 transition-all"
+                        placeholder="e.g. Industrial Solutions"
                       />
                     </div>
                     <div className="sm:col-span-2">
-                      <label className="block text-[10px] font-semibold text-gray-600 mb-0.5">Sender Email *</label>
+                      <label className="block text-xs font-bold text-slate-700 mb-1">Sender Email *</label>
                       <input
                         type="email"
                         value={editingProfile.email}
                         onChange={(e) => setEditingProfile({ ...editingProfile, email: e.target.value })}
-                        className={`w-full px-2.5 py-1 text-xs border rounded font-mono outline-none bg-white ${
-                          isEditingEmailDuplicate ? "border-red-500 focus:border-red-600 ring-1 ring-red-400" : "border-gray-300 focus:border-[#0052FF]"
+                        className={`w-full px-3 py-2 text-xs sm:text-[13px] border rounded-xl font-mono outline-none bg-white transition-all text-slate-900 ${
+                          isEditingEmailDuplicate ? "border-red-500 focus:border-red-600 ring-2 ring-red-400/20" : "border-slate-300 focus:border-[#FF6B00] focus:ring-2 focus:ring-[#FF6B00]/20"
                         }`}
                         placeholder="e.g. desk@creed-tech.com"
                       />
                       {isEditingEmailDuplicate && (
-                        <span className="text-[10px] text-red-600 font-bold block mt-1 flex items-center gap-1">
+                        <span className="text-xs text-red-600 font-bold block mt-1.5 flex items-center gap-1.5">
                           <span>⚠️</span>
                           <span>This business email already exists in another profile. Duplicate email formats are not allowed.</span>
                         </span>
                       )}
                     </div>
+
                     {/* 1. BRAND ACCENT COLOR PALETTE */}
-                    <div className="sm:col-span-2 pt-2 border-t border-gray-200">
-                      <div className="flex items-center justify-between mb-1">
-                        <label className="text-[10px] font-bold text-gray-700 uppercase tracking-wider flex items-center gap-1.5">
+                    <div className="sm:col-span-2 pt-3 border-t border-slate-200">
+                      <div className="flex items-center justify-between mb-2">
+                        <label className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
                           <span>✨ Brand Accent Color</span>
-                          <span className="text-[9px] font-normal text-gray-500">(Buttons, Links, Borders)</span>
+                          <span className="text-[11px] font-normal text-slate-500">(Buttons, Links, Borders)</span>
                         </label>
-                        <span className="text-[10px] font-mono text-gray-600 font-semibold">{editingProfile.accentColor || "#FF6B00"}</span>
+                        <span className="text-xs font-mono text-slate-700 font-bold bg-white px-2 py-0.5 rounded border border-slate-200">{editingProfile.accentColor || "#FF6B00"}</span>
                       </div>
-                      <div className="flex flex-wrap items-center gap-1.5">
+                      <div className="flex flex-wrap items-center gap-2">
                         {ACCENT_COLOR_PRESETS.map((c) => (
                           <button
                             key={c}
                             type="button"
                             onClick={() => setEditingProfile({ ...editingProfile, accentColor: c })}
-                            className="w-5 h-5 rounded-full cursor-pointer transition-transform hover:scale-110 shadow-xs"
+                            className="w-6 h-6 rounded-full cursor-pointer transition-transform hover:scale-115 shadow-2xs"
                             style={{
                               backgroundColor: c,
-                              border: editingProfile.accentColor === c ? "2px solid #0052FF" : "1px solid #d1d5db",
+                              border: editingProfile.accentColor === c ? "2px solid #0052FF" : "1px solid #cbd5e1",
                               boxShadow: editingProfile.accentColor === c ? "0 0 0 2px rgba(0,82,255,0.3)" : "none",
                             }}
                             title={c}
@@ -2060,35 +2837,35 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                           type="color"
                           value={editingProfile.accentColor || "#FF6B00"}
                           onChange={(e) => setEditingProfile({ ...editingProfile, accentColor: e.target.value })}
-                          className="w-6 h-6 rounded cursor-pointer border border-gray-300 p-0 ml-1"
+                          className="w-7 h-7 rounded-lg cursor-pointer border border-slate-300 p-0 ml-1 shadow-2xs"
                           title="Custom Color Wheel / Palette"
                         />
                         <input
                           type="text"
                           value={editingProfile.accentColor || ""}
                           onChange={(e) => setEditingProfile({ ...editingProfile, accentColor: e.target.value })}
-                          className="w-20 px-2 py-0.5 text-[11px] border border-gray-300 rounded font-mono outline-none bg-white focus:border-[#0052FF]"
+                          className="w-24 px-2.5 py-1 text-xs border border-slate-300 rounded-lg font-mono font-bold outline-none bg-white text-slate-800 focus:border-[#FF6B00]"
                           placeholder="#FF6B00"
                         />
                       </div>
                     </div>
 
-                    {/* 2. TEXT COLOR PALETTE (TXT COLOR PLATE PORI HO) */}
-                    <div className="sm:col-span-2 pt-2 border-t border-gray-200">
-                      <div className="flex items-center justify-between mb-1">
-                        <label className="text-[10px] font-bold text-gray-700 uppercase tracking-wider flex items-center gap-1.5">
+                    {/* 2. TEXT COLOR PALETTE */}
+                    <div className="sm:col-span-2 pt-3 border-t border-slate-200">
+                      <div className="flex items-center justify-between mb-2">
+                        <label className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
                           <span>🔤 Text Color Palette</span>
-                          <span className="text-[9px] font-normal text-gray-500">(Headings, Message &amp; Name)</span>
+                          <span className="text-[11px] font-normal text-slate-500">(Headings, Message &amp; Name)</span>
                         </label>
-                        <span className="text-[10px] font-mono text-gray-600 font-semibold">{editingProfile.textColor || "#1E293B"}</span>
+                        <span className="text-xs font-mono text-slate-700 font-bold bg-white px-2 py-0.5 rounded border border-slate-200">{editingProfile.textColor || "#1E293B"}</span>
                       </div>
-                      <div className="flex flex-wrap items-center gap-1.5">
+                      <div className="flex flex-wrap items-center gap-2">
                         {TEXT_COLOR_PRESETS.map((item) => (
                           <button
                             key={item.color}
                             type="button"
                             onClick={() => setEditingProfile({ ...editingProfile, textColor: item.color })}
-                            className="w-5 h-5 rounded-full cursor-pointer transition-transform hover:scale-110 shadow-xs"
+                            className="w-6 h-6 rounded-full cursor-pointer transition-transform hover:scale-115 shadow-2xs"
                             style={{
                               backgroundColor: item.color,
                               border: (editingProfile.textColor || "#1E293B").toLowerCase() === item.color.toLowerCase() ? "2px solid #0052FF" : "1px solid #94a3b8",
@@ -2101,35 +2878,35 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                           type="color"
                           value={editingProfile.textColor || "#1E293B"}
                           onChange={(e) => setEditingProfile({ ...editingProfile, textColor: e.target.value })}
-                          className="w-6 h-6 rounded cursor-pointer border border-gray-300 p-0 ml-1"
+                          className="w-7 h-7 rounded-lg cursor-pointer border border-slate-300 p-0 ml-1 shadow-2xs"
                           title="Custom Color Wheel / Palette"
                         />
                         <input
                           type="text"
                           value={editingProfile.textColor || "#1E293B"}
                           onChange={(e) => setEditingProfile({ ...editingProfile, textColor: e.target.value })}
-                          className="w-20 px-2 py-0.5 text-[11px] border border-gray-300 rounded font-mono outline-none bg-white focus:border-[#0052FF]"
+                          className="w-24 px-2.5 py-1 text-xs border border-slate-300 rounded-lg font-mono font-bold outline-none bg-white text-slate-800 focus:border-[#FF6B00]"
                           placeholder="#1E293B"
                         />
                       </div>
                     </div>
 
-                    {/* 3. BACKGROUND COLOR PALETTE (BACKGROUND COLOR PLATE) */}
-                    <div className="sm:col-span-2 pt-2 border-t border-gray-200">
-                      <div className="flex items-center justify-between mb-1">
-                        <label className="text-[10px] font-bold text-gray-700 uppercase tracking-wider flex items-center gap-1.5">
+                    {/* 3. BACKGROUND COLOR PALETTE */}
+                    <div className="sm:col-span-2 pt-3 border-t border-slate-200">
+                      <div className="flex items-center justify-between mb-2">
+                        <label className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
                           <span>🎨 Background Color Palette</span>
-                          <span className="text-[9px] font-normal text-gray-500">(Email Card &amp; Canvas)</span>
+                          <span className="text-[11px] font-normal text-slate-500">(Email Card &amp; Canvas)</span>
                         </label>
-                        <span className="text-[10px] font-mono text-gray-600 font-semibold">{editingProfile.backgroundColor || "#FFFFFF"}</span>
+                        <span className="text-xs font-mono text-slate-700 font-bold bg-white px-2 py-0.5 rounded border border-slate-200">{editingProfile.backgroundColor || "#FFFFFF"}</span>
                       </div>
-                      <div className="flex flex-wrap items-center gap-1.5">
+                      <div className="flex flex-wrap items-center gap-2">
                         {BG_COLOR_PRESETS.map((item) => (
                           <button
                             key={item.color}
                             type="button"
                             onClick={() => setEditingProfile({ ...editingProfile, backgroundColor: item.color })}
-                            className="w-5 h-5 rounded-full cursor-pointer transition-transform hover:scale-110 shadow-xs"
+                            className="w-6 h-6 rounded-full cursor-pointer transition-transform hover:scale-115 shadow-2xs"
                             style={{
                               backgroundColor: item.color,
                               border: (editingProfile.backgroundColor || "#FFFFFF").toLowerCase() === item.color.toLowerCase() ? "2px solid #0052FF" : "1px solid #cbd5e1",
@@ -2142,14 +2919,14 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                           type="color"
                           value={editingProfile.backgroundColor || "#FFFFFF"}
                           onChange={(e) => setEditingProfile({ ...editingProfile, backgroundColor: e.target.value })}
-                          className="w-6 h-6 rounded cursor-pointer border border-gray-300 p-0 ml-1"
+                          className="w-7 h-7 rounded-lg cursor-pointer border border-slate-300 p-0 ml-1 shadow-2xs"
                           title="Custom Color Wheel / Palette"
                         />
                         <input
                           type="text"
                           value={editingProfile.backgroundColor || "#FFFFFF"}
                           onChange={(e) => setEditingProfile({ ...editingProfile, backgroundColor: e.target.value })}
-                          className="w-20 px-2 py-0.5 text-[11px] border border-gray-300 rounded font-mono outline-none bg-white focus:border-[#0052FF]"
+                          className="w-24 px-2.5 py-1 text-xs border border-slate-300 rounded-lg font-mono font-bold outline-none bg-white text-slate-800 focus:border-[#FF6B00]"
                           placeholder="#FFFFFF"
                         />
                       </div>
@@ -2157,16 +2934,18 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                   </div>
                 </div>
 
-                {/* FORMAT 1: MACHINE OFFERS & CATALOG CARDS */}
-                {activeModalFormat === "format-catalog" && (
+                {/* FORMAT 1, 3 & 4: MACHINE OFFERS & CATALOG CARDS / EQUIPMENT SHOWCASE */}
+                {(activeModalFormat === "format-catalog" || activeModalFormat === "format-announcement" || activeModalFormat === "format-minimal") && (
                 <div className="bg-gray-50 border border-gray-200 rounded-xl p-3.5 space-y-3">
                   <div className="flex flex-wrap items-center justify-between gap-2 border-b border-gray-200 pb-2.5">
                     <div>
                       <span className="text-xs font-bold text-gray-900 uppercase tracking-wider block">
-                        2. Machine Offers &amp; Product Catalog Cards (Email Center)
+                        2. Machine Offers &amp; Equipment Showcase Cards ({activeModalFormat === "format-announcement" ? "Format 3 Hero & Units" : activeModalFormat === "format-minimal" ? "Format 4 Catalog Cards" : "Format 1 Catalog Cards"})
                       </span>
                       <span className="text-[11px] text-gray-500">
-                        Upload single or multiple pictures at once. They will automatically format into clean 2-column multi-rows (Row 1, Row 2, Row 3...).
+                        {activeModalFormat === "format-announcement"
+                          ? "Card 1 is your Main Hero Machinery showcase, Card 2 is the Secondary Split feature card, and additional cards appear in the inventory grid."
+                          : "Upload single or multiple pictures at once. They will automatically format into clean 2-column multi-rows (Row 1, Row 2, Row 3...)."}
                       </span>
                     </div>
 
@@ -2988,18 +3767,18 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                       />
 
                       {/* Header with Title and Primary Actions */}
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-2.5">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
                         <div>
                           <div className="flex items-center gap-2">
-                            <span className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
-                              <span>🔲 Multi-Row Image Gallery (Max 7 Images Per Row)</span>
+                            <span className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
+                              <span>🔲 Multi-Row Image Gallery (Email: Max 7 Cards Per Row)</span>
                             </span>
-                            <span className="text-[10px] font-mono px-2 py-0.5 rounded-full font-bold bg-blue-100 text-blue-800 border border-blue-200">
-                              {(editingProfile.galleryRows || []).length || 1} Row(s) • {(editingProfile.galleryRows || []).reduce((acc, r) => acc + (r.items || []).length, 0)} Images
+                            <span className="text-[10px] font-mono px-2.5 py-0.5 rounded-full font-bold bg-blue-100 text-blue-800 border border-blue-200 shadow-2xs">
+                              {(editingProfile.galleryRows || []).length || 1} Row(s) • {(editingProfile.galleryRows || []).reduce((acc, r) => acc + (r.items || []).length, 0)} Total Cards
                             </span>
                           </div>
-                          <span className="text-[10px] text-slate-400 block mt-0.5">
-                            Aik row mein max 7 images hongi. Agar kam hon gi tou center se adjustment hogi. Multi-picture upload aur content sync options dastiyab hain.
+                          <span className="text-[11px] text-slate-500 block mt-1 leading-snug">
+                            In sent emails &amp; live preview, each row displays up to 7 cards side-by-side (center-adjusted if fewer). Below in this editor, cards are laid out spaciously for easy photo review and text editing.
                           </span>
                         </div>
 
@@ -3008,7 +3787,7 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                             type="button"
                             disabled={isUploadingFormat2Gallery}
                             onClick={() => format2MultiFileInputRef.current?.click()}
-                            className="px-3 py-1.5 bg-[#FF6B00] hover:bg-[#E05E00] text-white rounded-lg text-xs font-bold cursor-pointer transition-all flex items-center gap-1.5 shadow-xs disabled:opacity-50"
+                            className="px-3.5 py-2 bg-[#FF6B00] hover:bg-[#E05E00] text-white rounded-xl text-xs font-bold cursor-pointer transition-all flex items-center gap-1.5 shadow-xs disabled:opacity-50"
                             title="Select multiple pictures from your computer at once"
                           >
                             <span>📁</span>
@@ -3017,18 +3796,18 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                           <button
                             type="button"
                             onClick={handleAddGalleryRow}
-                            className="px-3 py-1.5 bg-[#0052FF] hover:bg-blue-700 text-white rounded-lg text-xs font-bold cursor-pointer transition-colors flex items-center gap-1.5 shadow-xs"
+                            className="px-3.5 py-2 bg-[#0052FF] hover:bg-blue-700 text-white rounded-xl text-xs font-bold cursor-pointer transition-colors flex items-center gap-1.5 shadow-xs"
                           >
                             <span>➕</span>
-                            <span>Add Row</span>
+                            <span>Add New Row</span>
                           </button>
                         </div>
                       </div>
 
                       {/* Content / Caption Mode Toggle (Format 1 Style: Same vs Different Content) */}
-                      <div className="bg-slate-50 border border-slate-200 rounded-xl p-2.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                        <div className="flex items-center gap-2">
-                          <span className="text-[11px] font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1">
+                      <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+                        <div className="flex items-center gap-2.5 flex-wrap">
+                          <span className="text-[11px] font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
                             <span>📝 Caption / Text Mode:</span>
                           </span>
                           <div className="inline-flex rounded-lg border border-slate-200 bg-white p-0.5 shadow-2xs">
@@ -3038,7 +3817,7 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                                 setFormat2ContentMode("separate");
                                 if (showToast) showToast("Switched to Different Content per Picture");
                               }}
-                              className={`px-2.5 py-1 text-[11px] font-bold rounded-md transition-all cursor-pointer ${
+                              className={`px-3 py-1.5 text-xs font-bold rounded-md transition-all cursor-pointer ${
                                 format2ContentMode === "separate"
                                   ? "bg-[#0052FF] text-white shadow-2xs"
                                   : "text-slate-600 hover:text-slate-900"
@@ -3053,7 +3832,7 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                                 handleApplyFormat2TextToAll();
                                 if (showToast) showToast("Switched to Same Text for All Pictures! Synced across all cards.");
                               }}
-                              className={`px-2.5 py-1 text-[11px] font-bold rounded-md transition-all cursor-pointer ${
+                              className={`px-3 py-1.5 text-xs font-bold rounded-md transition-all cursor-pointer ${
                                 format2ContentMode === "same"
                                   ? "bg-[#0052FF] text-white shadow-2xs"
                                   : "text-slate-600 hover:text-slate-900"
@@ -3068,36 +3847,39 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                           <button
                             type="button"
                             onClick={() => handleApplyFormat2TextToAll()}
-                            className="px-2.5 py-1 bg-white hover:bg-blue-50 text-blue-700 border border-blue-300 rounded-md text-[11px] font-bold cursor-pointer transition-colors shadow-2xs flex items-center gap-1"
+                            className="px-3 py-1.5 bg-white hover:bg-blue-50 text-blue-700 border border-blue-300 rounded-lg text-xs font-bold cursor-pointer transition-colors shadow-2xs flex items-center gap-1.5"
                             title="Copy text from Card #1 to all cards"
                           >
-                            <span>📋 Copy Card #1 Text to All</span>
+                            <span>📋</span>
+                            <span>Copy Card #1 Text to All</span>
                           </button>
                         )}
                       </div>
 
                       {/* Master Text Input Bar when in 'Same' Mode */}
                       {format2ContentMode === "same" && (
-                        <div className="bg-blue-50/90 border border-blue-200 rounded-xl p-3 space-y-1.5 shadow-2xs">
+                        <div className="bg-blue-50/90 border border-blue-200 rounded-xl p-3.5 space-y-2 shadow-2xs">
                           <div className="flex items-center justify-between">
-                            <span className="text-[11px] font-bold text-blue-900 flex items-center gap-1.5">
-                              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                            <span className="text-xs font-bold text-blue-900 flex items-center gap-2">
+                              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
                               <span>🔗 Master Content Under All Pictures (Editing updates all cards in real-time)</span>
                             </span>
-                            <span className="text-[9px] font-mono text-blue-700 font-bold">Auto-sync active</span>
+                            <span className="text-[10px] font-mono text-blue-700 font-bold bg-blue-100/70 px-2 py-0.5 rounded">
+                              Auto-sync active
+                            </span>
                           </div>
                           <input
                             type="text"
                             value={format2MasterText}
                             onChange={(e) => handleFormat2MasterTextChange(e.target.value)}
                             placeholder="Type shared caption / text under all pictures..."
-                            className="w-full px-3 py-1.5 text-xs border border-blue-300 rounded-lg bg-white text-slate-800 font-medium shadow-2xs focus:ring-2 focus:ring-blue-400 outline-none"
+                            className="w-full px-3 py-2 text-xs border border-blue-300 rounded-lg bg-white text-slate-800 font-medium shadow-2xs focus:ring-2 focus:ring-blue-400 outline-none"
                           />
                         </div>
                       )}
 
                       {/* Rows Container */}
-                      <div className="space-y-3.5">
+                      <div className="space-y-4">
                         {(editingProfile.galleryRows && editingProfile.galleryRows.length > 0
                           ? editingProfile.galleryRows
                           : [
@@ -3117,15 +3899,16 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                         ).map((row, rIdx) => {
                           const itemsCount = (row.items || []).length;
                           return (
-                            <div key={row.id || rIdx} className="bg-slate-50 border border-slate-200 rounded-xl p-3 space-y-2.5">
+                            <div key={row.id || rIdx} className="bg-slate-50 border border-slate-200/90 rounded-2xl p-3.5 space-y-3 shadow-2xs">
                               {/* Row Header */}
-                              <div className="flex items-center justify-between border-b border-slate-200 pb-2">
+                              <div className="flex items-center justify-between border-b border-slate-200 pb-2.5">
                                 <div className="flex items-center gap-2">
-                                  <span className="text-xs font-bold text-slate-800">
-                                    Row #{rIdx + 1}
+                                  <span className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
+                                    <span className="w-2 h-2 rounded-full bg-blue-600"></span>
+                                    <span>Row #{rIdx + 1}</span>
                                   </span>
-                                  <span className="text-[10px] font-mono px-2 py-0.5 rounded-full font-bold bg-blue-100 text-blue-800">
-                                    {itemsCount} / 7 Images ({itemsCount < 7 ? "Center Adjusted" : "Full Row"})
+                                  <span className="text-[10px] font-mono px-2.5 py-0.5 rounded-full font-bold bg-blue-100 text-blue-800 border border-blue-200">
+                                    {itemsCount} / 7 Cards ({itemsCount < 7 ? "Center Adjusted in Email" : "Full Row in Email"})
                                   </span>
                                 </div>
                                 <div className="flex items-center gap-2">
@@ -3133,7 +3916,7 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                                     type="button"
                                     disabled={itemsCount >= 7}
                                     onClick={() => handleAddItemToRow(row.id)}
-                                    className="px-2.5 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded text-[10px] font-bold cursor-pointer transition-colors disabled:opacity-40 flex items-center gap-1 shadow-2xs"
+                                    className="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold cursor-pointer transition-colors disabled:opacity-40 flex items-center gap-1 shadow-2xs"
                                   >
                                     <span>➕ Add Card</span>
                                     <span>({itemsCount}/7)</span>
@@ -3141,67 +3924,95 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                                   <button
                                     type="button"
                                     onClick={() => handleDeleteGalleryRow(row.id)}
-                                    className="px-2.5 py-1 bg-red-100 hover:bg-red-200 text-red-700 rounded text-[10px] font-bold cursor-pointer transition-colors"
+                                    className="px-2.5 py-1 bg-red-100 hover:bg-red-200 text-red-700 rounded-lg text-xs font-bold cursor-pointer transition-colors"
                                   >
                                     🗑️ Del Row
                                   </button>
                                 </div>
                               </div>
 
-                              {/* Items in this row */}
-                              <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2.5">
+                              {/* Items in this row: Spacious 2 to 4 column responsive grid */}
+                              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3.5">
                                 {(row.items || []).map((it, itIdx) => (
                                   <div
                                     key={it.id || itIdx}
-                                    className="bg-white p-2 rounded-xl border border-slate-200 shadow-xs space-y-1.5 flex flex-col justify-between hover:border-blue-300 transition-colors"
+                                    className="bg-white p-3 rounded-2xl border border-slate-200/90 shadow-xs hover:shadow-md hover:border-blue-400 transition-all flex flex-col justify-between space-y-2.5 relative group/editcard"
                                   >
-                                    {/* Thumbnail Preview with Delete and Change Buttons */}
-                                    <div className="w-full h-20 rounded-lg overflow-hidden bg-slate-100 border border-slate-200 relative group">
-                                      <img
-                                        src={it.imageUrl}
-                                        alt={it.text}
-                                        className="w-full h-full object-cover cursor-pointer"
-                                        onClick={() => setEnlargedMediaPopup({ imageUrl: it.imageUrl, title: it.title || it.text, text: it.text })}
-                                        title="Click to enlarge 🔍"
-                                      />
-                                      {/* Top Delete button */}
+                                    {/* Card Header: Number & Delete */}
+                                    <div className="flex items-center justify-between">
+                                      <span className="text-[10px] font-mono font-bold text-slate-600 bg-slate-100 px-2 py-0.5 rounded-md flex items-center gap-1">
+                                        <span>🖼️</span>
+                                        <span>Card #{itIdx + 1}</span>
+                                      </span>
                                       <button
                                         type="button"
                                         onClick={() => handleDeleteRowItem(row.id, it.id)}
-                                        className="absolute top-1 right-1 w-5 h-5 bg-red-600 hover:bg-red-700 text-white rounded-full text-[10px] flex items-center justify-center cursor-pointer shadow-xs z-10"
-                                        title="Delete image card"
+                                        className="w-6 h-6 rounded-lg bg-red-50 hover:bg-red-600 text-red-600 hover:text-white text-xs font-bold flex items-center justify-center transition-colors cursor-pointer"
+                                        title="Delete this image card"
                                       >
                                         ✕
                                       </button>
-                                      {/* Change Picture Overlay Button */}
+                                    </div>
+
+                                    {/* Thumbnail Preview */}
+                                    <div className="w-full h-28 rounded-xl overflow-hidden bg-slate-900 border border-slate-200 relative group cursor-pointer">
+                                      <img
+                                        src={it.imageUrl}
+                                        alt={it.text || `Card ${itIdx + 1}`}
+                                        onError={(e) => {
+                                          const t = e.currentTarget;
+                                          if (t.src !== DEFAULT_IMAGE_FALLBACK) t.src = DEFAULT_IMAGE_FALLBACK;
+                                        }}
+                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                        onClick={() => setEnlargedMediaPopup({ imageUrl: it.imageUrl, title: it.title || it.text, text: it.text })}
+                                        title="Click to enlarge 🔍"
+                                      />
                                       <button
                                         type="button"
-                                        onClick={() => {
-                                          setUploadingFormat2RowItem({ rowId: row.id, itemId: it.id });
-                                          format2SingleItemFileInputRef.current?.click();
-                                        }}
-                                        className="absolute bottom-1 inset-x-1 py-0.5 bg-black/75 hover:bg-black text-white text-[9px] font-bold rounded flex items-center justify-center gap-1 cursor-pointer transition-colors"
-                                        title="Pick a different picture from computer for this card"
+                                        onClick={() => setEnlargedMediaPopup({ imageUrl: it.imageUrl, title: it.title || it.text, text: it.text })}
+                                        className="absolute top-2 right-2 bg-black/70 hover:bg-black text-white text-[9px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1 transition-colors backdrop-blur-xs"
+                                        title="Zoom"
                                       >
-                                        <span>📷</span>
-                                        <span>Change Pic</span>
+                                        <span>🔍</span>
+                                        <span>Enlarge</span>
                                       </button>
                                     </div>
 
-                                    {/* Content beneath picture */}
-                                    <div className="space-y-1">
-                                      <label className="block text-[8px] font-bold text-slate-500 uppercase tracking-wider">
-                                        Text Under Picture
-                                      </label>
+                                    {/* Change Picture Button */}
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        setUploadingFormat2RowItem({ rowId: row.id, itemId: it.id });
+                                        format2SingleItemFileInputRef.current?.click();
+                                      }}
+                                      className="w-full py-1.5 bg-slate-800 hover:bg-slate-900 text-white text-[11px] font-bold rounded-lg flex items-center justify-center gap-1.5 cursor-pointer transition-colors shadow-2xs"
+                                      title="Pick a different picture from computer for this card"
+                                    >
+                                      <span>📷</span>
+                                      <span>Change Picture</span>
+                                    </button>
+
+                                    {/* Text Under Picture */}
+                                    <div className="space-y-1 pt-1 border-t border-slate-100">
+                                      <div className="flex items-center justify-between">
+                                        <label className="block text-[9px] font-bold text-slate-600 uppercase tracking-wider">
+                                          Text Under Picture
+                                        </label>
+                                        {format2ContentMode === "same" && (
+                                          <span className="text-[8px] font-bold text-blue-600 bg-blue-50 px-1.5 py-0.2 rounded font-mono">
+                                            🔗 Synced
+                                          </span>
+                                        )}
+                                      </div>
                                       <input
                                         type="text"
                                         value={it.text}
                                         onChange={(e) => handleUpdateRowItem(row.id, it.id, { text: e.target.value })}
-                                        placeholder="Caption / Specs"
-                                        className={`w-full px-1.5 py-1 text-[10px] border rounded font-medium text-slate-800 ${
+                                        placeholder="Caption / Specs under pic"
+                                        className={`w-full px-2.5 py-1.5 text-xs border rounded-lg font-medium text-slate-800 outline-none transition-all ${
                                           format2ContentMode === "same"
-                                            ? "border-blue-300 bg-blue-50/50"
-                                            : "border-slate-300 bg-white"
+                                            ? "border-blue-300 bg-blue-50/50 focus:border-blue-500 focus:bg-white focus:ring-1 focus:ring-blue-400"
+                                            : "border-slate-300 bg-white focus:border-blue-500 focus:ring-1 focus:ring-blue-400"
                                         }`}
                                       />
                                     </div>
@@ -3216,19 +4027,360 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                   </div>
                 )}
 
+                {/* FORMAT 3: FOOTER SOCIAL LINKS CONTROLS */}
+                {activeModalFormat === "format-announcement" && editingProfile && (
+                  <div className="bg-gradient-to-r from-slate-50 via-teal-50/20 to-blue-50/20 border border-teal-200 rounded-xl p-3.5 space-y-3 shadow-xs">
+                    <div className="flex items-center justify-between border-b border-teal-100 pb-2">
+                      <div>
+                        <span className="text-xs font-bold text-slate-900 uppercase tracking-wider block flex items-center gap-1.5">
+                          <span>🌐 Format 3: Footer Social Links (Bottom Right)</span>
+                        </span>
+                        <span className="text-[11px] text-slate-500">
+                          Direct links for Facebook, LinkedIn, WhatsApp &amp; Instagram shown at the bottom right of Format 3.
+                        </span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={handleAddSocialLink}
+                        className="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded text-[10px] font-bold cursor-pointer transition-colors flex items-center gap-1 shadow-2xs"
+                      >
+                        <span>➕</span>
+                        <span>Add Link</span>
+                      </button>
+                    </div>
+
+                    <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1 custom-scrollbar">
+                      {(editingProfile.sidebarSocialLinks && editingProfile.sidebarSocialLinks.length > 0
+                        ? editingProfile.sidebarSocialLinks
+                        : DEFAULT_FORMAT2_SOCIAL_LINKS
+                      ).map((soc, sIdx) => (
+                        <div
+                          key={soc.id || sIdx}
+                          className="flex items-center gap-2 bg-white p-1.5 rounded-lg border border-slate-200 shadow-2xs"
+                        >
+                          <select
+                            value={soc.platform}
+                            onChange={(e) =>
+                              handleUpdateSocialLink(soc.id, {
+                                platform: e.target.value as any,
+                                label: e.target.value.toUpperCase(),
+                              })
+                            }
+                            className="text-[11px] font-bold bg-slate-50 border border-slate-300 rounded px-2 py-1 text-slate-700 outline-none"
+                          >
+                            <option value="facebook">📘 Facebook</option>
+                            <option value="linkedin">💼 LinkedIn</option>
+                            <option value="whatsapp">💬 WhatsApp</option>
+                            <option value="instagram">📷 Instagram</option>
+                            <option value="twitter">🐦 Twitter / X</option>
+                            <option value="youtube">▶️ YouTube</option>
+                            <option value="website">🌐 Website</option>
+                            <option value="other">🔗 Other</option>
+                          </select>
+
+                          <input
+                            type="text"
+                            value={soc.label || ""}
+                            onChange={(e) => handleUpdateSocialLink(soc.id, { label: e.target.value })}
+                            placeholder="Label"
+                            className="w-24 px-2 py-1 text-[11px] border border-slate-300 rounded bg-white font-medium"
+                          />
+
+                          <input
+                            type="text"
+                            value={soc.url}
+                            onChange={(e) => handleUpdateSocialLink(soc.id, { url: e.target.value })}
+                            placeholder="https://..."
+                            className="flex-1 px-2 py-1 text-[11px] border border-slate-300 rounded bg-white font-mono text-slate-700"
+                          />
+
+                          <button
+                            type="button"
+                            onClick={() => handleDeleteSocialLink(soc.id)}
+                            className="p-1 text-red-500 hover:text-red-700 hover:bg-red-50 rounded transition-colors cursor-pointer"
+                            title="Delete social link"
+                          >
+                            🗑️
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* FORMAT 4: EXECUTIVE SIGNATURE BANNER SETTINGS */}
+                {activeModalFormat === "format-minimal" && editingProfile && (
+                  <div className="bg-gradient-to-r from-slate-50 via-blue-50/20 to-sky-50/20 border border-blue-200 rounded-xl p-4 space-y-4 shadow-xs">
+                    <div className="flex items-center justify-between border-b border-blue-100 pb-2.5">
+                      <div>
+                        <span className="text-xs font-bold text-slate-900 uppercase tracking-wider block flex items-center gap-1.5">
+                          <span>💼 Format 4: Executive Signature Banner Settings</span>
+                        </span>
+                        <span className="text-[11px] text-slate-500">
+                          Customize circular avatar, executive credentials, tagline badge, contact grid, company logo &amp; social badges.
+                        </span>
+                      </div>
+                      <span className="text-[10px] font-bold px-2 py-0.5 bg-blue-100 text-blue-800 rounded-full border border-blue-200">
+                        Executive Banner
+                      </span>
+                    </div>
+
+                    {/* Executive Credentials */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                      <div>
+                        <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                          Executive Name *
+                        </label>
+                        <input
+                          type="text"
+                          value={editingProfile.signatureName ?? editingProfile.name ?? ""}
+                          onChange={(e) =>
+                            setEditingProfile({
+                              ...editingProfile,
+                              signatureName: e.target.value,
+                            })
+                          }
+                          placeholder="e.g. Tariq Mahmood"
+                          className="w-full px-2.5 py-1.5 text-xs border border-slate-300 rounded-lg outline-none bg-white focus:border-blue-500 font-semibold"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                          Job Role / Designation *
+                        </label>
+                        <input
+                          type="text"
+                          value={editingProfile.signatureRole ?? editingProfile.department ?? ""}
+                          onChange={(e) =>
+                            setEditingProfile({
+                              ...editingProfile,
+                              signatureRole: e.target.value,
+                            })
+                          }
+                          placeholder="e.g. Chief Technical Director"
+                          className="w-full px-2.5 py-1.5 text-xs border border-slate-300 rounded-lg outline-none bg-white focus:border-blue-500 font-semibold"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                          Tagline Badge Pill (Airplane / Shield)
+                        </label>
+                        <input
+                          type="text"
+                          value={editingProfile.signatureTagline ?? ""}
+                          onChange={(e) =>
+                            setEditingProfile({
+                              ...editingProfile,
+                              signatureTagline: e.target.value,
+                            })
+                          }
+                          placeholder="e.g. Designing Experiences • Enterprise Solutions"
+                          className="w-full px-2.5 py-1.5 text-xs border border-slate-300 rounded-lg outline-none bg-white focus:border-blue-500 font-medium"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                          Company Name
+                        </label>
+                        <input
+                          type="text"
+                          value={editingProfile.signatureCompany ?? "CREED TECH"}
+                          onChange={(e) =>
+                            setEditingProfile({
+                              ...editingProfile,
+                              signatureCompany: e.target.value,
+                            })
+                          }
+                          placeholder="CREED TECH"
+                          className="w-full px-2.5 py-1.5 text-xs border border-slate-300 rounded-lg outline-none bg-white focus:border-blue-500 font-bold"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Avatar & Logo Image Uploaders */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-slate-200">
+                      {/* Avatar */}
+                      <div className="bg-white p-3 rounded-lg border border-slate-200 shadow-2xs">
+                        <label className="block text-[11px] font-bold text-slate-700 mb-1.5 flex items-center justify-between">
+                          <span>Circular Avatar Photo</span>
+                          {editingProfile.signatureAvatar && (
+                            <span className="text-[9px] text-emerald-600 font-bold">● Active</span>
+                          )}
+                        </label>
+                        <div className="flex items-center gap-2.5">
+                          <img
+                            src={
+                              editingProfile.signatureAvatar ||
+                              "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop"
+                            }
+                            alt="Avatar"
+                            className="w-12 h-12 rounded-full object-cover border-2 border-blue-500 shadow-xs shrink-0"
+                          />
+                          <div className="flex-1 space-y-1">
+                            <input
+                              type="text"
+                              value={editingProfile.signatureAvatar || ""}
+                              onChange={(e) =>
+                                setEditingProfile({
+                                  ...editingProfile,
+                                  signatureAvatar: e.target.value,
+                                })
+                              }
+                              placeholder="Avatar Image URL"
+                              className="w-full px-2 py-1 text-[11px] border border-slate-300 rounded bg-white font-mono"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => avatarFileInputRef.current?.click()}
+                              disabled={isUploadingAvatar}
+                              className="px-2.5 py-1 text-[10px] font-bold bg-blue-50 text-blue-700 hover:bg-blue-100 rounded border border-blue-200 cursor-pointer flex items-center gap-1 transition-colors"
+                            >
+                              <span>📷</span>
+                              <span>{isUploadingAvatar ? "Uploading..." : "Upload Photo"}</span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Company Logo */}
+                      <div className="bg-white p-3 rounded-lg border border-slate-200 shadow-2xs">
+                        <label className="block text-[11px] font-bold text-slate-700 mb-1.5 flex items-center justify-between">
+                          <span>Brand Logo (Right Side)</span>
+                          {editingProfile.sidebarLogo && (
+                            <span className="text-[9px] text-emerald-600 font-bold">● Active</span>
+                          )}
+                        </label>
+                        <div className="flex items-center gap-2.5">
+                          <img
+                            src={editingProfile.sidebarLogo || "https://creed-tech.com/icons/icon-192x192.png"}
+                            alt="Logo"
+                            className="w-12 h-12 rounded-lg object-contain border border-slate-200 bg-white p-1 shadow-xs shrink-0"
+                          />
+                          <div className="flex-1 space-y-1">
+                            <input
+                              type="text"
+                              value={editingProfile.sidebarLogo || ""}
+                              onChange={(e) =>
+                                setEditingProfile({
+                                  ...editingProfile,
+                                  sidebarLogo: e.target.value,
+                                })
+                              }
+                              placeholder="Brand Logo URL"
+                              className="w-full px-2 py-1 text-[11px] border border-slate-300 rounded bg-white font-mono"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => sidebarLogoInputRef.current?.click()}
+                              disabled={isUploadingSidebarLogo}
+                              className="px-2.5 py-1 text-[10px] font-bold bg-blue-50 text-blue-700 hover:bg-blue-100 rounded border border-blue-200 cursor-pointer flex items-center gap-1 transition-colors"
+                            >
+                              <span>🏢</span>
+                              <span>{isUploadingSidebarLogo ? "Uploading..." : "Upload Logo"}</span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Social Links List for Format 4 */}
+                    <div className="pt-2 border-t border-slate-200 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <span className="text-xs font-bold text-slate-800 uppercase tracking-wider block">
+                            🌐 Format 4 Social Links (Right Side Badges)
+                          </span>
+                          <span className="text-[10.5px] text-slate-500">
+                            Circular icons for Facebook, LinkedIn, WhatsApp, and Instagram
+                          </span>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={handleAddSocialLink}
+                          className="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded text-[10px] font-bold cursor-pointer transition-colors flex items-center gap-1 shadow-2xs"
+                        >
+                          <span>➕</span>
+                          <span>Add Link</span>
+                        </button>
+                      </div>
+
+                      <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1 custom-scrollbar">
+                        {(editingProfile.sidebarSocialLinks && editingProfile.sidebarSocialLinks.length > 0
+                          ? editingProfile.sidebarSocialLinks
+                          : DEFAULT_FORMAT2_SOCIAL_LINKS
+                        ).map((soc, sIdx) => (
+                          <div
+                            key={soc.id || sIdx}
+                            className="flex items-center gap-2 bg-white p-1.5 rounded-lg border border-slate-200 shadow-2xs"
+                          >
+                            <select
+                              value={soc.platform}
+                              onChange={(e) =>
+                                handleUpdateSocialLink(soc.id, {
+                                  platform: e.target.value as any,
+                                  label: e.target.value.toUpperCase(),
+                                })
+                              }
+                              className="text-[11px] font-bold bg-slate-50 border border-slate-300 rounded px-2 py-1 text-slate-700 outline-none"
+                            >
+                              <option value="facebook">📘 Facebook</option>
+                              <option value="linkedin">💼 LinkedIn</option>
+                              <option value="whatsapp">💬 WhatsApp</option>
+                              <option value="instagram">📷 Instagram</option>
+                              <option value="twitter">🐦 Twitter / X</option>
+                              <option value="youtube">▶️ YouTube</option>
+                              <option value="website">🌐 Website</option>
+                              <option value="other">🔗 Other</option>
+                            </select>
+
+                            <input
+                              type="text"
+                              value={soc.label || ""}
+                              onChange={(e) => handleUpdateSocialLink(soc.id, { label: e.target.value })}
+                              placeholder="Label"
+                              className="w-24 px-2 py-1 text-[11px] border border-slate-300 rounded bg-white font-medium"
+                            />
+
+                            <input
+                              type="text"
+                              value={soc.url}
+                              onChange={(e) => handleUpdateSocialLink(soc.id, { url: e.target.value })}
+                              placeholder="https://..."
+                              className="flex-1 px-2 py-1 text-[11px] border border-slate-300 rounded bg-white font-mono text-slate-700"
+                            />
+
+                            <button
+                              type="button"
+                              onClick={() => handleDeleteSocialLink(soc.id)}
+                              className="p-1 text-red-500 hover:text-red-700 hover:bg-red-50 rounded transition-colors cursor-pointer"
+                              title="Delete social link"
+                            >
+                              🗑️
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 {/* SECTION 3: LAYOUT POSITION & ALIGNMENT */}
-                <div className="bg-gray-50 border border-gray-200 rounded-lg p-3">
-                  <span className="text-[11px] font-bold text-gray-700 uppercase tracking-wider block mb-2">
-                    3. Layout Style, Position &amp; Alignment
+                <div className="bg-slate-50/70 border border-slate-200/90 rounded-2xl p-4 sm:p-5 space-y-4 shadow-2xs">
+                  <span className="text-xs font-extrabold text-slate-800 uppercase tracking-wider block flex items-center gap-2">
+                    <span>📐</span>
+                    <span>3. Layout Style, Position &amp; Alignment</span>
                   </span>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs">
                     {/* Quick 1-Click Master Alignment */}
-                    <div className="sm:col-span-2 bg-blue-50/80 border border-blue-200 rounded-md p-2">
-                      <div className="flex items-center justify-between mb-1.5">
-                        <label className="text-[10px] font-bold text-blue-900 uppercase tracking-wider flex items-center gap-1.5">
+                    <div className="sm:col-span-2 bg-blue-50/90 border border-blue-200 rounded-xl p-3">
+                      <div className="flex items-center justify-between mb-2">
+                        <label className="text-xs font-extrabold text-blue-950 uppercase tracking-wider flex items-center gap-1.5">
                           <span>⚡ One-Click Align All (Logo, Headings &amp; Text)</span>
                         </label>
-                        <span className="text-[9px] text-blue-700 font-medium">Aligns logo, title &amp; all text together</span>
+                        <span className="text-[11px] text-blue-700 font-semibold">Aligns logo, title &amp; all text together</span>
                       </div>
                       <div className="flex gap-2">
                         {[
@@ -3250,10 +4402,10 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                                   headerAlignment: item.id as any,
                                 })
                               }
-                              className={`flex-1 py-1 px-2 text-[10px] font-bold rounded border cursor-pointer transition-all ${
+                              className={`flex-1 py-1.5 px-2 text-xs font-bold rounded-lg border cursor-pointer transition-all ${
                                 isAllActive
                                   ? "bg-[#0052FF] text-white border-[#0052FF] shadow-xs"
-                                  : "bg-white text-gray-700 border-gray-300 hover:bg-blue-100/60"
+                                  : "bg-white text-slate-700 border-slate-300 hover:bg-blue-100/60"
                               }`}
                             >
                               {item.label}
@@ -3266,7 +4418,7 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                     {/* Media / Video Position (Only for Format 1 Catalog) */}
                     {activeModalFormat === "format-catalog" && (
                       <div>
-                        <label className="block text-[10px] font-semibold text-gray-600 mb-1">
+                        <label className="block text-xs font-bold text-slate-700 mb-1.5">
                           Catalog Cards Position (Oper, Center, Nechy)
                         </label>
                         <div className="flex gap-1.5">
@@ -3279,10 +4431,10 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                               key={item.id}
                               type="button"
                               onClick={() => setEditingProfile({ ...editingProfile, mediaPosition: item.id as any })}
-                              className={`flex-1 py-1 px-1.5 text-[10px] rounded font-semibold border cursor-pointer transition-colors ${
+                              className={`flex-1 py-1.5 px-2 text-xs rounded-lg font-bold border cursor-pointer transition-colors ${
                                 (editingProfile.mediaPosition || "center") === item.id
                                   ? "bg-[#0052FF] text-white border-[#0052FF] shadow-xs"
-                                  : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
+                                  : "bg-white text-slate-700 border-slate-300 hover:bg-slate-100"
                               }`}
                             >
                               {item.label}
@@ -3294,7 +4446,7 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
 
                     {/* Logo & Header Alignment */}
                     <div>
-                      <label className="block text-[10px] font-semibold text-gray-600 mb-1">
+                      <label className="block text-xs font-bold text-slate-700 mb-1.5">
                         Logo &amp; Header Alignment (Left, Center, Right)
                       </label>
                       <div className="flex gap-1.5">
@@ -3312,10 +4464,10 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                                 headerAlignment: item.id as any,
                               })
                             }
-                            className={`flex-1 py-1 px-1 text-[10px] rounded font-semibold border cursor-pointer transition-colors ${
+                            className={`flex-1 py-1.5 px-2 text-xs rounded-lg font-bold border cursor-pointer transition-colors ${
                               (editingProfile.headerAlignment || (editingProfile.headerStyle === "centered" ? "center" : "left")) === item.id
                                 ? "bg-[#0052FF] text-white border-[#0052FF] shadow-xs"
-                                : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
+                                : "bg-white text-slate-700 border-slate-300 hover:bg-slate-100"
                             }`}
                           >
                             {item.label}
@@ -3326,7 +4478,7 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
 
                     {/* Headings & Text Alignment */}
                     <div>
-                      <label className="block text-[10px] font-semibold text-gray-600 mb-1">
+                      <label className="block text-xs font-bold text-slate-700 mb-1.5">
                         Headings &amp; Body Text Alignment
                       </label>
                       <div className="flex gap-1.5">
@@ -3339,10 +4491,10 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                             key={item.id}
                             type="button"
                             onClick={() => setEditingProfile({ ...editingProfile, contentAlignment: item.id as any })}
-                            className={`flex-1 py-1 px-1 text-[10px] rounded font-semibold border cursor-pointer transition-colors ${
+                            className={`flex-1 py-1.5 px-2 text-xs rounded-lg font-bold border cursor-pointer transition-colors ${
                               (editingProfile.contentAlignment || "left") === item.id
                                 ? "bg-[#0052FF] text-white border-[#0052FF] shadow-xs"
-                                : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
+                                : "bg-white text-slate-700 border-slate-300 hover:bg-slate-100"
                             }`}
                           >
                             {item.label}
@@ -3352,11 +4504,11 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                     </div>
 
                     {/* Header Theme */}
-                    <div className="sm:col-span-2 pt-1 border-t border-gray-200">
-                      <label className="block text-[10px] font-semibold text-gray-600 mb-1">
+                    <div className="sm:col-span-2 pt-2 border-t border-slate-200">
+                      <label className="block text-xs font-bold text-slate-700 mb-1.5">
                         Header Background Theme
                       </label>
-                      <div className="flex gap-1.5">
+                      <div className="flex gap-2">
                         {[
                           { id: "dark", label: "⬛ Dark Enterprise" },
                           { id: "light", label: "⬜ Clean Light" },
@@ -3366,10 +4518,10 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                             key={item.id}
                             type="button"
                             onClick={() => setEditingProfile({ ...editingProfile, headerStyle: item.id as any })}
-                            className={`flex-1 py-1 px-1 text-[10px] rounded font-semibold border cursor-pointer transition-colors ${
+                            className={`flex-1 py-1.5 px-2 text-xs rounded-lg font-bold border cursor-pointer transition-colors ${
                               (editingProfile.headerStyle || "dark") === item.id
                                 ? "bg-[#0052FF] text-white border-[#0052FF] shadow-xs"
-                                : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
+                                : "bg-white text-slate-700 border-slate-300 hover:bg-slate-100"
                             }`}
                           >
                             {item.label}
@@ -3381,28 +4533,33 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                 </div>
 
                 {/* SECTION 4: DEFAULT SUBJECT & MESSAGE TEMPLATE */}
-                <div className="bg-gray-50 border border-gray-200 rounded-lg p-3">
-                  <span className="text-[11px] font-bold text-gray-700 uppercase tracking-wider block mb-2">
-                    4. Default Subject &amp; Message Template
+                <div className="bg-slate-50/70 border border-slate-200/90 rounded-2xl p-4 sm:p-5 space-y-3.5 shadow-2xs">
+                  <span className="text-xs font-extrabold text-slate-800 uppercase tracking-wider block flex items-center gap-2">
+                    <span>💬</span>
+                    <span>4. Default Subject &amp; Message Template</span>
                   </span>
-                  <div className="flex flex-col gap-2 text-xs">
+                  <div className="flex flex-col gap-3 text-xs">
                     <div>
-                      <label className="block text-[10px] font-semibold text-gray-600 mb-0.5">Subject Template (uses &#123;service&#125; &amp; &#123;id&#125;)</label>
+                      <label className="block text-xs font-bold text-slate-700 mb-1">
+                        Subject Template (uses &#123;service&#125; &amp; &#123;id&#125;)
+                      </label>
                       <input
                         type="text"
                         value={editingProfile.defaultSubjectTemplate || ""}
                         onChange={(e) => setEditingProfile({ ...editingProfile, defaultSubjectTemplate: e.target.value })}
-                        className="w-full px-2.5 py-1 text-xs border border-gray-300 rounded outline-none font-medium bg-white"
+                        className="w-full px-3.5 py-2 text-xs sm:text-[13px] border border-slate-300 rounded-xl outline-none font-medium bg-white text-slate-900 focus:border-[#FF6B00] focus:ring-2 focus:ring-[#FF6B00]/20 transition-all"
                         placeholder="Re: Creed Tech Discovery - {service} [Inquiry #{id}]"
                       />
                     </div>
                     <div>
-                      <label className="block text-[10px] font-semibold text-gray-600 mb-0.5">Message Template Body</label>
+                      <label className="block text-xs font-bold text-slate-700 mb-1">
+                        Message Template Body
+                      </label>
                       <textarea
-                        rows={3}
+                        rows={4}
                         value={editingProfile.defaultMessageTemplate || ""}
                         onChange={(e) => setEditingProfile({ ...editingProfile, defaultMessageTemplate: e.target.value })}
-                        className="w-full p-2 text-xs border border-gray-300 rounded font-mono outline-none bg-white"
+                        className="w-full p-3.5 text-xs sm:text-[13px] border border-slate-300 rounded-xl font-mono outline-none bg-white text-slate-900 focus:border-[#FF6B00] focus:ring-2 focus:ring-[#FF6B00]/20 transition-all leading-relaxed"
                         placeholder="Dear {client_name}, ..."
                       />
                     </div>
@@ -3410,21 +4567,35 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                 </div>
               </div>
 
-              {/* Right Column: Dedicated Real-time Email Preview (6 Cols) */}
-              <div className="md:col-span-6 flex flex-col gap-3">
-                <span className="text-[11px] font-bold text-gray-700 uppercase tracking-wider flex items-center justify-between">
+              {/* Right Column: Dedicated Real-time Email Preview (5 Cols on MD+) */}
+              <div className="md:col-span-5 flex flex-col gap-3">
+                <span className="text-xs font-extrabold text-slate-700 uppercase tracking-wider flex items-center justify-between">
                   <span className="flex items-center gap-1.5">
                     <span>👁️ Real-time Email Preview</span>
-                    <span className="text-[10px] text-emerald-600 font-medium">● Live</span>
+                    <span className="text-[11px] text-emerald-600 font-bold">● Live</span>
                   </span>
-                  <span className="text-[10px] font-mono text-blue-600 font-bold bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-200">
-                    {activeModalFormat === "format-executive-signature" ? "Format 2: Sidebar Dashboard" : "Format 1: Catalog Cards"}
+                  <span className="text-[11px] font-mono text-blue-700 font-bold bg-blue-50 px-3 py-0.5 rounded-full border border-blue-200">
+                    {activeModalFormat === "format-executive-signature"
+                      ? "Format 2: Sidebar Dashboard"
+                      : activeModalFormat === "format-announcement"
+                      ? "Format 3: Brand Hero & Promo"
+                      : activeModalFormat === "format-minimal"
+                      ? "Format 4: Executive Signature Banner"
+                      : "Format 1: Catalog Cards"}
                   </span>
                 </span>
 
                 {activeModalFormat === "format-executive-signature" ? (
                   <div className="sticky top-1">
                     {renderFormat2Preview(editingProfile, true)}
+                  </div>
+                ) : activeModalFormat === "format-announcement" ? (
+                  <div className="sticky top-1">
+                    {renderFormat3Preview(editingProfile, true)}
+                  </div>
+                ) : activeModalFormat === "format-minimal" ? (
+                  <div className="sticky top-1">
+                    {renderFormat4Preview(editingProfile, true)}
                   </div>
                 ) : (
                 <div className="border border-gray-200 rounded-lg overflow-hidden bg-gray-50 shadow-sm sticky top-1">
@@ -3618,47 +4789,58 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
               </div>
             </div>
 
-            <div className="pt-3 border-t border-gray-200 flex justify-between items-center">
-              <button
-                type="button"
-                onClick={() => setEditingProfile(null)}
-                className="px-4 py-1.5 text-xs font-semibold text-gray-600 hover:text-gray-900 bg-gray-100 rounded-md cursor-pointer"
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                disabled={isSaving || isEditingEmailDuplicate || !editingProfile.email || !editingProfile.name}
-                onClick={() => handleSaveProfile(editingProfile)}
-                className="px-5 py-1.5 bg-[#0052FF] hover:bg-[#0042D0] text-white text-xs font-bold rounded-md shadow-xs cursor-pointer disabled:opacity-50"
-              >
-                {isSaving ? "Saving..." : isEditingEmailDuplicate ? "Duplicate Email Detected" : "Save Profile & Design"}
-              </button>
+            {/* Modal Bottom Footer */}
+            <div className="px-4 sm:px-8 py-3.5 border-t border-slate-200/90 bg-white/95 backdrop-blur-md flex items-center justify-between z-20 shrink-0">
+              <div className="flex items-center gap-2 text-xs text-slate-400">
+                <kbd className="px-2 py-0.5 rounded-md bg-slate-100 border border-slate-200 text-[11px] font-mono text-slate-500">
+                  Esc
+                </kbd>
+                <span className="hidden sm:inline">to close without saving</span>
+              </div>
+              <div className="flex items-center gap-2.5 sm:gap-3">
+                <button
+                  type="button"
+                  onClick={() => setEditingProfile(null)}
+                  className="px-4 sm:px-5 py-2.5 text-xs font-bold text-slate-600 hover:text-slate-900 bg-white border border-slate-300 rounded-xl cursor-pointer hover:bg-slate-100 transition-colors shadow-2xs"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  disabled={isSaving || isEditingEmailDuplicate || !editingProfile.email || !editingProfile.name}
+                  onClick={() => handleSaveProfile(editingProfile)}
+                  className="px-5 sm:px-6 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-xs font-bold rounded-xl shadow-md shadow-blue-500/25 cursor-pointer disabled:opacity-50 flex items-center gap-2 transition-all active:scale-[0.98]"
+                >
+                  <span>💾</span>
+                  <span>{isSaving ? "Saving..." : isEditingEmailDuplicate ? "Duplicate Email Detected" : "Save Profile & Design"}</span>
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       {/* Main Grid: Profiles List on Left (5 Cols), Active Profile Preview & Test on Right (7 Cols) */}
       {activeSubTab === "desks" && (
         <div className="space-y-6">
           {/* 5 EMAIL TEMPLATE FORMATS SHOWCASE (VISIBLE IN FRONT / SMNY NAZAR AYE) */}
-          <div className="bg-white border border-[#E2E8F0] rounded-2xl p-5 shadow-xs">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 mb-3 border-b border-slate-100">
+          <div className="bg-white border border-slate-200/90 rounded-2xl p-5 shadow-xs">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3.5 mb-3.5 border-b border-slate-100">
               <div>
-                <span className="text-xs font-bold text-[#0F172A] uppercase tracking-wider block font-outfit flex items-center gap-1.5">
+                <span className="text-xs font-extrabold text-slate-900 uppercase tracking-wider block font-outfit flex items-center gap-2">
                   <span>🎨 5 Email Template Formats Architecture</span>
-                  <span className="text-[10px] font-mono bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full border border-blue-200">
+                  <span className="text-[11px] font-mono bg-blue-50 text-blue-700 px-2.5 py-0.5 rounded-full border border-blue-200 font-bold">
                     2 Active Formats • 3 Reserved Slots
                   </span>
                 </span>
-                <span className="text-[11px] text-slate-500">
-                  Har format alag aur independent hai. Select a format card to preview and customize its content:
+                <span className="text-xs text-slate-600 mt-1 block leading-relaxed">
+                  Har format independent aur unique hai. Kisi bi format card pr click kar ke layout switch kryn ya <strong>Design ↗</strong> pr click kr k live customize kryn:
                 </span>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3.5">
               {EMAIL_FORMATS_METADATA.map((fmt) => {
                 const isFormatActive = activeProfileFormat === fmt.id;
                 const isReserved = fmt.status === "RESERVED";
@@ -3694,6 +4876,22 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                                     ? activeProfile.galleryRows
                                     : DEFAULT_FORMAT2_GALLERY_ROWS,
                               }
+                            : fmt.id === "format-minimal"
+                            ? {
+                                signatureName: activeProfile.signatureName || activeProfile.name || "Tariq Mahmood",
+                                signatureRole: activeProfile.signatureRole || activeProfile.department || "Chief Technical Director",
+                                signatureTagline: activeProfile.signatureTagline || "Enterprise Engineering & Industrial Systems",
+                                signatureAvatar:
+                                  activeProfile.signatureAvatar ||
+                                  "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop",
+                                sidebarLogo:
+                                  activeProfile.sidebarLogo ||
+                                  "https://creed-tech.com/icons/icon-192x192.png",
+                                sidebarSocialLinks:
+                                  activeProfile.sidebarSocialLinks && activeProfile.sidebarSocialLinks.length > 0
+                                    ? activeProfile.sidebarSocialLinks
+                                    : DEFAULT_FORMAT2_SOCIAL_LINKS,
+                              }
                             : {}),
                         };
 
@@ -3705,39 +4903,39 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                         if (showToast) showToast(`✓ Switched layout to ${fmt.title}`);
                       }
                     }}
-                    className={`p-3.5 rounded-xl border transition-all flex flex-col justify-between ${
+                    className={`p-4 rounded-2xl border transition-all flex flex-col justify-between select-none ${
                       isReserved
                         ? "bg-slate-50/70 border-dashed border-slate-300 opacity-60 cursor-not-allowed"
                         : isFormatActive
-                        ? "bg-blue-50/90 border-[#0052FF] ring-2 ring-blue-400 shadow-xs cursor-pointer"
-                        : "bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50 cursor-pointer shadow-xs"
+                        ? "bg-blue-50/90 border-[#0052FF] ring-2 ring-blue-500/30 shadow-sm cursor-pointer"
+                        : "bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50/70 cursor-pointer shadow-xs"
                     }`}
                   >
                     <div>
-                      <div className="flex items-center justify-between gap-1 mb-2">
-                        <span className="text-base">{fmt.icon}</span>
+                      <div className="flex items-center justify-between gap-1 mb-2.5">
+                        <span className="text-xl">{fmt.icon}</span>
                         <span
-                          className={`text-[8px] font-extrabold uppercase px-1.5 py-0.2 rounded-full ${
+                          className={`text-[9px] font-black uppercase px-2 py-0.5 rounded-full ${
                             isReserved
                               ? "bg-slate-200 text-slate-600"
                               : isFormatActive
-                              ? "bg-[#0052FF] text-white"
+                              ? "bg-[#0052FF] text-white shadow-2xs"
                               : "bg-emerald-100 text-emerald-800"
                           }`}
                         >
                           {isReserved ? "Reserved Slot" : isFormatActive ? "Selected" : "Live"}
                         </span>
                       </div>
-                      <div className="text-xs font-bold text-slate-900 leading-tight">
+                      <div className="text-xs sm:text-[13px] font-extrabold text-slate-900 leading-snug font-outfit">
                         {fmt.title}
                       </div>
-                      <div className="text-[10px] text-slate-500 mt-1 leading-snug">
+                      <div className="text-[11px] text-slate-500 mt-1 leading-relaxed">
                         {fmt.description}
                       </div>
                     </div>
 
-                    <div className="pt-2 mt-2 border-t border-slate-100 flex items-center justify-between">
-                      <span className="text-[9px] font-semibold text-slate-400">
+                    <div className="pt-2.5 mt-3 border-t border-slate-100 flex items-center justify-between">
+                      <span className="text-[10px] font-bold text-slate-400">
                         {isReserved ? "Pending design" : fmt.badge}
                       </span>
                       {!isReserved && (
@@ -3775,9 +4973,10 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
                             };
                             setEditingProfile(updatedTarget);
                           }}
-                          className="text-[9px] font-bold text-blue-600 hover:text-blue-800 cursor-pointer hover:underline"
+                          className="text-[11px] font-bold text-blue-600 hover:text-blue-800 cursor-pointer hover:underline flex items-center gap-0.5"
                         >
-                          Design ↗
+                          <span>Design</span>
+                          <span>↗</span>
                         </button>
                       )}
                     </div>
@@ -3790,119 +4989,125 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
             {/* Left Side: Profiles Cards (5 Cols) */}
             <div className="md:col-span-5 flex flex-col gap-3">
-          <div className="text-xs font-bold uppercase tracking-wider text-slate-500 font-outfit">
-            Active Email Profiles ({profiles.length})
-          </div>
+              <div className="text-xs font-extrabold uppercase tracking-wider text-slate-600 font-outfit flex items-center justify-between">
+                <span>Active Business Desks ({profiles.length})</span>
+                <span className="text-[11px] font-normal text-slate-500">Click to preview</span>
+              </div>
 
-          <div className="flex flex-col gap-3">
-            {profiles.map((p) => {
-              const isSelected = p.id === selectedProfileId;
-              return (
-                <div
-                  key={p.id}
-                  onClick={() => setSelectedProfileId(p.id)}
-                  className={`p-4 rounded-2xl border transition-all cursor-pointer ${
-                    isSelected
-                      ? "bg-white text-[#0F172A] border-orange-300 shadow-[0_4px_16px_rgba(255,107,0,0.15)] ring-1 ring-[#FF6B00]"
-                      : "bg-white text-[#0F172A] border-[#E2E8F0] hover:border-orange-200 hover:shadow-xs shadow-xs"
-                  }`}
-                >
-                  <div className="flex items-center justify-between gap-3">
-                    <div className="flex items-center gap-3">
-                      <div
-                        className="w-9 h-9 rounded-full flex items-center justify-center text-white text-xs font-bold shadow-xs shrink-0"
-                        style={{ backgroundColor: p.accentColor }}
-                      >
-                        {p.name.charAt(0)}
-                      </div>
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span className="font-bold text-sm text-[#0F172A] font-outfit">
-                            {p.name}
-                          </span>
-                          <span
-                            className="px-2 py-0.5 rounded text-[10px] font-semibold text-white"
-                            style={{ backgroundColor: p.accentColor }}
+              <div className="flex flex-col gap-3">
+                {profiles.map((p) => {
+                  const isSelected = p.id === selectedProfileId;
+                  return (
+                    <div
+                      key={p.id}
+                      onClick={() => setSelectedProfileId(p.id)}
+                      className={`p-4 rounded-2xl border transition-all cursor-pointer ${
+                        isSelected
+                          ? "bg-white text-slate-900 border-orange-400 shadow-[0_4px_16px_rgba(255,107,0,0.14)] ring-2 ring-[#FF6B00]/30"
+                          : "bg-white text-slate-900 border-slate-200 hover:border-slate-300 hover:shadow-xs shadow-xs"
+                      }`}
+                    >
+                      <div className="flex items-center justify-between gap-3">
+                        <div className="flex items-center gap-3">
+                          <div
+                            className="w-10 h-10 rounded-xl flex items-center justify-center text-white text-sm font-black shadow-xs ring-2 ring-white shrink-0"
+                            style={{ backgroundColor: p.accentColor || "#FF6B00" }}
                           >
-                            {p.department}
-                          </span>
+                            {p.name.charAt(0)}
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <span className="font-extrabold text-sm text-slate-900 font-outfit">
+                                {p.name}
+                              </span>
+                              <span
+                                className="px-2 py-0.5 rounded-md text-[10px] font-bold text-white shadow-2xs"
+                                style={{ backgroundColor: p.accentColor || "#FF6B00" }}
+                              >
+                                {p.department}
+                              </span>
+                            </div>
+                            <div className="font-mono text-xs mt-0.5 text-slate-600 font-medium">
+                              {p.email}
+                            </div>
+                          </div>
                         </div>
-                        <div className="font-mono text-xs mt-0.5 text-slate-500">
-                          {p.email}
+
+                        <div className="flex items-center gap-1.5 shrink-0" onClick={(e) => e.stopPropagation()}>
+                          <button
+                            type="button"
+                            onClick={() => setEditingProfile(p)}
+                            className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-200 rounded-xl font-bold text-xs cursor-pointer shadow-2xs transition-colors flex items-center gap-1"
+                            title="Edit design format, images & address"
+                          >
+                            <span>✏️</span>
+                            <span>Edit</span>
+                          </button>
+                          {profiles.length > 1 && (
+                            <button
+                              type="button"
+                              onClick={() => handleDeleteProfile(p.id)}
+                              className="w-8 h-8 bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 rounded-xl font-bold text-xs cursor-pointer transition-colors flex items-center justify-center shadow-2xs"
+                              title="Delete profile"
+                            >
+                              🗑️
+                            </button>
+                          )}
                         </div>
                       </div>
-                    </div>
 
-                    <div className="flex items-center gap-1.5 shrink-0" onClick={(e) => e.stopPropagation()}>
-                      <button
-                        type="button"
-                        onClick={() => setEditingProfile(p)}
-                        className="px-2.5 py-1 bg-[#F1F3F5] hover:bg-[#EBECEF] text-slate-700 border border-[#E2E8F0] rounded-xl font-semibold text-xs cursor-pointer shadow-xs transition-colors"
-                        title="Edit design format, images & address"
-                      >
-                        ✏️ Edit
-                      </button>
-                      {profiles.length > 1 && (
-                        <button
-                          type="button"
-                          onClick={() => handleDeleteProfile(p.id)}
-                          className="px-2.5 py-1 bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 rounded-xl font-semibold text-xs cursor-pointer transition-colors"
-                          title="Delete profile"
-                        >
-                          🗑️
-                        </button>
-                      )}
+                      <div className="mt-2.5 pt-2.5 border-t border-slate-100 text-xs text-slate-500 flex items-center justify-between">
+                        <span className="font-mono text-[11px]">{p.phone || "No direct phone"}</span>
+                        <span className="font-medium text-[11px]">
+                          {p.videoThumbnail || p.videoUrl
+                            ? p.mediaType === "image"
+                              ? "🖼️ Picture Offer"
+                              : "🎬 Video Demo"
+                            : "No Media"}
+                        </span>
+                      </div>
                     </div>
-                  </div>
+                  );
+                })}
+              </div>
+            </div>
 
-                  <div className="mt-2 pt-2 border-t border-[#E2E8F0] text-[11px] text-slate-500 flex items-center justify-between">
-                    <span>{p.phone || "No direct phone"}</span>
-                    <span>
-                      {p.videoThumbnail || p.videoUrl
-                        ? p.mediaType === "image"
-                          ? "🖼️ Picture Offer"
-                          : "🎬 Video Demo"
-                        : "No Media"}
-                    </span>
-                  </div>
+            {/* Right Side: Active Profile Detailed View & Test (7 Cols) */}
+            <div className="md:col-span-7 flex flex-col gap-4">
+              <div className="flex items-center justify-between flex-wrap gap-2 pb-1">
+                <div className="text-xs font-extrabold uppercase tracking-wider text-slate-600 flex items-center gap-2 font-outfit">
+                  <span>Live Preview &amp; Actions:</span>
+                  <span className="text-slate-900 font-black text-sm">{activeProfile.name}</span>
                 </div>
-              );
-            })}
-          </div>
-        </div>
 
-        {/* Right Side: Active Profile Detailed View & Test (7 Cols) */}
-        <div className="md:col-span-7 flex flex-col gap-4">
-          <div className="flex items-center justify-between flex-wrap gap-2">
-            <div className="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-2 font-outfit">
-              <span>Live Preview &amp; Actions for:</span>
-              <strong className="text-[#0F172A] normal-case font-bold">{activeProfile.name}</strong>
-            </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setEditingProfile(activeProfile)}
+                    className="px-4 py-2 bg-[#FF6B00] hover:bg-[#e05d00] text-white text-xs font-bold rounded-xl cursor-pointer transition-all flex items-center gap-1.5 shadow-[0_2px_10px_rgba(255,107,0,0.25)] active:scale-95"
+                  >
+                    <span>✏️</span>
+                    <span>Edit Format &amp; Design</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleCopyStyledHtml(activeProfile)}
+                    className="px-4 py-2 bg-white hover:bg-slate-50 text-slate-800 text-xs font-bold rounded-xl cursor-pointer transition-all flex items-center gap-1.5 border border-slate-200 shadow-xs hover:border-slate-300"
+                  >
+                    <span>📋</span>
+                    <span>Copy Styled Format</span>
+                  </button>
+                </div>
+              </div>
 
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => setEditingProfile(activeProfile)}
-                className="px-3.5 py-1.5 bg-[#FF6B00] hover:bg-[#e05d00] text-white text-xs font-bold rounded-xl cursor-pointer transition-all flex items-center gap-1.5 shadow-[0_2px_10px_rgba(255,107,0,0.25)] active:scale-95"
-              >
-                <span>✏️</span>
-                <span>Edit Format &amp; Design</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => handleCopyStyledHtml(activeProfile)}
-                className="px-3.5 py-1.5 bg-[#F1F3F5] hover:bg-[#EBECEF] text-slate-700 text-xs font-bold rounded-xl cursor-pointer transition-all flex items-center gap-1.5 border border-[#E2E8F0] shadow-xs"
-              >
-                <span>📋</span>
-                <span>Copy Styled Format</span>
-              </button>
-            </div>
-          </div>
-
-          {/* Real-time Email Render Box */}
-          {activeProfileFormat === "format-executive-signature" ? (
-            renderFormat2Preview(activeProfile, false)
-          ) : (
+              {/* Real-time Email Render Box */}
+              {activeProfileFormat === "format-executive-signature" ? (
+                renderFormat2Preview(activeProfile, false)
+              ) : activeProfileFormat === "format-announcement" ? (
+                renderFormat3Preview(activeProfile, false)
+              ) : activeProfileFormat === "format-minimal" ? (
+                renderFormat4Preview(activeProfile, false)
+              ) : (
           <div className="bg-white rounded-xl border border-gray-300 shadow-xl overflow-hidden text-left">
             {/* Branded Header */}
             {(() => {
@@ -4088,25 +5293,30 @@ export default function EmailTemplatesModule({ showToast, onNavigateTab }: Email
           )}
 
           {/* Test Email Broadcast Box */}
-          <div className="bg-white border border-[#E2E8F0] rounded-xl p-4 shadow-xs">
-            <span className="text-xs font-bold text-[#0F172A] block mb-2">
-              🧪 Test Live Email Delivery for {activeProfile.name}
-            </span>
-            <div className="flex gap-2">
+          <div className="bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-5 shadow-xs">
+            <div className="flex items-center justify-between gap-2 mb-2.5">
+              <span className="text-xs font-extrabold uppercase tracking-wider text-slate-800 flex items-center gap-2">
+                <span>🧪 Test Live Email Delivery</span>
+                <span className="text-[11px] font-mono text-slate-500 font-semibold">({activeProfile.name})</span>
+              </span>
+              <span className="text-[11px] text-slate-500 hidden sm:inline">Sends realistic rendered email</span>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-2">
               <input
                 type="email"
                 value={testEmailRecipient}
                 onChange={(e) => setTestEmailRecipient(e.target.value)}
                 placeholder="Enter recipient email (e.g. your-email@gmail.com)"
-                className="flex-1 px-3 py-1.5 text-xs bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg text-[#0F172A] placeholder-slate-400 outline-none focus:border-[#FF6B00] focus:ring-1 focus:ring-[#FF6B00]/30 transition-all"
+                className="flex-1 px-3.5 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 font-medium outline-none focus:bg-white focus:border-[#FF6B00] focus:ring-2 focus:ring-[#FF6B00]/20 transition-all"
               />
               <button
                 type="button"
                 disabled={isSendingTest}
                 onClick={handleSendTestEmail}
-                className="px-4 py-1.5 bg-[#FF6B00] hover:bg-[#e05e00] text-white text-xs font-bold rounded-lg cursor-pointer transition-all shadow-[0_2px_8px_rgba(255,107,0,0.25)] hover:shadow-[0_4px_14px_rgba(255,107,0,0.35)] disabled:opacity-50 shrink-0"
+                className="px-5 py-2 bg-[#FF6B00] hover:bg-[#e05e00] text-white text-xs font-bold rounded-xl cursor-pointer transition-all shadow-[0_2px_10px_rgba(255,107,0,0.25)] hover:shadow-[0_4px_16px_rgba(255,107,0,0.35)] disabled:opacity-50 shrink-0 flex items-center justify-center gap-1.5 active:scale-95"
               >
-                {isSendingTest ? "Sending..." : "Send Test Email"}
+                <span>🚀</span>
+                <span>{isSendingTest ? "Sending Test..." : "Send Test Email"}</span>
               </button>
             </div>
           </div>

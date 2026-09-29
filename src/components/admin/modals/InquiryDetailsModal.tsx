@@ -25,6 +25,9 @@ import {
 import { uploadImageFile, uploadMediaFile, uploadMultipleMediaFiles } from "@/lib/uploadHelper";
 import EquipmentOfferDetailModal from "./EquipmentOfferDetailModal";
 
+const DEFAULT_IMAGE_FALLBACK =
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect fill='%230f172a' width='400' height='300'/%3E%3Cpath fill='%23334155' d='M160 120a20 20 0 1 1-40 0 20 20 0 0 1 40 0zm-80 90l60-80 50 60 40-50 70 70H80z'/%3E%3Ctext x='50%25' y='82%25' font-family='system-ui,sans-serif' font-weight='bold' font-size='13' fill='%2394a3b8' text-anchor='middle'%3ECREED TECH%3C/text%3E%3C/svg%3E";
+
 interface InquiryDetailsModalProps {
   inquiry: Inquiry | null;
   onClose: () => void;
@@ -1311,14 +1314,41 @@ export default function InquiryDetailsModal({
     };
 
     return (
-      <div className="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-md flex flex-col md:flex-row text-slate-800 my-3">
-        {/* LEFT SIDEBAR BAR */}
-        <div className={`${isSmall ? "w-full md:w-44" : "w-full md:w-56"} bg-[#0B1120] text-white p-3 flex flex-col justify-between shrink-0 border-r border-slate-800`}>
+      <div className="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-md flex flex-col text-slate-800 my-3 divide-y divide-slate-200">
+        {/* TOP EMAIL MESSAGE SECTION (ALAG SE UPAR) */}
+        {customBodyMessage && customBodyMessage.trim() ? (
+          <div className="p-3.5 sm:p-4 bg-white">
+            <div className="flex items-center justify-between mb-2 pb-1.5 border-b border-slate-100">
+              <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 font-mono flex items-center gap-1.5">
+                <span>✉️</span>
+                <span>Email Message Body</span>
+              </span>
+              <span className="text-[9px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-200">
+                Outgoing Reply
+              </span>
+            </div>
+            <div className="text-[12px] text-slate-800 leading-relaxed whitespace-pre-wrap font-sans">
+              {customBodyMessage}
+            </div>
+          </div>
+        ) : null}
+
+        {/* FORMAT 2: EXECUTIVE SIGNATURE & SHOWCASE CARD (NEECHE) */}
+        <div className="flex flex-col md:flex-row">
+          {/* LEFT SIDEBAR BAR */}
+          <div className={`${isSmall ? "w-full md:w-44" : "w-full md:w-56"} bg-[#0B1120] text-white p-3 flex flex-col justify-between shrink-0 border-r border-slate-800`}>
           {/* Upper: Logo & Heading */}
           <div className="text-center pb-3 border-b border-white/10">
-            {logo && (
-              <img src={logo} alt={heading} className="max-h-10 max-w-[120px] object-contain mx-auto mb-1.5" />
-            )}
+            {logo ? (
+              <img
+                src={logo}
+                alt={heading}
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).style.display = "none";
+                }}
+                className="max-h-10 max-w-[120px] object-contain mx-auto mb-1.5"
+              />
+            ) : null}
             <div className="text-xs font-black tracking-wide uppercase text-white truncate">
               {heading}
             </div>
@@ -1373,13 +1403,6 @@ export default function InquiryDetailsModal({
         {/* RIGHT / MAIN CONTENT AREA */}
         <div className="flex-1 p-3 bg-slate-50/50 flex flex-col justify-between overflow-x-auto">
           <div>
-            {/* Optional Custom Body Message */}
-            {customBodyMessage && customBodyMessage.trim() && (
-              <div className="mb-3 p-3 bg-white rounded-xl border border-slate-200 shadow-2xs whitespace-pre-wrap font-sans text-xs leading-relaxed text-slate-800">
-                {customBodyMessage}
-              </div>
-            )}
-
             {/* Top Featured Main Picture with Text */}
             <div
               onClick={() => setEnlargedMediaPopup({ imageUrl: mainPic, title: heading, text: mainPicText })}
@@ -1390,6 +1413,10 @@ export default function InquiryDetailsModal({
                 <img
                   src={mainPic}
                   alt="Main"
+                  onError={(e) => {
+                    const t = e.currentTarget;
+                    if (t.src !== DEFAULT_IMAGE_FALLBACK) t.src = DEFAULT_IMAGE_FALLBACK;
+                  }}
                   className="w-full h-32 sm:h-40 object-cover group-hover:scale-102 transition-transform duration-300"
                 />
                 <div className="absolute top-2 right-2 bg-black/75 backdrop-blur-xs text-white text-[9px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1 shadow-xs">
@@ -1433,14 +1460,18 @@ export default function InquiryDetailsModal({
                             <div className="w-[64px] h-[64px] rounded-lg overflow-hidden border border-slate-200 bg-slate-100 mx-auto shadow-2xs relative group-hover/card:border-blue-500">
                               <img
                                 src={it.imageUrl}
-                                alt={it.text}
+                                alt={it.text || `Item ${itIdx + 1}`}
+                                onError={(e) => {
+                                  const t = e.currentTarget;
+                                  if (t.src !== DEFAULT_IMAGE_FALLBACK) t.src = DEFAULT_IMAGE_FALLBACK;
+                                }}
                                 className="w-full h-full object-cover group-hover/card:scale-105 transition-transform"
                               />
                               <div className="absolute inset-0 bg-black/0 group-hover/card:bg-black/20 flex items-center justify-center transition-colors">
                                 <span className="opacity-0 group-hover/card:opacity-100 text-white text-xs">🔍</span>
                               </div>
                             </div>
-                            <div className="text-[8px] font-bold text-slate-700 leading-tight mt-1 line-clamp-2 group-hover/card:text-blue-600 transition-colors">
+                            <div className="text-[8px] font-bold text-slate-700 leading-tight mt-1 line-clamp-2 group-hover/card:text-blue-600 transition-colors break-words">
                               {it.text}
                             </div>
                           </div>
@@ -1452,6 +1483,630 @@ export default function InquiryDetailsModal({
               </div>
             </div>
           </div>
+        </div>
+        </div>
+      </div>
+    );
+  };
+
+  const renderFormat3Preview = (profile: EmailDepartmentProfile, isSmall = false, customBodyMessage?: string) => {
+    const accent = profile.accentColor || "#5c95a2";
+    const textColor = profile.textColor || "#1e293b";
+    const bgColor = profile.backgroundColor || "#ffffff";
+    const heading = profile.name || "CREED TECH";
+
+    const items: EmailMediaItem[] = getEditingMediaItems(profile);
+    const heroItem = items[0];
+    const secondaryItem = items[1];
+    const extraItems = items.slice(2);
+
+    const topHeroStagingImage =
+      profile.featuredMainPicUrl ||
+      "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=1200&auto=format&fit=crop";
+
+    const productCutoutImage =
+      heroItem?.thumbnailUrl ||
+      heroItem?.mediaUrl ||
+      "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?q=80&w=800&auto=format&fit=crop";
+
+    const productStagingImage =
+      secondaryItem?.thumbnailUrl ||
+      secondaryItem?.mediaUrl ||
+      "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?q=80&w=800&auto=format&fit=crop";
+
+    const panoramicStagingImage =
+      extraItems[0]?.thumbnailUrl ||
+      "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=1200&auto=format&fit=crop";
+
+    const fbUrl =
+      profile.sidebarSocialLinks?.find((s) => s.platform === "facebook")?.url ||
+      "https://facebook.com/creedtechnology";
+    const liUrl =
+      profile.sidebarSocialLinks?.find((s) => s.platform === "linkedin")?.url ||
+      "https://linkedin.com/company/creedtech";
+    const waUrl =
+      profile.sidebarSocialLinks?.find((s) => s.platform === "whatsapp")?.url ||
+      (profile.phone
+        ? `https://wa.me/${profile.phone.replace(/[^0-9]/g, "")}`
+        : "https://wa.me/923219204488");
+    const igUrl =
+      profile.sidebarSocialLinks?.find((s) => s.platform === "instagram")?.url ||
+      "https://instagram.com/creed.technologiess";
+
+    const sampleMessage =
+      customBodyMessage ||
+      profile.defaultMessageTemplate ||
+`Dear Client,
+
+Thank you for reaching out to Creed Tech regarding your enterprise machinery and workspace specifications. We have received your project details and our team is prepared to present verified solutions matching your exact parameters.
+
+Please review our featured studio collection below and let us know your team's availability for a technical discovery consultation.
+
+Best regards,
+${profile.name || "Executive Design & Operations Desk"}`;
+
+    return (
+      <div className="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-md flex flex-col text-slate-800 my-3">
+        {/* 1. TOP EMAIL MESSAGE SECTION (SB SY OPER - ALAG SE) */}
+        <div className="p-4 sm:p-5 bg-white border-b-2 border-dashed border-slate-200">
+          <div className="flex items-center justify-between mb-2 pb-1.5 border-b border-slate-100">
+            <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 font-mono flex items-center gap-1.5">
+              <span>✉️</span>
+              <span>Direct Email Message (Above Template)</span>
+            </span>
+            <span className="text-[9px] font-bold text-sky-700 bg-sky-50 px-2.5 py-0.5 rounded-full border border-sky-200">
+              Priority Dispatch
+            </span>
+          </div>
+          <div className="text-xs font-bold text-slate-900 mb-1.5 font-outfit" style={{ color: textColor }}>
+            {profile.defaultSubjectTemplate
+              ?.replace("{service}", inquiry?.service || "Executive Studio Collection")
+              ?.replace("{id}", String(inquiry?.id || "308")) || "Re: Technical Discovery & Architecture Showcase"}
+          </div>
+          <div className="text-[11.5px] text-slate-600 leading-relaxed whitespace-pre-line font-sans">
+            {sampleMessage}
+          </div>
+        </div>
+
+        {/* 2. SECTION 1: HERO BANNER (SOFT TEAL STUDIO SCENE) */}
+        <div className="bg-gradient-to-b from-[#6c9fa9] to-[#5a909d] p-5 sm:p-7 text-center text-white">
+          <div className="text-[9px] font-extrabold uppercase tracking-widest text-white/80 mb-2">
+            {profile.department || "CREED TECH ENTERPRISE STUDIO"}
+          </div>
+          <h3 className="font-serif text-lg sm:text-2xl font-bold leading-tight text-white mb-2.5 max-w-md mx-auto">
+            {heroItem?.title || "Ac's office dits book I love To lijch"}
+          </h3>
+          <p className="text-[11.5px] text-white/90 leading-relaxed max-w-sm mx-auto mb-4 font-sans">
+            {profile.defaultMessageTemplate ? profile.defaultMessageTemplate.slice(0, 120) + "..." : "Refined architectural aesthetics and certified high-durability performance engineered for enterprise environments."}
+          </p>
+          <div className="mb-4">
+            <button
+              type="button"
+              className="bg-[#1a2a32] hover:bg-slate-900 text-white font-bold text-[11px] px-6 py-2 rounded-full tracking-wide shadow-md transition-all cursor-pointer"
+            >
+              Discover Series
+            </button>
+          </div>
+
+          {/* Staging Photo */}
+          <div
+            onClick={() =>
+              setEnlargedMediaPopup({
+                imageUrl: topHeroStagingImage,
+                title: heroItem?.title || "Studio Scene",
+                text: "Refined Scandinavian Studio Staging & Architectural Composition",
+              })
+            }
+            className="rounded-xl overflow-hidden shadow-lg border border-white/20 relative group cursor-pointer"
+            title="Click to Enlarge Visual"
+          >
+            <img
+              src={topHeroStagingImage}
+              alt="Studio Staging"
+              onError={(e) => {
+                const t = e.currentTarget;
+                if (t.src !== DEFAULT_IMAGE_FALLBACK) t.src = DEFAULT_IMAGE_FALLBACK;
+              }}
+              className="w-full h-44 sm:h-56 object-cover group-hover:scale-103 transition-transform duration-300"
+            />
+            <div className="absolute top-2 right-2 bg-black/60 backdrop-blur-xs text-white text-[8px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1">
+              <span>🔍</span>
+              <span>Enlarge</span>
+            </div>
+          </div>
+        </div>
+
+        {/* 3. SECTION 2: SPLIT FEATURE 1 (WHITE BG: TEXT LEFT, PRODUCT RIGHT) */}
+        <div className="p-5 sm:p-7 bg-white">
+          <div className="flex flex-col sm:flex-row items-center gap-5">
+            <div className="w-full sm:w-1/2 text-left">
+              <h4 className="font-serif text-base sm:text-xl font-bold text-[#1a2a32] leading-snug mb-2">
+                {heroItem?.title || "Get out arows well styler it pieces."}
+              </h4>
+              <p className="text-[11px] text-slate-500 leading-relaxed mb-4">
+                {heroItem?.specs || heroItem?.details || "Masterfully designed with precision contours, verified load endurance, and minimalist elegance suited for high-tier operations."}
+              </p>
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  className="bg-[#1a2a32] hover:bg-slate-900 text-white font-bold text-[10px] px-5 py-2 rounded-full tracking-wide shadow-xs cursor-pointer"
+                >
+                  View Unit
+                </button>
+                <span className="text-[10px] font-semibold text-slate-400 flex items-center gap-1">
+                  <span className="text-amber-500">◆</span> Verified
+                </span>
+              </div>
+            </div>
+
+            <div
+              onClick={() =>
+                setEnlargedMediaPopup({
+                  imageUrl: productCutoutImage,
+                  title: heroItem?.title || "Product Cutout",
+                  text: heroItem?.specs || "",
+                })
+              }
+              className="w-full sm:w-1/2 h-36 sm:h-44 flex items-center justify-center relative group cursor-pointer p-2"
+              title="Click to Enlarge Picture"
+            >
+              <img
+                src={productCutoutImage}
+                alt="Product 1"
+                onError={(e) => {
+                  const t = e.currentTarget;
+                  if (t.src !== DEFAULT_IMAGE_FALLBACK) t.src = DEFAULT_IMAGE_FALLBACK;
+                }}
+                className="max-h-full max-w-full object-contain drop-shadow-md group-hover:scale-105 transition-transform duration-300"
+              />
+              <div className="absolute top-1 right-1 bg-black/60 backdrop-blur-xs text-white text-[7px] font-bold px-1.5 py-0.5 rounded-full">
+                <span>🔍</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* 4. SECTION 3: SPLIT FEATURE 2 (ZIG-ZAG FLIPPED: PRODUCT LEFT ON TEAL BACKDROP, TEXT RIGHT) */}
+        <div className="p-5 sm:p-7 bg-white border-t border-slate-100">
+          <div className="flex flex-col sm:flex-row items-center gap-5">
+            <div
+              onClick={() =>
+                setEnlargedMediaPopup({
+                  imageUrl: productStagingImage,
+                  title: secondaryItem?.title || "Product Staging",
+                  text: secondaryItem?.specs || "",
+                })
+              }
+              className="w-full sm:w-1/2 h-36 sm:h-44 rounded-xl overflow-hidden shadow-md relative group cursor-pointer"
+              title="Click to Enlarge Picture"
+            >
+              <img
+                src={productStagingImage}
+                alt="Product 2"
+                onError={(e) => {
+                  const t = e.currentTarget;
+                  if (t.src !== DEFAULT_IMAGE_FALLBACK) t.src = DEFAULT_IMAGE_FALLBACK;
+                }}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+              <div className="absolute top-1.5 right-1.5 bg-black/60 backdrop-blur-xs text-white text-[7px] font-bold px-1.5 py-0.5 rounded-full">
+                <span>🔍</span>
+              </div>
+            </div>
+
+            <div className="w-full sm:w-1/2 text-left">
+              <div className="text-[9px] font-extrabold uppercase tracking-widest text-slate-400 mb-1">
+                MODERN COLLECTION
+              </div>
+              <h4 className="font-serif text-base sm:text-xl font-bold text-[#1a2a32] leading-snug mb-2">
+                {secondaryItem?.title || "Peluct oend now"}
+              </h4>
+              <p className="text-[11px] text-slate-500 leading-relaxed mb-4">
+                {secondaryItem?.specs || secondaryItem?.details || "Tailored ergonomic contours engineered with premium-grade alloy finish for seamless performance in mission-critical facilities."}
+              </p>
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  className="bg-[#1a2a32] hover:bg-slate-900 text-white font-bold text-[10px] px-5 py-2 rounded-full tracking-wide shadow-xs cursor-pointer"
+                >
+                  See Specs
+                </button>
+                <span className="text-[10px] font-semibold text-slate-400 flex items-center gap-1">
+                  <span className="text-emerald-500">●</span> Ready
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* 5. SECTION 4: PANORAMIC BOTTOM SHOWCASE BANNER */}
+        <div className="bg-gradient-to-b from-[#6c9fa9] to-[#5a909d] p-5 sm:p-7 text-center text-white">
+          <h4 className="font-serif text-base sm:text-xl font-bold text-white mb-2 max-w-sm mx-auto leading-tight">
+            {profile.signatureTagline || "Premium Engineering Solutions For Modern High-Performance Workspaces"}
+          </h4>
+          <p className="text-[11px] text-white/90 mb-3.5 max-w-xs mx-auto">
+            Direct enterprise inventory verified under ISO 9001 and strict operational benchmarks.
+          </p>
+          <div className="mb-4">
+            <button
+              type="button"
+              className="bg-white hover:bg-slate-100 text-[#1a2a32] font-extrabold text-[10.5px] px-6 py-2 rounded-full tracking-wide shadow-md transition-all cursor-pointer"
+            >
+              Explore All Units →
+            </button>
+          </div>
+
+          {/* Panoramic Strip */}
+          <div
+            onClick={() =>
+              setEnlargedMediaPopup({
+                imageUrl: panoramicStagingImage,
+                title: "Panoramic Collection",
+                text: "Complete Architecture & Equipment Staging",
+              })
+            }
+            className="rounded-xl overflow-hidden shadow-lg border border-white/20 relative group cursor-pointer"
+          >
+            <img
+              src={panoramicStagingImage}
+              alt="Panoramic Collection"
+              onError={(e) => {
+                const t = e.currentTarget;
+                if (t.src !== DEFAULT_IMAGE_FALLBACK) t.src = DEFAULT_IMAGE_FALLBACK;
+              }}
+              className="w-full h-32 sm:h-44 object-cover group-hover:scale-103 transition-transform duration-300"
+            />
+            <div className="absolute top-2 right-2 bg-black/60 backdrop-blur-xs text-white text-[8px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1">
+              <span>🔍</span>
+            </div>
+          </div>
+        </div>
+
+        {/* 6. SECTION 5: 4-COLUMN EDITORIAL FOOTER (MATCHING REFERENCE) */}
+        <div className="bg-white p-5 sm:p-6 border-t border-slate-200 text-left">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pb-4 border-b border-slate-100">
+            <div>
+              <div className="font-serif font-bold text-xs text-[#1a2a32] mb-1">
+                CREED TECH
+              </div>
+              <div className="text-[9.5px] text-slate-500 leading-tight">
+                We to your rich dispatches. Tailored enterprise engineering.
+              </div>
+            </div>
+            <div>
+              <div className="font-bold text-[9.5px] text-[#1a2a32] uppercase mb-1">
+                Directory
+              </div>
+              <div className="text-[9px] text-slate-500 space-y-0.5">
+                <div>Equipment</div>
+                <div>Catalog</div>
+                <div>Warranty</div>
+              </div>
+            </div>
+            <div>
+              <div className="font-bold text-[9.5px] text-[#1a2a32] uppercase mb-1">
+                Compliance
+              </div>
+              <div className="text-[9px] text-slate-500 leading-tight">
+                Certified standard under stringent industrial tolerance.
+              </div>
+            </div>
+            <div className="text-left sm:text-right">
+              <div className="font-bold text-[9.5px] text-[#1a2a32] uppercase mb-1">
+                Direct Desk
+              </div>
+              <div className="text-[9px] text-slate-500 mb-1.5 truncate">
+                {profile.email}
+              </div>
+              <button
+                type="button"
+                className="bg-[#1a2a32] text-white text-[9px] font-bold px-3 py-1 rounded-full cursor-pointer hover:bg-slate-900"
+              >
+                Contact Desk →
+              </button>
+            </div>
+          </div>
+
+          <div className="pt-3 flex flex-col sm:flex-row items-center justify-between gap-2 text-[8.5px] text-slate-400 border-t border-slate-100">
+            <span>&copy; {new Date().getFullYear()} Creed Tech Enterprise Solutions. All rights reserved.</span>
+            <div className="flex items-center gap-1.5 shrink-0">
+              <a
+                href={fbUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Facebook"
+                className="w-5 h-5 rounded-full bg-[#1a2a32] text-white flex items-center justify-center hover:bg-[#1877F2] transition-all hover:scale-110 shadow-2xs"
+              >
+                <svg className="w-2.5 h-2.5 fill-current" viewBox="0 0 24 24">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                </svg>
+              </a>
+              <a
+                href={liUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="LinkedIn"
+                className="w-5 h-5 rounded-full bg-[#1a2a32] text-white flex items-center justify-center hover:bg-[#0A66C2] transition-all hover:scale-110 shadow-2xs"
+              >
+                <svg className="w-2.5 h-2.5 fill-current" viewBox="0 0 24 24">
+                  <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                </svg>
+              </a>
+              <a
+                href={waUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="WhatsApp"
+                className="w-5 h-5 rounded-full bg-[#1a2a32] text-white flex items-center justify-center hover:bg-[#25D366] transition-all hover:scale-110 shadow-2xs"
+              >
+                <svg className="w-2.5 h-2.5 fill-current" viewBox="0 0 24 24">
+                  <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z" />
+                </svg>
+              </a>
+              <a
+                href={igUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Instagram"
+                className="w-5 h-5 rounded-full bg-[#1a2a32] text-white flex items-center justify-center hover:bg-[#E4405F] transition-all hover:scale-110 shadow-2xs"
+              >
+                <svg className="w-2.5 h-2.5 fill-current" viewBox="0 0 24 24">
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const renderFormat4Preview = (profile: EmailDepartmentProfile, isSmall = false, customBodyMessage?: string) => {
+    const accent = profile.accentColor || "#0052FF";
+    const name = profile.signatureName || profile.name || "Tariq Mahmood";
+    const role = profile.signatureRole || profile.department || "Chief Technical Director";
+    const company = profile.signatureCompany || "CREED TECH";
+    const tagline = profile.signatureTagline || "Enterprise Engineering & Industrial Systems";
+    const phone = profile.phone || "+92 321 9204488";
+    const email = profile.email || "solutions@creed-tech.com";
+    const website = profile.signatureWebsite || "https://creed-tech.com";
+    const websiteDisplay = website.replace(/^https?:\/\//i, "").replace(/\/$/, "");
+    const address = profile.address || "Office #02, Main Shopping Center, Sheikhupura, PK";
+    const avatar =
+      profile.signatureAvatar ||
+      profile.sidebarLogo ||
+      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop";
+    const companyLogo = profile.sidebarLogo || profile.signatureCompanyLogo || "https://creed-tech.com/icons/icon-192x192.png";
+
+    const fbUrl =
+      profile.sidebarSocialLinks?.find((s) => s.platform === "facebook")?.url ||
+      "https://facebook.com/creedtechnology";
+    const liUrl =
+      profile.sidebarSocialLinks?.find((s) => s.platform === "linkedin")?.url ||
+      "https://linkedin.com/company/creedtech";
+    const waUrl =
+      profile.sidebarSocialLinks?.find((s) => s.platform === "whatsapp")?.url ||
+      (profile.phone
+        ? `https://wa.me/${profile.phone.replace(/[^0-9]/g, "")}`
+        : "https://wa.me/923219204488");
+    const igUrl =
+      profile.sidebarSocialLinks?.find((s) => s.platform === "instagram")?.url ||
+      "https://instagram.com/creed.technologiess";
+
+    const sampleMessage =
+      customBodyMessage ||
+      (profile.defaultMessageTemplate ||
+`Dear {client_name},
+
+Thank you for contacting Creed Tech. We have received your technical specifications and our engineering department has curated the following verified units for your project.
+
+Please review the attached machinery offers below with full technical specifications and direct inspection records.
+
+Best regards,
+${name}`)
+        .replace("{client_name}", inquiry?.client_name || "Valued Client")
+        .replace("{service}", inquiry?.service || "Enterprise Solutions")
+        .replace("{id}", String(inquiry?.id || "34"));
+
+    return (
+      <div className="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-md flex flex-col text-slate-800 my-3">
+        {/* 1. TOP BRANDED HEADER (NAVY & ACCENT) */}
+        <div className="bg-[#0A192F] p-4 sm:p-5 flex items-center justify-between border-b-2" style={{ borderBottomColor: accent }}>
+          <div>
+            <div className="text-base sm:text-lg font-black tracking-wider text-white">
+              CREED <span style={{ color: accent }}>TECH</span>
+            </div>
+            <div className="text-[9.5px] uppercase tracking-widest text-slate-300 font-semibold mt-0.5">
+              {profile.department || "Enterprise Operations Desk"}
+            </div>
+          </div>
+          <span className="px-3 py-1 rounded-full text-[10px] font-mono font-bold bg-white/10 text-sky-200 border border-white/20">
+            REF #{inquiry?.id || "34"} &bull; PRIORITY
+          </span>
+        </div>
+
+        {/* 2. DIRECT EMAIL MESSAGE BODY */}
+        <div className="p-4 sm:p-5 bg-white border-b border-slate-100">
+          <div className="text-xs font-bold text-slate-900 mb-1.5 font-outfit">
+            {profile.defaultSubjectTemplate
+              ?.replace("{service}", inquiry?.service || "Enterprise Machinery Catalog")
+              ?.replace("{id}", String(inquiry?.id || "34")) || "Re: Technical Discovery & Machinery Dispatch"}
+          </div>
+          <div className="text-[11.5px] text-slate-600 leading-relaxed whitespace-pre-line font-sans">
+            {sampleMessage}
+          </div>
+        </div>
+
+        {/* 3. FORMAT 1 MACHINERY CATALOG CARDS */}
+        <div className="p-4 sm:p-5 bg-slate-50/70 border-b border-slate-200">
+          <div className="flex items-center justify-between mb-2.5 pb-1 border-b border-slate-200">
+            <span className="text-[10.5px] font-extrabold uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
+              <span>⚙️</span>
+              <span>Attached Equipment Offers (Format 1 Catalog Cards)</span>
+            </span>
+            <span className="text-[9.5px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-200">
+              Verified Units
+            </span>
+          </div>
+          {renderMediaPreview(profile, isSmall)}
+        </div>
+
+        {/* 4. MODERN GEOMETRIC EXECUTIVE SIGNATURE BANNER (MATCHING REFERENCE IMAGE) */}
+        <div className="p-4 sm:p-5 bg-white">
+          <div className="rounded-2xl overflow-hidden border border-slate-200 shadow-sm bg-white">
+            {/* Top Horizon Accent Bar */}
+            <div className="bg-gradient-to-r from-[#0A192F] via-[#0052FF] to-[#00A3FF] px-4 py-2 flex items-center justify-between text-white">
+              <span className="text-[9px] font-extrabold uppercase tracking-widest text-white/90">
+                ★ Official Executive Transmission &bull; Direct Desk
+              </span>
+              <span className="text-[9px] font-mono font-bold text-sky-200">
+                {profile.department}
+              </span>
+            </div>
+
+            {/* Banner Content Grid */}
+            <div className="p-4 sm:p-5 flex flex-col md:flex-row items-center gap-4 sm:gap-5">
+              {/* Left: Avatar with Crescent Accent Arc and Dashed Orbit Ring */}
+              <div className="relative shrink-0 flex items-center justify-center">
+                <div className="relative w-20 h-20 sm:w-22 sm:h-22 rounded-full p-1 bg-gradient-to-tr from-[#0052FF] via-[#0A192F] to-[#00A3FF] shadow-lg flex items-center justify-center">
+                  <div className="absolute inset-0 rounded-full border-2 border-dashed border-[#00A3FF] animate-spin-slow pointer-events-none opacity-80" />
+                  <img
+                    src={avatar}
+                    alt={name}
+                    onError={(e) => {
+                      const t = e.currentTarget;
+                      if (t.src !== DEFAULT_IMAGE_FALLBACK) t.src = DEFAULT_IMAGE_FALLBACK;
+                    }}
+                    className="w-full h-full object-cover rounded-full border-2 border-white relative z-10"
+                  />
+                  <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-emerald-500 border-2 border-white flex items-center justify-center text-[10px] text-white font-black shadow-xs z-20">
+                    ✓
+                  </div>
+                </div>
+              </div>
+
+              {/* Center: Executive Name, Job Title, Tagline Pill & 2x2 Contact Details */}
+              <div className="flex-1 text-center md:text-left min-w-0">
+                <div className="text-sm sm:text-base font-extrabold uppercase tracking-wide text-slate-900 font-outfit truncate">
+                  {name}
+                </div>
+                <div className="text-[11px] font-bold uppercase tracking-wider text-[#0052FF] mt-0.5 truncate">
+                  {role}
+                </div>
+                <div className="mt-1.5 mb-2.5">
+                  <span className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-blue-50 border border-blue-200 rounded-full text-[9.5px] font-bold text-blue-800">
+                    <span>✈</span>
+                    <span className="truncate">{tagline}</span>
+                  </span>
+                </div>
+
+                {/* 2x2 Contacts Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-[10.5px] text-slate-600">
+                  <div className="flex items-center gap-1.5 truncate">
+                    <span className="text-[#0052FF] font-bold text-xs shrink-0">📞</span>
+                    <a href={`tel:${phone}`} className="hover:text-blue-600 transition-colors font-semibold text-slate-800 truncate">
+                      {phone}
+                    </a>
+                  </div>
+                  <div className="flex items-center gap-1.5 truncate">
+                    <span className="text-[#0052FF] font-bold text-xs shrink-0">✉️</span>
+                    <a href={`mailto:${email}`} className="hover:text-blue-600 transition-colors font-semibold text-[#0052FF] truncate">
+                      {email}
+                    </a>
+                  </div>
+                  <div className="flex items-center gap-1.5 truncate">
+                    <span className="text-[#0052FF] font-bold text-xs shrink-0">🌐</span>
+                    <a href={website} target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 transition-colors font-semibold text-slate-800 truncate">
+                      {websiteDisplay}
+                    </a>
+                  </div>
+                  <div className="flex items-center gap-1.5 truncate">
+                    <span className="text-[#0052FF] font-bold text-xs shrink-0">📍</span>
+                    <span className="text-slate-500 truncate" title={address}>
+                      {address}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right: Company Logo & 4 Circular Social Badges */}
+              <div className="shrink-0 flex flex-col items-center md:items-end justify-center md:border-l md:border-slate-100 md:pl-5 pt-3 md:pt-0 w-full md:w-auto">
+                <div className="flex items-center gap-2 mb-2">
+                  <img
+                    src={companyLogo}
+                    alt={company}
+                    onError={(e) => {
+                      const t = e.currentTarget;
+                      if (t.src !== DEFAULT_IMAGE_FALLBACK) t.src = DEFAULT_IMAGE_FALLBACK;
+                    }}
+                    className="w-8 h-8 rounded-lg object-contain shadow-2xs border border-slate-100 bg-white p-0.5"
+                  />
+                  <div className="text-left">
+                    <div className="text-xs font-black tracking-wider text-slate-900 leading-tight">
+                      CREED <span style={{ color: accent }}>TECH</span>
+                    </div>
+                    <div className="text-[8px] uppercase tracking-widest text-slate-400 font-bold">
+                      ENTERPRISE
+                    </div>
+                  </div>
+                </div>
+
+                {/* 4 Circular Social Badges: FB, LI, WA, IG */}
+                <div className="flex items-center gap-1.5 mt-1">
+                  <a
+                    href={fbUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="Facebook"
+                    className="w-6 h-6 rounded-full bg-[#0A192F] text-white flex items-center justify-center hover:bg-[#1877F2] transition-all hover:scale-110 shadow-2xs"
+                  >
+                    <svg className="w-3 h-3 fill-current" viewBox="0 0 24 24">
+                      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                    </svg>
+                  </a>
+                  <a
+                    href={liUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="LinkedIn"
+                    className="w-6 h-6 rounded-full bg-[#0A192F] text-white flex items-center justify-center hover:bg-[#0A66C2] transition-all hover:scale-110 shadow-2xs"
+                  >
+                    <svg className="w-3 h-3 fill-current" viewBox="0 0 24 24">
+                      <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                    </svg>
+                  </a>
+                  <a
+                    href={waUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="WhatsApp"
+                    className="w-6 h-6 rounded-full bg-[#0A192F] text-white flex items-center justify-center hover:bg-[#25D366] transition-all hover:scale-110 shadow-2xs"
+                  >
+                    <svg className="w-3 h-3 fill-current" viewBox="0 0 24 24">
+                      <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z" />
+                    </svg>
+                  </a>
+                  <a
+                    href={igUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="Instagram"
+                    className="w-6 h-6 rounded-full bg-[#0A192F] text-white flex items-center justify-center hover:bg-[#E4405F] transition-all hover:scale-110 shadow-2xs"
+                  >
+                    <svg className="w-3 h-3 fill-current" viewBox="0 0 24 24">
+                      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* 5. SUB-FOOTER */}
+        <div className="bg-slate-50 px-5 py-3 border-t border-slate-200 text-[9px] text-slate-400 flex flex-col sm:flex-row items-center justify-between gap-1.5">
+          <span>&copy; {new Date().getFullYear()} Creed Tech Enterprise Solutions. All rights reserved.</span>
+          <span>Certified Standard Industrial Communications</span>
         </div>
       </div>
     );
@@ -2324,11 +2979,17 @@ ${currentProfile.name}`
                 <span className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
                   <span>🎨 5 Email Template Formats (Select Format For This Email):</span>
                   <span className="text-[10px] font-mono bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full border border-blue-200 font-bold">
-                    {replyFormat === "format-executive-signature" ? "Format 2 Active: Executive Desk" : "Format 1 Active: Catalog Cards"}
+                    {replyFormat === "format-executive-signature"
+                      ? "Format 2 Active: Executive Desk"
+                      : replyFormat === "format-announcement"
+                      ? "Format 3 Active: Brand Hero & Promo"
+                      : replyFormat === "format-minimal"
+                      ? "Format 4 Active: Executive Signature Banner"
+                      : "Format 1 Active: Catalog Cards"}
                   </span>
                 </span>
                 <span className="text-[10px] text-slate-500">
-                  Select Format 1 (Catalog) or Format 2 (Executive) — Formats 3, 4, 5 are reserved slots
+                  Select Format 1 (Catalog Cards), Format 2 (Executive Desk), Format 3 (Hero &amp; Promo), or Format 4 (Executive Signature Banner)
                 </span>
               </div>
 
@@ -2370,6 +3031,22 @@ ${currentProfile.name}`
                                     p.galleryRows && p.galleryRows.length > 0
                                       ? p.galleryRows
                                       : DEFAULT_FORMAT2_GALLERY_ROWS,
+                                }
+                              : fmt.id === "format-minimal"
+                              ? {
+                                  signatureName: p.signatureName || p.name || "Tariq Mahmood",
+                                  signatureRole: p.signatureRole || p.department || "Chief Technical Director",
+                                  signatureTagline: p.signatureTagline || "Enterprise Engineering & Industrial Systems",
+                                  signatureAvatar:
+                                    p.signatureAvatar ||
+                                    "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop",
+                                  sidebarLogo:
+                                    p.sidebarLogo ||
+                                    "https://creed-tech.com/icons/icon-192x192.png",
+                                  sidebarSocialLinks:
+                                    p.sidebarSocialLinks && p.sidebarSocialLinks.length > 0
+                                      ? p.sidebarSocialLinks
+                                      : DEFAULT_FORMAT2_SOCIAL_LINKS,
                                 }
                               : {}),
                           }));
@@ -2977,52 +3654,90 @@ ${currentProfile.name}`
                                   </button>
                                 </div>
                               </div>
-                              <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2">
-                                {(row.items || []).map((it) => (
+                              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3.5">
+                                {(row.items || []).map((it, itIdx) => (
                                   <div
-                                    key={it.id}
-                                    className="bg-white p-1.5 rounded-lg border border-slate-200 shadow-2xs space-y-1 flex flex-col justify-between hover:border-blue-300 transition-colors"
+                                    key={it.id || itIdx}
+                                    className="bg-white p-3 rounded-2xl border border-slate-200/90 shadow-xs hover:shadow-md hover:border-blue-400 transition-all flex flex-col justify-between space-y-2.5 relative group/editcard"
                                   >
-                                    <div className="relative w-full h-16 rounded overflow-hidden group bg-slate-100 border border-slate-200">
+                                    {/* Card Header: Number & Delete */}
+                                    <div className="flex items-center justify-between">
+                                      <span className="text-[10px] font-mono font-bold text-slate-600 bg-slate-100 px-2 py-0.5 rounded-md flex items-center gap-1">
+                                        <span>🖼️</span>
+                                        <span>Card #{itIdx + 1}</span>
+                                      </span>
+                                      <button
+                                        type="button"
+                                        onClick={() => handleDeleteRowItem(row.id, it.id)}
+                                        className="w-6 h-6 rounded-lg bg-red-50 hover:bg-red-600 text-red-600 hover:text-white text-xs font-bold flex items-center justify-center transition-colors cursor-pointer"
+                                        title="Delete this image card"
+                                      >
+                                        ✕
+                                      </button>
+                                    </div>
+
+                                    {/* Thumbnail Preview */}
+                                    <div className="w-full h-28 rounded-xl overflow-hidden bg-slate-900 border border-slate-200 relative group cursor-pointer">
                                       <img
                                         src={it.imageUrl}
-                                        alt={it.text}
-                                        className="w-full h-full object-cover cursor-pointer"
+                                        alt={it.text || `Card ${itIdx + 1}`}
+                                        onError={(e) => {
+                                          const t = e.currentTarget;
+                                          if (t.src !== DEFAULT_IMAGE_FALLBACK) t.src = DEFAULT_IMAGE_FALLBACK;
+                                        }}
+                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                                         onClick={() => setEnlargedMediaPopup({ imageUrl: it.imageUrl, title: it.title || it.text, text: it.text })}
                                         title="Click to enlarge 🔍"
                                       />
                                       <button
                                         type="button"
-                                        onClick={() => handleDeleteRowItem(row.id, it.id)}
-                                        className="absolute top-0.5 right-0.5 w-4 h-4 bg-red-600 hover:bg-red-700 text-white rounded-full text-[9px] flex items-center justify-center cursor-pointer shadow-xs z-10"
-                                        title="Delete image"
+                                        onClick={() => setEnlargedMediaPopup({ imageUrl: it.imageUrl, title: it.title || it.text, text: it.text })}
+                                        className="absolute top-2 right-2 bg-black/70 hover:bg-black text-white text-[9px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1 transition-colors backdrop-blur-xs"
+                                        title="Zoom"
                                       >
-                                        ✕
-                                      </button>
-                                      <button
-                                        type="button"
-                                        onClick={() => {
-                                          setUploadingFormat2RowItem({ rowId: row.id, itemId: it.id });
-                                          format2SingleItemFileInputRef.current?.click();
-                                        }}
-                                        className="absolute bottom-0.5 inset-x-0.5 py-0.5 bg-black/75 hover:bg-black text-white text-[8px] font-bold rounded flex items-center justify-center gap-0.5 cursor-pointer"
-                                        title="Change picture from computer"
-                                      >
-                                        <span>📷</span>
-                                        <span>Change</span>
+                                        <span>🔍</span>
+                                        <span>Enlarge</span>
                                       </button>
                                     </div>
-                                    <input
-                                      type="text"
-                                      value={it.text}
-                                      onChange={(e) => handleUpdateRowItem(row.id, it.id, { text: e.target.value })}
-                                      placeholder="Text under pic"
-                                      className={`w-full px-1 py-0.5 text-[9px] border rounded font-medium text-slate-800 ${
-                                        format2ContentMode === "same"
-                                          ? "border-blue-300 bg-blue-50/50"
-                                          : "border-slate-200 bg-white"
-                                      }`}
-                                    />
+
+                                    {/* Change Picture Button */}
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        setUploadingFormat2RowItem({ rowId: row.id, itemId: it.id });
+                                        format2SingleItemFileInputRef.current?.click();
+                                      }}
+                                      className="w-full py-1.5 bg-slate-800 hover:bg-slate-900 text-white text-[11px] font-bold rounded-lg flex items-center justify-center gap-1.5 cursor-pointer transition-colors shadow-2xs"
+                                      title="Pick a different picture from computer for this card"
+                                    >
+                                      <span>📷</span>
+                                      <span>Change Picture</span>
+                                    </button>
+
+                                    {/* Text Under Picture */}
+                                    <div className="space-y-1 pt-1 border-t border-slate-100">
+                                      <div className="flex items-center justify-between">
+                                        <label className="block text-[9px] font-bold text-slate-600 uppercase tracking-wider">
+                                          Text Under Picture
+                                        </label>
+                                        {format2ContentMode === "same" && (
+                                          <span className="text-[8px] font-bold text-blue-600 bg-blue-50 px-1.5 py-0.2 rounded font-mono">
+                                            🔗 Synced
+                                          </span>
+                                        )}
+                                      </div>
+                                      <input
+                                        type="text"
+                                        value={it.text}
+                                        onChange={(e) => handleUpdateRowItem(row.id, it.id, { text: e.target.value })}
+                                        placeholder="Caption / Specs under pic"
+                                        className={`w-full px-2.5 py-1.5 text-xs border rounded-lg font-medium text-slate-800 outline-none transition-all ${
+                                          format2ContentMode === "same"
+                                            ? "border-blue-300 bg-blue-50/50 focus:border-blue-500 focus:bg-white focus:ring-1 focus:ring-blue-400"
+                                            : "border-slate-300 bg-white focus:border-blue-500 focus:ring-1 focus:ring-blue-400"
+                                        }`}
+                                      />
+                                    </div>
                                   </div>
                                 ))}
                               </div>
@@ -3034,13 +3749,13 @@ ${currentProfile.name}`
                   </div>
                 )}
 
-                {/* FORMAT 1: ATTACHED MACHINE OFFERS & CATALOG CARDS (MULTI-ROW) */}
-                {replyFormat === "format-catalog" && (
+                {/* FORMAT 1, 3 & 4: ATTACHED MACHINE OFFERS & CATALOG CARDS / EQUIPMENT SHOWCASE */}
+                {(replyFormat === "format-catalog" || replyFormat === "format-announcement" || replyFormat === "format-minimal") && (
                 <div className="bg-gradient-to-r from-blue-50/80 via-indigo-50/40 to-slate-50 border border-blue-200/90 rounded-xl p-3 shadow-xs space-y-2">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-1 border-b border-blue-100">
                     <div className="flex items-center gap-2">
                       <span className="text-xs font-bold text-blue-950 flex items-center gap-1.5">
-                        <span>📸 Attached Machine Offers (Multi-Row Grid)</span>
+                        <span>📸 Attached Equipment Offers ({replyFormat === "format-announcement" ? "Format 3 Hero & Units" : replyFormat === "format-minimal" ? "Format 4 Catalog Cards" : "Format 1 Catalog Cards"})</span>
                       </span>
                       <span className="text-[10px] bg-blue-600 text-white font-extrabold px-2 py-0.5 rounded-full shadow-2xs">
                         {getEditingMediaItems(currentProfile).length} {getEditingMediaItems(currentProfile).length === 1 ? "Card" : "Cards"} ({Math.ceil(getEditingMediaItems(currentProfile).length / 2)} {Math.ceil(getEditingMediaItems(currentProfile).length / 2) === 1 ? "Row" : "Rows"})
@@ -3373,6 +4088,56 @@ Best regards,
 ${currentProfile.name}
 Website: https://creed-tech.com
 Desk: ${currentProfile.email}`)
+                                .replace("{client_name}", inquiry.client_name || "Client")
+                                .replace("{service}", inquiry.service || "Enterprise Service")
+                                .replace("{id}", String(inquiry.id))
+                        )}
+                      </div>
+                    ) : replyFormat === "format-announcement" ? (
+                      <div>
+                        {renderFormat3Preview(
+                          currentProfile,
+                          false,
+                          emailBody.trim()
+                            ? emailBody
+                            : (currentProfile.defaultMessageTemplate ||
+`Dear {client_name},
+
+Thank you for reaching out to Creed Tech regarding your inquiry for "{service}".
+
+We have received and reviewed your project parameters and our team is prepared to present verified equipment matching your workload.
+
+Please review the featured machinery below and let us know if you require comprehensive inspection logs or a live demonstration.
+
+Best regards,
+
+${currentProfile.name}
+Website: https://creed-tech.com
+Desk: ${currentProfile.email}`)
+                                .replace("{client_name}", inquiry.client_name || "Client")
+                                .replace("{service}", inquiry.service || "Enterprise Service")
+                                .replace("{id}", String(inquiry.id))
+                        )}
+                      </div>
+                    ) : replyFormat === "format-minimal" ? (
+                      <div>
+                        {renderFormat4Preview(
+                          currentProfile,
+                          false,
+                          emailBody.trim()
+                            ? emailBody
+                            : (currentProfile.defaultMessageTemplate ||
+`Dear {client_name},
+
+Thank you for reaching out to Creed Tech regarding your inquiry for "{service}".
+
+We have received and reviewed your project parameters and our team is prepared to present verified equipment matching your workload.
+
+Please review the featured machinery below with direct specifications and let us know your team's schedule for a technical review.
+
+Best regards,
+
+${currentProfile.signatureName || currentProfile.name}`)
                                 .replace("{client_name}", inquiry.client_name || "Client")
                                 .replace("{service}", inquiry.service || "Enterprise Service")
                                 .replace("{id}", String(inquiry.id))
@@ -3820,11 +4585,15 @@ Desk: ${currentProfile.email}`)
                       <span className="text-[10px] font-mono bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full border border-blue-200 font-bold">
                         {(editingProfile.formatType || (editingProfile.signatureRole || editingProfile.signatureAvatar ? "format-executive-signature" : "format-catalog")) === "format-executive-signature"
                           ? "Format 2 Active: Executive Desk"
+                          : (editingProfile.formatType || (editingProfile.signatureRole || editingProfile.signatureAvatar ? "format-executive-signature" : "format-catalog")) === "format-announcement"
+                          ? "Format 3 Active: Brand Hero & Promo"
+                          : (editingProfile.formatType || (editingProfile.signatureRole || editingProfile.signatureAvatar ? "format-executive-signature" : "format-catalog")) === "format-minimal"
+                          ? "Format 4 Active: Executive Signature Banner"
                           : "Format 1 Active: Catalog Cards"}
                       </span>
                     </span>
                     <span className="text-[10px] text-slate-500">
-                      Select format for this profile: Format 1 (Catalog) vs Format 2 (Executive) — Slots 3, 4, 5 Reserved
+                      Select format for this profile: Format 1 (Catalog Cards), Format 2 (Executive Desk), Format 3 (Hero &amp; Promo), or Format 4 (Executive Signature Banner)
                     </span>
                   </div>
 
@@ -3866,6 +4635,22 @@ Desk: ${currentProfile.email}`)
                                         editingProfile.galleryRows && editingProfile.galleryRows.length > 0
                                           ? editingProfile.galleryRows
                                           : DEFAULT_FORMAT2_GALLERY_ROWS,
+                                    }
+                                  : fmt.id === "format-minimal"
+                                  ? {
+                                      signatureName: editingProfile.signatureName || editingProfile.name || "Tariq Mahmood",
+                                      signatureRole: editingProfile.signatureRole || editingProfile.department || "Chief Technical Director",
+                                      signatureTagline: editingProfile.signatureTagline || "Enterprise Engineering & Industrial Systems",
+                                      signatureAvatar:
+                                        editingProfile.signatureAvatar ||
+                                        "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop",
+                                      sidebarLogo:
+                                        editingProfile.sidebarLogo ||
+                                        "https://creed-tech.com/icons/icon-192x192.png",
+                                      sidebarSocialLinks:
+                                        editingProfile.sidebarSocialLinks && editingProfile.sidebarSocialLinks.length > 0
+                                          ? editingProfile.sidebarSocialLinks
+                                          : DEFAULT_FORMAT2_SOCIAL_LINKS,
                                     }
                                   : {}),
                               });
@@ -4493,60 +5278,88 @@ Desk: ${currentProfile.email}`)
                                 </div>
                               </div>
 
-                              {/* Items in this row */}
-                              <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2.5">
+                              {/* Items in this row: Spacious 2 to 4 column responsive grid */}
+                              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3.5">
                                 {(row.items || []).map((it, itIdx) => (
                                   <div
                                     key={it.id || itIdx}
-                                    className="bg-white p-2 rounded-xl border border-slate-200 shadow-xs space-y-1.5 flex flex-col justify-between hover:border-blue-300 transition-colors"
+                                    className="bg-white p-3 rounded-2xl border border-slate-200/90 shadow-xs hover:shadow-md hover:border-blue-400 transition-all flex flex-col justify-between space-y-2.5 relative group/editcard"
                                   >
-                                    {/* Thumbnail Preview with Delete and Change Buttons */}
-                                    <div className="w-full h-20 rounded-lg overflow-hidden bg-slate-100 border border-slate-200 relative group">
-                                      <img
-                                        src={it.imageUrl}
-                                        alt={it.text}
-                                        className="w-full h-full object-cover cursor-pointer"
-                                        onClick={() => setEnlargedMediaPopup({ imageUrl: it.imageUrl, title: it.title || it.text, text: it.text })}
-                                        title="Click to enlarge 🔍"
-                                      />
-                                      {/* Top Delete button */}
+                                    {/* Card Header: Number & Delete */}
+                                    <div className="flex items-center justify-between">
+                                      <span className="text-[10px] font-mono font-bold text-slate-600 bg-slate-100 px-2 py-0.5 rounded-md flex items-center gap-1">
+                                        <span>🖼️</span>
+                                        <span>Card #{itIdx + 1}</span>
+                                      </span>
                                       <button
                                         type="button"
                                         onClick={() => handleDeleteRowItem(row.id, it.id)}
-                                        className="absolute top-1 right-1 w-5 h-5 bg-red-600 hover:bg-red-700 text-white rounded-full text-[10px] flex items-center justify-center cursor-pointer shadow-xs z-10"
-                                        title="Delete image card"
+                                        className="w-6 h-6 rounded-lg bg-red-50 hover:bg-red-600 text-red-600 hover:text-white text-xs font-bold flex items-center justify-center transition-colors cursor-pointer"
+                                        title="Delete this image card"
                                       >
                                         ✕
                                       </button>
-                                      {/* Change Picture Overlay Button */}
+                                    </div>
+
+                                    {/* Thumbnail Preview */}
+                                    <div className="w-full h-28 rounded-xl overflow-hidden bg-slate-900 border border-slate-200 relative group cursor-pointer">
+                                      <img
+                                        src={it.imageUrl}
+                                        alt={it.text || `Card ${itIdx + 1}`}
+                                        onError={(e) => {
+                                          const t = e.currentTarget;
+                                          if (t.src !== DEFAULT_IMAGE_FALLBACK) t.src = DEFAULT_IMAGE_FALLBACK;
+                                        }}
+                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                        onClick={() => setEnlargedMediaPopup({ imageUrl: it.imageUrl, title: it.title || it.text, text: it.text })}
+                                        title="Click to enlarge 🔍"
+                                      />
                                       <button
                                         type="button"
-                                        onClick={() => {
-                                          setUploadingFormat2RowItem({ rowId: row.id, itemId: it.id });
-                                          format2SingleItemFileInputRef.current?.click();
-                                        }}
-                                        className="absolute bottom-1 inset-x-1 py-0.5 bg-black/75 hover:bg-black text-white text-[9px] font-bold rounded flex items-center justify-center gap-1 cursor-pointer transition-colors"
-                                        title="Pick a different picture from computer for this card"
+                                        onClick={() => setEnlargedMediaPopup({ imageUrl: it.imageUrl, title: it.title || it.text, text: it.text })}
+                                        className="absolute top-2 right-2 bg-black/70 hover:bg-black text-white text-[9px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1 transition-colors backdrop-blur-xs"
+                                        title="Zoom"
                                       >
-                                        <span>📷</span>
-                                        <span>Change Pic</span>
+                                        <span>🔍</span>
+                                        <span>Enlarge</span>
                                       </button>
                                     </div>
 
-                                    {/* Content beneath picture */}
-                                    <div className="space-y-1">
-                                      <label className="block text-[8px] font-bold text-slate-500 uppercase tracking-wider">
-                                        Text Under Picture
-                                      </label>
+                                    {/* Change Picture Button */}
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        setUploadingFormat2RowItem({ rowId: row.id, itemId: it.id });
+                                        format2SingleItemFileInputRef.current?.click();
+                                      }}
+                                      className="w-full py-1.5 bg-slate-800 hover:bg-slate-900 text-white text-[11px] font-bold rounded-lg flex items-center justify-center gap-1.5 cursor-pointer transition-colors shadow-2xs"
+                                      title="Pick a different picture from computer for this card"
+                                    >
+                                      <span>📷</span>
+                                      <span>Change Picture</span>
+                                    </button>
+
+                                    {/* Text Under Picture */}
+                                    <div className="space-y-1 pt-1 border-t border-slate-100">
+                                      <div className="flex items-center justify-between">
+                                        <label className="block text-[9px] font-bold text-slate-600 uppercase tracking-wider">
+                                          Text Under Picture
+                                        </label>
+                                        {format2ContentMode === "same" && (
+                                          <span className="text-[8px] font-bold text-blue-600 bg-blue-50 px-1.5 py-0.2 rounded font-mono">
+                                            🔗 Synced
+                                          </span>
+                                        )}
+                                      </div>
                                       <input
                                         type="text"
                                         value={it.text}
                                         onChange={(e) => handleUpdateRowItem(row.id, it.id, { text: e.target.value })}
-                                        placeholder="Caption / Specs"
-                                        className={`w-full px-1.5 py-1 text-[10px] border rounded font-medium text-slate-800 ${
+                                        placeholder="Caption / Specs under pic"
+                                        className={`w-full px-2.5 py-1.5 text-xs border rounded-lg font-medium text-slate-800 outline-none transition-all ${
                                           format2ContentMode === "same"
-                                            ? "border-blue-300 bg-blue-50/50"
-                                            : "border-slate-300 bg-white"
+                                            ? "border-blue-300 bg-blue-50/50 focus:border-blue-500 focus:bg-white focus:ring-1 focus:ring-blue-400"
+                                            : "border-slate-300 bg-white focus:border-blue-500 focus:ring-1 focus:ring-blue-400"
                                         }`}
                                       />
                                     </div>
@@ -4561,14 +5374,16 @@ Desk: ${currentProfile.email}`)
                   </div>
                 )}
 
-                {/* SECTION 2: MULTI-IMAGE / MULTI-ROW CATALOG & VIDEO PRESENTATION (FORMAT 1) */}
-                {(editingProfile.formatType || (editingProfile.signatureRole || editingProfile.signatureAvatar ? "format-executive-signature" : "format-catalog")) === "format-catalog" && (
+                {/* SECTION 2: MULTI-IMAGE / MULTI-ROW CATALOG & VIDEO PRESENTATION (FORMAT 1, 3 & 4) */}
+                {((editingProfile.formatType || (editingProfile.signatureRole || editingProfile.signatureAvatar ? "format-executive-signature" : "format-catalog")) === "format-catalog" ||
+                  (editingProfile.formatType || (editingProfile.signatureRole || editingProfile.signatureAvatar ? "format-executive-signature" : "format-catalog")) === "format-announcement" ||
+                  (editingProfile.formatType || (editingProfile.signatureRole || editingProfile.signatureAvatar ? "format-executive-signature" : "format-catalog")) === "format-minimal") && (
                 <div className="bg-gradient-to-br from-blue-50/70 to-slate-50 border border-blue-200/80 rounded-xl p-3.5 space-y-3 shadow-xs">
                   {/* Header & Row Summary */}
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-1 border-b border-blue-100">
                     <div>
                       <span className="text-[12px] font-extrabold text-blue-950 uppercase tracking-wider flex items-center gap-1.5">
-                        <span>📸 2. Machine Pictures &amp; Multi-Row Catalog</span>
+                        <span>📸 2. Equipment Pictures &amp; Showcase Cards</span>
                         <span className="text-[10px] bg-blue-600 text-white px-2 py-0.5 rounded-full font-bold">
                           {getEditingMediaItems(editingProfile).length} {getEditingMediaItems(editingProfile).length === 1 ? "Card" : "Cards"} ({Math.ceil(getEditingMediaItems(editingProfile).length / 2)} {Math.ceil(getEditingMediaItems(editingProfile).length / 2) === 1 ? "Row" : "Rows"})
                         </span>
@@ -5494,6 +6309,14 @@ Desk: ${currentProfile.email}`)
                     {(editingProfile.formatType || (editingProfile.signatureRole || editingProfile.signatureAvatar ? "format-executive-signature" : "format-catalog")) === "format-executive-signature" ? (
                       <div>
                         {renderFormat2Preview(editingProfile, true)}
+                      </div>
+                    ) : (editingProfile.formatType || (editingProfile.signatureRole || editingProfile.signatureAvatar ? "format-executive-signature" : "format-catalog")) === "format-announcement" ? (
+                      <div>
+                        {renderFormat3Preview(editingProfile, true)}
+                      </div>
+                    ) : (editingProfile.formatType || (editingProfile.signatureRole || editingProfile.signatureAvatar ? "format-executive-signature" : "format-catalog")) === "format-minimal" ? (
+                      <div>
+                        {renderFormat4Preview(editingProfile, true)}
                       </div>
                     ) : (
                       /* FORMAT 1: CATALOG CARDS & MACHINERY */
