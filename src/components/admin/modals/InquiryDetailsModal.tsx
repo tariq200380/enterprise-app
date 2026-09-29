@@ -21,6 +21,7 @@ import {
   GalleryRowItem,
   DEFAULT_FORMAT2_SOCIAL_LINKS,
   DEFAULT_FORMAT2_GALLERY_ROWS,
+  DEFAULT_FORMAT5_SOCIAL_LINKS,
 } from "@/lib/email-types";
 import { uploadImageFile, uploadMediaFile, uploadMultipleMediaFiles } from "@/lib/uploadHelper";
 import EquipmentOfferDetailModal from "./EquipmentOfferDetailModal";
@@ -58,6 +59,7 @@ export default function InquiryDetailsModal({
     title?: string;
     text?: string;
   } | null>(null);
+  const [previewDetailItem, setPreviewDetailItem] = useState<EmailMediaItem | null>(null);
   const [isUploadingImage, setIsUploadingImage] = useState(false);
   const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
   const [uploadingItemIndex, setUploadingItemIndex] = useState<number | null>(null);
@@ -86,8 +88,68 @@ export default function InquiryDetailsModal({
   const [activeReplyTab, setActiveReplyTab] = useState<"edit" | "preview">("edit");
   const [editingProfile, setEditingProfile] = useState<EmailDepartmentProfile | null>(null);
   const [specsMode, setSpecsMode] = useState<"separate" | "same">("separate");
-  const [previewDetailItem, setPreviewDetailItem] = useState<EmailMediaItem | null>(null);
   const [isSavingProfile, setIsSavingProfile] = useState(false);
+
+  // Format 5: Subtab & Uploading States
+  const [f5ActiveTab, setF5ActiveTab] = useState<"header" | "s1" | "s2" | "s3" | "s4" | "footer">("s1");
+  const [f5UploadingField, setF5UploadingField] = useState<string | null>(null);
+
+  const handleFormat5ImageUpload = async (
+    file: File,
+    field: keyof EmailDepartmentProfile,
+    toastLabel: string
+  ) => {
+    if (!file || !editingProfile) return;
+    setF5UploadingField(field as string);
+    try {
+      const url = await uploadImageFile(file, adminFetch);
+      setEditingProfile((prev) => (prev ? { ...prev, [field]: url } : prev));
+      if (showToast) showToast(`${toastLabel} uploaded successfully!`);
+    } catch (err: any) {
+      if (showToast) showToast(err.message || `Failed to upload ${toastLabel}`, "error");
+    } finally {
+      setF5UploadingField(null);
+    }
+  };
+
+  const handleAddF5SocialLink = () => {
+    if (!editingProfile) return;
+    const current = editingProfile.editorialSocialLinks || DEFAULT_FORMAT5_SOCIAL_LINKS;
+    const newLink: EmailSocialLink = {
+      id: `f5-soc-${Date.now()}`,
+      platform: "instagram",
+      url: "https://instagram.com",
+      label: "Instagram",
+    };
+    setEditingProfile({
+      ...editingProfile,
+      editorialSocialLinks: [...current, newLink],
+    });
+  };
+
+  const handleUpdateF5SocialLink = (
+    id: string,
+    field: keyof EmailSocialLink,
+    value: string
+  ) => {
+    if (!editingProfile) return;
+    const current = editingProfile.editorialSocialLinks || DEFAULT_FORMAT5_SOCIAL_LINKS;
+    setEditingProfile({
+      ...editingProfile,
+      editorialSocialLinks: current.map((soc) =>
+        soc.id === id ? { ...soc, [field]: value } : soc
+      ),
+    });
+  };
+
+  const handleDeleteF5SocialLink = (id: string) => {
+    if (!editingProfile) return;
+    const current = editingProfile.editorialSocialLinks || DEFAULT_FORMAT5_SOCIAL_LINKS;
+    setEditingProfile({
+      ...editingProfile,
+      editorialSocialLinks: current.filter((soc) => soc.id !== id),
+    });
+  };
 
   const updateActiveFormat2Profile = (updater: (p: EmailDepartmentProfile) => EmailDepartmentProfile) => {
     if (editingProfile) {
@@ -1909,204 +1971,664 @@ ${name}`)
         .replace("{id}", String(inquiry?.id || "34"));
 
     return (
-      <div className="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-md flex flex-col text-slate-800 my-3">
-        {/* 1. TOP BRANDED HEADER (NAVY & ACCENT) */}
-        <div className="bg-[#0A192F] p-4 sm:p-5 flex items-center justify-between border-b-2" style={{ borderBottomColor: accent }}>
-          <div>
-            <div className="text-base sm:text-lg font-black tracking-wider text-white">
-              CREED <span style={{ color: accent }}>TECH</span>
-            </div>
-            <div className="text-[9.5px] uppercase tracking-widest text-slate-300 font-semibold mt-0.5">
-              {profile.department || "Enterprise Operations Desk"}
-            </div>
-          </div>
-          <span className="px-3 py-1 rounded-full text-[10px] font-mono font-bold bg-white/10 text-sky-200 border border-white/20">
-            REF #{inquiry?.id || "34"} &bull; PRIORITY
-          </span>
-        </div>
+      <div className="my-3 flex justify-center">
+        <div className="relative w-full max-w-[720px] rounded-2xl overflow-hidden bg-white border border-slate-200/90 shadow-sm min-h-[220px] sm:min-h-[240px] flex flex-col justify-between select-none">
+          {/* Background SVG Curves: Light Pastel Wave, Deep Royal Blue Wave, Dark Crescent, Ripple Watermark */}
+          <svg
+            viewBox="0 0 720 240"
+            preserveAspectRatio="none"
+            className="absolute inset-0 w-full h-full pointer-events-none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            {/* Light Pastel Sky-Blue Wave (Layer 1 - behind deep blue) */}
+            <path
+              d="M 290 0 C 365 0 355 60 325 115 C 295 165 315 205 385 210 C 475 215 570 190 720 135 L 720 0 Z"
+              fill="#DDEAF8"
+            />
 
-        {/* 2. DIRECT EMAIL MESSAGE BODY */}
-        <div className="p-4 sm:p-5 bg-white border-b border-slate-100">
-          <div className="text-xs font-bold text-slate-900 mb-1.5 font-outfit">
-            {profile.defaultSubjectTemplate
-              ?.replace("{service}", inquiry?.service || "Enterprise Machinery Catalog")
-              ?.replace("{id}", String(inquiry?.id || "34")) || "Re: Technical Discovery & Machinery Dispatch"}
-          </div>
-          <div className="text-[11.5px] text-slate-600 leading-relaxed whitespace-pre-line font-sans">
-            {sampleMessage}
-          </div>
-        </div>
+            {/* Deep Royal Blue Wave (Layer 2) */}
+            <path
+              d="M 0 0 L 345 0 C 355 55 310 115 255 152 C 205 186 120 185 0 152 Z"
+              fill="#0D62B2"
+            />
 
-        {/* 3. FORMAT 1 MACHINERY CATALOG CARDS */}
-        <div className="p-4 sm:p-5 bg-slate-50/70 border-b border-slate-200">
-          <div className="flex items-center justify-between mb-2.5 pb-1 border-b border-slate-200">
-            <span className="text-[10.5px] font-extrabold uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
-              <span>⚙️</span>
-              <span>Attached Equipment Offers (Format 1 Catalog Cards)</span>
-            </span>
-            <span className="text-[9.5px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-200">
-              Verified Units
-            </span>
-          </div>
-          {renderMediaPreview(profile, isSmall)}
-        </div>
+            {/* Dark Navy Crescent Shadow behind Avatar */}
+            <path
+              d="M 235 62 A 58 58 0 0 0 216 168 A 62 62 0 0 1 235 62 Z"
+              fill="#07447D"
+            />
 
-        {/* 4. MODERN GEOMETRIC EXECUTIVE SIGNATURE BANNER (MATCHING REFERENCE IMAGE) */}
-        <div className="p-4 sm:p-5 bg-white">
-          <div className="rounded-2xl overflow-hidden border border-slate-200 shadow-sm bg-white">
-            {/* Top Horizon Accent Bar */}
-            <div className="bg-gradient-to-r from-[#0A192F] via-[#0052FF] to-[#00A3FF] px-4 py-2 flex items-center justify-between text-white">
-              <span className="text-[9px] font-extrabold uppercase tracking-widest text-white/90">
-                ★ Official Executive Transmission &bull; Direct Desk
-              </span>
-              <span className="text-[9px] font-mono font-bold text-sky-200">
-                {profile.department}
-              </span>
-            </div>
+            {/* Top-Right Ripple / Wave Swirl Watermark */}
+            <g
+              transform="translate(665, 58)"
+              opacity="0.65"
+              stroke="#93C5FD"
+              strokeWidth="1.8"
+              fill="none"
+              strokeLinecap="round"
+            >
+              <circle cx="0" cy="0" r="26" strokeDasharray="3 3" opacity="0.4" />
+              <path d="M -18 -14 Q -6 -20 6 -14 Q 18 -8 24 -14" />
+              <path d="M -22 -7 Q -10 -13 2 -7 Q 14 -1 22 -7" />
+              <path d="M -24 0 Q -12 -6 0 0 Q 12 6 24 0" />
+              <path d="M -22 7 Q -14 1 0 7 Q 14 13 22 7" />
+              <path d="M -18 14 Q -8 8 4 14 Q 16 20 20 14" />
+              <path d="M -12 21 Q -2 15 8 21" />
+            </g>
+          </svg>
 
-            {/* Banner Content Grid */}
-            <div className="p-4 sm:p-5 flex flex-col md:flex-row items-center gap-4 sm:gap-5">
-              {/* Left: Avatar with Crescent Accent Arc and Dashed Orbit Ring */}
-              <div className="relative shrink-0 flex items-center justify-center">
-                <div className="relative w-20 h-20 sm:w-22 sm:h-22 rounded-full p-1 bg-gradient-to-tr from-[#0052FF] via-[#0A192F] to-[#00A3FF] shadow-lg flex items-center justify-center">
-                  <div className="absolute inset-0 rounded-full border-2 border-dashed border-[#00A3FF] animate-spin-slow pointer-events-none opacity-80" />
-                  <img
-                    src={avatar}
-                    alt={name}
-                    onError={(e) => {
-                      const t = e.currentTarget;
-                      if (t.src !== DEFAULT_IMAGE_FALLBACK) t.src = DEFAULT_IMAGE_FALLBACK;
-                    }}
-                    className="w-full h-full object-cover rounded-full border-2 border-white relative z-10"
-                  />
-                  <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-emerald-500 border-2 border-white flex items-center justify-center text-[10px] text-white font-black shadow-xs z-20">
-                    ✓
-                  </div>
-                </div>
-              </div>
-
-              {/* Center: Executive Name, Job Title, Tagline Pill & 2x2 Contact Details */}
-              <div className="flex-1 text-center md:text-left min-w-0">
-                <div className="text-sm sm:text-base font-extrabold uppercase tracking-wide text-slate-900 font-outfit truncate">
-                  {name}
-                </div>
-                <div className="text-[11px] font-bold uppercase tracking-wider text-[#0052FF] mt-0.5 truncate">
-                  {role}
-                </div>
-                <div className="mt-1.5 mb-2.5">
-                  <span className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-blue-50 border border-blue-200 rounded-full text-[9.5px] font-bold text-blue-800">
-                    <span>✈</span>
-                    <span className="truncate">{tagline}</span>
-                  </span>
-                </div>
-
-                {/* 2x2 Contacts Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-[10.5px] text-slate-600">
-                  <div className="flex items-center gap-1.5 truncate">
-                    <span className="text-[#0052FF] font-bold text-xs shrink-0">📞</span>
-                    <a href={`tel:${phone}`} className="hover:text-blue-600 transition-colors font-semibold text-slate-800 truncate">
-                      {phone}
-                    </a>
-                  </div>
-                  <div className="flex items-center gap-1.5 truncate">
-                    <span className="text-[#0052FF] font-bold text-xs shrink-0">✉️</span>
-                    <a href={`mailto:${email}`} className="hover:text-blue-600 transition-colors font-semibold text-[#0052FF] truncate">
-                      {email}
-                    </a>
-                  </div>
-                  <div className="flex items-center gap-1.5 truncate">
-                    <span className="text-[#0052FF] font-bold text-xs shrink-0">🌐</span>
-                    <a href={website} target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 transition-colors font-semibold text-slate-800 truncate">
-                      {websiteDisplay}
-                    </a>
-                  </div>
-                  <div className="flex items-center gap-1.5 truncate">
-                    <span className="text-[#0052FF] font-bold text-xs shrink-0">📍</span>
-                    <span className="text-slate-500 truncate" title={address}>
-                      {address}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Right: Company Logo & 4 Circular Social Badges */}
-              <div className="shrink-0 flex flex-col items-center md:items-end justify-center md:border-l md:border-slate-100 md:pl-5 pt-3 md:pt-0 w-full md:w-auto">
-                <div className="flex items-center gap-2 mb-2">
+          {/* Top Row: Logo inside Deep Blue Wave */}
+          <div className="relative z-10 pt-5 sm:pt-6 pl-8 sm:pl-12 flex items-start">
+            <div className="text-center text-white">
+              {companyLogo && !companyLogo.includes("default") ? (
+                <div className="flex flex-col items-center">
                   <img
                     src={companyLogo}
-                    alt={company}
-                    onError={(e) => {
-                      const t = e.currentTarget;
-                      if (t.src !== DEFAULT_IMAGE_FALLBACK) t.src = DEFAULT_IMAGE_FALLBACK;
-                    }}
-                    className="w-8 h-8 rounded-lg object-contain shadow-2xs border border-slate-100 bg-white p-0.5"
+                    alt="Logo"
+                    className="w-8 h-8 rounded-full object-contain bg-white/10 p-1 border border-white/40"
                   />
-                  <div className="text-left">
-                    <div className="text-xs font-black tracking-wider text-slate-900 leading-tight">
-                      CREED <span style={{ color: accent }}>TECH</span>
-                    </div>
-                    <div className="text-[8px] uppercase tracking-widest text-slate-400 font-bold">
-                      ENTERPRISE
-                    </div>
+                  <div className="text-[10px] font-black tracking-widest mt-1 text-white uppercase">
+                    {company || "LOGO"}
                   </div>
                 </div>
-
-                {/* 4 Circular Social Badges: FB, LI, WA, IG */}
-                <div className="flex items-center gap-1.5 mt-1">
-                  <a
-                    href={fbUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    title="Facebook"
-                    className="w-6 h-6 rounded-full bg-[#0A192F] text-white flex items-center justify-center hover:bg-[#1877F2] transition-all hover:scale-110 shadow-2xs"
-                  >
-                    <svg className="w-3 h-3 fill-current" viewBox="0 0 24 24">
-                      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-                    </svg>
-                  </a>
-                  <a
-                    href={liUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    title="LinkedIn"
-                    className="w-6 h-6 rounded-full bg-[#0A192F] text-white flex items-center justify-center hover:bg-[#0A66C2] transition-all hover:scale-110 shadow-2xs"
-                  >
-                    <svg className="w-3 h-3 fill-current" viewBox="0 0 24 24">
-                      <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-                    </svg>
-                  </a>
-                  <a
-                    href={waUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    title="WhatsApp"
-                    className="w-6 h-6 rounded-full bg-[#0A192F] text-white flex items-center justify-center hover:bg-[#25D366] transition-all hover:scale-110 shadow-2xs"
-                  >
-                    <svg className="w-3 h-3 fill-current" viewBox="0 0 24 24">
-                      <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z" />
-                    </svg>
-                  </a>
-                  <a
-                    href={igUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    title="Instagram"
-                    className="w-6 h-6 rounded-full bg-[#0A192F] text-white flex items-center justify-center hover:bg-[#E4405F] transition-all hover:scale-110 shadow-2xs"
-                  >
-                    <svg className="w-3 h-3 fill-current" viewBox="0 0 24 24">
-                      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-                    </svg>
-                  </a>
+              ) : (
+                <div className="flex flex-col items-center">
+                  <div className="w-8 h-8 border-[3px] border-white rounded-full flex items-center justify-center">
+                    <div className="w-3.5 h-1.5 border-2 border-white rounded-xs" />
+                  </div>
+                  <div className="text-[10px] font-black tracking-[0.25em] mt-1.5 uppercase text-white">
+                    LOGO
+                  </div>
                 </div>
+              )}
+            </div>
+          </div>
+
+          {/* Center: Overlapping Avatar Circle */}
+          <div className="absolute top-1/2 left-[28%] sm:left-[32%] -translate-x-1/2 -translate-y-1/2 z-20">
+            <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-white p-1 sm:p-1.5 shadow-md flex items-center justify-center border-4 border-white">
+              {avatar && !avatar.includes("default") ? (
+                <img
+                  src={avatar}
+                  alt={name}
+                  className="w-full h-full object-cover rounded-full"
+                  onError={(e) => {
+                    const t = e.currentTarget;
+                    if (t.src !== DEFAULT_IMAGE_FALLBACK) t.src = DEFAULT_IMAGE_FALLBACK;
+                  }}
+                />
+              ) : (
+                <div className="w-full h-full rounded-full bg-slate-100 flex flex-col items-center justify-center text-slate-400 p-1 text-center">
+                  <svg
+                    className="w-7 h-7 sm:w-8 sm:h-8 stroke-slate-400"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                    <circle cx="12" cy="13" r="4" />
+                  </svg>
+                  <span className="text-[7.5px] sm:text-[8px] font-bold text-slate-500 mt-0.5 tracking-tight leading-none">
+                    Place Image Here
+                  </span>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Bottom-Left Quick Icons on White Background */}
+          <div className="relative z-10 pb-4 sm:pb-5 pl-8 sm:pl-10 flex items-center gap-3 sm:gap-4 text-slate-700">
+            <a
+              href={website}
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Website"
+              className="hover:text-blue-600 transition-colors"
+            >
+              <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="2" y1="12" x2="22" y2="12" />
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+              </svg>
+            </a>
+            <span title={address} className="hover:text-blue-600 transition-colors cursor-pointer">
+              <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+              </svg>
+            </span>
+            <a
+              href={`mailto:${email}`}
+              title="Email"
+              className="hover:text-blue-600 transition-colors"
+            >
+              <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+            </a>
+          </div>
+
+          {/* Right Section: Name, Role & 3 Contact Rows */}
+          <div className="absolute top-1/2 right-4 sm:right-8 -translate-y-1/2 w-[52%] sm:w-[50%] z-10 pl-2">
+            <div className="text-base sm:text-lg font-black uppercase tracking-wider text-slate-900 font-sans leading-tight truncate">
+              {name || "NAME SURNAME"}
+            </div>
+            <div className="text-[10px] sm:text-[11.5px] font-bold uppercase tracking-widest text-[#0066CC] mt-0.5 mb-2.5 sm:mb-3 truncate">
+              {role || "GENERAL MANAGER"}
+            </div>
+
+            {/* 3 Contact Rows with royal blue icons */}
+            <div className="space-y-1.5 sm:space-y-2 text-[10.5px] sm:text-[11.5px] text-slate-700">
+              {/* Row 1: Phone */}
+              <div className="flex items-center gap-2 truncate">
+                <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-[#0066CC] shrink-0" viewBox="0 0 24 24">
+                  <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
+                </svg>
+                <a href={`tel:${phone}`} className="hover:text-blue-700 font-medium text-slate-800 truncate">
+                  {phone}
+                </a>
+              </div>
+
+              {/* Row 2: Email & Web */}
+              <div className="flex items-center gap-2 truncate">
+                <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-[#0066CC] shrink-0" viewBox="0 0 24 24">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" />
+                </svg>
+                <span className="truncate">
+                  <a href={`mailto:${email}`} className="hover:text-blue-700 font-medium text-slate-800">
+                    {email}
+                  </a>
+                  <span className="text-slate-400 mx-1">/</span>
+                  <a href={website} target="_blank" rel="noopener noreferrer" className="hover:text-blue-700 font-medium text-slate-800">
+                    {websiteDisplay}
+                  </a>
+                </span>
+              </div>
+
+              {/* Row 3: Address */}
+              <div className="flex items-center gap-2 truncate">
+                <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-[#0066CC] shrink-0" viewBox="0 0 24 24">
+                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                </svg>
+                <span className="text-slate-600 font-medium truncate" title={address}>
+                  {address}
+                </span>
               </div>
             </div>
           </div>
         </div>
+      </div>
+    );
+  };
 
-        {/* 5. SUB-FOOTER */}
-        <div className="bg-slate-50 px-5 py-3 border-t border-slate-200 text-[9px] text-slate-400 flex flex-col sm:flex-row items-center justify-between gap-1.5">
-          <span>&copy; {new Date().getFullYear()} Creed Tech Enterprise Solutions. All rights reserved.</span>
-          <span>Certified Standard Industrial Communications</span>
+  const renderFormat5Preview = (profile: EmailDepartmentProfile, isSmall = false, customMessage?: string) => {
+    const brandName = profile.editorialBrandTitle || profile.signatureCompany || "TIMESHIFTER";
+    const accent = profile.accentColor || "#EA580C";
+    const logo = profile.editorialLogoUrl || profile.sidebarLogo || profile.signatureCompanyLogo;
+    const website = profile.signatureWebsite || "https://timeshifter.com";
+    const address = profile.editorialFooterAddress || profile.address || "Timeshifter Inc • 28 Hill Street #820 • Southampton, NY 11968 • United States";
+    const footerDisclaimer = profile.editorialFooterDisclaimer || `These statements have not been evaluated by the Food and Drug Administration. ${brandName} is not intended to diagnose, treat, cure or prevent any disease, and is intended for healthy adults, 18 years of age or older. The ${brandName} apps are not intended for pilots and flight crews on duty.`;
+
+    // Section 1
+    const s1Headline = profile.editorialS1Headline || profile.editorialHeadline || "More time zones to cross this year?";
+    const s1Desc = customMessage?.trim() || profile.editorialS1Text || (profile.defaultMessageTemplate?.trim()
+      ? (profile.defaultMessageTemplate || "")
+          .replace("{client_name}", inquiry?.client_name || "Valued Traveler")
+          .replace("{service}", inquiry?.service || "Timeshifter Jet Lag Plan")
+          .replace("{id}", String(inquiry?.id || "501"))
+      : "You've already tried Timeshifter once, on us — so you know what it's like to land fresh instead of wrecked. Subscribe now and save 20% on 12 months of unlimited plans.");
+    const s1BtnText = profile.editorialS1BtnText || profile.editorialCtaText || "Subscribe and save 20%";
+    const s1BtnUrl = profile.editorialS1BtnUrl || website;
+    const s1Subtext = profile.editorialS1Subtext || "For first-time subscribers only.<br />Offer ends September 30, 2026";
+    const s1Img = profile.editorialS1ImageUrl || profile.editorialHeroImage;
+
+    // Section 2
+    const s2Headline = profile.editorialS2Headline || "More than 1.7 million travelers trust Timeshifter";
+    const s2Desc = profile.editorialS2Text || "Timeshifter is based on the latest science and is trusted by more than 1.7 million travelers to reduce jet lag and arrive at their best.";
+    const s2Rating = profile.editorialS2RatingText || "4.7/5 rating";
+    const s2BtnText = profile.editorialS2BtnText || "Subscribe and save 20%";
+    const s2BtnUrl = profile.editorialS2BtnUrl || website;
+    const s2Subtext = profile.editorialS2Subtext || "For first-time subscribers only.<br />Offer ends September 30, 2026";
+    const s2Img = profile.editorialS2ImageUrl || profile.editorialPromoImage;
+
+    // Section 3
+    const s3Headline = profile.editorialS3Headline || "Gift cards";
+    const s3Desc = profile.editorialS3Text || "Give a year of unlimited jet lag plans. Send by email to family, friends, or your team — or order physical gift cards, shipped in boxes of 50.";
+    const s3BtnText = profile.editorialS3BtnText || "Buy gift cards";
+    const s3BtnUrl = profile.editorialS3BtnUrl || website;
+    const s3Img = profile.editorialS3ImageUrl || profile.editorialProductImage;
+
+    // Section 4
+    const s4Headline = profile.editorialS4Headline || "The best sleep mask for timeshifting";
+    const s4Desc = profile.editorialS4Text || "When Timeshifter calls for sleep, staying in the dark is everything. We have tested a lot of masks. The Manta PRO is the one we keep coming back to.";
+    const s4BtnText = profile.editorialS4BtnText || "Learn more";
+    const s4BtnUrl = profile.editorialS4BtnUrl || website;
+    const s4Img = profile.editorialS4ImageUrl || profile.editorialSecondaryImage;
+
+    // Social Links
+    const socialLinks = profile.editorialSocialLinks && profile.editorialSocialLinks.length > 0
+      ? profile.editorialSocialLinks
+      : (profile.sidebarSocialLinks && profile.sidebarSocialLinks.length > 0 ? profile.sidebarSocialLinks : DEFAULT_FORMAT5_SOCIAL_LINKS);
+
+    return (
+      <div className="my-3 flex justify-center w-full">
+        <div className={`w-full ${isSmall ? "max-w-[420px]" : "max-w-[560px]"} bg-[#FAF8F5] rounded-2xl border border-stone-200/90 shadow-md overflow-hidden text-center select-none font-sans`}>
+          
+          {/* TOP HEADER: BRAND LOGO */}
+          <div className="py-6 sm:py-8 px-4 flex items-center justify-center">
+            {logo && !logo.includes("default") ? (
+              <img src={logo} alt={brandName} className="max-h-7 object-contain" />
+            ) : (
+              <div className="inline-flex items-center justify-center gap-2">
+                <svg width="22" height="18" viewBox="0 0 24 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <polygon points="4,18 9,3 13,10" fill="#EA580C" />
+                  <polygon points="13,10 18,3 22,18" fill="#F59E0B" />
+                  <polygon points="8,18 13,10 17,18" fill="#0D9488" />
+                </svg>
+                <span className="text-base sm:text-lg font-black tracking-[0.16em] text-zinc-900 uppercase font-sans">
+                  {brandName}
+                </span>
+                <span className="text-[10px] font-bold text-zinc-500 align-super">®</span>
+              </div>
+            )}
+          </div>
+
+          {/* SECTION 1: HERO TRAVELER OFFER */}
+          <div className="px-4 sm:px-8 pb-8 sm:pb-10">
+            {/* Visual Card Container (Click to enlarge) */}
+            <div
+              onClick={() =>
+                setEnlargedMediaPopup({
+                  imageUrl:
+                    s1Img ||
+                    "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=1000&auto=format&fit=crop",
+                  title: s1Headline.replace(/<[^>]*>/g, ""),
+                  text: s1Desc,
+                })
+              }
+              className="bg-[#EDE8DF] rounded-2xl overflow-hidden p-4 sm:p-6 mb-5 sm:mb-6 shadow-2xs cursor-pointer group hover:ring-2 hover:ring-orange-400 hover:shadow-lg transition-all relative"
+              title="Click to view enlarged image & details"
+            >
+              <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity bg-black/70 text-white text-[10px] font-bold px-2.5 py-1 rounded-full flex items-center gap-1 z-10 shadow-sm pointer-events-none">
+                <span>🔍</span>
+                <span>Click to Enlarge</span>
+              </div>
+              {s1Img ? (
+                <img
+                  src={s1Img}
+                  alt={s1Headline.replace(/<[^>]*>/g, "")}
+                  className="max-h-[220px] w-full object-contain mx-auto rounded-xl transition-transform group-hover:scale-[1.02]"
+                />
+              ) : (
+                <svg width="100%" height={isSmall ? "170" : "210"} viewBox="0 0 480 240" fill="none" xmlns="http://www.w3.org/2000/svg" className="max-w-[440px] mx-auto block">
+                  <path d="M 60 70 Q 90 40 140 60 Q 180 50 200 80 Q 230 70 240 100 L 40 100 Z" fill="#E4DED4" opacity="0.7"/>
+                  <path d="M 280 90 Q 320 60 370 75 Q 410 65 440 95 L 260 95 Z" fill="#E4DED4" opacity="0.6"/>
+                  <g transform="translate(150, 42) scale(0.7) rotate(-8)">
+                    <path d="M 0 8 L 36 0 L 32 6 L 16 10 L 22 18 L 18 19 L 12 12 L 4 14 L 0 8 Z" fill="#9CA3AF"/>
+                  </g>
+                  <line x1="20" y1="230" x2="460" y2="230" stroke="#DFD7CA" strokeWidth="2" />
+                  <g transform="translate(195, 20)">
+                    <rect x="58" y="115" width="34" height="62" rx="4" fill="#374151"/>
+                    <rect x="63" y="122" width="24" height="48" rx="2" fill="#4B5563"/>
+                    <path d="M 68 115 L 68 98 L 82 98 L 82 115" stroke="#9CA3AF" strokeWidth="2.5" fill="none"/>
+                    <circle cx="66" cy="180" r="3.5" fill="#1F2937"/>
+                    <circle cx="84" cy="180" r="3.5" fill="#1F2937"/>
+                    <path d="M 45 75 Q 60 88 72 98" stroke="#374151" strokeWidth="5" strokeLinecap="round"/>
+                    <path d="M 26 122 L 18 198 L 8 202" stroke="#4B5563" strokeWidth="11" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M 38 122 L 48 194 L 58 197" stroke="#374151" strokeWidth="11" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M 22 55 L 44 55 L 48 120 L 18 120 Z" fill="#F59E0B"/>
+                    <polygon points="30,55 33,70 36,55" fill="#D97706"/>
+                    <path d="M 22 68 Q 10 75 8 92" stroke="#374151" strokeWidth="5" strokeLinecap="round"/>
+                    <rect x="3" y="88" width="8" height="15" rx="1.5" fill="#111827"/>
+                    <ellipse cx="33" cy="36" rx="9" ry="11" fill="#FCD34D"/>
+                    <rect x="25" y="32" width="16" height="5.5" rx="2" fill="#111827"/>
+                    <path d="M 24 30 Q 33 18 42 30 Q 48 45 42 62 Q 38 52 38 42 Z" fill="#1F2937"/>
+                  </g>
+                </svg>
+              )}
+            </div>
+
+            <h1 className="text-xl sm:text-2xl font-bold text-zinc-900 tracking-tight leading-snug mb-2.5">
+              {s1Headline}
+            </h1>
+            <p className="text-xs sm:text-[13.5px] text-zinc-600 leading-relaxed max-w-[430px] mx-auto mb-4 sm:mb-5">
+              {s1Desc}
+            </p>
+            <div className="mb-2">
+              <a
+                href={s1BtnUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ backgroundColor: accent }}
+                className="inline-block text-white text-xs sm:text-[13.5px] font-bold px-7 sm:px-9 py-2.5 sm:py-3 rounded-full shadow-md hover:brightness-105 transition-all"
+              >
+                {s1BtnText}
+              </a>
+            </div>
+            <div
+              className="text-[10px] sm:text-[10.5px] text-zinc-500 leading-tight"
+              dangerouslySetInnerHTML={{ __html: s1Subtext }}
+            />
+          </div>
+
+          {/* SECTION 2: SOCIAL PROOF & APP SHOWCASE */}
+          <div className="px-4 sm:px-8 pb-8 sm:pb-10">
+            {/* Visual Card Container (Click to enlarge) */}
+            <div
+              onClick={() =>
+                setEnlargedMediaPopup({
+                  imageUrl:
+                    s2Img ||
+                    "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=1000&auto=format&fit=crop",
+                  title: s2Headline.replace(/<[^>]*>/g, ""),
+                  text: s2Desc,
+                })
+              }
+              className="bg-[#EDE8DF] rounded-2xl overflow-hidden p-4 sm:p-6 mb-5 sm:mb-6 relative shadow-2xs cursor-pointer group hover:ring-2 hover:ring-orange-400 hover:shadow-lg transition-all"
+              title="Click to view enlarged image & details"
+            >
+              <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity bg-black/70 text-white text-[10px] font-bold px-2.5 py-1 rounded-full flex items-center gap-1 z-10 shadow-sm pointer-events-none">
+                <span>🔍</span>
+                <span>Click to Enlarge</span>
+              </div>
+              {s2Img ? (
+                <img
+                  src={s2Img}
+                  alt={s2Headline.replace(/<[^>]*>/g, "")}
+                  className="max-h-[220px] w-full object-contain mx-auto rounded-xl transition-transform group-hover:scale-[1.02]"
+                />
+              ) : (
+                <svg width="100%" height={isSmall ? "170" : "210"} viewBox="0 0 480 240" fill="none" xmlns="http://www.w3.org/2000/svg" className="max-w-[440px] mx-auto block">
+                  <defs>
+                    <clipPath id="m2CenterInq">
+                      <rect x="180" y="24" width="120" height="200" rx="18" />
+                    </clipPath>
+                    <clipPath id="m2LeftInq">
+                      <rect x="80" y="44" width="95" height="170" rx="14" />
+                    </clipPath>
+                    <clipPath id="m2RightInq">
+                      <rect x="305" y="44" width="95" height="170" rx="14" />
+                    </clipPath>
+                  </defs>
+                  <g opacity="0.38">
+                    <rect x="10" y="8" width="52" height="52" rx="6" fill="#D1C7B7" />
+                    <circle cx="36" cy="30" r="14" fill="#B8AC9A" />
+                    <rect x="70" y="8" width="52" height="52" rx="6" fill="#C9BDAA" />
+                    <circle cx="96" cy="30" r="14" fill="#ADA08C" />
+                    <rect x="130" y="8" width="52" height="52" rx="6" fill="#D5CBB9" />
+                    <circle cx="156" cy="30" r="14" fill="#B8AC9A" />
+                    <rect x="298" y="8" width="52" height="52" rx="6" fill="#D1C7B7" />
+                    <circle cx="324" cy="30" r="14" fill="#ADA08C" />
+                    <rect x="358" y="8" width="52" height="52" rx="6" fill="#C9BDAA" />
+                    <circle cx="384" cy="30" r="14" fill="#B8AC9A" />
+                    <rect x="418" y="8" width="52" height="52" rx="6" fill="#D5CBB9" />
+                    <circle cx="444" cy="30" r="14" fill="#ADA08C" />
+                    <rect x="10" y="68" width="52" height="52" rx="6" fill="#C9BDAA" />
+                    <rect x="70" y="68" width="52" height="52" rx="6" fill="#D5CBB9" />
+                    <rect x="358" y="68" width="52" height="52" rx="6" fill="#D1C7B7" />
+                    <rect x="418" y="68" width="52" height="52" rx="6" fill="#C9BDAA" />
+                    <rect x="10" y="128" width="52" height="52" rx="6" fill="#D5CBB9" />
+                    <rect x="70" y="128" width="52" height="52" rx="6" fill="#D1C7B7" />
+                    <rect x="358" y="128" width="52" height="52" rx="6" fill="#D5CBB9" />
+                    <rect x="418" y="128" width="52" height="52" rx="6" fill="#D1C7B7" />
+                  </g>
+                  <g filter="drop-shadow(0px 8px 16px rgba(0,0,0,0.12))">
+                    <rect x="80" y="44" width="95" height="170" rx="14" fill="#FFFFFF" stroke="#1F2937" strokeWidth="4"/>
+                    <g clipPath="url(#m2LeftInq)">
+                      <rect x="80" y="44" width="95" height="20" fill="#F3F4F6"/>
+                      <circle cx="127" cy="115" r="28" fill="#FDE68A" opacity="0.6"/>
+                      <circle cx="127" cy="115" r="18" fill="#F59E0B"/>
+                      <rect x="94" y="160" width="67" height="6" rx="3" fill="#E5E7EB"/>
+                      <rect x="104" y="172" width="47" height="5" rx="2.5" fill="#E5E7EB"/>
+                    </g>
+                  </g>
+                  <g filter="drop-shadow(0px 8px 16px rgba(0,0,0,0.12))">
+                    <rect x="305" y="44" width="95" height="170" rx="14" fill="#FFFFFF" stroke="#1F2937" strokeWidth="4"/>
+                    <g clipPath="url(#m2RightInq)">
+                      <rect x="305" y="44" width="95" height="20" fill="#F3F4F6"/>
+                      <rect x="345" y="75" width="15" height="70" rx="7" fill="#F59E0B"/>
+                      <rect x="348" y="150" width="9" height="35" rx="4.5" fill="#3B82F6"/>
+                    </g>
+                  </g>
+                  <g filter="drop-shadow(0px 10px 22px rgba(0,0,0,0.18))">
+                    <rect x="180" y="24" width="120" height="200" rx="18" fill="#FFFFFF" stroke="#111827" strokeWidth="5"/>
+                    <g clipPath="url(#m2CenterInq)">
+                      <rect x="180" y="24" width="120" height="24" fill="#FFFFFF"/>
+                      <rect x="220" y="32" width="40" height="4" rx="2" fill="#E5E7EB"/>
+                      <rect x="226" y="80" width="28" height="65" rx="14" fill="#F59E0B"/>
+                      <circle cx="204" cy="112" r="10" fill="#E0E7FF"/>
+                      <circle cx="276" cy="112" r="10" fill="#FEF3C7"/>
+                      <line x1="180" y1="195" x2="300" y2="195" stroke="#F3F4F6" strokeWidth="1"/>
+                      <circle cx="210" cy="207" r="4" fill="#9CA3AF"/>
+                      <circle cx="240" cy="207" r="4" fill="#EA580C"/>
+                      <circle cx="270" cy="207" r="4" fill="#9CA3AF"/>
+                    </g>
+                  </g>
+                  <g transform="translate(195, 172)" filter="drop-shadow(0px 4px 10px rgba(0,0,0,0.22))">
+                    <rect x="0" y="0" width="90" height="28" rx="7" fill="#18181B"/>
+                    <text x="45" y="12" fill="#FBBF24" fontSize="9" fontFamily="sans-serif" textAnchor="middle" fontWeight="bold">★★★★★</text>
+                    <text x="45" y="22" fill="#FFFFFF" fontSize="8.5" fontFamily="sans-serif" textAnchor="middle" fontWeight="bold">{s2Rating}</text>
+                  </g>
+                </svg>
+              )}
+            </div>
+
+            <h2 className="text-xl sm:text-2xl font-bold text-zinc-900 tracking-tight leading-snug mb-2.5">
+              {s2Headline}
+            </h2>
+            <p className="text-xs sm:text-[13.5px] text-zinc-600 leading-relaxed max-w-[430px] mx-auto mb-4 sm:mb-5">
+              {s2Desc}
+            </p>
+            <div className="mb-2">
+              <a
+                href={s2BtnUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ backgroundColor: accent }}
+                className="inline-block text-white text-xs sm:text-[13.5px] font-bold px-7 sm:px-9 py-2.5 sm:py-3 rounded-full shadow-md hover:brightness-105 transition-all"
+              >
+                {s2BtnText}
+              </a>
+            </div>
+            <div
+              className="text-[10px] sm:text-[10.5px] text-zinc-500 leading-tight"
+              dangerouslySetInnerHTML={{ __html: s2Subtext }}
+            />
+          </div>
+
+          {/* SECTION 3: GIFT CARDS */}
+          <div className="px-4 sm:px-8 pb-8 sm:pb-10">
+            {/* Visual Card Container (Click to enlarge) */}
+            <div
+              onClick={() =>
+                setEnlargedMediaPopup({
+                  imageUrl:
+                    s3Img ||
+                    "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=1000&auto=format&fit=crop",
+                  title: s3Headline.replace(/<[^>]*>/g, ""),
+                  text: s3Desc,
+                })
+              }
+              className="bg-[#EDE8DF] rounded-2xl overflow-hidden p-5 sm:p-7 mb-5 sm:mb-6 shadow-2xs cursor-pointer group hover:ring-2 hover:ring-orange-400 hover:shadow-lg transition-all relative"
+              title="Click to view enlarged image & details"
+            >
+              <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity bg-black/70 text-white text-[10px] font-bold px-2.5 py-1 rounded-full flex items-center gap-1 z-10 shadow-sm pointer-events-none">
+                <span>🔍</span>
+                <span>Click to Enlarge</span>
+              </div>
+              {s3Img ? (
+                <img
+                  src={s3Img}
+                  alt={s3Headline.replace(/<[^>]*>/g, "")}
+                  className="max-h-[200px] w-full object-contain mx-auto rounded-xl transition-transform group-hover:scale-[1.02]"
+                />
+              ) : (
+                <svg width="100%" height={isSmall ? "150" : "190"} viewBox="0 0 440 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="max-w-[380px] mx-auto block">
+                  <g transform="translate(130, 20) rotate(-10)" filter="drop-shadow(0px 8px 18px rgba(0,0,0,0.14))">
+                    <rect x="0" y="0" width="105" height="145" rx="6" fill="#EA580C" />
+                    <text x="52" y="24" fill="#FFFFFF" fontSize="8.5" fontFamily="sans-serif" fontWeight="900" textAnchor="middle" letterSpacing="0.5">JET LAG IS HISTORY</text>
+                    <rect x="22" y="34" width="60" height="85" rx="6" fill="#FFFFFF" />
+                    <rect x="30" y="44" width="44" height="24" rx="3" fill="#FDE68A" />
+                    <rect x="45" y="74" width="14" height="30" rx="7" fill="#EA580C" />
+                  </g>
+                  <g transform="translate(205, 18) rotate(10)" filter="drop-shadow(0px 6px 16px rgba(0,0,0,0.12))">
+                    <rect x="0" y="0" width="105" height="145" rx="6" fill="#FFFFFF" stroke="#E5E7EB" strokeWidth="1"/>
+                    <rect x="0" y="0" width="105" height="14" rx="4" fill="#EA580C" />
+                    <circle cx="34" cy="40" r="12" fill="#FDE68A" />
+                    <circle cx="72" cy="40" r="12" fill="#E0E7FF" />
+                    <rect x="18" y="66" width="68" height="5" rx="2.5" fill="#E5E7EB" />
+                    <rect x="18" y="76" width="52" height="5" rx="2.5" fill="#E5E7EB" />
+                    <rect x="18" y="86" width="60" height="5" rx="2.5" fill="#E5E7EB" />
+                    <rect x="18" y="104" width="68" height="24" rx="3" fill="#F9FAFB" stroke="#E5E7EB"/>
+                  </g>
+                </svg>
+              )}
+            </div>
+
+            <h2 className="text-xl sm:text-2xl font-bold text-zinc-900 tracking-tight leading-snug mb-2.5">
+              {s3Headline}
+            </h2>
+            <p className="text-xs sm:text-[13.5px] text-zinc-600 leading-relaxed max-w-[430px] mx-auto mb-4 sm:mb-5">
+              {s3Desc}
+            </p>
+            <div>
+              <a
+                href={s3BtnUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ backgroundColor: accent }}
+                className="inline-block text-white text-xs sm:text-[13.5px] font-bold px-7 sm:px-9 py-2.5 sm:py-3 rounded-full shadow-md hover:brightness-105 transition-all"
+              >
+                {s3BtnText}
+              </a>
+            </div>
+          </div>
+
+          {/* SECTION 4: HARDWARE PARTNER FEATURE (SLEEP MASK) */}
+          <div className="px-4 sm:px-8 pb-8 sm:pb-10">
+            {/* Visual Card Container (Click to enlarge) */}
+            <div
+              onClick={() =>
+                setEnlargedMediaPopup({
+                  imageUrl:
+                    s4Img ||
+                    "https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?q=80&w=1000&auto=format&fit=crop",
+                  title: s4Headline.replace(/<[^>]*>/g, ""),
+                  text: s4Desc,
+                })
+              }
+              className="bg-[#EDE8DF] rounded-2xl overflow-hidden p-6 sm:p-8 mb-5 sm:mb-6 shadow-2xs cursor-pointer group hover:ring-2 hover:ring-orange-400 hover:shadow-lg transition-all relative"
+              title="Click to view enlarged image & details"
+            >
+              <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity bg-black/70 text-white text-[10px] font-bold px-2.5 py-1 rounded-full flex items-center gap-1 z-10 shadow-sm pointer-events-none">
+                <span>🔍</span>
+                <span>Click to Enlarge</span>
+              </div>
+              {s4Img ? (
+                <img
+                  src={s4Img}
+                  alt={s4Headline.replace(/<[^>]*>/g, "")}
+                  className="max-h-[190px] w-full object-contain mx-auto rounded-xl transition-transform group-hover:scale-[1.02]"
+                />
+              ) : (
+                <svg width="100%" height={isSmall ? "140" : "180"} viewBox="0 0 440 180" fill="none" xmlns="http://www.w3.org/2000/svg" className="max-w-[380px] mx-auto block">
+                  <g transform="translate(130, 20)" filter="drop-shadow(0px 10px 20px rgba(0,0,0,0.18))">
+                    <path d="M 10 75 Q 90 -10 170 75" stroke="#1F2937" strokeWidth="18" strokeLinecap="round" fill="none" />
+                    <path d="M 30 55 Q 90 12 150 55" stroke="#374151" strokeWidth="2" strokeDasharray="3 4" fill="none" />
+                    <ellipse cx="90" cy="90" rx="76" ry="42" fill="#111827" />
+                    <ellipse cx="90" cy="90" rx="70" ry="38" fill="#1F2937" stroke="#111827" strokeWidth="2" />
+                    <ellipse cx="62" cy="92" rx="24" ry="24" fill="#0B0F19" />
+                    <ellipse cx="118" cy="92" rx="24" ry="24" fill="#0B0F19" />
+                    <path d="M 74 116 Q 90 98 106 116 Z" fill="#EDE8DF" />
+                    <path d="M 80 84 Q 90 77 100 84 Q 90 89 80 84 Z" fill="#EF4444" />
+                  </g>
+                </svg>
+              )}
+            </div>
+
+            <h2 className="text-xl sm:text-2xl font-bold text-zinc-900 tracking-tight leading-snug mb-2.5">
+              {s4Headline}
+            </h2>
+            <p className="text-xs sm:text-[13.5px] text-zinc-600 leading-relaxed max-w-[430px] mx-auto mb-4 sm:mb-5">
+              {s4Desc}
+            </p>
+            <div>
+              <a
+                href={s4BtnUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ backgroundColor: accent }}
+                className="inline-block text-white text-xs sm:text-[13.5px] font-bold px-7 sm:px-9 py-2.5 sm:py-3 rounded-full shadow-md hover:brightness-105 transition-all"
+              >
+                {s4BtnText}
+              </a>
+            </div>
+          </div>
+
+          {/* FOOTER SECTION: SOCIAL LINKS, LOGO, REGULATORY DISCLAIMER, ADDRESS & UNSUBSCRIBE */}
+          <div className="px-4 sm:px-8 pb-8 pt-2">
+            {/* Social Links Row */}
+            {socialLinks && socialLinks.length > 0 && (
+              <div className="flex items-center justify-center gap-2.5 mb-5 flex-wrap">
+                {socialLinks.map((soc) => (
+                  <a
+                    key={soc.id}
+                    href={soc.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title={soc.label || soc.platform}
+                    className="w-8 h-8 rounded-full bg-[#EDE8DF] border border-stone-300 text-stone-700 flex items-center justify-center text-xs hover:bg-[#E4DED4] hover:scale-105 transition-all shadow-2xs font-bold"
+                  >
+                    {soc.platform === "instagram" ? "📷" :
+                     soc.platform === "facebook" ? "📘" :
+                     soc.platform === "linkedin" ? "💼" :
+                     soc.platform === "whatsapp" ? "💬" :
+                     soc.platform === "youtube" ? "▶️" :
+                     soc.platform === "twitter" ? "𝕏" : "🌐"}
+                  </a>
+                ))}
+              </div>
+            )}
+
+            {/* Brand Logo */}
+            <div className="mb-4">
+              {logo && !logo.includes("default") ? (
+                <img src={logo} alt={brandName} className="max-h-6 object-contain mx-auto" />
+              ) : (
+                <div className="inline-flex items-center justify-center gap-2">
+                  <svg width="18" height="15" viewBox="0 0 24 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <polygon points="4,18 9,3 13,10" fill="#EA580C" />
+                    <polygon points="13,10 18,3 22,18" fill="#F59E0B" />
+                    <polygon points="8,18 13,10 17,18" fill="#0D9488" />
+                  </svg>
+                  <span className="text-sm font-black tracking-[0.16em] text-zinc-800 uppercase font-sans">
+                    {brandName}
+                  </span>
+                  <span className="text-[9px] font-bold text-zinc-400 align-super">®</span>
+                </div>
+              )}
+            </div>
+
+            {/* Disclaimer Box */}
+            <div className="border border-zinc-300 rounded p-2.5 sm:p-3 text-[9px] text-zinc-500 leading-relaxed mb-3">
+              {footerDisclaimer}
+            </div>
+
+            {/* Physical Address */}
+            <div className="text-[10px] text-zinc-400 mb-2 leading-tight">
+              {address}
+            </div>
+
+            {/* Unsubscribe */}
+            <div className="text-[10px] text-zinc-400">
+              <a href={website} target="_blank" rel="noopener noreferrer" className="underline hover:text-zinc-600 transition-colors">
+                Unsubscribe from our emails
+              </a>
+            </div>
+          </div>
+
         </div>
       </div>
     );
@@ -2985,11 +3507,13 @@ ${currentProfile.name}`
                       ? "Format 3 Active: Brand Hero & Promo"
                       : replyFormat === "format-minimal"
                       ? "Format 4 Active: Executive Signature Banner"
+                      : replyFormat === "format-custom"
+                      ? "Format 5 Active: Editorial Newsletter"
                       : "Format 1 Active: Catalog Cards"}
                   </span>
                 </span>
                 <span className="text-[10px] text-slate-500">
-                  Select Format 1 (Catalog Cards), Format 2 (Executive Desk), Format 3 (Hero &amp; Promo), or Format 4 (Executive Signature Banner)
+                  Select Format 1 (Catalog Cards), Format 2 (Executive Desk), Format 3 (Hero &amp; Promo), Format 4 (Executive Signature Banner), or Format 5 (Editorial Newsletter)
                 </span>
               </div>
 
@@ -3749,13 +4273,13 @@ ${currentProfile.name}`
                   </div>
                 )}
 
-                {/* FORMAT 1, 3 & 4: ATTACHED MACHINE OFFERS & CATALOG CARDS / EQUIPMENT SHOWCASE */}
-                {(replyFormat === "format-catalog" || replyFormat === "format-announcement" || replyFormat === "format-minimal") && (
+                {/* FORMAT 1 & 3: ATTACHED MACHINE OFFERS & CATALOG CARDS / EQUIPMENT SHOWCASE */}
+                {(replyFormat === "format-catalog" || replyFormat === "format-announcement") && (
                 <div className="bg-gradient-to-r from-blue-50/80 via-indigo-50/40 to-slate-50 border border-blue-200/90 rounded-xl p-3 shadow-xs space-y-2">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-1 border-b border-blue-100">
                     <div className="flex items-center gap-2">
                       <span className="text-xs font-bold text-blue-950 flex items-center gap-1.5">
-                        <span>📸 Attached Equipment Offers ({replyFormat === "format-announcement" ? "Format 3 Hero & Units" : replyFormat === "format-minimal" ? "Format 4 Catalog Cards" : "Format 1 Catalog Cards"})</span>
+                        <span>📸 Attached Equipment Offers ({replyFormat === "format-announcement" ? "Format 3 Hero & Units" : "Format 1 Catalog Cards"})</span>
                       </span>
                       <span className="text-[10px] bg-blue-600 text-white font-extrabold px-2 py-0.5 rounded-full shadow-2xs">
                         {getEditingMediaItems(currentProfile).length} {getEditingMediaItems(currentProfile).length === 1 ? "Card" : "Cards"} ({Math.ceil(getEditingMediaItems(currentProfile).length / 2)} {Math.ceil(getEditingMediaItems(currentProfile).length / 2) === 1 ? "Row" : "Rows"})
@@ -4141,6 +4665,19 @@ ${currentProfile.signatureName || currentProfile.name}`)
                                 .replace("{client_name}", inquiry.client_name || "Client")
                                 .replace("{service}", inquiry.service || "Enterprise Service")
                                 .replace("{id}", String(inquiry.id))
+                        )}
+                      </div>
+                    ) : replyFormat === "format-custom" ? (
+                      <div>
+                        {renderFormat5Preview(
+                          currentProfile,
+                          false,
+                          emailBody.trim()
+                            ? emailBody
+                            : (currentProfile.defaultMessageTemplate || "")
+                                .replace("{client_name}", inquiry?.client_name || "Valued Traveler")
+                                .replace("{service}", inquiry?.service || "Timeshifter Jet Lag Plan")
+                                .replace("{id}", String(inquiry?.id || "501"))
                         )}
                       </div>
                     ) : (
@@ -4589,11 +5126,13 @@ Desk: ${currentProfile.email}`)
                           ? "Format 3 Active: Brand Hero & Promo"
                           : (editingProfile.formatType || (editingProfile.signatureRole || editingProfile.signatureAvatar ? "format-executive-signature" : "format-catalog")) === "format-minimal"
                           ? "Format 4 Active: Executive Signature Banner"
+                          : (editingProfile.formatType || (editingProfile.signatureRole || editingProfile.signatureAvatar ? "format-executive-signature" : "format-catalog")) === "format-custom"
+                          ? "Format 5 Active: Editorial Newsletter"
                           : "Format 1 Active: Catalog Cards"}
                       </span>
                     </span>
                     <span className="text-[10px] text-slate-500">
-                      Select format for this profile: Format 1 (Catalog Cards), Format 2 (Executive Desk), Format 3 (Hero &amp; Promo), or Format 4 (Executive Signature Banner)
+                      Select format for this profile: Format 1 (Catalog Cards), Format 2 (Executive Desk), Format 3 (Hero &amp; Promo), Format 4 (Executive Signature Banner), or Format 5 (Editorial Newsletter)
                     </span>
                   </div>
 
@@ -5374,10 +5913,9 @@ Desk: ${currentProfile.email}`)
                   </div>
                 )}
 
-                {/* SECTION 2: MULTI-IMAGE / MULTI-ROW CATALOG & VIDEO PRESENTATION (FORMAT 1, 3 & 4) */}
+                {/* SECTION 2: MULTI-IMAGE / MULTI-ROW CATALOG & VIDEO PRESENTATION (FORMAT 1 & 3) */}
                 {((editingProfile.formatType || (editingProfile.signatureRole || editingProfile.signatureAvatar ? "format-executive-signature" : "format-catalog")) === "format-catalog" ||
-                  (editingProfile.formatType || (editingProfile.signatureRole || editingProfile.signatureAvatar ? "format-executive-signature" : "format-catalog")) === "format-announcement" ||
-                  (editingProfile.formatType || (editingProfile.signatureRole || editingProfile.signatureAvatar ? "format-executive-signature" : "format-catalog")) === "format-minimal") && (
+                  (editingProfile.formatType || (editingProfile.signatureRole || editingProfile.signatureAvatar ? "format-executive-signature" : "format-catalog")) === "format-announcement") && (
                 <div className="bg-gradient-to-br from-blue-50/70 to-slate-50 border border-blue-200/80 rounded-xl p-3.5 space-y-3 shadow-xs">
                   {/* Header & Row Summary */}
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-1 border-b border-blue-100">
@@ -6100,6 +6638,1179 @@ Desk: ${currentProfile.email}`)
                   </div>
                 </div>
 
+                {/* FORMAT 4: EXECUTIVE SIGNATURE BANNER SETTINGS */}
+                {((editingProfile.formatType || (editingProfile.signatureRole || editingProfile.signatureAvatar ? "format-executive-signature" : "format-catalog")) === "format-minimal") && (
+                  <div className="bg-gradient-to-r from-slate-50 via-blue-50/20 to-sky-50/20 border border-blue-200 rounded-xl p-4 space-y-4 shadow-xs">
+                    <div className="flex items-center justify-between border-b border-blue-100 pb-2.5">
+                      <div>
+                        <span className="text-xs font-bold text-slate-900 uppercase tracking-wider block flex items-center gap-1.5">
+                          <span>💼 Format 4: Executive Signature Banner Settings</span>
+                        </span>
+                        <span className="text-[11px] text-slate-500">
+                          Configure executive credentials, circular avatar, contact rows, and company branding for the exact wave banner card.
+                        </span>
+                      </div>
+                      <span className="text-[10px] font-bold px-2 py-0.5 bg-blue-100 text-blue-800 rounded-full border border-blue-200">
+                        Executive Banner
+                      </span>
+                    </div>
+
+                    {/* Executive Credentials */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                      <div>
+                        <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                          Executive Name *
+                        </label>
+                        <input
+                          type="text"
+                          value={editingProfile.signatureName ?? editingProfile.name ?? ""}
+                          onChange={(e) =>
+                            setEditingProfile({
+                              ...editingProfile,
+                              signatureName: e.target.value,
+                            })
+                          }
+                          placeholder="e.g. NAME SURNAME"
+                          className="w-full px-2.5 py-1.5 text-xs border border-slate-300 rounded-lg outline-none bg-white focus:border-blue-500 font-semibold"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                          Job Role / Designation *
+                        </label>
+                        <input
+                          type="text"
+                          value={editingProfile.signatureRole ?? editingProfile.department ?? ""}
+                          onChange={(e) =>
+                            setEditingProfile({
+                              ...editingProfile,
+                              signatureRole: e.target.value,
+                            })
+                          }
+                          placeholder="e.g. GENERAL MANAGER"
+                          className="w-full px-2.5 py-1.5 text-xs border border-slate-300 rounded-lg outline-none bg-white focus:border-blue-500 font-semibold"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                          Company / Logo Text
+                        </label>
+                        <input
+                          type="text"
+                          value={editingProfile.signatureCompany ?? "CREED TECH"}
+                          onChange={(e) =>
+                            setEditingProfile({
+                              ...editingProfile,
+                              signatureCompany: e.target.value,
+                            })
+                          }
+                          placeholder="e.g. LOGO"
+                          className="w-full px-2.5 py-1.5 text-xs border border-slate-300 rounded-lg outline-none bg-white focus:border-blue-500"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                          Phone Number (Row 1)
+                        </label>
+                        <input
+                          type="text"
+                          value={editingProfile.phone ?? ""}
+                          onChange={(e) =>
+                            setEditingProfile({
+                              ...editingProfile,
+                              phone: e.target.value,
+                            })
+                          }
+                          placeholder="e.g. +00 123 456 789"
+                          className="w-full px-2.5 py-1.5 text-xs border border-slate-300 rounded-lg outline-none bg-white focus:border-blue-500 font-mono"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                          Email Address (Row 2)
+                        </label>
+                        <input
+                          type="email"
+                          value={editingProfile.email ?? ""}
+                          onChange={(e) =>
+                            setEditingProfile({
+                              ...editingProfile,
+                              email: e.target.value,
+                            })
+                          }
+                          placeholder="e.g. yourmail@gmail.com"
+                          className="w-full px-2.5 py-1.5 text-xs border border-slate-300 rounded-lg outline-none bg-white focus:border-blue-500"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                          Website (Row 2)
+                        </label>
+                        <input
+                          type="text"
+                          value={editingProfile.signatureWebsite ?? "https://creed-tech.com"}
+                          onChange={(e) =>
+                            setEditingProfile({
+                              ...editingProfile,
+                              signatureWebsite: e.target.value,
+                            })
+                          }
+                          placeholder="e.g. https://yourmail.com"
+                          className="w-full px-2.5 py-1.5 text-xs border border-slate-300 rounded-lg outline-none bg-white focus:border-blue-500"
+                        />
+                      </div>
+
+                      <div className="sm:col-span-2">
+                        <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                          Office Address (Row 3)
+                        </label>
+                        <input
+                          type="text"
+                          value={editingProfile.address ?? ""}
+                          onChange={(e) =>
+                            setEditingProfile({
+                              ...editingProfile,
+                              address: e.target.value,
+                            })
+                          }
+                          placeholder="e.g. Your Address Here, Street, City, Country"
+                          className="w-full px-2.5 py-1.5 text-xs border border-slate-300 rounded-lg outline-none bg-white focus:border-blue-500"
+                        />
+                      </div>
+
+                      {/* Photo / Avatar & Logo Uploads */}
+                      <div className="sm:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-slate-200">
+                        <div>
+                          <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                            Circular Avatar / Photo
+                          </label>
+                          <input
+                            type="text"
+                            value={editingProfile.signatureAvatar ?? ""}
+                            onChange={(e) =>
+                              setEditingProfile({
+                                ...editingProfile,
+                                signatureAvatar: e.target.value,
+                              })
+                            }
+                            placeholder="Image URL for avatar"
+                            className="w-full px-2.5 py-1.5 text-xs border border-slate-300 rounded-lg outline-none bg-white focus:border-blue-500 mb-1"
+                          />
+                          <p className="text-[10px] text-slate-500">Leave blank to show the clean camera &quot;Place Image Here&quot; icon from the reference design.</p>
+                        </div>
+
+                        <div>
+                          <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                            Company Logo Image
+                          </label>
+                          <input
+                            type="text"
+                            value={editingProfile.sidebarLogo ?? ""}
+                            onChange={(e) =>
+                              setEditingProfile({
+                                ...editingProfile,
+                                sidebarLogo: e.target.value,
+                              })
+                            }
+                            placeholder="Image URL for logo"
+                            className="w-full px-2.5 py-1.5 text-xs border border-slate-300 rounded-lg outline-none bg-white focus:border-blue-500 mb-1"
+                          />
+                          <p className="text-[10px] text-slate-500">Leave blank to show the minimalist circular geometric logo from the reference design.</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* FORMAT 5: MODERN EDITORIAL NEWSLETTER SETTINGS */}
+                {((editingProfile.formatType || (editingProfile.signatureRole || editingProfile.signatureAvatar ? "format-executive-signature" : "format-catalog")) === "format-custom") && (
+                  <div className="bg-gradient-to-r from-amber-50/50 via-orange-50/30 to-stone-50/50 border border-orange-200/90 rounded-2xl p-4 sm:p-5 space-y-4 shadow-xs">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-orange-100 gap-2">
+                      <div>
+                        <span className="text-xs font-black text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
+                          <span>📰 Format 5: Modern Editorial Newsletter Editor</span>
+                        </span>
+                        <span className="text-[11px] text-slate-500">
+                          Edit all 4 sections, custom images, button links, texts, and footer social links.
+                        </span>
+                      </div>
+                      <span className="text-[10px] font-bold px-2.5 py-1 bg-orange-100 text-orange-800 rounded-full border border-orange-200 self-start sm:self-auto">
+                        100% Fully Customizable
+                      </span>
+                    </div>
+
+                    {/* Sub-tabs for easy section navigation */}
+                    <div className="flex items-center gap-1.5 overflow-x-auto pb-1.5 border-b border-orange-100/70 text-xs scrollbar-thin">
+                      <button
+                        type="button"
+                        onClick={() => setF5ActiveTab("header")}
+                        className={`px-3 py-1.5 rounded-lg font-bold whitespace-nowrap transition-all cursor-pointer ${
+                          f5ActiveTab === "header"
+                            ? "bg-orange-600 text-white shadow-xs"
+                            : "bg-white text-slate-600 hover:bg-orange-50 border border-slate-200"
+                        }`}
+                      >
+                        🏷️ Brand &amp; Logo
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setF5ActiveTab("s1")}
+                        className={`px-3 py-1.5 rounded-lg font-bold whitespace-nowrap transition-all cursor-pointer ${
+                          f5ActiveTab === "s1"
+                            ? "bg-orange-600 text-white shadow-xs"
+                            : "bg-white text-slate-600 hover:bg-orange-50 border border-slate-200"
+                        }`}
+                      >
+                        🚀 1. Traveler Offer
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setF5ActiveTab("s2")}
+                        className={`px-3 py-1.5 rounded-lg font-bold whitespace-nowrap transition-all cursor-pointer ${
+                          f5ActiveTab === "s2"
+                            ? "bg-orange-600 text-white shadow-xs"
+                            : "bg-white text-slate-600 hover:bg-orange-50 border border-slate-200"
+                        }`}
+                      >
+                        ⭐ 2. Social Proof
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setF5ActiveTab("s3")}
+                        className={`px-3 py-1.5 rounded-lg font-bold whitespace-nowrap transition-all cursor-pointer ${
+                          f5ActiveTab === "s3"
+                            ? "bg-orange-600 text-white shadow-xs"
+                            : "bg-white text-slate-600 hover:bg-orange-50 border border-slate-200"
+                        }`}
+                      >
+                        🎁 3. Gift Cards
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setF5ActiveTab("s4")}
+                        className={`px-3 py-1.5 rounded-lg font-bold whitespace-nowrap transition-all cursor-pointer ${
+                          f5ActiveTab === "s4"
+                            ? "bg-orange-600 text-white shadow-xs"
+                            : "bg-white text-slate-600 hover:bg-orange-50 border border-slate-200"
+                        }`}
+                      >
+                        💤 4. Sleep Mask
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setF5ActiveTab("footer")}
+                        className={`px-3 py-1.5 rounded-lg font-bold whitespace-nowrap transition-all cursor-pointer ${
+                          f5ActiveTab === "footer"
+                            ? "bg-orange-600 text-white shadow-xs"
+                            : "bg-white text-slate-600 hover:bg-orange-50 border border-slate-200"
+                        }`}
+                      >
+                        🌐 5. Footer &amp; Socials
+                      </button>
+                    </div>
+
+                    {/* TAB 1: BRAND & LOGO */}
+                    {f5ActiveTab === "header" && (
+                      <div className="space-y-3.5 animate-in fade-in duration-150">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                          <div>
+                            <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                              Brand / Newsletter Title
+                            </label>
+                            <input
+                              type="text"
+                              value={editingProfile.editorialBrandTitle || "TIMESHIFTER"}
+                              onChange={(e) =>
+                                setEditingProfile({
+                                  ...editingProfile,
+                                  editorialBrandTitle: e.target.value,
+                                })
+                              }
+                              placeholder="TIMESHIFTER"
+                              className="w-full px-2.5 py-1.5 text-xs border border-slate-300 rounded-lg outline-none bg-white focus:border-orange-500 font-bold tracking-widest uppercase"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                              Website URL (Default Button Link)
+                            </label>
+                            <input
+                              type="text"
+                              value={editingProfile.signatureWebsite || "https://timeshifter.com"}
+                              onChange={(e) =>
+                                setEditingProfile({
+                                  ...editingProfile,
+                                  signatureWebsite: e.target.value,
+                                })
+                              }
+                              placeholder="https://timeshifter.com"
+                              className="w-full px-2.5 py-1.5 text-xs border border-slate-300 rounded-lg outline-none bg-white focus:border-orange-500 font-mono"
+                            />
+                          </div>
+                        </div>
+
+                        {/* Logo Upload & URL */}
+                        <div className="bg-white p-3 rounded-xl border border-slate-200 shadow-2xs">
+                          <label className="block text-[11px] font-bold text-slate-700 mb-1.5 flex items-center justify-between">
+                            <span>Top Header Logo (Optional image / leave empty for geometric badge)</span>
+                            {editingProfile.editorialLogoUrl && (
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  setEditingProfile({
+                                    ...editingProfile,
+                                    editorialLogoUrl: "",
+                                  })
+                                }
+                                className="text-[10px] text-red-600 hover:underline cursor-pointer"
+                              >
+                                Remove custom logo
+                              </button>
+                            )}
+                          </label>
+                          <div className="flex items-center gap-3">
+                            {editingProfile.editorialLogoUrl ? (
+                              <img
+                                src={editingProfile.editorialLogoUrl}
+                                alt="Brand Logo"
+                                className="w-14 h-10 object-contain rounded border border-slate-200 bg-stone-50 p-1 shrink-0"
+                              />
+                            ) : (
+                              <div className="w-14 h-10 rounded border border-dashed border-slate-300 bg-stone-50 flex items-center justify-center text-xs shrink-0 text-slate-400">
+                                None
+                              </div>
+                            )}
+                            <div className="flex-1 space-y-1.5">
+                              <input
+                                type="text"
+                                value={editingProfile.editorialLogoUrl || ""}
+                                onChange={(e) =>
+                                  setEditingProfile({
+                                    ...editingProfile,
+                                    editorialLogoUrl: e.target.value,
+                                  })
+                                }
+                                placeholder="Logo image URL or click Upload"
+                                className="w-full px-2.5 py-1 text-xs border border-slate-300 rounded-lg bg-white font-mono"
+                              />
+                              <div className="flex items-center gap-2">
+                                <input
+                                  type="file"
+                                  id="f5-inquiry-header-logo-upload"
+                                  accept="image/*"
+                                  className="hidden"
+                                  onChange={(e) => {
+                                    const file = e.target.files?.[0];
+                                    if (file) handleFormat5ImageUpload(file, "editorialLogoUrl", "Header Logo");
+                                  }}
+                                />
+                                <button
+                                  type="button"
+                                  disabled={f5UploadingField === "editorialLogoUrl"}
+                                  onClick={() => document.getElementById("f5-inquiry-header-logo-upload")?.click()}
+                                  className="px-2.5 py-1 text-[11px] font-bold bg-orange-50 text-orange-700 hover:bg-orange-100 rounded-md border border-orange-200 cursor-pointer flex items-center gap-1 transition-colors disabled:opacity-50"
+                                >
+                                  <span>📷</span>
+                                  <span>{f5UploadingField === "editorialLogoUrl" ? "Uploading..." : "Upload Logo Image"}</span>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* TAB 2: SECTION 1 (TRAVELER OFFER) */}
+                    {f5ActiveTab === "s1" && (
+                      <div className="space-y-3.5 animate-in fade-in duration-150">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                          <div className="sm:col-span-2">
+                            <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                              Headline
+                            </label>
+                            <input
+                              type="text"
+                              value={editingProfile.editorialS1Headline || editingProfile.editorialHeadline || "More time zones to cross this year?"}
+                              onChange={(e) =>
+                                setEditingProfile({
+                                  ...editingProfile,
+                                  editorialS1Headline: e.target.value,
+                                  editorialHeadline: e.target.value,
+                                })
+                              }
+                              placeholder="More time zones to cross this year?"
+                              className="w-full px-2.5 py-1.5 text-xs border border-slate-300 rounded-lg outline-none bg-white focus:border-orange-500 font-bold"
+                            />
+                          </div>
+
+                          <div className="sm:col-span-2">
+                            <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                              Body Text / Description
+                            </label>
+                            <textarea
+                              rows={3}
+                              value={
+                                editingProfile.editorialS1Text ||
+                                "You've already tried Timeshifter once, on us — so you know what it's like to land fresh instead of wrecked. Subscribe now and save 20% on 12 months of unlimited plans."
+                              }
+                              onChange={(e) =>
+                                setEditingProfile({
+                                  ...editingProfile,
+                                  editorialS1Text: e.target.value,
+                                })
+                              }
+                              placeholder="Description text..."
+                              className="w-full px-2.5 py-1.5 text-xs border border-slate-300 rounded-lg outline-none bg-white focus:border-orange-500"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                              CTA Button Text
+                            </label>
+                            <input
+                              type="text"
+                              value={editingProfile.editorialS1BtnText || editingProfile.editorialCtaText || "Subscribe and save 20%"}
+                              onChange={(e) =>
+                                setEditingProfile({
+                                  ...editingProfile,
+                                  editorialS1BtnText: e.target.value,
+                                  editorialCtaText: e.target.value,
+                                })
+                              }
+                              placeholder="Subscribe and save 20%"
+                              className="w-full px-2.5 py-1.5 text-xs border border-slate-300 rounded-lg outline-none bg-white focus:border-orange-500 font-bold"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                              CTA Button Link URL (🔗 Editable Button Link)
+                            </label>
+                            <input
+                              type="text"
+                              value={editingProfile.editorialS1BtnUrl || ""}
+                              onChange={(e) =>
+                                setEditingProfile({
+                                  ...editingProfile,
+                                  editorialS1BtnUrl: e.target.value,
+                                })
+                              }
+                              placeholder="https://timeshifter.com/subscribe"
+                              className="w-full px-2.5 py-1.5 text-xs border border-slate-300 rounded-lg outline-none bg-white focus:border-orange-500 font-mono"
+                            />
+                          </div>
+
+                          <div className="sm:col-span-2">
+                            <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                              Subtext Note (Below Button)
+                            </label>
+                            <input
+                              type="text"
+                              value={
+                                editingProfile.editorialS1Subtext ||
+                                "For first-time subscribers only.<br />Offer ends September 30, 2026"
+                              }
+                              onChange={(e) =>
+                                setEditingProfile({
+                                  ...editingProfile,
+                                  editorialS1Subtext: e.target.value,
+                                })
+                              }
+                              placeholder="For first-time subscribers only.<br />Offer ends September 30, 2026"
+                              className="w-full px-2.5 py-1.5 text-xs border border-slate-300 rounded-lg outline-none bg-white focus:border-orange-500"
+                            />
+                          </div>
+                        </div>
+
+                        {/* Section 1 Image Upload */}
+                        <div className="bg-white p-3 rounded-xl border border-slate-200 shadow-2xs">
+                          <label className="block text-[11px] font-bold text-slate-700 mb-1.5 flex items-center justify-between">
+                            <span>Section 1 Image / Artwork (Clicking card enlarges this image!)</span>
+                            {editingProfile.editorialS1ImageUrl && (
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  setEditingProfile({
+                                    ...editingProfile,
+                                    editorialS1ImageUrl: "",
+                                  })
+                                }
+                                className="text-[10px] text-red-600 hover:underline cursor-pointer"
+                              >
+                                Revert to Default Illustration
+                              </button>
+                            )}
+                          </label>
+                          <div className="flex items-center gap-3">
+                            {editingProfile.editorialS1ImageUrl ? (
+                              <img
+                                src={editingProfile.editorialS1ImageUrl}
+                                alt="S1 Visual"
+                                className="w-16 h-12 object-cover rounded-lg border border-slate-200 bg-stone-50 shrink-0"
+                              />
+                            ) : (
+                              <div className="w-16 h-12 rounded-lg border border-dashed border-slate-300 bg-stone-50 flex items-center justify-center text-[10px] shrink-0 text-slate-400 font-bold">
+                                Default SVG
+                              </div>
+                            )}
+                            <div className="flex-1 space-y-1.5">
+                              <input
+                                type="text"
+                                value={editingProfile.editorialS1ImageUrl || ""}
+                                onChange={(e) =>
+                                  setEditingProfile({
+                                    ...editingProfile,
+                                    editorialS1ImageUrl: e.target.value,
+                                  })
+                                }
+                                placeholder="Paste Image URL or click Upload"
+                                className="w-full px-2.5 py-1 text-xs border border-slate-300 rounded-lg bg-white font-mono"
+                              />
+                              <div className="flex items-center gap-2">
+                                <input
+                                  type="file"
+                                  id="f5-inquiry-s1-image-upload"
+                                  accept="image/*"
+                                  className="hidden"
+                                  onChange={(e) => {
+                                    const file = e.target.files?.[0];
+                                    if (file) handleFormat5ImageUpload(file, "editorialS1ImageUrl", "Section 1 Image");
+                                  }}
+                                />
+                                <button
+                                  type="button"
+                                  disabled={f5UploadingField === "editorialS1ImageUrl"}
+                                  onClick={() => document.getElementById("f5-inquiry-s1-image-upload")?.click()}
+                                  className="px-2.5 py-1 text-[11px] font-bold bg-orange-50 text-orange-700 hover:bg-orange-100 rounded-md border border-orange-200 cursor-pointer flex items-center gap-1 transition-colors disabled:opacity-50"
+                                >
+                                  <span>📷</span>
+                                  <span>{f5UploadingField === "editorialS1ImageUrl" ? "Uploading..." : "Upload Image"}</span>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* TAB 3: SECTION 2 (SOCIAL PROOF) */}
+                    {f5ActiveTab === "s2" && (
+                      <div className="space-y-3.5 animate-in fade-in duration-150">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                          <div className="sm:col-span-2">
+                            <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                              Headline
+                            </label>
+                            <input
+                              type="text"
+                              value={editingProfile.editorialS2Headline || "More than 1.7 million travelers trust Timeshifter"}
+                              onChange={(e) =>
+                                setEditingProfile({
+                                  ...editingProfile,
+                                  editorialS2Headline: e.target.value,
+                                })
+                              }
+                              placeholder="More than 1.7 million travelers trust Timeshifter"
+                              className="w-full px-2.5 py-1.5 text-xs border border-slate-300 rounded-lg outline-none bg-white focus:border-orange-500 font-bold"
+                            />
+                          </div>
+
+                          <div className="sm:col-span-2">
+                            <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                              Body Text / Description
+                            </label>
+                            <textarea
+                              rows={3}
+                              value={
+                                editingProfile.editorialS2Text ||
+                                "Timeshifter is based on the latest science and is trusted by more than 1.7 million travelers to reduce jet lag and arrive at their best."
+                              }
+                              onChange={(e) =>
+                                setEditingProfile({
+                                  ...editingProfile,
+                                  editorialS2Text: e.target.value,
+                                })
+                              }
+                              placeholder="Description text..."
+                              className="w-full px-2.5 py-1.5 text-xs border border-slate-300 rounded-lg outline-none bg-white focus:border-orange-500"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                              Rating Badge Text (Over illustration)
+                            </label>
+                            <input
+                              type="text"
+                              value={editingProfile.editorialS2RatingText || "4.7/5 rating"}
+                              onChange={(e) =>
+                                setEditingProfile({
+                                  ...editingProfile,
+                                  editorialS2RatingText: e.target.value,
+                                })
+                              }
+                              placeholder="4.7/5 rating"
+                              className="w-full px-2.5 py-1.5 text-xs border border-slate-300 rounded-lg outline-none bg-white focus:border-orange-500 font-semibold"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                              CTA Button Text
+                            </label>
+                            <input
+                              type="text"
+                              value={editingProfile.editorialS2BtnText || "Subscribe and save 20%"}
+                              onChange={(e) =>
+                                setEditingProfile({
+                                  ...editingProfile,
+                                  editorialS2BtnText: e.target.value,
+                                })
+                              }
+                              placeholder="Subscribe and save 20%"
+                              className="w-full px-2.5 py-1.5 text-xs border border-slate-300 rounded-lg outline-none bg-white focus:border-orange-500 font-bold"
+                            />
+                          </div>
+
+                          <div className="sm:col-span-2">
+                            <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                              CTA Button Link URL (🔗 Editable Button Link)
+                            </label>
+                            <input
+                              type="text"
+                              value={editingProfile.editorialS2BtnUrl || ""}
+                              onChange={(e) =>
+                                setEditingProfile({
+                                  ...editingProfile,
+                                  editorialS2BtnUrl: e.target.value,
+                                })
+                              }
+                              placeholder="https://timeshifter.com/pricing"
+                              className="w-full px-2.5 py-1.5 text-xs border border-slate-300 rounded-lg outline-none bg-white focus:border-orange-500 font-mono"
+                            />
+                          </div>
+
+                          <div className="sm:col-span-2">
+                            <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                              Subtext Note (Below Button)
+                            </label>
+                            <input
+                              type="text"
+                              value={
+                                editingProfile.editorialS2Subtext ||
+                                "For first-time subscribers only.<br />Offer ends September 30, 2026"
+                              }
+                              onChange={(e) =>
+                                setEditingProfile({
+                                  ...editingProfile,
+                                  editorialS2Subtext: e.target.value,
+                                })
+                              }
+                              placeholder="For first-time subscribers only.<br />Offer ends September 30, 2026"
+                              className="w-full px-2.5 py-1.5 text-xs border border-slate-300 rounded-lg outline-none bg-white focus:border-orange-500"
+                            />
+                          </div>
+                        </div>
+
+                        {/* Section 2 Image Upload */}
+                        <div className="bg-white p-3 rounded-xl border border-slate-200 shadow-2xs">
+                          <label className="block text-[11px] font-bold text-slate-700 mb-1.5 flex items-center justify-between">
+                            <span>Section 2 Image / Phones Mockup (Clicking card enlarges this image!)</span>
+                            {editingProfile.editorialS2ImageUrl && (
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  setEditingProfile({
+                                    ...editingProfile,
+                                    editorialS2ImageUrl: "",
+                                  })
+                                }
+                                className="text-[10px] text-red-600 hover:underline cursor-pointer"
+                              >
+                                Revert to Default Phones Artwork
+                              </button>
+                            )}
+                          </label>
+                          <div className="flex items-center gap-3">
+                            {editingProfile.editorialS2ImageUrl ? (
+                              <img
+                                src={editingProfile.editorialS2ImageUrl}
+                                alt="S2 Visual"
+                                className="w-16 h-12 object-cover rounded-lg border border-slate-200 bg-stone-50 shrink-0"
+                              />
+                            ) : (
+                              <div className="w-16 h-12 rounded-lg border border-dashed border-slate-300 bg-stone-50 flex items-center justify-center text-[10px] shrink-0 text-slate-400 font-bold">
+                                Default 3-Phones
+                              </div>
+                            )}
+                            <div className="flex-1 space-y-1.5">
+                              <input
+                                type="text"
+                                value={editingProfile.editorialS2ImageUrl || ""}
+                                onChange={(e) =>
+                                  setEditingProfile({
+                                    ...editingProfile,
+                                    editorialS2ImageUrl: e.target.value,
+                                  })
+                                }
+                                placeholder="Paste Image URL or click Upload"
+                                className="w-full px-2.5 py-1 text-xs border border-slate-300 rounded-lg bg-white font-mono"
+                              />
+                              <div className="flex items-center gap-2">
+                                <input
+                                  type="file"
+                                  id="f5-inquiry-s2-image-upload"
+                                  accept="image/*"
+                                  className="hidden"
+                                  onChange={(e) => {
+                                    const file = e.target.files?.[0];
+                                    if (file) handleFormat5ImageUpload(file, "editorialS2ImageUrl", "Section 2 Image");
+                                  }}
+                                />
+                                <button
+                                  type="button"
+                                  disabled={f5UploadingField === "editorialS2ImageUrl"}
+                                  onClick={() => document.getElementById("f5-inquiry-s2-image-upload")?.click()}
+                                  className="px-2.5 py-1 text-[11px] font-bold bg-orange-50 text-orange-700 hover:bg-orange-100 rounded-md border border-orange-200 cursor-pointer flex items-center gap-1 transition-colors disabled:opacity-50"
+                                >
+                                  <span>📷</span>
+                                  <span>{f5UploadingField === "editorialS2ImageUrl" ? "Uploading..." : "Upload Image"}</span>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* TAB 4: SECTION 3 (GIFT CARDS) */}
+                    {f5ActiveTab === "s3" && (
+                      <div className="space-y-3.5 animate-in fade-in duration-150">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                          <div className="sm:col-span-2">
+                            <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                              Headline
+                            </label>
+                            <input
+                              type="text"
+                              value={editingProfile.editorialS3Headline || "Gift cards"}
+                              onChange={(e) =>
+                                setEditingProfile({
+                                  ...editingProfile,
+                                  editorialS3Headline: e.target.value,
+                                })
+                              }
+                              placeholder="Gift cards"
+                              className="w-full px-2.5 py-1.5 text-xs border border-slate-300 rounded-lg outline-none bg-white focus:border-orange-500 font-bold"
+                            />
+                          </div>
+
+                          <div className="sm:col-span-2">
+                            <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                              Body Text / Description
+                            </label>
+                            <textarea
+                              rows={3}
+                              value={
+                                editingProfile.editorialS3Text ||
+                                "Give a year of unlimited jet lag plans. Send by email to family, friends, or your team — or order physical gift cards, shipped in boxes of 50."
+                              }
+                              onChange={(e) =>
+                                setEditingProfile({
+                                  ...editingProfile,
+                                  editorialS3Text: e.target.value,
+                                })
+                              }
+                              placeholder="Description text..."
+                              className="w-full px-2.5 py-1.5 text-xs border border-slate-300 rounded-lg outline-none bg-white focus:border-orange-500"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                              CTA Button Text
+                            </label>
+                            <input
+                              type="text"
+                              value={editingProfile.editorialS3BtnText || "Buy gift cards"}
+                              onChange={(e) =>
+                                setEditingProfile({
+                                  ...editingProfile,
+                                  editorialS3BtnText: e.target.value,
+                                })
+                              }
+                              placeholder="Buy gift cards"
+                              className="w-full px-2.5 py-1.5 text-xs border border-slate-300 rounded-lg outline-none bg-white focus:border-orange-500 font-bold"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                              CTA Button Link URL (🔗 Editable Button Link)
+                            </label>
+                            <input
+                              type="text"
+                              value={editingProfile.editorialS3BtnUrl || ""}
+                              onChange={(e) =>
+                                setEditingProfile({
+                                  ...editingProfile,
+                                  editorialS3BtnUrl: e.target.value,
+                                })
+                              }
+                              placeholder="https://timeshifter.com/gift-cards"
+                              className="w-full px-2.5 py-1.5 text-xs border border-slate-300 rounded-lg outline-none bg-white focus:border-orange-500 font-mono"
+                            />
+                          </div>
+                        </div>
+
+                        {/* Section 3 Image Upload */}
+                        <div className="bg-white p-3 rounded-xl border border-slate-200 shadow-2xs">
+                          <label className="block text-[11px] font-bold text-slate-700 mb-1.5 flex items-center justify-between">
+                            <span>Section 3 Image / Gift Cards Booklet (Clicking card enlarges this image!)</span>
+                            {editingProfile.editorialS3ImageUrl && (
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  setEditingProfile({
+                                    ...editingProfile,
+                                    editorialS3ImageUrl: "",
+                                  })
+                                }
+                                className="text-[10px] text-red-600 hover:underline cursor-pointer"
+                              >
+                                Revert to Default Gift Cards Artwork
+                              </button>
+                            )}
+                          </label>
+                          <div className="flex items-center gap-3">
+                            {editingProfile.editorialS3ImageUrl ? (
+                              <img
+                                src={editingProfile.editorialS3ImageUrl}
+                                alt="S3 Visual"
+                                className="w-16 h-12 object-cover rounded-lg border border-slate-200 bg-stone-50 shrink-0"
+                              />
+                            ) : (
+                              <div className="w-16 h-12 rounded-lg border border-dashed border-slate-300 bg-stone-50 flex items-center justify-center text-[10px] shrink-0 text-slate-400 font-bold">
+                                Default Gift Cards
+                              </div>
+                            )}
+                            <div className="flex-1 space-y-1.5">
+                              <input
+                                type="text"
+                                value={editingProfile.editorialS3ImageUrl || ""}
+                                onChange={(e) =>
+                                  setEditingProfile({
+                                    ...editingProfile,
+                                    editorialS3ImageUrl: e.target.value,
+                                  })
+                                }
+                                placeholder="Paste Image URL or click Upload"
+                                className="w-full px-2.5 py-1 text-xs border border-slate-300 rounded-lg bg-white font-mono"
+                              />
+                              <div className="flex items-center gap-2">
+                                <input
+                                  type="file"
+                                  id="f5-inquiry-s3-image-upload"
+                                  accept="image/*"
+                                  className="hidden"
+                                  onChange={(e) => {
+                                    const file = e.target.files?.[0];
+                                    if (file) handleFormat5ImageUpload(file, "editorialS3ImageUrl", "Section 3 Image");
+                                  }}
+                                />
+                                <button
+                                  type="button"
+                                  disabled={f5UploadingField === "editorialS3ImageUrl"}
+                                  onClick={() => document.getElementById("f5-inquiry-s3-image-upload")?.click()}
+                                  className="px-2.5 py-1 text-[11px] font-bold bg-orange-50 text-orange-700 hover:bg-orange-100 rounded-md border border-orange-200 cursor-pointer flex items-center gap-1 transition-colors disabled:opacity-50"
+                                >
+                                  <span>📷</span>
+                                  <span>{f5UploadingField === "editorialS3ImageUrl" ? "Uploading..." : "Upload Image"}</span>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* TAB 5: SECTION 4 (SLEEP MASK) */}
+                    {f5ActiveTab === "s4" && (
+                      <div className="space-y-3.5 animate-in fade-in duration-150">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                          <div className="sm:col-span-2">
+                            <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                              Headline
+                            </label>
+                            <input
+                              type="text"
+                              value={editingProfile.editorialS4Headline || "The best sleep mask for timeshifting"}
+                              onChange={(e) =>
+                                setEditingProfile({
+                                  ...editingProfile,
+                                  editorialS4Headline: e.target.value,
+                                })
+                              }
+                              placeholder="The best sleep mask for timeshifting"
+                              className="w-full px-2.5 py-1.5 text-xs border border-slate-300 rounded-lg outline-none bg-white focus:border-orange-500 font-bold"
+                            />
+                          </div>
+
+                          <div className="sm:col-span-2">
+                            <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                              Body Text / Description
+                            </label>
+                            <textarea
+                              rows={3}
+                              value={
+                                editingProfile.editorialS4Text ||
+                                "When Timeshifter calls for sleep, staying in the dark is everything. We have tested a lot of masks. The Manta PRO is the one we keep coming back to."
+                              }
+                              onChange={(e) =>
+                                setEditingProfile({
+                                  ...editingProfile,
+                                  editorialS4Text: e.target.value,
+                                })
+                              }
+                              placeholder="Description text..."
+                              className="w-full px-2.5 py-1.5 text-xs border border-slate-300 rounded-lg outline-none bg-white focus:border-orange-500"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                              CTA Button Text
+                            </label>
+                            <input
+                              type="text"
+                              value={editingProfile.editorialS4BtnText || "Learn more"}
+                              onChange={(e) =>
+                                setEditingProfile({
+                                  ...editingProfile,
+                                  editorialS4BtnText: e.target.value,
+                                })
+                              }
+                              placeholder="Learn more"
+                              className="w-full px-2.5 py-1.5 text-xs border border-slate-300 rounded-lg outline-none bg-white focus:border-orange-500 font-bold"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                              CTA Button Link URL (🔗 Editable Button Link)
+                            </label>
+                            <input
+                              type="text"
+                              value={editingProfile.editorialS4BtnUrl || ""}
+                              onChange={(e) =>
+                                setEditingProfile({
+                                  ...editingProfile,
+                                  editorialS4BtnUrl: e.target.value,
+                                })
+                              }
+                              placeholder="https://timeshifter.com/sleep-mask"
+                              className="w-full px-2.5 py-1.5 text-xs border border-slate-300 rounded-lg outline-none bg-white focus:border-orange-500 font-mono"
+                            />
+                          </div>
+                        </div>
+
+                        {/* Section 4 Image Upload */}
+                        <div className="bg-white p-3 rounded-xl border border-slate-200 shadow-2xs">
+                          <label className="block text-[11px] font-bold text-slate-700 mb-1.5 flex items-center justify-between">
+                            <span>Section 4 Image / Sleep Mask (Clicking card enlarges this image!)</span>
+                            {editingProfile.editorialS4ImageUrl && (
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  setEditingProfile({
+                                    ...editingProfile,
+                                    editorialS4ImageUrl: "",
+                                  })
+                                }
+                                className="text-[10px] text-red-600 hover:underline cursor-pointer"
+                              >
+                                Revert to Default Mask Artwork
+                              </button>
+                            )}
+                          </label>
+                          <div className="flex items-center gap-3">
+                            {editingProfile.editorialS4ImageUrl ? (
+                              <img
+                                src={editingProfile.editorialS4ImageUrl}
+                                alt="S4 Visual"
+                                className="w-16 h-12 object-cover rounded-lg border border-slate-200 bg-stone-50 shrink-0"
+                              />
+                            ) : (
+                              <div className="w-16 h-12 rounded-lg border border-dashed border-slate-300 bg-stone-50 flex items-center justify-center text-[10px] shrink-0 text-slate-400 font-bold">
+                                Default Sleep Mask
+                              </div>
+                            )}
+                            <div className="flex-1 space-y-1.5">
+                              <input
+                                type="text"
+                                value={editingProfile.editorialS4ImageUrl || ""}
+                                onChange={(e) =>
+                                  setEditingProfile({
+                                    ...editingProfile,
+                                    editorialS4ImageUrl: e.target.value,
+                                  })
+                                }
+                                placeholder="Paste Image URL or click Upload"
+                                className="w-full px-2.5 py-1 text-xs border border-slate-300 rounded-lg bg-white font-mono"
+                              />
+                              <div className="flex items-center gap-2">
+                                <input
+                                  type="file"
+                                  id="f5-inquiry-s4-image-upload"
+                                  accept="image/*"
+                                  className="hidden"
+                                  onChange={(e) => {
+                                    const file = e.target.files?.[0];
+                                    if (file) handleFormat5ImageUpload(file, "editorialS4ImageUrl", "Section 4 Image");
+                                  }}
+                                />
+                                <button
+                                  type="button"
+                                  disabled={f5UploadingField === "editorialS4ImageUrl"}
+                                  onClick={() => document.getElementById("f5-inquiry-s4-image-upload")?.click()}
+                                  className="px-2.5 py-1 text-[11px] font-bold bg-orange-50 text-orange-700 hover:bg-orange-100 rounded-md border border-orange-200 cursor-pointer flex items-center gap-1 transition-colors disabled:opacity-50"
+                                >
+                                  <span>📷</span>
+                                  <span>{f5UploadingField === "editorialS4ImageUrl" ? "Uploading..." : "Upload Image"}</span>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* TAB 6: FOOTER & SOCIAL LINKS */}
+                    {f5ActiveTab === "footer" && (
+                      <div className="space-y-4 animate-in fade-in duration-150 text-xs">
+                        <div>
+                          <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                            Regulatory / FDA Disclaimer Box
+                          </label>
+                          <textarea
+                            rows={3}
+                            value={
+                              editingProfile.editorialFooterDisclaimer ||
+                              `These statements have not been evaluated by the Food and Drug Administration. ${
+                                editingProfile.editorialBrandTitle || "TIMESHIFTER"
+                              } is not intended to diagnose, treat, cure or prevent any disease, and is intended for healthy adults, 18 years of age or older. The ${
+                                editingProfile.editorialBrandTitle || "TIMESHIFTER"
+                              } apps are not intended for pilots and flight crews on duty.`
+                            }
+                            onChange={(e) =>
+                              setEditingProfile({
+                                ...editingProfile,
+                                editorialFooterDisclaimer: e.target.value,
+                              })
+                            }
+                            className="w-full px-2.5 py-1.5 text-xs border border-slate-300 rounded-lg outline-none bg-white focus:border-orange-500"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                            Company Physical Address
+                          </label>
+                          <input
+                            type="text"
+                            value={
+                              editingProfile.editorialFooterAddress ||
+                              editingProfile.address ||
+                              "Timeshifter Inc • 28 Hill Street #820 • Southampton, NY 11968 • United States"
+                            }
+                            onChange={(e) =>
+                              setEditingProfile({
+                                ...editingProfile,
+                                editorialFooterAddress: e.target.value,
+                              })
+                            }
+                            className="w-full px-2.5 py-1.5 text-xs border border-slate-300 rounded-lg outline-none bg-white focus:border-orange-500"
+                          />
+                        </div>
+
+                        {/* Social Links Manager */}
+                        <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-2xs space-y-3">
+                          <div className="flex items-center justify-between pb-2 border-b border-slate-100">
+                            <div>
+                              <span className="text-xs font-bold text-slate-800 uppercase tracking-wider block">
+                                🌐 Social Links (Appears at Bottom of Email)
+                              </span>
+                              <span className="text-[10.5px] text-slate-500">
+                                Add or edit social channels shown as circular badges in the footer.
+                              </span>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={handleAddF5SocialLink}
+                              className="px-2.5 py-1 bg-orange-600 hover:bg-orange-700 text-white rounded-md text-[11px] font-bold cursor-pointer transition-colors shadow-2xs flex items-center gap-1"
+                            >
+                              <span>➕</span>
+                              <span>Add Social Link</span>
+                            </button>
+                          </div>
+
+                          <div className="space-y-2">
+                            {(
+                              editingProfile.editorialSocialLinks && editingProfile.editorialSocialLinks.length > 0
+                                ? editingProfile.editorialSocialLinks
+                                : DEFAULT_FORMAT5_SOCIAL_LINKS
+                            ).map((soc, idx) => (
+                              <div
+                                key={soc.id || idx}
+                                className="flex items-center gap-2 bg-stone-50 p-2 rounded-lg border border-slate-200"
+                              >
+                                <select
+                                  value={soc.platform}
+                                  onChange={(e) =>
+                                    handleUpdateF5SocialLink(soc.id, "platform", e.target.value)
+                                  }
+                                  className="px-2 py-1 text-xs border border-slate-300 rounded bg-white font-bold shrink-0"
+                                >
+                                  <option value="instagram">📷 Instagram</option>
+                                  <option value="facebook">📘 Facebook</option>
+                                  <option value="linkedin">💼 LinkedIn</option>
+                                  <option value="whatsapp">💬 WhatsApp</option>
+                                  <option value="youtube">▶️ YouTube</option>
+                                  <option value="twitter">𝕏 Twitter / X</option>
+                                  <option value="website">🌐 Website</option>
+                                  <option value="other">🔗 Other</option>
+                                </select>
+                                <input
+                                  type="text"
+                                  value={soc.url}
+                                  onChange={(e) =>
+                                    handleUpdateF5SocialLink(soc.id, "url", e.target.value)
+                                  }
+                                  placeholder="https://..."
+                                  className="flex-1 px-2 py-1 text-xs border border-slate-300 rounded bg-white font-mono"
+                                />
+                                <button
+                                  type="button"
+                                  onClick={() => handleDeleteF5SocialLink(soc.id)}
+                                  className="w-7 h-7 bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 rounded flex items-center justify-center cursor-pointer transition-colors shrink-0"
+                                  title="Delete Link"
+                                >
+                                  🗑️
+                                </button>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
 
               {/* RIGHT COLUMN: LIVE REAL-TIME VISUAL PREVIEW & TEMPLATES (6 Cols) */}
@@ -6317,6 +8028,10 @@ Desk: ${currentProfile.email}`)
                     ) : (editingProfile.formatType || (editingProfile.signatureRole || editingProfile.signatureAvatar ? "format-executive-signature" : "format-catalog")) === "format-minimal" ? (
                       <div>
                         {renderFormat4Preview(editingProfile, true)}
+                      </div>
+                    ) : (editingProfile.formatType || (editingProfile.signatureRole || editingProfile.signatureAvatar ? "format-executive-signature" : "format-catalog")) === "format-custom" ? (
+                      <div>
+                        {renderFormat5Preview(editingProfile, true)}
                       </div>
                     ) : (
                       /* FORMAT 1: CATALOG CARDS & MACHINERY */

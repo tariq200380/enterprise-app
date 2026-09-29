@@ -57,6 +57,14 @@ export const DEFAULT_FORMAT2_SOCIAL_LINKS: EmailSocialLink[] = [
   { id: "soc-ig", platform: "instagram", url: "https://instagram.com", label: "Instagram" },
 ];
 
+export const DEFAULT_FORMAT5_SOCIAL_LINKS: EmailSocialLink[] = [
+  { id: "f5-soc-ig", platform: "instagram", url: "https://instagram.com/timeshifter", label: "Instagram" },
+  { id: "f5-soc-fb", platform: "facebook", url: "https://facebook.com/timeshifter", label: "Facebook" },
+  { id: "f5-soc-li", platform: "linkedin", url: "https://linkedin.com/company/timeshifter", label: "LinkedIn" },
+  { id: "f5-soc-wa", platform: "whatsapp", url: "https://wa.me/15550192834", label: "WhatsApp" },
+  { id: "f5-soc-web", platform: "website", url: "https://timeshifter.com", label: "Website" },
+];
+
 export const DEFAULT_FORMAT2_GALLERY_ROWS: GalleryRow[] = [
   {
     id: "row-1",
@@ -117,12 +125,12 @@ export const EMAIL_FORMATS_METADATA: EmailFormatMetadata[] = [
   {
     id: "format-custom",
     formatNumber: 5,
-    title: "Format 5: [Slot 5 Reserved]",
-    subtitle: "Pending your design specifications",
-    badge: "Slot Reserved",
-    icon: "🎯",
-    status: "RESERVED",
-    description: "Slot reserved for Format 5. Once you provide the format design/image, this template will be activated.",
+    title: "Format 5: Modern Editorial Newsletter",
+    subtitle: "Warm Cream Canvas, Visual Product Showcases, Pill CTAs & Regulatory Footer",
+    badge: "Editorial Newsletter",
+    icon: "📰",
+    status: "ACTIVE",
+    description: "High-converting modern editorial newsletter: Warm cream canvas, centered header, 4 curated visual showcase sections with orange pill buttons, social proof with 4.7/5 rating badge, and official disclaimer footer.",
   },
 ];
 
@@ -175,6 +183,47 @@ export interface EmailDepartmentProfile {
   featuredMainPicUrl?: string;
   featuredMainPicText?: string;
   galleryRows?: GalleryRow[];
+  // Format 5: Modern Editorial Newsletter Fields
+  editorialBrandTitle?: string;
+  editorialLogoUrl?: string;
+  // Section 1: Hero Traveler Offer
+  editorialS1Headline?: string;
+  editorialS1Text?: string;
+  editorialS1ImageUrl?: string;
+  editorialS1BtnText?: string;
+  editorialS1BtnUrl?: string;
+  editorialS1Subtext?: string;
+  // Section 2: Social Proof & Multi-Device
+  editorialS2Headline?: string;
+  editorialS2Text?: string;
+  editorialS2ImageUrl?: string;
+  editorialS2RatingText?: string;
+  editorialS2BtnText?: string;
+  editorialS2BtnUrl?: string;
+  editorialS2Subtext?: string;
+  // Section 3: Gift Cards / Product
+  editorialS3Headline?: string;
+  editorialS3Text?: string;
+  editorialS3ImageUrl?: string;
+  editorialS3BtnText?: string;
+  editorialS3BtnUrl?: string;
+  // Section 4: Hardware Partner / Sleep Mask
+  editorialS4Headline?: string;
+  editorialS4Text?: string;
+  editorialS4ImageUrl?: string;
+  editorialS4BtnText?: string;
+  editorialS4BtnUrl?: string;
+  // Footer & Social Links
+  editorialFooterDisclaimer?: string;
+  editorialFooterAddress?: string;
+  editorialSocialLinks?: EmailSocialLink[];
+  // Backward compatibility aliases
+  editorialHeadline?: string;
+  editorialCtaText?: string;
+  editorialHeroImage?: string;
+  editorialPromoImage?: string;
+  editorialProductImage?: string;
+  editorialSecondaryImage?: string;
 }
 
 /**
@@ -723,71 +772,113 @@ export function generateEmailSignatureHtml(profile: Partial<EmailDepartmentProfi
     `;
   }
 
-  // Default: "modern-curved" (Primary Shutterstock wave signature)
+  // Default: "modern-curved" (Primary wave signature matching reference image)
   return `
-  <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top: 24px; background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);">
-    <tr>
-      <td style="padding: 16px 20px; background: linear-gradient(to right, #FFFFFF 68%, #F8FAFC 100%);">
-        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
-          <tr>
-            <td width="78" valign="middle" align="center" style="padding-right: 16px;">
-              <div style="position: relative; width: 68px; height: 68px; border-radius: 50%; padding: 3px; background: linear-gradient(135deg, ${accent}, #0F172A); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);">
-                <div style="width: 100%; height: 100%; border-radius: 50%; overflow: hidden; background: #FFFFFF;">
-                  <img src="${avatar}" alt="${name}" width="68" height="68" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 50%;" />
-                </div>
-              </div>
-            </td>
-            <td valign="middle" style="line-height: 1.4;">
-              <div style="font-size: 15px; font-weight: 800; color: #0F172A; text-transform: uppercase; letter-spacing: 0.04em;">
-                ${name}
-              </div>
-              <div style="font-size: 11px; font-weight: 700; color: ${accent}; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 1px;">
-                ${role}
-              </div>
-              <div style="font-size: 10px; color: #64748B; margin-top: 2px; margin-bottom: 8px;">
-                ${tagline}
-              </div>
-              <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="font-size: 11px; color: #334155;">
-                <tr>
-                  <td style="padding: 2px 14px 2px 0;">
-                    <span style="color: ${accent}; font-weight: bold; margin-right: 3px;">📞</span>
-                    <a href="tel:${phone}" style="color: #1E293B; text-decoration: none; font-weight: 600;">${phone}</a>
-                  </td>
-                  <td style="padding: 2px 0;">
-                    <span style="color: ${accent}; font-weight: bold; margin-right: 3px;">✉️</span>
-                    <a href="mailto:${email}" style="color: ${accent}; text-decoration: none; font-weight: 600;">${email}</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="padding: 2px 14px 2px 0;">
-                    <span style="color: ${accent}; font-weight: bold; margin-right: 3px;">🌐</span>
-                    <a href="${website}" target="_blank" style="color: #0284C7; text-decoration: none; font-weight: 600;">${websiteDisplay}</a>
-                  </td>
-                  <td style="padding: 2px 0;">
-                    <span style="color: ${accent}; font-weight: bold; margin-right: 3px;">📍</span>
-                    <span style="color: #64748B;">${address}</span>
-                  </td>
-                </tr>
-              </table>
-            </td>
-            <td width="112" valign="middle" align="right" style="padding-left: 12px; border-left: 1px solid #F1F5F9;">
-              <div style="background: linear-gradient(135deg, ${accent}, #0F172A); color: #FFFFFF; padding: 12px 10px; border-radius: 10px; text-align: center; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
-                <div style="font-size: 12px; font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase;">
-                  ${company}
-                </div>
-                <div style="font-size: 8px; font-weight: 700; opacity: 0.9; text-transform: uppercase; letter-spacing: 0.14em; margin-top: 2px;">
-                  OFFICIAL
-                </div>
-                <div style="margin-top: 6px; font-size: 8px; background: rgba(255,255,255,0.2); padding: 1.5px 6px; border-radius: 8px; display: inline-block;">
-                  VERIFIED
-                </div>
-              </div>
-            </td>
-          </tr>
-        </table>
-      </td>
-    </tr>
-  </table>
+  <div style="position: relative; width: 100%; max-width: 616px; min-height: 220px; background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.06); margin: 24px auto 0 auto;">
+    <!-- Vector Waves Background -->
+    <svg viewBox="0 0 720 240" preserveAspectRatio="none" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: block;" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 290 0 C 365 0 355 60 325 115 C 295 165 315 205 385 210 C 475 215 570 190 720 135 L 720 0 Z" fill="#DDEAF8" />
+      <path d="M 0 0 L 345 0 C 355 55 310 115 255 152 C 205 186 120 185 0 152 Z" fill="#0D62B2" />
+      <path d="M 235 62 A 58 58 0 0 0 216 168 A 62 62 0 0 1 235 62 Z" fill="#07447D" />
+      <g transform="translate(665, 58)" opacity="0.65" stroke="#93C5FD" stroke-width="1.8" fill="none" stroke-linecap="round">
+        <circle cx="0" cy="0" r="26" stroke-dasharray="3 3" opacity="0.4" />
+        <path d="M -18 -14 Q -6 -20 6 -14 Q 18 -8 24 -14" />
+        <path d="M -22 -7 Q -10 -13 2 -7 Q 14 -1 22 -7" />
+        <path d="M -24 0 Q -12 -6 0 0 Q 12 6 24 0" />
+        <path d="M -22 7 Q -14 1 0 7 Q 14 13 22 7" />
+        <path d="M -18 14 Q -8 8 4 14 Q 16 20 20 14" />
+        <path d="M -12 21 Q -2 15 8 21" />
+      </g>
+    </svg>
+
+    <!-- Top-Left Logo inside Blue Wave -->
+    <div style="position: absolute; top: 22px; left: 32px; text-align: center; color: #ffffff; z-index: 10;">
+      <div style="width: 28px; height: 28px; border: 3px solid #ffffff; border-radius: 50%; margin: 0 auto; display: flex; align-items: center; justify-content: center;">
+        <div style="width: 12px; height: 5px; border: 2px solid #ffffff; border-radius: 3px;"></div>
+      </div>
+      <div style="font-size: 9.5px; font-weight: 900; letter-spacing: 0.22em; margin-top: 5px; text-transform: uppercase; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+        ${company || 'LOGO'}
+      </div>
+    </div>
+
+    <!-- Overlapping Avatar Circle -->
+    <div style="position: absolute; top: 50%; left: 215px; transform: translate(-50%, -50%); width: 104px; height: 104px; border-radius: 50%; background-color: #ffffff; padding: 4px; box-shadow: 0 4px 14px rgba(0,0,0,0.12); z-index: 20; border: 3px solid #ffffff;">
+      ${
+        avatar && !avatar.includes('default')
+          ? `<img src="${avatar}" alt="${name}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block;" />`
+          : `<div style="width: 100%; height: 100%; border-radius: 50%; background-color: #f1f5f9; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; border: 1px solid #e2e8f0;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display: block; margin: 0 auto;">
+                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                <circle cx="12" cy="13" r="4"></circle>
+              </svg>
+              <div style="font-size: 7px; color: #64748b; font-weight: 700; margin-top: 2px;">Place Image Here</div>
+            </div>`
+      }
+    </div>
+
+    <!-- Bottom-Left 3 Minimalist Icons on White Ground -->
+    <div style="position: absolute; bottom: 16px; left: 24px; display: flex; align-items: center; gap: 12px; color: #334155; z-index: 10;">
+      <a href="${website}" target="_blank" rel="noopener noreferrer" style="color: #334155; text-decoration: none; display: inline-block;">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+        </svg>
+      </a>
+      <span style="color: #334155; display: inline-block;">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+        </svg>
+      </span>
+      <a href="mailto:${email}" style="color: #334155; text-decoration: none; display: inline-block;">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+          <polyline points="22,6 12,13 2,6"></polyline>
+        </svg>
+      </a>
+    </div>
+
+    <!-- Right Section: Credentials & 3 Contact Rows -->
+    <div style="position: absolute; top: 50%; left: 300px; right: 24px; transform: translateY(-50%); z-index: 10;">
+      <div style="font-size: 17px; font-weight: 900; color: #0f172a; text-transform: uppercase; letter-spacing: 0.05em; line-height: 1.2; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+        ${name}
+      </div>
+      <div style="font-size: 11px; font-weight: 700; color: #0066CC; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 3px; margin-bottom: 12px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+        ${role}
+      </div>
+
+      <!-- 3 Contact Rows with royal blue icons -->
+      <div style="display: flex; flex-direction: column; gap: 6px; font-size: 11px; color: #334155; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+        <!-- Row 1: Phone -->
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="#0066CC" style="flex-shrink: 0;">
+            <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+          </svg>
+          <a href="tel:${phone}" style="color: #0f172a; text-decoration: none; font-weight: 500;">${phone}</a>
+        </div>
+
+        <!-- Row 2: Email & Web -->
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="#0066CC" style="flex-shrink: 0;">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+          </svg>
+          <span>
+            <a href="mailto:${email}" style="color: #0066CC; text-decoration: none; font-weight: 500;">${email}</a>
+            <span style="color: #94a3b8; margin: 0 4px;">/</span>
+            <a href="${website}" target="_blank" rel="noopener noreferrer" style="color: #0066CC; text-decoration: none; font-weight: 500;">${websiteDisplay}</a>
+          </span>
+        </div>
+
+        <!-- Row 3: Address -->
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="#0066CC" style="flex-shrink: 0;">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+          </svg>
+          <span style="color: #64748b;">${address}</span>
+        </div>
+      </div>
+    </div>
+  </div>
   `;
 }
 
@@ -1440,14 +1531,21 @@ export function generateFormat3Html(
  *   - Executive Name in bold uppercase + Job Role in royal blue/accent
  *   - Airplane / Tagline badge pill ("Designing Experiences • Enterprise Solutions")
  *   - 2x2 Contact details with icons (Phone, Email, Website, Address)
- *   - Company Logo with tagline & 4 round social badges (Facebook, LinkedIn, WhatsApp, Instagram)
- * - Sub-footer legal compliance & copyright
+/**
+ * FORMAT 4 HTML GENERATOR (STANDALONE EXECUTIVE SIGNATURE BANNER)
+ * Exact design from user's reference image:
+ * - Curved dual-tone wave background (pastel sky-blue + royal blue)
+ * - White circular logo placeholder in top-left
+ * - Circular avatar frame with thick border ("Place Image Here")
+ * - 3 minimalist monochrome icons on white base (Globe, Pin, Mail)
+ * - Top-right ripple swirl watermark
+ * - Right section: Bold uppercase NAME SURNAME, role in blue, and 3 contact rows (Phone, Email/Web, Address)
  */
 export function generateFormat4Html(
   profile: EmailDepartmentProfile,
-  content: {
+  content?: {
     clientName?: string;
-    message: string;
+    message?: string;
     subject?: string;
     inquiryId?: number | string;
     service?: string;
@@ -1455,369 +1553,628 @@ export function generateFormat4Html(
     showReferenceBadge?: boolean;
   }
 ): string {
-  const accent = profile.accentColor || "#0052FF";
-  const name = profile.signatureName || profile.name || "Tariq Mahmood";
-  const role = profile.signatureRole || profile.department || "Chief Technical Director";
-  const company = profile.signatureCompany || "CREED TECH";
-  const tagline = profile.signatureTagline || "Enterprise Engineering & Industrial Systems";
-  const phone = profile.phone || "+92 321 9204488";
-  const email = profile.email || "solutions@creed-tech.com";
-  const website = profile.signatureWebsite || "https://creed-tech.com";
+  const name = profile.signatureName || profile.name || "NAME SURNAME";
+  const role = profile.signatureRole || profile.department || "GENERAL MANAGER";
+  const company = profile.signatureCompany || "LOGO";
+  const phone = profile.phone || "+00 123 456 789";
+  const email = profile.email || "yourmail@gmail.com";
+  const website = profile.signatureWebsite || "https://yourmail.com";
   const websiteDisplay = website.replace(/^https?:\/\//i, "").replace(/\/$/, "");
-  const address = profile.address || "Office #02, Main Shopping Center, Sheikhupura, PK";
+  const address = profile.address || "Your Address Here, Street, City, Country";
   const avatar =
     profile.signatureAvatar ||
     profile.sidebarLogo ||
     "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop";
-  const companyLogo = profile.sidebarLogo || "https://creed-tech.com/icons/icon-192x192.png";
-
-  const fbUrl =
-    profile.sidebarSocialLinks?.find((s) => s.platform === "facebook")?.url ||
-    "https://facebook.com/creedtechnology";
-  const liUrl =
-    profile.sidebarSocialLinks?.find((s) => s.platform === "linkedin")?.url ||
-    "https://linkedin.com/company/creedtech";
-  const waUrl =
-    profile.sidebarSocialLinks?.find((s) => s.platform === "whatsapp")?.url ||
-    (profile.phone
-      ? `https://wa.me/${profile.phone.replace(/[^0-9]/g, "")}`
-      : "https://wa.me/923219204488");
-  const igUrl =
-    profile.sidebarSocialLinks?.find((s) => s.platform === "instagram")?.url ||
-    "https://instagram.com/creed.technologiess";
-
-  const profileShowRef = profile.showReferenceBadge !== false;
-  const displayBadge =
-    content.showReferenceBadge === false || (!content.showReferenceBadge && !profileShowRef)
-      ? null
-      : content.referenceBadge !== undefined
-      ? (content.referenceBadge && content.referenceBadge.trim() ? content.referenceBadge.trim() : null)
-      : profile.referenceBadgeText
-      ? profile.referenceBadgeText.replace("{id}", String(content.inquiryId || "34"))
-      : content.inquiryId
-      ? `REF #${content.inquiryId}`
-      : "EXECUTIVE TRANSMISSION";
-
-  const headingHtml = content.subject
-    ? `<h2 style="margin: 0 0 16px 0; font-size: 16px; font-weight: 800; color: #0f172a; letter-spacing: -0.01em;">${content.subject}</h2>`
-    : "";
-
-  const formattedBody = content.message
-    .split("\n")
-    .map((line) =>
-      line.trim() === ""
-        ? "<br/>"
-        : `<p style="margin: 0 0 12px 0; line-height: 1.7; color: #334155; font-size: 13.5px;">${line}</p>`
-    )
-    .join("");
-
-  // Items from mediaItems or fallback to defaults
-  let items: EmailMediaItem[] = [];
-  if (Array.isArray(profile.mediaItems) && profile.mediaItems.length > 0) {
-    items = profile.mediaItems;
-  } else if (profile.videoThumbnail || profile.videoUrl) {
-    items = [
-      {
-        id: "item-default",
-        type: profile.mediaType || "image",
-        title: profile.videoTitle || "Executive Precision Unit",
-        mediaUrl: profile.videoUrl,
-        thumbnailUrl: profile.videoThumbnail || profile.videoUrl,
-        year: profile.mediaYear || "2024",
-        condition: profile.mediaCondition || "★★★★★",
-        specs: profile.mediaSpecs || "Precision Equipment • Verified Specification",
-        details: profile.mediaDetails,
-        linkUrl: profile.videoUrl,
-      },
-    ];
-  } else {
-    items = [
-      {
-        id: "item-default-1",
-        type: "image",
-        title: "CNC Miller 5X High Precision",
-        thumbnailUrl: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=600&auto=format&fit=crop",
-        year: "2024",
-        condition: "★★★★★",
-        specs: "5-Axis High Speed Machining Center with Heidenhain TNC 640 Controller",
-      },
-      {
-        id: "item-default-2",
-        type: "image",
-        title: "Fiber Laser Cutting System 12kW",
-        thumbnailUrl: "https://images.unsplash.com/photo-1581092335397-9583fe92d232?q=80&w=600&auto=format&fit=crop",
-        year: "2024",
-        condition: "★★★★★",
-        specs: "Industrial Grade Laser Cutting Bed with Automated Material Feeding",
-      },
-    ];
-  }
-
-  // Format 1 style 2-column catalog cards
-  const renderGridCell = (item: EmailMediaItem) => {
-    const isItemVideo = item.type === "video";
-    const itemImg = item.thumbnailUrl || item.mediaUrl || "";
-    const itemUrl = buildItemViewerUrl(item, profile);
-
-    return `
-    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.04); text-align: left; height: 100%;">
-      <tr>
-        <td style="padding: 0; background-color: #f8fafc; text-align: center; position: relative;">
-          <a href="${itemUrl}" target="_blank" rel="noopener noreferrer" style="display: block; text-decoration: none; position: relative;">
-            <img src="${itemImg}" alt="${item.title || 'Offer'}" style="width: 100%; height: 135px; object-fit: cover; display: block;" />
-            ${
-              Array.isArray(item.galleryUrls) && item.galleryUrls.length > 1
-                ? `<div style="position: absolute; top: 6px; right: 6px; background-color: rgba(15, 23, 42, 0.85); color: #ffffff; font-size: 9px; font-weight: bold; padding: 2px 6px; border-radius: 4px; letter-spacing: 0.3px;">📷 ${item.galleryUrls.length} Photos</div>`
-                : ""
-            }
-          </a>
-        </td>
-      </tr>
-      <tr>
-        <td style="padding: 12px 14px; background-color: #ffffff; vertical-align: top;">
-          <a href="${itemUrl}" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: #0f172a; display: block;">
-            <div style="font-size: 13px; font-weight: 800; color: #0f172a; margin-bottom: 4px; line-height: 1.3;">
-              ${item.title || 'Equipment Offer'}
-            </div>
-          </a>
-          <div style="font-size: 11px; color: #64748b; margin-bottom: 4px;">
-            ${item.year ? `<strong>Year:</strong> <span style="color: #0f172a; font-weight: 700;">${item.year}</span>&nbsp;&nbsp;` : ''}
-            ${item.condition ? `<span style="color: #f59e0b; font-weight: 700;">${item.condition}</span>` : ''}
-          </div>
-          ${
-            item.specs
-              ? `<div style="font-size: 10px; color: #475569; background: #f8fafc; padding: 5px 8px; border-radius: 4px; margin-bottom: 8px; line-height: 1.35; font-family: monospace;">${item.specs}</div>`
-              : ""
-          }
-          <div style="text-align: right; padding-top: 6px; border-top: 1px solid #f8fafc;">
-            <a href="${itemUrl}" target="_blank" rel="noopener noreferrer" style="color: #0052FF; font-size: 11px; font-weight: 700; text-decoration: none;">
-              ${isItemVideo ? '▶ Play Video ↗' : 'View Details ↗'}
-            </a>
-          </div>
-        </td>
-      </tr>
-    </table>
-    `;
-  };
-
-  const rows: string[] = [];
-  for (let i = 0; i < items.length; i += 2) {
-    const item1 = items[i];
-    const item2 = items[i + 1];
-
-    rows.push(`
-      <tr>
-        <td width="50%" valign="top" style="padding: 6px;">
-          ${renderGridCell(item1)}
-        </td>
-        <td width="50%" valign="top" style="padding: 6px;">
-          ${item2 ? renderGridCell(item2) : '&nbsp;'}
-        </td>
-      </tr>
-    `);
-  }
+  const companyLogo = profile.sidebarLogo || profile.signatureCompanyLogo || "https://creed-tech.com/icons/icon-192x192.png";
 
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${content.subject || 'Creed Tech Executive Dispatch'}</title>
+  <title>${name} - Executive Card</title>
 </head>
-<body style="margin: 0; padding: 0; background-color: #f1f5f9; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
-  <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f1f5f9; padding: 24px 12px;">
+<body style="margin: 0; padding: 0; background-color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f8fafc; padding: 24px 12px;">
     <tr>
       <td align="center">
-        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 660px; background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);">
-          <!-- 1. TOP HEADER BAR -->
+        <!-- MODERN GEOMETRIC EXECUTIVE SIGNATURE BANNER (MATCHING REFERENCE IMAGE) -->
+        <div style="position: relative; width: 100%; max-width: 680px; min-height: 230px; background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.06); text-align: left;">
+          <!-- SVG Background Waves & Watermark -->
+          <svg viewBox="0 0 720 240" preserveAspectRatio="none" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: block;" xmlns="http://www.w3.org/2000/svg">
+            <!-- Light Pastel Blue Wave (Layer 1) -->
+            <path d="M 310 0 C 370 0 355 60 325 115 C 295 165 315 205 385 210 C 465 215 560 190 720 135 L 720 0 Z" fill="#DDEAF8" />
+            
+            <!-- Deep Royal Blue Wave (Layer 2) -->
+            <path d="M 0 0 L 345 0 C 355 55 310 115 255 152 C 205 186 120 185 0 152 Z" fill="#0D62B2" />
+            
+            <!-- Dark Navy Crescent Shadow behind avatar -->
+            <path d="M 235 62 A 58 58 0 0 0 216 168 A 62 62 0 0 1 235 62 Z" fill="#07447D" />
+
+            <!-- Top-Right Ripple / Wave Swirl Watermark -->
+            <g transform="translate(665, 58)" opacity="0.65" stroke="#93C5FD" stroke-width="1.8" fill="none" stroke-linecap="round">
+              <circle cx="0" cy="0" r="26" stroke-dasharray="3 3" opacity="0.4" />
+              <path d="M -18 -14 Q -6 -20 6 -14 Q 18 -8 24 -14" />
+              <path d="M -22 -7 Q -10 -13 2 -7 Q 14 -1 22 -7" />
+              <path d="M -24 0 Q -12 -6 0 0 Q 12 6 24 0" />
+              <path d="M -22 7 Q -14 1 0 7 Q 14 13 22 7" />
+              <path d="M -18 14 Q -8 8 4 14 Q 16 20 20 14" />
+              <path d="M -12 21 Q -2 15 8 21" />
+            </g>
+          </svg>
+
+          <!-- Left Top: Logo inside Blue Wave -->
+          <div style="position: absolute; top: 24px; left: 36px; text-align: center; color: #ffffff; z-index: 10;">
+            ${companyLogo && !companyLogo.includes("default")
+              ? `<div style="display: flex; flex-direction: column; align-items: center;">
+                  <img src="${companyLogo}" alt="Logo" style="width: 32px; height: 32px; border-radius: 50%; object-fit: contain; background: rgba(255,255,255,0.1); padding: 2px; border: 1px solid rgba(255,255,255,0.4);" />
+                  <div style="font-size: 10px; font-weight: 900; letter-spacing: 0.22em; margin-top: 4px; text-transform: uppercase; color: #ffffff;">${company || 'LOGO'}</div>
+                 </div>`
+              : `<div style="width: 28px; height: 28px; border: 3px solid #ffffff; border-radius: 50%; margin: 0 auto; display: flex; align-items: center; justify-content: center;">
+                  <div style="width: 12px; height: 5px; border: 2px solid #ffffff; border-radius: 3px;"></div>
+                 </div>
+                 <div style="font-size: 9.5px; font-weight: 900; letter-spacing: 0.22em; margin-top: 5px; text-transform: uppercase; color: #ffffff;">
+                   ${company || 'LOGO'}
+                 </div>`
+            }
+          </div>
+
+          <!-- Bottom-Left: 3 Minimalist Icons on White Ground -->
+          <div style="position: absolute; bottom: 16px; left: 28px; display: flex; align-items: center; gap: 14px; color: #334155; z-index: 10;">
+            <a href="${website}" target="_blank" rel="noopener noreferrer" style="color: #334155; text-decoration: none; display: inline-block;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+              </svg>
+            </a>
+            <span style="color: #334155; display: inline-block;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+              </svg>
+            </span>
+            <a href="mailto:${email}" style="color: #334155; text-decoration: none; display: inline-block;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+            </a>
+          </div>
+
+          <!-- Center-Left: Avatar Circle (Overlapping deep blue wave and white ground) -->
+          <div style="position: absolute; top: 50%; left: 220px; transform: translate(-50%, -50%); width: 108px; height: 108px; border-radius: 50%; background: #ffffff; padding: 4px; box-shadow: 0 4px 16px rgba(0,0,0,0.12); z-index: 20; border: 3px solid #ffffff;">
+            ${avatar && !avatar.includes('default')
+              ? `<img src="${avatar}" alt="${name}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block;" />`
+              : `<div style="width: 100%; height: 100%; border-radius: 50%; background-color: #f1f5f9; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; border: 1px solid #e2e8f0;">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display: block; margin: 0 auto;">
+                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                    <circle cx="12" cy="13" r="4"></circle>
+                  </svg>
+                  <div style="font-size: 7.5px; color: #64748b; font-weight: 700; margin-top: 2px;">Place Image Here</div>
+                </div>`
+            }
+          </div>
+
+          <!-- Right Section: Credentials & 3 Contact Rows -->
+          <div style="position: absolute; top: 50%; left: 300px; right: 24px; transform: translateY(-50%); z-index: 10;">
+            <div style="font-size: 18px; font-weight: 900; color: #0f172a; text-transform: uppercase; letter-spacing: 0.05em; line-height: 1.2; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+              ${name}
+            </div>
+            <div style="font-size: 11px; font-weight: 700; color: #0066CC; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 3px; margin-bottom: 12px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+              ${role}
+            </div>
+
+            <!-- 3 Contact Rows with royal blue icons -->
+            <div style="display: flex; flex-direction: column; gap: 6px; font-size: 11px; color: #334155; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+              <!-- Row 1: Phone -->
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="#0066CC" style="flex-shrink: 0;">
+                  <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                </svg>
+                <a href="tel:${phone}" style="color: #0f172a; text-decoration: none; font-weight: 500;">${phone}</a>
+              </div>
+
+              <!-- Row 2: Email & Web -->
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="#0066CC" style="flex-shrink: 0;">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                </svg>
+                <span>
+                  <a href="mailto:${email}" style="color: #0066CC; text-decoration: none; font-weight: 500;">${email}</a>
+                  <span style="color: #94a3b8; margin: 0 4px;">/</span>
+                  <a href="${website}" target="_blank" rel="noopener noreferrer" style="color: #0066CC; text-decoration: none; font-weight: 500;">${websiteDisplay}</a>
+                </span>
+              </div>
+
+              <!-- Row 3: Address -->
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="#0066CC" style="flex-shrink: 0;">
+                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                </svg>
+                <span style="color: #64748b;">${address}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`;
+}
+
+/**
+ * FORMAT 5 HTML GENERATOR (EDITORIAL & PROMOTIONAL NEWSLETTER)
+ * Exact design from user's two screenshots (Timeshifter style):
+ * - Canvas: Warm cream background (#FAF8F5 / #F7F4EF)
+ * - Centered brand header with colorful geometric prism mark + TIMESHIFTER® / Company Logo
+ * - Section 1: Hero traveler walking with suitcase, "More time zones to cross this year?", description, orange pill CTA ("Subscribe and save 20%"), subtext
+ * - Section 2: 1.7M travelers trust showcase, traveler selfie grid with 3 phone screens, floating 4.7/5 rating badge, description, orange pill CTA, subtext
+ * - Section 3: "Gift cards", product mockup booklets (orange + white sheets), description, orange pill CTA ("Buy gift cards")
+ * - Section 4: "The best sleep mask for timeshifting", black ergonomic sleep mask product showcase, description, orange pill CTA ("Learn more")
+ * - Centered footer: Brand logo, bordered FDA/regulatory disclaimer box, company address, unsubscribe link
+ */
+export function generateFormat5Html(
+  profile: EmailDepartmentProfile,
+  content?: {
+    clientName?: string;
+    message?: string;
+    subject?: string;
+    inquiryId?: number | string;
+    service?: string;
+    referenceBadge?: string | null;
+    showReferenceBadge?: boolean;
+  }
+): string {
+  const brandName = profile.editorialBrandTitle || profile.signatureCompany || "TIMESHIFTER";
+  const accent = profile.accentColor || "#EA580C"; // Vibrant warm orange matching reference
+  const logo = profile.editorialLogoUrl || profile.sidebarLogo || profile.signatureCompanyLogo;
+  const website = profile.signatureWebsite || "https://timeshifter.com";
+  const address = profile.editorialFooterAddress || profile.address || "Timeshifter Inc • 28 Hill Street #820 • Southampton, NY 11968 • United States";
+
+  // Section 1 data
+  const s1Headline = profile.editorialS1Headline || profile.editorialHeadline || "More time zones<br/>to cross this year?";
+  const s1Desc = profile.editorialS1Text || (content?.message?.trim()
+    ? content.message
+    : "You've already tried Timeshifter once, on us — so you know what it's like to land fresh instead of wrecked. Subscribe now and save 20% on 12 months of unlimited plans.");
+  const s1Cta = profile.editorialS1BtnText || profile.editorialCtaText || "Subscribe and save 20%";
+  const s1Url = profile.editorialS1BtnUrl || website;
+  const s1Subtext = profile.editorialS1Subtext || "For first-time subscribers only.<br/>Offer ends September 30, 2026";
+  const s1Img = profile.editorialS1ImageUrl || profile.editorialHeroImage;
+
+  // Section 2 data
+  const s2Headline = profile.editorialS2Headline || "More than 1.7 million<br/>travelers trust Timeshifter";
+  const s2Desc = profile.editorialS2Text || "Timeshifter is based on the latest science and is trusted by more than 1.7 million travelers to reduce jet lag and arrive at their best.";
+  const s2Rating = profile.editorialS2RatingText || "4.7/5 rating";
+  const s2Cta = profile.editorialS2BtnText || "Subscribe and save 20%";
+  const s2Url = profile.editorialS2BtnUrl || website;
+  const s2Subtext = profile.editorialS2Subtext || "For first-time subscribers only.<br/>Offer ends September 30, 2026";
+  const s2Img = profile.editorialS2ImageUrl || profile.editorialPromoImage;
+
+  // Section 3 data
+  const s3Headline = profile.editorialS3Headline || "Gift cards";
+  const s3Desc = profile.editorialS3Text || "Give a year of unlimited jet lag plans. Send by email to family, friends, or your team — or order physical gift cards, shipped in boxes of 50.";
+  const s3Cta = profile.editorialS3BtnText || "Buy gift cards";
+  const s3Url = profile.editorialS3BtnUrl || website;
+  const s3Img = profile.editorialS3ImageUrl || profile.editorialProductImage;
+
+  // Section 4 data
+  const s4Headline = profile.editorialS4Headline || "The best sleep mask<br/>for timeshifting";
+  const s4Desc = profile.editorialS4Text || "When Timeshifter calls for sleep, staying in the dark is everything. We have tested a lot of masks. The Manta PRO is the one we keep coming back to.";
+  const s4Cta = profile.editorialS4BtnText || "Learn more";
+  const s4Url = profile.editorialS4BtnUrl || website;
+  const s4Img = profile.editorialS4ImageUrl || profile.editorialSecondaryImage;
+
+  // Footer data
+  const footerDisclaimer = profile.editorialFooterDisclaimer || `These statements have not been evaluated by the Food and Drug Administration. ${brandName} is not intended to diagnose, treat, cure or prevent any disease, and is intended for healthy adults, 18 years of age or older. The ${brandName} apps are not intended for pilots and flight crews on duty.`;
+  const socialLinks = profile.editorialSocialLinks && profile.editorialSocialLinks.length > 0
+    ? profile.editorialSocialLinks
+    : (profile.sidebarSocialLinks && profile.sidebarSocialLinks.length > 0 ? profile.sidebarSocialLinks : DEFAULT_FORMAT5_SOCIAL_LINKS);
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${content?.subject || `${brandName} - More time zones to cross this year?`}</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #FAF8F5; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #FAF8F5; padding: 24px 8px;">
+    <tr>
+      <td align="center">
+        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 540px; margin: 0 auto; background-color: #FAF8F5;">
+          
+          <!-- TOP HEADER: BRAND LOGO -->
           <tr>
-            <td style="background-color: #0A192F; padding: 20px 28px; border-bottom: 3px solid ${accent};">
-              <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
-                <tr>
-                  <td align="left" valign="middle">
-                    <div style="font-size: 18px; font-weight: 900; letter-spacing: 0.08em; color: #ffffff;">
-                      CREED <span style="color: #0052FF;">TECH</span>
-                    </div>
-                    <div style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: #94a3b8; margin-top: 3px; font-weight: 600;">
-                      ${profile.department || "Enterprise Operations Desk"}
-                    </div>
-                  </td>
-                  <td align="right" valign="middle">
-                    ${
-                      displayBadge
-                        ? `<span style="display: inline-block; padding: 4px 12px; border-radius: 20px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); color: #bae6fd; font-size: 10.5px; font-weight: 700; font-family: monospace;">${displayBadge}</span>`
-                        : "&nbsp;"
-                    }
-                  </td>
-                </tr>
-              </table>
+            <td align="center" style="padding: 24px 16px 28px 16px;">
+              ${
+                logo && !logo.includes("default")
+                  ? `<img src="${logo}" alt="${brandName}" style="max-height: 28px; width: auto; object-fit: contain; display: block;" />`
+                  : `<div style="display: inline-flex; align-items: center; justify-content: center; gap: 8px;">
+                      <!-- Colorful geometric prism icon matching screenshot -->
+                      <svg width="22" height="18" viewBox="0 0 24 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <polygon points="4,18 9,3 13,10" fill="#EA580C" />
+                        <polygon points="13,10 18,3 22,18" fill="#F59E0B" />
+                        <polygon points="8,18 13,10 17,18" fill="#0D9488" />
+                      </svg>
+                      <span style="font-size: 17px; font-weight: 900; letter-spacing: 0.16em; color: #18181B; text-transform: uppercase;">
+                        ${brandName}
+                      </span>
+                      <span style="font-size: 10px; font-weight: 700; color: #71717A; vertical-align: super; line-height: 1;">®</span>
+                    </div>`
+              }
             </td>
           </tr>
 
-          <!-- 2. MESSAGE BODY -->
+          <!-- SECTION 1: HERO TRAVELER OFFER -->
           <tr>
-            <td style="padding: 28px 28px 12px 28px; background-color: #ffffff;">
-              ${headingHtml}
-              <div style="font-size: 14px; color: #1e293b; line-height: 1.7;">
-                ${formattedBody}
+            <td align="center" style="padding: 0 16px 36px 16px;">
+              <!-- Visual Card Container -->
+              <div style="background-color: #EDE8DF; border-radius: 16px; overflow: hidden; padding: 20px 16px; text-align: center; margin-bottom: 24px;">
+                ${s1Img ? `
+                  <a href="${s1Url}" target="_blank" rel="noopener noreferrer" style="display: block; text-decoration: none;">
+                    <img src="${s1Img}" alt="${s1Headline.replace(/<[^>]*>/g, '')}" style="width: 100%; max-height: 280px; object-fit: contain; border-radius: 12px; display: block; margin: 0 auto;" />
+                  </a>
+                ` : `
+                <svg width="100%" height="220" viewBox="0 0 480 240" fill="none" xmlns="http://www.w3.org/2000/svg" style="max-width: 440px; display: block; margin: 0 auto;">
+                  <!-- Soft Cloud Shapes -->
+                  <path d="M 60 70 Q 90 40 140 60 Q 180 50 200 80 Q 230 70 240 100 L 40 100 Z" fill="#E4DED4" opacity="0.7"/>
+                  <path d="M 280 90 Q 320 60 370 75 Q 410 65 440 95 L 260 95 Z" fill="#E4DED4" opacity="0.6"/>
+                  
+                  <!-- Airplane in top left -->
+                  <g transform="translate(150, 42) scale(0.7) rotate(-8)">
+                    <path d="M 0 8 L 36 0 L 32 6 L 16 10 L 22 18 L 18 19 L 12 12 L 4 14 L 0 8 Z" fill="#9CA3AF"/>
+                  </g>
+
+                  <!-- Ground line -->
+                  <line x1="20" y1="230" x2="460" y2="230" stroke="#DFD7CA" stroke-width="2" />
+
+                  <!-- Stylized Traveler Woman with Yellow Shirt, Dark Trousers, Suitcase & Phone -->
+                  <g transform="translate(195, 20)">
+                    <!-- Walking Suitcase -->
+                    <rect x="58" y="115" width="34" height="62" rx="4" fill="#374151"/>
+                    <rect x="63" y="122" width="24" height="48" rx="2" fill="#4B5563"/>
+                    <path d="M 68 115 L 68 98 L 82 98 L 82 115" stroke="#9CA3AF" stroke-width="2.5" fill="none"/>
+                    <circle cx="66" cy="180" r="3.5" fill="#1F2937"/>
+                    <circle cx="84" cy="180" r="3.5" fill="#1F2937"/>
+                    <!-- Arm holding suitcase handle -->
+                    <path d="M 45 75 Q 60 88 72 98" stroke="#374151" stroke-width="5" stroke-linecap="round"/>
+
+                    <!-- Legs & Shoes -->
+                    <path d="M 26 122 L 18 198 L 8 202" stroke="#4B5563" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M 38 122 L 48 194 L 58 197" stroke="#374151" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+
+                    <!-- Torso / Yellow Mustard Polo Shirt -->
+                    <path d="M 22 55 L 44 55 L 48 120 L 18 120 Z" fill="#F59E0B" rx="4"/>
+                    <polygon points="30,55 33,70 36,55" fill="#D97706"/>
+
+                    <!-- Arm holding Phone -->
+                    <path d="M 22 68 Q 10 75 8 92" stroke="#374151" stroke-width="5" stroke-linecap="round"/>
+                    <!-- Hand & Phone -->
+                    <rect x="3" y="88" width="8" height="15" rx="1.5" fill="#111827"/>
+
+                    <!-- Head, Sunglasses & Flowing Dark Hair -->
+                    <ellipse cx="33" cy="36" rx="9" ry="11" fill="#FCD34D"/>
+                    <!-- Sunglasses -->
+                    <rect x="25" y="32" width="16" height="5.5" rx="2" fill="#111827"/>
+                    <!-- Long Dark Hair flowing in wind -->
+                    <path d="M 24 30 Q 33 18 42 30 Q 48 45 42 62 Q 38 52 38 42 Z" fill="#1F2937"/>
+                  </g>
+                </svg>
+                `}
+              </div>
+
+              <!-- Headline -->
+              <h1 style="margin: 0 12px 14px 12px; font-size: 26px; font-weight: 700; color: #18181B; line-height: 1.25; letter-spacing: -0.02em;">
+                ${s1Headline}
+              </h1>
+
+              <!-- Paragraph -->
+              <p style="margin: 0 auto 22px auto; max-width: 440px; font-size: 13.5px; line-height: 1.6; color: #52525B;">
+                ${s1Desc}
+              </p>
+
+              <!-- CTA Button -->
+              <div style="margin-bottom: 10px;">
+                <a href="${s1Url}" target="_blank" rel="noopener noreferrer" style="display: inline-block; background-color: ${accent}; color: #ffffff; text-decoration: none; font-size: 14px; font-weight: 700; padding: 13px 36px; border-radius: 9999px; box-shadow: 0 2px 10px rgba(234, 88, 12, 0.28);">
+                  ${s1Cta}
+                </a>
+              </div>
+
+              <!-- Subtext -->
+              <div style="font-size: 10.5px; color: #71717A; line-height: 1.45;">
+                ${s1Subtext}
               </div>
             </td>
           </tr>
 
-          <!-- 3. FEATURED EQUIPMENT SHOWCASE CARDS (FORMAT 1 MULTI-ROW GRID) -->
-          ${
-            items.length > 0
-              ? `
+          <!-- SECTION 2: SOCIAL PROOF & APP SHOWCASE (1.7M TRAVELERS) -->
           <tr>
-            <td style="padding: 12px 22px 20px 22px; background-color: #ffffff;">
-              <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="border-top: 1px solid #f1f5f9; padding-top: 16px; margin-bottom: 6px;">
-                <tr>
-                  <td align="left" style="font-size: 11px; font-weight: 800; color: #0f172a; text-transform: uppercase; letter-spacing: 0.08em;">
-                    ⚙️ Featured Machinery &amp; Technical Catalog
-                  </td>
-                  <td align="right" style="font-size: 10px; font-weight: 700; color: #0052FF;">
-                    ${items.length} Units Available
-                  </td>
-                </tr>
-              </table>
-              <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
-                ${rows.join("")}
-              </table>
-            </td>
-          </tr>`
-              : ""
-          }
+            <td align="center" style="padding: 0 16px 36px 16px;">
+              <!-- Visual Card Container -->
+              <div style="background-color: #EDE8DF; border-radius: 16px; overflow: hidden; padding: 22px 16px; text-align: center; margin-bottom: 24px; position: relative;">
+                ${s2Img ? `
+                  <a href="${s2Url}" target="_blank" rel="noopener noreferrer" style="display: block; text-decoration: none;">
+                    <img src="${s2Img}" alt="${s2Headline.replace(/<[^>]*>/g, '')}" style="width: 100%; max-height: 280px; object-fit: contain; border-radius: 12px; display: block; margin: 0 auto;" />
+                  </a>
+                ` : `
+                <svg width="100%" height="220" viewBox="0 0 480 240" fill="none" xmlns="http://www.w3.org/2000/svg" style="max-width: 440px; display: block; margin: 0 auto;">
+                  <defs>
+                    <clipPath id="s2PhoneCenter">
+                      <rect x="180" y="24" width="120" height="200" rx="18" />
+                    </clipPath>
+                    <clipPath id="s2PhoneLeft">
+                      <rect x="80" y="44" width="95" height="170" rx="14" />
+                    </clipPath>
+                    <clipPath id="s2PhoneRight">
+                      <rect x="305" y="44" width="95" height="170" rx="14" />
+                    </clipPath>
+                  </defs>
 
-          <!-- 4. MODERN GEOMETRIC EXECUTIVE SIGNATURE BANNER (MATCHING REFERENCE IMAGE) -->
-          <tr>
-            <td style="padding: 8px 22px 24px 22px; background-color: #ffffff;">
-              <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px; overflow: hidden; box-shadow: 0 8px 24px rgba(10, 25, 47, 0.07);">
-                <!-- Horizon Wave Band -->
-                <tr>
-                  <td style="background: linear-gradient(135deg, #0A192F 0%, #0052FF 65%, #00A3FF 100%); height: 30px; padding: 0 16px;">
-                    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" height="30">
-                      <tr>
-                        <td align="left" style="font-size: 8.5px; font-weight: 800; color: #ffffff; letter-spacing: 0.15em; text-transform: uppercase;">
-                          ★ Official Executive Transmission &bull; Direct Desk
-                        </td>
-                        <td align="right" style="font-size: 8.5px; font-weight: 700; color: #bae6fd; font-family: monospace;">
-                          ${profile.department}
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-                <!-- Main 3-Column Banner Row -->
-                <tr>
-                  <td style="padding: 18px 20px; background-color: #ffffff;">
-                    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
-                      <tr>
-                        <!-- Col 1: Avatar with Crescent Accent Arc & Dashed Orbit -->
-                        <td width="92" valign="middle" align="center" style="padding-right: 16px;">
-                          <div style="width: 78px; height: 78px; border-radius: 50%; padding: 4px; background: linear-gradient(135deg, #0052FF 0%, #0A192F 85%); border: 2px dashed #00A3FF; text-align: center; margin: 0 auto; box-shadow: 0 4px 14px rgba(0, 82, 255, 0.22);">
-                            <img src="${avatar}" alt="${name}" width="78" height="78" style="width: 78px; height: 78px; border-radius: 50%; object-fit: cover; display: block;" />
-                          </div>
-                        </td>
+                  <!-- Background Grid of Diverse Traveler Photos / Faces -->
+                  <g opacity="0.38">
+                    <rect x="10" y="8" width="52" height="52" rx="6" fill="#D1C7B7" />
+                    <circle cx="36" cy="30" r="14" fill="#B8AC9A" />
+                    <rect x="70" y="8" width="52" height="52" rx="6" fill="#C9BDAA" />
+                    <circle cx="96" cy="30" r="14" fill="#ADA08C" />
+                    <rect x="130" y="8" width="52" height="52" rx="6" fill="#D5CBB9" />
+                    <circle cx="156" cy="30" r="14" fill="#B8AC9A" />
+                    <rect x="298" y="8" width="52" height="52" rx="6" fill="#D1C7B7" />
+                    <circle cx="324" cy="30" r="14" fill="#ADA08C" />
+                    <rect x="358" y="8" width="52" height="52" rx="6" fill="#C9BDAA" />
+                    <circle cx="384" cy="30" r="14" fill="#B8AC9A" />
+                    <rect x="418" y="8" width="52" height="52" rx="6" fill="#D5CBB9" />
+                    <circle cx="444" cy="30" r="14" fill="#ADA08C" />
+                    
+                    <rect x="10" y="68" width="52" height="52" rx="6" fill="#C9BDAA" />
+                    <rect x="70" y="68" width="52" height="52" rx="6" fill="#D5CBB9" />
+                    <rect x="358" y="68" width="52" height="52" rx="6" fill="#D1C7B7" />
+                    <rect x="418" y="68" width="52" height="52" rx="6" fill="#C9BDAA" />
 
-                        <!-- Col 2: Name, Designation, Tagline Pill & 2x2 Contacts -->
-                        <td valign="middle" style="padding-right: 14px; border-right: 1px solid #f1f5f9;">
-                          <div style="font-size: 16px; font-weight: 900; color: #0f172a; text-transform: uppercase; letter-spacing: 0.03em; line-height: 1.2;">
-                            ${name}
-                          </div>
-                          <div style="font-size: 11px; font-weight: 800; color: #0052FF; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2px;">
-                            ${role}
-                          </div>
-                          <div style="margin-top: 4px; margin-bottom: 7px;">
-                            <span style="display: inline-block; padding: 2px 10px; background-color: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 9999px; font-size: 9px; font-weight: 700; color: #1E40AF;">
-                              ✈ ${tagline}
-                            </span>
-                          </div>
+                    <rect x="10" y="128" width="52" height="52" rx="6" fill="#D5CBB9" />
+                    <rect x="70" y="128" width="52" height="52" rx="6" fill="#D1C7B7" />
+                    <rect x="358" y="128" width="52" height="52" rx="6" fill="#D5CBB9" />
+                    <rect x="418" y="128" width="52" height="52" rx="6" fill="#D1C7B7" />
+                  </g>
 
-                          <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="font-size: 11px; color: #334155; line-height: 1.5;">
-                            <tr>
-                              <td style="padding: 2px 12px 2px 0;">
-                                <span style="color: #0052FF; font-weight: bold; margin-right: 3px;">📞</span>
-                                <a href="tel:${phone}" style="color: #0f172a; text-decoration: none; font-weight: 600;">${phone}</a>
-                              </td>
-                              <td style="padding: 2px 0;">
-                                <span style="color: #0052FF; font-weight: bold; margin-right: 3px;">✉️</span>
-                                <a href="mailto:${email}" style="color: #0052FF; text-decoration: none; font-weight: 600;">${email}</a>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td style="padding: 2px 12px 2px 0;">
-                                <span style="color: #0052FF; font-weight: bold; margin-right: 3px;">🌐</span>
-                                <a href="${website}" target="_blank" rel="noopener noreferrer" style="color: #0052FF; text-decoration: none; font-weight: 600;">${websiteDisplay}</a>
-                              </td>
-                              <td style="padding: 2px 0;">
-                                <span style="color: #0052FF; font-weight: bold; margin-right: 3px;">📍</span>
-                                <span style="color: #64748b;">${address}</span>
-                              </td>
-                            </tr>
-                          </table>
-                        </td>
+                  <!-- Left Phone Mockup -->
+                  <g filter="drop-shadow(0px 8px 16px rgba(0,0,0,0.12))">
+                    <rect x="80" y="44" width="95" height="170" rx="14" fill="#FFFFFF" stroke="#1F2937" stroke-width="4"/>
+                    <g clip-path="url(#s2PhoneLeft)">
+                      <rect x="80" y="44" width="95" height="20" fill="#F3F4F6"/>
+                      <circle cx="127" cy="115" r="28" fill="#FDE68A" opacity="0.6"/>
+                      <circle cx="127" cy="115" r="18" fill="#F59E0B"/>
+                      <rect x="94" y="160" width="67" height="6" rx="3" fill="#E5E7EB"/>
+                      <rect x="104" y="172" width="47" height="5" rx="2.5" fill="#E5E7EB"/>
+                    </g>
+                  </g>
 
-                        <!-- Col 3: Company Logo & Social Badges -->
-                        <td width="124" valign="middle" align="center" style="padding-left: 12px;">
-                          <div style="text-align: center; margin-bottom: 8px;">
-                            <img src="${companyLogo}" alt="Logo" width="34" height="34" style="max-height: 34px; object-fit: contain; margin-bottom: 3px;" />
-                            <div style="font-size: 12px; font-weight: 900; color: #0A192F; letter-spacing: 0.05em;">
-                              CREED <span style="color: #0052FF;">TECH</span>
-                            </div>
-                            <div style="font-size: 7.5px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.12em;">
-                              ENTERPRISE
-                            </div>
-                          </div>
+                  <!-- Right Phone Mockup -->
+                  <g filter="drop-shadow(0px 8px 16px rgba(0,0,0,0.12))">
+                    <rect x="305" y="44" width="95" height="170" rx="14" fill="#FFFFFF" stroke="#1F2937" stroke-width="4"/>
+                    <g clip-path="url(#s2PhoneRight)">
+                      <rect x="305" y="44" width="95" height="20" fill="#F3F4F6"/>
+                      <rect x="345" y="75" width="15" height="70" rx="7" fill="#F59E0B"/>
+                      <rect x="348" y="150" width="9" height="35" rx="4.5" fill="#3B82F6"/>
+                    </g>
+                  </g>
 
-                          <!-- 4 Social Badges -->
-                          <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="display: inline-table; margin: 0 auto;">
-                            <tr>
-                              <td style="padding: 0 2px;">
-                                <a href="${fbUrl}" target="_blank" rel="noopener noreferrer" title="Facebook" style="display: inline-block; width: 22px; height: 22px; line-height: 22px; border-radius: 50%; background-color: #0A192F; text-align: center; text-decoration: none; vertical-align: middle;">
-                                  <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='10' height='10' fill='%23ffffff'%3E%3Cpath d='M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z'/%3E%3C/svg%3E" alt="Facebook" width="10" height="10" style="display: inline-block; vertical-align: middle; border: 0;" />
-                                </a>
-                              </td>
-                              <td style="padding: 0 2px;">
-                                <a href="${liUrl}" target="_blank" rel="noopener noreferrer" title="LinkedIn" style="display: inline-block; width: 22px; height: 22px; line-height: 22px; border-radius: 50%; background-color: #0A192F; text-align: center; text-decoration: none; vertical-align: middle;">
-                                  <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='10' height='10' fill='%23ffffff'%3E%3Cpath d='M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z'/%3E%3C/svg%3E" alt="LinkedIn" width="10" height="10" style="display: inline-block; vertical-align: middle; border: 0;" />
-                                </a>
-                              </td>
-                              <td style="padding: 0 2px;">
-                                <a href="${waUrl}" target="_blank" rel="noopener noreferrer" title="WhatsApp" style="display: inline-block; width: 22px; height: 22px; line-height: 22px; border-radius: 50%; background-color: #0A192F; text-align: center; text-decoration: none; vertical-align: middle;">
-                                  <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='10' height='10' fill='%23ffffff'%3E%3Cpath d='M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z'/%3E%3C/svg%3E" alt="WhatsApp" width="10" height="10" style="display: inline-block; vertical-align: middle; border: 0;" />
-                                </a>
-                              </td>
-                              <td style="padding: 0 2px;">
-                                <a href="${igUrl}" target="_blank" rel="noopener noreferrer" title="Instagram" style="display: inline-block; width: 22px; height: 22px; line-height: 22px; border-radius: 50%; background-color: #0A192F; text-align: center; text-decoration: none; vertical-align: middle;">
-                                  <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='10' height='10' fill='%23ffffff'%3E%3Cpath d='M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z'/%3E%3C/svg%3E" alt="Instagram" width="10" height="10" style="display: inline-block; vertical-align: middle; border: 0;" />
-                                </a>
-                              </td>
-                            </tr>
-                          </table>
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-              </table>
+                  <!-- Center Phone Mockup (Hero) -->
+                  <g filter="drop-shadow(0px 10px 22px rgba(0,0,0,0.18))">
+                    <rect x="180" y="24" width="120" height="200" rx="18" fill="#FFFFFF" stroke="#111827" stroke-width="5"/>
+                    <g clip-path="url(#s2PhoneCenter)">
+                      <rect x="180" y="24" width="120" height="24" fill="#FFFFFF"/>
+                      <rect x="220" y="32" width="40" height="4" rx="2" fill="#E5E7EB"/>
+                      
+                      <rect x="226" y="80" width="28" height="65" rx="14" fill="#F59E0B"/>
+                      <circle cx="204" cy="112" r="10" fill="#E0E7FF"/>
+                      <circle cx="276" cy="112" r="10" fill="#FEF3C7"/>
+
+                      <line x1="180" y1="195" x2="300" y2="195" stroke="#F3F4F6" stroke-width="1"/>
+                      <circle cx="210" cy="207" r="4" fill="#9CA3AF"/>
+                      <circle cx="240" cy="207" r="4" fill="#EA580C"/>
+                      <circle cx="270" cy="207" r="4" fill="#9CA3AF"/>
+                    </g>
+                  </g>
+
+                  <!-- Rating Star Badge Overlay -->
+                  <g transform="translate(195, 172)" filter="drop-shadow(0px 4px 10px rgba(0,0,0,0.22))">
+                    <rect x="0" y="0" width="90" height="28" rx="7" fill="#18181B"/>
+                    <text x="45" y="12" fill="#FBBF24" font-size="9" font-family="sans-serif" text-anchor="middle" font-weight="bold">★★★★★</text>
+                    <text x="45" y="22" fill="#FFFFFF" font-size="8.5" font-family="sans-serif" text-anchor="middle" font-weight="bold">${s2Rating}</text>
+                  </g>
+                </svg>
+                `}
+              </div>
+
+              <!-- Headline -->
+              <h2 style="margin: 0 12px 14px 12px; font-size: 24px; font-weight: 700; color: #18181B; line-height: 1.25; letter-spacing: -0.02em;">
+                ${s2Headline}
+              </h2>
+
+              <!-- Paragraph -->
+              <p style="margin: 0 auto 22px auto; max-width: 440px; font-size: 13.5px; line-height: 1.6; color: #52525B;">
+                ${s2Desc}
+              </p>
+
+              <!-- CTA Button -->
+              <div style="margin-bottom: 10px;">
+                <a href="${s2Url}" target="_blank" rel="noopener noreferrer" style="display: inline-block; background-color: ${accent}; color: #ffffff; text-decoration: none; font-size: 14px; font-weight: 700; padding: 13px 36px; border-radius: 9999px; box-shadow: 0 2px 10px rgba(234, 88, 12, 0.28);">
+                  ${s2Cta}
+                </a>
+              </div>
+
+              <!-- Subtext -->
+              <div style="font-size: 10.5px; color: #71717A; line-height: 1.45;">
+                ${s2Subtext}
+              </div>
             </td>
           </tr>
 
-          <!-- 5. SUB-FOOTER -->
+          <!-- SECTION 3: GIFT CARDS -->
           <tr>
-            <td style="background-color: #f8fafc; padding: 16px 28px; border-top: 1px solid #e2e8f0;">
-              <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
-                <tr>
-                  <td align="left" style="font-size: 10px; color: #94a3b8;">
-                    &copy; ${new Date().getFullYear()} Creed Tech Enterprise Solutions. All rights reserved.
-                  </td>
-                  <td align="right" style="font-size: 10px; color: #94a3b8; font-family: monospace;">
-                    Verified Industrial Compliance
-                  </td>
-                </tr>
-              </table>
+            <td align="center" style="padding: 0 16px 36px 16px;">
+              <!-- Visual Card Container -->
+              <div style="background-color: #EDE8DF; border-radius: 16px; overflow: hidden; padding: 26px 16px; text-align: center; margin-bottom: 24px;">
+                ${s3Img ? `
+                  <a href="${s3Url}" target="_blank" rel="noopener noreferrer" style="display: block; text-decoration: none;">
+                    <img src="${s3Img}" alt="${s3Headline.replace(/<[^>]*>/g, '')}" style="width: 100%; max-height: 260px; object-fit: contain; border-radius: 12px; display: block; margin: 0 auto;" />
+                  </a>
+                ` : `
+                <svg width="100%" height="200" viewBox="0 0 440 200" fill="none" xmlns="http://www.w3.org/2000/svg" style="max-width: 380px; display: block; margin: 0 auto;">
+                  <!-- Physical Brochure 1 (Orange Booklet tilted left) -->
+                  <g transform="translate(130, 20) rotate(-10)" filter="drop-shadow(0px 8px 18px rgba(0,0,0,0.14))">
+                    <rect x="0" y="0" width="105" height="145" rx="6" fill="#EA580C" />
+                    <text x="52" y="24" fill="#FFFFFF" font-size="8.5" font-family="sans-serif" font-weight="900" text-anchor="middle" letter-spacing="0.5">JET LAG IS HISTORY</text>
+                    <rect x="22" y="34" width="60" height="85" rx="6" fill="#FFFFFF" />
+                    <rect x="30" y="44" width="44" height="24" rx="3" fill="#FDE68A" />
+                    <rect x="45" y="74" width="14" height="30" rx="7" fill="#EA580C" />
+                  </g>
+
+                  <!-- Physical Guide 2 (White Booklet tilted right) -->
+                  <g transform="translate(205, 18) rotate(10)" filter="drop-shadow(0px 6px 16px rgba(0,0,0,0.12))">
+                    <rect x="0" y="0" width="105" height="145" rx="6" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1"/>
+                    <rect x="0" y="0" width="105" height="14" rx="4" fill="#EA580C" />
+                    <circle cx="34" cy="40" r="12" fill="#FDE68A" />
+                    <circle cx="72" cy="40" r="12" fill="#E0E7FF" />
+                    <rect x="18" y="66" width="68" height="5" rx="2.5" fill="#E5E7EB" />
+                    <rect x="18" y="76" width="52" height="5" rx="2.5" fill="#E5E7EB" />
+                    <rect x="18" y="86" width="60" height="5" rx="2.5" fill="#E5E7EB" />
+                    <rect x="18" y="104" width="68" height="24" rx="3" fill="#F9FAFB" stroke="#E5E7EB"/>
+                  </g>
+                </svg>
+                `}
+              </div>
+
+              <!-- Headline -->
+              <h2 style="margin: 0 12px 14px 12px; font-size: 24px; font-weight: 700; color: #18181B; line-height: 1.25; letter-spacing: -0.02em;">
+                ${s3Headline}
+              </h2>
+
+              <!-- Paragraph -->
+              <p style="margin: 0 auto 22px auto; max-width: 440px; font-size: 13.5px; line-height: 1.6; color: #52525B;">
+                ${s3Desc}
+              </p>
+
+              <!-- CTA Button -->
+              <div>
+                <a href="${s3Url}" target="_blank" rel="noopener noreferrer" style="display: inline-block; background-color: ${accent}; color: #ffffff; text-decoration: none; font-size: 14px; font-weight: 700; padding: 13px 36px; border-radius: 9999px; box-shadow: 0 2px 10px rgba(234, 88, 12, 0.28);">
+                  ${s3Cta}
+                </a>
+              </div>
             </td>
           </tr>
+
+          <!-- SECTION 4: HARDWARE PARTNER FEATURE (SLEEP MASK) -->
+          <tr>
+            <td align="center" style="padding: 0 16px 40px 16px;">
+              <!-- Visual Card Container -->
+              <div style="background-color: #EDE8DF; border-radius: 16px; overflow: hidden; padding: 30px 16px; text-align: center; margin-bottom: 24px;">
+                ${s4Img ? `
+                  <a href="${s4Url}" target="_blank" rel="noopener noreferrer" style="display: block; text-decoration: none;">
+                    <img src="${s4Img}" alt="${s4Headline.replace(/<[^>]*>/g, '')}" style="width: 100%; max-height: 260px; object-fit: contain; border-radius: 12px; display: block; margin: 0 auto;" />
+                  </a>
+                ` : `
+                <svg width="100%" height="180" viewBox="0 0 440 180" fill="none" xmlns="http://www.w3.org/2000/svg" style="max-width: 380px; display: block; margin: 0 auto;">
+                  <g transform="translate(130, 20)" filter="drop-shadow(0px 10px 20px rgba(0,0,0,0.18))">
+                    <path d="M 10 75 Q 90 -10 170 75" stroke="#1F2937" stroke-width="18" stroke-linecap="round" fill="none" />
+                    <path d="M 30 55 Q 90 12 150 55" stroke="#374151" stroke-width="2" stroke-dasharray="3 4" fill="none" />
+                    
+                    <ellipse cx="90" cy="90" rx="76" ry="42" fill="#111827" />
+                    <ellipse cx="90" cy="90" rx="70" ry="38" fill="#1F2937" stroke="#111827" stroke-width="2" />
+                    
+                    <ellipse cx="62" cy="92" rx="24" ry="24" fill="#0B0F19" />
+                    <ellipse cx="118" cy="92" rx="24" ry="24" fill="#0B0F19" />
+                    
+                    <path d="M 74 116 Q 90 98 106 116 Z" fill="#EDE8DF" />
+                    <path d="M 80 84 Q 90 77 100 84 Q 90 89 80 84 Z" fill="#EF4444" />
+                  </g>
+                </svg>
+                `}
+              </div>
+
+              <!-- Headline -->
+              <h2 style="margin: 0 12px 14px 12px; font-size: 24px; font-weight: 700; color: #18181B; line-height: 1.25; letter-spacing: -0.02em;">
+                ${s4Headline}
+              </h2>
+
+              <!-- Paragraph -->
+              <p style="margin: 0 auto 22px auto; max-width: 440px; font-size: 13.5px; line-height: 1.6; color: #52525B;">
+                ${s4Desc}
+              </p>
+
+              <!-- CTA Button -->
+              <div>
+                <a href="${s4Url}" target="_blank" rel="noopener noreferrer" style="display: inline-block; background-color: ${accent}; color: #ffffff; text-decoration: none; font-size: 14px; font-weight: 700; padding: 13px 36px; border-radius: 9999px; box-shadow: 0 2px 10px rgba(234, 88, 12, 0.28);">
+                  ${s4Cta}
+                </a>
+              </div>
+            </td>
+          </tr>
+
+          <!-- FOOTER SECTION: SOCIAL LINKS, LOGO, REGULATORY DISCLAIMER, ADDRESS & UNSUBSCRIBE -->
+          <tr>
+            <td align="center" style="padding: 10px 16px 40px 16px;">
+              <!-- Social Links Row -->
+              ${socialLinks && socialLinks.length > 0 ? `
+              <div style="margin-bottom: 24px; text-align: center;">
+                <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="margin: 0 auto; display: inline-block;">
+                  <tr>
+                    ${socialLinks.map(soc => `
+                      <td style="padding: 0 6px;">
+                        <a href="${soc.url}" target="_blank" rel="noopener noreferrer" title="${soc.label || soc.platform}" style="display: inline-block; width: 34px; height: 34px; line-height: 34px; text-align: center; border-radius: 50%; background-color: #EDE8DF; color: #18181B; text-decoration: none; font-size: 13px; font-weight: 700; border: 1px solid #D4D4D8;">
+                          ${soc.platform === 'instagram' ? '📷' :
+                            soc.platform === 'facebook' ? '📘' :
+                            soc.platform === 'linkedin' ? '💼' :
+                            soc.platform === 'whatsapp' ? '💬' :
+                            soc.platform === 'youtube' ? '▶️' :
+                            soc.platform === 'twitter' ? '𝕏' : '🌐'}
+                        </a>
+                      </td>
+                    `).join('')}
+                  </tr>
+                </table>
+              </div>
+              ` : ''}
+
+              <!-- Centered Footer Logo -->
+              <div style="margin-bottom: 22px;">
+                ${
+                  logo && !logo.includes("default")
+                    ? `<img src="${logo}" alt="${brandName}" style="max-height: 22px; width: auto; object-fit: contain; display: block; margin: 0 auto;" />`
+                    : `<div style="display: inline-flex; align-items: center; justify-content: center; gap: 7px;">
+                        <svg width="18" height="15" viewBox="0 0 24 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <polygon points="4,18 9,3 13,10" fill="#EA580C" />
+                          <polygon points="13,10 18,3 22,18" fill="#F59E0B" />
+                          <polygon points="8,18 13,10 17,18" fill="#0D9488" />
+                        </svg>
+                        <span style="font-size: 14px; font-weight: 900; letter-spacing: 0.16em; color: #27272A; text-transform: uppercase;">
+                          ${brandName}
+                        </span>
+                        <span style="font-size: 9px; font-weight: 700; color: #71717A; vertical-align: super; line-height: 1;">®</span>
+                      </div>`
+                }
+              </div>
+
+              <!-- Bordered Regulatory Disclaimer Box -->
+              <div style="border: 1px solid #D4D4D8; border-radius: 6px; padding: 12px 16px; margin: 0 12px 20px 12px; font-size: 9.5px; color: #71717A; line-height: 1.45; text-align: center;">
+                ${footerDisclaimer}
+              </div>
+
+              <!-- Company Physical Address -->
+              <div style="font-size: 10px; color: #A1A1AA; line-height: 1.5; margin-bottom: 10px;">
+                ${address}
+              </div>
+
+              <!-- Unsubscribe Link -->
+              <div style="font-size: 10px;">
+                <a href="${website}" style="color: #A1A1AA; text-decoration: underline;">
+                  Unsubscribe from our emails
+                </a>
+              </div>
+            </td>
+          </tr>
+
         </table>
       </td>
     </tr>
@@ -1853,6 +2210,9 @@ export function generateEmailHtml(
   }
   if (format === "format-minimal") {
     return generateFormat4Html(profile, content);
+  }
+  if (format === "format-custom") {
+    return generateFormat5Html(profile, content);
   }
   const accent = profile.accentColor || "#FF6B00";
   const textColor = profile.textColor || "#1e293b";
