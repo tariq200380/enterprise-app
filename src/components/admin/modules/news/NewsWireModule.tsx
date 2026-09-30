@@ -69,8 +69,6 @@ export default function NewsWireModule({ showToast, onDraftCreated }: NewsWireMo
 
   useEffect(() => {
     fetchNewsData();
-    const interval = setInterval(() => fetchNewsData(false), 45000);
-    return () => clearInterval(interval);
   }, [fetchNewsData]);
 
   const [savedTitles, setSavedTitles] = useState<Set<string>>(new Set());

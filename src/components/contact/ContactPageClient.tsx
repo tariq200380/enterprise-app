@@ -1,22 +1,12 @@
 "use client";
 
-import { useState, useEffect, type ReactNode } from "react";
-import dynamic from "next/dynamic";
+import { useState, type ReactNode } from "react";
 import { ContactSettingsData } from "@/components/admin/settings/types";
 import ContactScopingForm from "./ContactScopingForm";
 import ContactDirectChannels from "./ContactDirectChannels";
 import ContactRfpSection from "./ContactRfpSection";
-
-// Lazy-load interactive modals to reduce initial JavaScript bundle size
-const ContactScheduleModal = dynamic(
-  () => import("./ContactScheduleModal"),
-  { ssr: false }
-);
-
-const ContactScopingModal = dynamic(
-  () => import("./ContactScopingModal"),
-  { ssr: false }
-);
+import ContactScheduleModal from "./ContactScheduleModal";
+import ContactScopingModal from "./ContactScopingModal";
 
 interface ContactPageClientProps {
   settings?: ContactSettingsData;
@@ -26,14 +16,6 @@ interface ContactPageClientProps {
 export default function ContactPageClient({ settings, children }: ContactPageClientProps) {
   const [isScheduleModalOpen, setIsScheduleModalOpen] = useState(false);
   const [isScopingModalOpen, setIsScopingModalOpen] = useState(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      void import("./ContactScheduleModal");
-      void import("./ContactScopingModal");
-    }, 2000);
-    return () => clearTimeout(timer);
-  }, []);
 
   return (
     <>
@@ -62,7 +44,7 @@ export default function ContactPageClient({ settings, children }: ContactPageCli
         onOpenScopingModal={() => setIsScopingModalOpen(true)}
       />
 
-      {/* Lazy-Loaded Modals (Mounted on-demand only when opened) */}
+      {/* Interactive Modals (Conditionally Mounted) */}
       {isScheduleModalOpen && (
         <ContactScheduleModal
           isOpen={isScheduleModalOpen}

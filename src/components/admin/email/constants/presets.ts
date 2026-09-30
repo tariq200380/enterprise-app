@@ -1,0 +1,24 @@
+import {
+  ACCENT_COLOR_PRESETS,
+  TEXT_COLOR_PRESETS,
+  BG_COLOR_PRESETS,
+  SIGNATURE_STYLE_PRESETS,
+  EMAIL_FORMATS_METADATA,
+  DEFAULT_FORMAT2_SOCIAL_LINKS,
+  DEFAULT_FORMAT2_GALLERY_ROWS,
+  DEFAULT_FORMAT5_SOCIAL_LINKS,
+} from "@/lib/email-types";
+
+export const DEFAULT_IMAGE_FALLBACK =
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect fill='%230f172a' width='400' height='300'/%3E%3Cpath fill='%23334155' d='M160 120a20 20 0 1 1-40 0 20 20 0 0 1 40 0zm-80 90l60-80 50 60 40-50 70 70H80z'/%3E%3Ctext x='50%25' y='82%25' font-family='system-ui,sans-serif' font-weight='bold' font-size='13' fill='%2394a3b8' text-anchor='middle'%3ECREED TECH%3C/text%3E%3C/svg%3E";
+
+export {
+  ACCENT_COLOR_PRESETS,
+  TEXT_COLOR_PRESETS,
+  BG_COLOR_PRESETS,
+  SIGNATURE_STYLE_PRESETS,
+  EMAIL_FORMATS_METADATA,
+  DEFAULT_FORMAT2_SOCIAL_LINKS,
+  DEFAULT_FORMAT2_GALLERY_ROWS,
+  DEFAULT_FORMAT5_SOCIAL_LINKS,
+};

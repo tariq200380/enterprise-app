@@ -1,21 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import dynamic from "next/dynamic";
-
-const AboutConversationModal = dynamic(
-  () => import("./AboutConversationModal"),
-  { ssr: false }
-);
+import AboutConversationModal from "./AboutConversationModal";
 
 export default function AboutModalHost() {
   const [isOpen, setIsOpen] = useState(false);
   const [topic, setTopic] = useState("Enterprise Architecture & Systems");
-
-  useEffect(() => {
-    const timer = setTimeout(() => { void import("./AboutConversationModal"); }, 2000);
-    return () => clearTimeout(timer);
-  }, []);
 
   useEffect(() => {
     const handleOpen = (e: Event) => {

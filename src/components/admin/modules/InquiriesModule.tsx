@@ -1,9 +1,11 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
+import dynamic from "next/dynamic";
 import { Inquiry } from "@/types/admin";
-import InquiryDetailsModal from "../modals/InquiryDetailsModal";
 import { useAdminFetch } from "@/lib/useAdminFetch";
+
+const InquiryDetailsModal = dynamic(() => import("../modals/InquiryDetailsModal"), { ssr: false });
 
 interface InquiriesModuleProps {
   searchQuery?: string;
@@ -50,8 +52,6 @@ export default function InquiriesModule({
       setInternalInquiries(propInquiries);
     } else {
       fetchInquiries();
-      const interval = setInterval(fetchInquiries, 15000);
-      return () => clearInterval(interval);
     }
   }, [propInquiries, fetchInquiries]);
 
@@ -246,16 +246,18 @@ export default function InquiriesModule({
       </div>
 
       {/* Embedded Modal */}
-      <InquiryDetailsModal
-        inquiry={selectedInquiry}
-        onClose={() => setSelectedInquiry(null)}
-        onInquiryUpdated={() => {
-          if (onRefresh) onRefresh();
-          else fetchInquiries();
-        }}
-        showToast={showToast}
-        initialMode="reply"
-      />
+      {selectedInquiry && (
+        <InquiryDetailsModal
+          inquiry={selectedInquiry}
+          onClose={() => setSelectedInquiry(null)}
+          onInquiryUpdated={() => {
+            if (onRefresh) onRefresh();
+            else fetchInquiries();
+          }}
+          showToast={showToast}
+          initialMode="reply"
+        />
+      )}
     </div>
   );
 }

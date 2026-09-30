@@ -1,4 +1,5 @@
 import { query } from "@/lib/db";
+import { unstable_cache } from "next/cache";
 
 export interface PortfolioProjectItem {
   id?: number | string;
@@ -192,74 +193,95 @@ export function getTelemetryPreset(idx: number, proj: PortfolioProjectItem): Cas
   };
 }
 
-export async function getPortfolioProjects(): Promise<PortfolioProjectItem[]> {
-  try {
-    const res = await query(
-      `SELECT id, title, category, client, summary, stack, live_url, github_url, image_url, created_at 
-       FROM portfolio_projects 
-       ORDER BY id DESC`
-    );
-    return res.rows.map((row: any) => {
-      let parsedStack: string[] = [];
-      if (Array.isArray(row.stack)) {
-        parsedStack = row.stack;
-      } else if (typeof row.stack === "string") {
-        try {
-          const parsed = JSON.parse(row.stack);
-          parsedStack = Array.isArray(parsed) ? parsed : [row.stack];
-        } catch {
-          parsedStack = row.stack.split(",").map((s: string) => s.trim()).filter(Boolean);
+export const getPortfolioProjects = unstable_cache(
+  async (): Promise<PortfolioProjectItem[]> => {
+    try {
+      const res = await query(
+        `SELECT id, title, category, client, summary, stack, live_url, github_url, image_url, created_at 
+         FROM portfolio_projects 
+         ORDER BY id DESC`
+      );
+      return res.rows.map((row: any) => {
+        let parsedStack: string[] = [];
+        if (Array.isArray(row.stack)) {
+          parsedStack = row.stack;
+        } else if (typeof row.stack === "string") {
+          try {
+            const parsed = JSON.parse(row.stack);
+            parsedStack = Array.isArray(parsed) ? parsed : [row.stack];
+          } catch {
+            parsedStack = row.stack.split(",").map((s: string) => s.trim()).filter(Boolean);
+          }
+        }
+        return {
+          ...row,
+          stack: parsedStack,
+        };
+      });
+    } catch (err) {
+      console.error("Failed to load portfolio projects:", err);
+      return DEFAULT_CASE_STUDIES;
+    }
+  },
+  ["portfolio-projects-list"],
+  {
+    revalidate: 3600,
+    tags: ["portfolio_projects"],
+  }
+);
+
+export const getPortfolioShowcase = unstable_cache(
+  async (): Promise<PortfolioShowcaseData> => {
+    let showcase = { ...DEFAULT_SHOWCASE };
+    try {
+      const res = await query("SELECT value FROM website_settings WHERE key = 'global_config' LIMIT 1");
+      if (res.rows.length > 0 && res.rows[0].value) {
+        const val =
+          typeof res.rows[0].value === "string"
+            ? JSON.parse(res.rows[0].value)
+            : res.rows[0].value;
+        if (val.portfolioShowcase) {
+          showcase = { ...showcase, ...val.portfolioShowcase };
         }
       }
-      return {
-        ...row,
-        stack: parsedStack,
-      };
-    });
-  } catch (err) {
-    console.error("Failed to load portfolio projects:", err);
-    return DEFAULT_CASE_STUDIES;
-  }
-}
-
-export async function getPortfolioShowcase(): Promise<PortfolioShowcaseData> {
-  let showcase = { ...DEFAULT_SHOWCASE };
-  try {
-    const res = await query("SELECT value FROM website_settings WHERE key = 'global_config' LIMIT 1");
-    if (res.rows.length > 0 && res.rows[0].value) {
-      const val =
-        typeof res.rows[0].value === "string"
-          ? JSON.parse(res.rows[0].value)
-          : res.rows[0].value;
-      if (val.portfolioShowcase) {
-        showcase = { ...showcase, ...val.portfolioShowcase };
-      }
+    } catch (err) {
+      console.error("Failed to load portfolio showcase:", err);
     }
-  } catch (err) {
-    console.error("Failed to load portfolio showcase:", err);
+    return showcase;
+  },
+  ["portfolio-showcase-settings"],
+  {
+    revalidate: 3600,
+    tags: ["global_config", "website_settings"],
   }
-  return showcase;
-}
+);
 
 import { type CategoryGroup, DEFAULT_CATEGORY_GROUPS } from "./portfolio-types";
 export { type CategoryGroup, DEFAULT_CATEGORY_GROUPS };
 
-export async function getPortfolioCategories(): Promise<CategoryGroup[]> {
-  try {
-    const res = await query(
-      "SELECT value FROM website_settings WHERE key = 'portfolio_category_groups' LIMIT 1"
-    );
-    if (res.rows.length > 0 && res.rows[0].value) {
-      const val =
-        typeof res.rows[0].value === "string"
-          ? JSON.parse(res.rows[0].value)
-          : res.rows[0].value;
-      if (Array.isArray(val) && val.length > 0) {
-        return val;
+export const getPortfolioCategories = unstable_cache(
+  async (): Promise<CategoryGroup[]> => {
+    try {
+      const res = await query(
+        "SELECT value FROM website_settings WHERE key = 'portfolio_category_groups' LIMIT 1"
+      );
+      if (res.rows.length > 0 && res.rows[0].value) {
+        const val =
+          typeof res.rows[0].value === "string"
+            ? JSON.parse(res.rows[0].value)
+            : res.rows[0].value;
+        if (Array.isArray(val) && val.length > 0) {
+          return val;
+        }
       }
+    } catch (err) {
+      console.error("Failed to load portfolio categories:", err);
     }
-  } catch (err) {
-    console.error("Failed to load portfolio categories:", err);
+    return DEFAULT_CATEGORY_GROUPS;
+  },
+  ["portfolio-category-groups"],
+  {
+    revalidate: 3600,
+    tags: ["portfolio_category_groups", "website_settings"],
   }
-  return DEFAULT_CATEGORY_GROUPS;
-}
+);

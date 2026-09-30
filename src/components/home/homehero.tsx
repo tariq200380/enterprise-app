@@ -19,7 +19,7 @@ export default function Homehero() {
         {/* LEFT — Text & CTA */}
         <div className="w-full md:w-1/2 flex flex-col items-center md:items-start text-center md:text-left shrink-0">
           <h1 className="font-outfit font-bold tracking-tight text-white text-3xl sm:text-4xl lg:text-5xl leading-[1.15]">
-            Enterprise Software Architecture &amp; Cloud Infrastructure Solutions | Creed Tech
+            Enterprise Software Architecture &amp; Cloud Infrastructure Solutions
           </h1>
 
           <p className="text-base sm:text-lg text-white/90 leading-[1.75] mt-4 max-w-lg font-normal">

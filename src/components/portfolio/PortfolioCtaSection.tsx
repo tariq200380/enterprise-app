@@ -1,19 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import dynamic from "next/dynamic";
-
-const PortfolioScopingModal = dynamic(() => import("./PortfolioScopingModal"), {
-  ssr: false,
-});
+import { useState } from "react";
+import PortfolioScopingModal from "./PortfolioScopingModal";
 
 export default function PortfolioCtaSection() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => { void import("./PortfolioScopingModal"); }, 2000);
-    return () => clearTimeout(timer);
-  }, []);
 
   return (
     <>
@@ -44,7 +35,7 @@ export default function PortfolioCtaSection() {
         </div>
       </section>
 
-      {/* TECHNICAL TEAM SCOPING FORM MODAL (LAZY-LOADED) */}
+      {/* TECHNICAL TEAM SCOPING FORM MODAL */}
       {isModalOpen && (
         <PortfolioScopingModal
           isOpen={isModalOpen}

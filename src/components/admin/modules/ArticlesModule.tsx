@@ -1,10 +1,12 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
 import { ArticleItem } from "@/types/admin";
-import ArticleStudioModal from "../modals/ArticleStudioModal";
 import { useAdminFetch } from "@/lib/useAdminFetch";
 import DOMPurify from "dompurify";
+
+const ArticleStudioModal = dynamic(() => import("../modals/ArticleStudioModal"), { ssr: false });
 
 interface ArticlesModuleProps {
   articles?: ArticleItem[];
@@ -56,12 +58,23 @@ export default function ArticlesModule({
     }
   }, [propArticles]);
 
-  const handleOpenStudio = (art?: ArticleItem) => {
+  const handleOpenStudio = async (art?: ArticleItem) => {
     if (onEditArticle && art) {
       onEditArticle(art);
     } else if (onOpenNewModal && !art) {
       onOpenNewModal();
     } else {
+      if (art && art.id && !art.content) {
+        try {
+          const res = await adminFetch(`/api/admin/articles?id=${art.id}`);
+          const data = await res.json();
+          if (data.success && data.article) {
+            setEditingArticle(data.article);
+            setShowStudio(true);
+            return;
+          }
+        } catch {}
+      }
       setEditingArticle(art || null);
       setShowStudio(true);
     }
@@ -471,17 +484,19 @@ export default function ArticlesModule({
       )}
 
       {/* Article Studio Editor Modal */}
-      <ArticleStudioModal
-        isOpen={showStudio}
-        onClose={() => {
-          setShowStudio(false);
-          setEditingArticle(null);
-        }}
-        editingArticle={editingArticle}
-        onArticleSaved={handleArticleSaved}
-        onDeleteArticle={handleDelete}
-        showToast={showToast || (() => {})}
-      />
+      {showStudio && (
+        <ArticleStudioModal
+          isOpen={showStudio}
+          onClose={() => {
+            setShowStudio(false);
+            setEditingArticle(null);
+          }}
+          editingArticle={editingArticle}
+          onArticleSaved={handleArticleSaved}
+          onDeleteArticle={handleDelete}
+          showToast={showToast || (() => {})}
+        />
+      )}
     </div>
   );
 }

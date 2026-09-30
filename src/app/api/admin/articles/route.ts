@@ -5,14 +5,27 @@ import { verifyAdminAuth } from "@/lib/adminAuth";
 
 export const dynamic = "force-dynamic";
 
-export async function GET() {
+export async function GET(req: Request) {
   const auth = await verifyAdminAuth();
   if (!auth.isAuthorized) {
     return auth.response!;
   }
 
   try {
-    const res = await query("SELECT * FROM articles ORDER BY id DESC");
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
+
+    if (id) {
+      const res = await query("SELECT * FROM articles WHERE id = $1", [id]);
+      if (res.rows.length === 0) {
+        return NextResponse.json({ success: false, error: "Article not found" }, { status: 404 });
+      }
+      return NextResponse.json({ success: true, article: res.rows[0] });
+    }
+
+    const res = await query(
+      "SELECT id, title, category, author, read_time, cover_photo_url, video_embed_url, audio_stream_url, status, source_news, editor_note, created_at FROM articles ORDER BY id DESC"
+    );
     return NextResponse.json({ success: true, articles: res.rows });
   } catch (error: any) {
     console.error("Articles GET error:", error);

@@ -1,7 +1,6 @@
 import fs from "fs";
 import path from "path";
 import {
-  fetchAllAggregatedNews,
   fetchLiveNewsFromDb,
   fetchLatestProviderArticlesFromDb,
   AggregatedArticle,
@@ -355,8 +354,6 @@ async function getInitialNewsData() {
       fetchLatestProviderArticlesFromDb(),
     ]);
     if (dbArticles && dbArticles.length > 0) {
-      // Trigger background sync non-blockingly to keep database and cache warm
-      fetchAllAggregatedNews().catch(() => {});
       return formatArticlesData(dbArticles, latestPerProvider);
     }
   } catch (dbErr) {

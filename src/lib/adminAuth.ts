@@ -11,12 +11,23 @@ export interface AdminAuthResult {
   response?: NextResponse;
 }
 
+// In-memory user cache to avoid remote network roundtrips to Clerk on repeated API calls
+interface CachedUserRecord {
+  email?: string;
+  role?: string;
+  twoFactorEnabled: boolean;
+  cachedAt: number;
+}
+const userCache = new Map<string, CachedUserRecord>();
+const USER_CACHE_TTL_MS = 10 * 60 * 1000; // 10 minutes
+
 /**
  * Server-side verification for Admin API routes.
- * 1. Unauthenticated -> 401 Unauthorized
- * 2. Authenticated without admin/super_admin role -> 403 Forbidden
- * 3. Authenticated admin without 2FA (TOTP) -> 403 Forbidden (requires2FA: true)
- * 4. Authorized admin with 2FA -> { isAuthorized: true, userId, email, role }
+ * 1. Inspects local session claims for instant verification without external network roundtrips.
+ * 2. Unauthenticated -> 401 Unauthorized
+ * 3. Authenticated without admin/super_admin role -> 403 Forbidden
+ * 4. Authenticated admin without 2FA (TOTP) -> 403 Forbidden (requires2FA: true)
+ * 5. Authorized admin with 2FA -> { isAuthorized: true, userId, email, role }
  */
 export async function verifyAdminAuth(): Promise<AdminAuthResult> {
   try {
@@ -33,33 +44,72 @@ export async function verifyAdminAuth(): Promise<AdminAuthResult> {
       };
     }
 
-    const user = await currentUser();
-    if (!user) {
-      return {
-        isAuthorized: false,
-        status: 401,
-        response: NextResponse.json(
-          { success: false, error: "Unauthorized: User session not found" },
-          { status: 401 }
-        ),
-      };
+    const claims = (sessionClaims || {}) as any;
+
+    // 1. Extract role from session claims (metadata, organization role, or claims)
+    let role =
+      claims?.metadata?.role ||
+      claims?.publicMetadata?.role ||
+      claims?.role ||
+      claims?.o?.rol ||
+      (claims?.org_role === "org:admin" || claims?.orgRole === "admin" || claims?.orgRole === "org:admin" ? "admin" : undefined);
+
+    // 2. Extract email from session claims
+    let email =
+      claims?.email ||
+      claims?.primary_email ||
+      claims?.email_address ||
+      claims?.sub_email;
+
+    if (!email && typeof claims?.sub === "string" && claims.sub.includes("@")) {
+      email = claims.sub;
     }
 
-    // Check role in sessionClaims metadata, organization role, or user metadata
-    let role =
-      (sessionClaims?.metadata as any)?.role ||
-      (sessionClaims?.publicMetadata as any)?.role ||
-      (sessionClaims as any)?.role ||
-      (sessionClaims as any)?.o?.rol ||
-      ((sessionClaims as any)?.org_role === "org:admin" ? "admin" : undefined) ||
-      (user.publicMetadata?.role as string) ||
-      (user.privateMetadata?.role as string);
+    // 3. Extract 2FA status from session claims
+    let is2FAEnabled = Boolean(
+      claims?.two_factor_enabled ||
+      claims?.totp_enabled ||
+      claims?.metadata?.twoFactorEnabled ||
+      claims?.publicMetadata?.twoFactorEnabled ||
+      claims?.f2a
+    );
 
-    let email =
-      user.primaryEmailAddress?.emailAddress ||
-      user.emailAddresses?.[0]?.emailAddress ||
-      (sessionClaims?.email as string) ||
-      "admin";
+    // 4. If any essential attribute is missing from session claims, consult the in-memory cache or fallback to currentUser() once
+    const cached = userCache.get(userId);
+    const hasValidCache = cached && (Date.now() - cached.cachedAt < USER_CACHE_TTL_MS);
+
+    if (hasValidCache) {
+      if (!role && cached.role) role = cached.role;
+      if (!email && cached.email) email = cached.email;
+      if (!is2FAEnabled && cached.twoFactorEnabled) is2FAEnabled = cached.twoFactorEnabled;
+    } else if (!role || !email || !is2FAEnabled) {
+      try {
+        const user = await currentUser();
+        if (user) {
+          const userRole = (user.publicMetadata?.role as string) || (user.privateMetadata?.role as string);
+          const userEmail = user.primaryEmailAddress?.emailAddress || user.emailAddresses?.[0]?.emailAddress;
+          const user2FA = Boolean(user.twoFactorEnabled || user.totpEnabled);
+
+          if (!role && userRole) role = userRole;
+          if (!email && userEmail) email = userEmail;
+          if (!is2FAEnabled && user2FA) is2FAEnabled = user2FA;
+
+          userCache.set(userId, {
+            email: userEmail,
+            role: userRole,
+            twoFactorEnabled: user2FA,
+            cachedAt: Date.now(),
+          });
+        }
+      } catch (err) {
+        console.warn("Clerk currentUser fallback warning:", err);
+      }
+    }
+
+    // Default email fallback if still undefined
+    if (!email) {
+      email = "admin";
+    }
 
     const isConfiguredAdminEmail = Boolean(
       process.env.ADMIN_EMAIL &&
@@ -90,7 +140,6 @@ export async function verifyAdminAuth(): Promise<AdminAuthResult> {
     }
 
     // Enforce 2FA (Two-Factor Authentication / TOTP)
-    const is2FAEnabled = Boolean(user.twoFactorEnabled || user.totpEnabled);
     if (!is2FAEnabled) {
       return {
         isAuthorized: false,

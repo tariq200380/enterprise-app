@@ -73,8 +73,6 @@ export default function DashboardModule({
 
     if (!propInquiries && !propCandidates) {
       loadDashboardData();
-      const interval = setInterval(loadDashboardData, 15000);
-      return () => clearInterval(interval);
     }
   }, [propInquiries, propCandidates, propArticles, propVideos, propSubscribers, propPortfolio]);
 

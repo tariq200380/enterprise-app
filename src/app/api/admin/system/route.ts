@@ -30,24 +30,25 @@ export async function GET() {
       "security_reports"
     ];
 
-    const counts: Record<string, number> = {};
-    for (const tbl of tables) {
-      const res = await query(`SELECT COUNT(*) FROM ${tbl}`);
-      counts[tbl] = parseInt(res.rows[0].count, 10);
-    }
+    const [tableCountEntries, pendingReviewsRes, newInquiriesRes, newSecurityReportsRes, visionRequestsRes] = await Promise.all([
+      Promise.all(
+        tables.map(async (tbl) => {
+          const res = await query(`SELECT COUNT(*) FROM ${tbl}`);
+          return [tbl, parseInt(res.rows[0].count, 10)] as const;
+        })
+      ),
+      query("SELECT COUNT(*) FROM article_reviews WHERE status = 'PENDING'"),
+      query("SELECT COUNT(*) FROM contact_inquiries WHERE status = 'NEW'"),
+      query("SELECT COUNT(*) FROM security_reports WHERE status = 'NEW'"),
+      query(
+        "SELECT COUNT(*) FROM contact_inquiries WHERE service ILIKE '%vision%' OR service ILIKE '%project discussion%' OR project_details IS NOT NULL"
+      ),
+    ]);
 
-    const pendingReviewsRes = await query("SELECT COUNT(*) FROM article_reviews WHERE status = 'PENDING'");
+    const counts: Record<string, number> = Object.fromEntries(tableCountEntries);
     counts["pending_reviews"] = parseInt(pendingReviewsRes.rows[0]?.count || "0", 10);
-
-    const newInquiriesRes = await query("SELECT COUNT(*) FROM contact_inquiries WHERE status = 'NEW'");
     counts["new_inquiries"] = parseInt(newInquiriesRes.rows[0]?.count || "0", 10);
-
-    const newSecurityReportsRes = await query("SELECT COUNT(*) FROM security_reports WHERE status = 'NEW'");
     counts["new_security_reports"] = parseInt(newSecurityReportsRes.rows[0]?.count || "0", 10);
-
-    const visionRequestsRes = await query(
-      "SELECT COUNT(*) FROM contact_inquiries WHERE service ILIKE '%vision%' OR service ILIKE '%project discussion%' OR project_details IS NOT NULL"
-    );
     counts["vision_requests"] = parseInt(visionRequestsRes.rows[0]?.count || "0", 10);
 
     const mem = process.memoryUsage();
@@ -95,11 +96,13 @@ export async function POST(req: Request) {
         "founder_proposals",
         "security_reports"
       ];
-      const backupData: Record<string, any[]> = {};
-      for (const tbl of tables) {
-        const res = await query(`SELECT * FROM ${tbl}`);
-        backupData[tbl] = res.rows;
-      }
+      const backupEntries = await Promise.all(
+        tables.map(async (tbl) => {
+          const res = await query(`SELECT * FROM ${tbl}`);
+          return [tbl, res.rows] as const;
+        })
+      );
+      const backupData: Record<string, any[]> = Object.fromEntries(backupEntries);
       return NextResponse.json({
         success: true,
         timestamp: new Date().toISOString(),

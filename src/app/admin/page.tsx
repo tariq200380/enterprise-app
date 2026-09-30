@@ -1,27 +1,72 @@
 "use client";
 
 import React, { useState, useEffect, useCallback, useRef } from "react";
+import dynamic from "next/dynamic";
 import AdminHeader from "@/components/admin/AdminHeader";
 import AdminSidebar from "@/components/admin/AdminSidebar";
 
-// 13 Modular Admin Components
+// Eagerly loaded primary module for instant initial page render
 import DashboardModule from "@/components/admin/modules/DashboardModule";
-import InquiriesModule from "@/components/admin/modules/InquiriesModule";
-import VisionRequestsModule from "@/components/admin/modules/VisionRequestsModule";
-import ArticlesModule from "@/components/admin/modules/ArticlesModule";
-import VideosModule from "@/components/admin/modules/VideosModule";
-import NewsWireModule from "@/components/admin/modules/NewsWireModule";
-import TestimonialsModule from "@/components/admin/modules/TestimonialsModule";
-import ArticleReviewsModule from "@/components/admin/modules/ArticleReviewsModule";
-import CareersModule from "@/components/admin/modules/CareersModule";
-import FounderProposalsModule from "@/components/admin/modules/FounderProposalsModule";
-import SecurityReportsModule from "@/components/admin/modules/SecurityReportsModule";
-import SubscribersModule from "@/components/admin/modules/SubscribersModule";
-import PortfolioModule from "@/components/admin/modules/PortfolioModule";
-import EmailTemplatesModule from "@/components/admin/modules/EmailTemplatesModule";
-import WebsiteSettingsModule from "@/components/admin/modules/WebsiteSettingsModule";
-import SeoSettingsSection from "@/components/admin/settings/SeoSettingsSection";
-import SystemSecurityModule from "@/components/admin/modules/SystemSecurityModule";
+
+// Lightweight loading placeholder for dynamic secondary modules
+const AdminModuleLoader = () => (
+  <div className="flex items-center justify-center min-h-[400px] w-full">
+    <div className="flex flex-col items-center gap-3">
+      <div className="w-8 h-8 rounded-full border-2 border-orange-500 border-t-transparent animate-spin" />
+      <span className="text-xs font-semibold text-slate-500">Loading module...</span>
+    </div>
+  </div>
+);
+
+// Dynamically code-split secondary admin modules
+const InquiriesModule = dynamic(() => import("@/components/admin/modules/InquiriesModule"), {
+  loading: () => <AdminModuleLoader />,
+});
+const VisionRequestsModule = dynamic(() => import("@/components/admin/modules/VisionRequestsModule"), {
+  loading: () => <AdminModuleLoader />,
+});
+const ArticlesModule = dynamic(() => import("@/components/admin/modules/ArticlesModule"), {
+  loading: () => <AdminModuleLoader />,
+});
+const VideosModule = dynamic(() => import("@/components/admin/modules/VideosModule"), {
+  loading: () => <AdminModuleLoader />,
+});
+const NewsWireModule = dynamic(() => import("@/components/admin/modules/NewsWireModule"), {
+  loading: () => <AdminModuleLoader />,
+});
+const TestimonialsModule = dynamic(() => import("@/components/admin/modules/TestimonialsModule"), {
+  loading: () => <AdminModuleLoader />,
+});
+const ArticleReviewsModule = dynamic(() => import("@/components/admin/modules/ArticleReviewsModule"), {
+  loading: () => <AdminModuleLoader />,
+});
+const CareersModule = dynamic(() => import("@/components/admin/modules/CareersModule"), {
+  loading: () => <AdminModuleLoader />,
+});
+const FounderProposalsModule = dynamic(() => import("@/components/admin/modules/FounderProposalsModule"), {
+  loading: () => <AdminModuleLoader />,
+});
+const SecurityReportsModule = dynamic(() => import("@/components/admin/modules/SecurityReportsModule"), {
+  loading: () => <AdminModuleLoader />,
+});
+const SubscribersModule = dynamic(() => import("@/components/admin/modules/SubscribersModule"), {
+  loading: () => <AdminModuleLoader />,
+});
+const PortfolioModule = dynamic(() => import("@/components/admin/modules/PortfolioModule"), {
+  loading: () => <AdminModuleLoader />,
+});
+const EmailTemplatesModule = dynamic(() => import("@/components/admin/modules/EmailTemplatesModule"), {
+  loading: () => <AdminModuleLoader />,
+});
+const WebsiteSettingsModule = dynamic(() => import("@/components/admin/modules/WebsiteSettingsModule"), {
+  loading: () => <AdminModuleLoader />,
+});
+const SeoSettingsSection = dynamic(() => import("@/components/admin/settings/SeoSettingsSection"), {
+  loading: () => <AdminModuleLoader />,
+});
+const SystemSecurityModule = dynamic(() => import("@/components/admin/modules/SystemSecurityModule"), {
+  loading: () => <AdminModuleLoader />,
+});
 import { useUser, useClerk, SignIn } from "@clerk/nextjs";
 import { useAdminFetch } from "@/lib/useAdminFetch";
 
@@ -30,9 +75,20 @@ import { TelemetryData } from "@/types/admin";
 export default function AdminPage() {
   const adminFetch = useAdminFetch();
   const [activeTab, setActiveTab] = useState<string>("dashboard");
+  const [loadedTabs, setLoadedTabs] = useState<Set<string>>(() => new Set(["dashboard"]));
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
   const [telemetry, setTelemetry] = useState<TelemetryData | null>(null);
+
+  // Keep-alive tracker: remember tabs once opened so they remain in memory with 0ms tab switching
+  useEffect(() => {
+    setLoadedTabs((prev) => {
+      if (prev.has(activeTab)) return prev;
+      const next = new Set(prev);
+      next.add(activeTab);
+      return next;
+    });
+  }, [activeTab]);
 
   // Clerk hooks
 
@@ -289,128 +345,158 @@ export default function AdminPage() {
           userEmail={userEmail}
         />
 
-        {/* Dynamic Module Content */}
+        {/* Dynamic Module Content with Persistent CSS Keep-Alive */}
         <main className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-8 bg-[#F7F6F5] text-[#0F172A] relative">
-          {activeTab === "dashboard" && (
-            <DashboardModule
-              setActiveTab={setActiveTab}
-            />
+          <div className={activeTab === "dashboard" ? "block" : "hidden"}>
+            <DashboardModule setActiveTab={setActiveTab} />
+          </div>
+
+          {(loadedTabs.has("inquiries") || activeTab === "inquiries") && (
+            <div className={activeTab === "inquiries" ? "block" : "hidden"}>
+              <InquiriesModule
+                searchQuery={searchQuery}
+                showToast={showToast}
+                onRefresh={fetchTelemetry}
+              />
+            </div>
           )}
 
-          {activeTab === "inquiries" && (
-            <InquiriesModule
-              searchQuery={searchQuery}
-              showToast={showToast}
-              onRefresh={fetchTelemetry}
-            />
+          {(loadedTabs.has("security_reports") || activeTab === "security_reports") && (
+            <div className={activeTab === "security_reports" ? "block" : "hidden"}>
+              <SecurityReportsModule
+                searchQuery={searchQuery}
+                showToast={showToast}
+                onRefresh={fetchTelemetry}
+              />
+            </div>
           )}
 
-          {activeTab === "security_reports" && (
-            <SecurityReportsModule
-              searchQuery={searchQuery}
-              showToast={showToast}
-              onRefresh={fetchTelemetry}
-            />
+          {(loadedTabs.has("vision_requests") || loadedTabs.has("vision") || activeTab === "vision_requests" || activeTab === "vision") && (
+            <div className={activeTab === "vision_requests" || activeTab === "vision" ? "block" : "hidden"}>
+              <VisionRequestsModule
+                searchQuery={searchQuery}
+                showToast={showToast}
+                onRefresh={fetchTelemetry}
+              />
+            </div>
           )}
 
-          {(activeTab === "vision_requests" || activeTab === "vision") && (
-            <VisionRequestsModule
-              searchQuery={searchQuery}
-              showToast={showToast}
-              onRefresh={fetchTelemetry}
-            />
+          {(loadedTabs.has("articles") || activeTab === "articles") && (
+            <div className={activeTab === "articles" ? "block" : "hidden"}>
+              <ArticlesModule
+                searchQuery={searchQuery}
+                showToast={showToast}
+                onRefresh={fetchTelemetry}
+              />
+            </div>
           )}
 
-          {activeTab === "articles" && (
-            <ArticlesModule
-              searchQuery={searchQuery}
-              showToast={showToast}
-              onRefresh={fetchTelemetry}
-            />
+          {(loadedTabs.has("videos") || activeTab === "videos") && (
+            <div className={activeTab === "videos" ? "block" : "hidden"}>
+              <VideosModule
+                searchQuery={searchQuery}
+                showToast={showToast}
+                onRefresh={fetchTelemetry}
+              />
+            </div>
           )}
 
-          {activeTab === "videos" && (
-            <VideosModule
-              searchQuery={searchQuery}
-              showToast={showToast}
-              onRefresh={fetchTelemetry}
-            />
+          {(loadedTabs.has("news_wire") || loadedTabs.has("newswire") || activeTab === "news_wire" || activeTab === "newswire") && (
+            <div className={activeTab === "news_wire" || activeTab === "newswire" ? "block" : "hidden"}>
+              <NewsWireModule
+                showToast={showToast}
+                onDraftCreated={() => {
+                  fetchTelemetry();
+                  setActiveTab("articles");
+                }}
+              />
+            </div>
           )}
 
-          {(activeTab === "news_wire" || activeTab === "newswire") && (
-            <NewsWireModule
-              showToast={showToast}
-              onDraftCreated={() => {
-                fetchTelemetry();
-                setActiveTab("articles");
-              }}
-            />
+          {(loadedTabs.has("reviews") || loadedTabs.has("testimonials") || activeTab === "reviews" || activeTab === "testimonials") && (
+            <div className={activeTab === "reviews" || activeTab === "testimonials" ? "block" : "hidden"}>
+              <TestimonialsModule
+                showToast={showToast}
+                onRefresh={fetchTelemetry}
+              />
+            </div>
           )}
 
-          {(activeTab === "reviews" || activeTab === "testimonials") && (
-            <TestimonialsModule
-              showToast={showToast}
-              onRefresh={fetchTelemetry}
-            />
+          {(loadedTabs.has("article_reviews") || loadedTabs.has("moderation") || activeTab === "article_reviews" || activeTab === "moderation") && (
+            <div className={activeTab === "article_reviews" || activeTab === "moderation" ? "block" : "hidden"}>
+              <ArticleReviewsModule
+                searchQuery={searchQuery}
+                showToast={showToast}
+                onRefresh={fetchTelemetry}
+              />
+            </div>
           )}
 
-          {(activeTab === "article_reviews" || activeTab === "moderation") && (
-            <ArticleReviewsModule
-              searchQuery={searchQuery}
-              showToast={showToast}
-              onRefresh={fetchTelemetry}
-            />
+          {(loadedTabs.has("applicants") || loadedTabs.has("careers") || activeTab === "applicants" || activeTab === "careers") && (
+            <div className={activeTab === "applicants" || activeTab === "careers" ? "block" : "hidden"}>
+              <CareersModule
+                searchQuery={searchQuery}
+                showToast={showToast}
+                onRefresh={fetchTelemetry}
+              />
+            </div>
           )}
 
-          {(activeTab === "applicants" || activeTab === "careers") && (
-            <CareersModule
-              searchQuery={searchQuery}
-              showToast={showToast}
-              onRefresh={fetchTelemetry}
-            />
+          {(loadedTabs.has("founder_proposals") || activeTab === "founder_proposals") && (
+            <div className={activeTab === "founder_proposals" ? "block" : "hidden"}>
+              <FounderProposalsModule
+                searchQuery={searchQuery}
+                showToast={showToast}
+                onRefresh={fetchTelemetry}
+              />
+            </div>
           )}
 
-          {activeTab === "founder_proposals" && (
-            <FounderProposalsModule
-              searchQuery={searchQuery}
-              showToast={showToast}
-              onRefresh={fetchTelemetry}
-            />
+          {(loadedTabs.has("subscribers") || activeTab === "subscribers") && (
+            <div className={activeTab === "subscribers" ? "block" : "hidden"}>
+              <SubscribersModule
+                searchQuery={searchQuery}
+                showToast={showToast}
+                onRefresh={fetchTelemetry}
+              />
+            </div>
           )}
 
-          {activeTab === "subscribers" && (
-            <SubscribersModule
-              searchQuery={searchQuery}
-              showToast={showToast}
-              onRefresh={fetchTelemetry}
-            />
+          {(loadedTabs.has("portfolio") || activeTab === "portfolio") && (
+            <div className={activeTab === "portfolio" ? "block" : "hidden"}>
+              <PortfolioModule
+                searchQuery={searchQuery}
+                showToast={showToast}
+                onRefresh={fetchTelemetry}
+              />
+            </div>
           )}
 
-          {activeTab === "portfolio" && (
-            <PortfolioModule
-              searchQuery={searchQuery}
-              showToast={showToast}
-              onRefresh={fetchTelemetry}
-            />
+          {(loadedTabs.has("email_templates") || loadedTabs.has("email_management") || activeTab === "email_templates" || activeTab === "email_management") && (
+            <div className={activeTab === "email_templates" || activeTab === "email_management" ? "block" : "hidden"}>
+              <EmailTemplatesModule showToast={showToast} onNavigateTab={setActiveTab} />
+            </div>
           )}
 
-          {(activeTab === "email_templates" || activeTab === "email_management") && (
-            <EmailTemplatesModule showToast={showToast} onNavigateTab={setActiveTab} />
+          {(loadedTabs.has("seo_settings") || loadedTabs.has("seo") || activeTab === "seo_settings" || activeTab === "seo") && (
+            <div className={activeTab === "seo_settings" || activeTab === "seo" ? "block" : "hidden"}>
+              <SeoSettingsSection showToast={showToast} />
+            </div>
           )}
 
-          {(activeTab === "seo_settings" || activeTab === "seo") && (
-            <SeoSettingsSection showToast={showToast} />
+          {(loadedTabs.has("website_settings") || activeTab === "website_settings") && (
+            <div className={activeTab === "website_settings" ? "block" : "hidden"}>
+              <WebsiteSettingsModule showToast={showToast} onNavigateTab={setActiveTab} />
+            </div>
           )}
 
-          {activeTab === "website_settings" && (
-            <WebsiteSettingsModule showToast={showToast} onNavigateTab={setActiveTab} />
-          )}
-
-          {(activeTab === "settings" || activeTab === "system") && (
-            <SystemSecurityModule
-              telemetry={telemetry}
-              showToast={showToast}
-            />
+          {(loadedTabs.has("settings") || loadedTabs.has("system") || activeTab === "settings" || activeTab === "system") && (
+            <div className={activeTab === "settings" || activeTab === "system" ? "block" : "hidden"}>
+              <SystemSecurityModule
+                telemetry={telemetry}
+                showToast={showToast}
+              />
+            </div>
           )}
         </main>
       </div>

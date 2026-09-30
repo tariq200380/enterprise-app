@@ -1,20 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
-import dynamic from "next/dynamic";
-
-const ProjectDiscussionModal = dynamic(() => import("./ProjectDiscussionModal"), {
-  ssr: false,
-});
+import ProjectDiscussionModal from "./ProjectDiscussionModal";
 
 export default function ServicesVision() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => { void import("./ProjectDiscussionModal"); }, 2000);
-    return () => clearTimeout(timer);
-  }, []);
 
   return (
     <>
@@ -54,7 +45,7 @@ export default function ServicesVision() {
       </section>
 
       {/* ========================================================================= */}
-      {/* INTERACTIVE PROJECT DISCUSSION MODAL (LAZY-LOADED)                         */}
+      {/* INTERACTIVE PROJECT DISCUSSION MODAL                                      */}
       {/* ========================================================================= */}
       {isModalOpen && (
         <ProjectDiscussionModal
